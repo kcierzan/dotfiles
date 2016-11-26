@@ -1,10 +1,6 @@
 dev-setup
 ============
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/repo-header.gif">
-</p>
-
 ## Motivation
 
 Setting up a new developer machine can be an **ad-hoc, manual, and time-consuming** process.  `dev-setup` aims to **simplify** the process with **easy-to-understand instructions** and **dotfiles/scripts** to **automate the setup** of the following:
@@ -12,17 +8,9 @@ Setting up a new developer machine can be an **ad-hoc, manual, and time-consumin
 * **OS X updates and Xcode Command Line Tools**
 * **OS X defaults** geared towards developers
 * **Developer tools**: Vim, bash, tab completion, curl, git, GNU core utils, Python, Ruby, etc
-* **Developer apps**: iTerm2, Sublime Text, Atom, VirtualBox, Vagrant, Docker, Chrome, etc
-* **Python data analysis**: IPython Notebook, NumPy, Pandas, Scikit-Learn, Matplotlib, etc
-* **Big Data platforms**: Spark (with IPython Notebook integration) and MapReduce
-* **Cloud services**: Amazon Web Services (Boto, AWS CLI, S3cmd, etc) and Heroku
-* **Common data stores**: MySQL, PostgreSQL, MongoDB, Redis, and Elasticsearch
-* **Javascript web development**: Node.js, JSHint, and Less
-* **Android development**: Java, Android SDK, Android Studio, IntelliJ IDEA
-
-### But...I Don't Need All These Tools!
-
-**`dev-setup` is geared to be more of an organized *reference* of various developer tools.**
+* **Developer apps**: iTerm2, Spacemacs, Sublime Text, VirtualBox, Vagrant, Docker, Chrome, etc
+* **Common data stores**: PostgreSQL, MongoDB, Redis, and Elasticsearch
+* **Javascript web development**: Node.js, React, Redux, Grunt, Webpack, ESLint, and SASS
 
 **You're *not* meant to install everything.**
 
@@ -34,13 +22,8 @@ If you're interested in automation, `dev-setup` provides a customizable [setup s
 
 [Vagrant](#vagrant) and [Docker](#docker) are great tools and are set up by this repo. I've found that Vagrant works well to ensure dev matches up with test and production tiers. I've only started playing around with Docker for side projects and it looks very promising. However, for Mac users, Docker and Vagrant both rely on **virtual machines**, which have their own considerations/pros/cons.
 
-[Boxen](https://boxen.github.com/) is a cool solution, although some might find it better geared towards "more mature companies or devops teams". I've seen some discussions of [difficulties as it is using Puppet under the hood](https://github.com/boxen/our-boxen/issues/742).
-
 This repo takes a more **light-weight** approach to automation using a combination of **Homebrew, Homebrew Cask, and shell scripts** to do basic system setup.  It also provides **easy-to understand instructions** for installation, configuration, and usage for each developer app or tool.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/iterm2.png">
-</p>
 
 ### Sections Summary
 * Section 1 contains the dotfiles/scripts and instructions to set up your system.
@@ -59,21 +42,12 @@ This repo takes a more **light-weight** approach to automation using a combinati
     * Installs common Homebrew formulae and apps
 * [osx.sh script](#osxsh-script)
     * Sets up OS X defaults geared towards developers
-* [pydata.sh script](#pydatash-script)
-    * Sets up python for data analysis
-* [aws.sh script](#awssh-script)
-    * Sets up Spark, Hadoop MapReduce, and Amazon Web Services
 * [datastores.sh script](#datastoressh-script)
     * Sets up common data stores
-* [web.sh script](#websh-script)
-    * Sets up JavaScript web development
-* [android.sh script](#androidsh-script)
-    * Sets up Android development
 
 ## Section 2: General Apps and Tools
 
 * [Sublime Text](#sublime-text)
-* [Atom](#atom)
 * [Terminal Customization](#terminal-customization)
 * [iTerm2](#iterm2)
 * [Vim](#vim)
@@ -88,57 +62,10 @@ This repo takes a more **light-weight** approach to automation using a combinati
 * [Virtualenv](#virtualenv)
 * [Virtualenvwrapper](#virtualenvwrapper)
 
-## Section 3: Python Data Analysis
-
-* [Anaconda](#anaconda)
-* [IPython Notebook](#ipython-notebook)
-* [NumPy](#numpy)
-* [Pandas](#pandas)
-* [Matplotlib](#matplotlib)
-* [Seaborn](#seaborn)
-* [Scikit-learn](#scikit-learn)
-* [SciPy](#scipy)
-* [Flask](#flask)
-* [Bokeh](#bokeh)
-
-## Section 4: Big Data, AWS, and Heroku
-
-* [Spark](#spark)
-* [MapReduce](#mapreduce)
-* [Awesome AWS](#awesome-aws-)
-* [AWS Account](#aws-account)
-* [AWS CLI](#aws-cli)
-* [SAWS](#saws)
-* [Boto](#boto)
-* [S3cmd](#s3cmd)
-* [S3DistCp](#s3distcp)
-* [S3-parallel-put](#s3-parallel-put)
-* [Redshift](#redshift)
-* [Kinesis](#kinesis)
-* [Lambda](#lambda)
-* [AWS Machine Learning](#aws-machine-learning)
-* [Heroku](#heroku)
-
 ## Section 5: Data Stores
-
-* [MySQL](#mysql)
-* [MySQL Workbench](#mysql-workbench)
 * [MongoDB](#mongodb)
 * [Redis](#redis)
 * [Elasticsearch](#elasticsearch)
-
-## Section 6: JavaScript Web Development
-
-* [Node.js](#nodejs)
-* [JSHint](#jshint)
-* [Less](#less)
-
-## Section 7: Android Development
-
-* [Java](#java)
-* [Android SDK](#android-sdk)
-* [Android Studio](#android-studio)
-* [IntelliJ IDEA](#intellij-idea)
 
 ## Section 8: Misc
 
@@ -171,9 +98,9 @@ Run `bootstrap.sh`, `osxprep.sh`, `brew.sh`, and `osx.sh`:
 
     $ ./.dots bootstrap osxprep brew osx
 
-Run `bootstrap.sh`, `osxprep.sh`, `brew.sh`, and `osx.sh`, `pydata.sh`, `aws.sh`, and `datastores.sh`:
+Run `bootstrap.sh`, `osxprep.sh`, `brew.sh`, and `osx.sh`, and `datastores.sh`:
 
-    $ ./.dots bootstrap osxprep brew osx pydata aws datastores
+    $ ./.dots bootstrap osxprep brew osx aws datastores
 
 #### Running without Git
 
@@ -191,16 +118,8 @@ Run `bootstrap.sh`, `osxprep.sh`, `brew.sh`, and `osx.sh`, `pydata.sh`, `aws.sh`
     * Installs common Homebrew formulae and apps
 * [osx.sh](https://github.com/donnemartin/dev-setup/blob/master/osx.sh)
     * Sets up OS X defaults geared towards developers
-* [pydata.sh](https://github.com/donnemartin/dev-setup/blob/master/pydata.sh)
-    * Sets up python for data analysis
-* [aws.sh](https://github.com/donnemartin/dev-setup/blob/master/aws.sh)
-    * Sets up Spark, Hadoop MapReduce, and Amazon Web Services
 * [datastores.sh](https://github.com/donnemartin/dev-setup/blob/master/datastores.sh)
     * Sets up common data stores
-* [web.sh](https://github.com/donnemartin/dev-setup/blob/master/web.sh)
-    * Sets up JavaScript web development
-* [android.sh](https://github.com/donnemartin/dev-setup/blob/master/android.sh)
-    * Sets up Android development
 
 **Notes:**
 
@@ -215,11 +134,6 @@ Run `bootstrap.sh`, `osxprep.sh`, `brew.sh`, and `osx.sh`, `pydata.sh`, `aws.sh`
 I encourage you to read through Section 1 so you have a better idea of what each installation script does.  The following discussions describe in greater detail what is executed when running the [.dots](https://github.com/donnemartin/dev-setup/blob/master/.dots) script.
 
 ### bootstrap.sh script
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/commands.png">
-  <br/>
-</p>
 
 The `bootstrap.sh` script will sync the dev-setup repo to your local home directory.  This will include customizations for Vim, bash, curl, git, tab completion, aliases, a number of utility functions, etc.  Section 2 of this repo describes some of the customizations.
 
@@ -282,11 +196,6 @@ You could also use `~/.extra` to override settings, functions, and aliases from 
 
 ### osxprep.sh script
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/xcode.jpg">
-  <br/>
-</p>
-
 Run the `osxprep.sh` script:
 
     $ ./osxprep.sh
@@ -310,18 +219,7 @@ Running the command above will display a dialog where you can either:
 * Install the command line tools only
 * Cancel the install
 
-##### OS X 10.8 and Older
-
-If you're running 10.8 or older, you'll need to go to [http://developer.apple.com/downloads](http://developer.apple.com/downloads), and sign in with your Apple ID (the same one you use for iTunes and app purchases). Unfortunately, you're greeted by a rather annoying questionnaire. All questions are required, so feel free to answer at random.
-
-Once you reach the downloads page, search for "command line tools", and download the latest **Command Line Tools (OS X Mountain Lion) for Xcode**. Open the **.dmg** file once it's done downloading, and double-click on the **.mpkg** installer to launch the installation. When it's done, you can unmount the disk in Finder.
-
 ### brew.sh script
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/homebrew2.png">
-  <br/>
-</p>
 
 When setting up a new Mac, you may want to install [Homebrew](http://brew.sh/), a package manager that simplifies installing and updating applications or libraries.
 
@@ -352,52 +250,8 @@ Run the `osx.sh` script:
 
 **For your terminal customization to take full effect, quit and re-start the terminal.**
 
-### pydata.sh script
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/pydata.png">
-  <br/>
-</p>
-
-To set up a development environment to work with Python and data analysis without relying on the more heavyweight [Anaconda](#anaconda) distribution, run the `pydata.sh` script:
-
-    $ ./pydata.sh
-
-This will install [Virtualenv](#virtualenv) and [Virtualenvwrapper](#virtualenvwrapper).  It will then set up two virtual environments loaded with the packages you will need to work with data in Python 2 and Python 3.
-
-To switch to the Python 2 virtual environment, run the following Virtualenvwrapper command:
-
-    $ workon py2-data
-
-To switch to the Python 3 virtual environment, run the following Virtualenvwrapper command:
-
-    $ workon py3-data
-
-Then start working with the installed packages, for example:
-
-    $ ipython notebook
-
-[Section 3: Python Data Analysis](#section-3-python-data-analysis) describes the installed packages and usage.
-
-### aws.sh script
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/aws.png">
-  <br/>
-</p>
-
-To set up a development environment to work with Spark, Hadoop MapReduce, and Amazon Web Services, run the `aws.sh` script:
-
-    $ ./aws.sh
-
-[Section 4: Big Data, AWS, and Heroku](#section-4-big-data-aws-and-heroku) describes the installed packages and usage.
-
 ### datastores.sh script
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/datastores.png">
-  <br/>
-</p>
 
 To set up common data stores, run the `datastores.sh` script:
 
@@ -407,62 +261,37 @@ To set up common data stores, run the `datastores.sh` script:
 
 ### web.sh script
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/webdev.png">
-  <br/>
-</p>
-
 To set up a JavaScript web development environment, Run the `web.sh` script:
 
     $ ./web.sh
 
 [Section 6: Web Development](#section-6-web-development) describes the installed packages and usage.
 
-### android.sh script
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/android.png">
-  <br/>
-</p>
-
-To set up an Android development environment, run the `android.sh` script:
-
-    $ ./android.sh
-
-[Section 7: Android Development](#section-7-android-development) describes the installed packages and usage.
-
 ## Section 2: General Apps and Tools
 
 ### Sublime Text
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/sublime.png">
-  <br/>
-</p>
+Although I don't use Sublime Text as my main IDE/Text Editor any more, I worked too hard on a nice configuration to let it go forever :^)
 
-With the terminal, the text editor is a developer's most important tool. Everyone has their preferences, but unless you're a hardcore [Vim](http://en.wikipedia.org/wiki/Vim_(text_editor)) user, a lot of people are going to tell you that [Sublime Text](http://www.sublimetext.com/) is currently the best one out there.
+It still gets use as a scratchpad or if other less emacs-inclined devs need to use my machine
 
 #### Installation
 
 The [brew.sh script](#brewsh-script) installs Sublime Text.
 
-If you prefer to install it separately, go ahead and [download](http://www.sublimetext.com/) it. Open the **.dmg** file, drag-and-drop in the **Applications** folder.
-
-**Note**: At this point I'm going to create a shortcut on the OS X Dock for both for Sublime Text. To do so, right-click on the running application and select **Options > Keep in Dock**.
-
-Sublime Text is not free, but I think it has an unlimited "evaluation period". Anyhow, we're going to be using it so much that even the seemingly expensive $70 price tag is worth every penny. If you can afford it, I suggest you [support](http://www.sublimetext.com/buy) this awesome tool.
+This script will maintain a Sublime Text installation until it is finally overtaken by Atom. Today is not that day.
 
 #### Configuration
 
 The [osx.sh script](#osxsh-script) contains Sublime Text configurations.
 
-#### Soda Theme
+#### Materialize Theme
 
-The [Soda Theme](https://github.com/buymeasoda/soda-theme) is a great UI theme for Sublime Text, especially if you use a dark theme and think the side bar sticks out like a sore thumb.
+The [Materialize Theme](https://github.com/saadq/Materialize) is my theme of choice. It supports a number of great color schemes and has a great looking sidebar. I use the `Spaceblack Oceanic` color scheme.
 
 ##### Installation with Sublime Package Control
 
-If you are using Will Bond's excellent [Sublime Package Control](http://wbond.net/sublime_packages/package_control), you can easily install Soda Theme via the `Package Control: Install Package` menu item. The Soda Theme package is listed as `Theme - Soda` in the packages list.
+If you are using Will Bond's excellent [Sublime Package Control](http://wbond.net/sublime_packages/package_control), you can easily install Soda Theme via the `Package Control: Install Package` menu item. The Soda Theme package is listed as `Theme - Materialize` in the packages list.
 
 ##### Installation with Git
 
@@ -474,17 +303,6 @@ While inside the `Packages` directory, clone the theme repository using the comm
 
     $ git clone https://github.com/buymeasoda/soda-theme/ "Theme - Soda"
 
-##### Activating the Theme on Sublime Text 2
-
-* Open your User Settings Preferences file `Sublime Text 2 -> Preferences -> Settings - User`
-* Add (or update) your theme entry to be `"theme": "Soda Light.sublime-theme"` or `"theme": "Soda Dark.sublime-theme"`
-
-**Example Sublime Text 2 User Settings**
-
-    {
-        "theme": "Soda Light.sublime-theme"
-    }
-
 ##### Activating the Theme on Sublime Text 3
 
 * Open your User Settings Preferences file `Sublime Text -> Preferences -> Settings - User`
@@ -493,51 +311,11 @@ While inside the `Packages` directory, clone the theme repository using the comm
 **Example Sublime Text 3 User Settings**
 
     {
-        "theme": "Soda Light 3.sublime-theme"
+        "theme": "Material Spaceblack.sublime-theme",
+        "color_scheme": "Packages/User/SublimeLinter/Material Spaceblack Oceanic (SL).tmTheme"
     }
 
-##### Changing Monokai Comment Color
-
-Although Monokai is a great color scheme, I find that comments can be difficult to see.  You can follow these [instructions](http://stackoverflow.com/a/32686509) to change the color of the default theme.
-
-I set my comments color to `#E6DB74`.
-
-```
-<dict>
-    ...
-    <dict>
-        <key>foreground</key>
-        <string>#E6DB74</string>
-    </dict>
-    ...
-</dict>
-```
-
-### Atom
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/atom.png">
-  <br/>
-</p>
-
-[Atom](https://github.com/atom/atom) is a great open-source editor from GitHub that is rapidly gaining contributors and popularity.
-
-#### Installation
-
-The [brew.sh script](#brewsh-script) installs Atom.
-
-If you prefer to install it separately, [download](https://atom.io/) it, open the **.dmg** file, drag-and-drop in the **Applications** folder.
-
-#### Configuration
-
-Atom has a great package manager that allows you to easily install both core and community packages.
-
 ### Terminal Customization
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/terminal.png">
-  <br/>
-</p>
 
 Since we spend so much time in the terminal, we should try to make it a more pleasant and colorful place.
 
@@ -547,28 +325,15 @@ The [bootstrap.sh script](#bootstrapsh-script) and [osx.sh script](#osxsh-script
 
 ### iTerm2
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/iterm2.png">
-  <br/>
-</p>
-
 I prefer iTerm2 over the stock Terminal, as it has some additional [great features](https://www.iterm2.com/features.html). Download and install iTerm2 (the newest version, even if it says "beta release").
 
-In Finder, drag and drop the iTerm Application file into the Applications folder.
-
-You can now launch iTerm, through the Launchpad for instance.
-
-Let's just quickly change some preferences. In iTerm > Preferences..., in the tab Profiles, create a new one with the "+" icon, and rename it to your first name for example. Then, select Other Actions... > Set as Default. Under the section Window, change the size to something better, like Columns: 125 and Rows: 35.  I also like to set General > Working Directory > Reuse previous session's directory.  Finally, I change the way the option key works so that I can quickly jump between words as described [here](https://coderwall.com/p/h6yfda/use-and-to-jump-forwards-backwards-words-in-iterm-2-on-os-x).
-
-When done, hit the red "X" in the upper left (saving is automatic in OS X preference panes). Close the window and open a new one to see the size change.
+Under Profile > Terminal, set scrollback lines to 10,000. Character encoding must be UTF-8 and terminal type should be set to xterm-256color. I also like to set General > Working Directory > Reuse previous session's directory. In order to jump between words with the alt key, set option + -> to 'Send Escape Sequence: f' and option + <- to 'Send Escape Sequence: b' . Text should be set to Input Mono 11pt with vertical spacing slightly above 100%
 
 #### Configuration
 
-Since we spend so much time in the terminal, we should try to make it a more pleasant and colorful place. What follows might seem like a lot of work, but trust me, it'll make the development experience so much better.
+I generally like my editor to match my terminal so I use the [Molokai](https://github.com/tomasr/molokai) color scheme. Sometimes I switch things over to Solarized but inevitably go back to themes with higher contrast.
 
-Now let's add some color. I'm a big fan of the [Solarized](http://ethanschoonover.com/solarized) color scheme. It is supposed to be scientifically optimal for the eyes. I just find it pretty.
-
-- In **iTerm2 Preferences**, under **Profiles** and **Colors**, go to **Load Presets...** and select **Solarized Dark** to activate it. Voila!
+- In **iTerm2 Preferences**, under **Profiles** and **Colors**, go to **Load Presets...** and select **Molokai** to activate it. Voila!
 
 At this point you can also change your computer's name, which shows up in this terminal prompt. If you want to do so, go to **System Preferences** > **Sharing**. For example, I changed mine from "Donne's MacBook Pro" to just "MacBook Pro", so it shows up as `MacBook-Pro` in the terminal.
 
@@ -576,27 +341,13 @@ Now we have a terminal we can work with!
 
 ### Vim
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/vim.png">
-  <br/>
-</p>
-
-Although Sublime Text will be our main editor, it is a good idea to learn some very basic usage of [Vim](http://www.vim.org/). It is a very popular text editor inside the terminal, and is usually pre-installed on any Unix system.
-
-For example, when you run a Git commit, it will open Vim to allow you to type the commit message.
-
-I suggest you read a tutorial on Vim. Grasping the concept of the two "modes" of the editor, **Insert** (by pressing `i`) and **Normal** (by pressing `Esc` to exit Insert mode), will be the part that feels most unnatural. After that it's just remembering a few important keys.
+I am a pretty big believer in keeping a minimalistic .vimrc. Vim's utility is it's speed, convenience, and ubiquity. In my opinion, tricking it out with all kinds of plugins and configuration seriously hampers these strengths.
 
 #### Configuration
 
 The [bootstrap.sh script](#bootstrapsh-script) contains Vim customizations.
 
 ### VirtualBox
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/virtualbox.png">
-  <br/>
-</p>
 
 VirtualBox creates and manages virtual machines.  It's a solid free solution to its commercial rival VMware.
 
@@ -612,11 +363,6 @@ If you prefer to install it separately, you can download it [here](https://www.v
 
 ### Vagrant
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/vagrant.jpeg">
-  <br/>
-</p>
-
 Vagrant creates and configures development environments.  You can think of it as a higher-level wrapper around VirtualBox and configuration management tools like Ansible, Chef, Puppet, and Salt.  Vagrant also supports Docker containers and server environments like Amazon EC2.
 
 #### Installation
@@ -631,43 +377,13 @@ If you prefer to install it separately, you can download it [here](https://www.v
 
 ### Docker
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/docker.png">
-  <br/>
-</p>
-
 Docker automates the deployment of applications inside software containers.  I think the following [quote](http://www.linux.com/news/enterprise/cloud-computing/731454-docker-a-shipping-container-for-linux-code) explains docker nicely: "Docker is a tool that can package an application and its dependencies in a virtual container that can run on any Linux server. This helps enable flexibility and portability on where the application can run, whether on premise, public cloud, private cloud, bare metal, etc".
 
 #### Installation
 
-The [brew.sh script](#brewsh-script) installs Docker.
-
-If you prefer to install it separately, you can download it [here](https://www.docker.com/) or run:
-
-    $ brew update
-    $ brew install docker
-    $ brew install boot2docker
-
-#### Configuration
-
-Initialize and start `boot2docker` (only need to do this once):
-
-    $ boot2docker init
-
-Start the VM:
-
-    $ boot2docker up
-
-Set the `DOCKER_HOST` environment variable and fill in IP and PORT based on the output from the `boot2coker up` command:
-
-    $ export DOCKER_HOST=tcp://IP:PORT
+This script does not install docker yet, as there is no brew cask for "Docker for Mac". Docker for mac can be found [here](https://docs.docker.com/engine/installation/mac/#/docker-for-mac). This installation will also install all the necessary CLI tools for docker. Beware beta versions - I have gotten a few mysterious hangs when bringing up containers as a result of beta builds.
 
 ### Git
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/git.png">
-  <br/>
-</p>
 
 What's a developer without [Git](http://git-scm.com/)?
 
@@ -704,11 +420,6 @@ To push code to your GitHub repositories, we're going to use the recommended HTT
 **Note**: On a Mac, it is important to remember to add `.DS_Store` (a hidden OS X system file that's put in folders) to your `.gitignore` files. You can take a look at this repository's [.gitignore](https://github.com/donnemartin/dev-setup/blob/master/.gitignore) file for inspiration.  Also check out GitHub's [collection of .gitignore templates](https://github.com/github/gitignore).
 
 ### Homebrew
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/homebrew.png">
-  <br/>
-</p>
 
 Package managers make it so much easier to install and update applications (for Operating Systems) or libraries (for programming languages). The most popular one for OS X is [Homebrew](http://brew.sh/).
 
@@ -754,11 +465,6 @@ To see what you have installed (with their version numbers):
 
 ### Ruby and rbenv
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/ruby.png">
-  <br/>
-</p>
-
 [Ruby](http://www.ruby-lang.org/) is already installed on Unix systems, but we don't want to mess around with that installation. More importantly, we want to be able to use the latest version of Ruby.
 
 #### Installation
@@ -802,11 +508,6 @@ $ rbenv global 2.0.0
 
 ### Python
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/python.png">
-  <br/>
-</p>
-
 OS X, like Linux, ships with [Python](http://python.org/) already installed. But you don't want to mess with the system Python (some system tools rely on it, etc.), so we'll install our own version with Homebrew. It will also allow us to get the very latest version of Python 2.7 and Python 3.
 
 #### Installation
@@ -847,7 +548,7 @@ The advantage is that different projects might require different versions of pac
 
 #### Installation
 
-The [pydata.sh script](#pydatash-script) installs Virtualenv.
+The [python.sh script](#pydatash-script) installs Virtualenv.
 
 #### Usage
 
@@ -885,7 +586,7 @@ Main features include:
 
 #### Installation
 
-The [pydata.sh script](#pydatash-script) installs Virtualenvwrapper.
+The [python.sh script](#pydatash-script) installs Virtualenvwrapper.
 
 #### Usage
 
@@ -905,568 +606,7 @@ Deactivate the currently active virtual environment. Note that workonwill automa
 
     $ deactivate
 
-## Section 3: Python Data Analysis
-
-### Anaconda
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/anaconda.png">
-  <br/>
-</p>
-
-Anaconda is a free distribution of the Python programming language for large-scale data processing, predictive analytics, and scientific computing that aims to simplify package management and deployment.
-
-#### Installation
-
-The [pydata.sh script](#pydatash-script) installs packages you need to run Python data applications.  Alternatively, you can install the more heavy-weight Anaconda instead.
-
-Follow instructions to install [Anaconda](http://docs.continuum.io/anaconda/install.html) or the more lightweight [miniconda](http://conda.pydata.org/miniconda.html).
-
-### IPython Notebook
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/README_1200x800.gif">
-</p>
-
-[IPython](http://ipython.org/) is an awesome project which provides a much better Python shell than the one you get from running `$ python` in the command-line. It has many cool functions (running Unix commands from the Python shell, easy copy & paste, creating Matplotlib charts in-line, etc.) and I'll let you refer to the [documentation](http://ipython.org/ipython-doc/stable/index.html) to discover them.
-
-IPython Notebook is a web-based interactive computational environment where you can combine code execution, text, mathematics, plots and rich media into a single document.
-
-#### Installation
-
-The [pydata.sh script](#pydatash-script) installs IPython Notebook.  If you prefer to install it separately, run:
-
-    $ pip install "ipython[notebook]"
-
-If you run into an issue about pyzmq, refer to the following [Stack Overflow post](http://stackoverflow.com/questions/24995438/pyzmq-missing-when-running-ipython-notebook) and run:
-
-    $ pip uninstall ipython
-    $ pip install "ipython[all]"
-
-#### Usage
-
-    $ ipython notebook
-
-If you'd like to see some examples here are a couple of my repos that use IPython Notebooks heavily:
-* [data-science-ipython-notebooks](https://github.com/donnemartin/data-science-ipython-notebooks)
-* [interactive-coding-challenges](https://github.com/donnemartin/interactive-coding-challenges)
-
-### NumPy
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/numpy.png">
-  <br/>
-</p>
-
-NumPy adds Python support for large, multi-dimensional arrays and matrices, along with a large library of high-level mathematical functions to operate on these arrays.
-
-#### Installation
-
-The [pydata.sh script](#pydatash-script) installs NumPy.  If you prefer to install it separately, run:
-
-    $ pip install numpy
-
-#### Usage
-
-Refer to the following [Numpy IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#numpy).
-
-### Pandas
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/pandas.png">
-  <br/>
-</p>
-
-Pandas is a software library written for data manipulation and analysis in Python. Offers data structures and operations for manipulating numerical tables and time series.
-
-#### Installation
-
-The [pydata.sh script](#pydatash-script) installs Pandas.  If you prefer to install it separately, run:
-
-    $ pip install pandas
-
-#### Usage
-
-Refer to the following [pandas IPython Notebooks](https://github.com/donnemartin/data-science-ipython-notebooks#pandas).
-
-### Matplotlib
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/matplotlib.png">
-  <br/>
-</p>
-
-Matplotlib is a Python 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms.
-
-#### Installation
-
-The [pydata.sh script](#pydatash-script) installs matplotlib.  If you prefer to install it separately, run:
-
-    $ pip install matplotlib
-
-#### Usage
-
-Refer to the following [matplotlib IPython Notebooks](https://github.com/donnemartin/data-science-ipython-notebooks#matplotlib).
-
-### Seaborn
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/seaborn.png">
-  <br/>
-</p>
-
-Seaborn is a Python visualization library based on matplotlib. It provides a high-level interface for drawing attractive statistical graphics.
-
-#### Installation
-
-The [pydata.sh script](#pydatash-script) installs matplotlib.  If you prefer to install it separately, run:
-
-    $ pip install seaborn
-
-#### Usage
-
-Refer to the following [matplotlib with Seaborn IPython Notebooks](https://github.com/donnemartin/data-science-ipython-notebooks#matplotlib).
-
-### Scikit-learn
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/scikitlearn.png">
-  <br/>
-</p>
-
-Scikit-learn adds Python support for large, multi-dimensional arrays and matrices, along with a large library of high-level mathematical functions to operate on these arrays.
-
-#### Installation
-
-The [pydata.sh script](#pydatash-script) installs Scikit-learn.  If you prefer to install it separately, run:
-
-    $ pip install scikit-learn
-
-#### Usage
-
-Refer to the following [scikit-learn IPython Notebooks](https://github.com/donnemartin/data-science-ipython-notebooks#scikit-learn).
-
-### SciPy
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/scipy.png">
-  <br/>
-</p>
-
-SciPy is a collection of mathematical algorithms and convenience functions built on the Numpy extension of Python. It adds significant power to the interactive Python session by providing the user with high-level commands and classes for manipulating and visualizing data.
-
-#### Installation
-
-The [pydata.sh script](#pydatash-script) installs SciPy.  If you prefer to install it separately, run:
-
-    $ pip install scipy
-
-#### Usage
-
-Refer to the following [SciPy IPython Notebooks](https://github.com/donnemartin/data-science-ipython-notebooks#statistical-inference-scipy).
-
-### Flask
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/flask.png">
-  <br/>
-</p>
-
-Flask is a micro web application framework written in Python.
-
-#### Installation
-
-The [pydata.sh script](#pydatash-script) installs SciPy.  If you prefer to install it separately, run:
-
-    $ pip install Flask
-
-#### Usage
-
-[Coming Soon] Refer to the following [Flask IPython Notebooks](https://github.com/donnemartin/data-science-ipython-notebooks#).
-
-### Bokeh
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/bokeh.png">
-  <br/>
-</p>
-
-Bokeh is a Python interactive visualization library that targets modern web browsers for presentation. Its goal is to provide elegant, concise construction of novel graphics in the style of D3.js, but also deliver this capability with high-performance interactivity over very large or streaming datasets. Bokeh can help anyone who would like to quickly and easily create interactive plots, dashboards, and data applications.
-
-#### Installation
-
-The [pydata.sh script](#pydatash-script) installs Bokeh.  If you prefer to install it separately, run:
-
-    $ pip install bokeh
-
-#### Usage
-
-[Coming Soon] Refer to the following [Bokeh IPython Notebooks](https://github.com/donnemartin/data-science-ipython-notebooks#).
-
-## Section 4: Big Data, AWS, and Heroku
-
-### Spark
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/spark.png">
-  <br/>
-</p>
-
-Spark is an in-memory cluster computing framework, up to 100 times faster for certain applications and is well suited for machine learning algorithms.
-
-#### Installation
-
-The [aws.sh script](#aws-script) installs Spark locally.  It also hooks up Spark to run within the IPython Notebook by configuring your `.bash_profile` and adding the repo's `profile_pyspark/` to `.ipython`.
-
-If you prefer to install it separately, run:
-
-    $ brew install apache-spark
-
-#### Usage
-
-Run Spark locally:
-
-    $ pyspark
-
-Run Spark within IPython Notebook:
-
-    $ ipython notebook --profile=pyspark
-
-Refer to the following [Spark IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#spark).
-
-Spark is also supported on AWS Elastic MapReduce as described [here](https://aws.amazon.com/blogs/aws/new-apache-spark-on-amazon-emr/).  To create a cluster, run the following command with the [AWS CLI](#aws-cli), replacing ```myKeyPair``` with the name of your keypair to SSH into your cluster:
-
-    $ aws emr create-cluster --name "Spark cluster" --ami-version 3.8 --applications Name=Spark --ec2-attributes KeyName=myKeyPair --instance-type m3.xlarge --instance-count 3 --use-default-roles
-
-### MapReduce
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/mrjob.png">
-  <br/>
-</p>
-
-Mrjob supports MapReduce jobs in Python, running them locally or on Hadoop clusters such as AWS Elastic MapReduce (EMR).
-
-#### Installation
-
-**Mrjob is Python 2 only.**
-
-The [aws.sh script](#aws-script) installs mrjob locally.  If you prefer to install it separately, run:
-
-    $ pip install mrjob
-
-The aws.sh script also syncs the template ```.mrjob.conf``` file to your home folder.  Note running the aws.sh script will overwrite any existing ```~/.mrjob.conf``` file.  Update the config file with your credentials, keypair, region, and S3 bucket paths:
-
-```
-runners:
-  emr:
-    aws_access_key_id: YOURACCESSKEY
-    aws_secret_access_key: YOURSECRETKEY
-    aws_region: us-east-1
-    ec2_key_pair: YOURKEYPAIR
-    ec2_key_pair_file: ~/.ssh/YOURKEYPAIR.pem
-    ...
-    s3_scratch_uri: s3://YOURBUCKETSCRATCH
-    s3_log_uri: s3://YOURBUCKETLOG
-    ...
-```
-
-#### Usage
-
-Refer to the following [mrjob IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#mapreduce-python).
-
-### Awesome AWS [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome)
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/data-science-ipython-notebooks/master/images/aws.png">
-</p>
-<br/>
-
-[Awesome AWS](https://github.com/donnemartin/awesome-aws) is a curated list of awesome AWS libraries, open source repos, guides, blogs, and other resources.  It's a great way to stay up-to-date with the various aws-backed and community-led efforts geared towards AWS.
-
-#### The Fiery Meter of AWSome
-
-'Hot' repos in Awesome AWS are visually tagged based on their popularity:
-
-* Repo with 0100+ Stars: :fire:
-* Repo with 0200+ Stars: :fire::fire:
-* Repo with 0500+ Stars: :fire::fire::fire:
-* Repo with 1000+ Stars: :fire::fire::fire::fire:
-* Repo with 2000+ Stars: :fire::fire::fire::fire::fire:
-
-*Repos not on `The Fiery Meter of AWSome` can still be awesome, see [A Note on Repo AWSomeness](https://github.com/donnemartin/awesome-aws/blob/master/CONTRIBUTING.md#a-note-on-repo-awsomeness).*
-
-### AWS Account
-
-To start using AWS, you first need to sign up for an account.
-
-#### Sign up for AWS
-
-When you sign up for Amazon Web Services (AWS), your AWS account is automatically signed up for all services in AWS. You are charged only for the services that you use.  New users are eligible for 12 months of usage through the [AWS Free Tier](http://aws.amazon.com/free/).
-
-To create an AWS account, open http://aws.amazon.com/, and then click Sign Up.  Follow the on-screen instructions.  Part of the sign-up procedure involves receiving a phone call and entering a PIN using the phone keypad.  Note your AWS account ID.
-
-### AWS CLI
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/aws_cli.png">
-  <br/>
-</p>
-
-The AWS Command Line Interface is a unified tool to manage AWS services, allowing you to control multiple AWS services from the command line and to automate them through scripts.
-
-#### Installation
-
-The [aws.sh script](#aws-script) installs the AWS CLI.  If you prefer to install it separately, run:
-
-    $ pip install awscli
-
-Run the following command to configure the AWS CLI:
-
-    $ aws configure
-
-Alternatively, the aws.sh script also syncs the template ```.aws/``` folder to your home folder.  Note running the aws.sh script will overwrite any existing ```~/.aws/``` folder.  Update the config file with your credentials and location:
-
-```
-[default]
-region = us-east-1
-```
-
-```
-[default]
-aws_access_key_id = YOURACCESSKEY
-aws_secret_access_key = YOURSECRETKEY
-```
-
-**Be careful you do not accidentally check in your credentials.**  The .gitignore file is set to ignore files with credentials.
-
-#### Usage
-
-Refer to the following [AWS CLI IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#aws).
-
-### SAWS
-
-![](http://i.imgur.com/vzC5zmA.gif)
-
-Although the [AWS CLI](https://github.com/aws/aws-cli) is a great resource to manage your AWS-powered services, it's **tough to remember usage** of:
-
-* 50+ top-level commands
-* 1400+ subcommands
-* Countless command-specific options
-* Resources such as instance tags and buckets
-
-#### SAWS: A Supercharged AWS CLI
-
-`SAWS` aims to **supercharge** the AWS CLI with features focusing on:
-
-* **Improving ease-of-use**
-* **Increasing productivity**
-
-Under the hood, `SAWS` is **powered by the AWS CLI** and supports the **same commands** and **command structure**.
-
-`SAWS` and `AWS CLI` Usage:
-
-    aws <command> <subcommand> [parameters] [options]
-
-`SAWS` features:
-
-* Auto-completion of:
-    * Commands
-    * Subcommands
-    * Options
-* Auto-completion of resources:
-    * Bucket names
-    * Instance ids
-    * Instance tags
-    * [More coming soon!]((#todo-add-more-resources))
-* Customizable shortcuts
-* Fuzzy completion of resources and shortcuts
-* Syntax and output highlighting
-* Execution of shell commands
-* Command history
-* Contextual help
-* Toolbar options
-
-`SAWS` is available for Mac, Linux, Unix, and [Windows](#windows-support).
-
-![](http://i.imgur.com/Eo12q9T.png)
-
-#### Installation and Usage.
-
-Refer to the [repo link](https://github.com/donnemartin/saws).
-
-### Boto
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/boto.png">
-  <br/>
-</p>
-
-Boto is the official AWS SDK for Python.
-
-#### Installation
-
-The [aws.sh script](#aws-script) installs boto.  If you prefer to install it separately, run:
-
-    $ pip install boto
-
-Boto uses the same configuration as described in the [AWS CLI](#aws-cli) section.
-
-#### Usage
-
-Refer to the following [Boto IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#aws).
-
-### S3cmd
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/s3cmd.png">
-  <br/>
-</p>
-
-Before I discovered [S3cmd](http://s3tools.org/s3cmd), I had been using the [S3 console](http://aws.amazon.com/console/) to do basic operations and [boto](https://boto.readthedocs.org/en/latest/) to do more of the heavy lifting.  However, sometimes I just want to hack away at a command line to do my work.
-
-I've found S3cmd to be a great command line tool for interacting with S3 on AWS.  S3cmd is written in Python, is open source, and is free even for commercial use.  It offers more advanced features than those found in the [AWS CLI](http://aws.amazon.com/cli/).
-
-#### Installation
-
-**S3cmd is Python 2 only.**
-
-The [aws.sh script](#aws-script) installs s3cmd.  If you prefer to install it separately, run:
-
-    $ pip install s3cmd
-
-Running the following command will prompt you to enter your AWS access and AWS secret keys. To follow security best practices, make sure you are using an IAM account as opposed to using the root account.
-
-I also suggest enabling GPG encryption which will encrypt your data at rest, and enabling HTTPS to encrypt your data in transit. Note this might impact performance.
-
-    $ s3cmd --configure
-
-Alternatively, the aws.sh script also syncs the template ```.s3cfg``` file to your home folder.  Note running the aws.sh script will overwrite any existing ```~/.s3cfg``` file.  Update the config file with your credentials and location:
-
-```
-[Credentials]
-aws_access_key_id = YOURACCESSKEY
-aws_secret_access_key = YOURSECRETKEY
-...
-bucket_location = US
-...
-gpg_passphrase = YOURPASSPHRASE
-```
-
-**Be careful you do not accidentally check in your credentials.**  The .gitignore file is set to ignore files with credentials.
-
-#### Usage
-
-Refer to the following [s3cmd IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#aws).
-
-### S3DistCp
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/s3distcp.png">
-  <br/>
-</p>
-
-[S3DistCp](http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/UsingEMR_s3distcp.html) is an extension of DistCp that is optimized to work with Amazon S3.  S3DistCp is useful for combining smaller files and aggregate them together, taking in a pattern and target file to combine smaller input files to larger ones.  S3DistCp can also be used to transfer large volumes of data from S3 to your Hadoop cluster.
-
-#### Installation
-
-S3DistCp comes bundled with the AWS CLI.
-
-#### Usage
-
-Refer to the following [S3DistCp IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#aws).
-
-### S3-parallel-put
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/s3-parallel-put.png">
-  <br/>
-</p>
-
-[s3-parallel-put](https://github.com/twpayne/s3-parallel-put.git) is a great tool for uploading multiple files to S3 in parallel.
-
-#### Installation
-
-    $ git clone https://github.com/twpayne/s3-parallel-put.git
-
-#### Usage
-
-Refer to the following [s3-parallel-put IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#aws).
-
-### Redshift
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/aws_redshift.png">
-  <br/>
-</p>
-
-Redshift is a fast data warehouse built on top of technology from massive parallel processing (MPP).
-
-#### Setup
-
-Follow these [instructions](http://docs.aws.amazon.com/redshift/latest/gsg/rs-gsg-prereq.html).
-
-#### Usage
-
-Refer to the following [Redshift IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#aws).
-
-### Kinesis
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/aws_kinesis.png">
-  <br/>
-</p>
-
-Kinesis streams data in real time with the ability to process thousands of data streams per second.
-
-#### Setup
-
-Follow these [instructions](http://docs.aws.amazon.com/kinesis/latest/dev/before-you-begin.html).
-
-#### Usage
-
-Refer to the following [Kinesis IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#aws).
-
-### Lambda
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/aws_lambda.png">
-  <br/>
-</p>
-
-Lambda runs code in response to events, automatically managing compute resources.
-
-#### Setup
-
-Follow these [instructions](http://docs.aws.amazon.com/lambda/latest/dg/setting-up.html).
-
-#### Usage
-
-Refer to the following [Lambda IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#aws).
-
-### AWS Machine Learning
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/aws_ml.png">
-  <br/>
-</p>
-
-Amazon Machine Learning is a service that makes it easy for developers of all skill levels to use machine learning technology. Amazon Machine Learning provides visualization tools and wizards that guide you through the process of creating machine learning (ML) models without having to learn complex ML algorithms and technology. Once your models are ready, Amazon Machine Learning makes it easy to obtain predictions for your application using simple APIs, without having to implement custom prediction generation code, or manage any infrastructure.
-
-#### Setup
-
-Follow these [instructions](http://docs.aws.amazon.com/machine-learning/latest/dg/setting_up.html).
-
-#### Usage
-
-[Coming Soon] Refer to the following [AWS Machine Learning IPython Notebook](https://github.com/donnemartin/data-science-ipython-notebooks#aws).
-
 ### Heroku
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/heroku.jpg">
-  <br/>
-</p>
 
 [Heroku](http://www.heroku.com/), if you're not already familiar with it, is a [Platform-as-a-Service](http://en.wikipedia.org/wiki/Platform_as_a_service) (PaaS) that makes it really easy to deploy your apps online. There are other similar solutions out there, but Heroku was among the first and is currently the most popular. Not only does it make a developer's life easier, but I find that having Heroku deployment in mind when building an app forces you to follow modern app development [best practices](http://www.12factor.net/).
 
@@ -1511,72 +651,7 @@ The [Heroku Dev Center](https://devcenter.heroku.com/) is full of great resource
 
 ## Section 5: Data Stores
 
-### MySQL
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/mysql.png">
-  <br/>
-</p>
-
-#### Installation
-
-The [datastores.sh script](#datastoressh-script) installs MySQL.  If you prefer to install it separately, run:
-
-    $ brew update # Always good to do
-    $ brew install mysql
-
-As you can see in the ouput from Homebrew, before we can use MySQL we first need to set it up with:
-
-    $ unset TMPDIR
-    $ mkdir /usr/local/var
-    $ mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp
-
-#### Usage
-
-To start the MySQL server, use the `mysql.server` tool:
-
-    $ mysql.server start
-
-To stop it when you are done, run:
-
-    $ mysql.server stop
-
-You can see the different commands available for `mysql.server` with:
-
-    $ mysql.server --help
-
-To connect with the command-line client, run:
-
-    $ mysql -uroot
-
-(Use `exit` to quit the MySQL shell.)
-
-**Note**: By default, the MySQL user `root` has no password. It doesn't really matter for a local development database. If you wish to change it though, you can use `$ mysqladmin -u root password 'new-password'`.
-
-### MySQL Workbench
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/mysql_workbench.png">
-  <br/>
-</p>
-
-In terms of a GUI client for MySQL, I'm used to the official and free [MySQL Workbench](http://www.mysql.com/products/workbench/). But feel free to use whichever you prefer.
-
-#### Installation
-
-The [datastores.sh script](#datastoressh-script) installs MySQL Workbench.  If you prefer to install it separately, run:
-
-    $ brew install caskroom/cask/brew-cask
-    $ brew cask install --appdir="/Applications" mysqlworkbench
-
-You can also find the MySQL Workbench download [here](http://www.mysql.com/downloads/workbench/). (**Note**: It will ask you to sign in, you don't need to, just click on "No thanks, just start my download!" at the bottom.)
-
 ### MongoDB
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/mongodb.jpeg">
-  <br/>
-</p>
 
 [MongoDB](http://www.mongodb.org/) is a popular [NoSQL](http://en.wikipedia.org/wiki/NoSQL) database.
 
@@ -1600,11 +675,6 @@ In another terminal, connect to the database with the Mongo shell using:
 I'll let you refer to MongoDB's [Getting Started](http://docs.mongodb.org/manual/tutorial/getting-started/) guide for more!
 
 ### Redis
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/redis.png">
-  <br/>
-</p>
 
 [Redis](http://redis.io/) is a blazing fast, in-memory, key-value store, that uses the disk for persistence. It's kind of like a NoSQL database, but there are a lot of [cool things](http://oldblog.antirez.com/post/take-advantage-of-redis-adding-it-to-your-stack.html) that you can do with it that would be hard or inefficient with other database solutions. For example, it's often used as session management or caching by web apps, but it has many other uses.
 
@@ -1632,11 +702,6 @@ In another terminal, connect to the server with the Redis command-line interface
 I'll let you refer to Redis' [documentation](http://redis.io/documentation) or other tutorials for more information.
 
 ### Elasticsearch
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/elasticsearch.png">
-  <br/>
-</p>
 
 As it says on the box, [Elasticsearch](http://www.elasticsearch.org/) is a "powerful open source, distributed real-time search and analytics engine". It uses an HTTP REST API, making it really easy to work with from any programming language.
 
@@ -1684,14 +749,9 @@ Elasticsearch's [documentation](http://www.elasticsearch.org/guide/) is more of 
 
 ### Node.js
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/nodejs.png">
-  <br/>
-</p>
-
 #### Installation
 
-The [web.sh script](#websh-script) installs [Node.js](http://nodejs.org/).  You can also install it manually with Homebrew:
+The [front-end.sh script](#websh-script) installs [Node.js](http://nodejs.org/).  You can also install it manually with Homebrew:
 
     $ brew update
     $ brew install node
@@ -1747,141 +807,25 @@ To uninstall a package:
 
     $ npm uninstall <package>
 
-### JSHint
+### ESLint
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/jshint.png">
-  <br/>
-</p>
-
-JSHint is a JavaScript developer's best friend.
-
-If the extra credit assignment to install Sublime Package Manager was completed, JSHint can be run as part of Sublime Text.
+***Under Construction***
 
 #### Installation
 
-The [web.sh script](#websh-script) installs JSHint.  You can also install it manually via via npm:
+***Under Construction***
 
-    $ npm install -g jshint
-
-Follow additional instructions on the [JSHint Package Manager page](https://sublime.wbond.net/packages/JSHint) or [build it manually](https://github.com/jshint/jshint).
-
-### LESS
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/less.png">
-  <br/>
-</p>
-
-CSS preprocessors are becoming quite popular, the most popular processors are [LESS](http://lesscss.org/) and [SASS](http://sass-lang.com). Preprocessing is a lot like compiling code for CSS. It allows you to reuse CSS in many different ways. Let's start out with using LESS as a basic preprocessor, it's used by a lot of popular CSS frameworks like [Bootstrap](http://getbootstrap.com/).
+### SASS
 
 #### Installation
 
-The [web.sh script](#websh-script) installs LESS.  To install LESS manually you have to use NPM / Node, which you installed earlier using Homebrew. In the terminal use:
-
-    $ npm install -g less
-
-Note: the `-g` flag is optional but it prevents having to mess around with file paths. You can install without the flag, just know what you're doing.
-
-You can check that it installed properly by using:
-
-    $ lessc --version
-
-This should output some information about the compiler:
-
-    lessc 1.5.1 (LESS Compiler) [JavaScript]
-
-Okay, LESS is installed and running. Great!
-
-#### Usage
-
-There's a lot of different ways to use LESS. Generally I use it to compile my stylesheet locally. You can do that by using this command in the terminal:
-
-    $ lessc template.less template.css
-
-The two options are the "input" and "output" files for the compiler. The command looks in the current directory for the LESS stylesheet, compiles it, and outputs it to the second file in the same directory. You can add in paths to keep your project files organized:
-
-    $ lessc less/template.less css/template.css
-
-Read more about LESS on their page here: http://lesscss.org/
-
-## Section 7: Android Development
-
-***This section is under development.***
-
-### Java
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/java.png">
-  <br/>
-</p>
-
-#### Installation
-
-The [android.sh script](#androidsh-script) installs Java.
-
-If you prefer to install it separately, you can download the JDK [here](http://www.oracle.com/technetwork/java/javase/downloads/index.html) or run:
-
-    $ brew update
-    $ brew install caskroom/cask/brew-cask
-    $ brew cask install --appdir="~/Applications" java
-
-### Android SDK
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/androidsdk.png">
-  <br/>
-</p>
-
-The [android.sh script](#androidsh-script) installs the Android SDK.
-
-If you prefer to install it separately, you can download it [here](https://developer.android.com/sdk/index.html).
-
-### Android Studio
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/androidstudio.png">
-  <br/>
-</p>
-
-The [android.sh script](#androidsh-script) installs Android Studio.
-
-If you prefer to install it separately, you can download it [here](https://developer.android.com/sdk/index.html) or run:
-
-    $ brew update
-    $ brew install caskroom/cask/brew-cask
-    $ brew cask install --appdir="~/Applications" android-studio
-
-### IntelliJ IDEA
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/intellij.png">
-  <br/>
-</p>
-
-The [android.sh script](#androidsh-script) installs Java.
-
-If you prefer to install it separately, you can download it [here](https://www.jetbrains.com/idea/download/) or run:
-
-    $ brew update
-    $ brew install caskroom/cask/brew-cask
-    $ brew cask install --appdir="~/Applications" intellij-idea-ce
+###
 
 ## Section 8: Misc
-
-### Contributions
-
-Bug reports, suggestions, and pull requests are [welcome](https://github.com/donnemartin/dev-setup/issues)!
 
 ### Credits
 
 See the [Credits Page](https://github.com/donnemartin/dev-setup/blob/master/CREDITS.md).
-
-## Contact Info
-
-Feel free to contact me to discuss any issues, questions, or comments.
-
-My contact info can be found on my [GitHub page](https://github.com/donnemartin).
 
 ### License
 

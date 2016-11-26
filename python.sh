@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Install command-line tools using Homebrew.
+# Install Pynthon and Python libraries using Homebrew.
 
 # Ask for the administrator password upfront.
 sudo -v
@@ -18,15 +18,15 @@ fi
 # Make sure we’re using the latest Homebrew.
 brew update
 
-# Install Cask
-brew install caskroom/cask/brew-cask
-brew tap caskroom/versions
-
-brew cask install --appdir="~/Applications" java
-brew cask install --appdir="~/Applications" Caskroom/versions/intellij-idea-ce
-brew cask install --appdir="~/Applications" android-studio
-
-brew install android-sdk
-
-# Remove outdated versions from the cellar.
-brew cleanup
+#
+brew install python
+brew install python3
+# Check to see if we have pip, if we do upgrade, if we don't, get it
+if test ! $(which pip); then
+    echo "Installing pip..."
+    python get-pip.py
+# Install virtualenv
+# Install virtualenvwrapper
+# Install pyenv
+# Install flake8
+# Install flask

@@ -1,0 +1,9 @@
+# Install Node
+# Install Grunt
+# Install ESLint
+# Install SASS
+# Install Purescript
+# Install create-react-app
+# Install webpack
+# Install Redux
+# Install Ramda

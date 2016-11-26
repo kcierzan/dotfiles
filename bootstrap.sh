@@ -2,7 +2,8 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-git pull origin master;
+# pull from my development branch branch - may have to change to master eventually
+git pull origin develop;
 
 function doIt() {
     rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \

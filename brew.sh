@@ -36,25 +36,19 @@ brew install gnu-sed --with-default-names
 brew install bash
 brew tap homebrew/versions
 brew install bash-completion2
+#Install ZSH
+apt-get install zsh
 # We installed the new shell, now we have to activate it
 echo "Adding the newly installed shell to the list of allowed shells"
 # Prompts for password
 sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
+#Add ZSH to the list of shells
+sudo bash -c 'echo /usr/local/bin/zsh >> /etc/shells'
 # Change to the new shell, prompts for password
-chsh -s /usr/local/bin/bash
+chsh -s /usr/bin/zsh
 
 # Install `wget` with IRI support.
 brew install wget --with-iri
-
-# Install RingoJS and Narwhal.
-# Note that the order in which these are installed is important;
-# see http://git.io/brew-narwhal-ringo.
-brew install ringojs
-brew install narwhal
-
-# Install Python
-brew install python
-brew install python3
 
 # Install ruby-build and rbenv
 brew install ruby-build
@@ -104,7 +98,7 @@ brew install xz
 # Install other useful binaries.
 brew install ack
 brew install dark-mode
-#brew install exiv2
+# brew install exiv2
 brew install git
 brew install git-lfs
 brew install git-flow
@@ -117,7 +111,6 @@ brew install p7zip
 brew install pigz
 brew install pv
 brew install rename
-brew install rhino
 brew install speedtest_cli
 brew install ssh-copy-id
 brew install tree
@@ -125,12 +118,6 @@ brew install webkit2png
 brew install zopfli
 brew install pkg-config libffi
 brew install pandoc
-
-# Lxml and Libxslt
-brew install libxml2
-brew install libxslt
-brew link libxml2 --force
-brew link libxslt --force
 
 # Install Heroku
 brew install heroku-toolbelt
@@ -141,38 +128,38 @@ brew install caskroom/cask/brew-cask
 brew tap caskroom/versions
 
 # Core casks
-brew cask install --appdir="/Applications" alfred
+brew cask install --appdir="/Applications" launchbar
 brew cask install --appdir="~/Applications" iterm2
-brew cask install --appdir="~/Applications" java
-brew cask install --appdir="~/Applications" xquartz
 
 # Development tool casks
 brew cask install --appdir="/Applications" sublime-text3
-brew cask install --appdir="/Applications" atom
 brew cask install --appdir="/Applications" virtualbox
 brew cask install --appdir="/Applications" vagrant
-brew cask install --appdir="/Applications" macdown
+
+# Still no docker for mac cask...
+
+# Install base emacs for spacemacs
+brew tap d12frosted/emacs-plus
+brew install emacs-plus
 
 # Misc casks
+brew cask install --appdir="/Applications" launchbar
 brew cask install --appdir="/Applications" google-chrome
-brew cask install --appdir="/Applications" firefox
+brew cask install --appdir="/Applications" google-drive
 brew cask install --appdir="/Applications" skype
 brew cask install --appdir="/Applications" slack
 brew cask install --appdir="/Applications" dropbox
 brew cask install --appdir="/Applications" evernote
 brew cask install --appdir="/Applications" 1password
-#brew cask install --appdir="/Applications" gimp
-#brew cask install --appdir="/Applications" inkscape
-
-#Remove comment to install LaTeX distribution MacTeX
-#brew cask install --appdir="/Applications" mactex
-
-# Link cask apps to Alfred
-brew cask alfred link
-
-# Install Docker, which requires virtualbox
-brew install docker
-brew install boot2docker
+brew cask install --appdir="/Applications" karabiner
+brew cask install --appdir="/Applications" seil
+brew cask install --appdir="/Applications" spectacle
+brew cask install --appdir="/Applications" flux
+brew cask install --appdir="/Applications" blockblock
+brew cask install --appdir="/Applications" keka
+brew cask install --appdir="/Applications" steam
+brew cask install --appdir="/Applications" vlc
+brew cask install --appdir="/Applications" spotify
 
 # Install developer friendly quick look plugins; see https://github.com/sindresorhus/quick-look-plugins
 brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql qlimagesize webpquicklook suspicious-package

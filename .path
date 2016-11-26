@@ -1,0 +1,1 @@
+export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:$PATH:$HOME/.rbenv/shims:$PATH:/usr/local/heroku/bin:$PATH"
