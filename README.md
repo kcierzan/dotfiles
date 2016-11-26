@@ -10,7 +10,7 @@ Setting up a new developer machine can be an **ad-hoc, manual, and time-consumin
 * **Developer tools**: Vim, bash, tab completion, curl, git, GNU core utils, Python, Ruby, etc
 * **Developer apps**: iTerm2, Spacemacs, Sublime Text, VirtualBox, Vagrant, Docker, Chrome, etc
 * **Common data stores**: PostgreSQL, MongoDB, Redis, and Elasticsearch
-* **Javascript web development**: Node.js, React, Redux, Grunt, Webpack, ESLint, and SASS
+* **Javascript web development**: Node.js, React, Grunt, Webpack, ESLint, and SASS
 
 **You're *not* meant to install everything.**
 
@@ -62,12 +62,16 @@ This repo takes a more **light-weight** approach to automation using a combinati
 * [Virtualenv](#virtualenv)
 * [Virtualenvwrapper](#virtualenvwrapper)
 
-## Section 5: Data Stores
+## Section 3: Data Stores
+* [Postgresql](#postgresql)
 * [MongoDB](#mongodb)
 * [Redis](#redis)
 * [Elasticsearch](#elasticsearch)
 
-## Section 8: Misc
+## Section 4: Front End
+* Under Construction
+
+## Section 5: Misc
 
 * [Contributions](#contributions)
 * [Credits](#credits)
@@ -171,27 +175,6 @@ export PATH="/usr/local/bin:$PATH"
 
 If `~/.extra` exists, it will be sourced along with the other files. You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don’t want to commit to a public repository.
 
-My `~/.extra` looks something like this:
-
-```bash
-# Git credentials
-GIT_AUTHOR_NAME="Donne Martin"
-GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
-git config --global user.name "$GIT_AUTHOR_NAME"
-GIT_AUTHOR_EMAIL="donne.martin@gmail.com"
-GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
-git config --global user.email "$GIT_AUTHOR_EMAIL"
-
-# Pip should only run if there is a virtualenv currently activated
-export PIP_REQUIRE_VIRTUALENV=true
-
-# Install or upgrade a global package
-# Usage: gpip install –upgrade pip setuptools virtualenv
-gpip(){
-   PIP_REQUIRE_VIRTUALENV="" pip "$@"
-}
-```
-
 You could also use `~/.extra` to override settings, functions, and aliases from the dev-setup repository, although it’s probably better to [fork the dev-setup repository](https://github.com/donnemartin/dev-setup/fork).
 
 ### osxprep.sh script
@@ -223,7 +206,7 @@ Running the command above will display a dialog where you can either:
 
 When setting up a new Mac, you may want to install [Homebrew](http://brew.sh/), a package manager that simplifies installing and updating applications or libraries.
 
-Some of the apps installed by the `brew.sh` script include: Chrome, Firefox, Sublime Text, Atom, Dropbox, Evernote, Skype, Slack, Alfred, VirtualBox, Vagrant, Docker, etc.  **For a full listing of installed formulae and apps, refer to the commented [brew.sh source file](https://github.com/donnemartin/dev-setup/blob/master/brew.sh) directly and tweak it to suit your needs.**
+Some of the apps installed by the `brew.sh` script include: Chrome, Firefox, Sublime Text, Spacemacs, Dropbox, Evernote, Skype, Slack, Launchbar, VirtualBox, Vagrant, Docker, etc.  **For a full listing of installed formulae and apps, refer to the commented [brew.sh source file](https://github.com/donnemartin/dev-setup/blob/master/brew.sh) directly and tweak it to suit your needs.**
 
 Run the `brew.sh` script:
 
@@ -234,11 +217,6 @@ The `brew.sh` script takes awhile to complete, as some formulae need to be insta
 **For your terminal customization to take full effect, quit and re-start the terminal**
 
 ### osx.sh script
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/osx.png">
-  <br/>
-</p>
 
 When setting up a new Mac, you may want to set OS X defaults geared towards developers.  The `osx.sh` script also configures common third-party apps such Sublime Text and Chrome.
 
@@ -257,7 +235,7 @@ To set up common data stores, run the `datastores.sh` script:
 
     $ ./datastores.sh
 
-[Section 5: Data Stores](#section-5-data-stores) describes the installed packages and usage.
+[Section 3: Data Stores](#section-5-data-stores) describes the installed packages and usage.
 
 ### web.sh script
 
@@ -265,7 +243,7 @@ To set up a JavaScript web development environment, Run the `web.sh` script:
 
     $ ./web.sh
 
-[Section 6: Web Development](#section-6-web-development) describes the installed packages and usage.
+[Section 4: Front End](#section-4-front-end) describes the installed packages and usage.
 
 ## Section 2: General Apps and Tools
 
@@ -291,17 +269,8 @@ The [Materialize Theme](https://github.com/saadq/Materialize) is my theme of cho
 
 ##### Installation with Sublime Package Control
 
-If you are using Will Bond's excellent [Sublime Package Control](http://wbond.net/sublime_packages/package_control), you can easily install Soda Theme via the `Package Control: Install Package` menu item. The Soda Theme package is listed as `Theme - Materialize` in the packages list.
+If you are using Will Bond's excellent [Sublime Package Control](http://wbond.net/sublime_packages/package_control), you can easily install Materialize Theme via the `Package Control: Install Package` menu item. The Materialize Theme package is listed as `Theme - Materialize` in the packages list.
 
-##### Installation with Git
-
-Alternatively, if you are a git user, you can install the theme and keep up to date by cloning the repo directly into your `Packages` directory in the Sublime Text application settings area.
-
-You can locate your Sublime Text `Packages` directory by using the menu item `Preferences -> Browse Packages...`.
-
-While inside the `Packages` directory, clone the theme repository using the command below:
-
-    $ git clone https://github.com/buymeasoda/soda-theme/ "Theme - Soda"
 
 ##### Activating the Theme on Sublime Text 3
 
@@ -335,13 +304,11 @@ I generally like my editor to match my terminal so I use the [Molokai](https://g
 
 - In **iTerm2 Preferences**, under **Profiles** and **Colors**, go to **Load Presets...** and select **Molokai** to activate it. Voila!
 
-At this point you can also change your computer's name, which shows up in this terminal prompt. If you want to do so, go to **System Preferences** > **Sharing**. For example, I changed mine from "Donne's MacBook Pro" to just "MacBook Pro", so it shows up as `MacBook-Pro` in the terminal.
-
 Now we have a terminal we can work with!
 
 ### Vim
 
-I am a pretty big believer in keeping a minimalistic .vimrc. Vim's utility is it's speed, convenience, and ubiquity. In my opinion, tricking it out with all kinds of plugins and configuration seriously hampers these strengths.
+I am a pretty big believer in keeping a minimalistic .vimrc. Vim's utility is it's speed, convenience, and ubiquity. In my opinion, tricking it out with all kinds of plugins and configuration seriously hampers these strengths. Anyway that's what emacs is for :^)
 
 #### Configuration
 
@@ -573,38 +540,6 @@ It will get installed in the `venv` folder, and not conflict with other projects
 
 **Important**: Remember to add `venv` to your project's `.gitignore` file so you don't include all of that in your source code!
 
-### Virtualenvwrapper
-
-[Virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/) is a set of extensions that includes wrappers for creating and deleting virtual environments and otherwise managing your development workflow, making it easier to work on more than one project at a time without introducing conflicts in their dependencies.
-
-Main features include:
-
-* Organizes all of your virtual environments in one place.
-* Wrappers for managing your virtual environments (create, delete, copy).
-* Use a single command to switch between environments.
-* Tab completion for commands that take a virtual environment as argument.
-
-#### Installation
-
-The [python.sh script](#pydatash-script) installs Virtualenvwrapper.
-
-#### Usage
-
-Create a new virtual environment. When you create a new environment it automatically becomes the active environment:
-
-    $ mkvirtualenv [env name]
-
-Remove an existing virtual environment. The environment must be deactivated (see below) before it can be removed:
-
-    $ rmvirtualenv [env name]
-
-Activate a virtual environment. Will also list all existing virtual environments if no argument is passed:
-
-    $ workon [env name]
-
-Deactivate the currently active virtual environment. Note that workonwill automatically deactivate the current environment before activating a new one:
-
-    $ deactivate
 
 ### Heroku
 
@@ -649,7 +584,7 @@ Once the key business is done, you're ready to deploy apps! Heroku has a great [
 
 The [Heroku Dev Center](https://devcenter.heroku.com/) is full of great resources, so be sure to check it out!
 
-## Section 5: Data Stores
+## Section 3: Data Stores
 
 ### MongoDB
 
@@ -745,13 +680,13 @@ If you installed the elasticsearch-head plugin, you can visit its interface at `
 
 Elasticsearch's [documentation](http://www.elasticsearch.org/guide/) is more of a reference. To get started, I suggest reading some of the blog posts linked on this [StackOverflow answer](http://stackoverflow.com/questions/11593035/beginners-guide-to-elasticsearch/11767610#11767610).
 
-## Section 6: Web Development
+## Section 4: Front End
 
 ### Node.js
 
 #### Installation
 
-The [front-end.sh script](#websh-script) installs [Node.js](http://nodejs.org/).  You can also install it manually with Homebrew:
+The [front-end.sh script](#front-endsh-script) installs [Node.js](http://nodejs.org/).  You can also install it manually with Homebrew:
 
     $ brew update
     $ brew install node
@@ -774,12 +709,13 @@ We also need to tell npm where to find the Xcode Command Line Tools, by running:
 
     $ sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
 
-Node modules are installed locally in the `node_modules` folder of each project by default, but there are at least two that are worth installing globally. Those are [CoffeeScript](http://coffeescript.org/) and [Grunt](http://gruntjs.com/):
+Node modules are installed locally in the `node_modules` folder of each project by default, but there is at least one that is worth installing globally.
+[Grunt](http://gruntjs.com/):
 
     $ npm install -g coffee-script
     $ npm install -g grunt-cli
 
-#### Npm usage
+#### NPM usage
 
 To install a package:
 
@@ -821,7 +757,7 @@ To uninstall a package:
 
 ###
 
-## Section 8: Misc
+## Section 5: Misc
 
 ### Credits
 
@@ -829,11 +765,11 @@ See the [Credits Page](https://github.com/donnemartin/dev-setup/blob/master/CRED
 
 ### License
 
-This repository contains a variety of content; some developed by Donne Martin, and some from third-parties.  The third-party content is distributed under the license provided by those parties.
+This repository contains a variety of content; most developed by Donne Martin, and some from third-parties.  The third-party content is distributed under the license provided by those parties.
 
-The content developed by Donne Martin is distributed under the following license:
+The content developed by Kyle Cierzan is distributed under the following license:
 
-    Copyright 2015 Donne Martin
+    Copyright 2016 Kyle Cierzan
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

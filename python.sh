@@ -24,9 +24,16 @@ brew install python3
 # Check to see if we have pip, if we do upgrade, if we don't, get it
 if test ! $(which pip); then
     echo "Installing pip..."
-    python get-pip.py
+    easy_install pip
+else
+    pip install --upgrade pip
+fi
+
 # Install virtualenv
-# Install virtualenvwrapper
+pip install virtualenv
 # Install pyenv
+brew install pyenv
 # Install flake8
+pip install flake8
 # Install flask
+pip install flask
