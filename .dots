@@ -63,13 +63,13 @@ function runDots() {
             echo ""
             ./datastores.sh
         fi
-        if [ $ARG == "webdev" ] || [ $ARG == "all" ]; then
+        if [ $ARG == "front-end" ] || [ $ARG == "all" ]; then
             # Run the webdev.sh Script
             echo "------------------------------"
             echo "Setting up JavaScript web development environment."
             echo "------------------------------"
             echo ""
-            ./webdev.sh
+            ./front-end.sh
         fi
     done
 
