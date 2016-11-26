@@ -14,13 +14,11 @@ Setting up a new developer machine can be an **ad-hoc, manual, and time-consumin
 
 **You're *not* meant to install everything.**
 
-If you're interested in automation, `dev-setup` provides a customizable [setup script](#single-setup-script).  There's really no one-size-fits-all solution for developers so you're encouraged to make tweaks to suit your needs.
+If you're interested in automation, `dotfiles` provides a customizable [setup script](#single-setup-script).  There's really no one-size-fits-all solution for developers so you're encouraged to make tweaks to suit your needs.
 
 [Credits](#credits): This repo builds on the awesome work from [Mathias Bynens](https://github.com/mathiasbynens) and [Nicolas Hery](https://github.com/nicolashery).
 
 ### For Automation, What About Vagrant, Docker, or Boxen?
-
-[Vagrant](#vagrant) and [Docker](#docker) are great tools and are set up by this repo. I've found that Vagrant works well to ensure dev matches up with test and production tiers. I've only started playing around with Docker for side projects and it looks very promising. However, for Mac users, Docker and Vagrant both rely on **virtual machines**, which have their own considerations/pros/cons.
 
 This repo takes a more **light-weight** approach to automation using a combination of **Homebrew, Homebrew Cask, and shell scripts** to do basic system setup.  It also provides **easy-to understand instructions** for installation, configuration, and usage for each developer app or tool.
 
@@ -175,8 +173,6 @@ export PATH="/usr/local/bin:$PATH"
 
 If `~/.extra` exists, it will be sourced along with the other files. You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don’t want to commit to a public repository.
 
-You could also use `~/.extra` to override settings, functions, and aliases from the dev-setup repository, although it’s probably better to [fork the dev-setup repository](https://github.com/donnemartin/dev-setup/fork).
-
 ### osxprep.sh script
 
 Run the `osxprep.sh` script:
@@ -257,7 +253,7 @@ It still gets use as a scratchpad or if other less emacs-inclined devs need to u
 
 The [brew.sh script](#brewsh-script) installs Sublime Text.
 
-This script will maintain a Sublime Text installation until it is finally overtaken by Atom. Today is not that day.
+This script will maintain a Sublime Text installation until I finally decide to switch to Atom.
 
 #### Configuration
 
@@ -296,11 +292,15 @@ The [bootstrap.sh script](#bootstrapsh-script) and [osx.sh script](#osxsh-script
 
 I prefer iTerm2 over the stock Terminal, as it has some additional [great features](https://www.iterm2.com/features.html). Download and install iTerm2 (the newest version, even if it says "beta release").
 
-Under Profile > Terminal, set scrollback lines to 10,000. Character encoding must be UTF-8 and terminal type should be set to xterm-256color. I also like to set General > Working Directory > Reuse previous session's directory. In order to jump between words with the alt key, set option + -> to 'Send Escape Sequence: f' and option + <- to 'Send Escape Sequence: b' . Text should be set to Input Mono 11pt with vertical spacing slightly above 100%
+Under Profile > Terminal, set scrollback lines to 10,000. Character encoding must be UTF-8 and terminal type should be set to xterm-256color. I also like to set General > Working Directory > Reuse previous session's directory. In order to jump between words with the alt key, set option + -> to 'Send Escape Sequence: f' and option + <- to 'Send Escape Sequence: b' . Text should be set to **Input Mono 11pt** with **vertical spacing slightly above 100%**. This is important for our oh-my-zsh theme.
+
+You should not use a different font for non-ASCII characters.
 
 #### Configuration
 
-I generally like my editor to match my terminal so I use the [Molokai](https://github.com/tomasr/molokai) color scheme. Sometimes I switch things over to Solarized but inevitably go back to themes with higher contrast.
+When it comes to iTerm themes, I use the [Molokai](https://github.com/tomasr/molokai) color scheme. Sometimes I switch things over to Solarized Dark but inevitably go back to themes with higher contrast.
+
+First, clone down [this](https://github.com/mbadolato/iTerm2-Color-Schemes) awesome package of themes for iterm, extract them and load them into the iTerm colors menu.
 
 - In **iTerm2 Preferences**, under **Profiles** and **Colors**, go to **Load Presets...** and select **Molokai** to activate it. Voila!
 
@@ -753,15 +753,17 @@ To uninstall a package:
 
 ### SASS
 
+***Under Construction***
+
 #### Installation
 
-###
+***Under Construction***
 
 ## Section 5: Misc
 
 ### Credits
 
-See the [Credits Page](https://github.com/donnemartin/dev-setup/blob/master/CREDITS.md).
+See the [Credits Page](https://github.com/kcierzan/dotfiles/blob/master/CREDITS.md).
 
 ### License
 
