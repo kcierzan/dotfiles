@@ -62,6 +62,7 @@ values."
                       version-control-diff-tool 'diff-hl)
      ;; themes-megapack
      (geolocation :variables
+                  g
                   sunshine-show-icons t
                   geolocation-enable-weather-forecast t)
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
@@ -143,13 +144,13 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(niflheim
+   dotspacemacs-themes '(brin
+                         niflheim
                          sanityinc-tomorrow-night
                          material
                          spacegray
                          gruvbox
                          spacemacs-dark
-                         spacemacs-light
                          darktooth
                          sanityinc-tomorrow-night
                          monokai
@@ -337,7 +338,7 @@ you should place your code here."
   (setq sunshine-location "18914,USA") ;; set location so the location service doesn't constantly check location
   (setq sunshine-show-icons t) ;; enable icons in forecast
   (spacemacs/toggle-mode-line-battery-on) ;; turn on battery in spaceline
-  (spacemacs/toggle-transparency)
+  ;; (spacemacs/toggle-transparency)
   (global-vi-tilde-fringe-mode -1) ;; Turn off VIM style fringe
   (setq mouse-wheel-scroll-amount '(2 ((shift) . 1))) ;; two lines at a time
   (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
