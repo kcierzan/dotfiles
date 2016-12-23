@@ -36,12 +36,6 @@ values."
      python
      markdown
      javascript
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     dash
      games
      helm
      auto-completion
@@ -62,7 +56,6 @@ values."
                       version-control-diff-tool 'diff-hl)
      ;; themes-megapack
      (geolocation :variables
-                  g
                   sunshine-show-icons t
                   geolocation-enable-weather-forecast t)
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
@@ -258,11 +251,11 @@ values."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 95
+   dotspacemacs-active-transparency 100
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 60
+   dotspacemacs-inactive-transparency 85
    ;; If non nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
    ;; If non nil show the color guide hint for transient state keys. (default t)
@@ -326,60 +319,108 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (setq ns-use-srgb-colorspace nil) ;; fix color mismatch in spaceline separators and screw up every theme in the process
-  (setq neo-theme (if window-system 'icons 'arrow)) ;; enable icons in neotree
-  (setq powerline-default-separator 'utf-8) ;; fix aliasing of spaceline separators
-  (setq powerline-default-separator 'slant) ;; set spaceline separator to curve
-  (spaceline-compile) ;; must compile after changing spaceline separators
-  (spacemacs/toggle-indent-guide-on) ;; Make linums relative by default
+
+  ;; Set scope of evil snipe
+  (setq evil-snipe-scope 'whole-visible)
+
+  ;; fix color mismatch in spaceline separators and screw up colors in the process
+  (setq ns-use-srgb-colorspace nil)
+
+  ;; enable icons in neotree
+  (setq neo-theme (if window-system 'icons 'arrow))
+
+  ;; fix aliasing of spaceline separators
+  (setq powerline-default-separator 'utf-8)
+
+  ;; set spaceline separator to curve
+  (setq powerline-default-separator 'slant)
+
+  ;; must compile after changing spaceline separators
+  (spaceline-compile)
+
+  ;; Make linums relative by default
+  (spacemacs/toggle-indent-guide-on)
+
+  ;; set line numbers to relative after linums are on
   (with-eval-after-load 'linum
-    (linum-relative-toggle)) ;; set line numbers to relative after linums are on
-  (setq sunshine-appid "5bd3855f064b872376662d15ea9164f1") ;; appid for sunshine
-  (setq sunshine-location "18914,USA") ;; set location so the location service doesn't constantly check location
-  (setq sunshine-show-icons t) ;; enable icons in forecast
-  (spacemacs/toggle-mode-line-battery-on) ;; turn on battery in spaceline
-  ;; (spacemacs/toggle-transparency)
-  (global-vi-tilde-fringe-mode -1) ;; Turn off VIM style fringe
-  (setq mouse-wheel-scroll-amount '(2 ((shift) . 1))) ;; two lines at a time
-  (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
-  (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-  (define-coding-system-alias 'utf8 'utf-8) ;; set utf8 alias so emacs doesn't complain
-  (setq-default line-spacing 3) ;; give the text some room to breathe
+    (linum-relative-toggle))
+
+  ;; appid for sunshine
+  (setq sunshine-appid "5bd3855f064b872376662d15ea9164f1")
+
+  ;; set location so the location service doesn't constantly check location
+  (setq sunshine-location "18914,USA")
+
+  ;; enable icons in forecast
+  (setq sunshine-show-icons t)
+
+  ;; turn on battery in spaceline
+  (spacemacs/toggle-mode-line-battery-on)
+
+  ;; Enable transparency
+  (spacemacs/toggle-transparency)
+
+  ;; Turn off VIM style fringe
+  (global-vi-tilde-fringe-mode -1)
+
+  ;; two lines at a time
+  (setq mouse-wheel-scroll-amount '(2 ((shift) . 1)))
+
+  ;; don't accelerate scrolling
+  (setq mouse-wheel-progressive-speed nil)
+
+  ;; scroll window under mouse
+  (setq mouse-wheel-follow-mouse 't)
+
+  ;; set utf8 alias so emacs doesn't complain
+  (define-coding-system-alias 'utf8 'utf-8)
+
+  ;; give the text some room to breathe
+  (setq-default line-spacing 3)
+
+  ;; Save on lost focus
   (add-hook 'focus-out-hook
             (defun save-current-buffer-if-needed ()
               (interactive)
               (when (and (buffer-file-name) (buffer-modified-p))
-                (save-buffer)))) ;; Save on lost focus
+                (save-buffer)))) 
+
+  ;; adjust spacing for powerline in term
   (defun set-term-line-height () (setq line-spacing 3))
   (add-hook 'term-mode-hook
-            'set-term-line-height) ;; adjust spacing for powerline in term
+            'set-term-line-height)
+
+  ;; kill term without confirmation nag
   (defun set-no-process-query-on-exit ()
     (let ((proc (get-buffer-process (current-buffer))))
       (when (processp proc)
         (set-process-query-on-exit-flag proc nil))))
-  (add-hook 'term-exec-hook 'set-no-process-query-on-exit) ;; kill term without confirmation warning
+  (add-hook 'term-exec-hook 'set-no-process-query-on-exit) 
+
+  ;; Set magit directories
   (setq magit-repository-directories '("~/git/"))
+
+  ;; Set multiterm buffer size
   (add-hook 'term-mode-hook
             (lambda ()
-              (setq term-buffer-maximum-size 10000))) ;; set multiterm buffer size
+              (setq term-buffer-maximum-size 10000))) 
+
+  ;; set Org Mode to use Sans typeface
   (defun my-buffer-face-mode-variable ()
     "Set font to a variable width (proportional) fonts in current buffer"
     (interactive)
     (setq buffer-face-mode-face '(:family "Fira Sans" :height 150))
     (buffer-face-mode))
-  (add-hook 'org-mode-hook 'my-buffer-face-mode-variable) ;; set Org Mode to use Sans typeface
-
+  (add-hook 'org-mode-hook 'my-buffer-face-mode-variable)
   (custom-set-faces
    '(fixed-pitch ((t (:family "Fira Mono for Powerline"))))
    '(variable-pitch ((t (:family "Fira Sans")))))
-
   (defun my-adjoin-to-list-or-symbol (element list-or-symbol)
     (let ((list (if (not (listp list-or-symbol))
                     (list list-or-symbol)
                   list-or-symbol)))
       (require 'cl-lib)
       (cl-adjoin element list)))
-
   (eval-after-load "org"
     '(mapc
       (lambda (face)
@@ -390,7 +431,6 @@ you should place your code here."
           'fixed-pitch
           (face-attribute face :inherit))))
       (list 'org-code 'org-block 'org-table)))
-  (setq evil-snipe-scope 'whole-visible)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
