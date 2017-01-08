@@ -6,19 +6,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 
-# Powerline-y theme that doesn't suck
-ZSH_THEME="bullet-train"
-
-# Set a spicy boi prompt
-BULLETTRAIN_PROMPT_CHAR=""
-# Set theme clock to freedom format
-BULLETTRAIN_TIME_12HR="true"
-# Get rid of ruby info because it shows the annoying global version
-BULLETTRAIN_RUBY_SHOW="false"
-
-BULLETTRAIN_GIT_COLORIZE_DIRTY="true"
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# Theme that doesn't suck
+ZSH_THEME="pure"
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
@@ -55,8 +44,8 @@ BULLETTRAIN_GIT_COLORIZE_DIRTY="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Include z for intelligent directory navigation
-. `brew --prefix`/etc/profile.d/z.sh
+# Include fasd for intelligent directory navigation and all sorts of cool fuzzy stuff
+eval "$(fasd --init auto)"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -67,7 +56,6 @@ plugins=(git vagrant docker pip osx httpie)
 # User configuration
 DEFAULT_USER="Kyle"
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH:$HOME/.rbenv/shims:$PATH"
 eval "$(rbenv init -)"
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -119,12 +107,21 @@ function cl(){ cd "$@" && la; }
 # Alias GUI emacs app. Runs with --daemon on startup.
 alias emacs='/usr/local/Cellar/emacs-plus/25.1/Emacs.app/Contents/MacOS/Emacs'
 # Alias gui client to connect to daemon
-alias e='/usr/local/Cellar/emacs-plus/25.1/bin/emacsclient -c'
+alias e='f -e /usr/local/Cellar/emacs-plus/25.1/bin/emacsclient -c'
 # Alias terminal client to connect to daemon
-alias te='/usr/local/l/Cellar/emacs-plus/25.1/bin/emacsclient -c -t'
+alias te='f -e /usr/local/Cellar/emacs-plus/25.1/bin/emacsclient -c -t'
 
 #Alias Sublime to subl
 alias subl="/usr/local/Caskroom/sublime-text3/3103/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 
+# bring up a bunch of AWeber VMs for sites or something
+alias v-web='vagrant up v-web-public --provision'
+alias v-cp='vagrant up v-web-controlpanel --provision'
+alias v-ds='vagrant up v-datasource'
+alias v-lb='vagrant up v-web-loadbalancer'
+alias v-rlb='vagrant reload v-web-loadbalancer'
+alias v-up='v-lb; v-ds; v-cp; v-web;'
+
+export HOMEBREW_GITHUB_API_TOKEN="4f1202e0c3c0a1d3b5f12a621dec945116852046"
 alias zshconfig="e ~/.zshrc"
 alias ohmyzsh="e ~/.oh-my-zsh"
