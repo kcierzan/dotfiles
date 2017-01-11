@@ -31,6 +31,8 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     python
+     python
      osx
      yaml
      python
@@ -54,7 +56,7 @@ values."
      (version-control :variables
                       version-control-global-margin t
                       version-control-diff-tool 'diff-hl)
-     ;; themes-megapack
+     themes-megapack
      (geolocation :variables
                   sunshine-show-icons t
                   geolocation-enable-weather-forecast t)
@@ -137,22 +139,22 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(brin
+   dotspacemacs-themes '(dracula
                          niflheim
                          sanityinc-tomorrow-night
-                         material
+                         spacemacs-dark
                          spacegray
                          gruvbox
-                         spacemacs-dark
+                         brin
+                         material
                          darktooth
-                         sanityinc-tomorrow-night
                          monokai
                          naquadah)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Fira Mono for Powerline"
+   dotspacemacs-default-font '("InputMono Medium"
                                :size 12
                                :weight normal
                                :width normal
@@ -251,11 +253,11 @@ values."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 100
+   ;; dotspacemacs-active-transparency 100
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 85
+   ;; dotspacemacs-inactive-transparency 85
    ;; If non nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
    ;; If non nil show the color guide hint for transient state keys. (default t)
@@ -326,6 +328,13 @@ you should place your code here."
   ;; fix color mismatch in spaceline separators and screw up colors in the process
   (setq ns-use-srgb-colorspace nil)
 
+  ;; set line highlight to sane color - works with Brin theme
+  (set-face-background 'hl-line "#3a3059")
+
+  ;; set indentation highlight colors
+  ;; (set-face-background 'highlight-indentation-face "#61597a")
+  ;; (set-face-background 'highlight-indentation-current-column-face "#3a3059")
+
   ;; enable icons in neotree
   (setq neo-theme (if window-system 'icons 'arrow))
 
@@ -333,10 +342,7 @@ you should place your code here."
   (setq powerline-default-separator 'utf-8)
 
   ;; set spaceline separator to curve
-  (setq powerline-default-separator 'slant)
-
-  ;; must compile after changing spaceline separators
-  (spaceline-compile)
+  (setq powerline-default-separator 'arrow)
 
   ;; Make linums relative by default
   (spacemacs/toggle-indent-guide-on)
@@ -357,8 +363,11 @@ you should place your code here."
   ;; turn on battery in spaceline
   (spacemacs/toggle-mode-line-battery-on)
 
+  ;; must compile after changing spaceline separators
+  (spaceline-compile)
+
   ;; Enable transparency
-  (spacemacs/toggle-transparency)
+  ;; (spacemacs/toggle-transparency)
 
   ;; Turn off VIM style fringe
   (global-vi-tilde-fringe-mode -1)
@@ -383,7 +392,7 @@ you should place your code here."
             (defun save-current-buffer-if-needed ()
               (interactive)
               (when (and (buffer-file-name) (buffer-modified-p))
-                (save-buffer)))) 
+                (save-buffer))))
 
   ;; adjust spacing for powerline in term
   (defun set-term-line-height () (setq line-spacing 3))
@@ -403,24 +412,28 @@ you should place your code here."
   ;; Set multiterm buffer size
   (add-hook 'term-mode-hook
             (lambda ()
-              (setq term-buffer-maximum-size 10000))) 
+              (setq term-buffer-maximum-size 10000)))
 
   ;; set Org Mode to use Sans typeface
   (defun my-buffer-face-mode-variable ()
     "Set font to a variable width (proportional) fonts in current buffer"
     (interactive)
-    (setq buffer-face-mode-face '(:family "Fira Sans" :height 150))
+    (setq buffer-face-mode-face '(:family "Input" :height 120))
     (buffer-face-mode))
+
   (add-hook 'org-mode-hook 'my-buffer-face-mode-variable)
+
   (custom-set-faces
-   '(fixed-pitch ((t (:family "Fira Mono for Powerline"))))
-   '(variable-pitch ((t (:family "Fira Sans")))))
+   '(fixed-pitch ((t (:family "InputMono Medium"))))
+   '(variable-pitch ((t (:family "Input")))))
+
   (defun my-adjoin-to-list-or-symbol (element list-or-symbol)
     (let ((list (if (not (listp list-or-symbol))
                     (list list-or-symbol)
                   list-or-symbol)))
       (require 'cl-lib)
       (cl-adjoin element list)))
+
   (eval-after-load "org"
     '(mapc
       (lambda (face)
@@ -477,5 +490,6 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(fixed-pitch ((t (:family "Fira Mono for Powerline"))))
- '(variable-pitch ((t (:family "Fira Sans")))))
+ '(fixed-pitch ((t (:family "InputMono Medium"))))
+ '(variable-pitch ((t (:family "Input"))))
+ )
