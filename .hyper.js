@@ -1,10 +1,10 @@
 module.exports = {
   config: {
     // default font size in pixels for all tabs
-    fontSize: 12.5,
+    fontSize: 12,
 
     // font family with optional fallbacks
-    fontFamily: 'Fira Mono for Powerline, "DejaVu Sans Mono", "Lucida Console", monospace',
+    fontFamily: 'Input Mono, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
 
     // terminal cursor background color and opacity (hex, rgb, hsl, hsv, hwb or cmyk)
     cursorColor: 'rgba(248,28,229,0.8)',
@@ -16,7 +16,7 @@ module.exports = {
     foregroundColor: '#fff',
 
     // terminal background color
-    backgroundColor: '#393f4b',
+    backgroundColor: '#353845',
 
     // border color (window, tabs)
     borderColor: '#333',
@@ -27,8 +27,18 @@ module.exports = {
     // custom css to embed in the terminal window
     termCSS: '',
 
+    // set to `true` if you're using a Linux set up
+    // that doesn't shows native menus
+    // default: `false` on Linux, `true` on Windows (ignored on macOS)
+    showHamburgerMenu: '',
+
+    // set to `false` if you want to hide the minimize, maximize and close buttons
+    // additionally, set to `'left'` if you want them on the left, like in Ubuntu
+    // default: `true` on windows and Linux (ignored on macOS)
+    showWindowControls: '',
+
     // custom padding (css format, i.e.: `top right bottom left`)
-    padding: '0px 5px',
+    padding: '12px 14px',
 
     // the full list. if you're going to provide the full color palette,
     // including the 6 x 6 color cubes and the grayscale map, just provide
@@ -67,12 +77,28 @@ module.exports = {
     bell: 'SOUND',
 
     // if true, selected text will automatically be copied to the clipboard
-    copyOnSelect: false
+    copyOnSelect: false,
 
     // URL to custom bell
     // bellSoundURL: 'http://example.com/bell.mp3',
 
     // for advanced config flags please refer to https://hyper.is/#cfg
+    overlay: {
+        alwaysOnTop: true,
+        animate: false,
+        hasShadow: false,
+        hideDock: false,
+        hideOnBlur: false,
+        hotkeys: ['Ctrl+Return'],
+        position: 'bottom',
+        primaryDisplay: false,
+        resizable: true,
+        startAlone: false,
+        startup: false,
+        size: 0.334,
+        tray: true,
+        unique: true
+    }
   },
 
   // a list of plugins to fetch and install from npm
@@ -81,11 +107,15 @@ module.exports = {
   //   `hyperpower`
   //   `@company/project`
   //   `project#1.0.1`
-    plugins: ['hypertheme',
-              'hyper-blink',
+    plugins: ['hyper-blink',
+              'hyperterm-paste',
               'hypercwd',
-              'hyper-statusline'
-              ],
+              'hyperterm-tabs',
+              'hyperline',
+              'hyperlinks',
+              'hyper-autohide-tabs',
+              'hyperterm-overlay',
+              'hyper-dark-dracula'],
 
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here
