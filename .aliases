@@ -3,14 +3,10 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # This is new la
 alias la="ls -lah"
-
-# This is the new cd
-function cl(){ cd "$@" && la; }
 
 # Shortcuts
 # alias d="cd ~/Documents/Dropbox"
@@ -134,7 +130,16 @@ done
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
 
 # Lock the screen (when going AFK)
-alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+alias afk="/usr/bin/open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app"
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
+
+# Alias GUI emacs app. Runs with --daemon on startup.
+alias emacs='/usr/local/Cellar/emacs-plus/25.1/Emacs.app/Contents/MacOS/Emacs'
+# Alias gui client to connect to daemon
+alias e='/usr/local/Cellar/emacs-plus/25.1/bin/emacsclient -c'
+# Alias terminal client to connect to daemon
+alias te='/usr/local/Cellar/emacs-plus/25.1/bin/emacsclient -c -t'
+# Alias vim to neovim
+alias vim="nvim"

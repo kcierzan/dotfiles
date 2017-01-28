@@ -6,17 +6,9 @@ export ZSH="$HOME/.oh-my-zsh"
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 
-# Powerline-y theme that doesn't suck
-ZSH_THEME="bullet-train"
+# Clean themes are best themes
+ZSH_THEME="pure"
 
-# Set a spicy boi prompt
-BULLETTRAIN_PROMPT_CHAR=""
-# Set theme clock to freedom format
-BULLETTRAIN_TIME_12HR="true"
-# Get rid of ruby info because it shows the annoying global version
-BULLETTRAIN_RUBY_SHOW="false"
-
-BULLETTRAIN_GIT_COLORIZE_DIRTY="true"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -55,24 +47,23 @@ BULLETTRAIN_GIT_COLORIZE_DIRTY="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Include z for intelligent directory navigation
-. `brew --prefix`/etc/profile.d/z.sh
+# Include fasd for all the dank jumping
+eval "$(fasd --init auto)"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vagrant docker pip osx httpie)
+plugins=(fasd git vagrant docker pip osx httpie tmux zsh-syntax-highlighting)
 
 # User configuration
 DEFAULT_USER="Kyle"
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH:$HOME/.rbenv/shims:$PATH"
 eval "$(rbenv init -)"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
-
+export TERM="xterm-256color"
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -86,45 +77,20 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+# Load pyenv on shell start
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+
+# Load pyenv-virtualenv on start
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 # Pyenv Autocompletion
 export PYENV_ROOT=/usr/local/var/pyenv
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-alias be="bundle exec"
-alias j="cd .."
-alias la="ls -lah"
-alias gs="git status"
-alias ga="git add"
-alias commit="git commit -m"
-alias copy="fc -e -|pbcopy"
-function cl(){ cd "$@" && la; }
+# fzf initialization
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Search the colo
-#
-# function searchcsh () {
-#   for domainname in colo.lair int.prd.csh lbl.prd.csh svc.prd.csh int.csh lbl.csh svc.csh int.stg.csh lbl.stg.csh svc.stg.csh int.tst.csh lbl.tst.csh ;
-#   do
-#     dig -t AXFR $domainname | grep -v ";"
-#   done
-# }
+source .aliases
 
-# Alias GUI emacs app. Runs with --daemon on startup.
-alias emacs='/usr/local/Cellar/emacs-plus/25.1/Emacs.app/Contents/MacOS/Emacs'
-# Alias gui client to connect to daemon
-alias e='/usr/local/Cellar/emacs-plus/25.1/bin/emacsclient -c'
-# Alias terminal client to connect to daemon
-alias te='/usr/local/l/Cellar/emacs-plus/25.1/bin/emacsclient -c -t'
-
-#Alias Sublime to subl
-alias subl="/usr/local/Caskroom/sublime-text3/3103/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
-
-alias zshconfig="e ~/.zshrc"
-alias ohmyzsh="e ~/.oh-my-zsh"
+source .functions

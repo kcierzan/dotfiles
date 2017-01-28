@@ -1,1 +1,2 @@
-export PATH="/usr/local/share/npm/bin:$PATH:/usr/local/bin:/usr/local/sbin:~/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:$PATH:$HOME/.rbenv/shims:$PATH:/usr/local/heroku/bin:$PATH"
+# Path
+export PATH="~/.pyenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$PATH:$HOME/.rbenv/shims:$PATH"

@@ -1,6 +1,3 @@
-# Make vim the default editor.
-which -s subl && export EDITOR="subl --wait"
-
 # Enable persistent REPL history for `node`.
 NODE_REPL_HISTORY_FILE=~/.node_history;
 # Allow 32³ entries; the default is 1000.
