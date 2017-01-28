@@ -37,10 +37,11 @@ brew install bash
 brew tap homebrew/versions
 brew install bash-completion2
 #Install ZSH
-apt-get install zsh
+brew install zsh
 # We installed the new shell, now we have to activate it
 echo "Adding the newly installed shell to the list of allowed shells"
 # Prompts for password
+# Add bash to list of shells
 sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
 #Add ZSH to the list of shells
 sudo bash -c 'echo /usr/local/bin/zsh >> /etc/shells'
@@ -61,7 +62,6 @@ brew install vim --override-system-vi
 brew install homebrew/dupes/grep
 brew install homebrew/dupes/openssh
 brew install homebrew/dupes/screen
-brew install homebrew/php/php55 --with-gmp
 
 # Install font tools.
 brew tap bramstein/webfonttools
@@ -118,6 +118,15 @@ brew install webkit2png
 brew install zopfli
 brew install pkg-config libffi
 brew install pandoc
+brew install the_silver_searcher
+brew install neofetch
+brew install ddate
+brew install fasd
+brew install fzf
+brew install htop
+brew install neovim
+brew install httpie
+brew install tmux
 
 # Install Heroku
 brew install heroku-toolbelt
@@ -128,11 +137,9 @@ brew install caskroom/cask/brew-cask
 brew tap caskroom/versions
 
 # Core casks
-brew cask install --appdir="/Applications" launchbar
 brew cask install --appdir="~/Applications" iterm2
 
 # Development tool casks
-brew cask install --appdir="/Applications" sublime-text3
 brew cask install --appdir="/Applications" virtualbox
 brew cask install --appdir="/Applications" vagrant
 
@@ -143,7 +150,9 @@ brew tap d12frosted/emacs-plus
 brew install emacs-plus
 
 # Misc casks
-brew cask install --appdir="/Applications" launchbar
+brew cask install --appdir="/Applications" amethyst
+brew cask install --appdir="/Applications" alfred
+brew cask install --appdir="/Applications" docker
 brew cask install --appdir="/Applications" google-chrome
 brew cask install --appdir="/Applications" google-drive
 brew cask install --appdir="/Applications" skype
@@ -151,9 +160,6 @@ brew cask install --appdir="/Applications" slack
 brew cask install --appdir="/Applications" dropbox
 brew cask install --appdir="/Applications" evernote
 brew cask install --appdir="/Applications" 1password
-brew cask install --appdir="/Applications" karabiner
-brew cask install --appdir="/Applications" seil
-brew cask install --appdir="/Applications" spectacle
 brew cask install --appdir="/Applications" flux
 brew cask install --appdir="/Applications" blockblock
 brew cask install --appdir="/Applications" keka

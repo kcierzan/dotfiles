@@ -33,6 +33,7 @@ fi
 pip install virtualenv
 # Install pyenv
 brew install pyenv
+# Install 
 # Install flake8
 pip install flake8
 # Install flask

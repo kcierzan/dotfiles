@@ -22,7 +22,6 @@ brew update
 brew install postgresql
 brew install mongo
 brew install redis
-brew install elasticsearch
 
 # Remove outdated versions from the cellar.
 brew cleanup

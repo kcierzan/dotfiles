@@ -6,8 +6,11 @@ export ZSH="$HOME/.oh-my-zsh"
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 
-# Theme that doesn't suck
+# Clean themes are best themes
 ZSH_THEME="pure"
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
@@ -44,14 +47,14 @@ ZSH_THEME="pure"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Include fasd for intelligent directory navigation and all sorts of cool fuzzy stuff
+# Include fasd for all the dank jumping
 eval "$(fasd --init auto)"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vagrant docker pip osx httpie)
+plugins=(fasd git vagrant docker pip osx httpie tmux zsh-syntax-highlighting)
 
 # User configuration
 DEFAULT_USER="Kyle"
@@ -60,7 +63,7 @@ eval "$(rbenv init -)"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
-
+export TERM="xterm-256color"
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -74,54 +77,20 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+# Load pyenv on shell start
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+
+# Load pyenv-virtualenv on start
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 # Pyenv Autocompletion
 export PYENV_ROOT=/usr/local/var/pyenv
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-alias be="bundle exec"
-alias j="cd .."
-alias la="ls -lah"
-alias gs="git status"
-alias ga="git add"
-alias commit="git commit -m"
-alias copy="fc -e -|pbcopy"
-function cl(){ cd "$@" && la; }
+# fzf initialization
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Search the colo
-#
-# function searchcsh () {
-#   for domainname in colo.lair int.prd.csh lbl.prd.csh svc.prd.csh int.csh lbl.csh svc.csh int.stg.csh lbl.stg.csh svc.stg.csh int.tst.csh lbl.tst.csh ;
-#   do
-#     dig -t AXFR $domainname | grep -v ";"
-#   done
-# }
+source .aliases
 
-# Alias GUI emacs app. Runs with --daemon on startup.
-alias emacs='/usr/local/Cellar/emacs-plus/25.1/Emacs.app/Contents/MacOS/Emacs'
-# Alias gui client to connect to daemon
-alias e='f -e /usr/local/Cellar/emacs-plus/25.1/bin/emacsclient -c'
-# Alias terminal client to connect to daemon
-alias te='f -e /usr/local/Cellar/emacs-plus/25.1/bin/emacsclient -c -t'
-
-#Alias Sublime to subl
-alias subl="/usr/local/Caskroom/sublime-text3/3103/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
-
-# bring up a bunch of AWeber VMs for sites or something
-alias v-web='vagrant up v-web-public --provision'
-alias v-cp='vagrant up v-web-controlpanel --provision'
-alias v-ds='vagrant up v-datasource'
-alias v-lb='vagrant up v-web-loadbalancer'
-alias v-rlb='vagrant reload v-web-loadbalancer'
-alias v-up='v-lb; v-ds; v-cp; v-web;'
-
-export HOMEBREW_GITHUB_API_TOKEN="4f1202e0c3c0a1d3b5f12a621dec945116852046"
-alias zshconfig="e ~/.zshrc"
-alias ohmyzsh="e ~/.oh-my-zsh"
+source .functions

@@ -31,11 +31,10 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     python
+     sql
      python
      osx
      yaml
-     python
      markdown
      javascript
      ;; ----------------------------------------------------------------
@@ -62,9 +61,9 @@ values."
                       version-control-global-margin t
                       version-control-diff-tool 'diff-hl)
      themes-megapack
-     (geolocation :variables
-                  sunshine-show-icons t
-                  geolocation-enable-weather-forecast t)
+     ;; (geolocation :variables
+     ;;              sunshine-show-icons t
+     ;;              geolocation-enable-weather-forecast t)
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
      )
    ;; List of additional packages that will be installed without being
@@ -144,12 +143,12 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(dracula
+   dotspacemacs-themes '(spacemacs-dark
                          niflheim
                          sanityinc-tomorrow-night
-                         spacemacs-dark
-                         spacegray
                          gruvbox
+                         spacegray
+                         dracula
                          brin
                          material
                          darktooth
@@ -159,7 +158,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("InputMono Medium"
+   dotspacemacs-default-font '("InputMonoNarrow Medium"
                                :size 12
                                :weight normal
                                :width normal
@@ -254,15 +253,15 @@ values."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   ;; dotspacemacs-active-transparency 100
+   dotspacemacs-active-transparency 94
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   ;; dotspacemacs-inactive-transparency 85
+   dotspacemacs-inactive-transparency 94
    ;; If non nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
    ;; If non nil show the color guide hint for transient state keys. (default t)
@@ -333,8 +332,11 @@ you should place your code here."
   ;; fix color mismatch in spaceline separators and screw up colors in the process
   (setq ns-use-srgb-colorspace nil)
 
+  ;; Temporary hack because of some dumb update to gruvbox
+  (spacemacs/load-theme 'gruvbox)
+
   ;; set line highlight to sane color - works with Brin theme
-  (set-face-background 'hl-line "#3a3059")
+  ;; (set-face-background 'hl-line "#3a3059")
 
   ;; set indentation highlight colors
   ;; (set-face-background 'highlight-indentation-face "#61597a")
@@ -346,8 +348,8 @@ you should place your code here."
   ;; fix aliasing of spaceline separators
   (setq powerline-default-separator 'utf-8)
 
-  ;; set spaceline separator to curve
-  (setq powerline-default-separator 'arrow)
+  ;; set spaceline separator
+  (setq powerline-default-separator 'contour)
 
   ;; Make linums relative by default
   (spacemacs/toggle-indent-guide-on)
@@ -357,13 +359,10 @@ you should place your code here."
     (linum-relative-toggle))
 
   ;; appid for sunshine
-  (setq sunshine-appid "5bd3855f064b872376662d15ea9164f1")
+  ;; (setq sunshine-appid "5bd3855f064b872376662d15ea9164f1")
 
   ;; set location so the location service doesn't constantly check location
-  (setq sunshine-location "18914,USA")
-
-  ;; enable icons in forecast
-  (setq sunshine-show-icons t)
+  ;; (setq sunshine-location "18914,USA")
 
   ;; turn on battery in spaceline
   (spacemacs/toggle-mode-line-battery-on)
@@ -372,7 +371,7 @@ you should place your code here."
   (spaceline-compile)
 
   ;; Enable transparency
-  ;; (spacemacs/toggle-transparency)
+  (spacemacs/toggle-transparency)
 
   ;; Turn off VIM style fringe
   (global-vi-tilde-fringe-mode -1)
@@ -417,14 +416,14 @@ you should place your code here."
   (defun my-buffer-face-mode-variable ()
     "Set font to a variable width (proportional) fonts in current buffer"
     (interactive)
-    (setq buffer-face-mode-face '(:family "Input" :height 120))
+    (setq buffer-face-mode-face '(:family "InputSansNarrow" :height 120))
     (buffer-face-mode))
 
   (add-hook 'org-mode-hook 'my-buffer-face-mode-variable)
 
   (custom-set-faces
-   '(fixed-pitch ((t (:family "InputMono Medium"))))
-   '(variable-pitch ((t (:family "Input")))))
+   '(fixed-pitch ((t (:family "InputMonoNarrow Medium"))))
+   '(variable-pitch ((t (:family "InputSansNarrow")))))
 
   (defun my-adjoin-to-list-or-symbol (element list-or-symbol)
     (let ((list (if (not (listp list-or-symbol))
@@ -443,7 +442,10 @@ you should place your code here."
           'fixed-pitch
           (face-attribute face :inherit))))
       (list 'org-code 'org-block 'org-table)))
+
   (setq evil-snipe-scope 'whole-visible)
+  ;; Set default frame size to maximized
+  ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -457,11 +459,10 @@ you should place your code here."
    [default bold shadow italic underline bold bold-italic bold])
  '(evil-want-Y-yank-to-eol nil)
  '(hl-sexp-background-color "#121212")
- '(linum-format " %5i " t)
+ '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (autothemer nilfheim-theme web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode evil-snipe theme-changer typit mmt pacmacs dash-functional 2048-game helm-dash dash-at-point reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl flyspell-correct-helm org-projectile pcache org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot sublime-themes spacegray-theme material-theme gruvbox-theme yaml-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl ace-jump-helm-line vimrc-mode dactyl-mode rainbow-mode rainbow-identifiers color-identifiers-mode nyan-mode xterm-color smeargle shell-pop orgit org multi-term magit-gitflow gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link flyspell-correct-ivy flyspell-correct flycheck-pos-tip pos-tip evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete flycheck yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode cython-mode anaconda-mode pythonic mmm-mode markdown-toc markdown-mode gh-md font-lock+ all-the-icons zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme subatomic256-theme subatomic-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme majapahit-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme dracula-theme django-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized darktooth-theme ws-butler window-numbering which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy quelpa package-build spacemacs-theme)))
- '(paradox-github-token t)
+    (sql-indent contour-theme autothemer nilfheim-theme web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern tern coffee-mode evil-snipe theme-changer typit mmt pacmacs dash-functional 2048-game helm-dash dash-at-point reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl flyspell-correct-helm org-projectile pcache org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot sublime-themes spacegray-theme material-theme gruvbox-theme yaml-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl ace-jump-helm-line vimrc-mode dactyl-mode rainbow-mode rainbow-identifiers color-identifiers-mode nyan-mode xterm-color smeargle shell-pop orgit org multi-term magit-gitflow gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link flyspell-correct-ivy flyspell-correct flycheck-pos-tip pos-tip evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete flycheck yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode cython-mode anaconda-mode pythonic mmm-mode markdown-toc markdown-mode gh-md font-lock+ all-the-icons zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme subatomic256-theme subatomic-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme majapahit-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme dracula-theme django-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized darktooth-theme ws-butler window-numbering which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy quelpa package-build spacemacs-theme)))
  '(pos-tip-background-color "color-23")
  '(pos-tip-foreground-color "color-230")
  '(vc-annotate-background nil)
@@ -491,6 +492,5 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(fixed-pitch ((t (:family "InputMono Medium"))))
- '(variable-pitch ((t (:family "Input"))))
- )
+ '(fixed-pitch ((t (:family "InputMonoNarrow Medium"))))
+ '(variable-pitch ((t (:family "InputSansNarrow")))))

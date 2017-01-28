@@ -1,3 +1,6 @@
+# the new cd
+function cl(){ cd "$@" && la; }
+
 # Simple calculator
 function calc() {
     local result="";
@@ -103,15 +106,6 @@ function server() {
     python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port";
 }
 
-# Start a PHP server from a directory, optionally specifying the port
-# (Requires PHP 5.4.0+.)
-function phpserver() {
-    local port="${1:-4000}";
-    local ip=$(ipconfig getifaddr en1);
-    sleep 1 && open "http://${ip}:${port}/" &
-    php -S "${ip}:${port}";
-}
-
 # Compare original and gzipped file size
 function gz() {
     local origsize=$(wc -c < "$1");
@@ -197,33 +191,14 @@ function getcertnames() {
     fi;
 }
 
-# `s` with no arguments opens the current directory in Sublime Text, otherwise
-# opens the given location
-function s() {
-    if [ $# -eq 0 ]; then
-        subl .;
-    else
-        subl "$@";
-    fi;
-}
-
-# `a` with no arguments opens the current directory in Atom Editor, otherwise
-# opens the given location
-function a() {
-    if [ $# -eq 0 ]; then
-        atom .;
-    else
-        atom "$@";
-    fi;
-}
 
 # `v` with no arguments opens the current directory in Vim, otherwise opens the
 # given location
 function v() {
     if [ $# -eq 0 ]; then
-        vim .;
+        nvim .;
     else
-        vim "$@";
+        fasd -d -t -e nvim "$@";
     fi;
 }
 
@@ -233,7 +208,7 @@ function o() {
     if [ $# -eq 0 ]; then
         open .;
     else
-        open "$@";
+        fasd -d open "$@";
     fi;
 }
 
@@ -243,4 +218,57 @@ function o() {
 # small enough for one screen.
 function tre() {
     tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
+}
+
+# fzf based process killer
+function fkill() {
+    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+    if [ "x$pid" != "x" ]
+    then
+        kill -${1:-9} $pid
+    fi
+}
+
+# fzf search through history
+function fh() {
+    print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}
+
+# fuzzy cd to directory
+fd() {
+    local dir
+    dir=$(find ${1:-.} -path '*/\.*' -prune \
+               -o -type d -print 2> /dev/null | fzf +m) &&
+        cd "$dir"
+}
+
+# cd to directory (hidden directories included)
+fda() {
+    local dir
+    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+}
+
+# Modified fuzzy open where you can press
+#   - CTRL-O to open with `open` command,
+#   - CTRL-E or Enter key to open with the $EDITOR
+fo() {
+    local out file key
+    IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
+    key=$(head -1 <<< "$out")
+    file=$(head -2 <<< "$out" | tail -1)
+    if [ -n "$file" ]; then
+        [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+    fi
+}
+
+# Search the colo
+searchcsh () {
+    for domainname in colo.lair int.prd.csh lbl.prd.csh svc.prd.csh int.csh lbl.csh svc.csh int.stg.csh lbl.stg.csh svc.stg.csh int.tst.csh lbl.tst.csh ; do
+        dig -t AXFR $domainname | grep -v ";"
+    done
+}
+
+wttr () {
+    curl http://wttr.in/$1
 }
