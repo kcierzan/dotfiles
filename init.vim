@@ -246,36 +246,7 @@ Plug 'moll/vim-bbye'
 " Lightline for more speed
 Plug 'itchyny/lightline.vim'
 
-  let g:lightline = {
-        \ 'colorscheme': 'wombat',
-        \ 'component': {
-				\   'readonly': '%{&readonly?"\ue0a2":""}',
-	      \ },
-        \ 'fugitive': 'LightlineFugitive',
-        \ 'modified': 'LightlineModified',
-				\	'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-				\ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-        \ }
-  function! LightlineModified()
-    if &filetype == "help" 
-      return ""
-    elseif &modified
-      return "+"
-    elseif &modifiable
-      return ""
-    else
-      return ""
-    endif
-  endfunction
-
-function! LightlineFugitive()
-  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
-    let branch = fugitive#head()
-    return branch !=# '' ? '\ue0a0 '.branch : ''
-  endif
-  return ''
-endfunction
-
+"
 " Tmuxline
 Plug 'edkolev/tmuxline.vim'
 
@@ -390,3 +361,77 @@ hi! LineNr ctermbg=None
 " Denite uses ripgrep
 call denite#custom#var('file_rec', 'command',
       \ ['rg', '--files', '--glob', '!.git', ''])
+
+" Lightline config
+  let g:lightline = {
+        \ 'colorscheme': 'wombat',
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ],
+        \             [ 'fugitive', 'filename'] ]
+        \ },
+        \ 'component_function': {
+        \   'fugitive': 'LightlineFugitive',
+        \   'modified': 'LightlineModified',
+        \   'readonly': 'LightlineReadonly',
+        \   'fileformat': 'LightlineFileformat',
+        \   'filetype': 'LightlineFiletype',
+        \   'fileencoding': 'LightlineFileencoding',
+        \   'mode': 'LightlineMode',
+        \ },
+				\	'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+				\ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+        \ }
+  function! LightlineModified()
+    if &filetype == "help" 
+      return ""
+    elseif &modified
+      return "+"
+    elseif &modifiable
+      return ""
+    else
+      return ""
+    endif
+  endfunction
+
+  function! LightlineFilename()
+    return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+          \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+          \  &ft == 'denite' ? denite#get_status_string() :
+          \  &ft == 'vimshell' ? vimshell#get_status_string() :
+          \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+          \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+  endfunction
+
+  function! LightlineFugitive()
+    if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
+      let branch = fugitive#head()
+      return branch !=# '' ? "\ue0a0 ".branch : ''
+    endif
+    return ''
+  endfunction
+
+  function! LightlineFileformat()
+    return winwidth(0) > 70 ? &fileformat : ''
+  endfunction
+
+  function! LightlineFiletype()
+    return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+  endfunction
+
+  function! LightlineFileencoding()
+    return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+  endfunction
+
+  function! LightlineMode()
+    return winwidth(0) > 60 ? lightline#mode() : ''
+  endfunction
+
+  function! LightlineReadonly()
+    if &filetype == "help"
+      return ""
+    elseif &readonly
+      return "\ue0a2"
+    else
+      return ""
+    endif
+  endfunction
