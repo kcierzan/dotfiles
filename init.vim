@@ -1,7 +1,7 @@
 " ##########################################################################
-" #									                                                       #
-" #				                    F I X E S				                             #
-" #									                                                       #
+" #                                                                        #
+" #                           F I X E S                                    #
+" #                                                                        #
 " ##########################################################################
 
 " Enable terminal truecolors
@@ -27,10 +27,10 @@ set clipboard=unnamed
 autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn
 
 " ##########################################################################
-" #									                                                       #
-" #				                       B A S I C 				                         #
-" #			                      D E F A U L T S				                       #
-" #									                                                       #
+" #                                                                        #
+" #                              B A S I C                                 #
+" #                           D E F A U L T S                              #
+" #                                                                        #
 " ##########################################################################
 
 " Show what keys you are pressing
@@ -55,10 +55,10 @@ set splitbelow
 " Start scrolling 3 lines before horizontal border
 set scrolloff=3
 " ##########################################################################
-" #                                                   									   #
-" #			                         L E A D E R 				                       #
-" #			                       M A P P I N G S				                     #
-" #									                                                       #
+" #                                                                        #
+" #                              L E A D E R                               #
+" #                            M A P P I N G S                             #
+" #                                                                        #
 " ##########################################################################
 
 " Set leader key
@@ -98,10 +98,10 @@ vmap <Leader>p "+p
 vmap <Leader>P "+P
 
 " ##########################################################################
-" #									                                                       #
-" #			                           M I S C 				                         #
-" #			                       M A P P I N G S				                     #
-" #									                                                       #
+" #                                                                        #
+" #                                M I S C                                 #
+" #                            M A P P I N G S                             #
+" #                                                                        #
 " ##########################################################################
 
 " Jump to end of pasted text
@@ -110,10 +110,10 @@ vmap <Leader>P "+P
 " nnoremap <silent> p p`]
 
 " ##########################################################################
-" #									                                                       #
-" #    		                     F I L E T Y P E 				                     #
-" #			                       S E T T I N G S				                     #
-" #									                                                       #
+" #                                                                        #
+" #                            F I L E T Y P E                             #
+" #                            S E T T I N G S                             #
+" #                                                                        #
 " ##########################################################################
 
 " Set up Python indentation
@@ -137,17 +137,17 @@ au BufNewFile, BufRead *.py
 
 " ##########################################################################
 " #                                                                        #
-" #				                      P L U G I N S				                       #
-" #									                                                       #
+" #                             P L U G I N S                              #
+" #                                                                        #
 " ##########################################################################
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.local/share/nvim/plugged')
 
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &				                          &
+" &                                 &
 " &        E D I T I N G            &
-" &				                          &
+" &                                 &
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 " Automatic deliminters
@@ -163,11 +163,11 @@ Plug 'tpope/vim-commentary'
 Plug 'wellle/targets.vim'
 
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &				                          &
-" &         J U M P I N G  	        &
+" &                                 &
+" &         J U M P I N G           &
 " &       S E A R C H I N G         &
 " &         G R E P I N G           &
-" &				                          &
+" &                                 &
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 " Easymotion
@@ -216,9 +216,9 @@ Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
   nnoremap <Leader><tab> :FZF<CR>
 
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &				                          &
-" &       I N T E R F A C E	        &
-" &				                          &
+" &                                 &
+" &       I N T E R F A C E         &
+" &                                 &
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 " Git gutter
@@ -234,9 +234,9 @@ Plug 'mhinz/vim-startify'
 Plug 'moll/vim-bbye'
 
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &				                           &
-" &           T H E M E 	           &
-" &				                           &
+" &                                  &
+" &           T H E M E              &
+" &                                  &
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 " Airline for neovim
@@ -260,9 +260,9 @@ Plug 'chriskempson/base16-vim'
   let base16colorspace=256
  
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &				                            &
-" & 	  I N T E G R A T I O N         &
-" & 				                          &
+" &                                   &
+" &     I N T E G R A T I O N         &
+" &                                   &
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 " Git Wrapper
@@ -287,10 +287,10 @@ Plug 'benmills/vimux'
 Plug 'janko-m/vim-test'
 
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &				                             &
-" &            L I N T I N G	         &
+" &                                    &
+" &            L I N T I N G           &
 " &          C O M P L E T I O N       &
-" &				                             &
+" &                                    &
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 " Lots of language packs
@@ -338,10 +338,10 @@ Plug 'ervandew/supertab'
 call plug#end()
 
 " ##########################################################################
-" #									                                                       #
-" #			                        T H E M E 				                         #
-" #			                       T W E A K S				                         #
-" #									                                                       #
+" #                                                                        #
+" #                             T H E M E                                  #
+" #                            T W E A K S                                 #
+" #                                                                        #
 " ##########################################################################
 
 " Set Theme and syntax highlight - Will get overridden by base16 helper
@@ -378,8 +378,8 @@ call denite#custom#var('file_rec', 'command',
         \   'fileencoding': 'LightlineFileencoding',
         \   'mode': 'LightlineMode',
         \ },
-				\	'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-				\ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+        \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+        \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
         \ }
   function! LightlineModified()
     if &filetype == "help" 
