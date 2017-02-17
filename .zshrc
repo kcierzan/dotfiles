@@ -7,9 +7,11 @@ export ZSH="$HOME/.oh-my-zsh"
 # time that oh-my-zsh is loaded.
 
 # Clean themes are best themes
-ZSH_THEME="pure"
+ZSH_THEME="spaceship"
+SPACESHIP_RUBY_SHOW=false
 
 # Uncomment the following line to use case-sensitive completion.
+#
 # CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
@@ -54,7 +56,7 @@ eval "$(fasd --init auto)"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(fasd git vagrant docker pip osx httpie tmux zsh-syntax-highlighting)
+plugins=(fasd git docker pip osx httpie tmux zsh-syntax-highlighting)
 
 # User configuration
 DEFAULT_USER="Kyle"
@@ -63,16 +65,9 @@ eval "$(rbenv init -)"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
-export TERM="xterm-256color"
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='subl --wait'
-# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -82,8 +77,6 @@ if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
 # Load pyenv-virtualenv on start
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
-# Pyenv Autocompletion
-export PYENV_ROOT=/usr/local/var/pyenv
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
@@ -91,6 +84,10 @@ export PYENV_ROOT=/usr/local/var/pyenv
 # fzf initialization
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source .aliases
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
+# Source additional dotfiles
+source .exports
+source .aliases
 source .functions

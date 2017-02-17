@@ -32,36 +32,20 @@ brew install moreutils
 brew install findutils
 # Install GNU `sed`, overwriting the built-in `sed`.
 brew install gnu-sed --with-default-names
-# Install Bash 4.
-brew install bash
-brew tap homebrew/versions
-brew install bash-completion2
+
 #Install ZSH
 brew install zsh
 # We installed the new shell, now we have to activate it
 echo "Adding the newly installed shell to the list of allowed shells"
 # Prompts for password
-# Add bash to list of shells
-sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
 #Add ZSH to the list of shells
 sudo bash -c 'echo /usr/local/bin/zsh >> /etc/shells'
 # Change to the new shell, prompts for password
-chsh -s /usr/bin/zsh
-
-# Install `wget` with IRI support.
-brew install wget --with-iri
-
-# Install ruby-build and rbenv
-brew install ruby-build
-brew install rbenv
-LINE='eval "$(rbenv init -)"'
-grep -q "$LINE" ~/.extra || echo "$LINE" >> ~/.extra
+chsh -s /usr/local/bin/zsh
 
 # Install more recent versions of some OS X tools.
-brew install vim --override-system-vi
 brew install homebrew/dupes/grep
 brew install homebrew/dupes/openssh
-brew install homebrew/dupes/screen
 
 # Install font tools.
 brew tap bramstein/webfonttools
@@ -75,7 +59,6 @@ brew install bfg
 brew install binutils
 brew install binwalk
 brew install cifer
-brew install dex2jar
 brew install dns2tcp
 brew install fcrackzip
 brew install foremost
@@ -94,6 +77,8 @@ brew install tcptrace
 brew install ucspi-tcp # `tcpserver` etc.
 brew install homebrew/x11/xpdf
 brew install xz
+brew install wireshark
+brew install open-mpi
 
 # Install other useful binaries.
 brew install ack
@@ -127,6 +112,14 @@ brew install htop
 brew install neovim
 brew install httpie
 brew install tmux
+brew install node
+brew install postgresql
+brew install pyenv
+brew install python
+brew install python3
+brew install reattach-to-user-namespace
+brew install ripgrep
+brew install stow
 
 # Install Heroku
 brew install heroku-toolbelt
@@ -137,35 +130,33 @@ brew install caskroom/cask/brew-cask
 brew tap caskroom/versions
 
 # Core casks
-brew cask install --appdir="~/Applications" iterm2
+brew cask install iterm2
 
 # Development tool casks
 brew cask install --appdir="/Applications" virtualbox
 brew cask install --appdir="/Applications" vagrant
 
-# Still no docker for mac cask...
-
-# Install base emacs for spacemacs
-brew tap d12frosted/emacs-plus
-brew install emacs-plus
-
 # Misc casks
-brew cask install --appdir="/Applications" amethyst
-brew cask install --appdir="/Applications" alfred
-brew cask install --appdir="/Applications" docker
-brew cask install --appdir="/Applications" google-chrome
-brew cask install --appdir="/Applications" google-drive
-brew cask install --appdir="/Applications" skype
-brew cask install --appdir="/Applications" slack
-brew cask install --appdir="/Applications" dropbox
-brew cask install --appdir="/Applications" evernote
-brew cask install --appdir="/Applications" 1password
-brew cask install --appdir="/Applications" flux
-brew cask install --appdir="/Applications" blockblock
-brew cask install --appdir="/Applications" keka
-brew cask install --appdir="/Applications" steam
-brew cask install --appdir="/Applications" vlc
-brew cask install --appdir="/Applications" spotify
+brew cask install amethyst
+brew cask install alfred
+brew cask install blockblock
+brew cask install docker
+brew cask install dash
+brew cask install honer
+brew cask install google-chrome
+brew cask install pycharm-ce
+brew cask install google-drive
+brew cask install slack
+brew cask install dropbox
+brew cask install transmission
+brew cask install ubersicht
+brew cask install sublime-text
+brew cask install pablodraw
+brew cask install 1password
+brew cask install flux
+brew cask install keka
+brew cask install vlc
+brew cask install spotify
 
 # Install developer friendly quick look plugins; see https://github.com/sindresorhus/quick-look-plugins
 brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql qlimagesize webpquicklook suspicious-package

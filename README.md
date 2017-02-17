@@ -584,102 +584,6 @@ Once the key business is done, you're ready to deploy apps! Heroku has a great [
 
 The [Heroku Dev Center](https://devcenter.heroku.com/) is full of great resources, so be sure to check it out!
 
-## Section 3: Data Stores
-
-### MongoDB
-
-[MongoDB](http://www.mongodb.org/) is a popular [NoSQL](http://en.wikipedia.org/wiki/NoSQL) database.
-
-#### Installation
-
-The [datastores.sh script](#datastoressh-script) installs MongoDB. If you prefer to install it separately, run:
-
-    $ brew update
-    $ brew install mongo
-
-#### Usage
-
-In a terminal, start the MongoDB server:
-
-    $ mongod
-
-In another terminal, connect to the database with the Mongo shell using:
-
-    $ mongo
-
-I'll let you refer to MongoDB's [Getting Started](http://docs.mongodb.org/manual/tutorial/getting-started/) guide for more!
-
-### Redis
-
-[Redis](http://redis.io/) is a blazing fast, in-memory, key-value store, that uses the disk for persistence. It's kind of like a NoSQL database, but there are a lot of [cool things](http://oldblog.antirez.com/post/take-advantage-of-redis-adding-it-to-your-stack.html) that you can do with it that would be hard or inefficient with other database solutions. For example, it's often used as session management or caching by web apps, but it has many other uses.
-
-#### Installation
-
-The [datastores.sh script](#datastoressh-script) installs Redis. If you prefer to install it separately, run:
-
-    $ brew update
-    $ brew install redis
-
-#### Usage
-
-Start a local Redis server using the default configuration settings with:
-
-    $ redis-server
-
-For advanced usage, you can tweak the configuration file at `/usr/local/etc/redis.conf` (I suggest making a backup first), and use those settings with:
-
-    $ redis-server /usr/local/etc/redis.conf
-
-In another terminal, connect to the server with the Redis command-line interface using:
-
-    $ redis-cli
-
-I'll let you refer to Redis' [documentation](http://redis.io/documentation) or other tutorials for more information.
-
-### Elasticsearch
-
-As it says on the box, [Elasticsearch](http://www.elasticsearch.org/) is a "powerful open source, distributed real-time search and analytics engine". It uses an HTTP REST API, making it really easy to work with from any programming language.
-
-You can use elasticsearch for such cool things as real-time search results, autocomplete, recommendations, machine learning, and more.
-
-#### Installation
-
-The [datastores.sh script](#datastoressh-script) installs Elasticsearch.  If you prefer to install it separately, check out the following discussion.
-
-Elasticsearch runs on Java, so check if you have it installed by running:
-
-    $ java -version
-
-If Java isn't installed yet, a window will appear prompting you to install it. Go ahead and click "Install".
-
-Next, install elasticsearch with:
-
-    $ brew install elasticsearch
-
-**Note**: Elasticsearch also has a `plugin` program that gets moved to your `PATH`. I find that too generic of a name, so I rename it to `elasticsearch-plugin` by running (will need to do that again if you update elasticsearch):
-
-    $ mv /usr/local/bin/plugin /usr/local/bin/elasticsearch-plugin
-
-Below I will use `elasticsearch-plugin`, just replace it with `plugin` if you haven't followed this step.
-
-As you guessed, you can add plugins to elasticsearch. A popular one is [elasticsearch-head](http://mobz.github.io/elasticsearch-head/), which gives you a web interface to the REST API. Install it with:
-
-    $ elasticsearch-plugin --install mobz/elasticsearch-head
-
-### Usage
-
-Start a local elasticsearch server with:
-
-    $ elasticsearch
-
-Test that the server is working correctly by running:
-
-    $ curl -XGET 'http://localhost:9200/'
-
-If you installed the elasticsearch-head plugin, you can visit its interface at `http://localhost:9200/_plugin/head/`.
-
-Elasticsearch's [documentation](http://www.elasticsearch.org/guide/) is more of a reference. To get started, I suggest reading some of the blog posts linked on this [StackOverflow answer](http://stackoverflow.com/questions/11593035/beginners-guide-to-elasticsearch/11767610#11767610).
-
 ## Section 4: Front End
 
 ### Node.js
@@ -742,22 +646,6 @@ To upgrade all or a particular package:
 To uninstall a package:
 
     $ npm uninstall <package>
-
-### ESLint
-
-***Under Construction***
-
-#### Installation
-
-***Under Construction***
-
-### SASS
-
-***Under Construction***
-
-#### Installation
-
-***Under Construction***
 
 ## Section 5: Misc
 
