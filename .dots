@@ -55,22 +55,6 @@ function runDots() {
             echo ""
             ./osx.sh
         fi
-        if [ $ARG == "datastores" ] || [ $ARG == "all" ]; then
-            # Run the datastores.sh Script
-            echo "------------------------------"
-            echo "Setting up data stores."
-            echo "------------------------------"
-            echo ""
-            ./datastores.sh
-        fi
-        if [ $ARG == "front-end" ] || [ $ARG == "all" ]; then
-            # Run the webdev.sh Script
-            echo "------------------------------"
-            echo "Setting up JavaScript web development environment."
-            echo "------------------------------"
-            echo ""
-            ./front-end.sh
-        fi
     done
 
     echo "------------------------------"
