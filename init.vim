@@ -54,6 +54,12 @@ set splitbelow
 
 " Start scrolling 3 lines before horizontal border
 set scrolloff=3
+
+" Set a persistent undo file
+set undodir=~/.config/nvim/undo
+set undofile
+set undolevels=10000
+
 " ##########################################################################
 " #                                                                        #
 " #                              L E A D E R                               #
@@ -99,25 +105,10 @@ vmap <Leader>P "+P
 
 " ##########################################################################
 " #                                                                        #
-" #                                M I S C                                 #
-" #                            M A P P I N G S                             #
-" #                                                                        #
-" ##########################################################################
-
-" Jump to end of pasted text
-" vnoremap <silent> y y`]
-" vnoremap <silent> p p`]
-" nnoremap <silent> p p`]
-
-" ##########################################################################
-" #                                                                        #
 " #                            F I L E T Y P E                             #
 " #                            S E T T I N G S                             #
 " #                                                                        #
 " ##########################################################################
-
-" Set up Python indentation
-
 
 " Set up standard indentation
 set tabstop=2
@@ -125,6 +116,7 @@ set softtabstop=2
 set shiftwidth=2
 set expandtab
 
+" Set up Python indentation
 au BufNewFile, BufRead *.py
       \ set tabstop=4
       \ set softtabstop=4
@@ -328,6 +320,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
 
 " Async linting courtesy of neomake
+" IMPORTANT: This will write to the file on every change. You may hate this.
 Plug 'neomake/neomake'
   autocmd InsertChange,TextChanged,InsertLeave * update | Neomake
   let g:neomake_python_enabled_makers = ['flake8', 'pylint']
@@ -362,76 +355,100 @@ hi! LineNr ctermbg=None
 call denite#custom#var('file_rec', 'command',
       \ ['rg', '--files', '--glob', '!.git', ''])
 
-" Lightline config
-  let g:lightline = {
-        \ 'colorscheme': 'wombat',
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ],
-        \             [ 'fugitive', 'filename'] ]
-        \ },
-        \ 'component_function': {
-        \   'fugitive': 'LightlineFugitive',
-        \   'modified': 'LightlineModified',
-        \   'readonly': 'LightlineReadonly',
-        \   'fileformat': 'LightlineFileformat',
-        \   'filetype': 'LightlineFiletype',
-        \   'fileencoding': 'LightlineFileencoding',
-        \   'mode': 'LightlineMode',
-        \ },
-        \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-        \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-        \ }
-  function! LightlineModified()
-    if &filetype == "help" 
-      return ""
-    elseif &modified
-      return "+"
-    elseif &modifiable
-      return ""
-    else
-      return ""
-    endif
-  endfunction
+" ##########################################################################
+" #                                                                        #
+" #                         L I G H T L I N E                              #
+" #                            C O N F I G                                 #
+" #                                                                        #
+" ##########################################################################
 
-  function! LightlineFilename()
-    return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-          \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-          \  &ft == 'denite' ? denite#get_status_string() :
-          \  &ft == 'vimshell' ? vimshell#get_status_string() :
-          \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-          \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
-  endfunction
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'filename' ],
+      \             [ 'neomake' ] ],
+      \ },
+      \ 'component_function': {
+      \   'fugitive': 'LightlineFugitive',
+      \   'modified': 'LightlineModified',
+      \   'readonly': 'LightlineReadonly',
+      \   'fileformat': 'LightlineFileformat',
+      \   'filename': 'LightlilneFilename',
+      \   'filetype': 'LightlineFiletype',
+      \   'fileencoding': 'LightlineFileencoding',
+      \   'mode': 'LightlineMode',
+      \ },
+      \ 'component_expand': {
+      \   'neomake': 'LightlineNeomake',
+      \ },
+      \ 'component_type': {
+      \   'neomake': 'error',
+      \ },
+      \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+      \ }
 
-  function! LightlineFugitive()
-    if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
-      let branch = fugitive#head()
-      return branch !=# '' ? "\ue0a0 ".branch : ''
-    endif
-    return ''
-  endfunction
+function! LightlineModified()
+  if &filetype == "help" 
+    return ""
+  elseif &modified
+    return "+"
+  elseif &modifiable
+    return ""
+  else
+    return ""
+  endif
+endfunction
 
-  function! LightlineFileformat()
-    return winwidth(0) > 70 ? &fileformat : ''
-  endfunction
+function! LightlineFilename()
+  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'denite' ? denite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
 
-  function! LightlineFiletype()
-    return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-  endfunction
+function! LightlineFugitive()
+  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
+    let branch = fugitive#head()
+    return branch !=# '' ? "\ue0a0 ".branch : ''
+  endif
+  return ''
+endfunction
 
-  function! LightlineFileencoding()
-    return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
-  endfunction
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
 
-  function! LightlineMode()
-    return winwidth(0) > 60 ? lightline#mode() : ''
-  endfunction
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
 
-  function! LightlineReadonly()
-    if &filetype == "help"
-      return ""
-    elseif &readonly
-      return "\ue0a2"
-    else
-      return ""
-    endif
-  endfunction
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+
+function! LightlineMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+function! LightlineReadonly()
+  if &filetype == "help"
+    return ""
+  elseif &readonly
+    return "\ue0a2"
+  else
+    return ""
+  endif
+endfunction
+
+function! LightlineNeomake()
+  return '%{neomake#statusline#LoclistStatus()}'
+endfunction
+
+augroup LightlineNeomake
+  autocmd!
+  autocmd BufWritePost *.py call lightline#update()
+augroup END
