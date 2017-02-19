@@ -71,13 +71,13 @@ set undolevels=10000
 let mapleader = "\<Space>"
 
 " Space + w saves a buffer
-nnoremap <Leader>fs :w<CR>
+nnoremap <Leader>W :w<CR>
 
 " Close window
 nnoremap <Leader>q :q<CR>
 
 " Force close window
-nnoremap <Leader>qq :q!<CR>
+nnoremap <Leader>Q :q!<CR>
 
 " Close buffer
 nnoremap <Leader>bd :bd<CR>
