@@ -21,3 +21,10 @@ cp Package\ Control.sublime-package ~/Library/Application Support/Sublime Text 3
 
 # Install packages list - packages should be installed on sublime startup
 cp Package\ Control.sublime-settings ~/Library/Application Support/Sublime Text 3/Packages/User
+
+# Install powerline fonts
+mkdir ~/powerline-fonts && git clone https://github.com/powerline/fonts.git ~/powerline-fonts
+
+# Install Ubersicht widgets
+cp -R widgets/sys-mon-set.widget ~/Library/Application\ Support/Übersicht/widgets
+
