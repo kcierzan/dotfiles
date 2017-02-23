@@ -9,6 +9,13 @@ export ZSH="$HOME/.oh-my-zsh"
 # Clean themes are best themes
 ZSH_THEME="spaceship"
 SPACESHIP_RUBY_SHOW=false
+SPACESHIP_PROMPT_SYMBOL="☾"
+
+if [ which pyenv > /dev/null ] && [ eval "$(pyenv version | awk '{$1;}')" == "system" ];then
+  SPACESHIP_PYENV_SHOW=false
+else
+  SPACESHIP_PYENV_SHOW=true
+fi
 
 # Uncomment the following line to use case-sensitive completion.
 #
@@ -57,6 +64,9 @@ eval "$(fasd --init auto)"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(fasd git docker pip osx httpie tmux zsh-syntax-highlighting)
+
+# Disable path highlighting
+ZSH_HIGHLIGHT_STYLES[path]=none
 
 # User configuration
 DEFAULT_USER="Kyle"

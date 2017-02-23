@@ -18,6 +18,7 @@ Setup for configuration is based around Homebrew and shell scripts. I hope to ad
 2. Install chrome extensions listed below.
 3. Copy cVim.css into extension settings page
 4. Extract and install included fonts
+5. Move Jetbrains themes to the path like `~/Library/Preferences/PyCharmCE2016.3/colors`
 
 ## Contents
 
