@@ -1,14 +1,28 @@
 # TODO
 
-* Add ubersicht widgets
-* Add instructions for chrome extensions
-* Include cVim CSS
-* Add input fonts
-* Write new readme
-* Add ranger dotfile
-* Add irssi dotfile and theme
-* Add pycharm config
-* Add script for installation of base16 shell
-* Add script for installation of base16 jetbrains color schemes
-* Add script for .oh-my-zsh/prompt installation
-* Add MOTD
+  * Configure Ranger and add dotfile
+  * Add pycharm master config
+  * Standardize vim bindings
+  * Create keybinding cheatsheet
+  * Replace amethyst etc with hammerspoon
+  * Patch operator mono font
+  * Replace airline/tmuxline separators
+
+# Rough Linux Config
+  * Antergos
+  * i3 gaps
+  * compton
+  * rofi
+  * lemonbar
+  * tmux
+  * qutebrowser
+  * mpd
+  * mutt
+  * ncmcpp
+  * newsbeuter
+  * irssi
+  * urxvt
+  * xmodmap
+  * ranger
+  * pygments
+
