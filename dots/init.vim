@@ -1,15 +1,11 @@
-" ##########################################################################
-" #                                                                        #
-" #                           F I X E S                                    #
-" #                                                                        #
-" ##########################################################################
+"    _         _  __           _          
+"   (_)____   (_)/ /_  _   __ (_)____ ___ 
+"  / // __ \ / // __/ | | / // // __ `__ \
+" / // / / // // /_ _ | |/ // // / / / / /
+"/_//_/ /_//_/ \__/(_)|___//_//_/ /_/ /_/ 
 
-" Enable terminal truecolors
-set termguicolors
-
-" Disable bells
+"Disable bells
 set noerrorbells
-set visualbell t_vb=
 
 " Allow cursor changing with tmux
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
@@ -17,21 +13,8 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 " Enable system clipboard
 set clipboard=unnamed
 
-" Enable powerline fonts
-" let g:airline_powerline_fonts = 1
-
-" stop airline from messing with tmuxline
-" let g:airline#extensions#tmuxline#enabled = 0
-
 " Disbale annoying automatic comments
 autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn
-
-" ##########################################################################
-" #                                                                        #
-" #                              B A S I C                                 #
-" #                           D E F A U L T S                              #
-" #                                                                        #
-" ##########################################################################
 
 " Show what keys you are pressing
 set showcmd
@@ -53,19 +36,12 @@ set splitright
 set splitbelow
 
 " Start scrolling 3 lines before horizontal border
-set scrolloff=3
+set scrolloff=5
 
 " Set a persistent undo file
 set undodir=~/.config/nvim/undo
 set undofile
-set undolevels=10000
-
-" ##########################################################################
-" #                                                                        #
-" #                              L E A D E R                               #
-" #                            M A P P I N G S                             #
-" #                                                                        #
-" ##########################################################################
+set undolevels=100000
 
 " Set leader key
 let mapleader = "\<Space>"
@@ -94,7 +70,6 @@ nnoremap <Leader>fed :tabedit ~/.config/nvim/init.vim<CR>
 " start changing directories
 nnoremap <Leader>cd :cd<space>
 
-" 
 " Copy and pasting to system clipboard
 vmap <Leader>y "+y
 vmap <Leader>d "+d
@@ -102,13 +77,6 @@ nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
-
-" ##########################################################################
-" #                                                                        #
-" #                            F I L E T Y P E                             #
-" #                            S E T T I N G S                             #
-" #                                                                        #
-" ##########################################################################
 
 " Set up standard indentation
 set tabstop=2
@@ -136,11 +104,8 @@ au BufNewFile, BufRead *.py
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.local/share/nvim/plugged')
 
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &                                 &
-" &        E D I T I N G            &
-" &                                 &
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+" Use . to repeat some stuff
+Plug 'tpop/vim-repeat'
 
 " Automatic deliminters
 Plug 'Raimondi/delimitMate'
@@ -153,14 +118,6 @@ Plug 'tpope/vim-commentary'
 
 " Provide additional text objects
 Plug 'wellle/targets.vim'
-
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &                                 &
-" &         J U M P I N G           &
-" &       S E A R C H I N G         &
-" &         G R E P I N G           &
-" &                                 &
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 " Easymotion
 Plug 'easymotion/vim-easymotion'
@@ -206,12 +163,6 @@ Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
   " Search files in current dir
   nnoremap <Leader><tab> :FZF<CR>
 
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &                                 &
-" &       I N T E R F A C E         &
-" &                                 &
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
 " Git gutter
 Plug 'airblade/vim-gitgutter'
 
@@ -224,16 +175,6 @@ Plug 'mhinz/vim-startify'
 " Delete and close buffers without closing windows
 Plug 'moll/vim-bbye'
 
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &                                  &
-" &           T H E M E              &
-" &                                  &
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
-" Airline for neovim
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-
 " Lightline for more speed
 Plug 'itchyny/lightline.vim'
 
@@ -242,21 +183,13 @@ Plug 'edkolev/tmuxline.vim'
 
 " Better looking tabs
 Plug 'mkitt/tabline.vim'
-  " Make the tabline look dank
-  " let g:airline#extensions#tabline#enabled = 1
 
 " base16 colorscheme
-Plug 'chriskempson/base16-vim'
-  let base16colorspace=256
+" Plug 'chriskempson/base16-vim'
+"   let base16colorspace=256
 
-" Improve python syntax highlighting
-" Plug 'vim-python/python-syntax'
- 
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &                                   &
-" &     I N T E G R A T I O N         &
-" &                                   &
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+" Nord colorscheme
+Plug 'arcticicestudio/nord-vim'
 
 " Git Wrapper
 Plug 'tpope/vim-fugitive'
@@ -278,13 +211,6 @@ Plug 'benmills/vimux'
 
 " Run tests
 Plug 'janko-m/vim-test'
-
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-" &                                    &
-" &            L I N T I N G           &
-" &          C O M P L E T I O N       &
-" &                                    &
-" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 " Lots of language packs
 Plug 'sheerun/vim-polyglot'
@@ -324,7 +250,7 @@ Plug 'zchee/deoplete-jedi'
 " IMPORTANT: This will write to the file on every change. You may hate this.
 Plug 'neomake/neomake'
   autocmd InsertChange,TextChanged,InsertLeave * update | Neomake
-  let g:neomake_python_enabled_makers = ['flake8', 'pylint']
+  let g:neomake_python_enabled_makers = ['flake8']
 
 " Tab menu for completion
 Plug 'ervandew/supertab'
@@ -332,25 +258,23 @@ Plug 'ervandew/supertab'
 call plug#end()
 
 " ##########################################################################
-" #                                                                        #
-" #                             T H E M E                                  #
-" #                            T W E A K S                                 #
-" #                                                                        #
-" ##########################################################################
 
 " Set Theme and syntax highlight - Will get overridden by base16 helper
 syntax enable
+colorscheme nord
+let g:nord_italic_comments = 1
 
 " Set base16 theme from the commandline
-if filereadable(expand("~/.vimrc_background"))
-  source ~/.vimrc_background
-endif
+" if filereadable(expand("~/.vimrc_background"))
+"   source ~/.vimrc_background
+" endif
 
 " Fix colors and enable transparency in terminal
 hi! EndOfBuffer ctermbg=None
 hi Normal guibg=NONE ctermbg=NONE
 hi! NonText ctermbg=None
 hi! LineNr ctermbg=None
+hi! Comment cterm=italic
 
 " Denite uses ripgrep
 call denite#custom#var('file_rec', 'command',
@@ -364,7 +288,7 @@ call denite#custom#var('file_rec', 'command',
 " ##########################################################################
 
 let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
+      \ 'colorscheme': 'nord',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'filename' ],
@@ -471,8 +395,7 @@ autocmd FileType unite call s:uniteinit()
 
     endfunction
 
-  call denite#custom#option('default', 'prompt', '❯')
-  "  \     'rg', '--glob', '!.git', ''
+  call denite#custom#option('default', 'prompt', '☾')
 
   call denite#custom#source(
 	\ 'file_rec', 'vars', {

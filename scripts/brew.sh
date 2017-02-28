@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+#     __                             __  
+#    / /_  ________ _      __  _____/ /_ 
+#   / __ \/ ___/ _ \ | /| / / / ___/ __ \
+#  / /_/ / /  /  __/ |/ |/ / (__  ) / / /
+# /_.___/_/   \___/|__/|__(_)____/_/ /_/ 
 # Install command-line tools using Homebrew.
 
 # Ask for the administrator password upfront.

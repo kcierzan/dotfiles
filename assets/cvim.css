@@ -1,12 +1,21 @@
+/*
+              _                          
+  ______   __(_)___ ___   _______________
+ / ___/ | / / / __ `__ \ / ___/ ___/ ___/
+/ /__ | |/ / / / / / / // /__(__  |__  ) 
+\___/ |___/_/_/ /_/ /_(_)___/____/____/  
+                                         
+*/
+
 @font-face {
-  font-family: 'Input Sans Narrow';
-  src: url('../../../../../../../../Fonts/Robot-Regular.ttf')  format('truetype');
+  font-family: 'Roboto Medium for Powerline';
+  src: url('../../../../../../../../Fonts/Roboto Mono Medium for Powerline.ttf')  format('truetype');
 }
 
 #cVim-command-bar, #cVim-command-bar-mode, #cVim-command-bar-input, #cVim-command-bar-search-results,
 .cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left,
 .cVim-completion-item .cVim-right {
-  font-family: Input Sans, Helvetica Neue, Neue, sans-serif, monospace, Arial;
+  font-family: Roboto Mono Medium for Powerline, Helvetica Neue, Neue, sans-serif, monospace, Arial;
   font-size: 10pt !important;
   -webkit-font-smoothing: antialiased !important;
 }
@@ -98,7 +107,7 @@
 
 #cVim-link-container, .cVim-link-hint,
 #cVim-hud, #cVim-status-bar {
-  font-family: Input Sans, Helvetica Neue, Neue, sans-serif, monospace, Arial;
+  font-family: Roboto Mono Medium for Powerline, Helvetica Neue, Neue, sans-serif, monospace, Arial;
   font-size: 10pt !important;
   -webkit-font-smoothing: antialiased !important;
 }
