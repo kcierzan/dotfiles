@@ -10,7 +10,7 @@ function runDots() {
     # Run sections based on command line arguments
     for ARG in "$@"
     do
-        if [ $ARG == "osxprep" ] || [ $ARG == "all" ]; then
+        if [ $ARG == "xcode" ] || [ $ARG == "all" ]; then
             # Run the osxprep.sh Script
             echo ""
             echo "------------------------------"
