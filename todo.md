@@ -6,8 +6,6 @@
   * Create keybinding cheatsheet
   * Replace amethyst etc with hammerspoon
   * Patch operator mono font
-  * Replace airline/tmuxline separators
-  * Make colorscheme switcher script like base16
 
 # Rough Linux Config
   * Antergos
