@@ -1,3 +1,9 @@
+#      __                       ___          
+#     / /_____ ___  __  ___  __/ (_)___  ___ 
+#    / __/ __ `__ \/ / / / |/_/ / / __ \/ _ \
+#  _/ /_/ / / / / / /_/ />  </ / / / / /  __/
+# (_)__/_/ /_/ /_/\__,_/_/|_/_/_/_/ /_/\___/ 
+                                           
 # This tmux statusbar config was created by tmuxline.vim
 # on Mon, 27 Feb 2017
 
@@ -13,7 +19,6 @@ set -g status-right-attr "none"
 set -g message-fg "colour7"
 set -g message-command-bg "colour0"
 set -g status-attr "none"
-set -g status-utf8 "on"
 set -g pane-border-fg "colour0"
 set -g status-left-attr "none"
 setw -g window-status-fg "colour7"
@@ -26,4 +31,4 @@ setw -g window-status-bg "colour8"
 set -g status-left ""
 set -g status-right "#[fg=colour7,bg=colour0] %H:%M "
 setw -g window-status-format "#[fg=colour7,bg=colour8] #I #[fg=colour7,bg=colour8]#W "
-setw -g window-status-current-format "#[fg=colour8,bg=colour0,nobold,nounderscore,noitalics]#[fg=colour7,bg=colour0] #W #[fg=colour0,bg=colour8,nobold,nounderscore,noitalics]"
+setw -g window-status-current-format "#[fg=colour8,bg=colour0,nobold,nounderscore]#[fg=colour7,bg=colour0] #W #[fg=colour0,bg=colour8,nobold,nounderscore]"

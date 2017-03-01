@@ -1,8 +1,9 @@
-# --files: List files that would be searched but do not search
-# --no-ignore: Do not respect .gitignore, etc...
-# --hidden: Search hidden files and folders
-# --follow: Follow symlinks
-# --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+#                                 __      
+#     ___  _  ______  ____  _____/ /______
+#    / _ \| |/_/ __ \/ __ \/ ___/ __/ ___/
+#  _/  __/>  </ /_/ / /_/ / /  / /_(__  ) 
+# (_)___/_/|_/ .___/\____/_/   \__/____/  
+#           /_/                        
 
 # Configure fzf to use rg
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
@@ -13,5 +14,8 @@ export EDITOR='nvim'
 # Pyenv Autocompletion
 export PYENV_ROOT=/usr/local/var/pyenv
 
+# Don't underline paths in the terminal
+ZSH_HIGHLIGHT_STYLES[path]=none
+
 # Set terminal colors if tmux is enabled
-export TERM=screen-256color
+# export TERM=tmux-256color

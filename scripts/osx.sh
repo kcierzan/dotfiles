@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-
+#                           __  
+#   ____  ______  __  _____/ /_ 
+#  / __ \/ ___/ |/_/ / ___/ __ \
+# / /_/ (__  )>  <_ (__  ) / / /
+# \____/____/_/|_(_)____/_/ /_/
 # ~/osx.sh — Originally from https://mths.be/osx
 
 # Ask for the administrator password upfront

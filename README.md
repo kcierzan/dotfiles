@@ -11,9 +11,9 @@ Setup for configuration is based around Homebrew and shell scripts. I hope to ad
 
     $ ./install all
 
-   Run `osxprep.sh`, `brew.sh`, `osx.sh`, and `rice.sh`:
+   Run `xcode.sh`, `brew.sh`, `osx.sh`, and `rice.sh`:
 
-    $ ./install osxprep brew osx rice
+    $ ./install xcode brew osx rice
 
 2. Install chrome extensions listed below.
 3. Copy cVim.css into extension settings page

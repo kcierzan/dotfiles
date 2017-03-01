@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+#          _                  __  
+#    _____(_)_______    _____/ /_ 
+#   / ___/ / ___/ _ \  / ___/ __ \
+#  / /  / / /__/  __/ (__  ) / / /
+# /_/  /_/\___/\___(_)____/_/ /_/ 
+# Install themes, colors, and packages
+                                
 # Ask for the administrator password upfront.
 sudo -v
 

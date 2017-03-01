@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+#                         __            __  
+#    _  ___________  ____/ /__    _____/ /_ 
+#   | |/_/ ___/ __ \/ __  / _ \  / ___/ __ \
+#  _>  </ /__/ /_/ / /_/ /  __/ (__  ) / / /
+# /_/|_|\___/\____/\__,_/\___(_)____/_/ /_/ 
+# Install xcode and update the os
 
 # Ask for the administrator password upfront
 sudo -v

@@ -1,3 +1,9 @@
+#            ___                     
+#     ____ _/ (_)___ _________  _____
+#    / __ `/ / / __ `/ ___/ _ \/ ___/
+#  _/ /_/ / / / /_/ (__  )  __(__  ) 
+# (_)__,_/_/_/\__,_/____/\___/____/
+
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
@@ -5,10 +11,22 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias -- -="cd -"
 
+
 # Shortcuts
+# alias d="cd ~/Documents/Dropbox"
+# alias dl="cd ~/Downloads"
+# alias dt="cd ~/Desktop"
+# alias p="cd ~/projects"
 alias g="git"
 alias h="history"
 alias j="jobs"
+
+# Detect which `ls` flavor is in use
+# if ls --color > /dev/null 2>&1; then # GNU `ls`
+#    colorflag="--color"
+# else # OS X `ls`
+#    colorflag="-G"
+# fi
 
 # List all files colorized in long format
 alias l="ls -lF -G"
@@ -109,6 +127,11 @@ alias badge="tput bel"
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
+# One of @janmoesen’s ProTip™s
+for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+    alias "$method"="lwp-request -m '$method'"
+done
+
 # Kill all the tabs in Chrome to free up memory
 # [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
@@ -119,15 +142,20 @@ alias afk="/usr/bin/open -a /System/Library/Frameworks/ScreenSaver.framework/Ver
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 
-# Alias vi to neovim
-alias vi="nvim"
+# Alias GUI emacs app. Runs with --daemon on startup.
+alias emacs='/usr/local/Cellar/emacs-plus/25.1/Emacs.app/Contents/MacOS/Emacs'
+# Alias gui client to connect to daemon
+alias e='/usr/local/Cellar/emacs-plus/25.1/bin/emacsclient -c'
+# Alias terminal client to connect to daemon
+alias te='/usr/local/Cellar/emacs-plus/25.1/bin/emacsclient -c -t'
+# Alias vim to neovim
 alias vim="nvim"
-
+alias vi="nvim"
 # Alias subl to sublime
 alias subl="/usr/local/bin/subl"
 
 # Edit neovim dotfile
-alias dot-vi="nvim ~/.config/nvim/init.vim"
+alias dot-vim="nvim ~/.config/nvim/init.vim"
 # Edit tmux dotfile
 alias dot-tmux="nvim ~/.tmux.conf"
 # Edit zsh dotfile
@@ -139,5 +167,9 @@ alias dot-exp="nvim ~/.exports"
 # Edit Aliases dotfiles
 alias dot-alias="nvim ~/.aliases"
 
-# Resize tmux window from smaller client
-alias resize="tmux detach -a"
+# resize tmux windows
+alias fit="tmux detach -a"
+
+# Verbose tar.gz compression and expansion
+alias tarc="tar -cvzf"
+alias tarx="tar -xvzf"
