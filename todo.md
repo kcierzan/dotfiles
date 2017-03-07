@@ -4,10 +4,7 @@
   * Add pycharm master config
   * Standardize vim bindings
   * Create keybinding cheatsheet
-  * Replace amethyst etc with hammerspoon
-  * Patch operator mono font
-  * Replace airline/tmuxline separators
-  * Make colorscheme switcher script like base16
+  * Patch operator mono font (need linux?)
 
 # Rough Linux Config
   * Antergos
