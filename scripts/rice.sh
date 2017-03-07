@@ -21,17 +21,14 @@ git clone https://github.com/denysdovhan/spaceship-zsh-theme.git /tmp
 mv /tmp/spaceship-zsh-theme/spaceship.zsh ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme
 
 # Install base16 shell
-git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+# git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
 
 # Install sublime text package control
-cp Package\ Control.sublime-package ~/Library/Application Support/Sublime Text 3/Installed Packages
+# cp Package\ Control.sublime-package ~/Library/Application Support/Sublime Text 3/Installed Packages
 
 # Install packages list - packages should be installed on sublime startup
-cp Package\ Control.sublime-settings ~/Library/Application Support/Sublime Text 3/Packages/User
+# cp Package\ Control.sublime-settings ~/Library/Application Support/Sublime Text 3/Packages/User
 
 # Install powerline fonts
 mkdir ~/powerline-fonts && git clone https://github.com/powerline/fonts.git ~/powerline-fonts
-
-# Install Ubersicht widgets
-cp -R widgets/sys-mon-set.widget ~/Library/Application\ Support/Übersicht/widgets
 
