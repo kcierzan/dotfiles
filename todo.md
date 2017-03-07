@@ -4,8 +4,7 @@
   * Add pycharm master config
   * Standardize vim bindings
   * Create keybinding cheatsheet
-  * Replace amethyst etc with hammerspoon
-  * Patch operator mono font
+  * Patch operator mono font (need linux?)
 
 # Rough Linux Config
   * Antergos
