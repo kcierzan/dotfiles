@@ -8,7 +8,7 @@ set shiftwidth=4
 set incsearch hlsearch
 set ignorecase smartcase
 set clipboard=unnamed,unnamedplus
-set scrolloff=5
+set scrolloff=3
 set showmode
 set showcmd
 set surround
@@ -55,76 +55,86 @@ nnoremap n :action FindNext<CR>
 nnoremap N :action FindPrevious<CR>
 nnoremap <leader><Space> :action SearchEverywhere<CR>
 nnoremap <leader>/ :action FindInPath<CR>
-nnoremap <leader>k :action HighlightUsageInFile<CR>
 
 " Jumping
-nnoremap s :action AceJumpAction<CR>
-nnoremap <leader>o :action GotoClass<CR>
-nnoremap <leader>O :action GotoFile<CR>
+nnoremap <leader>gg :action AceAction<CR>
+nnoremap <leader>gl :action AceLineAction<CR>
+nnoremap <leader>gc :action GotoClass<CR>
+nnoremap <leader>gf :action GotoFile<CR>
 nnoremap [m :action MethodUp<cr>
 nnoremap ]m :action MethodDown<cr>
 nnoremap [q :action PreviousOccurence<cr>
 nnoremap ]q :action NextOccurence<cr>
+nnoremap ]e :action GotoNextError<cr>
+nnoremap [e :action GotoPreviousError<cr>
 nnoremap g; :action JumpToLastChange<CR>
 nnoremap g, :action JumpToNextChange<CR>
 nmap <leader>[ :action Back<cr>
 nmap <leader>] :action Forward<cr>
 
 " Code Navigation
-nnoremap ]e :action GotoNextError<cr>
-nnoremap [e :action GotoPreviousError<cr>
-nnoremap ]c :action GotoNextError<CR>
-nnoremap [c :action GotoPreviousError<CR>
-nnoremap <leader>fu :action FindUsages<cr>
-nnoremap <leader>su :action ShowUsages<cr>
-nnoremap <leader>ga :action GotoAction<CR>
-nnoremap <leader>gd :action GotoDeclaration<cr>
-nnoremap <leader>gi :action GotoImplementation<cr>
-nnoremap <leader>gs :action GotoSuperMethod<cr>
-nnoremap <leader>gt :action GotoTest<cr>
+nnoremap <leader>nth :action TypeHierarchy<CR>
+nnoremap <leader>nga :action GotoAction<CR>
+nnoremap <leader>ngd :action GotoDeclaration<cr>
+nnoremap <leader>ngi :action GotoImplementation<cr>
+nnoremap <leader>ngs :action GotoSuperMethod<cr>
+nnoremap <leader>ngt :action GotoTest<cr>
 
 " Buffers and windows
-nnoremap <leader>d :action CloseContent<CR>
-nnoremap <leader>Q :action ReopenClosedContent<CR>
-nnoremap <leader>br :action RenameFile<cr>
-nnoremap <leader>bb :action RecentFiles<CR>
-nnoremap <leader>k :action FileStructurePopup<CR>
-nnoremap <leader>q  :action CloseActiveTab<cr>
-nnoremap <leader>x :action NextTab<CR>
-nnoremap <leader>z :action PreviousTab<CR>
-nnoremap <leader>\ :action VimFilePrevious<CR>
+nnoremap <leader>wrf :action RecentFiles<CR>
+nnoremap <leader>wfs :action FileStructurePopup<CR>
+nnoremap <leader>wqt :action CloseActiveTab<cr>
+nnoremap <leader>wnt :action NextTab<CR>
+nnoremap <leader>wpt :action PreviousTab<CR>
+nnoremap <leader>wfp :action VimFilePrevious<CR>
 nnoremap <leader><Tab> :action Switcher<CR>
-nnoremap <leader>wh :action HideAllWindows<CR>
-nnoremap <leader>wm :action ToggleFullScreen<CR>
-nnoremap <leader>wM :action ToggleDistractionFreeMode<CR>
-nnoremap <leader>cv :action ChangeView<cr>
+nnoremap <leader>wha :action HideAllWindows<CR>
+nnoremap <leader>wfs :action ToggleFullScreen<CR>
+nnoremap <leader>wdf :action ToggleDistractionFreeMode<CR>
+nnoremap <leader>wcv :action ChangeView<cr>
+nnoremap <leader>wvs :action SplitVertically<cr>
 
 " Project
-nnoremap <leader>bn :action NewFile<CR>
+nnoremap <leader>pnf :action NewFile<CR>
+nnoremap <leader>prf :action RenameFile<cr>
+nnoremap <leader>psd :source ~/.ideavimrc<CR>
 
 " Refactoring
-nnoremap <leader>ri :action InspectCode<cr>
-nnoremap <leader>rm :action OptimizeImports<cr>
-nnoremap <leader>re :action RenameElement<cr>
-nnoremap <leader>rf :action ReformatCode<CR>
-nnoremap <leader>ra :action RearrangeCode<CR>
-nnoremap <leader>rl :action Refactorings.QuickListPopupAction<CR>
-nnoremap <leader>e :action ShowErrorDescription<cr>
+nnoremap <leader>roi :action OptimizeImports<cr>
+nnoremap <leader>rre :action RenameElement<cr>
+nnoremap <leader>rrf :action ReformatCode<CR>
+nnoremap <leader>rrc :action RearrangeCode<CR>
+nnoremap <leader>rql :action Refactorings.QuickListPopupAction<CR>
+
+" Inspection
+nnoremap <leader>iic :action InspectCode<cr>
+nnoremap <leader>ied :action ShowErrorDescription<cr>
+nnoremap <leader>ifu :action FindUsages<cr>
+nnoremap <leader>isu :action ShowUsages<cr>
+nnoremap <leader>ihu :action HighlightUsageInFile<CR>
 
 " Editing
 nnoremap gcc :action CommentByLineComment<cr>
+vmap gc :action CommentByLineComment<CR>
 nnoremap U :action $Redo<CR>
+nnoremap J :action EditorJoinLines<CR>
 nnoremap <leader># :action Annotate<CR>
-nnoremap <leader>nc :action NewClass<CR>
+
+" Code Generation
+nnoremap <leader>cnc :action NewClass<CR>
+nnoremap <leader>com :action OverrideMethods<CR>
+nnoremap <leader>ccs :action ChangeSignature<CR>
+nnoremap <leader>cem :action ExtractMethod<CR>
+nnoremap <leader>cev :action ExtractVariable<CR>
+nnoremap <leader>cef :action ExtractField<CR>
 
 " Version Control
 nnoremap [c :action VcsShowPrevChangeMarker<cr>
 nnoremap ]c :action VcsShowNextChangeMarker<cr>
 
 " Run and Debug
-nnoremap <leader>db :action ToggleLineBreakpoint<cr>
-nnoremap <leader>dv :action ViewBreakpoints<cr>
-nnoremap <leader>dc :action ChooseDebugConfiguration<cr>
-nnoremap <leader>rc :action ChooseRunConfiguration<cr>
+nnoremap <leader>dlb :action ToggleLineBreakpoint<cr>
+nnoremap <leader>dvb :action ViewBreakpoints<cr>
+nnoremap <leader>drc :action ChooseDebugConfiguration<cr>
+nnoremap <leader>drc :action ChooseRunConfiguration<cr>
 
-nnoremap <leader>vs :source ~/.ideavimrc<CR>
