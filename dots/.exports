@@ -14,8 +14,8 @@ export EDITOR='nvim'
 # Pyenv Autocompletion
 export PYENV_ROOT=/usr/local/var/pyenv
 
-# Don't underline paths in the terminal
-ZSH_HIGHLIGHT_STYLES[path]=none
-
 # Set terminal colors if tmux is enabled
 # export TERM=tmux-256color
+
+ZSH_HIGHLIGHT_STYLES[path]=none
+export VIRTUAL_ENV_DISABLE_PROMPT=1
