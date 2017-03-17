@@ -63,10 +63,10 @@ eval "$(fasd --init auto)"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(fasd git docker pip osx httpie tmux zsh-syntax-highlighting)
+plugins=(warhol fasd git docker pip osx httpie tmux zsh-syntax-highlighting zsh-syntax-highlighting-filetypes)
+
 
 # Disable path highlighting
-ZSH_HIGHLIGHT_STYLES[path]=none
 
 # User configuration
 DEFAULT_USER="Kyle"
@@ -99,6 +99,6 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 # [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # Source additional dotfiles
-source .exports
-source .aliases
-source .functions
+source ~/.exports
+source ~/.aliases
+source ~/.functions

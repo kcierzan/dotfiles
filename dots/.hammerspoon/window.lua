@@ -13,11 +13,15 @@ prefix.bind('', 'g', function() hs.grid.show() end)
 ----------------
 -- Switch
 ----------------
-hs.hints.hintChars = utils.strToTable('ASDFGQWERTZXCVB12345')
+-- hs.hints.hintChars = utils.strToTable('ASDFGQWERTZXCVB12345')
 prefix.bind('', 'w', function() hs.hints.windowHints() end)
+hs.hints.titleMaxSize = 30
+hs.hints.fontName = 'Roboto Mono for Powerline'
+hs.hints.style = 'vimperator'
+hs.hints.fontSize = 24
 
 local switcher = hs.window.switcher.new(nil, {
-    fontName = ".AppleSystemUIFont",
+    fontName = 'Roboto Mono for Powerline',
     textSize = 16,
     textColor = { white = 0, alpha = 1 },
     highlightColor = { white = 0.5, alpha = 0.3 },
@@ -26,6 +30,8 @@ local switcher = hs.window.switcher.new(nil, {
     showThumbnails = false,
     showSelectedThumbnail = false,
 })
+
+switcher.ui.fontName = 'Roboto Mono for Powerline' 
 
 local function nextWindow()
     switcher:next()

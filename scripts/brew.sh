@@ -142,7 +142,6 @@ brew cask install --appdir="/Applications" virtualbox
 brew cask install --appdir="/Applications" vagrant
 
 # Misc casks
-brew cask install amethyst
 brew cask install alfred
 brew cask install blockblock
 brew cask install docker
