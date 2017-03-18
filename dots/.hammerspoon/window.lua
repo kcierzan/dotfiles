@@ -13,11 +13,15 @@ prefix.bind('', 'g', function() hs.grid.show() end)
 ----------------
 -- Switch
 ----------------
-hs.hints.hintChars = utils.strToTable('ASDFGQWERTZXCVB12345')
+-- hs.hints.hintChars = utils.strToTable('ASDFGQWERTZXCVB12345')
 prefix.bind('', 'w', function() hs.hints.windowHints() end)
+hs.hints.titleMaxSize = 30
+hs.hints.fontName = 'Roboto Mono for Powerline'
+hs.hints.style = 'vimperator'
+hs.hints.fontSize = 24
 
 local switcher = hs.window.switcher.new(nil, {
-    fontName = ".AppleSystemUIFont",
+    fontName = 'Roboto Mono for Powerline',
     textSize = 16,
     textColor = { white = 0, alpha = 1 },
     highlightColor = { white = 0.5, alpha = 0.3 },
@@ -26,6 +30,8 @@ local switcher = hs.window.switcher.new(nil, {
     showThumbnails = false,
     showSelectedThumbnail = false,
 })
+
+switcher.ui.fontName = 'Roboto Mono for Powerline' 
 
 local function nextWindow()
     switcher:next()
@@ -37,7 +43,35 @@ end
 
 hs.hotkey.bind('alt', 'tab', nextWindow, nil, nextWindow)
 hs.hotkey.bind('alt-shift', 'tab', previousWindow, nil, previousWindow)
+---------------
+-- draw border
+-- ------------
+global_border = nil
 
+function redrawBorder()
+    win = hs.window.focusedWindow()
+    if win ~= nil then
+        top_left = win:topLeft()
+        size = win:size()
+        if global_border ~= nil then
+            global_border:delete()
+        end
+        global_border = hs.drawing.rectangle(hs.geometry.rect(top_left['x'], top_left['y'], size['w'], size['h']))
+        -- Nord blue
+        global_border:setStrokeColor({["red"]=0.5607843137254902, ["blue"]=0.7372549019607844, ["green"]=0.7333333333333333, ["alpha"]=0.8})
+        global_border:setFill(false)
+        global_border:setStrokeWidth(6)
+        global_border:show()
+    end
+  end
+
+redrawBorder()
+
+allwindows = hs.window.filter.new(nil)
+allwindows:subscribe(hs.window.filter.windowCreated, function () redrawBorder() end)
+allwindows:subscribe(hs.window.filter.windowFocused, function () redrawBorder() end)
+allwindows:subscribe(hs.window.filter.windowMoved, function () redrawBorder() end)
+allwindows:subscribe(hs.window.filter.windowUnfocused, function () redrawBorder() end)
 ----------------
 -- resize & move
 ----------------
@@ -92,6 +126,7 @@ local function resizeWindow()
         end
     end
     prefix.exit()
+    redrawBorder()
 end
 
 for i = 1, #arrowKeys do
@@ -104,6 +139,7 @@ for i = 1, #arrowKeys do
         resizeWindow()
     end
     prefix.bindMultiple('', arrowKeys[i], pressedFn, releasedFn, nil)
+    redrawBorder()
 end
 
 -- prefix + ctrl-h -> left one third
@@ -125,6 +161,7 @@ for k, v in pairs(rectMapCtrl) do
         end
     end
     prefix.bind('ctrl', k, fn)
+    redrawBorder()
 end
 
 -- prefix + shift-hjkl -> move window
@@ -147,6 +184,7 @@ for i = 1, 4 do
         moveWin()
     end
     prefix.bindMultiple('shift', arrowKeys[i], pressedFn, nil, moveWin)
+    redrawBorder()
 end
 
 -- prefix + ; -> move window to the next screen
@@ -158,6 +196,7 @@ local function getNextScreen(s)
             return all[(i - 1 + 1) % #all + 1]
         end
     end
+    redrawBorder()
     return nil
 end
 
@@ -170,6 +209,7 @@ local function moveToNextScreen()
             win:moveToScreen(nextScreen)
         end
     end
+    redrawBorder()
 end
 
 prefix.bind('', ';', moveToNextScreen)
@@ -190,6 +230,7 @@ local function expandWin(ratio)
     local nx = cx - nw / 2
     local ny = cy - nh / 2
     win:setFrame(hs.geometry.rect(nx, ny, nw, nh))
+    redrawBorder()
 end
 
 prefix.bind('', '-', function() expandWin(0.9) end)
@@ -220,6 +261,7 @@ local function expandEdge(edge, ratio)
         return
     end
     win:setFrame(hs.geometry.rect(x, y, w, h))
+    redrawBorder()
 end
 
 local edges = {'h', 'j', 'k', 'l'}
@@ -236,4 +278,5 @@ for i = 1, #edges do
         end
         prefix.bindMultiple(mod, edge, pressedFn, nil, fn)
     end
+    redrawBorder()
 end
