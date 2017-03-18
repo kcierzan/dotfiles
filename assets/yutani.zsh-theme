@@ -4,11 +4,7 @@
 # License: MIT
 # https://github-url-goes-here.com
 
-NEWLINE='
-'
-
 YUTANI_PROMPT_SYMBOL="${YUTANI_PROMPT_SYMBOL:-❯}"
-YUTANI_PROMPT_ADD_NEWLINE="${YUTANI_PROMPT_ADD_NEWLINE:-true}"
 YUTANI_PROMPT_SEPARATE_LINE="${YUTANI_PROMPT_SEPARATE_LINE:-true}"
 YUTANI_PROMPT_TRUNC="${YUTANI_PROMPT_TRUNC:-3}"
 YUTANI_PROMPT_BRACES="${YUTANI_PROMPT_BRACES:-true}"
@@ -186,8 +182,6 @@ prompt_pure_string_length_to_var() {
 
 prompt_pure_preprompt_render() {
   
-  # add a newline conditionally
-  [[ $YUTANI_PROMPT_ADD_NEWLINE == true ]] && echo -n "$NEWLINE"
 	# store the current prompt_subst setting so that it can be restored later
 	local prompt_subst_status=$options[prompt_subst]
 
