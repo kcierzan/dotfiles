@@ -90,6 +90,12 @@ Plug 'neomake/neomake'
 " Tab menu for completion
 Plug 'ervandew/supertab'
 
+" Gruvbox colorscheme
+Plug 'morhetz/gruvbox'
+
+" Automatically add ending statements
+Plug 'tpope/vim-endwise'
+
 call plug#end()
 
 " Source nvim modules
