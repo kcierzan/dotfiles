@@ -6,7 +6,7 @@
 "     /____/                                             
 
 let g:lightline = {
-      \ 'colorscheme': 'nord',
+      \ 'colorscheme': 'gruvbox',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'filename' ],
@@ -28,8 +28,6 @@ let g:lightline = {
       \ 'component_type': {
       \   'neomake': 'error',
       \ },
-      \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
       \ }
 
 function! LightlineModified()
