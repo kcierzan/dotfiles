@@ -1,34 +1,55 @@
-#      __                       ___          
-#     / /_____ ___  __  ___  __/ (_)___  ___ 
-#    / __/ __ `__ \/ / / / |/_/ / / __ \/ _ \
-#  _/ /_/ / / / / / /_/ />  </ / / / / /  __/
-# (_)__/_/ /_/ /_/\__,_/_/|_/_/_/_/ /_/\___/ 
-                                           
 # This tmux statusbar config was created by tmuxline.vim
 # on Mon, 27 Feb 2017
 
-set -g status-bg "colour8"
-set -g message-command-fg "colour7"
-set -g status-justify "left"
-set -g status-left-length "100"
-set -g status "on"
-set -g pane-active-border-fg "colour6"
-set -g message-bg "colour0"
-set -g status-right-length "100"
-set -g status-right-attr "none"
-set -g message-fg "colour7"
-set -g message-command-bg "colour0"
-set -g status-attr "none"
-set -g pane-border-fg "colour0"
-set -g status-left-attr "none"
-setw -g window-status-fg "colour7"
-setw -g window-status-attr "none"
-setw -g window-status-activity-bg "colour8"
-setw -g window-status-activity-attr "none"
-setw -g window-status-activity-fg "colour6"
+# colours for sanity:
+# 0       background
+# 1       dark red
+# 2       dark green
+# 3       dark yellow
+# 4       dark blue
+# 5       dark purple
+# 6       dark cyan
+# 7       dark gray
+# 8       dark gray
+# 9       light red
+# 10      light green
+# 11      light yellow
+# 12      light blue
+# 13      light purple
+# 14      light cyan
+# 15      foreground
+# 166     dark orange
+# 208     light orange
+# 234-245 odd - grays
+#
+# toggle statusline on/off
+bind t set status
+
+# panes
+set -g pane-border-fg colour237
+set -g pane-active-border-fg colour4
+
+# status bar design
+set -g status-justify left
+set -g status-bg colour0
+set -g status-fg colour12
+set -g status-interval 1
+
+# messaging
+set -g message-fg colour0
+set -g message-bg colour3
+set -g message-command-fg colour12
+set -g message-command-bg colour0
+
+# window mode
+setw -g mode-bg colour6
+setw -g mode-fg colour0
+
+# window status
+setw -g window-status-format '#[bg=colour0, fg=colour7] #I:#W '
+setw -g window-status-current-format '#[bg=colour0, fg=colour5] #W#[bg=colour0, fg=colour3]@#(pwd="#{pane_current_path}"; echo ${pwd####*/}) '
+setw -g window-status-current-attr bright
+set -g status-left ''
+set -g status-right ''
+# set -g status-right ' %I:%M %m/%d'
 setw -g window-status-separator ""
-setw -g window-status-bg "colour8"
-set -g status-left ""
-set -g status-right "#[fg=colour7,bg=colour0] %H:%M "
-setw -g window-status-format "#[fg=colour7,bg=colour8] #I #[fg=colour7,bg=colour8]#W "
-setw -g window-status-current-format "#[fg=colour8,bg=colour0,nobold,nounderscore]#[fg=colour7,bg=colour0] #W #[fg=colour0,bg=colour8,nobold,nounderscore]"

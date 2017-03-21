@@ -1,13 +1,13 @@
-"                     _____             _         
-"   _________  ____  / __(_)___ __   __(_)___ ___ 
-"  / ___/ __ \/ __ \/ /_/ / __ `/ | / / / __ `__ \
+"                      _____             _         
+"    _________  ____  / __(_)___ __   __(_)___ ___ 
+"   / ___/ __ \/ __ \/ /_/ / __ `/ | / / / __ `__ \
 " / /__/ /_/ / / / / __/ / /_/ /| |/ / / / / / / /
 " \___/\____/_/ /_/_/ /_/\__, (_)___/_/_/ /_/ /_/ 
 "                       /____/                    
 set splitright
 set splitbelow
-set cursorline
 set showcmd
+set termguicolors
 set noerrorbells
 
 " Allow cursor changing with tmux
@@ -23,7 +23,6 @@ autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn
 " Flag unnecessary whitespace
 au BufRead, BufNewFile *.py, *.pyw, *.c, *.h match BadWhiteSpace /\s\+$/
 
-" Set current line highlight
 
 " Set :grep to use ripgrep
 if executable("rg")
@@ -102,8 +101,13 @@ autocmd InsertChange,TextChanged,InsertLeave * update | Neomake
 let g:neomake_python_enabled_makers = ['flake8']
 
 syntax enable
-colorscheme nord
-let g:nord_italic_comments = 1
+let g:gruvbox_termcolors = 256
+let g:gruvbox_bold = 1
+let g:gruvbox_italic = 1
+let g:gitgutter_override_sign_column_highlight = 1
+colorscheme gruvbox
+set background=dark
+" let g:nord_italic_comments = 1
 
 " Set base16 theme from the commandline
 " if filereadable(expand("~/.vimrc_background"))
@@ -117,4 +121,7 @@ hi! NonText ctermbg=None
 hi! LineNr ctermbg=None
 hi! Comment cterm=italic
 
-" Denite uses ripgrep
+" configure vim-test
+let test#python#runner = "nose"
+let test#python#nose#options = "-xvs"
+let test#strategy = "neovim"

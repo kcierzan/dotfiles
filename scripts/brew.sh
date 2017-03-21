@@ -120,11 +120,25 @@ brew install tmux
 brew install node
 brew install postgresql
 brew install pyenv
+brew install pyenv-virtualenv
 brew install python
 brew install python3
 brew install reattach-to-user-namespace
 brew install ripgrep
 brew install stow
+brew install mpd
+brew install mpc
+brew install ncmpcpp
+brew install kwm
+brew install khd
+brew install thefuck
+
+# TODO: only run this if the folders don't exist
+mkdir -p ~/.kwm && cp /usr/local/opt/kwm/kwmrc ~/.kwm/kwmrc
+cp /usr/local/opt/khd/khdrc ~/.khdrc
+# To have launchd start koekeishiya/formulae/kwm now and restart at login:
+brew services start koekeishiya/formulae/kwm
+brew services start koekeishiya/formulae/khd
 
 # Install Heroku
 brew install heroku-toolbelt
@@ -135,7 +149,7 @@ brew install caskroom/cask/brew-cask
 brew tap caskroom/versions
 
 # Core casks
-brew cask install iterm2
+brew cask install iterm2-nightly
 
 # Development tool casks
 brew cask install --appdir="/Applications" virtualbox
@@ -146,15 +160,12 @@ brew cask install alfred
 brew cask install blockblock
 brew cask install docker
 brew cask install dash
-brew cask install honer
 brew cask install google-chrome
 brew cask install pycharm-ce
 brew cask install google-drive
-brew cask install slack
 brew cask install dropbox
 brew cask install transmission
 brew cask install ubersicht
-brew cask install sublime-text
 brew cask install pablodraw
 brew cask install 1password
 brew cask install flux

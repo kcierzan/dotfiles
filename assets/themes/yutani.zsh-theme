@@ -1,33 +1,90 @@
-# Pure
-# by Sindre Sorhus
-# https://github.com/sindresorhus/pure
-# MIT License
+# Yutani ZSH Theme
+#
+# Author: Kyle Cierzan
+# License: MIT
+# https://github-url-goes-here.com
 
-# For my own and others sanity
-# git:
-# %b => current branch
-# %a => current action (rebase/merge)
-# prompt:
-# %F => color dict
-# %f => reset color
-# %~ => current path
-# %* => time
-# %n => username
-# %m => shortname host
-# %(?..) => prompt conditional - %(condition.true.false)
-# terminal codes:
-# \e7   => save cursor position
-# \e[2A => move cursor 2 lines up
-# \e[1G => go to position 1 in terminal
-# \e8   => restore cursor position
-# \e[K  => clears everything after the cursor on the current line
-# \e[2K => clear everything on the current line
+YUTANI_PROMPT_SYMBOL="${YUTANI_PROMPT_SYMBOL:-❯}"
+YUTANI_PROMPT_SEPARATE_LINE="${YUTANI_PROMPT_SEPARATE_LINE:-true}"
+YUTANI_PROMPT_TRUNC="${YUTANI_PROMPT_TRUNC:-3}"
+YUTANI_PROMPT_BRACES="${YUTANI_PROMPT_BRACES:-true}"
 
+# Virtual Env
+YUTANI_VENV_SHOW="${YUTANI_VENV_SHOW:-true}"
 
 # turns seconds into human readable time
 # 165392 => 1d 21h 56m 32s
 # https://github.com/sindresorhus/pretty-time-zsh
-prompt_pure_human_time_to_var() {
+yutani_prompt_bracket_top_front() {
+  [[ $YUTANI_PROMPT_BRACES == false ]] && return
+
+  echo -n "┌["
+  echo -n "%{$reset_color%}"
+
+}
+
+yutani_prompt_bracket_top_end() {
+
+  [[ $YUTANI_PROMPT_BRACES == false ]] && return
+
+  echo -n "]"
+  echo -n "%{$reset_color%}"
+
+}
+
+yutani_prompt_bracket_lower() {
+  
+  [[ $YUTANI_PROMPT_BRACES == false ]] && return
+
+  echo -n "└───"
+  echo -n "%{$reset_color%}"
+
+}
+
+yutani_venv_name() {
+  [[ $YUTANI_VENV_SHOW == false ]] && return
+
+  # Check if the current directory running via Virtualenv
+  [ -n "$VIRTUAL_ENV" ] && $(type deactivate >/dev/null 2>&1) || return
+
+  # Do not show venv prefix if prefixes are disabled
+  [[ $YUTANI_PREFIX_SHOW == true ]] && echo -n "%B${YUTANI_PREFIX_VENV}%b" || echo -n ' '
+
+  echo -n "%{$fg_bold[blue]%}"
+  echo -n "$(basename $VIRTUAL_ENV)"
+  echo -n "%{$reset_color%}"
+}
+
+yutani_venv_prompt() {
+  [[ $YUTANI_VENV_SHOW == false ]] && return
+
+  # Check if the current directory running via Virtualenv
+  # [ -n "$VIRTUAL_ENV" ] && $(type deactivate >/dev/null 2>&1) || return
+
+  # Do not show venv prefix if prefixes are disabled
+
+  if [ -n "$VIRTUAL_ENV" ]; then
+    echo -n "%{$fg_bold[blue]%}"
+    echo -n "%{$YUTANI_PROMPT_SYMBOL%}"
+    echo -n "%{$YUTANI_PROMPT_SYMBOL%}"
+    echo -n "%{$reset_color%}"
+  else 
+    echo -n "%{$fg_bold[magenta]%}"
+    echo -n "%{$YUTANI_PROMPT_SYMBOL%}"
+    echo -n "%{$reset_color%}"
+    echo -n "%{$fg_bold[yellow]%}"
+    echo -n "%{$YUTANI_PROMPT_SYMBOL%}"
+    echo -n "%{$reset_color%}"
+  fi
+}
+
+yutani_return_status() {
+  echo -n "%(?.%{$fg[cyan]%}.%{$fg[red]%})"
+  echo -n "%B${YUTANI_PROMPT_SYMBOL}%b "
+  echo -n "%{$reset_color%}"
+}
+
+prompt_yutani_human_time_to_var() {
 	local human=" " total_seconds=$1 var=$2
 	local days=$(( total_seconds / 60 / 60 / 24 ))
 	local hours=$(( total_seconds / 60 / 60 % 24 ))
@@ -48,7 +105,7 @@ prompt_pure_check_cmd_exec_time() {
 	(( elapsed = EPOCHSECONDS - ${prompt_pure_cmd_timestamp:-$EPOCHSECONDS} ))
 	prompt_pure_cmd_exec_time=
 	(( elapsed > ${PURE_CMD_MAX_EXEC_TIME:=5} )) && {
-		prompt_pure_human_time_to_var $elapsed "prompt_pure_cmd_exec_time"
+		prompt_yutani_human_time_to_var $elapsed "prompt_pure_cmd_exec_time"
 	}
 }
 
@@ -84,24 +141,25 @@ prompt_pure_check_git_arrows() {
 	[[ -n $arrows ]] && prompt_pure_git_arrows=" ${arrows}"
 }
 
-prompt_pure_set_title() {
-	# emacs terminal does not support settings the title
-	(( ${+EMACS} )) && return
+# prompt_pure_set_title() {
+# 	# emacs terminal does not support settings the title
+# 	(( ${+EMACS} )) && return
 
-	# tell the terminal we are setting the title
-	print -n '\e]0;'
-	# show hostname if connected through ssh
-	[[ -n $SSH_CONNECTION ]] && print -Pn '(%m) '
-	case $1 in
-		expand-prompt)
-			print -Pn $2;;
-		ignore-escape)
-			print -rn $2;;
-	esac
-	# end set title
-	print -n '\a'
-}
+# 	# tell the terminal we are setting the title
+# 	print -n '\e]0;'
+# 	# show hostname if connected through ssh
+# 	[[ -n $SSH_CONNECTION ]] && print -Pn '(%m) '
+# 	case $1 in
+# 		expand-prompt)
+# 			print -Pn $2;;
+# 		ignore-escape)
+# 			print -rn $2;;
+# 	esac
+# 	# end set title
+# 	print -n '\a'
+# }
 
+# Pointless window title setting
 prompt_pure_preexec() {
 	# attempt to detect and prevent prompt_pure_async_git_fetch from interfering with user initiated git or hub fetch
 	[[ $2 =~ (git|hub)\ .*(pull|fetch) ]] && async_flush_jobs 'prompt_pure'
@@ -109,7 +167,7 @@ prompt_pure_preexec() {
 	prompt_pure_cmd_timestamp=$EPOCHSECONDS
 
 	# shows the current dir and executed command in the title while a process is active
-	prompt_pure_set_title 'ignore-escape' "$PWD:t: $2"
+	# prompt_pure_set_title 'ignore-escape' "$PWD:t: $2"
 }
 
 # string length ignoring ansi escapes
@@ -123,6 +181,7 @@ prompt_pure_string_length_to_var() {
 }
 
 prompt_pure_preprompt_render() {
+  
 	# store the current prompt_subst setting so that it can be restored later
 	local prompt_subst_status=$options[prompt_subst]
 
@@ -137,7 +196,12 @@ prompt_pure_preprompt_render() {
 	[[ -n ${prompt_pure_git_last_dirty_check_timestamp+x} ]] && git_color=red
 
 	# construct preprompt, beginning with path
-	local preprompt="┌[%F{blue}%~%f"
+  local preprompt=""
+
+	preprompt+=$(yutani_prompt_bracket_top_front)
+  preprompt+="%F{blue}%~%f"
+
+  preprompt+=$(yutani_venv_name)
 	# git info
 	preprompt+="%F{$git_color}${vcs_info_msg_0_}${prompt_pure_git_dirty}%f"
 	# git pull/push arrows
@@ -146,8 +210,8 @@ prompt_pure_preprompt_render() {
 	preprompt+=$prompt_pure_username
 	# execution time
 	preprompt+="%F{yellow}${prompt_pure_cmd_exec_time}%f"
+  preprompt+=$(yutani_prompt_bracket_top_end)
 
-  preprompt+="]"
 
   #
 	# make sure prompt_pure_last_preprompt is a global array
@@ -211,6 +275,7 @@ prompt_pure_preprompt_render() {
 	prompt_pure_last_preprompt=("$preprompt" "${(S%%)preprompt}")
 }
 
+
 prompt_pure_precmd() {
 	# check exec time and store it in a variable
 	prompt_pure_check_cmd_exec_time
@@ -223,7 +288,7 @@ prompt_pure_precmd() {
 	prompt_pure_check_git_arrows
 
 	# shows the full path in the title
-	prompt_pure_set_title 'expand-prompt' '%~'
+	# prompt_pure_set_title 'expand-prompt' '%~'
 
 	# get vcs info
 	vcs_info
@@ -327,6 +392,7 @@ prompt_pure_async_callback() {
 }
 
 prompt_pure_setup() {
+
 	# prevent percentage showing up
 	# if output doesn't end with a newline
 	export PROMPT_EOL_MARK=''
@@ -368,7 +434,14 @@ prompt_pure_setup() {
 
 	# prompt turns red if the previous command didn't exit with 0
 	# PROMPT="%(?.%F{magenta}.%F{red})${PURE_PROMPT_SYMBOL:-❯}%f "
-  PROMPT='└──%(?.%{$fg[green]%}.%{$fg[red]%})%{$fg[magenta]%}❯%{$fg[blue]%}❯%{$fg[yellow]%}❯%{$fg[cyan]%}%{$reset_color%} '
+
+# ${yutani_venv_prompt}
+  PROMPT='$(yutani_prompt_bracket_lower)$(yutani_venv_prompt)$(yutani_return_status)'
+  # TODO: Create this programmatically based on virtualenv status and last exit status
+  # PROMPT='%(?.%{$fg[green]%}.%{$fg[red]%}❯)%{$fg[magenta]%}❯%{$fg[blue]%}❯%{$fg[yellow]%}❯%{$fg[cyan]%}%{$reset_color%} '
 }
 
 prompt_pure_setup "$@"
+
+# Prompt on newline with a space after
+

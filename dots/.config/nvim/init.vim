@@ -1,4 +1,4 @@
-"    _         _  __           _          
+"    _         _  __           _           
 "   (_)____   (_)/ /_  _   __ (_)____ ___ 
 "  / // __ \ / // __/ | | / // // __ `__ \
 " / // / / // // /_ _ | |/ // // / / / / /
@@ -8,7 +8,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Use . to repeat some stuff
-Plug 'tpop/vim-repeat'
+Plug 'tpope/vim-repeat'
 
 " Automatic deliminters
 Plug 'Raimondi/delimitMate'
@@ -30,11 +30,9 @@ Plug 'Shougo/neomru.vim'
 
 " Unite all interfaces
 Plug 'Shougo/denite.nvim'
+
 " Vim Jedi for definition jumping and code navigation
 Plug 'davidhalter/jedi-vim'
-
-" Search in files
-Plug 'mileszs/ack.vim'
 
 " FZF already installed via homebrew
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -48,14 +46,8 @@ Plug 'mbbill/undotree'
 " Fancy start screen
 Plug 'mhinz/vim-startify'
 
-" Delete and close buffers without closing windows
-Plug 'moll/vim-bbye'
-
-" Lightline for more speed
+" Delet" Lightline for more speed
 Plug 'itchyny/lightline.vim'
-
-" Tmuxline
-Plug 'edkolev/tmuxline.vim'
 
 " Better looking tabs
 Plug 'mkitt/tabline.vim'
@@ -69,9 +61,6 @@ Plug 'tpope/vim-fugitive'
 "Vim Tmux navigation harmony
 Plug 'christoomey/vim-tmux-navigator'
 "
-" Interact with tmux from vim
-Plug 'benmills/vimux'
-
 " Run tests
 Plug 'janko-m/vim-test'
 
@@ -89,6 +78,18 @@ Plug 'neomake/neomake'
 
 " Tab menu for completion
 Plug 'ervandew/supertab'
+
+" Gruvbox colorscheme
+Plug 'morhetz/gruvbox'
+
+" Automatically add ending statements
+Plug 'tpope/vim-endwise'
+
+" NERD Tree
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
+" spacemacs (locally managed)
+Plug '~/.local/share/nvim/plugged/spacemacs-vim'
 
 call plug#end()
 
