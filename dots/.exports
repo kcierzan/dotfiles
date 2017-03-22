@@ -17,5 +17,6 @@ export PYENV_ROOT=/usr/local/var/pyenv
 # Set terminal colors if tmux is enabled
 # export TERM=tmux-256color
 
-ZSH_HIGHLIGHT_STYLES[path]=none
+# ZSH_HIGHLIGHT_STYLES[path]=none
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+export YUTANI_PROMPT_BRACES=false

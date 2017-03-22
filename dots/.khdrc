@@ -145,26 +145,25 @@ khd mode default color 0xff458588
 khd mode switcher color 0xffd79921
 # red
 # khd mode ytd color 0xffcc421d
-# yellow
+# red
 khd mode swap color 0xffcc421d
 # green
 khd mode tree color 0xff98971a
 # purple
 khd mode space color 0xffb16286
-
-# wut
+# wtf is this?
 khd mode info color 0xddcd950c
 
 
 
 # toggle between modes
-lalt - space                :   khd -e "mode activate switcher"
-switcher + lalt - space     :   khd -e "mode activate default"
-ytd + lalt - space          :   khd -e "mode activate default"
-swap + lalt - space         :   khd -e "mode activate default"
-space + lalt - space        :   khd -e "mode activate default"
-tree + lalt - space         :   khd -e "mode activate default"
-info + lalt - space         :   khd -e "mode activate default"
+lctrl - space                :   khd -e "mode activate switcher"
+switcher + lctrl - space     :   khd -e "mode activate default"
+ytd + lctrl - space          :   khd -e "mode activate default"
+swap + lctrl - space         :   khd -e "mode activate default"
+space + lctrl - space        :   khd -e "mode activate default"
+tree + lctrl - space         :   khd -e "mode activate default"
+info + lctrl - space         :   khd -e "mode activate default"
 
 # What does this do?
 # switcher - w            :   khd -e "mode activate ytd"
@@ -270,16 +269,16 @@ space - y               :   kwmc space -g increase vertical
 space + shift - x       :   kwmc space -g decrease horizontal
 space + shift - y       :   kwmc space -g decrease vertical
 
-space - h            :   kwmc space -p increase left
-space - l           :   kwmc space -p increase right
-space - k              :   kwmc space -p increase top
-space - j            :   kwmc space -p increase bottom
+space - h               :   kwmc space -p increase left
+space - l               :   kwmc space -p increase right
+space - k               :   kwmc space -p increase top
+space - j               :   kwmc space -p increase bottom
 space - p               :   kwmc space -p increase all
 
-space + shift - h    :   kwmc space -p decrease left
-space + shift - l   :   kwmc space -p decrease right
-space + shift - k      :   kwmc space -p decrease top
-space + shift - j    :   kwmc space -p decrease bottom
+space + shift - h       :   kwmc space -p decrease left
+space + shift - l       :   kwmc space -p decrease right
+space + shift - k       :   kwmc space -p decrease top
+space + shift - j       :   kwmc space -p decrease bottom
 space + shift - p       :   kwmc space -p decrease all
 
 
