@@ -7,15 +7,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # time that oh-my-zsh is loaded.
 
 # Clean themes are best themes
-ZSH_THEME="spaceship"
-SPACESHIP_RUBY_SHOW=false
-SPACESHIP_PROMPT_SYMBOL="☾"
-
-if [ which pyenv > /dev/null ] && [ eval "$(pyenv version | awk '{$1;}')" == "system" ];then
-  SPACESHIP_PYENV_SHOW=false
-else
-  SPACESHIP_PYENV_SHOW=true
-fi
+ZSH_THEME="yutani"
 
 # Uncomment the following line to use case-sensitive completion.
 #
@@ -59,14 +51,15 @@ DISABLE_AUTO_TITLE="true"
 # Include fasd for all the dank jumping
 eval "$(fasd --init auto)"
 
+# Correct previous console commands
+eval "$(thefuck --alias)"
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(warhol fasd git docker pip osx httpie tmux zsh-syntax-highlighting zsh-syntax-highlighting-filetypes)
-
-
-# Disable path highlighting
+# plugins=(fasd git docker pip osx httpie tmux zsh-syntax-highlighting colored-man-pages thefuck)
+plugins=()
 
 # User configuration
 DEFAULT_USER="Kyle"
@@ -78,6 +71,7 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
+# Disable path highlighting
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -94,9 +88,29 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 # fzf initialization
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Base16 shell switcher
+# Base16 shell colors
 # BASE16_SHELL=$HOME/.config/base16-shell/
 # [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+# Run zplug
+export ZPLUG_HOME="/usr/local/opt/zplug"
+source $ZPLUG_HOME/init.zsh
+
+# ------------ ZPLUG ------------------------
+zplug "plugins/git",                     from:oh-my-zsh
+zplug "plugins/fasd",                    from:oh-my-zsh
+zplug "plugins/docker",                  from:oh-my-zsh
+zplug "plugins/pip",                     from:oh-my-zsh
+zplug "plugins/osx",                     from:oh-my-zsh
+zplug "plugins/httpie",                  from:oh-my-zsh
+zplug "plugins/tmux",                    from:oh-my-zsh
+zplug "plugins/colored-man-pages",       from:oh-my-zsh
+zplug "plugins/thefuck",                 from:oh-my-zsh
+zplug "unixorn/warhol.plugin.zsh"
+zplug "zsh-users/zsh-syntax-highlighting"
+
+# Disable dumb underline links
+# ZSH_HIGHLIGHT_STYLES[path]=none
 
 # Source additional dotfiles
 source ~/.exports

@@ -164,6 +164,7 @@ function codepoint() {
 
 # Show all the names (CNs and SANs) listed in the SSL certificate
 # for a given domain
+
 function getcertnames() {
     if [ -z "${1}" ]; then
         echo "ERROR: No domain specified.";
@@ -241,7 +242,7 @@ function fh() {
 }
 
 # fuzzy cd to directory
-fd() {
+function fd() {
     local dir
     dir=$(find ${1:-.} -path '*/\.*' -prune \
                -o -type d -print 2> /dev/null | fzf +m) &&
@@ -249,7 +250,7 @@ fd() {
 }
 
 # cd to directory (hidden directories included)
-fda() {
+function fda() {
     local dir
     dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
 }
@@ -257,7 +258,7 @@ fda() {
 # Modified fuzzy open where you can press
 #   - CTRL-O to open with `open` command,
 #   - CTRL-E or Enter key to open with the $EDITOR
-fo() {
+function fo() {
     local out file key
     IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
     key=$(head -1 <<< "$out")
@@ -268,12 +269,13 @@ fo() {
 }
 
 # Search the colo
-searchcsh () {
+function searchcsh () {
     for domainname in colo.lair int.prd.csh lbl.prd.csh svc.prd.csh int.csh lbl.csh svc.csh int.stg.csh lbl.stg.csh svc.stg.csh int.tst.csh lbl.tst.csh ; do
         dig -t AXFR $domainname | grep -v ";"
     done
 }
 
-wttr () {
+# Get the weather ascii-style
+function wttr () {
     curl http://wttr.in/$1
 }
