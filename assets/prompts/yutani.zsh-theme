@@ -55,15 +55,15 @@ yutani_venv_prompt() {
 
   if [ -n "$VIRTUAL_ENV" ]; then
     echo -n "%{$fg_bold[blue]%}"
-    echo -n "%{$YUTANI_PROMPT_SYMBOL%}"
-    echo -n "%{$YUTANI_PROMPT_SYMBOL%}"
+    echo -n "%{$YUTANI_PROMPT_SYMBOL%} "
+    echo -n "%{$YUTANI_PROMPT_SYMBOL%} "
     echo -n "%{$reset_color%}"
   else 
     echo -n "%{$fg_bold[magenta]%}"
-    echo -n "%{$YUTANI_PROMPT_SYMBOL%}"
+    echo -n "%{$YUTANI_PROMPT_SYMBOL%} "
     echo -n "%{$reset_color%}"
     echo -n "%{$fg_bold[yellow]%}"
-    echo -n "%{$YUTANI_PROMPT_SYMBOL%}"
+    echo -n "%{$YUTANI_PROMPT_SYMBOL%} "
     echo -n "%{$reset_color%}"
   fi
 }
