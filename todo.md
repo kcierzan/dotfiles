@@ -4,24 +4,37 @@
     * Add updated pycharm nord theme
 
   ## Personal
+    * add nerdbar to repo
     * neovim config:
-      * reconcile bindings with pycharm (spacevim)
-      * configure denite to do something useful
-      * add nerdtree?
-      * add lightline separators
-    * update kwm/khd config
-    * install zplug
-    * install zsh plugins
-    * improve tmux config
-    * install mutt
-    * begin lightline theme for spacemacs theme
-    * create script for theme switching
-    * configure ranger
+      * configure denite
+      * add custom lightline separators
+    * create script for theme switching (ansible?)
     * install weechat
-    * configure mpd
-    * configure ncmpcpp
-    * Get ncmpcpp widget working
-    * Style ncmcpp widget
+    * configure ncmpcpp widget
+
+  # Colorschemes
+    * Solarized
+    * Paraiso
+    * Gruvbox
+    * Nord
+    * Spacemacs
+    * Onedark
+    * Zenburn
+
+  # Fonts
+    * Hack
+    * Operator
+    * Pragmata
+    * Input
+    * Fira
+    * Gohu
+
+  # Themed Files
+    * iTerm2
+    * Vim
+    * Lightline
+    * Pycharm
+    * tmuxline-theme
 
   # antergos
     * i3 gaps
