@@ -1,46 +1,28 @@
-# Customization todos
-  ## Aweber
-    * Export updated pycharm nord theme
-    * Add updated pycharm nord theme
+# Todo:
+  1. Create lightline themes for colorschemes/fonts
+  2. Add tweaked pycharm themes from work laptop
+  3. Create ansible script for theme switching/dotfile setup
+  4. Configure/reinstall mutt
+  5. Configure ncmpcpp
+  6. Install/configure weechat
+  7. Install/configure newsbeuter
+  8. Install awesome additional cli apps
 
-  ## Personal
-    * add nerdbar to repo
-    * neovim config:
-      * configure denite
-      * add custom lightline separators
-    * create script for theme switching (ansible?)
-    * install weechat
-    * configure ncmpcpp widget
+# Colorschemes
+  * Solarized
+  * Paraiso
+  * Gruvbox
+  * Nord
+  * Spacemacs
+  * Onedark
+  * Zenburn
 
-  # Colorschemes
-    * Solarized
-    * Paraiso
-    * Gruvbox
-    * Nord
-    * Spacemacs
-    * Onedark
-    * Zenburn
+# antergos config todo
+  * i3 gaps
+  * compton
+  * rofi
+  * lemonbar
+  * qutebrowser
+  * newsbeuter
+  * urxvt
 
-  # Fonts
-    * Hack
-    * Operator
-    * Pragmata
-    * Input
-    * Fira
-    * Gohu
-
-  # Themed Files
-    * iTerm2
-    * Vim
-    * Lightline
-    * Pycharm
-    * tmuxline-theme
-
-  # antergos
-    * i3 gaps
-    * compton
-    * rofi
-    * lemonbar
-    * qutebrowser
-    * newsbeuter
-    * urxvt
