@@ -52,9 +52,6 @@ Plug 'itchyny/lightline.vim'
 " Better looking tabs
 Plug 'mkitt/tabline.vim'
 
-" Nord colorscheme
-Plug 'arcticicestudio/nord-vim'
-
 " Git Wrapper
 Plug 'tpope/vim-fugitive'
 
@@ -79,17 +76,32 @@ Plug 'neomake/neomake'
 " Tab menu for completion
 Plug 'ervandew/supertab'
 
-" Gruvbox colorscheme
-Plug 'morhetz/gruvbox'
-
 " Automatically add ending statements
 Plug 'tpope/vim-endwise'
 
 " NERD Tree
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-" spacemacs (locally managed)
-Plug '~/.local/share/nvim/plugged/spacemacs-vim'
+" spacemacs theme
+Plug 'colepeters/spacemacs-theme.vim'
+
+" Gruvbox colorscheme
+Plug 'morhetz/gruvbox'
+
+" Nord colorscheme
+Plug 'arcticicestudio/nord-vim'
+
+" Solarized colorscheme
+Plug 'altercation/vim-colors-solarized'
+
+" Onedark colorscheme
+Plug 'rakr/vim-one'
+
+" Zenburn colorscheme
+Plug 'jnurmine/Zenburn'
+
+" Base16 colorschemes (paraiso)
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
