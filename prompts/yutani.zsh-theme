@@ -8,7 +8,8 @@ YUTANI_PROMPT_SYMBOL="${YUTANI_PROMPT_SYMBOL:-❯}"
 YUTANI_PROMPT_SEPARATE_LINE="${YUTANI_PROMPT_SEPARATE_LINE:-true}"
 YUTANI_PROMPT_TRUNC="${YUTANI_PROMPT_TRUNC:-3}"
 YUTANI_PROMPT_BRACES="${YUTANI_PROMPT_BRACES:-true}"
-
+YUTANI_PREFIX_VENV="${YUTANI_VENV_SHOW:-via}"
+YUTANI_PREFIX_SHOW="${YUTANI_VENV_SHOW:-false}"
 # Virtual Env
 YUTANI_VENV_SHOW="${YUTANI_VENV_SHOW:-true}"
 
@@ -21,6 +22,7 @@ yutani_prompt_bracket_top_front() {
 }
 
 yutani_prompt_bracket_top_end() {
+
   [[ $YUTANI_PROMPT_BRACES == false ]] && return
 
   echo -n "]"
@@ -29,6 +31,7 @@ yutani_prompt_bracket_top_end() {
 }
 
 yutani_prompt_bracket_lower() {
+  
   [[ $YUTANI_PROMPT_BRACES == false ]] && return
 
   echo -n "└───"
@@ -45,38 +48,31 @@ yutani_venv_name() {
   # Do not show venv prefix if prefixes are disabled
   [[ $YUTANI_PREFIX_SHOW == true ]] && echo -n "%B${YUTANI_PREFIX_VENV}%b" || echo -n ' '
 
-  echo -n "%{$fg_bold[blue]%}"
-  echo -n "$(basename $VIRTUAL_ENV)"
+  echo -n "%F{cyan}%B[$(basename $VIRTUAL_ENV)]%b%f"
   echo -n "%{$reset_color%}"
 }
 
 yutani_venv_prompt() {
   [[ $YUTANI_VENV_SHOW == false ]] && return
 
+
   if [ -n "$VIRTUAL_ENV" ]; then
-    echo -n "%{$fg_bold[blue]%}"
-    echo -n "%{$YUTANI_PROMPT_SYMBOL%} "
-    echo -n "%{$YUTANI_PROMPT_SYMBOL%} "
+    echo -n "%F{blue}${YUTANI_PROMPT_SYMBOL%f}"
+    echo -n "%F{blue}${YUTANI_PROMPT_SYMBOL%f}"
     echo -n "%{$reset_color%}"
   else 
-    echo -n "%{$fg_bold[magenta]%}"
-    echo -n "%{$YUTANI_PROMPT_SYMBOL%} "
+    echo -n "%F{yellow}${YUTANI_PROMPT_SYMBOL%f}"
     echo -n "%{$reset_color%}"
-    echo -n "%{$fg_bold[yellow]%}"
-    echo -n "%{$YUTANI_PROMPT_SYMBOL%} "
+    echo -n "%F{magenta}${YUTANI_PROMPT_SYMBOL%f}"
     echo -n "%{$reset_color%}"
   fi
 }
 
 yutani_return_status() {
-  echo -n "%(?.%{$fg[cyan]%}.%{$fg[red]%})"
-  echo -n "%B${YUTANI_PROMPT_SYMBOL}%b "
+  echo -n "%(?.%{%F{cyan}${YUTANI_PROMPT_SYMBOL%f}.%{%F{red}${YUTANI_PROMPT_SYMBOL%f}) "
   echo -n "%{$reset_color%}"
 }
 
-# turns seconds into human readable time
-# 165392 => 1d 21h 56m 32s
-# https://github.com/sindresorhus/pretty-time-zsh
 prompt_yutani_human_time_to_var() {
 	local human=" " total_seconds=$1 var=$2
 	local days=$(( total_seconds / 60 / 60 / 24 ))
@@ -152,9 +148,10 @@ prompt_yutani_check_git_arrows() {
 # 	print -n '\a'
 # }
 
+# Pointless window title setting
 prompt_yutani_preexec() {
-	# attempt to detect and prevent prompt_yutani_async_git_fetch from interfering with user initiated git or hub fetch
-	[[ $2 =~ (git|hub)\ .*(pull|fetch) ]] && async_flush_jobs 'prompt_yutani'
+	# attempt to detect and prevent prompt_pure_async_git_fetch from interfering with user initiated git or hub fetch
+	[[ $2 =~ (git|hub)\ .*(pull|fetch) ]] && async_flush_jobs 'prompt_pure'
 
 	prompt_yutani_cmd_timestamp=$EPOCHSECONDS
 
@@ -191,7 +188,7 @@ prompt_yutani_preprompt_render() {
   local preprompt=""
 
 	preprompt+=$(yutani_prompt_bracket_top_front)
-  preprompt+="%F{blue}%~%f"
+  preprompt+="%B%F{blue}%~%f%b"
 
   preprompt+=$(yutani_venv_name)
 	# git info
@@ -422,7 +419,6 @@ prompt_yutani_setup() {
 	# show username@host if root, with username in white
 	[[ $UID -eq 0 ]] && prompt_yutani_username=' %F{white}%n%f%F{242}@%m%f'
 
-  # ${yutani_venv_prompt}
   PROMPT='$(yutani_prompt_bracket_lower)$(yutani_venv_prompt)$(yutani_return_status)'
 }
 
