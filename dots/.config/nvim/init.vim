@@ -1,4 +1,4 @@
-"    _         _  __           _           
+"    _         _  __           _          
 "   (_)____   (_)/ /_  _   __ (_)____ ___ 
 "  / // __ \ / // __/ | | / // // __ `__ \
 " / // / / // // /_ _ | |/ // // / / / / /
@@ -46,8 +46,14 @@ Plug 'mbbill/undotree'
 " Fancy start screen
 Plug 'mhinz/vim-startify'
 
-" Delet" Lightline for more speed
+" Delete and close buffers without closing windows
+Plug 'moll/vim-bbye'
+
+" Lightline for more speed
 Plug 'itchyny/lightline.vim'
+
+" Tmuxline
+Plug 'edkolev/tmuxline.vim'
 
 " Better looking tabs
 Plug 'mkitt/tabline.vim'
@@ -58,6 +64,9 @@ Plug 'tpope/vim-fugitive'
 "Vim Tmux navigation harmony
 Plug 'christoomey/vim-tmux-navigator'
 "
+" Interact with tmux from vim
+Plug 'benmills/vimux'
+
 " Run tests
 Plug 'janko-m/vim-test'
 
@@ -76,32 +85,54 @@ Plug 'neomake/neomake'
 " Tab menu for completion
 Plug 'ervandew/supertab'
 
-" Automatically add ending statements
-Plug 'tpope/vim-endwise'
-
-" NERD Tree
+" Load nerdtree on demand
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-" spacemacs theme
-Plug 'colepeters/spacemacs-theme.vim'
+" Automagically add ending statements
+Plug 'tpope/endwise'
 
-" Gruvbox colorscheme
-Plug 'morhetz/gruvbox'
-
-" Nord colorscheme
-Plug 'arcticicestudio/nord-vim'
-
-" Solarized colorscheme
+" ============ COLORSCHEMES =============
+" Solarized
 Plug 'altercation/vim-colors-solarized'
 
-" Onedark colorscheme
+" Nord 
+Plug 'arcticicestudio/nord-vim'
+ 
+" Gruvbox 
+Plug 'morhetz/gruvbox'
+
+" Japanesque
+Plug 'aereal/vim-colors-japanesque'
+
+" Dracula
+Plug 'crusoexia/vim-dracula'
+
+" Ashes/Paraiso 
+Plug 'chriskempson/base16-vim'
+
+" Spacemacs Dark
+Plug 'liuchengxu/space-vim-dark'
+
+" One Light/Dark
 Plug 'rakr/vim-one'
 
-" Zenburn colorscheme
-Plug 'jnurmine/Zenburn'
+" Flatland
+Plug 'vivkin/flatland.vim'
 
-" Base16 colorschemes (paraiso)
-Plug 'chriskempson/base16-vim'
+" OceanicNext
+Plug 'mhartington/oceanic-next'
+
+"Birds of Paradise
+Plug 'ronny/birds-of-paradise.vim'
+
+" Ayu Light/Dark
+Plug 'ayu-theme/ayu-vim'
+
+" Monokai Soda
+Plug 'dunckr/vim-monokai-soda'
+
+" Seashells
+Plug 'vim-scripts/seashell'
 
 call plug#end()
 
