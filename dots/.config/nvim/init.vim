@@ -89,7 +89,10 @@ Plug 'ervandew/supertab'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 " Automagically add ending statements
-Plug 'tpope/endwise'
+Plug 'tpope/vim-endwise'
+
+" indent lines
+Plug 'Yggdroot/indentLine'
 
 " ============ COLORSCHEMES =============
 " Solarized

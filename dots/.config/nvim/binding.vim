@@ -10,7 +10,6 @@
   let mapleader = "\<Space>"
   tnoremap <Esc> <C-\><C-n>
 
-
 " -----Finding-------------------
   " Clean search highlight
   nnoremap <Leader>sc :noh<CR>
@@ -35,7 +34,16 @@
   nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
   nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
   nnoremap <silent> <M-b> :TmuxNavigatePrevious<cr>
- 
+  " H and L move to start and end of lines
+  nmap L <Nop>
+  nmap H <Nop>
+  vmap L <Nop>
+  vmap H <Nop>
+  nnoremap L $
+  nnoremap H ^
+  vnoremap L $
+  vnoremap H ^
+  
 " -----Code Navigation-----------
   " Go to definition
   let g:jedi#goto_command = "<leader>ngd"
@@ -60,6 +68,10 @@
   function! s:my_cr_function() abort
     return deoplete#close_popup() . "\<CR>"
   endfunction
+  " create splits
+  nnoremap <leader>wvs :vsp<CR>
+  nnoremap <leader>whs :sp<CR>
+  nnoremap <leader>wsi :IndentLinesToggle<CR>
 
 "--------Project-----------------
   " Source dotfile

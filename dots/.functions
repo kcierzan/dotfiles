@@ -1,24 +1,6 @@
 # the new cd
 function cl(){ cd "$@" && la; }
 
-# Simple calculator
-function calc() {
-    local result="";
-    result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')";
-    #                       └─ default (when `--mathlib` is used) is 20
-    #
-    if [[ "$result" == *.* ]]; then
-        # improve the output for decimal numbers
-        printf "$result" |
-        sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
-            -e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
-            -e 's/0*$//;s/\.$//';  # remove trailing zeros
-    else
-        printf "$result";
-    fi;
-    printf "\n";
-}
-
 # Create a new directory and enter it
 function mkd() {
     mkdir -p "$@" && cd "$_";
@@ -32,34 +14,6 @@ function relpath() {
 # Change working directory to the top-most Finder window location
 function cdf() { # short for `cdfinder`
     cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
-}
-
-# Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
-function targz() {
-    local tmpFile="${@%/}.tar";
-    tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1;
-
-    size=$(
-        stat -f"%z" "${tmpFile}" 2> /dev/null; # OS X `stat`
-        stat -c"%s" "${tmpFile}" 2> /dev/null # GNU `stat`
-    );
-
-    local cmd="";
-    if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
-        # the .tar file is smaller than 50 MB and Zopfli is available; use it
-        cmd="zopfli";
-    else
-        if hash pigz 2> /dev/null; then
-            cmd="pigz";
-        else
-            cmd="gzip";
-        fi;
-    fi;
-
-    echo "Compressing .tar using \`${cmd}\`…";
-    "${cmd}" -v "${tmpFile}" || return 1;
-    [ -f "${tmpFile}" ] && rm "${tmpFile}";
-    echo "${tmpFile}.gz created successfully.";
 }
 
 # Determine size of a file or total size of a directory
@@ -100,15 +54,6 @@ function gitio() {
         return 1;
     fi;
     curl -i http://git.io/ -F "url=${2}" -F "code=${1}";
-}
-
-# Start an HTTP server from a directory, optionally specifying the port
-function server() {
-    local port="${1:-8000}";
-    sleep 1 && open "http://localhost:${port}/" &
-    # Set the default Content-Type to `text/plain` instead of `application/octet-stream`
-    # And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
-    python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port";
 }
 
 # Compare original and gzipped file size
@@ -164,7 +109,6 @@ function codepoint() {
 
 # Show all the names (CNs and SANs) listed in the SSL certificate
 # for a given domain
-
 function getcertnames() {
     if [ -z "${1}" ]; then
         echo "ERROR: No domain specified.";
@@ -242,7 +186,7 @@ function fh() {
 }
 
 # fuzzy cd to directory
-function fd() {
+fd() {
     local dir
     dir=$(find ${1:-.} -path '*/\.*' -prune \
                -o -type d -print 2> /dev/null | fzf +m) &&
@@ -250,7 +194,7 @@ function fd() {
 }
 
 # cd to directory (hidden directories included)
-function fda() {
+fda() {
     local dir
     dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
 }
@@ -258,7 +202,7 @@ function fda() {
 # Modified fuzzy open where you can press
 #   - CTRL-O to open with `open` command,
 #   - CTRL-E or Enter key to open with the $EDITOR
-function fo() {
+fo() {
     local out file key
     IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
     key=$(head -1 <<< "$out")
@@ -269,13 +213,27 @@ function fo() {
 }
 
 # Search the colo
-function searchcsh () {
+searchcsh () {
     for domainname in colo.lair int.prd.csh lbl.prd.csh svc.prd.csh int.csh lbl.csh svc.csh int.stg.csh lbl.stg.csh svc.stg.csh int.tst.csh lbl.tst.csh ; do
         dig -t AXFR $domainname | grep -v ";"
     done
 }
 
-# Get the weather ascii-style
-function wttr () {
+wttr () {
     curl http://wttr.in/$1
 }
+
+# Learn awk pleb...
+# sssh(){
+#   server=($(searchcsh | fzf --reverse -m))
+#   # Adding the ability to specify a user if need be
+#   # otherwise we'll use the current user
+#   if [[ ${#server[@]} -eq 1 ]] then
+#     ssh ${server[@]}
+#   elif [[ ${#server[@]} > 1 ]] then
+#     echo "$server"
+#     echo "Multi ssh not implemented yet..."
+#   else
+#     echo "Nothing Chosen..."
+#   fi
+# }
