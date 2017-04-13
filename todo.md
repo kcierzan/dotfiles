@@ -39,6 +39,41 @@
   16. Monokai Soda
   17. Seashells
 
+# Create colorschemes
+  * jetbrains
+    * Gruxbox light
+    * One light
+    * Spacemacs dark
+    * Spacemacs light
+    * Japanesque
+    * Ashes
+    * Flatland
+    * Ayu light
+    * Ayu dark
+    * Seashells
+    * Belafonte
+  * vim
+    * Ashes (local)
+    * Paraiso light (local)
+    * Paraiso dark (local)
+    * Spacemacs light
+  * lightline
+    * Dracula
+    * Solarized*
+    * Paraiso*
+    * Gruvbox*
+    * Spacemacs*
+    * One*
+    * Japanesque
+    * Ashes
+    * Flatland
+    * Oceanic Next
+    * Belafonte
+    * Birds of Paradise
+    * Ayu*
+    * Monokai Soda
+    * Seashells
+
 # antergos config todo
   * i3 gaps
   * compton
