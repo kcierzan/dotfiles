@@ -1,13 +1,12 @@
-"                      _____             _         
-"    _________  ____  / __(_)___ __   __(_)___ ___ 
-"   / ___/ __ \/ __ \/ /_/ / __ `/ | / / / __ `__ \
+"                     _____             _         
+"   _________  ____  / __(_)___ __   __(_)___ ___ 
+"  / ___/ __ \/ __ \/ /_/ / __ `/ | / / / __ `__ \
 " / /__/ /_/ / / / / __/ / /_/ /| |/ / / / / / / /
 " \___/\____/_/ /_/_/ /_/\__, (_)___/_/_/ /_/ /_/ 
 "                       /____/                    
 set splitright
 set splitbelow
 set showcmd
-set termguicolors
 set noerrorbells
 
 " Allow cursor changing with tmux
@@ -23,6 +22,7 @@ autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn
 " Flag unnecessary whitespace
 au BufRead, BufNewFile *.py, *.pyw, *.c, *.h match BadWhiteSpace /\s\+$/
 
+" Set current line highlight
 
 " Set :grep to use ripgrep
 if executable("rg")
@@ -31,7 +31,7 @@ if executable("rg")
 endif
 
 " Start scrolling 3 lines before horizontal border
-set scrolloff=5
+set scrolloff=3
 
 " Set a persistent undo file
 set undodir=~/.config/nvim/undo
@@ -101,19 +101,18 @@ autocmd InsertChange,TextChanged,InsertLeave * update | Neomake
 let g:neomake_python_enabled_makers = ['flake8']
 
 syntax enable
-let g:gruvbox_termcolors = 256
-let g:gruvbox_bold = 1
-let g:gruvbox_italic = 1
-let g:gitgutter_override_sign_column_highlight = 1
-colorscheme gruvbox
+let g:nord_italic_comments = 1
 set background=dark
-" let g:nord_italic_comments = 1
-
+" let ayucolor="mirage"
+" let g:solarized_termcolors=256
+colorscheme nord
+set termguicolors
 " Set base16 theme from the commandline
 " if filereadable(expand("~/.vimrc_background"))
 "   source ~/.vimrc_background
 " endif
 
+" set cursorline
 " Fix colors and enable transparency in terminal
 hi! EndOfBuffer ctermbg=None
 hi Normal guibg=NONE ctermbg=NONE
@@ -121,7 +120,8 @@ hi! NonText ctermbg=None
 hi! LineNr ctermbg=None
 hi! Comment cterm=italic
 
-" configure vim-test
-let test#python#runner = "nose"
-let test#python#nose#options = "-xvs"
-let test#strategy = "neovim"
+" indent line config
+let g:indentLine_char = '│'
+let g:indentLine_first_char = '│'
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_setColors = 1

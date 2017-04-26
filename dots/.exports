@@ -1,9 +1,8 @@
-#                                 __      
-#     ___  _  ______  ____  _____/ /______
-#    / _ \| |/_/ __ \/ __ \/ ___/ __/ ___/
-#  _/  __/>  </ /_/ / /_/ / /  / /_(__  ) 
-# (_)___/_/|_/ .___/\____/_/   \__/____/  
-#           /_/                        
+# --files: List files that would be searched but do not search
+# --no-ignore: Do not respect .gitignore, etc...
+# --hidden: Search hidden files and folders
+# --follow: Follow symlinks
+# --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 
 # Configure fzf to use rg
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
@@ -17,6 +16,25 @@ export PYENV_ROOT=/usr/local/var/pyenv
 # Set terminal colors if tmux is enabled
 # export TERM=tmux-256color
 
-# ZSH_HIGHLIGHT_STYLES[path]=none
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-export YUTANI_PROMPT_BRACES=false
+# disbale underlining paths with zsh syntax highlighting
+ZSH_HIGHLIGHT_STYLES[path]=none
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(ssh root_indicator dir vcs virtualenv pyenv)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)
+POWERLEVEL9K_DIR_DEFAULT_BACKGROUND='004'
+POWERLEVEL9K_DIR_HOME_BACKGROUND='004'
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND='004'
+POWERLEVEL9K_BATTERY_VERBOSE='false'
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+POWERLEVEL9K_SHORTEN_STRATEGY='truncate_from_right'
+POWERLEVEL9K_SHORTEN_DELIMITER=''
+POWERLEVEL9K_VCS_CLEAN_BACKGROUND='002'
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='005'
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='011'
+POWERLEVEL9K_PROMPT_ADD_NEWLINE='true'
+POWERLEVEL9K_PROMPT_ON_NEWLINE='true'
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
+POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX=$'%F{magenta}\uf054 %f'
+
+# Set up prompt
+# export VIRTUAL_ENV_DISABLE_PROMPT=1

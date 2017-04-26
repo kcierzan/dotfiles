@@ -204,7 +204,7 @@ fda() {
 #   - CTRL-E or Enter key to open with the $EDITOR
 fo() {
     local out file key
-    IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
+    IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0  --expect=ctrl-o,ctrl-e --preview "pygmentize -g {}"))
     key=$(head -1 <<< "$out")
     file=$(head -2 <<< "$out" | tail -1)
     if [ -n "$file" ]; then
@@ -223,17 +223,33 @@ wttr () {
     curl http://wttr.in/$1
 }
 
-# Learn awk pleb...
-# sssh(){
-#   server=($(searchcsh | fzf --reverse -m))
-#   # Adding the ability to specify a user if need be
-#   # otherwise we'll use the current user
-#   if [[ ${#server[@]} -eq 1 ]] then
-#     ssh ${server[@]}
-#   elif [[ ${#server[@]} > 1 ]] then
-#     echo "$server"
-#     echo "Multi ssh not implemented yet..."
-#   else
-#     echo "Nothing Chosen..."
-#   fi
-# }
+termcol () {
+  for code ({000..255}) print -P -- "$code: %F{$code}Isn't this a fun color?%f"
+}
+
+cless () {
+  pygmentize -g $1 | less -r
+}
+
+tree () {
+  exa -lah --group-directories-first -T -L $1
+}
+
+awpip () {
+  pip install -r $1 -i https://pypi.python.org/simple --extra-index-url http://pypi.colo.lair/simple --trusted-host pypi.colo.lair/simple
+}
+
+rgf () {
+  rg -g $1 -uu --files
+}
+
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --header "Press CTRL-S to toggle sort" \
+      --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+                 xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
+      --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+              xargs -I % sh -c 'vim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
+}

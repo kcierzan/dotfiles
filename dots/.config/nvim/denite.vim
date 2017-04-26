@@ -1,8 +1,9 @@
+" 
 "        __           _ __             _         
 "   ____/ /__  ____  (_) /____  _   __(_)___ ___ 
 "  / __  / _ \/ __ \/ / __/ _ \| | / / / __ `__ \
 " / /_/ /  __/ / / / / /_/  __/| |/ / / / / / / /
-" \__,_/\___/_/ /_/_/\__/\___(_)___/_/_/ /_/ /_/ 
+" \____/\___/_/ /_/_/\__/\___(_)___/_/_/ /_/ /_/ 
                                               
 autocmd FileType unite call s:uniteinit()
   function! s:uniteinit()
@@ -20,14 +21,11 @@ autocmd FileType unite call s:uniteinit()
 
     endfunction
 
-  call denite#custom#option('default', 'prompt', '☾')
+  call denite#custom#option('default', 'prompt', '❯')
 
-  call denite#custom#source(
-	\ 'file_rec', 'vars', {
-	\   'command': [
-  \      'ag', '--follow','--nogroup','--hidden', '-g', '', '--ignore', '.git', '--ignore', '*.png'
-	\   ] })
   let s:menus = {}
+  call denite#custom#var('file_rec', 'command', 
+      \ ['rg', '--files','--hidden', '--glob', '!.git', ''])
 	call denite#custom#var('grep', 'command', ['rg'])
 	call denite#custom#var('grep', 'default_opts',
 			\ ['--vimgrep', '--no-heading'])
@@ -46,6 +44,7 @@ autocmd FileType unite call s:uniteinit()
   nnoremap <silent> <leader>h :Denite  help<CR>
   nnoremap <silent> <leader>c :Denite colorscheme<CR>
   nnoremap <silent> <leader>b :Denite buffer<CR>
+  nnoremap <silent> <leader>l :Denite line<CR>
   call denite#custom#map(
       \ 'insert',
       \ '<C-n>',
@@ -100,7 +99,3 @@ autocmd FileType unite call s:uniteinit()
     \[' git prompt', 'exe "Git! " input("command: ")'],
     \] " Append ' --' after log to get commit info commit buffers
   
-" Denite uses ripgrep
-" call denite#custom#var('file_rec', 'command',
-"       \ ['rg', '--files', '--glob', '!.git', ''])
-

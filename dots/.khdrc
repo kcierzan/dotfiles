@@ -138,21 +138,29 @@ khd kwm on
 
 
 
-# set border color for different modes
+# set border color for different modes (ayu)
 # blue
-khd mode default color 0xff458588
+khd mode default color 0xff81a1c1
 # yellow
-khd mode switcher color 0xffd79921
+khd mode switcher color 0xffebcb8b
 # red
-# khd mode ytd color 0xffcc421d
-# red
-khd mode swap color 0xffcc421d
+khd mode swap color 0xffbf616a
 # green
-khd mode tree color 0xff98971a
+khd mode tree color 0xffa3be8c
 # purple
-khd mode space color 0xffb16286
-# wtf is this?
-khd mode info color 0xddcd950c
+khd mode space color 0xffb48ead
+
+# # set border color for different modes (ayu)
+# # blue
+# khd mode default color 0xff5ccfe6
+# # yellow
+# khd mode switcher color 0xffffd57f
+# # red
+# khd mode swap color 0xfff07178
+# # green
+# khd mode tree color 0xffbbe67e
+# # purple
+# khd mode space color 0xffd4bfff
 
 
 
@@ -319,7 +327,6 @@ cmd + alt + ctrl - l    :   kwmc window -mk east wrap
 cmd + alt + ctrl - j    :   kwmc window -mk south wrap
 cmd + alt + ctrl - k    :   kwmc window -mk north wrap
 
-cmd - 0x2A              :   khd -w "aasvi93@hotmail.com"
 cmd - 7                 :   khd -w "\\"
 cmd - 8                 :   khd -w "{"
 cmd - 9                 :   khd -w "}"

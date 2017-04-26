@@ -7,7 +7,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # time that oh-my-zsh is loaded.
 
 # Clean themes are best themes
-ZSH_THEME="yutani"
+# ZSH_THEME="yutani"
 
 # Uncomment the following line to use case-sensitive completion.
 #
@@ -92,15 +92,16 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 # BASE16_SHELL=$HOME/.config/base16-shell/
 # [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
+POWERLEVEL9K_MODE='nerdfont-complete'
+
 # Run zplug
 export ZPLUG_HOME="/usr/local/opt/zplug"
 source $ZPLUG_HOME/init.zsh
 
 # ------------ ZPLUG ------------------------
-zplug "plugins/git",                     from:oh-my-zsh
+zplug "mafredri/zsh-async",              from:github
+zplug "bhilburn/powerlevel9k",           from:github,   use:powerlevel9k.zsh-theme, as:theme
 zplug "plugins/fasd",                    from:oh-my-zsh
-zplug "plugins/docker",                  from:oh-my-zsh
-zplug "plugins/pip",                     from:oh-my-zsh
 zplug "plugins/osx",                     from:oh-my-zsh
 zplug "plugins/httpie",                  from:oh-my-zsh
 zplug "plugins/tmux",                    from:oh-my-zsh
@@ -109,8 +110,8 @@ zplug "plugins/thefuck",                 from:oh-my-zsh
 zplug "unixorn/warhol.plugin.zsh"
 zplug "zsh-users/zsh-syntax-highlighting"
 
-# Disable dumb underline links
-# ZSH_HIGHLIGHT_STYLES[path]=none
+zplug load
+
 
 # Source additional dotfiles
 source ~/.exports

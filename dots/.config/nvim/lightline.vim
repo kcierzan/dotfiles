@@ -1,23 +1,25 @@
-"     ___       __    __  ___                  _         
-"    / (_)___ _/ /_  / /_/ (_)___  ___  _   __(_)___ ___ 
+"     ___       __    __  ___                  _
+"    / (_)___ _/ /_  / /_/ (_)___  ___  _   __(_)___ ___
 "   / / / __ `/ __ \/ __/ / / __ \/ _ \| | / / / __ `__ \
 "  / / / /_/ / / / / /_/ / / / / /  __/| |/ / / / / / / /
-" /_/_/\__, /_/ /_/\__/_/_/_/ /_/\___(_)___/_/_/ /_/ /_/ 
-"     /____/                                             
+" /_/_/\__, /_/ /_/\__/_/_/_/ /_/\___(_)___/_/_/ /_/ /_/
+"     /____/
 
 let g:lightline = {
-      \ 'colorscheme': 'gruvbox',
+     \ 'colorscheme': 'nord',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'filename' ],
       \             [ 'neomake' ] ],
+      \   'middle': [],
+      \   'right': [ [ 'lineinfo', 'percent' ], [ 'filetype', 'fileencoding', 'fileformat'] ],
       \ },
       \ 'component_function': {
       \   'fugitive': 'LightlineFugitive',
       \   'modified': 'LightlineModified',
       \   'readonly': 'LightlineReadonly',
       \   'fileformat': 'LightlineFileformat',
-      \   'filename': 'LightlilneFilename',
+      \   'filename': 'LightlineFilename',
       \   'filetype': 'LightlineFiletype',
       \   'fileencoding': 'LightlineFileencoding',
       \   'mode': 'LightlineMode',
@@ -28,10 +30,12 @@ let g:lightline = {
       \ 'component_type': {
       \   'neomake': 'error',
       \ },
+      \ 'separator': { 'left': "\ue0bc", 'right': "\ue0be " },
+      \ 'subseparator': { 'left': "\ue0bd", 'right': "\ue0bf" }
       \ }
 
 function! LightlineModified()
-  if &filetype == "help" 
+  if &filetype == "help"
     return ""
   elseif &modified
     return "+"
@@ -54,7 +58,7 @@ endfunction
 function! LightlineFugitive()
   if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
     let branch = fugitive#head()
-    return branch !=# '' ? "\ue0a0 ".branch : ''
+    return branch !=# '' ? " \ue0a0 ".branch : ''
   endif
   return ''
 endfunction
