@@ -1,5 +1,3 @@
-"    _         _  __           _          
-"   (_)____   (_)/ /_  _   __ (_)____ ___ 
 "  / // __ \ / // __/ | | / // // __ `__ \
 " / // / / // // /_ _ | |/ // // / / / / /
 "/_//_/ /_//_/ \__/(_)|___//_//_/ /_/ /_/ 
@@ -94,6 +92,10 @@ Plug 'tpope/vim-endwise'
 " indent lines
 Plug 'Yggdroot/indentLine'
 
+
+" BufferTabs
+Plug 'ap/vim-buftabline'
+
 " ============ COLORSCHEMES =============
 " Solarized
 Plug 'altercation/vim-colors-solarized'
@@ -136,6 +138,9 @@ Plug 'dunckr/vim-monokai-soda'
 
 " Seashells
 Plug 'vim-scripts/seashell'
+"
+" TermVim
+Plug 'lucy/term.vim'
 
 call plug#end()
 

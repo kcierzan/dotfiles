@@ -40,11 +40,6 @@ autocmd FileType unite call s:uniteinit()
   hi deniteMatched guibg=None
   hi deniteMatchedChar guibg=None
 
-  nnoremap <silent> <c-p> :Denite file_rec<CR>
-  nnoremap <silent> <leader>h :Denite  help<CR>
-  nnoremap <silent> <leader>c :Denite colorscheme<CR>
-  nnoremap <silent> <leader>b :Denite buffer<CR>
-  nnoremap <silent> <leader>l :Denite line<CR>
   call denite#custom#map(
       \ 'insert',
       \ '<C-n>',
@@ -63,14 +58,14 @@ autocmd FileType unite call s:uniteinit()
     \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
 
   call denite#custom#var('menu', 'menus', s:menus)
-  nnoremap <silent> <Leader>i :Denite -auto-resize menu:ionic <CR>
+  nnoremap <silent> <Leader>i :Denite menu:git <CR>
 
 " Git from denite...ERMERGERD
   let s:menus.git = {
     \ 'description' : 'Fugitive interface',
     \}
   let s:menus.git.command_candidates = [
-    \[' git status', 'Gstatus'],
+    \[' git status', 'exe "Gstatus"'],
     \[' git diff', 'Gvdiff'],
     \[' git commit', 'Gcommit'],
     \[' git stage/add', 'Gwrite'],

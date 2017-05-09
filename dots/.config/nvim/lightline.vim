@@ -6,7 +6,7 @@
 "     /____/
 
 let g:lightline = {
-     \ 'colorscheme': 'nord',
+     \ 'colorscheme': 'gruvbox',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'filename' ],

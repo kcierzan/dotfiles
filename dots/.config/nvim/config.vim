@@ -18,11 +18,8 @@ set clipboard=unnamed
 " Disbale annoying automatic comments
 autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn
 
-
 " Flag unnecessary whitespace
 au BufRead, BufNewFile *.py, *.pyw, *.c, *.h match BadWhiteSpace /\s\+$/
-
-" Set current line highlight
 
 " Set :grep to use ripgrep
 if executable("rg")
@@ -37,14 +34,6 @@ set scrolloff=3
 set undodir=~/.config/nvim/undo
 set undofile
 set undolevels=100000
-
-" Copy and pasting to system clipboard
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
 
 " Set up standard indentation
 set tabstop=2
@@ -98,30 +87,52 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " Lint as you type - WRITES TO FILE CONSTANTLY
 autocmd InsertChange,TextChanged,InsertLeave * update | Neomake
-let g:neomake_python_enabled_makers = ['flake8']
 
+let g:neomake_python_enabled_makers = ['flake8', 'pylint']
+let g:neomake_python_pylint_maker = {
+      \ 'args': ['--disable=all', '-enable=import-self, reimported, wildcard-import, misplaced-future, relative-import, deprecated-module, unpacking-non-sequence, invalid-all-object, undefined-all-variable, used-before-assignment, cell-var-from-loop, global-variable-undefined, redefined-builtin, redefine-in-handler, unused-import, unused-wildcard-import, global-variable-not-assigned, undefined-loop-variable, global-statement, global-at-module-level, bad-open-mode, redundant-unittest-assert, boolean-datetime, unused-variable', '--output-format=text', '--msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg} [{msg_id}]"', '--reports=no'],
+      \ 'errorformat':
+          \ '%A%f:%l:%c:%t: %m,' .
+          \ '%A%f:%l: %m,' .
+          \ '%A%f:(%l): %m,' .
+          \ '%-Z%p^%.%#,' .
+          \ '%-G%.%#',
+      \ 'postprocess': [
+          \   function('neomake#postprocess#GenericLengthPostprocess'),
+          \   function('neomake#makers#ft#python#PylintEntryProcess')],
+      \ 'exe': 'pylint',}
+
+set cursorline
+set nu
 syntax enable
-let g:nord_italic_comments = 1
+" let g:nord_italic_comments = 1
 set background=dark
 " let ayucolor="mirage"
 " let g:solarized_termcolors=256
-colorscheme nord
 set termguicolors
+" colorscheme term
+colorscheme gruvbox
 " Set base16 theme from the commandline
 " if filereadable(expand("~/.vimrc_background"))
 "   source ~/.vimrc_background
 " endif
 
-" set cursorline
 " Fix colors and enable transparency in terminal
-hi! EndOfBuffer ctermbg=None
-hi Normal guibg=NONE ctermbg=NONE
-hi! NonText ctermbg=None
-hi! LineNr ctermbg=None
-hi! Comment cterm=italic
+
+" hi! EndOfBuffer ctermbg=None
+" hi Normal guibg=NONE ctermbg=NONE
+" hi! NonText ctermbg=None
+" hi! LineNr ctermbg=None
+" hi! Comment cterm=italic
 
 " indent line config
+let g:indentLine_enabled = 0
 let g:indentLine_char = '│'
 let g:indentLine_first_char = '│'
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 1
+
+" vim-test config
+let test#python#runner = 'nose'
+let test#strategy = "vimux"
+let test#python#nose#options = '-x -v -s'

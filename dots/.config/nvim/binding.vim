@@ -13,8 +13,6 @@
 " -----Finding-------------------
   " Clean search highlight
   nnoremap <Leader>sc :noh<CR>
-  " Search files in current dir
-  nnoremap <Leader><tab> :FZF<CR>
 
 "------Jumping-------------------
   " s{char}{char} to move to {char}{char}
@@ -46,11 +44,11 @@
   
 " -----Code Navigation-----------
   " Go to definition
-  let g:jedi#goto_command = "<leader>ngd"
+  let g:jedi#goto_command = "<leader>gd"
   " Go to assignments
-  let g:jedi#goto_assignments_command = "<leader>nga"
+  let g:jedi#goto_assignments_command = "<leader>ga"
   " Go to usages
-  let g:jedi#goto_usages = "<leader>ngu"
+  let g:jedi#goto_usages = "<leader>gu"
 
 "------Buffers and Windows-------
   " Close window
@@ -58,7 +56,7 @@
   " Force close window
   nnoremap <Leader>Q :q!<CR>
   " Close buffer
-  nnoremap <Leader>d :bd<CR>
+  nnoremap <Leader>d :Bdelete<CR>
   " Save current buffer
   nnoremap <Leader>W :w<CR>
   " Intelligently close deoplete popup
@@ -69,41 +67,51 @@
     return deoplete#close_popup() . "\<CR>"
   endfunction
   " create splits
-  nnoremap <leader>wvs :vsp<CR>
-  nnoremap <leader>whs :sp<CR>
-  nnoremap <leader>wsi :IndentLinesToggle<CR>
+  nnoremap <leader>vs :vsp<CR>
+  nnoremap <leader>hs :sp<CR>
+  nnoremap <leader>si :IndentLinesToggle<CR>
 
 "--------Project-----------------
   " Source dotfile
-  nnoremap <Leader>psd :so ~/.config/nvim/init.vim<CR>
-  " Edit Dotfile
-  nnoremap <Leader>ped :tabedit ~/.config/nvim/init.vim<CR>
-  " start changing directories
-  nnoremap <Leader>pcd :cd<space>
+  nnoremap <Leader><c-r> :so ~/.config/nvim/init.vim<CR>
   " show file browser
-  nnoremap <Leader>pst :NERDTreeToggle<CR>
+  nnoremap <Leader>st :NERDTreeToggle<CR>
 
 "-------Refactoring---------------
   " Rename element
-  let g:jedi#rename_command = "<leader>rre"
+  let g:jedi#rename_command = "<leader>jr"
   
 "-------Inspection----------------
   " Show documentation
-  let g:jedi#documentation_command = "<leader>isd" 
+  let g:jedi#documentation_command = "<leader>jd" 
   " Show undotree
-  nnoremap <Leader>isu :UndotreeToggle<CR>
+  nnoremap <Leader>su :UndotreeToggle<CR>
   
 "-------Editing-------------------
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
 
 "-------Code Generation-----------
 
 "-------Run/Debug-----------------
   " run tests
-  nmap <silent> <leader>trn :TestNearest<CR>
-  nmap <silent> <leader>trf :TestFile<CR>
-  nmap <silent> <leader>trs :TestSuite<CR>
-  nmap <silent> <leader>trl :TestLast<CR>
-  nmap <silent> <leader>trv :TestVisit<CR>
+  nnoremap <silent> <leader>tn :TestNearest<CR>
+  nnoremap <silent> <leader>tf :TestFile<CR>
+  nnoremap <silent> <leader>ts :TestSuite<CR>
+  nnoremap <silent> <leader>tl :TestLast<CR>
+  nnoremap <silent> <leader>tv :TestVisit<CR>
 
 "-------Version Control-----------
+
+"--------Denite-----------
+  nnoremap <silent> <leader>f :Denite file_rec<CR>
+  nnoremap <silent> <leader>h :Denite  help<CR>
+  nnoremap <silent> <leader>b :Denite buffer<CR>
+  nnoremap <silent> <leader>l :Denite line<CR>
+  nnoremap <silent> <leader>r :Denite file_mru<CR>
+  nnoremap <silent> <leader>vg :Denite grep<CR>
 
