@@ -198,3 +198,28 @@ hi vimFuncSID            ctermfg=248 ctermbg=none cterm=none
 hi vimSetSep             ctermfg=248 ctermbg=none cterm=none
 hi vimSep                ctermfg=248 ctermbg=none cterm=none
 hi vimContinue           ctermfg=248 ctermbg=none cterm=none
+
+" Markdown
+hi markdownH1            ctermfg=2 ctermbg=none cterm=bold
+hi markdownH2            ctermfg=2 ctermbg=none cterm=bold
+hi markdownH3            ctermfg=3 ctermbg=none cterm=bold
+hi markdownH4            ctermfg=3 ctermbg=none cterm=bold
+hi markdownH5            ctermfg=3 ctermbg=none cterm=none
+hi markdownH6            ctermfg=3 ctermbg=none cterm=none
+hi markdownCode          ctermfg=6 ctermbg=none cterm=none
+hi markdownCodeBlock     ctermfg=6 ctermbg=none cterm=none
+hi markdownCodeDelimiter ctermfg=6 ctermbg=none cterm=none
+
+hi markdownBlockquote        ctermfg=245 ctermbg=none cterm=none
+hi markdownListMarker        ctermfg=245 ctermbg=none cterm=none
+hi markdownOrderedListMarker ctermfg=245 ctermbg=none cterm=none
+hi markdownRule              ctermfg=245 ctermbg=none cterm=none
+hi markdownHeadingRule       ctermfg=245 ctermbg=none cterm=none
+
+hi markdownUrlDelimiter      ctermfg=248 ctermbg=none cterm=none
+hi markdownLinkDelimiter     ctermfg=248 ctermbg=none cterm=none
+hi markdownLinkTextDelimiter ctermfg=248 ctermbg=none cterm=none
+
+hi markdownHeadingDelimiter  ctermfg=166 ctermbg=none cterm=none
+hi markdownUrl               ctermfg=5   ctermbg=none cterm=none
+hi markdownUrlTitleDelimiter ctermfg=2   ctermbg=none cterm=none

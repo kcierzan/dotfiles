@@ -68,8 +68,8 @@ let g:ackprg = 'rg --vimgrep --no-heading'
 let g:tmux_navigator_no_mappings = 1
 
 " Point to python neovim virtualenvs
-let g:python_host_prog = '/usr/local/var/pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '/usr/local/var/pyenv/versions/neovim3/bin/python'
+let g:python_host_prog = '/Users/kylec/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = '/Users/kylec/.pyenv/versions/neovim3/bin/python'
 
 " Enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
@@ -109,13 +109,8 @@ syntax enable
 set background=dark
 " let ayucolor="mirage"
 " let g:solarized_termcolors=256
-set termguicolors
-" colorscheme term
-colorscheme gruvbox
-" Set base16 theme from the commandline
-" if filereadable(expand("~/.vimrc_background"))
-"   source ~/.vimrc_background
-" endif
+" set termguicolors
+colorscheme termina
 
 " Fix colors and enable transparency in terminal
 
@@ -135,4 +130,10 @@ let g:indentLine_setColors = 1
 " vim-test config
 let test#python#runner = 'nose'
 let test#strategy = "vimux"
-let test#python#nose#options = '-x -v -s'
+let test#python#nose#options = '-x -v -s --with-coverage'
+
+" Rainbowz
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces

@@ -6,13 +6,13 @@
 "     /____/
 
 let g:lightline = {
-     \ 'colorscheme': 'gruvbox',
+     \ 'colorscheme': 'termina',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'filename' ],
       \             [ 'neomake' ] ],
       \   'middle': [],
-      \   'right': [ [ 'lineinfo', 'percent' ], [ 'filetype', 'fileencoding', 'fileformat'] ],
+      \   'right': [ [ 'filetype', 'fileencoding', 'fileformat', 'lineinfo', 'percent' ] ],
       \ },
       \ 'component_function': {
       \   'fugitive': 'LightlineFugitive',
@@ -30,8 +30,8 @@ let g:lightline = {
       \ 'component_type': {
       \   'neomake': 'error',
       \ },
-      \ 'separator': { 'left': "\ue0bc", 'right': "\ue0be " },
-      \ 'subseparator': { 'left': "\ue0bd", 'right': "\ue0bf" }
+      \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
       \ }
 
 function! LightlineModified()

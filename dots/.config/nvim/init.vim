@@ -1,3 +1,4 @@
+"   _  ____   __ ____ ___  __ __ ________
 "  / // __ \ / // __/ | | / // // __ `__ \
 " / // / / // // /_ _ | |/ // // / / / / /
 "/_//_/ /_//_/ \__/(_)|___//_//_/ /_/ /_/ 
@@ -30,7 +31,7 @@ Plug 'Shougo/neomru.vim'
 Plug 'Shougo/denite.nvim'
 
 " Vim Jedi for definition jumping and code navigation
-Plug 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 
 " FZF already installed via homebrew
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -75,7 +76,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " Deoplete Jedi for great python success
-Plug 'zchee/deoplete-jedi'
+Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 
 " Async linting courtesy of neomake
 Plug 'neomake/neomake'
@@ -84,7 +85,7 @@ Plug 'neomake/neomake'
 Plug 'ervandew/supertab'
 
 " Load nerdtree on demand
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] }
 
 " Automagically add ending statements
 Plug 'tpope/vim-endwise'
@@ -92,10 +93,14 @@ Plug 'tpope/vim-endwise'
 " indent lines
 Plug 'Yggdroot/indentLine'
 
-
 " BufferTabs
 Plug 'ap/vim-buftabline'
 
+" Easy Align
+Plug 'junegunn/vim-easy-align'
+
+"Rainbow Parens
+Plug 'kien/rainbow_parentheses.vim'
 " ============ COLORSCHEMES =============
 " Solarized
 Plug 'altercation/vim-colors-solarized'
@@ -141,6 +146,9 @@ Plug 'vim-scripts/seashell'
 "
 " TermVim
 Plug 'lucy/term.vim'
+
+" Termina
+Plug '~/git/dotfiles/colorschemes/termina'
 
 call plug#end()
 

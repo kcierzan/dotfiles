@@ -21,7 +21,7 @@ autocmd FileType unite call s:uniteinit()
 
     endfunction
 
-  call denite#custom#option('default', 'prompt', '❯')
+  call denite#custom#option('default', 'prompt', '')
 
   let s:menus = {}
   call denite#custom#var('file_rec', 'command', 
@@ -65,8 +65,8 @@ autocmd FileType unite call s:uniteinit()
     \ 'description' : 'Fugitive interface',
     \}
   let s:menus.git.command_candidates = [
-    \[' git status', 'exe "Gstatus"'],
     \[' git diff', 'Gvdiff'],
+    \[' git status', 'Gstatus'],
     \[' git commit', 'Gcommit'],
     \[' git stage/add', 'Gwrite'],
     \[' git checkout', 'Gread'],

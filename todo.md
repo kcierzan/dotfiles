@@ -3,6 +3,7 @@
   2. Optimize iterm colorschemes for termina
   3. Install/configure weechat
   4. Install/configure newsbeuter
+  5. Refactor termina to use named variables
 
 # Colorschemes
   1.  Dracula
