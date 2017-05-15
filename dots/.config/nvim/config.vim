@@ -68,8 +68,8 @@ let g:ackprg = 'rg --vimgrep --no-heading'
 let g:tmux_navigator_no_mappings = 1
 
 " Point to python neovim virtualenvs
-let g:python_host_prog = '/Users/kylec/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '/Users/kylec/.pyenv/versions/neovim3/bin/python'
+let g:python_host_prog = '~/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = '~/.pyenv/versions/neovim3/bin/python'
 
 " Enable deoplete at startup
 let g:deoplete#enable_at_startup = 1

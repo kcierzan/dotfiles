@@ -103,6 +103,7 @@ zplug "mafredri/zsh-async",              from:github
 zplug "bhilburn/powerlevel9k",           from:github,   use:powerlevel9k.zsh-theme, as:theme
 zplug "plugins/fasd",                    from:oh-my-zsh
 zplug "plugins/osx",                     from:oh-my-zsh
+zplug "plugins/pip",                     from:oh-my-zsh
 zplug "plugins/httpie",                  from:oh-my-zsh
 zplug "plugins/tmux",                    from:oh-my-zsh
 zplug "plugins/colored-man-pages",       from:oh-my-zsh

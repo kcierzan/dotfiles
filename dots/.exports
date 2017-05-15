@@ -11,7 +11,7 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 export EDITOR='nvim'
 
 # Pyenv Autocompletion
-export PYENV_ROOT=/usr/local/var/pyenv
+export PYENV_ROOT=~/.pyenv
 
 # Set terminal colors if tmux is enabled
 # export TERM=tmux-256color
@@ -19,7 +19,7 @@ export PYENV_ROOT=/usr/local/var/pyenv
 # disbale underlining paths with zsh syntax highlighting
 ZSH_HIGHLIGHT_STYLES[path]=none
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(ssh root_indicator dir vcs virtualenv pyenv)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(ssh root_indicator dir vcs  pyenv)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)
 POWERLEVEL9K_DIR_DEFAULT_BACKGROUND='004'
 POWERLEVEL9K_DIR_HOME_BACKGROUND='004'
