@@ -22,13 +22,3 @@
   15. Ayu*
   16. Monokai Soda
   17. Seashells
-
-# antergos config todo
-  * i3 gaps
-  * compton
-  * rofi
-  * lemonbar
-  * qutebrowser
-  * newsbeuter
-  * urxvt
-
