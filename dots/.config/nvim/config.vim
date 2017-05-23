@@ -88,6 +88,7 @@ let g:EasyMotion_smartcase = 1
 " ------------- Jedi ----------------------
 " Use deoplete for completion
 let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
 
 " ------------- Tmux Navigator ------------
 " Map alt + hjkl to navigation
@@ -155,3 +156,34 @@ if exists(":Abolish")
   Abolish {,un}su{bcr,bsrc,scr,bs,cr,sbcr,sci}ibe{,r,s,rs} {}su{bscri}be{}
   Abolish r{i,e}c{e,i}p{ei,i,e}nt r{e}c{i}p{ie}nt
 endif
+
+" ------------- NERD Tree ------------------
+let g:NERDTreeHijackNetrw = 1
+let g:NERDTreeWinSize = 31
+let g:NERDTreeChDirMode = 2
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeShowBookmarks = 1
+
+" NERDTree Colorscheme
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+ exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+ exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+
+" Open directories with NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTreeToggle' argv()[0] | wincmd p | ene | endif

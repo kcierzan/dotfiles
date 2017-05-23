@@ -118,3 +118,4 @@ zplug load
 source ~/.exports
 source ~/.aliases
 source ~/.functions
+source ~/.extra

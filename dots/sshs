@@ -1,0 +1,43 @@
+#!/bin/bash
+
+QUERY="$1"
+FZF_OPTS=""
+[[ $QUERY == "-m" ]] && FZF_OPTS=$QUERY && QUERY="$2"
+
+search () {
+  source ~/.extra;
+  if [ "$DOMAIN_NAMES" ]; then
+    for domainname in $DOMAIN_NAMES; do
+      dig -t AXFR $domainname | grep -v ";" | grep -v "^_" | grep -v "^\s*$" | awk '{ print $1}' | sed 's/\.$//' | grep "$1" | uniq
+    done
+  else
+    # Default to known hosts instead
+    cat ~/.ssh/known_hosts | awk -F',| ' '{ print $1 }' | uniq | sort
+  fi
+}
+
+servers=(`search "$QUERY"`)
+(( ${#servers[@]} > 1 )) && servers=(`printf '%s\n' "${servers[@]}" | fzf $FZF_OPTS --reverse | sed 's/ /\n/g'`);
+
+if [ $servers ]; then
+  if [ -z "$FZF_OPTS" ]; then
+    ssh ${servers[0]};
+  else
+    tmux new-window;
+    tmux send-keys -t 1 "ssh ${servers[0]}" C-m;
+    counter=1;
+    for server in "${servers[@]}";
+    do
+      if [ $counter -gt 1 ]; then
+        tmux split-window;
+        tmux send-keys -t "$counter" "ssh $server" C-m;
+        tmux select-layout even-vertical;
+      fi;
+      counter=$((counter + 1));
+    done;
+    if [ ${#servers[@]} -gt 1 ]; then
+      tmux select-layout even-vertical;
+      tmux set-window-option synchronize-panes on;
+    fi
+  fi
+fi

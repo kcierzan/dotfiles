@@ -138,35 +138,6 @@ function getcertnames() {
     fi;
 }
 
-
-# `v` with no arguments opens the current directory in Vim, otherwise opens the
-# given location
-function v() {
-    if [ $# -eq 0 ]; then
-        nvim .;
-    else
-        fasd -d -t -e nvim "$@";
-    fi;
-}
-
-# `o` with no arguments opens the current directory, otherwise opens the given
-# location
-function o() {
-    if [ $# -eq 0 ]; then
-        open .;
-    else
-        fasd -d open "$@";
-    fi;
-}
-
-# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
-# the `.git` directory, listing directories first. The output gets piped into
-# `less` with options to preserve color and line numbers, unless the output is
-# small enough for one screen.
-function tre() {
-    tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
-}
-
 # fzf based process killer
 function fkill() {
     pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
@@ -182,16 +153,8 @@ function fh() {
     print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
 
-# fuzzy cd to directory
-fd() {
-    local dir
-    dir=$(find ${1:-.} -path '*/\.*' -prune \
-               -o -type d -print 2> /dev/null | fzf +m) &&
-        cd "$dir"
-}
-
 # cd to directory (hidden directories included)
-fda() {
+fd() {
     local dir
     dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
 }
@@ -207,13 +170,6 @@ fo() {
     if [ -n "$file" ]; then
         [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
     fi
-}
-
-# Search the colo
-searchcsh () {
-    for domainname in colo.lair int.prd.csh lbl.prd.csh svc.prd.csh int.csh lbl.csh svc.csh int.stg.csh lbl.stg.csh svc.stg.csh int.tst.csh lbl.tst.csh ; do
-        dig -t AXFR $domainname | grep -v ";"
-    done
 }
 
 wttr () {
@@ -232,10 +188,6 @@ tree () {
   exa -lah --group-directories-first -T -L $1
 }
 
-awpip () {
-  pip install -r $1 -i https://pypi.python.org/simple --extra-index-url http://pypi.colo.lair/simple
-}
-
 rgf () {
   rg -g $1 -uu --files
 }
@@ -249,4 +201,9 @@ fshow() {
                  xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
       --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
               xargs -I % sh -c 'vim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
+}
+
+sshs() {
+  tmux split-window 'tmux resize-pane -Z' |
+  ./sshs -m
 }

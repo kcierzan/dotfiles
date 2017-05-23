@@ -13,7 +13,6 @@ let g:lmap = {}
 
 " -----Finding-------------------
 " Clean search highlight
-nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 " Keep search results in the center of the screen
 nmap n nzz
 nmap N Nzz
@@ -42,6 +41,8 @@ nmap <Leader>jl <Plug>(easymotion-overwin-line)
 map  <Leader>jw <Plug>(easymotion-bd-w)
 nmap <Leader>jw <Plug>(easymotion-overwin-w)
 let g:lmap.j.w = ['easymotion-overwin-w', 'Jump to word']
+nnoremap <silent> <leader>jc :nohlsearch<CR><Esc>
+let g:lmap.j.c = ['nohlsearch', 'Clear search highlight']
 " Universal nvim split / Tmux navigation
 nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
@@ -94,7 +95,7 @@ inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function() abort
   return deoplete#close_popup() . "\<CR>"
 endfunction
-" create splits
+
 nnoremap <leader>wv :vsp<CR>
 let g:lmap.w.v = [':vsp', 'Open split vertical']
 nnoremap <leader>ws :sp<CR>
@@ -105,9 +106,9 @@ nnoremap <leader>wk <C-w>+
 let g:lmap.w.k = ['<C-w>+', 'Expand split vertically']
 nnoremap <leader>wj <C-w>-
 let g:lmap.w.j = ['<C-w>-', 'Shrink split vertically']
-nnoremap <leader>wl <C-w><
+nnoremap <leader>wl <C-w>>
 let g:lmap.w.l = ['<C-w>>', 'Expand split right']
-nnoremap <leader>wh <C-w>>
+nnoremap <leader>wh <C-w><
 let g:lmap.w.h = ['<C-w><', 'Expand split left']
 nnoremap <leader>wu :windo diffthis<CR>
 let g:lmap.w.u = ['windo diffthis', 'Vim diff']
@@ -123,6 +124,8 @@ nnoremap <leader>wo <C-w>o
 let g:lmap.w.o = ['<C-w>o', 'Close splits']
 nnoremap <leader>we <C-w>=
 let g:lmap.w.e = ['<C-w>e', 'Equalize splits']
+nnoremap <leader>wp :pwd<CR>
+let g:lmap.w.p = ['pwd', 'Print working directory']
 "
 "buftabline navigation
 nmap <C-L> <Nop>
@@ -145,6 +148,16 @@ nnoremap <Leader>ns :Startify<CR>
 let g:lmap.n.s = ['Startify', 'Open start menu']
 nnoremap <Leader>nu :UndotreeToggle<CR>
 let g:lmap.n.u = ['UndotreeToggle', 'Toggle undotree']
+nnoremap <Leader>nf :call NERDTreeToggleAndFind()<CR>
+let g:lmap.n.f = ['call NERDTreeToggleAndFind()', 'Show file in tree']
+
+function! NERDTreeToggleAndFind()
+  if (exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1)
+    execute ':NERDTreeClose'
+  else
+    execute ':NERDTreeFind'
+  endif
+endfunction
 
 "-------Editing-------------------
 nmap ga <Plug>(EasyAlign)
