@@ -142,4 +142,3 @@ alias tile="brew services restart kwm"
 
 # Worst. Name. Ever.
 alias tune="ncmpcpp"
-

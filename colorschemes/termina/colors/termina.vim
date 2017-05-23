@@ -67,7 +67,7 @@ hi  TabLineFill          ctermfg=243  ctermbg=0    cterm=none
 hi  TabLine              ctermfg=243  ctermbg=0    cterm=none
 hi  TabLineSel           ctermfg=0    ctermbg=4    cterm=inverse,bold
 hi  MatchParen           ctermfg=none ctermbg=241  cterm=bold
-hi  ColorColumn          ctermfg=none ctermbg=0    cterm=none
+hi  ColorColumn          ctermfg=none ctermbg=237  cterm=none
 hi  Conceal              ctermfg=4    ctermbg=none cterm=none
 hi  CursorLineNr         ctermfg=11   ctermbg=237  cterm=none
 hi  Visual               ctermfg=none ctermbg=241  cterm=inverse

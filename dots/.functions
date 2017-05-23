@@ -1,6 +1,3 @@
-# the new cd
-function cl(){ cd "$@" && la; }
-
 # Create a new directory and enter it
 function mkd() {
     mkdir -p "$@" && cd "$_";
@@ -227,7 +224,7 @@ termcol () {
   for code ({000..255}) print -P -- "$code: %F{$code}Isn't this a fun color?%f"
 }
 
-cless () {
+cl () {
   pygmentize -g $1 | less -r
 }
 
@@ -236,7 +233,7 @@ tree () {
 }
 
 awpip () {
-  pip install -r $1 -i https://pypi.python.org/simple --extra-index-url http://pypi.colo.lair/simple --trusted-host pypi.colo.lair/simple
+  pip install -r $1 -i https://pypi.python.org/simple --extra-index-url http://pypi.colo.lair/simple
 }
 
 rgf () {

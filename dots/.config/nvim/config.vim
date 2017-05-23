@@ -4,22 +4,46 @@
 " / /__/ /_/ / / / / __/ / /_/ /| |/ / / / / / / /
 " \___/\____/_/ /_/_/ /_/\__, (_)___/_/_/ /_/ /_/ 
 "                       /____/                    
+" ======= Set up Defaults ==============
 set splitright
 set splitbelow
 set showcmd
+set noshowmode
 set noerrorbells
+set relativenumber
+set lazyredraw
+set noswapfile
+set cursorline
+set nu
+" disable auto break long lines
+set textwidth=0
+set ignorecase
+set smartcase
+set gdefault
+" Start scrolling 3 lines before horizontal border
+set scrolloff=3
+"
+" Set up standard indentation
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+set nowrap
+set shiftround
 
 " Allow cursor changing with tmux
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 " Enable system clipboard
-set clipboard=unnamed
+set clipboard=unnamed,unnamedplus
 
-" Disbale annoying automatic comments
-autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn
+" Disable annoying automatic comments
+autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn |
 
-" Flag unnecessary whitespace
-au BufRead, BufNewFile *.py, *.pyw, *.c, *.h match BadWhiteSpace /\s\+$/
+" Set a persistent undo file
+set undodir=~/.config/nvim/undo
+set undofile
+set undolevels=100000
 
 " Set :grep to use ripgrep
 if executable("rg")
@@ -27,49 +51,52 @@ if executable("rg")
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-" Start scrolling 3 lines before horizontal border
-set scrolloff=3
+" Source dotfiles as they are written
+augroup vimGeneralCallbacks
+  autocmd!
+  autocmd BufWritePost init.vim, denite.vim, config.vim, binding.vim, lightline.vim source ~/.config/nvim/init.vim
+augroup END
 
-" Set a persistent undo file
-set undodir=~/.config/nvim/undo
-set undofile
-set undolevels=100000
+" ============ COLORSCHEME ======================
 
-" Set up standard indentation
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
+syntax enable
+set background=dark
+colorscheme termina
 
-" Set up Python indentation
-au BufNewFile, BufRead *.py
-      \ set tabstop=4
-      \ set softtabstop=4
-      \ set shiftwidth=4
-      \ set textwidth=79
-      \ set expandtab
-      \ set autoindent
-      \ set fileformat=unix
-      \ set colorcolumn=80
+" Fix colors and enable transparency in terminal
+" hi! EndOfBuffer ctermbg=None
+" hi Normal guibg=NONE ctermbg=NONE
+" hi! NonText ctermbg=None
+" hi! LineNr ctermbg=None
+" hi! Comment cterm=italic
 
+" ============ FILETYPE SETTINGS ==================
+
+" Set up Python style
+autocmd BufNewFile,BufRead *.py
+  \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix colorcolumn=80 expandtab autoindent |
+
+" ============= PLUGIN CONFIGURATION ==============
+
+" ------------- EasyMotion ----------------
 " With this option set, v will match both v and V, but V will match V only.
 let g:EasyMotion_use_smartsign_us = 1 " US layout
 
 " Use vim smartcase for global searches
 let g:EasyMotion_smartcase = 1
 
+" ------------- Jedi ----------------------
 " Use deoplete for completion
 let g:jedi#completions_enabled = 0
 
-" set ack.vim to use ripgrep
-let g:ackprg = 'rg --vimgrep --no-heading'
-
+" ------------- Tmux Navigator ------------
 " Map alt + hjkl to navigation
 let g:tmux_navigator_no_mappings = 1
 
+" ------------- Deoplete ------------------
 " Point to python neovim virtualenvs
-let g:python_host_prog = '~/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '~/.pyenv/versions/neovim3/bin/python'
+let g:python_host_prog = '/Users/kylec/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = '/Users/kylec/.pyenv/versions/neovim3/bin/python'
 
 " Enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
@@ -85,9 +112,11 @@ endif
 " Close the completion buffer once completion is done
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
+" -------------- Neomake ---------------------
 " Lint as you type - WRITES TO FILE CONSTANTLY
 autocmd InsertChange,TextChanged,InsertLeave * update | Neomake
 
+" Configure linters
 let g:neomake_python_enabled_makers = ['flake8', 'pylint']
 let g:neomake_python_pylint_maker = {
       \ 'args': ['--disable=all', '-enable=import-self, reimported, wildcard-import, misplaced-future, relative-import, deprecated-module, unpacking-non-sequence, invalid-all-object, undefined-all-variable, used-before-assignment, cell-var-from-loop, global-variable-undefined, redefined-builtin, redefine-in-handler, unused-import, unused-wildcard-import, global-variable-not-assigned, undefined-loop-variable, global-statement, global-at-module-level, bad-open-mode, redundant-unittest-assert, boolean-datetime, unused-variable', '--output-format=text', '--msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg} [{msg_id}]"', '--reports=no'],
@@ -102,38 +131,27 @@ let g:neomake_python_pylint_maker = {
           \   function('neomake#makers#ft#python#PylintEntryProcess')],
       \ 'exe': 'pylint',}
 
-set cursorline
-set nu
-syntax enable
-" let g:nord_italic_comments = 1
-set background=dark
-" let ayucolor="mirage"
-" let g:solarized_termcolors=256
-" set termguicolors
-colorscheme termina
-
-" Fix colors and enable transparency in terminal
-
-" hi! EndOfBuffer ctermbg=None
-" hi Normal guibg=NONE ctermbg=NONE
-" hi! NonText ctermbg=None
-" hi! LineNr ctermbg=None
-" hi! Comment cterm=italic
-
-" indent line config
-let g:indentLine_enabled = 0
+"----------- indentLine -----------------
+let g:indentLine_enabled = 1
 let g:indentLine_char = '│'
 let g:indentLine_first_char = '│'
 let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_fileTypeExclude = ['text', 'sh', 'startify', 'man', 'help']
 let g:indentLine_setColors = 1
 
-" vim-test config
+" ----------- vim-test -------------------
 let test#python#runner = 'nose'
 let test#strategy = "vimux"
 let test#python#nose#options = '-x -v -s --with-coverage'
 
-" Rainbowz
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+"----------- rainbow_parentheses ---------
+au VimEnter *   RainbowParenthesesToggle
+au Syntax   *   RainbowParenthesesLoadRound
+au Syntax   *   RainbowParenthesesLoadSquare
+au Syntax   *   RainbowParenthesesLoadBraces
+
+"------------- abolish --------------------
+if exists(":Abolish")
+  Abolish {,un}su{bcr,bsrc,scr,bs,cr,sbcr,sci}ibe{,r,s,rs} {}su{bscri}be{}
+  Abolish r{i,e}c{e,i}p{ei,i,e}nt r{e}c{i}p{ie}nt
+endif

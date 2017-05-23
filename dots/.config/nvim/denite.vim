@@ -58,7 +58,6 @@ autocmd FileType unite call s:uniteinit()
     \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
 
   call denite#custom#var('menu', 'menus', s:menus)
-  nnoremap <silent> <Leader>i :Denite menu:git <CR>
 
 " Git from denite...ERMERGERD
   let s:menus.git = {
