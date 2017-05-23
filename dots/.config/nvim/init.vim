@@ -28,13 +28,13 @@ Plug 'janko-m/vim-test'                    " Run tests
 Plug 'sheerun/vim-polyglot'                " Lots of language packs
 Plug 'Shougo/deoplete.nvim',               { 'do': ':UpdateRemotePlugins' } " Deoplete completion
 Plug 'zchee/deoplete-jedi',                { 'for': 'python' } " Deoplete Jedi for great python success
-Plug 'neomake/neomake'                     " Async linting courtesy of neomake
+Plug 'neomake/neomake'                     " Async linting
 Plug 'ervandew/supertab'                   " Tab menu for completion
 Plug 'scrooloose/nerdtree',                { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] } " Load nerdtree on demand
 Plug 'tpope/vim-endwise'                   " Automagically add ending statements
 Plug 'Yggdroot/indentLine'                 " indent lines
 Plug 'ap/vim-buftabline'                   " tabline is now useful
-Plug 'junegunn/vim-easy-align'             " Easy Align
+Plug 'junegunn/vim-easy-align'             " align stuff
 Plug 'kien/rainbow_parentheses.vim'        " Rainbow Parens
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'rhysd/clever-f.vim'                  " F and T are repeatable

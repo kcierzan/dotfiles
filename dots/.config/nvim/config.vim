@@ -41,7 +41,7 @@ set clipboard=unnamed,unnamedplus
 autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn |
 
 " Set a persistent undo file
-set undodir=~/.config/nvim/undo
+set undodir=~/.undo
 set undofile
 set undolevels=100000
 

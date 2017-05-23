@@ -26,7 +26,7 @@ nmap g# g#zz
 nmap <leader><leader> <Nop>
 let g:lmap[' '] = ['', 'Exit']
 let g:lmap.j = { 'name' : 'Jumping' }
-" s{char}{char} to move to {char}{char}
+" jump to 2 characters
 nmap s <Plug>(easymotion-overwin-f2)
 nmap <leader>js <Plug>(easymotion-overwin-f2)
 let g:lmap.j.s = ['easymotion-overwin-f2', 'Jump to 2 characters']
@@ -79,11 +79,11 @@ let g:lmap.p.s = ['jedi#documentation_command', 'Show documentation']
 "------Buffers and Windows-------
 let g:lmap.w = { 'name' : 'Windows' }
 " Close window
-nnoremap <Leader>wq :q<CR>
-let g:lmap.w.q = [':q', 'Close window']
+nnoremap <Leader>wc :q<CR>
+let g:lmap.w.c = [':q', 'Close window']
 " Force close window
-nnoremap <Leader>wQ :q!<CR>
-let g:lmap.w.Q = [':q!', 'Force close window']
+nnoremap <Leader>wC :q!<CR>
+let g:lmap.w.C = [':q!', 'Force close window']
 " Close buffer
 nnoremap <Leader>wd :Bdelete<CR>
 let g:lmap.w.d = [':Bdelete', 'Close buffer']
@@ -97,11 +97,34 @@ endfunction
 " create splits
 nnoremap <leader>wv :vsp<CR>
 let g:lmap.w.v = [':vsp', 'Open split vertical']
-nnoremap <leader>wh :sp<CR>
-let g:lmap.w.h = [':sp', 'Open split horizontal']
+nnoremap <leader>ws :sp<CR>
+let g:lmap.w.s = [':sp', 'Open split horizontal']
 nnoremap <leader>wi :IndentLinesToggle<CR>
 let g:lmap.w.i = [':IndentLinesToggle', 'Toggle indent lines']
-"buftabline
+nnoremap <leader>wk <C-w>+
+let g:lmap.w.k = ['<C-w>+', 'Expand split vertically']
+nnoremap <leader>wj <C-w>-
+let g:lmap.w.j = ['<C-w>-', 'Shrink split vertically']
+nnoremap <leader>wl <C-w><
+let g:lmap.w.l = ['<C-w>>', 'Expand split right']
+nnoremap <leader>wh <C-w>>
+let g:lmap.w.h = ['<C-w><', 'Expand split left']
+nnoremap <leader>wu :windo diffthis<CR>
+let g:lmap.w.u = ['windo diffthis', 'Vim diff']
+nnoremap <leader>wy :windo diffoff<CR>
+let g:lmap.w.y = ['windo diffoff', 'Diff off']
+nnoremap <leader>wn :new
+let g:lmap.w.n = ['new', 'New buffer']
+nnoremap <leader>ww <C-w>w
+let g:lmap.w.w = ['<C-w>w', 'Switch split']
+nnoremap <leader>wr <C-w>r
+let g:lmap.w.r = ['<C-w>r', 'Rotate buffers']
+nnoremap <leader>wo <C-w>o
+let g:lmap.w.o = ['<C-w>o', 'Close splits']
+nnoremap <leader>we <C-w>=
+let g:lmap.w.e = ['<C-w>e', 'Equalize splits']
+"
+"buftabline navigation
 nmap <C-L> <Nop>
 nmap <C-H> <Nop>
 nnoremap <C-L> :bnext<CR>
@@ -109,22 +132,17 @@ nnoremap <C-H> :bprev<CR>
 
 "--------Project-----------------
 let g:lmap.n = { 'name' : 'Neovim' }
-" Source dotfile
 nnoremap <Leader>nr :so ~/.config/nvim/init.vim<CR>
 let g:lmap.n.r = ['so ~/.config/nvim/init.vim', 'Source dotfile']
-" show file browser
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 let g:lmap.n.t = ['NERDTreeToggle', 'Toggle NerdTree']
-" cd to current file directory
-nnoremap <Leader>nd :lcd %:p:h<CR>
-let g:lmap.n.d = ['lcd %:p:h', 'Cd to current directory']
-" Open nerdtree at current working directory
+"cd to current file directory
+nnoremap <Leader>nd :lcd %:p:h<CR> 
+let g:lmap.n.d = ['lcd %:p:h', 'CD to current directory']
 nnoremap <Leader>nT :NERDTreeCWD<CR>
 let g:lmap.n.T = ['NERDTreeCWD', 'Open tree at current location']
-" show start buffer
 nnoremap <Leader>ns :Startify<CR>
 let g:lmap.n.s = ['Startify', 'Open start menu']
-" Show undotree
 nnoremap <Leader>nu :UndotreeToggle<CR>
 let g:lmap.n.u = ['UndotreeToggle', 'Toggle undotree']
 
@@ -176,10 +194,10 @@ nnoremap <silent> <leader>dg :Denite grep<CR>
 let g:lmap.d.g = ['Denite grep', 'Grep files recursively']
 nnoremap <silent> <leader>dt :Denite filetype<CR>
 let g:lmap.d.t = ['Denite filetype', 'Switch filetype']
-nnoremap <silent> <Leader>dv :Denite menu:git <CR>
-let g:lmap.d.v = ['Denite git', 'Git menu']
+nnoremap <silent> <Leader>di :Denite menu:git <CR>
+let g:lmap.d.i = ['Denite git', 'Git menu']
 
-" Set up leader guide
+" ------ Leader guide --------
 call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
 nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
 vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
