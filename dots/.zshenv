@@ -1,2 +1,2 @@
 # Path
-export PATH="~/.pyenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$PATH:$HOME/.rbenv/shims:$PATH"
+export PATH="~/.pyenv/shims:$HOME/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH:$PATH"

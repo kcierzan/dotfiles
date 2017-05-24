@@ -9,7 +9,10 @@ call denite#custom#option('default', 'prompt', '')
 
 let s:menus = {}
 call denite#custom#var('file_rec', 'command', 
-    \ ['rg', '--files','--hidden', '--glob', '!.git', ''])
+    \ ['rg', '--files','--hidden', '--glob', '!.git', '-g', '!.pyc', ''])
+" call denite#custom#var('file_rec', 'command', 
+"     \ ['ag', '--follow', '--nogroup', '-g', ''])
+
 call denite#custom#var('grep', 'command', ['rg'])
 call denite#custom#var('grep', 'default_opts',
     \ ['--vimgrep', '--no-heading'])
@@ -17,7 +20,7 @@ call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
 call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
-" call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
+call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
 " call denite#custom#option('default', 'statusline', 0)
 call denite#custom#option('default', 'highlight-matched-char', '')
 call denite#custom#option('default', 'highlight-matched-range', '')

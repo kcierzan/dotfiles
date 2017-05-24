@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 QUERY="$1"
 FZF_OPTS=""
 [[ $QUERY == "-m" ]] && FZF_OPTS=$QUERY && QUERY="$2"

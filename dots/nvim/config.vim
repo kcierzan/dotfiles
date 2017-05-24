@@ -85,6 +85,9 @@ let g:EasyMotion_use_smartsign_us = 1 " US layout
 " Use vim smartcase for global searches
 let g:EasyMotion_smartcase = 1
 
+" Remove annoying prefix
+au VimEnter *  nmap <leader><leader> <Nop> |
+
 " ------------- Jedi ----------------------
 " Use deoplete for completion
 let g:jedi#completions_enabled = 0
@@ -157,12 +160,16 @@ if exists(":Abolish")
   Abolish r{i,e}c{e,i}p{ei,i,e}nt r{e}c{i}p{ie}nt
 endif
 
+" ------------- Gitgutter ------------------
+let g:gitgutter_map_keys = 0
+
 " ------------- NERD Tree ------------------
 let g:NERDTreeHijackNetrw = 1
 let g:NERDTreeWinSize = 31
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeShowBookmarks = 1
+let NERDTreeShowHidden = 1
 
 " NERDTree Colorscheme
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)

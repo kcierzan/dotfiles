@@ -30,7 +30,7 @@ Plug 'Shougo/deoplete.nvim',               { 'do': ':UpdateRemotePlugins' } " De
 Plug 'zchee/deoplete-jedi',                { 'for': 'python' } " Deoplete Jedi for great python success
 Plug 'neomake/neomake'                     " Async linting
 Plug 'ervandew/supertab'                   " Tab menu for completion
-Plug 'scrooloose/nerdtree',                { 'on': ['NERDTreeToggle', 'NERDTreeCWD'] } " Load nerdtree on demand
+Plug 'scrooloose/nerdtree',                { 'on': ['NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeToggleAndFind'] } " Load nerdtree on demand
 Plug 'tpope/vim-endwise'                   " Automagically add ending statements
 Plug 'Yggdroot/indentLine'                 " indent lines
 Plug 'ap/vim-buftabline'                   " tabline is now useful
