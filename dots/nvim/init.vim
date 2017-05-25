@@ -39,11 +39,11 @@ Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'rhysd/clever-f.vim'                  " F and T are repeatable
 Plug 'tpope/vim-abolish'                   " correct common misspellings
 Plug 'AndrewRadev/sideways.vim'            " Move stuff sideways
-Plug '~/git/dotfiles/colorschemes/termina' " Best. Colorscheme. Ever.
 Plug 'hecal3/vim-leader-guide'             " Spacemacs style leader guide
 Plug 'junegunn/goyo.vim'                   " Remove distractions
 Plug 'junegunn/limelight.vim'              " Draw attention to code
 Plug 'mgee/lightline-bufferline'           " Buffers in tabline
+Plug 'kcierzan/termina'
 
 call plug#end()
 " Source nvim modules
