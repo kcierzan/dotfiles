@@ -153,8 +153,15 @@ nnoremap <Leader>bd :Bdelete<CR>
 let g:lmap.b.d = [':Bdelete', 'Close buffer']
 nnoremap <leader>bn :new<CR>
 let g:lmap.b.n = ['new', 'New buffer']
+nnoremap <leader>b% :set inrelativevnumber<CR>
+let g:lmap.b['%'] = ['set invrelativenumber', 'Toggle relative line numbers']
 nnoremap <leader>b# :set invnumber<CR>
-let g:lmap.b['#'] = ['set togglenumber', 'Toggle line numbers']
+let g:lmap.b['#'] = ['set invnumber', 'Toggle line numbers']
+nnoremap <leader>bl :Limelight<CR>
+let g:lmap.b.l = ['Limelight', 'Limelight']
+nnoremap <leader>bg :Goyo<CR>
+let g:lmap.b.g = ['Goyo', 'Distraction-free mod']
+
 
 "-------- Neovim -----------------
 let g:lmap.n = { 'name' : 'Neovim' }

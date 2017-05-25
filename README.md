@@ -1,6 +1,9 @@
 # Dotfiles
 
-This repo reflects a more-or-less current picture of my development environment. I hope to make things more portable and move away from buggy shell scripts as things firm up.
+1. Run shell scripts in `provision`
+2. Copy content of `dots` to home directory
+3. Install neovim plugins with `:PlugInstall`
+4. Install zsh plugins with `zplug install`
 
 ## Credits
 

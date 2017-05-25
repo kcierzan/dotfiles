@@ -118,7 +118,7 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " -------------- Neomake ---------------------
 " Lint as you type - WRITES TO FILE CONSTANTLY
-autocmd InsertChange,TextChanged,InsertLeave * update | Neomake
+autocmd InsertChange,TextChanged,InsertLeave * silent! update | Neomake
 
 " Configure linters
 let g:neomake_python_enabled_makers = ['flake8', 'pylint']
@@ -194,3 +194,37 @@ call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 " Open directories with NERDTree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTreeToggle' argv()[0] | wincmd p | ene | endif
+
+" ------------ Goyo -----------------------
+function! s:goyo_enter()
+  silent !tmux set status off
+  silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+  set noshowcmd
+  set scrolloff=999
+  set nocursorline
+  Limelight
+  nunmap <silent> <leader>
+  vunmap <silent> <leader>
+endfunction
+
+function! s:goyo_leave()
+  silent !tmux set status on
+  silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+  set showcmd
+  set scrolloff=3
+  set cursorline
+  Limelight!
+  colorscheme termina
+  nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
+  vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+"----------- Limelight ---------------------
+let g:limelight_conceal_ctermfg = 238
+let g:limelight_default_coefficient = 0.5
+
+" ---------- Buftabline --------------------
+set showtabline=2

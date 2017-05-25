@@ -33,7 +33,6 @@ Plug 'ervandew/supertab'                   " Tab menu for completion
 Plug 'scrooloose/nerdtree',                { 'on': ['NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeToggleAndFind'] } " Load nerdtree on demand
 Plug 'tpope/vim-endwise'                   " Automagically add ending statements
 Plug 'Yggdroot/indentLine'                 " indent lines
-Plug 'ap/vim-buftabline'                   " tabline is now useful
 Plug 'junegunn/vim-easy-align'             " align stuff
 Plug 'kien/rainbow_parentheses.vim'        " Rainbow Parens
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
@@ -42,6 +41,9 @@ Plug 'tpope/vim-abolish'                   " correct common misspellings
 Plug 'AndrewRadev/sideways.vim'            " Move stuff sideways
 Plug '~/git/dotfiles/colorschemes/termina' " Best. Colorscheme. Ever.
 Plug 'hecal3/vim-leader-guide'             " Spacemacs style leader guide
+Plug 'junegunn/goyo.vim'                   " Remove distractions
+Plug 'junegunn/limelight.vim'              " Draw attention to code
+Plug 'mgee/lightline-bufferline'           " Buffers in tabline
 
 call plug#end()
 " Source nvim modules

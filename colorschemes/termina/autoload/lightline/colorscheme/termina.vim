@@ -66,21 +66,21 @@ if &background ==# 'light'
   let [s:base01, s:base1] = [s:base1, s:base01]
   let [s:base00, s:base0] = [s:base0, s:base00]
 endif
-let s:p                 = {'normal': {}, 'inactive': {}, 'insert': {}, 'replace': {}, 'visual': {}, 'tabline': {}}
-let s:p.normal.left     = [ [ s:black, s:blue ], [ s:base3, s:base01 ] ]
-let s:p.normal.right    = [ [ s:base3, s:base01 ], [ s:base3, s:base01 ] ]
-let s:p.inactive.right  = [ [ s:base02, s:base01 ], [ s:base3, s:base01 ] ]
-let s:p.inactive.left   = [ [ s:black, s:base02 ], [ s:base00, s:base02 ] ]
-let s:p.insert.left     = [ [ s:black, s:green ], [ s:base3, s:base01 ] ]
-let s:p.replace.left    = [ [ s:black, s:red ], [ s:base3, s:base01 ] ]
-let s:p.visual.left     = [ [ s:black, s:magenta ], [ s:base3, s:base01 ] ]
-let s:p.normal.middle   = [ [ s:base1, s:black ] ]
-let s:p.inactive.middle = [ [ s:base0, s:black ] ]
-let s:p.tabline.left    = [ [ s:base2, s:base01 ] ]
-let s:p.tabline.tabsel  = [ [ s:base2, s:base02 ] ]
-let s:p.tabline.middle  = [ [ s:base01, s:base2 ] ]
-let s:p.tabline.right   = copy(s:p.normal.right)
-let s:p.normal.error    = [ [ s:black, s:red ] ]
-let s:p.normal.warning  = [ [ s:base02, s:yellow ] ]
+let s:p                    = {'normal': {}, 'inactive': {}, 'insert': {}, 'replace': {}, 'visual': {}, 'tabline': {}}
+let s:p.normal.left        = [ [ s:black, s:blue ], [ s:base3, s:base01 ] ]
+let s:p.normal.right       = [ [ s:base3, s:base01 ], [ s:base3, s:base01 ] ]
+let s:p.inactive.right     = [ [ s:base02, s:base01 ], [ s:base3, s:base01 ] ]
+let s:p.inactive.left      = [ [ s:black, s:base02 ], [ s:base00, s:base02 ] ]
+let s:p.insert.left        = [ [ s:black, s:green ], [ s:base3, s:base01 ] ]
+let s:p.replace.left       = [ [ s:black, s:red ], [ s:base3, s:base01 ] ]
+let s:p.visual.left        = [ [ s:black, s:magenta ], [ s:base3, s:base01 ] ]
+let s:p.normal.middle      = [ [ s:base1, s:black ] ]
+let s:p.inactive.middle    = [ [ s:base0, s:black ] ]
+let s:p.tabline.left = [ [ s:base3, s:base01 ] ]
+let s:p.tabline.tabsel     = [ [ s:black, s:blue ] ]
+" let s:p.tabline.middle     = [ [ s:base01, s:black ] ]
+let s:p.tabline.right      = copy(s:p.normal.right)
+let s:p.normal.error       = [ [ s:black, s:red ] ]
+let s:p.normal.warning     = [ [ s:base02, s:yellow ] ]
 
 let g:lightline#colorscheme#termina#palette = lightline#colorscheme#flatten(s:p)

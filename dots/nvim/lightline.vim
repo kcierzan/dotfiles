@@ -6,13 +6,17 @@
 "     /____/
 
 let g:lightline = {
-     \ 'colorscheme': 'termina',
+      \ 'colorscheme': 'termina',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'gitgutter', 'filename' ],
       \             [ 'neomake' ] ],
       \   'middle': [],
       \   'right': [ [ 'filetype', 'fileencoding', 'fileformat', 'lineinfo', 'percent' ] ],
+      \ },
+      \ 'tabline': {
+        \   'left': [ [ 'buffers' ] ],
+        \   'right': [ [ 'close' ], ],
       \ },
       \ 'component_function': {
       \   'fugitive': 'LightlineFugitive',
@@ -23,16 +27,18 @@ let g:lightline = {
       \   'filetype': 'LightlineFiletype',
       \   'fileencoding': 'LightlineFileencoding',
       \   'mode': 'LightlineMode',
-      \   'gitgutter': 'LightLineGitGutter'
+      \   'gitgutter': 'LightLineGitGutter',
       \ },
       \ 'component_expand': {
       \   'neomake': 'LightlineNeomake',
+        \ 'buffers': 'lightline#bufferline#buffers',
       \ },
       \ 'component_type': {
       \   'neomake': 'error',
+      \   'buffers': 'tabsel'
       \ },
       \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
       \ }
 
 function! LightlineModified()
