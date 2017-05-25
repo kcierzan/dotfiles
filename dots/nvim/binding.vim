@@ -161,6 +161,8 @@ nnoremap <leader>bl :Limelight<CR>
 let g:lmap.b.l = ['Limelight', 'Limelight']
 nnoremap <leader>bg :Goyo<CR>
 let g:lmap.b.g = ['Goyo', 'Distraction-free mod']
+nnoremap <leader>bu :UndoTreeToggle<CR>
+let g:lmap.b.u = ['UndoTree', 'Toggle UndoTree']
 
 
 "-------- Neovim -----------------
@@ -226,6 +228,10 @@ nnoremap <silent> <leader>ft :Denite filetype<CR>
 let g:lmap.f.t = ['Denite filetype', 'Switch filetype']
 nnoremap <silent> <Leader>fi :Denite menu:git <CR>
 let g:lmap.f.i = ['Denite git', 'Git menu']
+nnoremap <silent> <Leader>fd :Denite file<CR>
+let g:lmap.f.d = ['Denite file', 'Search directory files']
+nnoremap <silent> <Leader>fc :Denite colorscheme<CR>
+let g:lmap.f.c = ['Denite coloscheme', 'Search colorschemes']
 
 " ------ Dir ------------
 let g:lmap.d = { 'name' : 'Dir' }

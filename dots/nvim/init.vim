@@ -34,7 +34,7 @@ Plug 'scrooloose/nerdtree',                { 'on': ['NERDTreeToggle', 'NERDTreeC
 Plug 'tpope/vim-endwise'                   " Automagically add ending statements
 Plug 'Yggdroot/indentLine'                 " indent lines
 Plug 'junegunn/vim-easy-align'             " align stuff
-Plug 'kien/rainbow_parentheses.vim'        " Rainbow Parens
+Plug 'luochen1990/rainbow'                 " Rainbow Parens
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'rhysd/clever-f.vim'                  " F and T are repeatable
 Plug 'tpope/vim-abolish'                   " correct common misspellings
@@ -43,7 +43,9 @@ Plug 'hecal3/vim-leader-guide'             " Spacemacs style leader guide
 Plug 'junegunn/goyo.vim'                   " Remove distractions
 Plug 'junegunn/limelight.vim'              " Draw attention to code
 Plug 'mgee/lightline-bufferline'           " Buffers in tabline
-Plug 'kcierzan/termina'
+Plug 'kcierzan/termina'                    " TUI colorscheme
+Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
+Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
 
 call plug#end()
 " Source nvim modules

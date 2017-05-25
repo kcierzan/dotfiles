@@ -1,9 +1,9 @@
-"                     _____             _         
-"   _________  ____  / __(_)___ __   __(_)___ ___ 
+"                     _____             _
+"   _________  ____  / __(_)___ __   __(_)___ ___
 "  / ___/ __ \/ __ \/ /_/ / __ `/ | / / / __ `__ \
 " / /__/ /_/ / / / / __/ / /_/ /| |/ / / / / / / /
-" \___/\____/_/ /_/_/ /_/\__, (_)___/_/_/ /_/ /_/ 
-"                       /____/                    
+" \___/\____/_/ /_/_/ /_/\__, (_)___/_/_/ /_/ /_/
+"                       /____/
 " ======= Set up Defaults ==============
 set splitright
 set splitbelow
@@ -50,12 +50,6 @@ if executable("rg")
   set grepprg=rg\ --vimgrep\ --no-heading
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
-
-" Source dotfiles as they are written
-augroup vimGeneralCallbacks
-  autocmd!
-  autocmd BufWritePost init.vim, denite.vim, config.vim, binding.vim, lightline.vim source ~/.config/nvim/init.vim
-augroup END
 
 " ============ COLORSCHEME ======================
 
@@ -149,10 +143,9 @@ let test#strategy = "vimux"
 let test#python#nose#options = '-x -v -s --with-coverage'
 
 "----------- rainbow_parentheses ---------
-au VimEnter *   RainbowParenthesesToggle
-au Syntax   *   RainbowParenthesesLoadRound
-au Syntax   *   RainbowParenthesesLoadSquare
-au Syntax   *   RainbowParenthesesLoadBraces
+let g:rainbow_active = 1
+
+let g:rainbow_conf = { 'ctermfgs': ['magenta', 'blue', 'cyan', 'green', 'yellow', 'red'] }
 
 "------------- abolish --------------------
 if exists(":Abolish")
@@ -205,6 +198,7 @@ function! s:goyo_enter()
   Limelight
   nunmap <silent> <leader>
   vunmap <silent> <leader>
+  IndentLinesDisable
 endfunction
 
 function! s:goyo_leave()
@@ -217,6 +211,7 @@ function! s:goyo_leave()
   colorscheme termina
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
+  IndentLinesEnable
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
@@ -225,6 +220,7 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 "----------- Limelight ---------------------
 let g:limelight_conceal_ctermfg = 238
 let g:limelight_default_coefficient = 0.5
+let g:limelight_paragraph_span = 1
 
 " ---------- Buftabline --------------------
 set showtabline=2
