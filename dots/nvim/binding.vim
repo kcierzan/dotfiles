@@ -168,6 +168,8 @@ nnoremap <leader>be :ALENextWrap<CR>
 let g:lmap.b.e = ['ALENextWrap', 'Next linter message']
 nnoremap <leader>br :edit!<CR>
 let g:lmap.b.r = ['edit!', 'Revert changes']
+nnoremap <leader>bh :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
+let g:lmap.b.h = ['invcursorline', 'Toggle cursorline']
 
 "-------- Neovim -----------------
 let g:lmap.n = { 'name' : 'Neovim' }
