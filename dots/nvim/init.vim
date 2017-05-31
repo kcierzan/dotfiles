@@ -6,8 +6,9 @@
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.local/share/nvim/plugged')
 
+" Plug 'ervandew/supertab'                   " Tab menu for completion
 Plug 'tpope/vim-repeat'                    " Use . to repeat some stuff
-Plug 'Raimondi/delimitMate'                " Automatic deliminters
+Plug 'jiangmiao/auto-pairs'                " Automatic deliminters
 Plug 'tpope/vim-surround'                  " Surround with brackets, quotes etc
 Plug 'tpope/vim-commentary'                " Comment for great success
 Plug 'wellle/targets.vim'                  " Provide additional text objects
@@ -28,9 +29,7 @@ Plug 'janko-m/vim-test'                    " Run tests
 Plug 'sheerun/vim-polyglot'                " Lots of language packs
 Plug 'Shougo/deoplete.nvim',               { 'do': ':UpdateRemotePlugins' } " Deoplete completion
 Plug 'zchee/deoplete-jedi',                { 'for': 'python' } " Deoplete Jedi for great python success
-Plug 'neomake/neomake'                     " Async linting
-Plug 'ervandew/supertab'                   " Tab menu for completion
-Plug 'scrooloose/nerdtree',                { 'on': ['NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeToggleAndFind'] } " Load nerdtree on demand
+Plug 'scrooloose/nerdtree',                { 'on': ['NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] } " Load nerdtree on demand
 Plug 'tpope/vim-endwise'                   " Automagically add ending statements
 Plug 'Yggdroot/indentLine'                 " indent lines
 Plug 'junegunn/vim-easy-align'             " align stuff
@@ -43,9 +42,13 @@ Plug 'hecal3/vim-leader-guide'             " Spacemacs style leader guide
 Plug 'junegunn/goyo.vim'                   " Remove distractions
 Plug 'junegunn/limelight.vim'              " Draw attention to code
 Plug 'mgee/lightline-bufferline'           " Buffers in tabline
-Plug 'kcierzan/termina'                    " TUI colorscheme
+Plug '~/git/termina'                       " TUI colorscheme
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
+Plug 'w0rp/ale'
+Plug 'Shougo/neosnippet.vim'
+Plug 'honza/vim-snippets'
+Plug 'Shougo/neosnippet-snippets'
 
 call plug#end()
 " Source nvim modules

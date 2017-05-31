@@ -5,18 +5,23 @@
 " /_/_/\__, /_/ /_/\__/_/_/_/ /_/\___(_)___/_/_/ /_/ /_/
 "     /____/
 
+scriptencoding utf-8
+
 let g:lightline = {
       \ 'colorscheme': 'termina',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'gitgutter', 'filename' ],
-      \             [ 'neomake' ] ],
+      \             [ 'ale' ] ],
       \   'middle': [],
       \   'right': [ [ 'filetype', 'fileencoding', 'fileformat', 'lineinfo', 'percent' ] ],
       \ },
       \ 'tabline': {
         \   'left': [ [ 'buffers' ] ],
         \   'right': [ [ 'close' ], ],
+      \ },
+      \ 'mode_map': {
+      \    'c': 'NORMAL'
       \ },
       \ 'component_function': {
       \   'fugitive': 'LightlineFugitive',
@@ -30,11 +35,11 @@ let g:lightline = {
       \   'gitgutter': 'LightLineGitGutter',
       \ },
       \ 'component_expand': {
-      \   'neomake': 'LightlineNeomake',
         \ 'buffers': 'lightline#bufferline#buffers',
+        \ 'ale': 'LightLineAleStatus',
       \ },
       \ 'component_type': {
-      \   'neomake': 'error',
+      \   'ale': 'error',
       \   'buffers': 'tabsel'
       \ },
       \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
@@ -43,9 +48,9 @@ let g:lightline = {
 
 function! LightlineModified()
   if &filetype == "help"
-    return ""
+    return ""
   elseif &modified
-    return "+"
+    return ""
   elseif &modifiable
     return ""
   else
@@ -111,18 +116,17 @@ function! LightlineReadonly()
   if &filetype == "help"
     return ""
   elseif &readonly
-    return "\ue0a2"
+    return ""
   else
     return ""
   endif
 endfunction
 
-function! LightlineNeomake()
-  return '%{neomake#statusline#LoclistStatus()}'
+function! LightLineAleStatus()
+  return '%{ale#statusline#Status()}'
 endfunction
 
-augroup LightlineNeomake
+augroup UpdateAleLightLine
   autocmd!
-  autocmd BufWritePost *.py call lightline#update()
+  autocmd User ALELint call lightline#update()
 augroup END
-

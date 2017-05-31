@@ -17,7 +17,7 @@ let g:lmap[' '] = ['', 'Exit']
 nnoremap <Leader>q :q<CR>
 let g:lmap.q = [':q', 'Close window']
 " Force close window
-nnoremap <Leader>q :q!<CR>
+nnoremap <Leader>Q :q!<CR>
 let g:lmap.Q = [':q!', 'Force close window']
 
 " -----Finding-------------------
@@ -31,7 +31,7 @@ nnoremap <silent> <leader>sb ?
 let g:lmap.s.b = ['?', 'Search backward']
 nnoremap <silent> <leader>sw *
 let g:lmap.s.w = ['*', 'Search under cursor']
-
+"   
 " Keep search results in the center of the screen
 nmap n nzz
 nmap N Nzz
@@ -90,9 +90,6 @@ let g:lmap.p.d = ['jedi#goto_command', 'Go to definition']
 " Go to assignments
 let g:jedi#goto_assignments_command = "<leader>pa"
 let g:lmap.p.a = ['jedi#goto_assignments_command', 'Go to assignments']
-" Go to usages
-let g:jedi#goto_usages = "<leader>pu"
-let g:lmap.p.u = ['jedi#goto_usages', 'Go to usages']
   " Rename element
 let g:jedi#rename_command = "<leader>pr"
 let g:lmap.p.r = ['jedi#rename_command', 'Rename']
@@ -151,19 +148,26 @@ nnoremap <leader>bi :IndentLinesToggle<CR>
 let g:lmap.b.i = [':IndentLinesToggle', 'Toggle indent lines']
 nnoremap <Leader>bd :Bdelete<CR>
 let g:lmap.b.d = [':Bdelete', 'Close buffer']
+nnoremap <Leader>bD :Bdelete!<CR>
+let g:lmap.b.D = [':Bdelete', 'Force close buffer']
 nnoremap <leader>bn :new<CR>
 let g:lmap.b.n = ['new', 'New buffer']
-nnoremap <leader>b% :set inrelativevnumber<CR>
+nnoremap <leader>b% :set invrelativenumber<CR>
 let g:lmap.b['%'] = ['set invrelativenumber', 'Toggle relative line numbers']
 nnoremap <leader>b# :set invnumber<CR>
 let g:lmap.b['#'] = ['set invnumber', 'Toggle line numbers']
 nnoremap <leader>bl :Limelight<CR>
 let g:lmap.b.l = ['Limelight', 'Limelight']
 nnoremap <leader>bg :Goyo<CR>
-let g:lmap.b.g = ['Goyo', 'Distraction-free mod']
-nnoremap <leader>bu :UndoTreeToggle<CR>
+let g:lmap.b.g = ['Goyo', 'Distraction-free mode']
+nnoremap <leader>bu :UndotreeToggle<CR>
 let g:lmap.b.u = ['UndoTree', 'Toggle UndoTree']
-
+nnoremap <leader>bs :w<CR>
+let g:lmap.b.s = ['w', 'Save buffer']
+nnoremap <leader>be :ALENextWrap<CR>
+let g:lmap.b.e = ['ALENextWrap', 'Next linter message']
+nnoremap <leader>br :edit!<CR>
+let g:lmap.b.r = ['edit!', 'Revert changes']
 
 "-------- Neovim -----------------
 let g:lmap.n = { 'name' : 'Neovim' }
@@ -171,7 +175,12 @@ nnoremap <Leader>nr :so ~/.config/nvim/init.vim<CR>
 let g:lmap.n.r = ['so ~/.config/nvim/init.vim', 'Source dotfile']
 nnoremap <Leader>ns :Startify<CR>
 let g:lmap.n.s = ['Startify', 'Open start menu']
-
+nnoremap <Leader>nu :PlugUpdate<CR>
+let g:lmap.n.u = ['Plug Update', 'Update plugins]']
+nnoremap <Leader>ni :PlugInstall<CR>
+let g:lmap.n.i = ['Plug Install', 'Install plugins']
+nnoremap <Leader>nc :PlugClean<CR>
+let g:lmap.n.c = ['Plug Clean', 'Remove unmanaged plugins']
 
 "-------Editing-------------------
 let g:lmap.e = { 'name' : 'Edit' }
@@ -232,6 +241,8 @@ nnoremap <silent> <Leader>fd :Denite file<CR>
 let g:lmap.f.d = ['Denite file', 'Search directory files']
 nnoremap <silent> <Leader>fc :Denite colorscheme<CR>
 let g:lmap.f.c = ['Denite coloscheme', 'Search colorschemes']
+nnoremap <silent> <Leader>fo :Denite outline<CR>
+let g:lmap.f.o = ['Denite outline', 'Search ctags']
 
 " ------ Dir ------------
 let g:lmap.d = { 'name' : 'Dir' }
@@ -255,6 +266,20 @@ function! NERDTreeToggleAndFind()
   else
     execute ':NERDTreeFind'
   endif
+endfunction
+
+"------- Terminal-------------
+let g:lmap['\'] = { 'name': 'Debug' }
+let g:lmap['\']['r'] = ['pry', 'Pry']
+nnoremap <leader>\r :call DebugInTerminal('pry')<CR>
+let g:lmap['\']['p'] = ['pdb', 'Pdb']
+nnoremap <leader>\p :call DebugInTerminal('python -m pdb')<CR>
+let g:lmap['\']['n'] = ['node-debug', 'Node Debug']
+nnoremap <leader>\n :call DebugInTerminal('node-debug')<CR>
+
+function! DebugInTerminal(args)
+  botright split
+  execute 'terminal' a:args expand('%:p')
 endfunction
 
 " ------ Leader guide --------

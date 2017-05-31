@@ -22,7 +22,6 @@ set smartcase
 set gdefault
 " Start scrolling 3 lines before horizontal border
 set scrolloff=3
-"
 " Set up standard indentation
 set tabstop=2
 set softtabstop=2
@@ -30,12 +29,15 @@ set shiftwidth=2
 set expandtab
 set nowrap
 set shiftround
+set hidden
+" Always show tabline
+set showtabline=2
 
 " Allow cursor changing with tmux
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 " Enable system clipboard
-set clipboard=unnamed,unnamedplus
+set clipboard=unnamed
 
 " Disable annoying automatic comments
 autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn |
@@ -84,7 +86,7 @@ au VimEnter *  nmap <leader><leader> <Nop> |
 
 " ------------- Jedi ----------------------
 " Use deoplete for completion
-let g:jedi#completions_enabled = 0
+let g:jedi#completions_enabled    = 0
 let g:jedi#auto_vim_configuration = 0
 
 " ------------- Tmux Navigator ------------
@@ -93,7 +95,7 @@ let g:tmux_navigator_no_mappings = 1
 
 " ------------- Deoplete ------------------
 " Point to python neovim virtualenvs
-let g:python_host_prog = '/Users/kylec/.pyenv/versions/neovim2/bin/python'
+let g:python_host_prog  = '/Users/kylec/.pyenv/versions/neovim2/bin/python'
 let g:python3_host_prog = '/Users/kylec/.pyenv/versions/neovim3/bin/python'
 
 " Enable deoplete at startup
@@ -110,42 +112,41 @@ endif
 " Close the completion buffer once completion is done
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-" -------------- Neomake ---------------------
-" Lint as you type - WRITES TO FILE CONSTANTLY
-autocmd InsertChange,TextChanged,InsertLeave * silent! update | Neomake
+"---------- ALE ----------------------
+filetype off
+filetype plugin on
 
-" Configure linters
-let g:neomake_python_enabled_makers = ['flake8', 'pylint']
-let g:neomake_python_pylint_maker = {
-      \ 'args': ['--disable=all', '-enable=import-self, reimported, wildcard-import, misplaced-future, relative-import, deprecated-module, unpacking-non-sequence, invalid-all-object, undefined-all-variable, used-before-assignment, cell-var-from-loop, global-variable-undefined, redefined-builtin, redefine-in-handler, unused-import, unused-wildcard-import, global-variable-not-assigned, undefined-loop-variable, global-statement, global-at-module-level, bad-open-mode, redundant-unittest-assert, boolean-datetime, unused-variable', '--output-format=text', '--msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg} [{msg_id}]"', '--reports=no'],
-      \ 'errorformat':
-          \ '%A%f:%l:%c:%t: %m,' .
-          \ '%A%f:%l: %m,' .
-          \ '%A%f:(%l): %m,' .
-          \ '%-Z%p^%.%#,' .
-          \ '%-G%.%#',
-      \ 'postprocess': [
-          \   function('neomake#postprocess#GenericLengthPostprocess'),
-          \   function('neomake#makers#ft#python#PylintEntryProcess')],
-      \ 'exe': 'pylint',}
+" let g:ale_history_log_output = 1
+let g:ale_linters                        = { 'python': ['pylint', 'flake8'] }
+let g:ale_python_pylint_options          = '--rcfile=/Users/kylec/.pylintrc'
+let g:ale_python_pylint_use_global       = 1
+let g:ale_python_flake8_use_global       = 1
+let g:ale_python_flake8_executable       = '/Users/kylec/.pyenv/versions/neovim3/bin/flake8'
+let g:ale_python_pylint_executable       = '/Users/kylec/.pyenv/versions/neovim3/bin/pylint'
+let g:ale_echo_msg_format                = '[%severity%] %s [%linter%]'
+let g:ale_sign_error                     = '✖'
+let g:ale_sign_warning                   = '⚠'
+let g:ale_statusline_format              = ['✖ %d', '⚠ %d', '']
+let g:ale_warn_about_trailing_whitespace = 1
+highlight ALEErrorSign   ctermfg=1
+highlight ALEWarningSign ctermfg=3
 
 "----------- indentLine -----------------
-let g:indentLine_enabled = 1
-let g:indentLine_char = '│'
-let g:indentLine_first_char = '│'
+let g:indentLine_enabled              = 1
+let g:indentLine_char                 = '│'
+let g:indentLine_first_char           = '│'
 let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_fileTypeExclude = ['text', 'sh', 'startify', 'man', 'help']
-let g:indentLine_setColors = 1
+let g:indentLine_fileTypeExclude      = ['text', 'sh', 'startify', 'man', 'help']
+let g:indentLine_setColors            = 1
 
 " ----------- vim-test -------------------
-let test#python#runner = 'nose'
-let test#strategy = "vimux"
+let test#python#runner       = 'nose'
+let test#strategy            = "vimux"
 let test#python#nose#options = '-x -v -s --with-coverage'
 
 "----------- rainbow_parentheses ---------
 let g:rainbow_active = 1
-
-let g:rainbow_conf = { 'ctermfgs': ['magenta', 'blue', 'cyan', 'green', 'yellow', 'red'] }
+let g:rainbow_conf   = { 'ctermfgs': ['magenta', 'blue', 'cyan', 'green', 'yellow', 'red'] }
 
 "------------- abolish --------------------
 if exists(":Abolish")
@@ -157,12 +158,12 @@ endif
 let g:gitgutter_map_keys = 0
 
 " ------------- NERD Tree ------------------
-let g:NERDTreeHijackNetrw = 1
-let g:NERDTreeWinSize = 31
-let g:NERDTreeChDirMode = 2
+let g:NERDTreeHijackNetrw      = 1
+let g:NERDTreeWinSize          = 31
+let g:NERDTreeChDirMode        = 2
 let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeShowBookmarks = 1
-let NERDTreeShowHidden = 1
+let g:NERDTreeShowBookmarks    = 1
+let NERDTreeShowHidden         = 1
 
 " NERDTree Colorscheme
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
@@ -172,8 +173,9 @@ endfunction
 
 call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
 call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'green', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('py', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'Magenta', 'none', 'yellow', '#151515')
 call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
 call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
 call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
@@ -199,6 +201,7 @@ function! s:goyo_enter()
   nunmap <silent> <leader>
   vunmap <silent> <leader>
   IndentLinesDisable
+  ALEDisable
 endfunction
 
 function! s:goyo_leave()
@@ -212,15 +215,26 @@ function! s:goyo_leave()
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
   IndentLinesEnable
+  ALEEnable
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 "----------- Limelight ---------------------
-let g:limelight_conceal_ctermfg = 238
+let g:limelight_conceal_ctermfg     = 238
 let g:limelight_default_coefficient = 0.5
-let g:limelight_paragraph_span = 1
+let g:limelight_paragraph_span      = 1
 
-" ---------- Buftabline --------------------
-set showtabline=2
+"------------ neosnippet -------------------
+let g:neosnippet#enable_snipmate_compatibility = 1
+let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
+let g:AutoPairsMapCR=0
+let g:deoplete#auto_complete_start_length = 1 
+imap <expr><TAB> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> pumvisible() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
