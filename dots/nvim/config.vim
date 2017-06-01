@@ -238,3 +238,7 @@ inoremap <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+"----------- CleverF ------------------------
+let g:clever_f_across_no_line = 1
+let g:clever_f_smart_case = 1

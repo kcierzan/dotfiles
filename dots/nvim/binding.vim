@@ -31,7 +31,7 @@ nnoremap <silent> <leader>sb ?
 let g:lmap.s.b = ['?', 'Search backward']
 nnoremap <silent> <leader>sw *
 let g:lmap.s.w = ['*', 'Search under cursor']
-"   
+   
 " Keep search results in the center of the screen
 nmap n nzz
 nmap N Nzz

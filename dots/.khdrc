@@ -138,17 +138,29 @@ khd kwm on
 
 
 
-# set border color for different modes (ayu)
+# set border color for different modes (ryuuko)
 # blue
 khd mode default color 0xff81a1c1
 # yellow
-khd mode switcher color 0xffebcb8b
+khd mode switcher color 0xffbfb7a1
 # red
-khd mode swap color 0xffbf616a
+khd mode swap color 0xff99736e
 # green
-khd mode tree color 0xffa3be8c
+khd mode tree color 0xff78a090
 # purple
-khd mode space color 0xffb48ead
+khd mode space color 0xff868cbf
+
+# set border color for different modes (ayu)
+# blue
+# khd mode default color 0xff81a1c1
+# yellow
+# khd mode switcher color 0xffebcb8b
+# red
+# khd mode swap color 0xffbf616a
+# green
+# khd mode tree color 0xffa3be8c
+# purple
+# khd mode space color 0xffb48ead
 
 # # set border color for different modes (ayu)
 # # blue
@@ -163,6 +175,9 @@ khd mode space color 0xffb48ead
 # khd mode space color 0xffd4bfff
 
 
+
+# Restart kwm
+switcher - space : brew services restart kwm
 
 # toggle between modes
 lctrl - space                :   khd -e "mode activate switcher"
@@ -181,6 +196,9 @@ switcher - d            :   khd -e "mode activate tree"
 # What does this do?
 # switcher - q            :   khd -e "mode activate info"
 
+# Disable focus follows mouse
+switcher - backspace : kwmc config focus-follows-mouse toggle;\
+                       khd -e 'mode activate default'
 
 
 # switcher mode
