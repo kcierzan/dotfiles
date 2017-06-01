@@ -52,7 +52,7 @@ DISABLE_AUTO_TITLE="true"
 eval "$(fasd --init auto)"
 
 # Correct previous console commands
-eval "$(thefuck --alias)"
+# eval "$(thefuck --alias)"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -64,7 +64,7 @@ plugins=()
 # User configuration
 DEFAULT_USER="Kyle"
 
-eval "$(rbenv init -)"
+if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -77,10 +77,10 @@ source $ZSH/oh-my-zsh.sh
 # export ARCHFLAGS="-arch x86_64"
 
 # Load pyenv on shell start
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv > /dev/null 2>&1; then eval "$(pyenv init - --no-rehash)"; fi
 
 # Load pyenv-virtualenv on start
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+if which pyenv-virtualenv-init > /dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
@@ -101,13 +101,13 @@ source $ZPLUG_HOME/init.zsh
 # ------------ ZPLUG ------------------------
 zplug "mafredri/zsh-async",              from:github
 zplug "bhilburn/powerlevel9k",           from:github,   use:powerlevel9k.zsh-theme, as:theme
-zplug "plugins/fasd",                    from:oh-my-zsh
-zplug "plugins/osx",                     from:oh-my-zsh
+# zplug "plugins/fasd",                    from:oh-my-zsh
+# zplug "plugins/osx",                     from:oh-my-zsh
 zplug "plugins/pip",                     from:oh-my-zsh
-zplug "plugins/httpie",                  from:oh-my-zsh
-zplug "plugins/tmux",                    from:oh-my-zsh
+# zplug "plugins/httpie",                  from:oh-my-zsh
+# zplug "plugins/tmux",                    from:oh-my-zsh
 zplug "plugins/colored-man-pages",       from:oh-my-zsh
-zplug "plugins/thefuck",                 from:oh-my-zsh
+# zplug "plugins/thefuck",                 from:oh-my-zsh
 zplug "unixorn/warhol.plugin.zsh"
 zplug "zsh-users/zsh-syntax-highlighting"
 
