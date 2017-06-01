@@ -1,17 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# TODO:
+# pass args through to ansiweather
+# split output from ansiweather and reformat
+# add english explanation dict
+# add forecastio
+# add multi day forcast
+
 """A shit script to fetch weather info"""
 import os
 import re
 import subprocess
 import shlex
-import sys
 
 import requests
 
 
 def call_subprocess(cmd):
+    """parse arg strings and call shell commands"""
     proc = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)
     out, _ = proc.communicate()
     return out
