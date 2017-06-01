@@ -28,7 +28,7 @@ set -g @batt_charging_icon ""
 set -g @batt_discharging_icon ""
 set -g @batt_attached_icon ""
 set -g status-left "#[fg=colour0,bg=colour04,bold] #S #[fg=colour04,bg=colour0,nobold,nounderscore,noitalics]"
-set -g status-right "#[fg=colour04,bg=colour0,nobold,nounderscore,noitalics]#[fg=colour0,bg=colour04] %B %d  %I:%M #[fg=colour04,bg=colour0,nobold,nounderscore,noitalics]#[fg=colour0,bg=colour04,bold]#(/usr/local/bin/tmux-weather)#[fg=colour04,bg=colour0] #(ansiweather -a false -p false -w flase -h false -u imperial -l chalfont | grep -o '[0-9]......')  #[fg=colour0,bg=colour04,nobold] #{battery_status_bg} #{battery_icon} #{battery_percentage} "
+set -g status-right "#[fg=colour04,bg=colour0,nobold,nounderscore,noitalics]#[fg=colour0,bg=colour04] %B %d  %I:%M #[fg=colour04,bg=colour0,nobold,nounderscore,noitalics]#[fg=colour0,bg=colour04,bold]#(/usr/local/bin/tmux-weather)#[fg=colour04,bg=colour0] #(python ~/.cli-scripts/tmuxcast.py) #[fg=colour0,bg=colour04,nobold] #{battery_status_bg} #{battery_icon} #{battery_percentage} "
 setw -g window-status-format "#[fg=colour04,bg=colour0] #I #[fg=colour04,bg=colour0] #W#[fg=colour0,bg=colour0]"
 setw -g window-status-current-format "#[fg=colour0,bg=colour04] #I #[fg=colour0,bg=colour04] #W #[fg=colour04,bg=colour0,nobold,nounderscore,noitalics]"
 
