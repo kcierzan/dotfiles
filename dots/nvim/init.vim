@@ -6,7 +6,6 @@
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.local/share/nvim/plugged')
 
-" Plug 'ervandew/supertab'                   " Tab menu for completion
 Plug 'tpope/vim-repeat'                    " Use . to repeat some stuff
 Plug 'jiangmiao/auto-pairs'                " Automatic deliminters
 Plug 'tpope/vim-surround'                  " Surround with brackets, quotes etc
@@ -15,7 +14,7 @@ Plug 'wellle/targets.vim'                  " Provide additional text objects
 Plug 'easymotion/vim-easymotion'           " Easymotion
 Plug 'Shougo/neomru.vim'                   " MRU Source for Denite
 Plug 'Shougo/denite.nvim'                  " Unite all interfaces
-Plug 'davidhalter/jedi-vim',               { 'for': 'python' } " Vim Jedi for definition jumping and code navigation
+Plug 'davidhalter/jedi-vim'               " Vim Jedi for definition jumping and code navigation
 Plug 'airblade/vim-gitgutter'              " Git gutter
 Plug 'mbbill/undotree'                     " Undo Tree
 Plug 'mhinz/vim-startify'                  " The cow says...
@@ -49,6 +48,8 @@ Plug 'w0rp/ale'
 Plug 'Shougo/neosnippet.vim'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'blueyed/vim-diminactive'
+
 
 call plug#end()
 " Source nvim modules

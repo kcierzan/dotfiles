@@ -189,6 +189,10 @@ let g:lmap.e = { 'name' : 'Edit' }
 xmap <leader>ea <Plug>(EasyAlign)
 nnoremap <leader>ea <Plug>(EasyAlign)
 let g:lmap.e.a = ['EasyAlign', 'Align']
+nnoremap <leader>eh :SidewaysLeft<CR>
+let g:lmap.e.h = ['SidewaysLeft', 'Move left']
+nnoremap <leader>el :SidewaysRight<CR>
+let g:lmap.e.l = ['SidewaysRight', 'Move right']
 
 " Select all text
 noremap vA ggVG

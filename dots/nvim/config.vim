@@ -59,6 +59,24 @@ syntax enable
 set background=dark
 colorscheme termina
 
+" highlight current window
+autocmd WinEnter * set cursorline
+autocmd WinLeave * set nocursorline
+
+function! s:focus_pane()
+  set cursorline
+  set relativenumber
+  set number
+endfunction
+
+function! s:unfocus_pane()
+  set nocursorline
+  set norelativenumber
+endfunction
+
+autocmd! WinEnter * call <SID>focus_pane()
+autocmd! WinLeave * call <SID>unfocus_pane()
+
 " Fix colors and enable transparency in terminal
 " hi! EndOfBuffer ctermbg=None
 " hi Normal guibg=NONE ctermbg=NONE
@@ -71,6 +89,9 @@ colorscheme termina
 " Set up Python style
 autocmd BufNewFile,BufRead *.py
   \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix colorcolumn=80 expandtab autoindent |
+
+" Edit crontab files in place
+autocmd filetype crontab setlocal nobackup nowritebackup
 
 " ============= PLUGIN CONFIGURATION ==============
 
@@ -88,6 +109,7 @@ au VimEnter *  nmap <leader><leader> <Nop> |
 " Use deoplete for completion
 let g:jedi#completions_enabled    = 0
 let g:jedi#auto_vim_configuration = 0
+let g:jedi#usages_command = ""
 
 " ------------- Tmux Navigator ------------
 " Map alt + hjkl to navigation
@@ -191,16 +213,18 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTreeToggle' argv()[0] | wincmd p | ene | endif
 
 " ------------ Goyo -----------------------
+let g:goyo_width = 120
+
 function! s:goyo_enter()
   silent !tmux set status off
   silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
   set noshowcmd
   set scrolloff=999
   set nocursorline
-  Limelight
   nunmap <silent> <leader>
   vunmap <silent> <leader>
   IndentLinesDisable
+  call deoplete#toggle()
   ALEDisable
 endfunction
 
@@ -210,10 +234,10 @@ function! s:goyo_leave()
   set showcmd
   set scrolloff=3
   set cursorline
-  Limelight!
   colorscheme termina
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
+  call deoplete#toggle()
   IndentLinesEnable
   ALEEnable
 endfunction
