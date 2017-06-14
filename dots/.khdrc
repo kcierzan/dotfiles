@@ -82,10 +82,6 @@
 # - button3 : khd -w "mouse-button 3 pressed"
 # - button4 : khd -w "mouse-button 4 pressed"
 
-# TODO(koekeishiya): possibly allow combined syntax such as
-# [switcher,ytd] + ctrl - f : khd -e "mode activate default"
-
-
 
 # vi-mode for non-terminal applications
 
@@ -140,38 +136,29 @@ khd mode default color 0xff81a1c1
 khd mode switcher color 0xffbfb7a1
 # red
 khd mode swap color 0xff99736e
-# green
-khd mode tree color 0xff78a090
 # purple
-khd mode space color 0xff868cbf
+khd mode pane color 0xff868cbf
 
 
 # toggle between modes
 lctrl - space                :   khd -e "mode activate switcher"
 switcher + lctrl - space     :   khd -e "mode activate default"
 swap + lctrl - space         :   khd -e "mode activate default"
-space + lctrl - space        :   khd -e "mode activate default"
-tree + lctrl - space         :   khd -e "mode activate default"
-info + lctrl - space         :   khd -e "mode activate default"
+pane + lctrl - space         :   khd -e "mode activate default"
 
 switcher - 0x35 : khd -e "mode activate default"
 swap - 0x35     : khd -e "mode activate default"
-space - 0x35    : khd -e "mode activate default"
-tree - 0x35     : khd -e "mode activate default"
-info - 0x35     : khd -e "mode activate default"
+pane - 0x35     : khd -e "mode activate default"
 
-# What does this do?
 switcher - a            :   khd -e "mode activate swap"
-switcher - s            :   khd -e "mode activate space"
-switcher - d            :   khd -e "mode activate tree"
-# What does this do?
-# switcher - q            :   khd -e "mode activate info"
+switcher - d            :   khd -e "mode activate pane"
 
 # Disable focus follows mouse
 switcher - backspace : kwmc config focus-follows-mouse toggle;\
                        khd -e 'mode activate default'
 # Restart kwm
 switcher - 8 : brew services restart kwm
+switcher - 9 : brew services restart khd
 
 # switcher mode
 switcher - r            :   khd -e "reload" # reload config
@@ -209,6 +196,8 @@ switcher + shift - 3    :   kwmc display -f 2
 
 
 # swap mode
+swap - d                :   khd -e "mode activate pane"
+swap - s                :   khd -e "mode activate switcher"
 swap - h                :   kwmc window -s west
 swap - j                :   kwmc window -s south
 swap - k                :   kwmc window -s north
@@ -234,51 +223,41 @@ swap + shift - 1        :   kwmc window -m display 0
 swap + shift - 2        :   kwmc window -m display 1
 swap + shift - 3        :   kwmc window -m display 2
 
+# pane mode
+pane - a               :   khd -e "mode activate swap"
+pane - s               :   khd -e "mode activate switcher"
+pane - x               :   kwmc space -g increase horizontal
+pane - y               :   kwmc space -g increase vertical
 
+pane + shift - x       :   kwmc space -g decrease horizontal
+pane + shift - y       :   kwmc space -g decrease vertical
 
-# space mode
-space - x               :   kwmc space -g increase horizontal
-space - y               :   kwmc space -g increase vertical
+pane - p               :   kwmc space -p increase all
 
-space + shift - x       :   kwmc space -g decrease horizontal
-space + shift - y       :   kwmc space -g decrease vertical
+pane + shift - p       :   kwmc space -p decrease all
 
-space - h               :   kwmc space -p increase left
-space - l               :   kwmc space -p increase right
-space - k               :   kwmc space -p increase top
-space - j               :   kwmc space -p increase bottom
-space - p               :   kwmc space -p increase all
+pane - f                :   kwmc window -z fullscreen
+pane - d                :   kwmc window -z parent
+pane - w                :   kwmc window -t focused
+pane - r                :   kwmc tree rotate 90
 
-space + shift - h       :   kwmc space -p decrease left
-space + shift - l       :   kwmc space -p decrease right
-space + shift - k       :   kwmc space -p decrease top
-space + shift - j       :   kwmc space -p decrease bottom
-space + shift - p       :   kwmc space -p decrease all
+pane - m                :   kwmc window -c split - mode toggle;\
+                             khd -e "mode activate default"
 
+pane - h                :   kwmc window -c expand 0.05 west
+pane - j                :   kwmc window -c expand 0.05 south
+pane - k                :   kwmc window -c expand 0.05 north
+pane - l                :   kwmc window -c expand 0.05 east
+pane + shift - h        :   kwmc window -c reduce 0.05 west
+pane + shift - j        :   kwmc window -c reduce 0.05 south
+pane + shift - k        :   kwmc window -c reduce 0.05 north
+pane + shift - l        :   kwmc window -c reduce 0.05 east
 
+pane - b                :   kwmc tree -pseudo create
+pane + shift - b        :   kwmc tree -pseudo destroy
 
-# tree mode
-tree - f                :   kwmc window -z fullscreen
-tree - d                :   kwmc window -z parent
-tree - w                :   kwmc window -t focused
-tree - r                :   kwmc tree rotate 90
-
-tree - s                :   kwmc window -c split - mode toggle;\
-                            khd -e "mode activate default"
-tree - h                :   kwmc window -c expand 0.05 west
-tree - j                :   kwmc window -c expand 0.05 south
-tree - k                :   kwmc window -c expand 0.05 north
-tree - l                :   kwmc window -c expand 0.05 east
-tree + shift - h        :   kwmc window -c reduce 0.05 west
-tree + shift - j        :   kwmc window -c reduce 0.05 south
-tree + shift - k        :   kwmc window -c reduce 0.05 north
-tree + shift - l        :   kwmc window -c reduce 0.05 east
-
-tree - p                :   kwmc tree -pseudo create
-tree + shift - p        :   kwmc tree -pseudo destroy
-
-tree - o                :   kwmc window -s prev
-tree + shift - o        :   kwmc window -s next
+pane - o                :   kwmc window -s prev
+pane + shift - o        :   kwmc window -s next
 
 # default
 cmd + alt + ctrl - m    :   kwmc window -mk focused

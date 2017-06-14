@@ -113,6 +113,16 @@ zplug "zsh-users/zsh-syntax-highlighting"
 
 zplug load
 
+# Enable vi editing mode and show in prompt
+function zle-keymap-select {
+  VIMODE="${${KEYMAP/vicmd/ M:command}/(main|viins)/}"
+  zle reset-prompt
+}
+
+zle -N zle-keymap-select
+bindkey -v
+set show-mode-in-prompt on
+
 
 # Source additional dotfiles
 source ~/.exports

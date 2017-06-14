@@ -55,11 +55,14 @@ map <Leader>jl <Plug>(easymotion-bd-jk)
 let g:lmap.j.l = ['easymotion-bd-jk', 'Jump to line']
 nmap <Leader>jl <Plug>(easymotion-overwin-line)
 " Move to word
-map  <Leader>jw <Plug>(easymotion-bd-w)
-nmap <Leader>jw <Plug>(easymotion-overwin-w)
-let g:lmap.j.w = ['easymotion-overwin-w', 'Jump to word']
+nmap  <Leader>jw <C-w>g<C-]>
+let g:lmap.j.w = ['stjump', 'Jump to tag in new window']
 nnoremap <silent> <leader>jc :nohlsearch<CR><Esc>
 let g:lmap.j.c = ['nohlsearch', 'Clear search highlight']
+nnoremap <leader>jt g<C-]>
+let g:lmap.j.t = ['tjump', 'Jump to tag']
+nnoremap <leader>jb <C-t>
+let g:lmap.j.b = ['jump backj', 'Jump back from tag']
 
 " Universal nvim split / Tmux navigation
 nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
@@ -87,9 +90,6 @@ let g:lmap.p = { 'name' : 'Python' }
 " Go to definition
 let g:jedi#goto_command = "<leader>pd"
 let g:lmap.p.d = ['jedi#goto_command', 'Go to definition']
-" Go to assignments
-let g:jedi#goto_assignments_command = "<leader>pa"
-let g:lmap.p.a = ['jedi#goto_assignments_command', 'Go to assignments']
   " Rename element
 let g:jedi#rename_command = "<leader>pr"
 let g:lmap.p.r = ['jedi#rename_command', 'Rename']

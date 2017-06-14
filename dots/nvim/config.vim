@@ -10,7 +10,7 @@ set splitbelow
 set showcmd
 set noshowmode
 set noerrorbells
-set relativenumber
+set number
 set lazyredraw
 set noswapfile
 set cursorline
@@ -63,20 +63,6 @@ colorscheme termina
 autocmd WinEnter * set cursorline
 autocmd WinLeave * set nocursorline
 
-function! s:focus_pane()
-  set cursorline
-  set relativenumber
-  set number
-endfunction
-
-function! s:unfocus_pane()
-  set nocursorline
-  set norelativenumber
-endfunction
-
-autocmd! WinEnter * call <SID>focus_pane()
-autocmd! WinLeave * call <SID>unfocus_pane()
-
 " Fix colors and enable transparency in terminal
 " hi! EndOfBuffer ctermbg=None
 " hi Normal guibg=NONE ctermbg=NONE
@@ -90,7 +76,7 @@ autocmd! WinLeave * call <SID>unfocus_pane()
 autocmd BufNewFile,BufRead *.py
   \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix colorcolumn=80 expandtab autoindent |
 
-" Edit crontab files in place
+" Edit macos cron jobs
 autocmd filetype crontab setlocal nobackup nowritebackup
 
 " ============= PLUGIN CONFIGURATION ==============
@@ -170,12 +156,6 @@ let test#python#nose#options = '-x -v -s --with-coverage'
 let g:rainbow_active = 1
 let g:rainbow_conf   = { 'ctermfgs': ['magenta', 'blue', 'cyan', 'green', 'yellow', 'red'] }
 
-"------------- abolish --------------------
-if exists(":Abolish")
-  Abolish {,un}su{bcr,bsrc,scr,bs,cr,sbcr,sci}ibe{,r,s,rs} {}su{bscri}be{}
-  Abolish r{i,e}c{e,i}p{ei,i,e}nt r{e}c{i}p{ie}nt
-endif
-
 " ------------- Gitgutter ------------------
 let g:gitgutter_map_keys = 0
 
@@ -214,6 +194,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 
 " ------------ Goyo -----------------------
 let g:goyo_width = 120
+let g:goyo_linenr = 0
 
 function! s:goyo_enter()
   silent !tmux set status off
