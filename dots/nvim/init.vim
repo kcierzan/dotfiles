@@ -14,7 +14,7 @@ Plug 'wellle/targets.vim'                  " Provide additional text objects
 Plug 'easymotion/vim-easymotion'           " Easymotion
 Plug 'Shougo/neomru.vim'                   " MRU Source for Denite
 Plug 'Shougo/denite.nvim'                  " Unite all interfaces
-Plug 'davidhalter/jedi-vim'               " Vim Jedi for definition jumping and code navigation
+Plug 'davidhalter/jedi-vim'                " Vim Jedi for definition jumping and code navigation
 Plug 'airblade/vim-gitgutter'              " Git gutter
 Plug 'mbbill/undotree'                     " Undo Tree
 Plug 'mhinz/vim-startify'                  " The cow says...

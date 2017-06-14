@@ -20,6 +20,8 @@ call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
 call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
 call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
+call denite#custom#source('outline', 'sorters', ['sorter_sublime'])
+call denite#custom#source('grep', 'sorters', ['sorter_sublime'])
 call denite#custom#option('default', 'highlight-matched-char', '')
 call denite#custom#option('default', 'highlight-matched-range', '')
 hi deniteMatched guibg=None

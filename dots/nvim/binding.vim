@@ -57,8 +57,6 @@ nmap <Leader>jl <Plug>(easymotion-overwin-line)
 " Move to word
 nmap  <Leader>jw <C-w>g<C-]>
 let g:lmap.j.w = ['stjump', 'Jump to tag in new window']
-nnoremap <silent> <leader>jc :nohlsearch<CR><Esc>
-let g:lmap.j.c = ['nohlsearch', 'Clear search highlight']
 nnoremap <leader>jt g<C-]>
 let g:lmap.j.t = ['tjump', 'Jump to tag']
 nnoremap <leader>jb <C-t>

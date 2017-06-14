@@ -14,6 +14,7 @@ set number
 set lazyredraw
 set noswapfile
 set cursorline
+set autochdir
 set nu
 " disable auto break long lines
 set textwidth=0
@@ -205,7 +206,7 @@ function! s:goyo_enter()
   nunmap <silent> <leader>
   vunmap <silent> <leader>
   IndentLinesDisable
-  call deoplete#toggle()
+  call deoplete#disable()
   ALEDisable
 endfunction
 
@@ -218,7 +219,7 @@ function! s:goyo_leave()
   colorscheme termina
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
-  call deoplete#toggle()
+  call deoplete#enable()
   IndentLinesEnable
   ALEEnable
 endfunction
