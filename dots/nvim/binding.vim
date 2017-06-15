@@ -83,18 +83,6 @@ xnoremap H ^
 onoremap L $
 onoremap H ^
 
-" ----- Jedi -----------
-let g:lmap.p = { 'name' : 'Python' }
-" Go to definition
-let g:jedi#goto_command = "<leader>pd"
-let g:lmap.p.d = ['jedi#goto_command', 'Go to definition']
-  " Rename element
-let g:jedi#rename_command = "<leader>pr"
-let g:lmap.p.r = ['jedi#rename_command', 'Rename']
-" Show documentation
-let g:jedi#documentation_command = "<leader>ps" 
-let g:lmap.p.s = ['jedi#documentation_command', 'Show documentation']
-
 "------ Windows -------
 let g:lmap.w = { 'name' : 'Windows' }
 " Intelligently close deoplete popup

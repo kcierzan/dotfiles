@@ -55,21 +55,13 @@ if executable("rg")
 endif
 
 " ============ COLORSCHEME ======================
-
 syntax enable
 set background=dark
 colorscheme termina
 
 " highlight current window
-autocmd WinEnter * set cursorline
-autocmd WinLeave * set nocursorline
-
-" Fix colors and enable transparency in terminal
-" hi! EndOfBuffer ctermbg=None
-" hi Normal guibg=NONE ctermbg=NONE
-" hi! NonText ctermbg=None
-" hi! LineNr ctermbg=None
-" hi! Comment cterm=italic
+autocmd WinEnter * set cursorline | set nu | IndentLinesEnable
+autocmd WinLeave * set nocursorline | set nonumber | IndentLinesDisable
 
 " ============ FILETYPE SETTINGS ==================
 
@@ -92,18 +84,14 @@ let g:EasyMotion_smartcase = 1
 " Remove annoying prefix
 au VimEnter *  nmap <leader><leader> <Nop> |
 
-" ------------- Jedi ----------------------
-" Use deoplete for completion
-let g:jedi#completions_enabled    = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#usages_command = ""
-
 " ------------- Tmux Navigator ------------
 " Map alt + hjkl to navigation
 let g:tmux_navigator_no_mappings = 1
 
 " ------------- Deoplete ------------------
 " Point to python neovim virtualenvs
+"
+" Depends on the existence of a pyenv virtualenv for python2.7 and 3.6
 let g:python_host_prog  = '/Users/kylec/.pyenv/versions/neovim2/bin/python'
 let g:python3_host_prog = '/Users/kylec/.pyenv/versions/neovim3/bin/python'
 
@@ -125,6 +113,9 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 filetype off
 filetype plugin on
 
+" Depends on the existence of a pyenv virtualenv with pylint >= 1.7.1 and
+" flake8 installed
+"
 " let g:ale_history_log_output = 1
 let g:ale_linters                        = { 'python': ['pylint', 'flake8'] }
 let g:ale_python_pylint_options          = '--rcfile=/Users/kylec/.pylintrc'
@@ -208,6 +199,7 @@ function! s:goyo_enter()
   IndentLinesDisable
   call deoplete#disable()
   ALEDisable
+  set nonumber
 endfunction
 
 function! s:goyo_leave()
@@ -222,6 +214,7 @@ function! s:goyo_leave()
   call deoplete#enable()
   IndentLinesEnable
   ALEEnable
+  set number
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
@@ -237,13 +230,14 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
 let g:AutoPairsMapCR=0
 let g:deoplete#auto_complete_start_length = 1 
+" weird hack to close completion popup/expand snippets (expand with <C-k>)
 imap <expr><TAB> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 smap <expr><TAB> pumvisible() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 
 "----------- CleverF ------------------------
 let g:clever_f_across_no_line = 1
