@@ -37,6 +37,9 @@ set showtabline=2
 " Allow cursor changing with tmux
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
+" Enable blinking cursor
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+"
 " Enable system clipboard
 set clipboard=unnamed
 

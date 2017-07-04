@@ -21,8 +21,8 @@ call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
 call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
 call denite#custom#source('outline', 'sorters', ['sorter_sublime'])
-call denite#custom#source('grep', 'sorters', ['sorter_sublime'])
-call denite#custom#source('line', 'sorters', ['sorter_sublime'])
+call denite#custom#source('grep', 'sorters', [])
+call denite#custom#source('line', 'sorters', [])
 call denite#custom#option('default', 'highlight-matched-char', '')
 call denite#custom#option('default', 'highlight-matched-range', '')
 hi deniteMatched guibg=None
@@ -56,6 +56,7 @@ let s:menus.git.command_candidates = [
   \[' git status', 'Gstatus'],
   \[' git commit', 'Gcommit'],
   \[' git stage/add', 'Gwrite'],
+  \[' git blame', 'Gblame'],
   \[' git checkout', 'Gread'],
   \[' git rm', 'Gremove'],
   \[' git cd', 'Gcd'],

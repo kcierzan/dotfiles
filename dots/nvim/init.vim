@@ -47,8 +47,7 @@ Plug 'w0rp/ale'
 Plug 'Shougo/neosnippet.vim'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'blueyed/vim-diminactive'
-
+Plug 'tpope/rhubarb'
 
 call plug#end()
 " Source nvim modules

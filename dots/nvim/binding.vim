@@ -143,7 +143,9 @@ let g:lmap.b['%'] = ['set invrelativenumber', 'Toggle relative line numbers']
 nnoremap <leader>b# :set invnumber<CR>
 let g:lmap.b['#'] = ['set invnumber', 'Toggle line numbers']
 nnoremap <leader>bl :Limelight<CR>
-let g:lmap.b.l = ['Limelight', 'Limelight']
+let g:lmap.b.l = ['Limelight', 'Limelight On']
+nnoremap <leader>bL :Limelight!<CR>
+let g:lmap.b.L = ['Limelight!', 'Limelight Off']
 nnoremap <leader>bg :Goyo<CR>
 let g:lmap.b.g = ['Goyo', 'Distraction-free mode']
 nnoremap <leader>bu :UndotreeToggle<CR>
