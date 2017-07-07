@@ -253,6 +253,8 @@ nnoremap <Leader>du :cd ..<CR>
 let g:lmap.d.u = ['cd ..', 'CD to parent directory']
 nnoremap <leader>dp :pwd<CR>
 let g:lmap.d.p = ['pwd', 'Print working directory']
+nnoremap <leader>da :set invautochdir<CR>
+let g:lmap.d.a = ['set invautochdir', 'Toggle autochange dir']
 
 function! NERDTreeToggleAndFind()
   if (exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1)

@@ -1,0 +1,11 @@
+--recurse=yes
+--exclude=.git
+--exclude=vendor/*
+--exclude=node_modules/*
+--exclude=db/*
+--exclude=log/*
+--exclude=.pyc
+--exclude=build/*
+--exclude=templates/*
+--exclude=static/*
+--exclude=platform/*

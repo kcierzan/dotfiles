@@ -5,13 +5,20 @@ brew tap | grep -q 'universal-ctags' || brew tap universal-ctags/universal-ctags
 brew tap | grep -q 'mopidy/mopidy' || brew tap universal-ctags/universal-ctags
 
 pkgs=(
+  neovim
 	pyenv
 	pyenv-virtualenv
+  coreutils
+  gnu-sed
+  gzip
+  grep
+  less
 	ruby
 	mpc
 	git
 	colordiff
 	fasd
+  rsync
 	jq
 	ripgrep
 	ssh-copy-id
@@ -24,7 +31,9 @@ pkgs=(
 	hub
 	tig
 	lua
+  tmux
 	python
+  neofetch
 	python3
 	kwm
 	khd
@@ -38,6 +47,10 @@ pkgs=(
   mvtools
   ffms2
   subliminal
+  youtube-dl
+  zplug
+  zsh
+  exa
 )
 
 # Install all brew packages

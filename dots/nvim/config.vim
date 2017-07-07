@@ -14,7 +14,6 @@ set number
 set lazyredraw
 set noswapfile
 set cursorline
-set autochdir
 set nu
 " disable auto break long lines
 set textwidth=0

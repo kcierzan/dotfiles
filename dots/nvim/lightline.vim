@@ -11,14 +11,14 @@ let g:lightline = {
       \ 'colorscheme': 'termina',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'gitgutter', 'filename' ],
-      \             [ 'ale' ] ],
+      \             [ 'fugitive', 'gitgutter' ],
+      \             [ 'ale' ], [ 'filename' ]  ],
       \   'middle': [],
-      \   'right': [ [ 'filetype', 'fileencoding', 'fileformat', 'lineinfo', 'percent' ] ],
+      \   'right': [ [ 'percent', 'lineinfo' ], [ 'filetype' ] ],
       \ },
       \ 'tabline': {
         \   'left': [ [ 'buffers' ] ],
-        \   'right': [ [ 'close' ], ],
+        \   'right': [],
       \ },
       \ 'mode_map': {
       \    'c': 'NORMAL'

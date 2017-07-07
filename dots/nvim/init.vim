@@ -47,7 +47,7 @@ Plug 'w0rp/ale'
 Plug 'Shougo/neosnippet.vim'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'tpope/rhubarb'
+Plug 'tpope/vim-rhubarb'
 
 call plug#end()
 " Source nvim modules

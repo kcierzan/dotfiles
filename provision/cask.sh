@@ -11,7 +11,6 @@ casks=(
 	sublime-text
 	flux
 	transmission
-	ubersicht
 	google-chrome
 	google-drive
 	virtualbox
@@ -20,6 +19,15 @@ casks=(
 	font-firacode-nerd-font
 	font-iosevka-nerd-font
 	font-hack-nerd-font
+  font-inconsolata-nerd-font
+  font-lekton-nerd-font
+  font-monoid-nerd-font
+  font-mplus-nerd-font
+  font-profont-nerd-font
+  font-sharetechmono-nerd-font
+  iterm2-nightly
+  vagrant-manager
+  xquartz
 )
 
 # Install all brew casks

@@ -5,13 +5,11 @@ export ZSH="$HOME/.oh-my-zsh"
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
 DISABLE_UNTRACKED_FILES_DIRTY="true"
+
 COMPLETION_WAITING_DOTS="true"
 
 # jump around
 eval "$(fasd --init auto)"
-
-# Add plugins with zplug instead
-plugins=()
 
 # User configuration
 DEFAULT_USER="Kyle"

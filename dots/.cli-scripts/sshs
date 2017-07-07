@@ -24,7 +24,6 @@ if [ $servers ]; then
   if [ -z "$FZF_OPTS" ]; then
     ssh ${servers[0]};
   else
-    tmux new-window;
     tmux send-keys -t 1 "ssh ${servers[0]}" C-m;
     counter=1;
     for server in "${servers[@]}";

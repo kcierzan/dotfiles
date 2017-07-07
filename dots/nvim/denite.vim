@@ -9,9 +9,6 @@ call denite#custom#option('default', 'prompt', '')
 let s:menus = {}
 call denite#custom#var('file_rec', 'command', 
     \ ['rg', '--files','--hidden', '-g', '!.git', '-g', '!.pyc'])
-" call denite#custom#var('file_rec', 'command', 
-"     \ ['ag', '--follow', '--nogroup', '-g', ''])
-
 call denite#custom#var('grep', 'command', ['rg'])
 call denite#custom#var('grep', 'default_opts',
     \ ['--vimgrep', '--no-heading', '-g', '!.pyc', '-g', '!.git'])
