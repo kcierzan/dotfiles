@@ -1,0 +1,146 @@
+# Pass through the tmux prefix
+# lctrl - space -> 
+# enable kwm compatibility mode
+# khd kwm on
+
+# suppress unregistered keybinds outside default mode
+# khd void_unlisted_bind off
+
+# set border color for different modes (ryuuko)
+
+# blue
+khd mode default  on_enter chunkc border::color 0xFF55c097
+# yellow
+khd mode switcher on_enter chunkc border::color 0xFFffcd1c
+# red
+khd mode swap     on_enter chunkc border::color 0xFFf47868
+# purple
+khd mode pane     on_enter chunkc border::color 0xFF9472b3
+
+lctrl - space                :   khd -e "mode activate switcher"
+switcher + lctrl - space     :   khd -e "mode activate default"
+swap + lctrl - space         :   khd -e "mode activate default"
+pane + lctrl - space         :   khd -e "mode activate default"
+
+switcher - 0x35 : khd -e "mode activate default"
+swap - 0x35     : khd -e "mode activate default"
+pane - 0x35     : khd -e "mode activate default"
+
+switcher - a            :   khd -e "mode activate swap"
+switcher - d            :   khd -e "mode activate pane"
+
+# Disable focus follows mouse
+# switcher - backspace : kwmc config focus-follows-mouse toggle;\
+#                        khd -e 'mode activate default'
+# Restart kwm
+switcher - 8 : brew services restart chunkwm
+switcher - 9 : brew services restart khd
+
+# switcher mode
+switcher - r            :   khd -e "reload" # reload config
+
+switcher - return       :   open -na /Applications/iTerm.app;\
+                            khd -e "mode activate default"
+
+switcher - h            :   chunkc tiling::window --focus west
+switcher - l            :   chunkc tiling::window --focus east
+switcher - j            :   chunkc tiling::window --focus south
+switcher - k            :   chunkc tiling::window --focus north
+
+# switcher - n            :   kwmc window -fm prev
+# switcher - m            :   kwmc window -fm next
+
+# switcher - 1            :   kwmc space -fExperimental 1
+# switcher - 2            :   kwmc space -fExperimental 2
+# switcher - 3            :   kwmc space -fExperimental 3
+# switcher - 4            :   kwmc space -fExperimental 4
+# switcher - 5            :   kwmc space -fExperimental 5
+# switcher - 6            :   kwmc space -fExperimental 6
+
+# switcher - z            :   kwmc space -fExperimental left
+# switcher - c            :   kwmc space -fExperimental right
+# switcher - f            :   kwmc space -fExperimental previous
+
+# switcher + shift - z    :   kwmc window -m space left;\
+#                             kwmc space -fExperimental left
+
+# switcher + shift - c    :   kwmc window -m space right;\
+#                             kwmc space -fExperimental right
+
+# switcher + shift - 1    :   kwmc display -f 0
+# switcher + shift - 2    :   kwmc display -f 1
+# switcher + shift - 3    :   kwmc display -f 2
+
+
+# swap mode
+swap - d                :   khd -e "mode activate pane"
+swap - s                :   khd -e "mode activate switcher"
+swap - h                :   chunkc tiling::window --swap west
+swap - j                :   chunkc tiling::window --swap south
+swap - k                :   chunkc tiling::window --swap north
+swap - l                :   chunkc tiling::window --swap east
+# swap - m                :   kwmc window -s mark
+
+# swap + shift - k        :   kwmc window -m north
+# swap + shift - l        :   kwmc window -m east
+# swap + shift - j        :   kwmc window -m south
+# swap + shift - h        :   kwmc window -m west
+# swap + shift - m        :   kwmc window -m mark
+
+# swap - 1                :   kwmc window -m space 1
+# swap - 2                :   kwmc window -m space 2
+# swap - 3                :   kwmc window -m space 3
+# swap - 4                :   kwmc window -m space 4
+# swap - 5                :   kwmc window -m space 5
+
+# swap - z                :   kwmc window -m space left
+# swap - c                :   kwmc window -m space right
+
+# swap + shift - 1        :   kwmc window -m display 0
+# swap + shift - 2        :   kwmc window -m display 1
+# swap + shift - 3        :   kwmc window -m display 2
+
+# pane mode
+pane - a               :   khd -e "mode activate swap"
+pane - s               :   khd -e "mode activate switcher"
+pane - p               :   chunkc tiling::desktop --padding inc
+pane - g               :   chunkc tiling::desktop --gap inc
+
+pane + shift - p       :   chunkc tiling::desktop --padding dec
+pane + shift - g       :   chunkc tiling::desktop --gap dec
+pane - t               :   chunkc tiling::desktop --toggle offset
+
+
+# pane - p               :   kwmc space -p increase all
+
+# pane + shift - p       :   kwmc space -p decrease all
+
+pane - f                :   chunkc tiling::window --toggle fullscreen
+pane + shit - f         :   chunkc tiling::window --toggle native-fullscreen
+# pane - d                :   kwmc window -z parent
+# pane - w                :   kwmc window -t focused
+pane - r                :   chunkc tiling::desktop --rotate 90
+
+pane - m                :   chunkc tiling::window --toggle split
+
+pane - h                :   chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge west
+pane - j                :   chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge south
+pane - k                :   chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge north
+pane - l                :   chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge east
+pane + shift - h        :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge west
+pane + shift - j        :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge south
+pane + shift - k        :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge north
+pane + shift - l        :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge east
+
+# pane - b                :   kwmc tree -pseudo create
+# pane + shift - b        :   kwmc tree -pseudo destroy
+
+# pane - o                :   kwmc window -s prev
+# pane + shift - o        :   kwmc window -s next
+
+# # default
+# cmd + alt + ctrl - m    :   kwmc window -mk focused
+# cmd + alt + ctrl - h    :   kwmc window -mk west wrap
+# cmd + alt + ctrl - l    :   kwmc window -mk east wrap
+# cmd + alt + ctrl - j    :   kwmc window -mk south wrap
+# cmd + alt + ctrl - k    :   kwmc window -mk north wrap
