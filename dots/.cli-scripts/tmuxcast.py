@@ -20,23 +20,30 @@ def call_subprocess(cmd):
 def get_location():
     """Fetch ip from some hardcoded site like a genius"""
     location_data = requests.get('http://ipinfo.io/json')
-    location = location_data.json()
-    return location.get('city', 'Chalfont')
+    try:
+        location = location_data.json()
+    except ValueError:
+        output.write(location_data.status_code)
+        return
+    city = location.get('city', 'Chalfont')
+    region = location.get('region', 'Pennsylvania')
+    return '{}, {}'.format(city, region)
 
 
 def get_weather(city):
     """Check for an environment variable set by this script"""
     weather = call_subprocess('ansiweather -a false -p false -w flase'
-                              ' -h false -u imperial -l {}'.format(str(city)))
+                              ' -d false -h false -u imperial -l {}'.format(
+                                  str(city)))
     match = re.findall(r'\d+\s..\w\s.*', str(weather))
     return ''.join(match)
 
 
 def main():
     """Entry point to the script"""
-    city = get_location()
-    weather = get_weather(city)
+    weather = get_weather(get_location())
     output.write('{}'.format(weather))
+
 
 if __name__ == '__main__':
     main()
