@@ -30,11 +30,11 @@ def get_location():
     return '{}, {}'.format(city, region)
 
 
-def get_weather(city):
+def get_weather(location):
     """Check for an environment variable set by this script"""
     weather = call_subprocess('ansiweather -a false -p false -w flase'
-                              ' -d false -h false -u imperial -l {}'.format(
-                                  str(city)))
+                              ' -d false -h false -u imperial -l "{}"'.format(
+                                  location))
     match = re.findall(r'\d+\s..\w\s.*', str(weather))
     return ''.join(match)
 
