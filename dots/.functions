@@ -1,8 +1,4 @@
 # Create a new directory and enter it
-function mkd() {
-    mkdir -p "$@" && cd "$_";
-}
-
 # Create a relative path to arg1 from ar2
 function relpath() {
     python -c "import os.path; print os.path.relpath('$1','${2:-$PWD}')";  
@@ -102,9 +98,9 @@ fd() {
 # Modified fuzzy open where you can press
 #   - CTRL-O to open with `open` command,
 #   - CTRL-E or Enter key to open with the $EDITOR
-e() {
+ff() {
     local out file key
-    IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0  --expect=ctrl-o,ctrl-e --preview "pygmentize -g {}"))
+    IFS=$'\n' out=($(fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-e --preview "pygmentize -g {}"))
     key=$(head -1 <<< "$out")
     file=$(head -2 <<< "$out" | tail -1)
     if [ -n "$file" ]; then
@@ -112,9 +108,16 @@ e() {
     fi
 }
 
-# get the forecast
-wttr () {
-    curl http://wttr.in/$1
+fr() {
+  local file
+  file=$(gsed '1d' ~/.cache/neomru/file |
+         fzf --query="$1" --select-1 --exit-0)
+  [ -n "$file" ] && nvim $file
+}
+
+fd() {
+  local dir
+  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
 }
 
 # show terminal colors
@@ -123,12 +126,12 @@ termcol () {
 }
 
 # Color less
-cl () {
+pl () {
   pygmentize -g $1 | less -r
 }
 
-tree () {
-  exa -lah --group-directories-first -T -L $1
+tre () {
+  exa -lh --group-directories-first -T -L $1
 }
 
 # Search for filename
@@ -150,10 +153,13 @@ flog() {
 
 # fuzzy sshs into known hosts
 sshs() {
-  tmux split-window 'tmux resize-pane -Z' |
-  ~/.cli-scripts/sshs -m
+  tmux split-window 'tmux resize-pane -Z' | ~/.cli-scripts/sshs -m
 }
 
 timeshell() {
   for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
+}
+
+brewup() {
+  brew update && brew outdated | fzf -m -n 1 --tac --header='Select formulae to upgrade' | xargs brew upgrade
 }
