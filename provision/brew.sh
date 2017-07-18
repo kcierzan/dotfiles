@@ -17,7 +17,6 @@ pkgs=(
 	ruby
 	mpc
 	git
-	colordiff
 	fasd
   rsync
 	jq
@@ -30,9 +29,8 @@ pkgs=(
 	reattach-to-user-namespace
 	mutt
 	hub
-	tig
-	lua
   tmux
+  stow
 	python
   neofetch
 	python3
