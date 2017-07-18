@@ -5,50 +5,62 @@ brew tap | grep -q 'universal-ctags' || brew tap universal-ctags/universal-ctags
 brew tap | grep -q 'mopidy/mopidy' || brew tap universal-ctags/universal-ctags
 
 pkgs=(
-  neovim
+  ansiweather
   "chunkwm --with-ffm"
-	pyenv
-	pyenv-virtualenv
   coreutils
-  gnu-sed
-  gzip
-  grep
-  less
-	ruby
-	mpc
-	git
+  ddate
+  exa
 	fasd
-  rsync
-	jq
-	ripgrep
-	ssh-copy-id
-	httpie
+  "ffmpeg --with-rtmpdump --with-openssl --with-libass --with-libbs2b --with-rubberband"
+  ffms2
+  fontforge
 	fzf
+	git
 	highlight
-	"universal-ctags --HEAD"
-	reattach-to-user-namespace
-	mutt
 	hub
-  tmux
-  stow
-	python
-  neofetch
-	python3
+  gnu-sed
+  grep
+  gzip
+	httpie
+	jq
 	khd
-	ncmpcpp
-	rbenv
+  less
+  "libass --without-harfbuzz"
   mopidy
   mopidy-spotify
-  "libass --without-harfbuzz"
-  "ffmpeg --with-rtmpdump --with-openssl --with-libass --with-libbs2b --with-rubberband"
+	mpc
   "mpv --with-vapoursynth --with-libarchive --with-bundle"
+	mutt
   mvtools
-  ffms2
+  neofetch
+  neomutt
+  neovim
+	ncmpcpp
+  nvm
+  postgresql
+	pyenv
+	pyenv-virtualenv
+	python
+	python3
+	rbenv
+  readline
+	reattach-to-user-namespace
+	ripgrep
+	ruby
+  rsync
+  sqlite
+	ssh-copy-id
+  stow
   subliminal
+  task
+  tmux
+	"universal-ctags --HEAD"
+  vit
+  weechat
+  xz
   youtube-dl
   zplug
   zsh
-  exa
 )
 
 # Install all brew packages
