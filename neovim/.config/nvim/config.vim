@@ -103,8 +103,8 @@ let g:tmux_navigator_no_mappings = 1
 " Point to python neovim virtualenvs
 "
 " Depends on the existence of a pyenv virtualenv for python2.7 and 3.6
-let g:python_host_prog  = '/Users/kylec/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '/Users/kylec/.pyenv/versions/neovim3/bin/python'
+let g:python_host_prog  = '$HOME/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = '$HOME/.pyenv/versions/neovim3/bin/python'
 
 " Enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
