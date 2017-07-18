@@ -88,9 +88,9 @@ let g:lmap.w = { 'name' : 'Windows' }
 " Intelligently close deoplete popup
 inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 " <CR>: close deoplete popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+inoremap <expr><silent> <CR> <SID>my_cr_function()
 function! s:my_cr_function() abort
-  return deoplete#close_popup() . "\<CR>"
+  return pumvisible() ? deoplete#close_popup() : "\<CR>"
 endfunction
 
 nnoremap <leader>wv :vsp<CR>
@@ -158,6 +158,8 @@ nnoremap <leader>br :edit!<CR>
 let g:lmap.b.r = ['edit!', 'Revert changes']
 nnoremap <leader>bh :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
 let g:lmap.b.h = ['invcursorline', 'Toggle cursorline']
+nnoremap <leader>bE :ALEToggle<CR>
+let g:lmap.b.E = ['ALEToggle', 'Toggle linter']
 
 "-------- Neovim -----------------
 let g:lmap.n = { 'name' : 'Neovim' }
@@ -206,6 +208,12 @@ let g:lmap.t.v = ['TestVisit', 'Go to last run test']
 let g:lmap.g = { 'name' : 'Git' }
 nnoremap <silent> <leader>gs :Gstatus<CR>
 let g:lmap.g.s = ['Gstatus', 'Git status']
+nnoremap <silent> <leader>gb :Gblame<CR>
+let g:lmap.g.b = ['Gblame', 'Git blame']
+nnoremap <silent> <leader>gn :GitGutterNextHunk<CR>
+let g:lmap.g.n = ['GitGutterNextHunk', 'Next hunk']
+nnoremap <silent> <leader>gN :GitGutterPrevHunk<CR>
+let g:lmap.g.N = ['GitGutterPrevHunk', 'Previous hunk']
 nnoremap <silent> <leader>gh :GitGutterStageHunk<CR>
 let g:lmap.g.h = ['GitGutterStageHunk', 'Stage hunk']
 nnoremap <silent> <leader>gu :GitGutterUndoHunk<CR>

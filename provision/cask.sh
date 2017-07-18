@@ -15,7 +15,7 @@ casks=(
 	google-drive
 	virtualbox
 	vagrant
-	iterm2-nightly
+  fontforge
 	font-firacode-nerd-font
 	font-iosevka-nerd-font
 	font-hack-nerd-font
@@ -25,6 +25,7 @@ casks=(
   font-mplus-nerd-font
   font-profont-nerd-font
   font-sharetechmono-nerd-font
+  font-fantasquesansmono-nerd-font
   iterm2-nightly
   vagrant-manager
   xquartz

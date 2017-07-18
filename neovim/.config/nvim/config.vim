@@ -5,6 +5,8 @@
 " \___/\____/_/ /_/_/ /_/\__, (_)___/_/_/ /_/ /_/
 "                       /____/
 " ======= Set up Defaults ==============
+scriptencoding utf-8
+
 set splitright
 set splitbelow
 set showcmd
@@ -14,7 +16,7 @@ set number
 set lazyredraw
 set noswapfile
 set cursorline
-set nu
+set number
 " disable auto break long lines
 set textwidth=0
 set ignorecase
@@ -51,7 +53,7 @@ set undofile
 set undolevels=100000
 
 " Set :grep to use ripgrep
-if executable("rg")
+if executable('rg')
   set grepprg=rg\ --vimgrep\ --no-heading
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
@@ -62,8 +64,10 @@ set background=dark
 colorscheme termina
 
 " highlight current window
-autocmd WinEnter * set cursorline | set nu | IndentLinesEnable
-autocmd WinLeave * set nocursorline | set nonumber | IndentLinesDisable
+augroup SwitchPanes
+  autocmd WinEnter * set cursorline | set nu | IndentLinesEnable
+  autocmd WinLeave * set nocursorline | set nonumber | IndentLinesDisable
+augroup END
 
 " ============ FILETYPE SETTINGS ==================
 
@@ -73,6 +77,9 @@ autocmd BufNewFile,BufRead *.py
 
 " Edit macos cron jobs
 autocmd filetype crontab setlocal nobackup nowritebackup
+
+autocmd BufNewFile,BufRead *.thtml
+  \ setlocal syntax=phtml
 
 " ============= PLUGIN CONFIGURATION ==============
 
@@ -84,7 +91,9 @@ let g:EasyMotion_use_smartsign_us = 1 " US layout
 let g:EasyMotion_smartcase = 1
 
 " Remove annoying prefix
-au VimEnter *  nmap <leader><leader> <Nop> |
+augroup RemoveEasyMotionPrefix
+  au VimEnter *  nmap <leader><leader> <Nop> |
+augroup END
 
 " ------------- Tmux Navigator ------------
 " Map alt + hjkl to navigation
@@ -119,12 +128,25 @@ filetype plugin on
 " flake8 installed
 "
 " let g:ale_history_log_output = 1
-let g:ale_linters                        = { 'python': ['pylint', 'flake8'] }
+let g:ale_linters                        = { 'python': ['pylint', 'flake8'],
+                                           \ 'javascript': ['eslint'],
+                                           \ 'css': ['stylelint'],
+                                           \ 'php': ['phpstan'],
+                                           \ 'bash': ['shellcheck'],
+                                           \ 'html': ['tidy'],
+                                           \ 'vim': ['vint'],
+                                           \ 'yaml': ['yamllint'],
+                                           \ }
+let g:ale_linter_aliases                 = { 'javascript.jsx': 'javascript', 'jsx': 'javascript', 'thtml': 'html', 'phtml': 'html' }
 let g:ale_python_pylint_options          = '--rcfile=/Users/kylec/.pylintrc'
 let g:ale_python_pylint_use_global       = 1
 let g:ale_python_flake8_use_global       = 1
+let g:ale_javascript_eslint_use_global   = 1
 let g:ale_python_flake8_executable       = '/Users/kylec/.pyenv/versions/neovim3/bin/flake8'
+let g:ale_vim_vint_executable            = '/Users/kylec/.pyenv/versions/neovim3/bin/vint'
 let g:ale_python_pylint_executable       = '/Users/kylec/.pyenv/versions/neovim3/bin/pylint'
+let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
+let g:ale_javascript_eslint_options      = '-c ~/.eslintrc.yml'
 let g:ale_echo_msg_format                = '[%severity%] %s [%linter%]'
 let g:ale_sign_error                     = '✖'
 let g:ale_sign_warning                   = '⚠'
@@ -142,9 +164,9 @@ let g:indentLine_fileTypeExclude      = ['text', 'sh', 'startify', 'man', 'help'
 let g:indentLine_setColors            = 1
 
 " ----------- vim-test -------------------
-let test#python#runner       = 'nose'
-let test#strategy            = "vimux"
-let test#python#nose#options = '-x -v -s --with-coverage'
+let g:test#python#runner       = 'nose'
+let g:test#strategy            = 'vimux'
+let g:test#python#nose#options = '-x -v -s --with-coverage'
 
 "----------- rainbow_parentheses ---------
 let g:rainbow_active = 1
@@ -159,7 +181,7 @@ let g:NERDTreeWinSize          = 31
 let g:NERDTreeChDirMode        = 2
 let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeShowBookmarks    = 1
-let NERDTreeShowHidden         = 1
+let g:NERDTreeShowHidden         = 1
 
 " NERDTree Colorscheme
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
@@ -183,8 +205,10 @@ call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
 call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 
 " Open directories with NERDTree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTreeToggle' argv()[0] | wincmd p | ene | endif
+augroup OpenDirInNerdTree
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTreeToggle' argv()[0] | wincmd p | ene | endif
+augroup END
 
 " ------------ Goyo -----------------------
 let g:goyo_width = 120
@@ -219,8 +243,10 @@ function! s:goyo_leave()
   set number
 endfunction
 
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
+augroup GoyoToggle
+  autocmd! User GoyoEnter nested call <SID>goyo_enter()
+  autocmd! User GoyoLeave nested call <SID>goyo_leave()
+augroup END
 
 "----------- Limelight ---------------------
 let g:limelight_conceal_ctermfg     = 238

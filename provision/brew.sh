@@ -6,6 +6,7 @@ brew tap | grep -q 'mopidy/mopidy' || brew tap universal-ctags/universal-ctags
 
 pkgs=(
   neovim
+  "chunkwm --with-ffm"
 	pyenv
 	pyenv-virtualenv
   coreutils
@@ -35,7 +36,6 @@ pkgs=(
 	python
   neofetch
 	python3
-	kwm
 	khd
 	ncmpcpp
 	rbenv

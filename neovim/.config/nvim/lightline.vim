@@ -47,24 +47,24 @@ let g:lightline = {
       \ }
 
 function! LightlineModified()
-  if &filetype == "help"
-    return ""
+  if &filetype ==? 'help'
+    return ''
   elseif &modified
-    return ""
+    return ''
   elseif &modifiable
-    return ""
+    return ''
   else
-    return ""
+    return ''
   endif
 endfunction
 
 function! LightlineFilename()
-  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft == 'denite' ? denite#get_status_string() :
-        \  &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+  return ('' !=? LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ (&filetype ==? 'vimfiler' ? vimfiler#get_status_string() :
+        \  &filetype ==? 'denite' ? denite#get_status_string() :
+        \  &filetype ==? 'vimshell' ? vimshell#get_status_string() :
+        \ '' !=? expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' !=? LightlineModified() ? ' ' . LightlineModified() : '')
 endfunction
 
 function! LightLineGitGutter()
@@ -73,25 +73,25 @@ function! LightLineGitGutter()
           \ || winwidth('.') <= 90
       return ''
     endif
-    let symbols = [
+    let l:symbols = [
           \ g:gitgutter_sign_added,
           \ g:gitgutter_sign_modified,
           \ g:gitgutter_sign_removed
           \ ]
-    let hunks = GitGutterGetHunkSummary()
-    let ret = []
-    for i in [0, 1, 2]
-      if hunks[i] > 0
-        call add(ret, symbols[i] . hunks[i])
+    let l:hunks = GitGutterGetHunkSummary()
+    let l:ret = []
+    for l:i in [0, 1, 2]
+      if l:hunks[l:i] > 0
+        call add(l:ret, l:symbols[l:i] . l:hunks[l:i])
       endif
     endfor
-    return join(ret, ' ')
+    return join(l:ret, ' ')
   endfunction
 
 function! LightlineFugitive()
-  if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
-    let branch = fugitive#head()
-    return branch !=# '' ? " \ue0a0 ".branch : ''
+  if &filetype !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+    let l:branch = fugitive#head()
+    return l:branch !=# '' ? " \ue0a0 ".l:branch : ''
   endif
   return ''
 endfunction
@@ -105,7 +105,7 @@ function! LightlineFiletype()
 endfunction
 
 function! LightlineFileencoding()
-  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+  return winwidth(0) > 70 ? (&fileencoding !=# '' ? &fileencoding : &encoding) : ''
 endfunction
 
 function! LightlineMode()
@@ -113,12 +113,12 @@ function! LightlineMode()
 endfunction
 
 function! LightlineReadonly()
-  if &filetype == "help"
-    return ""
+  if &filetype ==? 'help'
+    return ''
   elseif &readonly
-    return ""
+    return ''
   else
-    return ""
+    return ''
   endif
 endfunction
 

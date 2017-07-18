@@ -5,7 +5,6 @@
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.local/share/nvim/plugged')
-
 Plug 'tpope/vim-repeat'                    " Use . to repeat some stuff
 Plug 'jiangmiao/auto-pairs'                " Automatic deliminters
 Plug 'tpope/vim-surround'                  " Surround with brackets, quotes etc
@@ -43,26 +42,27 @@ Plug 'mgee/lightline-bufferline'           " Buffers in tabline
 Plug '~/git/termina'                       " TUI colorscheme
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
-Plug 'w0rp/ale'
-Plug 'Shougo/neosnippet.vim'
-Plug 'honza/vim-snippets'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'tpope/vim-rhubarb'
-
+Plug 'w0rp/ale'                            " Asynchronous linting engine
+Plug 'Shougo/neosnippet.vim'               " Snippet functionality
+Plug 'honza/vim-snippets'                  " Snippet collection
+Plug 'Shougo/neosnippet-snippets'          " Snippet collection
+Plug 'tpope/vim-rhubarb'                   " Access GitHub
+Plug 'mattn/emmet-vim'                     " Markup Expansion
 call plug#end()
+
 " Source nvim modules
-if filereadable(expand("~/.config/nvim/config.vim"))
+if filereadable(expand('~/.config/nvim/config.vim'))
   source ~/.config/nvim/config.vim
 endif
 
-if filereadable(expand("~/.config/nvim/binding.vim"))
+if filereadable(expand('~/.config/nvim/binding.vim'))
   source ~/.config/nvim/binding.vim
 endif
 
-if filereadable(expand("~/.config/nvim/lightline.vim"))
+if filereadable(expand('~/.config/nvim/lightline.vim'))
   source ~/.config/nvim/lightline.vim
 endif
 
-if filereadable(expand("~/.config/nvim/denite.vim"))
+if filereadable(expand('~/.config/nvim/denite.vim'))
   source ~/.config/nvim/denite.vim
 endif
