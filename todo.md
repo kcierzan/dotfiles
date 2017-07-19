@@ -4,4 +4,6 @@
   2. Clean up iTerm2 colorschemes and export
   3. Install/configure newsbeuter
   4. Install/configure weechat
+  5. Theme mutt
+  6. Theme ncmpcpp
 

@@ -39,7 +39,7 @@ Plug 'hecal3/vim-leader-guide'             " Spacemacs style leader guide
 Plug 'junegunn/goyo.vim'                   " Remove distractions
 Plug 'junegunn/limelight.vim'              " Draw attention to code
 Plug 'mgee/lightline-bufferline'           " Buffers in tabline
-Plug '~/git/termina'                       " TUI colorscheme
+Plug 'kcierzan/termina'                       " TUI colorscheme
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
 Plug 'w0rp/ale'                            " Asynchronous linting engine

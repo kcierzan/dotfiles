@@ -102,9 +102,9 @@ let g:tmux_navigator_no_mappings = 1
 " ------------- Deoplete ------------------
 " Point to python neovim virtualenvs
 "
-" Depends on the existence of a pyenv virtualenv for python2.7 and 3.6
-let g:python_host_prog  = '$HOME/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '$HOME/.pyenv/versions/neovim3/bin/python'
+" Depends on the existence of a pYenv virtualenv for python2.7 and 3.6
+let g:python_host_prog  = $HOME . '/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = $HOME . '/.pyenv/versions/neovim3/bin/python'
 
 " Enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
@@ -138,13 +138,13 @@ let g:ale_linters                        = { 'python': ['pylint', 'flake8'],
                                            \ 'yaml': ['yamllint'],
                                            \ }
 let g:ale_linter_aliases                 = { 'javascript.jsx': 'javascript', 'jsx': 'javascript', 'thtml': 'html', 'phtml': 'html' }
-let g:ale_python_pylint_options          = '--rcfile=/Users/kylec/.pylintrc'
+let g:ale_python_pylint_options          = '--rcfile=~/.pylintrc'
 let g:ale_python_pylint_use_global       = 1
 let g:ale_python_flake8_use_global       = 1
 let g:ale_javascript_eslint_use_global   = 1
-let g:ale_python_flake8_executable       = '/Users/kylec/.pyenv/versions/neovim3/bin/flake8'
-let g:ale_vim_vint_executable            = '/Users/kylec/.pyenv/versions/neovim3/bin/vint'
-let g:ale_python_pylint_executable       = '/Users/kylec/.pyenv/versions/neovim3/bin/pylint'
+let g:ale_python_flake8_executable       =  $HOME . '/.pyenv/versions/neovim3/bin/flake8'
+let g:ale_vim_vint_executable            = $HOME . '/.pyenv/versions/neovim3/bin/vint'
+let g:ale_python_pylint_executable       = $HOME . '/.pyenv/versions/neovim3/bin/pylint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
 let g:ale_javascript_eslint_options      = '-c ~/.eslintrc.yml'
 let g:ale_echo_msg_format                = '[%severity%] %s [%linter%]'
