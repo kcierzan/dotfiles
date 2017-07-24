@@ -136,8 +136,12 @@ let g:ale_linters                        = { 'python': ['pylint', 'flake8'],
                                            \ 'html': ['tidy'],
                                            \ 'vim': ['vint'],
                                            \ 'yaml': ['yamllint'],
+                                           \ 'jsx': ['eslint']
                                            \ }
-let g:ale_linter_aliases                 = { 'javascript.jsx': 'javascript', 'jsx': 'javascript', 'thtml': 'html', 'phtml': 'html' }
+let g:ale_linter_aliases                 = { 'jsx': 'javascript',
+                                           \ 'thtml': 'html',
+                                           \ 'phtml': 'html',
+                                           \ }
 let g:ale_python_pylint_options          = '--rcfile=~/.pylintrc'
 let g:ale_python_pylint_use_global       = 1
 let g:ale_python_flake8_use_global       = 1
@@ -152,6 +156,7 @@ let g:ale_sign_error                     = '✖'
 let g:ale_sign_warning                   = '⚠'
 let g:ale_statusline_format              = ['✖ %d', '⚠ %d', '']
 let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_lint_on_text_changed           = 'normal'
 highlight ALEErrorSign   ctermfg=1
 highlight ALEWarningSign ctermfg=3
 

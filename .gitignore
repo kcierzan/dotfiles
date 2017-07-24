@@ -23,6 +23,7 @@ Thumbs.db
 .mrjob.conf
 .s3cfg
 .aws/
+weather.txt
 
 # Repo scratch directory
 scratch/

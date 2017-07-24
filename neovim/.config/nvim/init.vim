@@ -26,6 +26,7 @@ Plug 'janko-m/vim-test'                    " Run tests
 Plug 'sheerun/vim-polyglot'                " Lots of language packs
 Plug 'Shougo/deoplete.nvim',               { 'do': ':UpdateRemotePlugins' } " Deoplete completion
 Plug 'zchee/deoplete-jedi',                { 'for': 'python' } " Deoplete Jedi for great python success
+Plug 'carlitux/deoplete-ternjs',           { 'do': 'npm install -g tern' }
 Plug 'scrooloose/nerdtree',                { 'on': ['NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] } " Load nerdtree on demand
 Plug 'tpope/vim-endwise'                   " Automagically add ending statements
 Plug 'Yggdroot/indentLine'                 " indent lines
@@ -39,7 +40,7 @@ Plug 'hecal3/vim-leader-guide'             " Spacemacs style leader guide
 Plug 'junegunn/goyo.vim'                   " Remove distractions
 Plug 'junegunn/limelight.vim'              " Draw attention to code
 Plug 'mgee/lightline-bufferline'           " Buffers in tabline
-Plug 'kcierzan/termina'                       " TUI colorscheme
+Plug '~/git/termina'                       " TUI colorscheme
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
 Plug 'w0rp/ale'                            " Asynchronous linting engine

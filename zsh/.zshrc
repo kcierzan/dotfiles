@@ -26,6 +26,10 @@ if which pyenv > /dev/null 2>&1; then eval "$(pyenv init - --no-rehash)"; fi
 # Load pyenv-virtualenv on start
 if which pyenv-virtualenv-init > /dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
 
+# setup nvm
+export NVM_DIR="$HOME/.nvm"
+source "/usr/local/opt/nvm/nvm.sh"
+
 # Enable vi editing mode and show in prompt
 function zle-keymap-select {
   VIMODE="${${KEYMAP/vicmd/ M:command}/(main|viins)/}"
@@ -89,6 +93,8 @@ function zle-line-finish
 zle -N zle-line-init
 zle -N zle-line-finish
 zle -N zle-keymap-select
+
+bindkey -M menuselect '^[[Z' reverse-menu-complete
 
 # fzf initialization
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

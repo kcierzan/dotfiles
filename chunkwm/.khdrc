@@ -99,8 +99,6 @@ pane + shift - j       :   chunkc tiling::window --use-temporary-ratio -0.1 --ad
 pane + shift - k       :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge north
 pane + shift - l       :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge east
 
-# --------------- system -----------------------
-
 lctrl - h         ![iTerm2]      :   khd -p "- left"
 lctrl - j         ![iTerm2]      :   khd -p "- down"
 lctrl - k         ![iTerm2]      :   khd -p "- up"
