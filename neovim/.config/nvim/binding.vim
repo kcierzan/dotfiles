@@ -223,9 +223,9 @@ let g:lmap.g.p = ['GitGutterPreviewHunk', 'Preview hunk']
 
 "--------Denite-----------
 let g:lmap.f = { 'name' : 'Denite' }
-nnoremap <silent> <leader>ff :Denite file_rec<CR>
+nnoremap <silent> <leader>ff :Denite `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec'`<CR>
 let g:lmap.f.f = ['Denite file_rec', 'Search filenames recursively']
-nnoremap <silent> <leader>fh :Denite  help<CR>
+nnoremap <silent> <leader>fh :Denite help<CR>
 let g:lmap.f.h = ['Denite help', 'Search help docs']
 nnoremap <silent> <leader>fb :Denite buffer<CR>
 let g:lmap.f.b = ['Denite buffer', 'Switch to open buffer']
@@ -239,12 +239,14 @@ nnoremap <silent> <leader>ft :Denite filetype<CR>
 let g:lmap.f.t = ['Denite filetype', 'Switch filetype']
 nnoremap <silent> <Leader>fi :Denite menu:git <CR>
 let g:lmap.f.i = ['Denite git', 'Git menu']
-nnoremap <silent> <Leader>fd :Denite file<CR>
-let g:lmap.f.d = ['Denite file', 'Search directory files']
+nnoremap <silent> <Leader>fd :Denite directory_mru<CR>
+let g:lmap.f.d = ['Denite file', 'CD to frecent directory']
 nnoremap <silent> <Leader>fc :Denite colorscheme<CR>
 let g:lmap.f.c = ['Denite coloscheme', 'Search colorschemes']
 nnoremap <silent> <Leader>fo :Denite outline<CR>
 let g:lmap.f.o = ['Denite outline', 'Search ctags']
+nnoremap <silent> <Leader>fe :Denite command<CR>
+let g:lmap.f.e = ['Denite command', 'Search neovim commands']
 
 " ------ Dir ------------
 let g:lmap.d = { 'name' : 'Dir' }
@@ -254,11 +256,13 @@ nnoremap <Leader>dc :NERDTreeCWD<CR>
 let g:lmap.d.c = ['NERDTreeCWD', 'Open tree at current location']
 nnoremap <Leader>dt :NERDTreeToggle<CR>
 let g:lmap.d.t = ['NERDTreeToggle', 'Toggle NerdTree']
-"cd to current file directory
-nnoremap <Leader>dd :lcd %:p:h<CR> 
+"cd to current file directory and move up one level
+nnoremap <Leader>dd :lcd %:p:h<CR>:cd ..<CR>
 let g:lmap.d.d = ['lcd %:p:h', 'CD to current directory']
 nnoremap <Leader>du :cd ..<CR> 
 let g:lmap.d.u = ['cd ..', 'CD to parent directory']
+nnoremap <Leader>dg :cd ~/git<CR> 
+let g:lmap.d.g = ['cd ~/git', 'CD to git directory']
 nnoremap <leader>dp :pwd<CR>
 let g:lmap.d.p = ['pwd', 'Print working directory']
 nnoremap <leader>da :set invautochdir<CR>

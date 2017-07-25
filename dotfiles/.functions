@@ -153,7 +153,7 @@ flog() {
 
 # fuzzy sshs into known hosts
 sshs() {
-  tmux split-window 'tmux resize-pane -Z' | ~/.scripts/sshs -m
+  ~/.scripts/sshs -m
 }
 
 timeshell() {
