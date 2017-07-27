@@ -30,7 +30,6 @@ export ZPLUG_HOME="/usr/local/opt/zplug"
 source $ZPLUG_HOME/init.zsh
 
 # ------------ ZPLUG ------------------------
-zplug "mafredri/zsh-async",              from:github
 zplug "bhilburn/powerlevel9k",           from:github,   use:powerlevel9k.zsh-theme, as:theme
 zplug "unixorn/warhol.plugin.zsh"
 zplug "zsh-users/zsh-autosuggestions",   use:zsh-autosuggestions.zsh
