@@ -5,20 +5,56 @@
 #(_)___/____/_/ /_/_/   \___/
 
 # jump around
-eval "$(fasd --init auto)"
+f() {
+    eval "$( command fasd --init auto )"
+    fasd -f "$@"
+}
+a() {
+    eval "$( command fasd --init auto )"
+    fasd -a "$@"
+}
+s() {
+    eval "$( command fasd --init auto )"
+    fasd -si "$@"
+}
+d() {
+    eval "$( command fasd --init auto )"
+    fasd -d "$@"
+}
+z() {
+    eval "$( command fasd --init auto )"
+    fasd_cd -d "$@"
+}
 
 # Enable rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
+rbenv() {
+    eval "$( command rbenv init - --no-rehash )"
+    rbenv "$@"
+}
 
 # Load pyenv on shell start
-if which pyenv > /dev/null 2>&1; then eval "$(pyenv init - --no-rehash)"; fi
+pyenv() {
+    eval "$(command pyenv init - --no-rehash)"
+    pyenv "$@"
+}
 
 # Load pyenv-virtualenv on start
-if which pyenv-virtualenv-init > /dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
+# if which pyenv-virtualenv-init > /dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
+
+pyenv-virtualenv-init() {
+    eval "$( command pyenv virtualenv-init - )"
+    pyenv-virtualenv-init "$@"
+}
 
 # setup nvm
 export NVM_DIR="$HOME/.nvm"
-source "/usr/local/opt/nvm/nvm.sh"
+nvm() {
+    (( $+commands[brew] )) && {
+        local pfx=$(brew --prefix)
+        [[ -f "$pfx/opt/nvm/nvm.sh" ]] && source "$pfx/opt/nvm/nvm.sh"
+        nvm "$@"
+  }
+}
 
 # fzf initialization
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
