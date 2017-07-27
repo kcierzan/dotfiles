@@ -74,7 +74,7 @@ export ZSH_AUTOSUGGEST_USE_ASYNC='1'
 # ctrl-\ executes suggestion
 bindkey '^\' autosuggest-execute
 # ctrl-] accepts suggestion
-bindkey '^]' autosuggest-execute
+bindkey '^]' autosuggest-accept
 
 bindkey '^[[A' up-line-or-search                                                
 bindkey '^[[B' down-line-or-search
@@ -119,14 +119,6 @@ setopt PUSHD_IGNORE_DUPS
 setopt no_clobber
 
 # tab completion configuration
-
-# add an autoload function path, if directory exists
-# http://www.zsh.org/mla/users/2002/msg00232.html
-functionsd="$HOME/.zsh-functions.d"
-if [[ -d "$functionsd" ]] {
-    fpath=( $functionsd $fpath )
-    autoload -U $functionsd/*(:t)
-}
 
 # load completions system
 zmodload -i zsh/complist
