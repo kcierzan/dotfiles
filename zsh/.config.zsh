@@ -68,7 +68,6 @@ zle -N zle-line-init
 zle -N zle-line-finish
 zle -N zle-keymap-select
 
-export GREP_OPTIONS='--binary-files=without-match --ignore-case'
 export ZSH_AUTOSUGGEST_USE_ASYNC='1'
 
 # ctrl-\ executes suggestion
