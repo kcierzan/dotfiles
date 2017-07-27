@@ -71,7 +71,8 @@ chunkc core::load border.so
 
 chunkc tiling::rule --owner \"System Preferences\" --state tile
 chunkc tiling::rule --owner Finder --name Copy --state float
-
+chunkc tiling::rule --owner Dash --state float
+chunkc tiling::rule --owner "Emacs.*" --state tile
 #
 # NOTE: if chunkc plugin_dir is not set, the absolutepath is necessary.
 #
