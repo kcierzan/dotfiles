@@ -104,14 +104,14 @@ ff() {
     key=$(head -1 <<< "$out")
     file=$(head -2 <<< "$out" | tail -1)
     if [ -n "$file" ]; then
-        [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+        [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-nvim} "$file"
     fi
 }
 
 fr() {
   local file
   file=$(gsed '1d' ~/.cache/neomru/file |
-         fzf --query="$1" --select-1 --exit-0)
+         fzf --query="$1" --select-1 --exit-0 --preview "pygmentize -g {}")
   [ -n "$file" ] && nvim $file
 }
 

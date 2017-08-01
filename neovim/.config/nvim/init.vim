@@ -49,6 +49,7 @@ Plug 'honza/vim-snippets'                  " Snippet collection
 Plug 'Shougo/neosnippet-snippets'          " Snippet collection
 Plug 'tpope/vim-rhubarb'                   " Access GitHub
 Plug 'mattn/emmet-vim'                     " Markup Expansion
+Plug 'majutsushi/tagbar'                   " show some tags
 call plug#end()
 
 " Source nvim modules

@@ -160,6 +160,8 @@ nnoremap <leader>bh :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
 let g:lmap.b.h = ['invcursorline', 'Toggle cursorline']
 nnoremap <leader>bE :ALEToggle<CR>
 let g:lmap.b.E = ['ALEToggle', 'Toggle linter']
+nnoremap <leader>bt :TagbarToggle<CR>
+let g:lmap.b.t = ['TagbarToggle', 'Toggle tag bar']
 
 "-------- Neovim -----------------
 let g:lmap.n = { 'name' : 'Neovim' }
