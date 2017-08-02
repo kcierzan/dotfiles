@@ -14,7 +14,7 @@ pane - 0x35     : khd -e "mode activate default"
 # Default (blue)
 khd mode default  on_enter chunkc border::color 0xFF72bef2
 # Switcher (yellow)
-khd mode switcher on_enter chunkc border::color 0xFFdbaa79
+khd mode switcher on_enter chunkc border::color 0xFFc69a6d
 # Swap (red)
 khd mode swap     on_enter chunkc border::color 0xFFe88388
 # Pane (purple)

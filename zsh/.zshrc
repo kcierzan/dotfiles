@@ -3,29 +3,9 @@
 #  /_  / / ___/ __ \/ ___/ ___/
 # _ / /_(__  ) / / / /  / /__
 #(_)___/____/_/ /_/_/   \___/
-# Run zplug
-export ZPLUG_HOME="/usr/local/opt/zplug"
-source $ZPLUG_HOME/init.zsh
 
-# ------------ ZPLUG ------------------------
-# zplug "bhilburn/powerlevel9k",           from:github,   use:powerlevel9k.zsh-theme, as:theme
-zplug "zsh-users/zsh-autosuggestions",   use:zsh-autosuggestions.zsh
-zplug "frmendes/geometry"
-zplug "unixorn/warhol.plugin.zsh"
-zplug "zsh-users/zsh-syntax-highlighting"
+source ~/.zsh_config
 
-export GEOMETRY_PROMPT_PLUGINS=(git +virtualenv )
-export GEOMETRY_COLOR_VIRTUALENV=blue
-export GEOMETRY_SYMBOL_PROMPT=''
-export GEOMETRY_SYMBOL_EXIT_VALUE=''
-export GEOMETRY_COLOR_PROMPT='yellow'
-export GEOMETRY_COLOR_EXIT_VALUE='red'
-export GEOMETRY_COLOR_DIR='magenta'
-export PROMPT_GEOMETRY_GIT_TIME=false
-export geometry_symbol_git_rebase="\ue726"
-
-zplug load
-# set the trace prompt to include seconds, nanoseconds, script name and line number
 # jump around
 f() {
     eval "$( command fasd --init auto )"
@@ -145,9 +125,33 @@ nvm() {
 
 # POWERLEVEL9K_MODE='nerdfont-complete'
 
+# Run zplug
+export ZPLUG_HOME="/usr/local/opt/zplug"
+source $ZPLUG_HOME/init.zsh
+
+# ------------ ZPLUG ------------------------
+# zplug "bhilburn/powerlevel9k",           from:github,   use:powerlevel9k.zsh-theme, as:theme
+zplug "zsh-users/zsh-autosuggestions",   use:zsh-autosuggestions.zsh
+zplug "frmendes/geometry"
+zplug "unixorn/warhol.plugin.zsh"
+zplug "zsh-users/zsh-syntax-highlighting"
+
+export GEOMETRY_PROMPT_PLUGINS=(git tag virtualenv vi_mode)
+export GEOMETRY_COLOR_VIRTUALENV=blue
+export GEOMETRY_SYMBOL_PROMPT=''
+export GEOMETRY_SYMBOL_EXIT_VALUE=''
+export GEOMETRY_COLOR_PROMPT='yellow'
+export GEOMETRY_COLOR_EXIT_VALUE='red'
+export GEOMETRY_COLOR_DIR='magenta'
+export PROMPT_GEOMETRY_GIT_TIME=false
+export GEOMETRY_SYMBOL_GIT_REBASE="\ue726"
+export GEOMETRY_COLOR_GIT_BRANCH=6
+
+zplug load
 # Source additional dotfiles
 source ~/.exports
 source ~/.aliases
 source ~/.functions
 source ~/.extra
-source ~/.config.zsh
+source ~/.tag_plugin
+source ~/.vi_mode_plugin
