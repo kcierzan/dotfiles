@@ -109,6 +109,10 @@ alias tarx="tar -xvzf"
 # listen to some music
 alias spo="ncmpcpp"
 
+alias bbounce="brew services restart"
+alias bstop="brew services stop"
+alias bstart="brew services start"
+
 # Stop and remove all docker containers
 alias dockstop="docker ps -a -q | xargs docker stop 2>&1"
 alias dockrm="docker ps -a -q | xargs docker rm 2>&1"
