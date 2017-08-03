@@ -126,7 +126,7 @@ termcol () {
 }
 
 # Color less
-pl () {
+less () {
   pygmentize -g $1 | less -r
 }
 

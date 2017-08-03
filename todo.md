@@ -1,5 +1,9 @@
 # Todo
 
+## ZSH
+    * Add icon for VI-mode (powerlevel9k implementation)
+>>>>>>> Add geometry plugins
+>>>>>>> Stashed changes
 ## TMUX
     * refactor status line
     * incorporate oh-my-tmux features
