@@ -9,6 +9,7 @@ alias gs="git status"
 alias h="history"
 alias j="jobs"
 
+# use exuberant ctags
 alias ctags='/usr/local/bin/ctags'
 
 # List all files colorized in long format, including dot files
@@ -26,6 +27,8 @@ alias gzip='/usr/local/bin/gzip'
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
+
+alias cl='clear'
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
@@ -97,6 +100,7 @@ alias reload="exec $SHELL -l"
 alias vim="nvim"
 alias vi="nvim"
 alias subl="/usr/local/bin/subl"
+alias emacs="emacsclient -c -a '' &"
 
 # Activate a python virtualenv
 alias venv="source env/bin/activate"

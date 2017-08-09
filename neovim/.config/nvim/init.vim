@@ -50,6 +50,7 @@ Plug 'Shougo/neosnippet-snippets'          " Snippet collection
 Plug 'tpope/vim-rhubarb'                   " Access GitHub
 Plug 'mattn/emmet-vim'                     " Markup Expansion
 Plug 'majutsushi/tagbar'                   " show some tags
+Plug 'vim-python/python-syntax'
 call plug#end()
 
 " Source nvim modules

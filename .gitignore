@@ -25,5 +25,8 @@ Thumbs.db
 .aws/
 **/weather.txt
 
+# Emacs files
+.projectile
+
 # Repo scratch directory
 scratch/

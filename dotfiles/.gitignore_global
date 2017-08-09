@@ -22,3 +22,11 @@
 
 #ctags
 tags
+
+#gtags
+GTAGS
+GPATH
+GRTAGS
+
+#Emacs projectile
+.projectile

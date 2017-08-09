@@ -35,6 +35,10 @@ set hidden
 " Always show tabline
 set showtabline=2
 
+" Completion options
+set completeopt-=preview
+set pumheight=10
+
 " Allow cursor changing with tmux
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
@@ -277,4 +281,5 @@ let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
 
 "----------- Polyglot ------------------------
-let g:polyglot_disabled = [ 'javascript' ]
+let g:polyglot_disabled = [ 'javascript', 'python' ]
+let g:python_highlight_all = 1
