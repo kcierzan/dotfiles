@@ -12,13 +12,13 @@ pane - 0x35     : khd -e "mode activate default"
 # Mode Colors
 
 # Default (blue)
-khd mode default  on_enter chunkc border::color 0xFF55c097
+khd mode default  on_enter chunkc border::color 0xFF72bef2
 # Switcher (yellow)
-khd mode switcher on_enter chunkc border::color 0xFFffcd1c
+khd mode switcher on_enter chunkc border::color 0xFFc69a6d
 # Swap (red)
-khd mode swap     on_enter chunkc border::color 0xFFf47868
+khd mode swap     on_enter chunkc border::color 0xFFe88388
 # Pane (purple)
-khd mode pane     on_enter chunkc border::color 0xFF9472b3
+khd mode pane     on_enter chunkc border::color 0xFFd291e4
 
 
 # Disable focus follows mouse
@@ -99,7 +99,7 @@ pane + shift - j       :   chunkc tiling::window --use-temporary-ratio -0.1 --ad
 pane + shift - k       :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge north
 pane + shift - l       :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge east
 
-lctrl - h         ![iTerm2]      :   khd -p "- left"
-lctrl - j         ![iTerm2]      :   khd -p "- down"
-lctrl - k         ![iTerm2]      :   khd -p "- up"
-lctrl - l         ![iTerm2]      :   khd -p "- right"
+lctrl - h         ![iTerm2, Emacs]      :   khd -p "- left"
+lctrl - j         ![iTerm2, Emacs]      :   khd -p "- down"
+lctrl - k         ![iTerm2, Emacs]      :   khd -p "- up"
+lctrl - l         ![iTerm2, Emacs]      :   khd -p "- right"

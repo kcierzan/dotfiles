@@ -4,69 +4,6 @@
 # _/ /__/ /_/ / / / / __/ / /_/ / / /_(__  ) / / /
 #(_)___/\____/_/ /_/_/ /_/\__, (_)___/____/_/ /_/
 #                        /____/
-# Enable vi editing mode and show in prompt
-function zle-keymap-select {
-  VIMODE="${${KEYMAP/vicmd/ M:command}/(main|viins)/}"
-  zle reset-prompt
-}
-
-zle -N zle-keymap-select
-bindkey -v
-set show-mode-in-prompt on
-
-# Vi mode breaks uparrow completion. Fix it.
-# start typing + [Up-Arrow] - fuzzy find history forward
-if [[ "${terminfo[kcuu1]}" != "" ]]; then
-  autoload -U up-line-or-beginning-search
-  zle -N up-line-or-beginning-search
-  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
-fi
-# start typing + [Down-Arrow] - fuzzy find history backward
-if [[ "${terminfo[kcud1]}" != "" ]]; then
-  autoload -U down-line-or-beginning-search
-  zle -N down-line-or-beginning-search
-  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
-fi
-
-# Enable changing cursor shapes and blinking
-function print_dcs
-{
-  print -n -- "\EP$1;\E$2\E\\"
-}
-
-function set_cursor_shape
-{
-  if [ -n "$TMUX" ]; then
-    # tmux will only forward escape sequences to the terminal if surrounded by
-    # a DCS sequence
-    print_dcs tmux "\E]50;CursorShape=$1\C-G"
-  else
-    print -n -- "\E]50;CursorShape=$1\C-G"
-  fi
-}
-
-function zle-keymap-select zle-line-init
-{
-  case $KEYMAP in
-    vicmd)
-      set_cursor_shape 0 # block cursor
-      ;;
-    viins|main)
-      set_cursor_shape 1 # line cursor
-      ;;
-  esac
-  zle reset-prompt
-  zle -R
-}
-
-function zle-line-finish
-{
-  set_cursor_shape 0 # block cursor
-}
-
-zle -N zle-line-init
-zle -N zle-line-finish
-zle -N zle-keymap-select
 
 autoload -Uz compinit && compinit
 
@@ -77,7 +14,7 @@ bindkey '^\' autosuggest-execute
 # ctrl-] accepts suggestion
 bindkey '^]' autosuggest-accept
 
-bindkey '^[[A' up-line-or-search                                                
+bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
 
 # History Settings (big history for use with many open shells and no dups)
@@ -181,7 +118,7 @@ zstyle ':completion:*' verbose yes
 bindkey -M menuselect '^@' accept-and-infer-next-history
 
 # case-insensitive -> partial-word (cs) -> substring completion:
-zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'  
+zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 # caching of completion stuff
 zstyle ':completion:*' use-cache on

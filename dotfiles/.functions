@@ -1,16 +1,16 @@
 # Create a new directory and enter it
 # Create a relative path to arg1 from ar2
-function relpath() {
+relpath() {
     python -c "import os.path; print os.path.relpath('$1','${2:-$PWD}')";  
 }
 
 # Change working directory to the top-most Finder window location
-function cdf() { # short for `cdfinder`
+cdf() { # short for `cdfinder`
     cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
 }
 
 # Determine size of a file or total size of a directory
-function fs() {
+fs() {
     if du -b /dev/null > /dev/null 2>&1; then
         local arg=-sbh;
     else
@@ -24,7 +24,7 @@ function fs() {
 }
 
 # Compare original and gzipped file size
-function gz() {
+gz() {
     local origsize=$(wc -c < "$1");
     local gzipsize=$(gzip -c "$1" | wc -c);
     local ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l);
@@ -34,7 +34,7 @@ function gz() {
 
 # Syntax-highlight JSON strings or files
 # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
-function json() {
+json() {
     if [ -t 0 ]; then # argument
         python -mjson.tool <<< "$*" | pygmentize -l javascript;
     else # pipe
@@ -43,12 +43,12 @@ function json() {
 }
 
 # Run `dig` and display the most useful info
-function digga() {
+digga() {
     dig +nocmd "$1" any +multiline +noall +answer;
 }
 
 # UTF-8-encode a string of Unicode symbols
-function escape() {
+escape() {
     printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u);
     # print a newline unless we’re piping the output to another program
     if [ -t 1 ]; then
@@ -57,7 +57,7 @@ function escape() {
 }
 
 # Decode \x{ABCD}-style Unicode escape sequences
-function unidecode() {
+unidecode() {
     perl -e "binmode(STDOUT, ':utf8'); print \"$@\"";
     # print a newline unless we’re piping the output to another program
     if [ -t 1 ]; then
@@ -66,7 +66,7 @@ function unidecode() {
 }
 
 # Get a character’s Unicode code point
-function codepoint() {
+codepoint() {
     perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))";
     # print a newline unless we’re piping the output to another program
     if [ -t 1 ]; then
@@ -75,7 +75,7 @@ function codepoint() {
 }
 
 # fzf based process killer
-function fkill() {
+fkill() {
     pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
     if [ "x$pid" != "x" ]
@@ -85,7 +85,7 @@ function fkill() {
 }
 
 # fzf search through history
-function fh() {
+fh() {
     print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
 
@@ -104,14 +104,14 @@ ff() {
     key=$(head -1 <<< "$out")
     file=$(head -2 <<< "$out" | tail -1)
     if [ -n "$file" ]; then
-        [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+        [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-nvim} "$file"
     fi
 }
 
 fr() {
   local file
   file=$(gsed '1d' ~/.cache/neomru/file |
-         fzf --query="$1" --select-1 --exit-0)
+         fzf --query="$1" --select-1 --exit-0 --preview "pygmentize -g {}")
   [ -n "$file" ] && nvim $file
 }
 
