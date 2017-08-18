@@ -1,5 +1,6 @@
-# Path
-export PATH="~/.pyenv/shims:$HOME/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+# Remeber to comment out the annoying shenanigans going on in /etc/zprofile
+# Just place anything in /etc/paths.d into $PATH as defined here
+export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
 
 export EDITOR='nvim'
 
@@ -29,27 +30,11 @@ export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 
 export ZSH_AUTOSUGGEST_USE_ASYNC='1'
 
-# Lazy load pyenv
-prepend_path_if_not_in_already() {
-  local i
-  for i; do
-    (( ${path[(i)$i]} <= ${#path} )) && continue
-    path=($i $path)
-  done
-}
-
 if [[ -d ~/.pyenv ]] && ! (( $+functions[zsh_setup_pyenv] )); then # only once!
   if ! (( $+PYENV_ROOT )); then
     export PYENV_ROOT="$HOME/.pyenv"
   fi
-  # TODO: Prepend paths always?! (https://github.com/yyuu/pyenv/issues/492).
-  #       Would allow for using PYENV_VERSION in (Zsh) scripts always.
-  #       But already done in ~/.profile?!
-  prepend_path_if_not_in_already $PYENV_ROOT/bin
-  # Prepend pyenv shims path always, it gets used also for lookup in
-  # VIRTUAL_ENV, and ~/.local/bin should not override it (e.g. for vint).
-  path=($PYENV_ROOT/shims $path)
-
+  
   # Setup pyenv completions always.
   # (it is useful to have from the beginning, and using it via zsh_setup_pyenv
   # triggers a job control bug in Zsh).

@@ -51,7 +51,7 @@ nvm() {
 # fzf initialization
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# POWERLEVEL9K_MODE='nerdfont-complete'
+POWERLEVEL9K_MODE='nerdfont-complete'
 
 # Run zplug
 source $ZPLUG_HOME/init.zsh
