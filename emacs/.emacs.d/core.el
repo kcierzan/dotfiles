@@ -42,7 +42,7 @@
 
 (use-package exec-path-from-shell
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config
   (setq exec-path-from-shell-check-startup-files nil)
   (when (memq window-system '(mac ns x))
@@ -51,14 +51,14 @@
 (use-package projectile
   ;; :after gtags
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config
   (projectile-mode)
   (projectile-discover-projects-in-directory "~/git/"))
 
 (use-package ivy
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :general
   (buffer-leader "b" 'ivy-switch-buffer)
   :config
@@ -68,7 +68,7 @@
 
 (use-package counsel
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :commands
   (counsel-find-file
    counsel-imenu
@@ -93,7 +93,7 @@
 
 (use-package ggtags
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :general
   (tag-leader "t" 'ggtags-find-tag-dwim
               "r" 'ggtags-find-reference))
@@ -116,7 +116,7 @@
 
 (use-package sr-speedbar
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config
   (setq speedbar-show-unknown-files nil)
   (setq speedbar-use-images nil)) 
@@ -147,11 +147,11 @@
 
 (use-package hydra
   :ensure t
-  :pin melpa-stable)
+  :pin melpa)
 
 (use-package smex
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :general
   (general-define-key "M-X" 'smex-major-mode-commands))
 

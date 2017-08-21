@@ -4,18 +4,18 @@
 
 (use-package bind-key
   :ensure t
-  :pin melpa-stable)
+  :pin melpa)
 
 (use-package which-key
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config
   (which-key-mode 1))
 
 ;; Define leader keys
 (use-package general
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config
   (setq general-default-keymaps '(evil-normal-state-map))
   

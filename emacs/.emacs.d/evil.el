@@ -82,20 +82,20 @@ across windows."
 
 (use-package evil-commentary
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config
   (evil-commentary-mode 1))
 
 (use-package evil-smartparens
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config
   (evil-smartparens-mode)
   (add-hook 'smartparens #'evil-smartparens-mode))
 
 (use-package evil-surround
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :commands
   (global-evil-surround-mode
    evil-surround-edit
@@ -105,7 +105,7 @@ across windows."
 
 (use-package evil-args
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :commands
   (evil-inner-arg
    evil-outer-arg
@@ -126,7 +126,7 @@ across windows."
 
 (use-package evil-textobj-anyblock
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :commands (evil-textobj-anyblock-inner-block
              evil-textobj-anyblock-a-block))
 

@@ -32,10 +32,9 @@ def get_location():
 
 def get_weather(location):
     """Check for an environment variable set by this script"""
-    weather = call_subprocess('ansiweather -a false -p false -w flase'
-                              ' -d false -h false -u imperial -l "{}"'.format(
-                                  location))
-    match = re.findall(r'\d+\s..\w\s.*', str(weather))
+    weather = call_subprocess('ansiweather -a false -p false -w false'
+            ' -d false -h false -u imperial -l "{}"'.format(location))
+    match = re.findall(r'\d.*$', weather.decode('utf-8'))
     return ''.join(match)
 
 

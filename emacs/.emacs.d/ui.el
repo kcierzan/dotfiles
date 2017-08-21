@@ -13,7 +13,7 @@
 (set-face-foreground 'highlight nil)
 (set-face-attribute 'hl-line nil :underline nil)
 (set-face-attribute 'default nil
-                    :family "Iosevka Nerd Font" :height 140 :weight 'normal) 
+                    :family "FuraCode Nerd Font" :height 140 :weight 'normal) 
 
 ;; Pad line numbers
 (setq-default linum-format " %d "
@@ -56,7 +56,7 @@
 
 (use-package all-the-icons
   :ensure t
-  :pin melpa-stable)
+  :pin melpa)
 
 ;; (use-package spaceline
 ;;   :ensure t
@@ -107,7 +107,7 @@
 
 (use-package sublimity
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config
   (sublimity-mode 1)
   (require 'sublimity-scroll)
@@ -116,7 +116,7 @@
 
 (use-package winum
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config
   (setq winum-auto-setup-mode-line nil)
   (winum-mode))

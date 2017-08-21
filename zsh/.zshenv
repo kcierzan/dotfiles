@@ -9,7 +9,7 @@ export NVM_DIR="$HOME/.nvm"
 export ZPLUG_HOME="/usr/local/opt/zplug"
 
 export FZF_COMPLETION_TRIGGER='**'
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc"'
+export FZF_DEFAULT_COMMAND='ag --hidden --follow --ignore="**.pyc" --ignore="**.min.*" -g ""'
 
 export KEYTIMEOUT=1
 

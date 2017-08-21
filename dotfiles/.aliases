@@ -100,7 +100,6 @@ alias reload="exec $SHELL -l"
 alias vim="nvim"
 alias vi="nvim"
 alias subl="/usr/local/bin/subl"
-alias emacs="emacsclient -c -a '' &"
 
 # Activate a python virtualenv
 alias venv="source env/bin/activate"

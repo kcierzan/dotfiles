@@ -53,7 +53,7 @@ setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 
 # DON NOT Allow ‘>’ redirection to truncate existing files, and ‘>>’ to create files. Otherwise ‘>!’ or ‘>|’ must be used to truncate  a file, and ‘>>!’ or ‘>>|’ to create a file.
-setopt no_clobber
+# setopt no_clobber
 
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.

@@ -59,7 +59,7 @@ source $ZPLUG_HOME/init.zsh
 # ------------ ZPLUG ------------------------
 # zplug "bhilburn/powerlevel9k",           from:github,   use:powerlevel9k.zsh-theme, as:theme
 zplug "zsh-users/zsh-autosuggestions",   use:zsh-autosuggestions.zsh
-zplug "frmendes/geometry"
+zplug "geometry-zsh/geometry"
 zplug "unixorn/warhol.plugin.zsh"
 zplug "zsh-users/zsh-syntax-highlighting"
 

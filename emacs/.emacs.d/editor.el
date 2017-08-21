@@ -30,7 +30,7 @@
 
 (use-package avy
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :commands
   (avy-goto-char-timer
    avy-goto-line)
@@ -46,7 +46,7 @@
 ;; This is basically for modeline info
 (use-package evil-anzu
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config
   (global-anzu-mode 1)
   (setq anzu-cons-mode-line-p t
@@ -67,7 +67,7 @@
 ;; TODO: is this baked in?
 (use-package gtags
   :ensure t
-  :pin melpa-stable)
+  :pin melpa)
 
 ;; TODO: Make bindings for edit leader
 (use-package smartparens
@@ -81,12 +81,12 @@
 
 (use-package wgrep
   :ensure t
-  :pin melpa-stable)
+  :pin melpa)
 
 ;; OPTIMIZE: Make me a lot faster :(
 (use-package flycheck
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :after exec-path-from-shell
   :init
   (global-flycheck-mode)
@@ -97,7 +97,7 @@
 ;; OPTIMIZE: Make popup just a bit faster
 (use-package company
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :general
   (:keymaps 'company-active-map
             "C-w" nil
@@ -116,7 +116,7 @@
 ;; TODO: Set up bindings for edit leader
 (use-package expand-region
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :general
   (general-define-key :states '(visual)
                       :keymaps 'global
@@ -136,13 +136,13 @@
 ;; TODO: Set up keybindings for find leader
 (use-package wgrep
   :ensure t
-  :pin melpa-stable)
+  :pin melpa)
 
 ;; TODO Set up keybindings for MC leader
 ;;      Install evil-multiedit?        
 (use-package evil-mc
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :commands
   (evil-mc-make-cursor-here
    evil-mc-make-all-cursors

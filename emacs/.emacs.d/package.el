@@ -21,5 +21,5 @@
 
 (use-package paradox
   :ensure t
-  :pin melpa-stable
+  :pin melpa
   :config (paradox-enable))
