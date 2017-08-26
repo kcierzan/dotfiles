@@ -68,7 +68,11 @@ zplug load
 ZSH_HIGHLIGHT_STYLES[path]=none
 # Source additional dotfiles
 source ~/.aliases
-source ~/.functions
 source ~/.extra
-source ~/.tag_plugin
-source ~/.vi_mode_plugin
+
+# Maybe load geometry plugins
+which geometry_plugin_register &> /dev/null
+if [ $? -eq 0 ]; then
+  source ~/.tag_plugin
+  source ~/.vi_mode_plugin
+fi

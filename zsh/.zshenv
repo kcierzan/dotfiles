@@ -10,21 +10,34 @@ export ZPLUG_HOME="/usr/local/opt/zplug"
 
 export FZF_COMPLETION_TRIGGER='**'
 export FZF_DEFAULT_COMMAND='ag --hidden --follow --ignore="**.pyc" --ignore="**.min.*" -g ""'
+export FZF_DEFAULT_OPTS='
+--color=fg:#bbc2cf,bg:-1,fg+:4,bg+:-1,header:3
+--color=hl:241,hl+:12,prompt:6,spinner:5,pointer:2,marker:4,info:2'
 
 export KEYTIMEOUT=1
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 export GEOMETRY_PROMPT_PLUGINS=(git tag virtualenv vi_mode)
-export GEOMETRY_COLOR_VIRTUALENV=blue
-export GEOMETRY_SYMBOL_PROMPT=''
+export GEOMETRY_COLOR_VIRTUALENV=4
+export GEOMETRY_SYMBOL_PROMPT=''
+# export GEOMETRY_SYMBOL_PROMPT=''
+# export GEOMETRY_SYMBOL_PROMPT='λ'
 export GEOMETRY_SYMBOL_EXIT_VALUE=''
-export GEOMETRY_COLOR_PROMPT='yellow'
-export GEOMETRY_COLOR_EXIT_VALUE='red'
-export GEOMETRY_COLOR_DIR='magenta'
+export GEOMETRY_SYMBOL_GIT_CLEAN=''
+export GEOMETRY_COLOR_GIT_CLEAN=2
+export GEOMETRY_SYMBOL_GIT_DIRTY=''
+export GEOMETRY_COLOR_GIT_DIRTY=1
+export GEOMETRY_SYMBOL_GIT_CONFLICTS_SOLVED=''
+export GEOMETRY_COLOR_GIT_CONFLICTS_SOLVED=2
+export GEOMETRY_SYMBOL_GIT_CONFLICTS_UNSOLVED=''
+export GEOMETRY_COLOR_GIT_CONFLICTS_UNSOLVED=1
+export GEOMETRY_COLOR_PROMPT=6
+export GEOMETRY_COLOR_EXIT_VALUE=1
+export GEOMETRY_COLOR_DIR=5
 export PROMPT_GEOMETRY_GIT_TIME=false
 export GEOMETRY_SYMBOL_GIT_REBASE="\ue726"
-export GEOMETRY_COLOR_GIT_BRANCH=6
+export GEOMETRY_COLOR_GIT_BRANCH=3
 
 export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
 

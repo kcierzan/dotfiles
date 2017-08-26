@@ -27,9 +27,6 @@ chunkc set global_desktop_offset_bottom  20
 chunkc set global_desktop_offset_left    20
 chunkc set global_desktop_offset_right   20
 chunkc set global_desktop_offset_gap     15
-chunkc set window_fade_inactive           1
-chunkc set window_fade_duraction          0.5
-chunkc set window_fade_alpha              0.5
 
 chunkc set desktop_padding_step_size     10.0
 chunkc set desktop_gap_step_size         5.0
@@ -41,7 +38,6 @@ chunkc set bsp_split_ratio               0.5
 
 chunkc set window_focus_cycle            monitor
 chunkc set mouse_follows_focus           0
-chunkc set window_float_next             0
 chunkc set window_float_center           1
 chunkc set window_region_locked          1
 
@@ -56,7 +52,7 @@ chunkc set window_float_topmost          1
 #
 # NOTE: The following are config variables for the chunkwm-border plugin
 #
-chunkc set focused_border_color          0x00c0b18b
+chunkc set focused_border_color          0xff72bef2
 chunkc set focused_border_width          6
 chunkc set focused_border_radius         0
 chunkc set focused_border_skip_floating  0
@@ -66,15 +62,14 @@ chunkc set focused_border_skip_floating  0
 #
 
 chunkc core::load tiling.so
-chunkc core::load ffm.so
+# chunkc core::load ffm.so
 chunkc core::load border.so
 
-chunkc tiling::rule --owner \"System Preferences\" --state tile
+chunkc tiling::rule --owner \"System Preferences\" --state float
 chunkc tiling::rule --owner Finder --name Copy --state float
 chunkc tiling::rule --owner Dash --state float
 chunkc tiling::rule --owner "Emacs.*" --state tile
-chunkc tiling::rule --owner Finder --except ".+" --state float
-chunkc tiling::rule --owner iTerm --name "tmux" --state float
+chunkc tiling::rule --owner Finder --name ".+" --state float
 
 #  chunkc tiling::rule --owner iTerm --state float
 #

@@ -98,6 +98,10 @@
 (use-package company
   :ensure t
   :pin melpa
+  :pin melpa-stable
+  :init
+  (add-hook 'after-init-hook 'global-company-mode)
+  (setq company-idle-delay 0)
   :general
   (:keymaps 'company-active-map
             "C-w" nil
@@ -108,10 +112,7 @@
             "C-s" 'company-filter-candidates
             "C-h" 'company-quickhelp-manual-begin
             [tab] 'company-complete-common-or-cycle
-            [backtab] 'company-select-previous)
-  :config
-  (global-company-mode 1)
-  (setq company-idle-delay 0))
+            [backtab] 'company-select-previous))
  
 ;; TODO: Set up bindings for edit leader
 (use-package expand-region

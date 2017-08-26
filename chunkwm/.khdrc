@@ -12,7 +12,7 @@ pane - 0x35     : khd -e "mode activate default"
 # Mode Colors
 
 # Default (blue) (transparent)
-khd mode default  on_enter chunkc border::color 0x0072bef2
+khd mode default  on_enter chunkc border::color 0xff72bef2
 # Switcher (yellow)
 khd mode switcher on_enter chunkc border::color 0xFFc69a6d
 # Swap (red)
@@ -56,6 +56,16 @@ swap - j               :   chunkc tiling::window --swap south
 swap - k               :   chunkc tiling::window --swap north
 swap - l               :   chunkc tiling::window --swap east
 
+swap + alt - p         :  chunkc tiling::window --warp-floating pip-right
+swap + alt - o         :  chunkc tiling::window --warp-floating pip-left
+swap + alt - l         :  chunkc tiling::window --warp-floating right
+swap + alt - h         :  chunkc tiling::window --warp-floating left
+swap + alt - i         :  chunkc tiling::window --warp-floating top-right
+swap + alt - u         :  chunkc tiling::window --warp-floating top-left
+swap + alt - n         :  chunkc tiling::window --warp-floating bottom-left
+swap + alt - m         :  chunkc tiling::window --warp-floating bottom-right
+swap + alt - f         :  chunkc tiling::window --warp-floating bottom-right
+
 swap + shift - h       :   chunkc tiling::window --warp west
 swap + shift - j       :   chunkc tiling::window --warp south
 swap + shift - k       :   chunkc tiling::window --warp north
@@ -89,6 +99,7 @@ pane + shit - f        :   chunkc tiling::window --toggle native-fullscreen
 pane - r               :   chunkc tiling::desktop --rotate 90
 
 pane - m               :   chunkc tiling::window --toggle split
+pane - b               :   chunkc tiling::window --toggle float
 
 pane - h               :   chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge west
 pane - j               :   chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge south

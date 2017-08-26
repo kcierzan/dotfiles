@@ -1,0 +1,312 @@
+#----------------------- A L I A S E S ----------------------------------
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias -- -="cd -"
+
+alias g="git"
+alias gs="git status"
+alias h="history"
+alias j="jobs"
+
+# Bypass useless bsd ctags
+alias ctags='/usr/local/bin/ctags'
+
+# List all files colorized in long format, including dot files
+alias la="exa -lah --group-directories-first --git"
+alias ls="exa"
+
+# Use gnu tools
+alias find='gfind'
+alias sed='gsed'
+alias grep='ggrep'
+alias rm='grm -i'
+alias mv 'gmv -i'
+alias cp='gcp -i'
+alias gzip='/usr/local/bin/gzip'
+
+# Enable aliases to be sudo’ed
+alias sudo='sudo '
+
+# iTerm2 visor occasionally doesn't like C-l
+alias cl='clear'
+
+# Stopwatch
+alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+
+# IP addresses
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="ipconfig getifaddr en0"
+alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+
+# Flush Directory Service cache
+alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
+
+# Clean up LaunchServices to remove duplicates in the “Open With” menu
+alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
+
+# View HTTP traffic
+alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+
+alias https="http --default-scheme=https "
+
+# Canonical hex dump; some systems have this symlinked
+command -v hd > /dev/null || alias hd="hexdump -C"
+
+# OS X has no `md5sum`, so use `md5` as a fallback
+command -v md5sum > /dev/null || alias md5sum="md5"
+
+# OS X has no `sha1sum`, so use `shasum` as a fallback
+command -v sha1sum > /dev/null || alias sha1sum="shasum"
+
+# Trim new lines and copy to clipboard
+alias c="tr -d '\n' | pbcopy"
+
+# Recursively delete `.DS_Store` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
+
+# Show/hide hidden files in Finder
+alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+
+# Hide/show all desktop icons (useful when presenting)
+alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+# URL-encode strings
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+
+# Disable Spotlight
+alias spotoff="sudo mdutil -a -i off"
+# Enable Spotlight
+alias spoton="sudo mdutil -a -i on"
+
+# PlistBuddy alias, because sometimes `defaults` just doesn’t cut it
+alias plistbuddy="/usr/libexec/PlistBuddy"
+
+# Intuitive map function
+# For example, to list all directories that contain a certain file:
+# find . -name .gitattributes | map dirname
+alias map="xargs -n1"
+
+# Lock the screen
+alias afk="/usr/bin/open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app"
+
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec $SHELL -l"
+
+alias vim="nvim"
+alias vi="nvim"
+alias subl="/usr/local/bin/subl"
+
+# Activate a python virtualenv
+alias venv="source env/bin/activate"
+
+# resize tmux windows
+alias fit="tmux detach -a"
+
+# Verbose tar.gz compression and expansion
+alias tarc="tar -cvzf"
+alias tarx="tar -xvzf"
+
+# listen to some music
+alias spo="ncmpcpp"
+
+alias bbounce="brew services restart"
+alias bstop="brew services stop"
+alias bstart="brew services start"
+
+# Stop and remove all docker containers
+alias dockstop="docker ps -a -q | xargs docker stop 2>&1"
+alias dockrm="docker ps -a -q | xargs docker rm 2>&1"
+
+# tmux
+alias ta='tmux attach -t'
+alias tad='tmux attach -d -t'
+alias ts='tmux new-session -s'
+alias tl='tmux list-sessions'
+alias tksv='tmux kill-server'
+alias tkss='tmux kill-session -t'
+
+
+# ------------------------ F U N C T I O N S -----------------------
+
+# Create a new directory and enter it
+# Create a relative path to arg1 from ar2
+relpath() {
+    python -c "import os.path; print os.path.relpath('$1','${2:-$PWD}')";  
+}
+
+# Change working directory to the top-most Finder window location
+cdf() { # short for `cdfinder`
+    cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
+}
+
+# Determine size of a file or total size of a directory
+fs() {
+    if du -b /dev/null > /dev/null 2>&1; then
+        local arg=-sbh;
+    else
+        local arg=-sh;
+    fi
+    if [[ -n "$@" ]]; then
+        du $arg -- "$@";
+    else
+        du $arg .[^.]* *;
+    fi;
+}
+
+# Compare original and gzipped file size
+gz() {
+    local origsize=$(wc -c < "$1");
+    local gzipsize=$(gzip -c "$1" | wc -c);
+    local ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l);
+    printf "orig: %d bytes\n" "$origsize";
+    printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio";
+}
+
+# Syntax-highlight JSON strings or files
+# Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
+json() {
+    if [ -t 0 ]; then
+        python -mjson.tool <<< "$*" | pygmentize -l javascript;
+    else # pipe
+        python -mjson.tool | pygmentize -l javascript;
+    fi;
+}
+
+# Run `dig` and display the most useful info
+digga() {
+    dig +nocmd "$1" any +multiline +noall +answer;
+}
+
+# UTF-8-encode a string of Unicode symbols
+escape() {
+    printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u);
+    # print a newline unless we’re piping the output to another program
+    if [ -t 1 ]; then
+        echo ""; # newline
+    fi;
+}
+
+# Decode \x{ABCD}-style Unicode escape sequences
+unidecode() {
+    perl -e "binmode(STDOUT, ':utf8'); print \"$@\"";
+    # print a newline unless we’re piping the output to another program
+    if [ -t 1 ]; then
+        echo ""; # newline
+    fi;
+}
+
+# Get a character’s Unicode code point
+codepoint() {
+    perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))";
+    # print a newline unless we’re piping the output to another program
+    if [ -t 1 ]; then
+        echo ""; # newline
+    fi;
+}
+
+# fzf based process killer
+fkill() {
+    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+    if [ "x$pid" != "x" ]
+    then
+        kill -${1:-9} $pid
+    fi
+}
+
+# fzf search through history
+fh() {
+    print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}
+
+# cd to a child directory (hidden directories included)
+fdd() {
+    local dir
+    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+}
+
+# Recursive filename search and edit
+#   - CTRL-O to open with `open` command,
+#   - CTRL-E or Enter key to open with the $EDITOR
+ff() {
+    local out file key
+    IFS=$'\n' out=($(fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-e --preview "pygmentize -g {}"))
+    key=$(head -1 <<< "$out")
+    file=$(head -2 <<< "$out" | tail -1)
+    if [ -n "$file" ]; then
+        [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-nvim} "$file"
+    fi
+}
+
+# Edit a frecent file
+fr() {
+  local file
+  file=$(gsed '1d' ~/.cache/neomru/file |
+         fzf --query="$1" --select-1 --exit-0 --preview "pygmentize -g {}")
+  [ -n "$file" ] && nvim $file
+}
+
+# cd to a recent directory
+fd() {
+  local dir
+  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
+
+# fuzzy checkout a git branch
+fb() {
+  local branches branch
+  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+# fuzzy upgrade brew packages
+brewup() {
+  brew update && brew outdated | fzf -m -n 1 --tac --header='Select formulae to upgrade' | xargs brew upgrade
+}
+
+# fuzzy search through git log
+flog() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --header "Press CTRL-S to toggle sort" \
+      --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+                 xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
+      --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+              xargs -I % sh -c 'nvim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
+}
+
+# show terminal colors
+termcol () {
+  for code ({000..255}) print -P -- "$code: %F{$code}Isn't this a fun color?%f"
+}
+
+# fuzzy sshs into known hosts
+sshs() {
+  ~/.scripts/sshs -m
+}
+
+# Color less
+cless () {
+  pygmentize -g $1 | less -r
+}
+
+# display a directory tree in style
+tre () {
+  exa -lh --group-directories-first -T -L $1
+}
+
+# benchmark of zsh startup
+timeshell() {
+  for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
+}

@@ -17,6 +17,11 @@
   :ensure t
   :pin melpa
   :config
+  ;; we use the railwaycat/emacs-mac-port so we have to get
+  ;; emacs keys to match our expensive keycaps
+  (setq mac-option-modifier 'meta)
+  (setq mac-command-modifier 'super)
+  (setq mac-pass-command-to-system nil)
   (setq general-default-keymaps '(evil-normal-state-map))
   
   ;; Set leader which-key text

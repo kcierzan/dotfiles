@@ -16,6 +16,9 @@ bindkey '^]' autosuggest-accept
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
 
+# Go back through completion menu
+bindkey '^[[Z' reverse-menu-complete
+
 # History Settings (big history for use with many open shells and no dups)
 # Different History files for root and standard user
 HISTFILE=$HOME/.zsh_history
@@ -28,22 +31,29 @@ zle -C hist-complete complete-word _generic
 zstyle ':completion:hist-complete:*' completer _history
 bindkey '^X^X' hist-complete
 
-# If a command is issued that can’t be executed as a normal command, and the command is the name of a directory, perform the cd command to that directory.
+# If a command is issued that can’t be executed as a normal command,
+# and the command is the name of a directory, perform the cd command
+# to that directory.
 setopt AUTO_CD
 
-# Treat  the ‘#’, ‘~’ and ‘^’ characters as part of patterns for filename generation, etc.  (An initial unquoted ‘~’ always produces named directory expansion.)
+# Treat  the ‘#’, ‘~’ and ‘^’ characters as part of patterns for filename generation, etc.
+# (An initial unquoted ‘~’ always produces named directory expansion.)
 setopt EXTENDED_GLOB
 
-# If a pattern for filename generation has no matches, print an error, instead of leaving it unchanged in the argument  list. This also applies to file expansion of an initial ‘~’ or ‘=’.
+# If a pattern for filename generation has no matches, print an error, instead of
+# leaving it unchanged in the argument  list. This also applies to file expansion
+# of an initial ‘~’ or ‘=’.
 setopt NOMATCH
 
 # no Beep on error in ZLE.
 setopt NO_BEEP
 
-# Remove  any right prompt from display when accepting a command line. This may be useful with terminals with other cut/paste methods.
+# Remove  any right prompt from display when accepting a command line.
+# This may be useful with terminals with other cut/paste methods.
 setopt TRANSIENT_RPROMPT
 
-# If unset, the cursor is set to the end of the word if completion is started. Otherwise it stays there and completion is done from both ends.
+# If unset, the cursor is set to the end of the word if completion is started.
+# Otherwise it stays there and completion is done from both ends.
 setopt COMPLETE_IN_WORD
 
 # Make cd push the old directory onto the directory stack.
@@ -52,7 +62,8 @@ setopt AUTO_PUSHD
 # Don’t push multiple copies of the same directory onto the directory stack.
 setopt PUSHD_IGNORE_DUPS
 
-# DON NOT Allow ‘>’ redirection to truncate existing files, and ‘>>’ to create files. Otherwise ‘>!’ or ‘>|’ must be used to truncate  a file, and ‘>>!’ or ‘>>|’ to create a file.
+# DON NOT Allow ‘>’ redirection to truncate existing files, and ‘>>’ to create files.
+# Otherwise ‘>!’ or ‘>|’ must be used to truncate  a file, and ‘>>!’ or ‘>>|’ to create a file.
 # setopt no_clobber
 
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
@@ -98,9 +109,8 @@ zstyle ':completion:*' completer _complete _correct _approximate
 zstyle -e ':completion:*:approximate:*' max-errors 'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
 
 # case insensitivity
-#zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-zstyle ":completion:*" matcher-list 'm:{A-Zöäüa-zÖÄÜ}={a-zÖÄÜA-Zöäü}'
-
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+#
 # for all completions: grouping / headline / ...
 zstyle ':completion:*:messages' format $'\e[01;35m -- %d -- \e[00;00m'
 zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found -- \e[00;00m'
@@ -115,9 +125,6 @@ zstyle ':completion:*' verbose yes
 
 # in menu selection strg+space to go to subdirectories
 bindkey -M menuselect '^@' accept-and-infer-next-history
-
-# case-insensitive -> partial-word (cs) -> substring completion:
-zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 # caching of completion stuff
 zstyle ':completion:*' use-cache on
@@ -136,7 +143,7 @@ zstyle ':completion::*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;32'
 # rm: advanced completion (e.g. bak files first)
 zstyle ':completion::*:rm:*:*' file-patterns '*.o:object-files:object\ file *(~|.(old|bak|BAK)):backup-files:backup\ files *~*(~|.(o|old|bak|BAK)):all-files:all\ files'
 
-# vi: advanced completion (e.g. tex and rc files first)
-zstyle ':completion::*:vi:*:*' file-patterns 'Makefile|*(rc|log)|*.(php|tex|bib|sql|zsh|ini|sh|vim|rb|sh|js|tpl|csv|rdf|txt|phtml|tex|py|n3):vi-files:vim\ likes\ these\ files *~(Makefile|*(rc|log)|*.(log|rc|php|tex|bib|sql|zsh|ini|sh|vim|rb|sh|js|tpl|csv|rdf|txt|phtml|tex|py|n3)):all-files:other\ files'
+# neovim: advanced completion (e.g. tex and rc files first)
+zstyle ':completion::*:vim:*:*' file-patterns 'Makefile|*(rc|log)|*.(php|tex|bib|sql|zsh|ini|sh|vim|rb|sh|js|tpl|csv|rdf|txt|phtml|tex|py|n3):vi-files:vim\ likes\ these\ files *~(Makefile|*(rc|log)|*.(log|rc|php|tex|bib|sql|zsh|ini|sh|vim|rb|sh|js|tpl|csv|rdf|txt|phtml|tex|py|n3)):all-files:other\ files'
 
 zstyle :compinstall filename '~/.zshrc'

@@ -40,6 +40,8 @@
 
 (add-hook 'after-make-frame-functions 'moon/disable-scroll-bars)
 
+(defun moon/set-frame-padding (pix)
+  )
 (use-package doom-themes
   :ensure t
   :pin melpa
@@ -52,58 +54,23 @@
   (set-face-foreground 'speedbar-file-face "#72bef2")
   (set-face-foreground 'speedbar-selected-face "#d291e4")
   (set-face-foreground 'speedbar-tag-face "#dbaa79")
-  (set-face-background 'sp-show-pair-match-face nil))  
+  (set-face-background 'sp-show-pair-match-face nil)
+  (set-frame-parameter nil 'internal-border-width 15)
+  (add-hook 'before-make-frame-hook (set-frame-parameter nil 'internal-border-width 15)))
 
 (use-package all-the-icons
   :ensure t
   :pin melpa)
 
-;; (use-package spaceline
-;;   :ensure t
-;;   :pin melpa
-;;   :init
-;;   (setq powerline-default-separator nil)
-;;   :config
-;;   (require 'spaceline-config)
-;;   (spaceline-emacs-theme)
-;;   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state))
-
-(use-package telephone-line
+(use-package spaceline
   :ensure t
-  :pin melpa 
+  :pin melpa
+  :init
+  (setq powerline-default-separator nil)
   :config
-  (defface one-evil-normal '((t (:foreground "#282c34" :background "#51afef"))) "")
-  (defface one-evil-insert '((t (:foreground "#282c34" :background "#98be65"))) "")
-  (defface one-evil-visual '((t (:foreground "#282c34" :background "#c678dd"))) "")
-  (defface one-evil-motion '((t (:foreground "#282c34" :background "#da8548"))) "")
-  (defface one-evil-emacs '((t (:foreground "#282c34" :background "#ecbe7b"))) "")
-  (defface one-evil-replace '((t (:foreground "#282c34" :background "#ff6c6b"))) "")
-  (defface one-evil-operator '((t (:foreground "#282c34" :background "#5699af"))) "")
-  (setq face-remapping-alist
-        '((telephone-line-evil-normal . one-evil-normal)
-          (telephone-line-evil-insert . one-evil-insert)
-          (telephone-line-evil-visual . one-evil-visual)
-          (telephone-line-evil-motion . one-evil-motion)
-          (telephone-line-evil-emacs . one-evil-emacs)
-          (telephone-line-evil-replace . one-evil-replace)
-          (telephone-line-evil-operator . one-evil-operator)))
-  (setq telephone-line-lhs
-        '((evil . (telephone-line-evil-tag-segment))
-          (accent .(telephone-line-vc-segment
-                    telephone-line-erc-modified-channels-segment
-                    telephone-line-process-segment))
-          (nil . (telephone-line-minor-mode-segment
-                  telephone-line-buffer-segment)))) 
-  (setq telephone-line-rhs
-        '((nil . (telephone-line-misc-info-segment))
-          (accent . (telephone-line-major-mode-segment))
-          (evil . (telephone-line-airline-position-segment))))
-  (setq telephone-line-primary-left-separator     'telephone-line-nil
-        telephone-line-primary-right-separator    'telephone-line-nil
-        telephone-line-secondary-right-separator  'telephone-line-nil
-        telephone-line-secondary-left-separator   'telephone-line-nil
-        telephone-line-height 24)
-  (telephone-line-evil-config)) 
+  (require 'spaceline-config)
+  (spaceline-emacs-theme)
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state))
 
 (use-package sublimity
   :ensure t
@@ -126,8 +93,8 @@
   :ensure t
   :pin melpa
   :config
-  (nlinum-relative-setup-evil)
-  (add-hook 'prog-mode-hook 'nlinum-relative-mode))
+  (nlinum-relative-setup-evil))
+  ; (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
 (use-package nlinum-hl
   :ensure t
