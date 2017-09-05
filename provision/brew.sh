@@ -5,56 +5,95 @@ brew tap | grep -q 'universal-ctags' || brew tap universal-ctags/universal-ctags
 brew tap | grep -q 'mopidy/mopidy' || brew tap universal-ctags/universal-ctags
 
 pkgs=(
-  ansiweather
+	"universal-ctags --HEAD"
   "chunkwm --with-ffm"
-  coreutils
-  ddate
-  exa
-	fasd
   "ffmpeg --with-rtmpdump --with-openssl --with-libass --with-libbs2b --with-rubberband"
-  ffms2
-  fontforge
+  "libass --without-harfbuzz"
+  "mpv --with-vapoursynth --with-libarchive --with-bundle"
+	fasd
 	fzf
 	git
 	highlight
-	hub
-  gnu-sed
-  grep
-  gzip
 	httpie
+	hub
 	jq
 	khd
-  less
-  "libass --without-harfbuzz"
-  mopidy
-  mopidy-spotify
 	mpc
-  "mpv --with-vapoursynth --with-libarchive --with-bundle"
 	mutt
-  mvtools
-  neofetch
-  neomutt
-  neovim
 	ncmpcpp
-  nvm
-  postgresql
 	pyenv
 	pyenv-virtualenv
 	python
-	python3
 	rbenv
-  readline
 	reattach-to-user-namespace
 	ripgrep
 	ruby
-  rsync
-  sqlite
 	ssh-copy-id
+  ansiweather
+  bash
+  ccat
+  coreutils
+  crisidev/chunkwm/chunkwm
+  curl
+  ddate
+  emacs-mac
+  exa
+  fasd
+  ffms2
+  findutils
+  fontforge
+  fzf
+  gawk
+  gcc
+  ghc
+  global
+  gmime
+  gnu-sed
+  gnu-tar
+  gnu-which
+  gnutls
+  gpg-agent
+  gpgme
+  grc
+  grep
+  gzip
+  highlight
+  htop
+  httpie
+  hub
+  ispell
+  json-c
+  koekeishiya/formulae/khd
+  less
+  markdown
+  mopidy
+  mopidy-spotify
+  mpc
+  mpd
+  mu
+  mvtools
+  ncmpcpp
+  neofetch
+  neomutt/neomutt/neomutt
+  neovim
+  ngrep
+  node
+  nvm
+  postgresql
+  pv
+  pyenv-virtualenv
+  python3
+  rbenv
+  readline
+  reattach-to-user-namespace
+  ripgrep
+  rsync
+  ruby
+  sqlite
+  ssh-copy-id
   stow
-  subliminal
-  task
+  the_silver_searcher
   tmux
-	"universal-ctags --HEAD"
   vit
   weechat
   xz
@@ -62,7 +101,6 @@ pkgs=(
   zplug
   zsh
 )
-
 # Install all brew packages
 for pkg in "${pkgs[@]}"
 do
