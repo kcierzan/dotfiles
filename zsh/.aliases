@@ -263,10 +263,10 @@ fd() {
 # fuzzy checkout a git branch
 fb() {
   local branches branch
-  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+    branches=$(git branch --all | grep -v HEAD) &&
+    branch=$(echo "$branches" |
+            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+    git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
 # fuzzy upgrade brew packages
@@ -303,7 +303,7 @@ cless () {
 
 # display a directory tree in style
 tre () {
-  exa -lh --group-directories-first -T -L $1
+  exa --group-directories-first -T -L $1
 }
 
 # benchmark of zsh startup

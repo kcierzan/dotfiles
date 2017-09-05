@@ -1,8 +1,8 @@
-#               __
-#   ____  _____/ /_  __________
-#  /_  / / ___/ __ \/ ___/ ___/
-# _ / /_(__  ) / / / /  / /__
-#(_)___/____/_/ /_/_/   \___/
+#                __
+#    ____  _____/ /_  __________
+#   /_  / / ___/ __ \/ ___/ ___/
+#  _ / /_(__  ) / / / /  / /__
+# (_)___/____/_/ /_/_/   \___/
 
 source ~/.zsh_config
 
@@ -51,8 +51,6 @@ nvm() {
 # fzf initialization
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-POWERLEVEL9K_MODE='nerdfont-complete'
-
 # Run zplug
 source $ZPLUG_HOME/init.zsh
 
@@ -66,6 +64,7 @@ zplug "zsh-users/zsh-syntax-highlighting"
 zplug load
 
 ZSH_HIGHLIGHT_STYLES[path]=none
+
 # Source additional dotfiles
 source ~/.aliases
 source ~/.extra

@@ -33,14 +33,14 @@ hi! deniteSource_lineNumber ctermfg=5
 
 call denite#custom#map(
       \ 'insert',
-      \ '<C-j>',
+      \ '<Down>',
       \ '<denite:move_to_next_line>',
       \ 'noremap'
       \)
 
 call denite#custom#map(
       \ 'insert',
-      \ '<C-k>',
+      \ '<Up>',
       \ '<denite:move_to_previous_line>',
       \ 'noremap'
       \)

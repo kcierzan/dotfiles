@@ -1,22 +1,17 @@
 #!/bin/bash
 
-#
 # NOTE: specify the absolutepath to the directory to use when
 #       loading a plugin. '~' expansion is supported.
-#
+
 
 chunkc core::plugin_dir ~/.chunkwm_plugins
 
-#
+
 # NOTE: if enabled, chunkwm will monitor the specified plugin_dir
 #       and automatically reload any '.so' file that is changed.
-#
-
 chunkc core::hotload 1
 
-#
 # NOTE: The following are config variables for the chunkwm-tiling plugin
-#
 
 chunkc set global_desktop_mode           bsp
 
@@ -45,37 +40,22 @@ chunkc set preselect_border_color        0xffffff00
 chunkc set preselect_border_width        4
 chunkc set preselect_border_radius       0
 
-# signal dock to make windows topmost when floated
-# requires chwm-sa (https://github.com/koekeishiya/chwm-sa)
-chunkc set window_float_topmost          1
-
-#
 # NOTE: The following are config variables for the chunkwm-border plugin
-#
+
 chunkc set focused_border_color          0xff72bef2
 chunkc set focused_border_width          6
 chunkc set focused_border_radius         0
 chunkc set focused_border_skip_floating  0
 
-#
-# NOTE: specify plugins to load when chunkwm starts.
-#
 
+# NOTE: specify plugins to load when chunkwm starts.
 chunkc core::load tiling.so
 # chunkc core::load ffm.so
 chunkc core::load border.so
 
+# Rules
 chunkc tiling::rule --owner \"System Preferences\" --state float
 chunkc tiling::rule --owner Finder --name Copy --state float
 chunkc tiling::rule --owner Dash --state float
 chunkc tiling::rule --owner "Emacs.*" --state tile
-chunkc tiling::rule --owner Finder --name ".+" --state float
-
-#  chunkc tiling::rule --owner iTerm --state float
-#
-# NOTE: if chunkc plugin_dir is not set, the absolutepath is necessary.
-#
-
-# chunkc core::load ~/.chunkwm_plugins/tiling.so
-# chunkc core::load ~/.chunkwm_plugins/ffm.so
-# chunkc core::load ~/.chunkwm_plugins/border.so
+chunkc tiling::rule --owner Alfred --state float

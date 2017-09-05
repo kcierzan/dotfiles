@@ -124,6 +124,7 @@ endif
 " Close the completion buffer once completion is done
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
+"----------- Polyglot ------------------------
 "---------- ALE ----------------------
 filetype off
 filetype plugin on
@@ -179,7 +180,7 @@ let g:test#python#nose#options = '-x -v -s --with-coverage'
 
 "----------- rainbow_parentheses ---------
 let g:rainbow_active = 1
-let g:rainbow_conf   = { 'ctermfgs': ['magenta', 'blue', 'cyan', 'green', 'yellow', 'red'] }
+let g:rainbow_conf   = { 'ctermfgs': ['blue', 'cyan', 'magenta', 'red', 'yellow', 'green'] }
 
 " ------------- Gitgutter ------------------
 let g:gitgutter_map_keys = 0
@@ -280,6 +281,3 @@ xmap <C-k> <Plug>(neosnippet_expand_target)
 let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
 
-"----------- Polyglot ------------------------
-let g:polyglot_disabled = [ 'javascript', 'python' ]
-let g:python_highlight_all = 1

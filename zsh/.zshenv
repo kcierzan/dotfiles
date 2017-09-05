@@ -9,19 +9,31 @@ export NVM_DIR="$HOME/.nvm"
 export ZPLUG_HOME="/usr/local/opt/zplug"
 
 export FZF_COMPLETION_TRIGGER='**'
-export FZF_DEFAULT_COMMAND='ag --hidden --follow --ignore="**.pyc" --ignore="**.min.*" -g ""'
+
+# the silver searcher - for when ripgrep is busted.
+# export FZF_DEFAULT_COMMAND='ag --hidden --follow --ignore="**.pyc" --ignore="**.min.*" -g ""'
+
+# ripgrep has issues with writing output to a broken pipe - it is 'fixed' for now...
+# https://github.com/BurntSushi/ripgrep/issues/200
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc"'
+
+# One Dark Theme for FZF
 export FZF_DEFAULT_OPTS='
 --color=fg:#bbc2cf,bg:-1,fg+:4,bg+:-1,header:3
 --color=hl:241,hl+:12,prompt:6,spinner:5,pointer:2,marker:4,info:2'
 
 export KEYTIMEOUT=1
 
-export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+# Geometry ZSH prompt theme
+
+# You're going to want a patched font.
+# Available here: https://github.com/ryanoasis/nerd-fonts
 export GEOMETRY_PROMPT_PLUGINS=(git tag virtualenv vi_mode)
 export GEOMETRY_COLOR_VIRTUALENV=4
-export GEOMETRY_SYMBOL_PROMPT=''
+export GEOMETRY_SYMBOL_PROMPT=' '
 # export GEOMETRY_SYMBOL_PROMPT=''
+# export GEOMETRY_SYMBOL_PROMPT=''
 # export GEOMETRY_SYMBOL_PROMPT='λ'
 export GEOMETRY_SYMBOL_EXIT_VALUE=''
 export GEOMETRY_SYMBOL_GIT_CLEAN=''
@@ -43,6 +55,9 @@ export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 
 export ZSH_AUTOSUGGEST_USE_ASYNC='1'
 
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+# Lazy load pyenv... yeah...
 if [[ -d ~/.pyenv ]] && ! (( $+functions[zsh_setup_pyenv] )); then # only once!
   if ! (( $+PYENV_ROOT )); then
     export PYENV_ROOT="$HOME/.pyenv"

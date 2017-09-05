@@ -1,9 +1,15 @@
 "   _  ____   __ ____ ___  __ __ ________
-"  / // __ \ / // __/ | | / // // __ `__ \
+"  / // __ \ / // __/ | | / // // __  __ \
 " / // / / // // /_ _ | |/ // // / / / / /
 "/_//_/ /_//_/ \__/(_)|___//_//_/ /_/ /_/ 
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
+
+let g:polyglot_disabled = [ 'javascript', 'python' ]
+
+" let g:polyglot_disabled = [ 'javascript' ]
+let g:python_highlight_all = 1
+
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'tpope/vim-repeat'                    " Use . to repeat some stuff
 Plug 'jiangmiao/auto-pairs'                " Automatic deliminters
@@ -31,7 +37,6 @@ Plug 'scrooloose/nerdtree',                { 'on': ['NERDTreeToggle', 'NERDTreeC
 Plug 'tpope/vim-endwise'                   " Automagically add ending statements
 Plug 'Yggdroot/indentLine'                 " indent lines
 Plug 'junegunn/vim-easy-align'             " align stuff
-Plug 'luochen1990/rainbow'                 " Rainbow Parens
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'rhysd/clever-f.vim'                  " F and T are repeatable
 Plug 'tpope/vim-abolish'                   " correct common misspellings
@@ -51,6 +56,7 @@ Plug 'tpope/vim-rhubarb'                   " Access GitHub
 Plug 'mattn/emmet-vim'                     " Markup Expansion
 Plug 'majutsushi/tagbar'                   " show some tags
 Plug 'vim-python/python-syntax'
+Plug 'luochen1990/rainbow'                 " Rainbow Parens
 call plug#end()
 
 " Source nvim modules
@@ -62,8 +68,8 @@ if filereadable(expand('~/.config/nvim/binding.vim'))
   source ~/.config/nvim/binding.vim
 endif
 
-if filereadable(expand('~/.config/nvim/lightline.vim'))
-  source ~/.config/nvim/lightline.vim
+if filereadable(expand('~/.config/nvim/lightline-colons.vim'))
+  source ~/.config/nvim/lightline-colons.vim
 endif
 
 if filereadable(expand('~/.config/nvim/denite.vim'))
