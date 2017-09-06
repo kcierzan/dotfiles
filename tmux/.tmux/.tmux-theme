@@ -35,5 +35,5 @@ set -g @batt_attached_icon ""
 set -g status-left "#[fg=colour05,bold] #S "
 set -g status-right "#[fg=colour04] %b %d#[fg=colour05] :: #[fg=colour04]%I:%M#[fg=colour05] :: #[fg=colour04]#(cat ~/.scripts/weather.txt) #[bg=colour02,fg=colour0,nobold]#{battery_status_bg} #{battery_icon} #{battery_percentage} "
 setw -g window-status-format "#[fg=colour04,bg=colour0] #I#[fg=colour05,bg=colour0]::#[fg=colour04,bg=colour0]#W "
-setw -g window-status-current-format "#[fg=colour0,bg=colour04]  #W  "
+setw -g window-status-current-format "#[fg=colour0,bg=colour04] ::#W:: "
 

@@ -24,7 +24,6 @@ export FZF_DEFAULT_OPTS='
 
 export KEYTIMEOUT=1
 
-
 # Geometry ZSH prompt theme
 
 # You're going to want a patched font.
