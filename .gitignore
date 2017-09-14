@@ -24,7 +24,7 @@ Thumbs.db
 .s3cfg
 .aws/
 **/weather.txt
-**/.extra.zsh
+**/extra.zsh
 
 # Emacs files
 .projectile
