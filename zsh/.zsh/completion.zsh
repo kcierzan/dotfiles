@@ -1,24 +1,12 @@
-#                      _____                  __
-#    _________  ____  / __(_)___ _____  _____/ /_
-#   / ___/ __ \/ __ \/ /_/ / __ `/_  / / ___/ __ \
-# _/ /__/ /_/ / / / / __/ / /_/ / / /_(__  ) / / /
-#(_)___/\____/_/ /_/_/ /_/\__, (_)___/____/_/ /_/
-#                        /____/
+#                               __     __  _                        __  
+#   _________  ____ ___  ____  / /__  / /_(_)___  ____  ____  _____/ /_ 
+#  / ___/ __ \/ __ `__ \/ __ \/ / _ \/ __/ / __ \/ __ \/_  / / ___/ __ \
+# / /__/ /_/ / / / / / / /_/ / /  __/ /_/ / /_/ / / / / / /_(__  ) / / /
+# \___/\____/_/ /_/ /_/ .___/_/\___/\__/_/\____/_/ /_(_)___/____/_/ /_/ 
+#                    /_/                                                
 
 autoload -Uz compinit && compinit
-
-
-# ctrl-\ executes suggestion
-bindkey '^\' autosuggest-execute
-# ctrl-] accepts suggestion
-bindkey '^]' autosuggest-accept
-
-bindkey '^[[A' up-line-or-search
-bindkey '^[[B' down-line-or-search
-
-# Go back through completion menu
-bindkey '^[[Z' reverse-menu-complete
-
+ 
 # History Settings (big history for use with many open shells and no dups)
 # Different History files for root and standard user
 HISTFILE=$HOME/.zsh_history
@@ -84,6 +72,16 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 # load completions system
 zmodload -i zsh/complist
 
+bindkey '^[[A' up-line-or-search
+bindkey '^[[B' down-line-or-search
+
+# Go back through completion menu
+bindkey '^[[Z' reverse-menu-complete
+# ctrl-\ executes suggestion
+bindkey '^\' autosuggest-execute
+# ctrl-] accepts suggestion
+bindkey '^]' autosuggest-accept
+
 # auto rehash commands
 # http://www.zsh.org/mla/users/2011/msg00531.html
 zstyle ':completion:*' rehash true
@@ -96,9 +94,6 @@ zstyle ':completion:*' group-name ''
 
 # for all completions: color
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-# for all completions: selected item
-#zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;47
 
 # completion of .. directories
 zstyle ':completion:*' special-dirs true
@@ -124,7 +119,7 @@ zstyle ':completion:*:default' select-prompt $'\e[01;35m -- Match %M    %P -- \e
 zstyle ':completion:*' verbose yes
 
 # in menu selection strg+space to go to subdirectories
-bindkey -M menuselect '^@' accept-and-infer-next-history
+bindkey -M menuselect '^o' accept-and-infer-next-history
 
 # caching of completion stuff
 zstyle ':completion:*' use-cache on
@@ -144,6 +139,15 @@ zstyle ':completion::*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;32'
 zstyle ':completion::*:rm:*:*' file-patterns '*.o:object-files:object\ file *(~|.(old|bak|BAK)):backup-files:backup\ files *~*(~|.(o|old|bak|BAK)):all-files:all\ files'
 
 # neovim: advanced completion (e.g. tex and rc files first)
-zstyle ':completion::*:vim:*:*' file-patterns 'Makefile|*(rc|log)|*.(php|tex|bib|sql|zsh|ini|sh|vim|rb|sh|js|tpl|csv|rdf|txt|phtml|tex|py|n3):vi-files:vim\ likes\ these\ files *~(Makefile|*(rc|log)|*.(log|rc|php|tex|bib|sql|zsh|ini|sh|vim|rb|sh|js|tpl|csv|rdf|txt|phtml|tex|py|n3)):all-files:other\ files'
+# zstyle ':completion::*:vim:*:*' file-patterns 'Makefile|*(rc|log)|*.(php|tex|bib|sql|zsh|ini|sh|vim|rb|sh|js|tpl|csv|rdf|txt|phtml|tex|py|n3):vi-files:vim\ likes\ these\ files *~(Makefile|*(rc|log)|*.(log|rc|php|tex|bib|sql|zsh|ini|sh|vim|rb|sh|js|tpl|csv|rdf|txt|phtml|tex|py|n3)):all-files:other\ files'
+
+# neovim: advanced completion (e.g. tex and rc files first)
+# zstyle ':completion::*:vim:*:*' file-patterns 'Makefile|*(rc|log)|*.(php|tex|bib|sql|zsh|ini|sh|vim|rb|sh|js|tpl|csv|rdf|txt|phtml|tex|py|n3):vi-files:vim\ likes\ these\ files *~(Makefile|*(rc|log)|*.(log|rc|php|tex|bib|sql|zsh|ini|sh|vim|rb|sh|js|tpl|csv|rdf|txt|phtml|tex|py|n3)):all-files:other\ files'
+
+# fix double tabs
+zstyle '*' single-ignored show
+
+# Go back through completion menu
+bindkey '^[[Z' reverse-menu-complete
 
 zstyle :compinstall filename '~/.zshrc'

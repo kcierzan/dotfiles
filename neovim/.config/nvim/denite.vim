@@ -33,14 +33,14 @@ hi! deniteSource_lineNumber ctermfg=5
 
 call denite#custom#map(
       \ 'insert',
-      \ '<Down>',
+      \ '<C-n>',
       \ '<denite:move_to_next_line>',
       \ 'noremap'
       \)
 
 call denite#custom#map(
       \ 'insert',
-      \ '<Up>',
+      \ '<C-p>',
       \ '<denite:move_to_previous_line>',
       \ 'noremap'
       \)
@@ -55,42 +55,3 @@ call denite#custom#map(
 call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
   \ [ '.git/', '.ropeproject/', '__pycache__/',
   \   'env/', 'images/', '*.min.*', 'img/', 'fonts/'])
-
-" let s:menus = {}
-" call denite#custom#var('menu', 'menus', s:menus)
-
-" " Refactor this whole thing...
-" let s:menus.git = {
-"   \ 'description' : 'Fugitive interface',
-"   \}
-" let s:menus.git.command_candidates = [
-"   \[' git diff', 'Gvdiff'],
-"   \[' git status', 'Gstatus'],
-"   \[' git commit', 'Gcommit'],
-"   \[' git stage/add', 'Gwrite'],
-"   \[' git blame', 'Gblame'],
-"   \[' git checkout', 'Gread'],
-"   \[' git rm', 'Gremove'],
-"   \[' git cd', 'Gcd'],
-"   \[' git push', 'exe "Git! push " input("remote/branch: ")'],
-"   \[' git pull', 'exe "Git! pull " input("remote/branch: ")'],
-"   \[' git pull rebase', 'exe "Git! pull --rebase " input("branch: ")'],
-"   \[' git checkout branch', 'exe "Git! checkout " input("branch: ")'],
-"   \[' git fetch', 'Gfetch'],
-"   \[' git merge', 'Gmerge'],
-"   \[' git browse', 'Gbrowse'],
-"   \[' git head', 'Gedit HEAD^'],
-"   \[' git parent', 'edit %:h'],
-"   \[' git log commit buffers', 'Glog --'],
-"   \[' git log current file', 'Glog -- %'],
-"   \[' git log last n commits', 'exe "Glog -" input("num: ")'],
-"   \[' git log first n commits', 'exe "Glog --reverse -" input("num: ")'],
-"   \[' git log until date', 'exe "Glog --until=" input("day: ")'],
-"   \[' git log grep commits',  'exe "Glog --grep= " input("string: ")'],
-"   \[' git log pickaxe',  'exe "Glog -S" input("string: ")'],
-"   \[' git index', 'exe "Gedit " input("branchname\:filename: ")'],
-"   \[' git mv', 'exe "Gmove " input("destination: ")'],
-"   \[' git grep',  'exe "Ggrep " input("string: ")'],
-"   \[' git prompt', 'exe "Git! " input("command: ")'],
-"   \] " Append ' --' after log to get commit info commit buffers
-

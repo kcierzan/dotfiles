@@ -1,15 +1,23 @@
 @font-face {
-  font-family: 'Input Sans';
-  src: url('../../../../../../../../Fonts/InputSans-Bold.ttf')  format('truetype');
+  font-family: 'Karla';
+  src: url('../../../../../../../../Fonts/Karla-Regular.ttf')  format('truetype');
 }
 
 #cVim-command-bar, #cVim-command-bar-mode, #cVim-command-bar-input, #cVim-command-bar-search-results,
 .cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left,
 .cVim-completion-item .cVim-right {
-  font-family: Input Sans, Helvetica Neue, Neue, sans-serif, monospace, Arial;
-  font-size: 10pt !important;
+  font-family: Karla, Helvetica Neue, Neue, sans-serif, monospace, Arial;
+  font-weight: 400 !important;
+  font-size: 12pt !important;
   -webkit-font-smoothing: antialiased !important;
 }
+
+#cVim-command-bar span {
+  height: auto !important;
+  font-size: 14pt !important;
+  padding-bottom: 0.4em !important;
+}
+
 
 #cVim-command-bar {
   position: fixed;
@@ -21,7 +29,7 @@
   box-shadow: 0 3px 3px rgba(0,0,0,0.4);
   left: 0;
   width: 100%;
-  height: 20px;
+  height: 24px;
 }
 
 #cVim-command-bar-mode {
@@ -98,7 +106,7 @@
 
 #cVim-link-container, .cVim-link-hint,
 #cVim-hud, #cVim-status-bar {
-  font-family: Input Sans, Helvetica Neue, Neue, sans-serif, monospace, Arial;
+  font-family: Karla, Helvetica Neue, Neue, sans-serif, monospace, Arial;
   font-size: 10pt !important;
   -webkit-font-smoothing: antialiased !important;
 }
@@ -113,14 +121,14 @@
 
 .cVim-link-hint {
   position: absolute;
-  color: #282c34 !important;
-  background-color: #ecbe7b !important;
+  color: #ff6c6b !important;
+  background-color: #282c34 !important;
   border-radius: 2px !important;
   padding: 2px !important;
-  font-size: 8pt !important;
-  font-weight: 500 !important;
+  font-size: 10pt !important;
+  font-weight: 600 !important;
   text-transform: uppercase !important;
-  border: 1px solid #ecbe7b;
+  border: 1px solid #ca675c;
   display: inline-block !important;
   vertical-align: middle !important;
   text-align: center !important;
@@ -145,7 +153,7 @@
   padding-left: 4px;
   padding-right: 4px;
   color: #23272e;
-  font-size: 10pt;
+  font-size: 12pt;
 }
 
 #cVim-frames-outline {

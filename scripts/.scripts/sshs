@@ -5,7 +5,7 @@ FZF_OPTS=""
 [[ $QUERY == "-m" ]] && FZF_OPTS=$QUERY && QUERY="$2"
 
 search () {
-  source ~/.extra;
+  # source ~/.zsh/extra.zsh;
   if [ "$DOMAIN_NAMES" ]; then
     for domainname in $DOMAIN_NAMES; do
       dig -t AXFR $domainname | grep -v ";" | grep -v "^_" | grep -v "^\s*$" | awk '{ print $1}' | sed 's/\.$//' | grep "$1" | uniq

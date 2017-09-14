@@ -3,6 +3,7 @@
 export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
 
 export EDITOR='nvim'
+export GIT_EDITOR='nvim'
 
 export PYENV_ROOT=~/.pyenv
 export NVM_DIR="$HOME/.nvm"
@@ -22,11 +23,12 @@ export FZF_DEFAULT_OPTS='
 --color=fg:#bbc2cf,bg:-1,fg+:4,bg+:-1,header:3
 --color=hl:241,hl+:12,prompt:6,spinner:5,pointer:2,marker:4,info:2'
 
+# Fast key repeat
 export KEYTIMEOUT=1
 
-# Geometry ZSH prompt theme
+# Geometry ZSH prompt theme settings
 
-# You're going to want a patched font.
+# You're going to want a patched font. I like Iosevka.
 # Available here: https://github.com/ryanoasis/nerd-fonts
 export GEOMETRY_PROMPT_PLUGINS=(git tag virtualenv vi_mode)
 export GEOMETRY_COLOR_VIRTUALENV=4
@@ -50,7 +52,9 @@ export PROMPT_GEOMETRY_GIT_TIME=false
 export GEOMETRY_SYMBOL_GIT_REBASE="\ue726"
 export GEOMETRY_COLOR_GIT_BRANCH=3
 
-export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
+# One Dark LSCOLORS
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedxbxgxcxd
 
 export ZSH_AUTOSUGGEST_USE_ASYNC='1'
 
@@ -61,7 +65,7 @@ if [[ -d ~/.pyenv ]] && ! (( $+functions[zsh_setup_pyenv] )); then # only once!
   if ! (( $+PYENV_ROOT )); then
     export PYENV_ROOT="$HOME/.pyenv"
   fi
-  
+
   # Setup pyenv completions always.
   # (it is useful to have from the beginning, and using it via zsh_setup_pyenv
   # triggers a job control bug in Zsh).

@@ -4,42 +4,48 @@
 #  _ / /_(__  ) / / / /  / /__
 # (_)___/____/_/ /_/_/   \___/
 
-source ~/.zsh_config
+# Set up zsh completion ASAP
+source ~/.zsh/completion.zsh
 
-# jump around
+# Lazy load fasd
 f() {
     eval "$( command fasd --init auto )"
     fasd -f "$@"
 }
+
 a() {
     eval "$( command fasd --init auto )"
     fasd -a "$@"
 }
+
 s() {
     eval "$( command fasd --init auto )"
     fasd -si "$@"
 }
+
 d() {
     eval "$( command fasd --init auto )"
     fasd -d "$@"
 }
+
 z() {
     eval "$( command fasd --init auto )"
     fasd_cd -d "$@"
 }
 
-# Enable rbenv
+# Lazy load rbenv
 rbenv() {
     eval "$( command rbenv init - --no-rehash )"
     rbenv "$@"
 }
 
+# Lazy load pyenv-virtualenv
 pyenv-virtualenv-init() {
     eval "$( command pyenv virtualenv-init - )"
     pyenv-virtualenv-init "$@"
 }
 
-# setup nvm
+# Lazy load nvm
 nvm() {
     (( $+commands[brew] )) && {
         local pfx=$(brew --prefix)
@@ -48,33 +54,37 @@ nvm() {
   }
 }
 
-# fzf initialization
+# Initialize fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Run zplug
+# Initialize zplug
 source $ZPLUG_HOME/init.zsh
 
-# ------------ ZPLUG ------------------------
-# zplug "bhilburn/powerlevel9k",           from:github,   use:powerlevel9k.zsh-theme, as:theme
+# ------------ ZPLUG PLUGINS ------------------------
 zplug "zsh-users/zsh-autosuggestions",   use:zsh-autosuggestions.zsh
 zplug "geometry-zsh/geometry"
-zplug "unixorn/warhol.plugin.zsh"
+# zplug "unixorn/warhol.plugin.zsh"
 zplug "zsh-users/zsh-syntax-highlighting"
-
 zplug load
 
+# Don't underline paths in command line
 ZSH_HIGHLIGHT_STYLES[path]=none
 
 # Source additional dotfiles
-source ~/.aliases
-source ~/.extra
+source ~/.zsh/aliases.zsh
+source ~/.zsh/extra.zsh
 
-# Maybe load geometry plugins
+# Maybe load geometry prompt plugins
 which geometry_plugin_register &> /dev/null
 if [ $? -eq 0 ]; then
-  source ~/.tag_plugin
-  source ~/.vi_mode_plugin
+  source ~/.zsh/tag_plugin.zsh
+  source ~/.zsh/vi_mode_plugin.zsh
 fi
+
+# Set iTerm2 title bar to One Dark background
+echo -en "\033]6;1;bg;red;brightness;40\a"
+echo -en "\033]6;1;bg;green;brightness;44\a"
+echo -en "\033]6;1;bg;blue;brightness;52\a"
 
 # Tmux is life, we start it on interactive shell
 if which tmux >/dev/null 2>&1; then
@@ -86,3 +96,4 @@ if which tmux >/dev/null 2>&1; then
         tmux attach || break
     done
 fi
+

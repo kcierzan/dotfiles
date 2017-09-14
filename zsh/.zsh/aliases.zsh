@@ -1,5 +1,3 @@
-#----------------------- A L I A S E S ----------------------------------
-
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -11,6 +9,8 @@ alias gs="git status"
 alias h="history"
 alias j="jobs"
 
+alias tkill="tmux ls | grep -v attached | awk '{ print $1 }' | sed 's/://' | cut -d ' ' -f1 | xargs -I {} tmux kill-session -t {}"
+# alias tkill="tmux ls | grep --invert-match 'attached' | awk '{print $1}' | grep -oh '^[0-9]\{1,\}' | xargs -n 1 -I {} tmux kill-session -t {}"
 # Bypass useless bsd ctags
 alias ctags='/usr/local/bin/ctags'
 
@@ -102,6 +102,10 @@ alias reload="exec $SHELL -l"
 
 alias vim="nvim"
 alias vi="nvim"
+
+alias emacs="emacsclient"
+alias e="emacsclient"
+
 alias subl="/usr/local/bin/subl"
 
 # Activate a python virtualenv
@@ -234,15 +238,28 @@ fdd() {
 }
 
 # Recursive filename search and edit
-#   - CTRL-O to open with `open` command,
-#   - CTRL-E or Enter key to open with the $EDITOR
+#   - CTRL-o     open with `open` command
+#   - CTRL-y     open with pycharm
+#   - CTRL-a     edit with atom
+#   - CTRL-x     prompt for deletion
+#   - ENTER      edit with neovim
 ff() {
     local out file key
-    IFS=$'\n' out=($(fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-e --preview "pygmentize -g {}"))
+    IFS=$'\n' out=($(fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-a,ctrl-x,ctrl-y --preview "pygmentize -g {}"))
     key=$(head -1 <<< "$out")
     file=$(head -2 <<< "$out" | tail -1)
     if [ -n "$file" ]; then
-        [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-nvim} "$file"
+        if [ "$key" = ctrl-o ]; then 
+            open "$file"
+        elif [ "$key" = ctrl-a ]; then
+            atom "$file"
+        elif [ "$key" = ctrl-y ]; then
+            charm "$file"
+        elif [ "$key" = ctrl-x ]; then
+            rm -i "$file"
+        else
+            nvim "$file"
+        fi
     fi
 }
 
@@ -251,14 +268,58 @@ fr() {
   local file
   file=$(gsed '1d' ~/.cache/neomru/file |
          fzf --query="$1" --select-1 --exit-0 --preview "pygmentize -g {}")
-  [ -n "$file" ] && nvim $file
+  [ -n "$file" ] && ${EDITOR:-subl} "$file"
 }
 
-# cd to a recent directory
+# Recent directory search and edit
+#   - CTRL-o    open with `open` command
+#   - CTRL-a    cd and edit with atom
+#   - CTRL-y    cd and open with pycharm
+#   - CTRL-x    prompt for recursive deletion
+#   - ENTER     cd
 fd() {
-  local dir
-  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+    local out dir key
+    IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-a,ctrl-x,ctrl-y +m)"
+    key=$(head -1 <<< "$out")
+    dir=$(head -2 <<< "$out" | tail -1)
+    if [ -d "$dir" ]; then
+        if [ "$key" = ctrl-o ]; then 
+            open "$dir"
+        elif [ "$key" = ctrl-a ]; then
+            cd "$dir" && atom "$dir"
+        elif [ "$key" = ctrl-y ]; then
+            cd "$dir" && charm "$dir"
+        elif [ "$key" = ctrl-x ]; then
+            rm -ir "$dir"
+        else
+            cd "$dir"
+        fi
+    fi
 }
+
+# Turn this into an interactive killer
+
+# ses() {
+#   local out sessions session key
+#   IFS=$'\n'
+#   sessions=$(
+#     tmux list-sessions -F '#{session_name};#{session_windows} windows;#{?session_attached,(attached),}' |
+#     column -s\; -t |
+#     awk '{print "["NR-1"]", $0}'
+#   )
+
+#   out=($(echo "$sessions" | fzf --reverse --exit-0 --exact -m --expect=ctrl-x))
+#   key=$(head -1 <<< "$out")
+#   session=$(head -2 <<< "{$out}\n" | tail -1)
+#   echo "$session"
+#   if [ -n "session" ]; then
+#     if [ "$key" = ctrl-x ]; then
+#         echo "$session" | awk '{print $2}' | xargs -I {} tmux kill-session -t {}
+#     else
+#         echo "$sesssion" | xargs tmux switch-client -t
+#     fi
+#   fi
+# }
 
 # fuzzy checkout a git branch
 fb() {

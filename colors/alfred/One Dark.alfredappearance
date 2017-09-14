@@ -3,48 +3,48 @@
     "result" : {
       "textSpacing" : 4,
       "subtext" : {
-        "size" : 12,
-        "colorSelected" : "#56B6C2FF",
-        "font" : "FuraCode Nerd Font",
+        "size" : 17,
+        "colorSelected" : "#D786F5FF",
+        "font" : "Inconsolata",
         "color" : "#AAB1BEFF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#97C378FF",
-        "font" : "FuraCode Nerd Font",
-        "color" : "#61AEEFFF"
+        "font" : "Karla",
+        "color" : "#8AAF68FF"
       },
       "backgroundSelected" : "#81889665",
       "text" : {
-        "size" : 21,
-        "colorSelected" : "#C677DDFF",
-        "font" : "Fira Sans",
+        "size" : 25,
+        "colorSelected" : "#61ADEFFF",
+        "font" : "Karla",
         "color" : "#818896FF"
       },
       "iconPaddingHorizontal" : 5,
-      "paddingVertical" : 5,
-      "iconSize" : 40
+      "paddingVertical" : 9,
+      "iconSize" : 45
     },
     "search" : {
-      "paddingVertical" : 0,
-      "background" : "#282C34FF",
+      "paddingVertical" : 13,
+      "background" : "#20232BFF",
       "spacing" : 5,
       "text" : {
-        "size" : 42,
+        "size" : 64,
         "colorSelected" : "#F92672FF",
-        "font" : "Fira Sans",
+        "font" : "Karla",
         "color" : "#61AEEFFF"
       },
       "backgroundSelected" : "#23231DFF"
     },
     "window" : {
-      "color" : "#282C34FF",
+      "color" : "#20232BFF",
       "paddingHorizontal" : 0,
-      "width" : 682,
+      "width" : 799,
       "borderPadding" : 0,
       "borderColor" : "#35342D00",
       "blur" : 40,
-      "roundness" : 3,
+      "roundness" : 7,
       "paddingVertical" : 10
     },
     "credit" : "Kyle Cierzan",
