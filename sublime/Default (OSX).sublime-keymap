@@ -1,0 +1,95 @@
+[
+    { "keys": ["shift+space"], "command": "move", "args": {"by": "characters", "forward": true} },
+    { "keys": ["super+ctrl+i"], "command": "alignment" },
+
+    // origami: vim style
+    { "keys": ["ctrl+w", "k"], "command": "travel_to_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "up"} },
+    { "keys": ["ctrl+w", "j"], "command": "travel_to_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "down"} },
+    { "keys": ["ctrl+w", "h"], "command": "travel_to_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "left"} },
+    { "keys": ["ctrl+w", "l"], "command": "travel_to_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "right"} },
+
+    { "keys": ["ctrl+w", "K"], "command": "create_pane_with_cloned_file", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "up"} },
+    { "keys": ["ctrl+w", "J"], "command": "create_pane_with_cloned_file", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "down"} },
+    { "keys": ["ctrl+w", "s"], "command": "create_pane_with_cloned_file", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "down"} },
+    { "keys": ["ctrl+w", "H"], "command": "create_pane_with_cloned_file", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "left"} },
+    { "keys": ["ctrl+w", "L"], "command": "create_pane_with_cloned_file", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "right"} },
+    { "keys": ["ctrl+w", "v"], "command": "create_pane_with_cloned_file", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "right"} },
+
+    { "keys": ["ctrl+w", "c"], "command": "destroy_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "self"} },
+    { "keys": ["ctrl+w", "alt+l"], "command": "destroy_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "right"} },
+    { "keys": ["ctrl+w", "alt+h"], "command": "destroy_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "left"} },
+    { "keys": ["ctrl+w", "alt+j"], "command": "destroy_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "down"} },
+    { "keys": ["ctrl+w", "alt+k"], "command": "destroy_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "up"} },
+
+    { "keys": ["ctrl+w", "super+k"], "command": "carry_file_to_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "up"} },
+    { "keys": ["ctrl+w", "super+l"], "command": "carry_file_to_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "right"} },
+    { "keys": ["ctrl+w", "super+j"], "command": "carry_file_to_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "down"} },
+    { "keys": ["ctrl+w", "super+h"], "command": "carry_file_to_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"direction": "left"} },
+
+    { "keys": ["ctrl+w", "z"], "command": "zoom_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"fraction": 0.9} },
+    { "keys": ["ctrl+w", "Z"], "command": "unzoom_pane", "context": [ { "key": "setting.command_mode" } ], "args": {} },
+    { "keys": ["ctrl+w", "V"], "command": "resize_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"orientation": "cols"} },
+    { "keys": ["ctrl+w", "S"], "command": "resize_pane", "context": [ { "key": "setting.command_mode" } ], "args": {"orientation": "rows"} },
+
+    // bracket highlighting: surround with brackets
+    { "keys": ["ctrl+s", "d"], "command": "bh_remove_brackets" },
+    { "keys": ["ctrl+s", "S"], "command": "swap_brackets" },
+    { "keys": ["ctrl+s", "s"], "command": "wrap_brackets" },
+
+    // expand region
+    { "keys": ["ctrl+v"], "command": "expand_region", "context": [ { "key": "setting.command_mode" } ] },
+
+    // alignment
+    { "keys": ["ctrl+a", "a"], "command": "alignment" },
+
+    // open containing folder
+    { "keys": ["ctrl+super+e"], "command": "reveal_in_side_bar"},
+
+    { "keys": [" "], "command": "unbound", "args": {
+      "motion": "vi_move_by_characters",
+      "motion_args": {"forward": true, "extend": true, "visual": true },
+      "clip_to_line": true },
+      "context": [{"key": "setting.command_mode"}]
+    },
+
+    // { "keys": ["super+shift+c"], "command": "split_selection_into_lines" }
+    { "keys": ["super+k", "super+p"],
+      "command": "toggle_minimap"
+    },
+    { "keys": [" ", "c", "l"],
+     "command": "split_selection_into_lines",
+     "context": [{"key": "setting.command_mode"}]
+    },
+    { "keys": [" ", "e", "a"],
+      "command": "alignment",
+      "context": [{"key": "setting.command_mode"}]
+    },
+    { "keys": [" ", "e", "s"],
+      "command": "sort_lines",
+      "context": [{"key": "setting.command_mode"}]
+    },
+    { "keys": [" ", "g", "d"],
+      "command": "goto_definition",
+      "context": [{"key": "setting.command_mode"}]
+    },
+    { "keys": [" ", "f", "f"],
+      "command": "show_overlay",
+      "args": {"overlay": "goto", "show_files": true}
+    },
+    { "keys": [" ", "j", "s"],
+      "command": "show_overlay",
+      "args": {"overlay": "goto", "text": "@"}
+    },
+    { "keys": [" ", "j", "l"],
+      "command": "show_overlay",
+      "args": {"overlay": "goto", "text": ":"}
+    },
+    { "keys": [" ", "s", "f"],
+      "command": "show_panel",
+      "args": {"panel": "find", "reverse": false}
+    },
+    { "keys": [" ", "s", "p"],
+      "command": "show_panel",
+      "args": {"panel": "find_in_files"}
+    }
+]

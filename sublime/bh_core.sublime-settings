@@ -1,0 +1,5 @@
+{
+    "match_only_adjacent": true,
+    "bracket_outside_adjacent": true,
+    "no_multi_select_icons": true
+}

@@ -1,0 +1,40 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"A File Icon",
+		"Alignment",
+		"All Autocomplete",
+		"Babel",
+		"BetterFindBuffer",
+		"BracketHighlighter",
+		"Color Highlighter",
+		"ExpandRegion",
+		"FindKeyConflicts",
+		"GitGutter",
+		"GitSavvy",
+		"Indent XML",
+		"JSX",
+		"Markdown Preview",
+		"Materialize",
+		"NeoVintageous",
+		"Nova Theme",
+		"Origami",
+		"Package Control",
+		"PackageResourceViewer",
+		"RecentActiveFiles",
+		"Sass",
+		"SideBarEnhancements",
+		"SublimeLinter",
+		"SublimeLinter-contrib-eslint",
+		"SublimeLinter-flake8",
+		"SublimeLinter-php",
+		"SublimeLinter-pylint",
+		"SublimeLinter-ruby",
+		"TernJS",
+		"Vintage Escape"
+	]
+}

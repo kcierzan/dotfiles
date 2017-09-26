@@ -1,0 +1,5 @@
+{
+    "anaconda_linting": false,
+    "python_interpreter": "$HOME/.pyenv/shims/python",
+    "enable_signatures_tooltip": false
+}
