@@ -5,19 +5,16 @@ brew tap | grep -q 'universal-ctags' || brew tap universal-ctags/universal-ctags
 brew tap | grep -q 'mopidy/mopidy' || brew tap universal-ctags/universal-ctags
 
 pkgs=(
- "universal-ctags --HEAD"
- "chunkwm --with-ffm"
  "ffmpeg --with-rtmpdump --with-openssl --with-libass --with-libbs2b --with-rubberband"
  "libass --without-harfbuzz"
  "mpv --with-vapoursynth --with-libarchive --with-bundle"
+ "universal-ctags --HEAD"
  ansiweather
  bash
  ccat
  coreutils
- crisidev/chunkwm/chunkwm
  curl
  ddate
- emacs-mac
  exa
  fasd
  ffms2
@@ -28,7 +25,6 @@ pkgs=(
  gcc
  ghc
  git
- global
  gmime
  gnu-sed
  gnu-tar
@@ -43,9 +39,7 @@ pkgs=(
  htop
  httpie
  hub
- ispell
  jq
- json-c
  khd
  koekeishiya/formulae/khd
  less
@@ -54,12 +48,8 @@ pkgs=(
  mopidy-spotify
  mpc
  mpd
- mu
- mutt
  mvtools
  ncmpcpp
- neofetch
- neomutt/neomutt/neomutt
  neovim
  ngrep
  node

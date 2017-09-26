@@ -1,3 +1,9 @@
+#          ___                                 __
+#   ____ _/ (_)___ _________  _________  _____/ /_
+#  / __ `/ / / __ `/ ___/ _ \/ ___/_  / / ___/ __ \
+# / /_/ / / / /_/ (__  )  __(__  ) / /_(__  ) / / /
+# \__,_/_/_/\__,_/____/\___/____(_)___/____/_/ /_/
+
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -9,8 +15,9 @@ alias gs="git status"
 alias h="history"
 alias j="jobs"
 
+# Kill unattached tmux sessions
 alias tkill="tmux ls | grep -v attached | awk '{ print $1 }' | sed 's/://' | cut -d ' ' -f1 | xargs -I {} tmux kill-session -t {}"
-# alias tkill="tmux ls | grep --invert-match 'attached' | awk '{print $1}' | grep -oh '^[0-9]\{1,\}' | xargs -n 1 -I {} tmux kill-session -t {}"
+
 # Bypass useless bsd ctags
 alias ctags='/usr/local/bin/ctags'
 
@@ -107,6 +114,7 @@ alias emacs="emacsclient"
 alias e="emacsclient"
 
 alias subl="/usr/local/bin/subl"
+alias st="/usr/local/bin/subl"
 
 # Activate a python virtualenv
 alias venv="source env/bin/activate"
@@ -143,7 +151,7 @@ alias tkss='tmux kill-session -t'
 # Create a new directory and enter it
 # Create a relative path to arg1 from ar2
 relpath() {
-    python -c "import os.path; print os.path.relpath('$1','${2:-$PWD}')";  
+    python -c "import os.path; print os.path.relpath('$1','${2:-$PWD}')";
 }
 
 # Change working directory to the top-most Finder window location
@@ -245,20 +253,24 @@ fdd() {
 #   - ENTER      edit with neovim
 ff() {
     local out file key
-    IFS=$'\n' out=($(fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-a,ctrl-x,ctrl-y --preview "pygmentize -g {}"))
+    IFS=$'\n' out=($(fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-a,ctrl-x,ctrl-y,ctrl-v --preview-window=up:75% --preview '[[ $(file --mime {}) =~ binary ]] &&
+                   echo {} is a binary file ||
+                   (highlight -O ansi -l {} ||
+                   pygmentize -g {} ||
+                   cat {}) 2> /dev/null | head -2000'))
     key=$(head -1 <<< "$out")
     file=$(head -2 <<< "$out" | tail -1)
     if [ -n "$file" ]; then
-        if [ "$key" = ctrl-o ]; then 
+        if [ "$key" = ctrl-o ]; then
             open "$file"
-        elif [ "$key" = ctrl-a ]; then
-            atom "$file"
+        elif [ "$key" = ctrl-v ]; then
+            nvim "$file"
         elif [ "$key" = ctrl-y ]; then
             charm "$file"
         elif [ "$key" = ctrl-x ]; then
             rm -i "$file"
         else
-            nvim "$file"
+            subl "$file"
         fi
     fi
 }
@@ -268,7 +280,7 @@ fr() {
   local file
   file=$(gsed '1d' ~/.cache/neomru/file |
          fzf --query="$1" --select-1 --exit-0 --preview "pygmentize -g {}")
-  [ -n "$file" ] && ${EDITOR:-subl} "$file"
+  [ -n "$file" ] && subl "$file"
 }
 
 # Recent directory search and edit
@@ -279,14 +291,14 @@ fr() {
 #   - ENTER     cd
 fd() {
     local out dir key
-    IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-a,ctrl-x,ctrl-y +m)"
+    IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-a,ctrl-x,ctrl-y,ctrl-s +m)"
     key=$(head -1 <<< "$out")
     dir=$(head -2 <<< "$out" | tail -1)
     if [ -d "$dir" ]; then
-        if [ "$key" = ctrl-o ]; then 
+        if [ "$key" = ctrl-o ]; then
             open "$dir"
-        elif [ "$key" = ctrl-a ]; then
-            cd "$dir" && atom "$dir"
+        elif [ "$key" = ctrl-s ]; then
+            cd "$dir" && subl "$dir"
         elif [ "$key" = ctrl-y ]; then
             cd "$dir" && charm "$dir"
         elif [ "$key" = ctrl-x ]; then

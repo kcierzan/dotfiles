@@ -4,30 +4,31 @@ brew tap | grep -q 'caskroom/versions' || brew tap caskroom/versions
 brew tap | grep -q 'caskroom/fonts' || brew tap caskroom/fonts
 
 casks=(
-  alfred
-  dash
-  docker
   1password
-  sublime-text
+  alfred
+  docker
   flux
-  transmission
-  google-chrome
-  google-drive
-  virtualbox
-  vagrant
-  fontforge
+  font-fantasquesansmono-nerd-font
   font-firacode-nerd-font
-  font-iosevka-nerd-font
   font-hack-nerd-font
   font-inconsolata-nerd-font
+  font-iosevka-nerd-font
   font-lekton-nerd-font
   font-monoid-nerd-font
   font-mplus-nerd-font
   font-profont-nerd-font
   font-sharetechmono-nerd-font
-  font-fantasquesansmono-nerd-font
+  fontforge
+  google-chrome
+  google-drive
   iterm2-nightly
+  moom
+  pycharm-ce
+  sublime-text
+  transmission
+  vagrant
   vagrant-manager
+  virtualbox
   xquartz
 )
 

@@ -1,3 +1,9 @@
+#                __
+#    ____  _____/ /_  ___  ____ _   __
+#   /_  / / ___/ __ \/ _ \/ __ \ | / /
+#  _ / /_(__  ) / / /  __/ / / / |/ /
+# (_)___/____/_/ /_/\___/_/ /_/|___/
+
 # Remeber to comment out the annoying shenanigans going on in /etc/zprofile
 # Just place anything in /etc/paths.d into $PATH as defined here
 export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
@@ -32,7 +38,8 @@ export KEYTIMEOUT=1
 # Available here: https://github.com/ryanoasis/nerd-fonts
 export GEOMETRY_PROMPT_PLUGINS=(git tag virtualenv vi_mode)
 export GEOMETRY_COLOR_VIRTUALENV=4
-export GEOMETRY_SYMBOL_PROMPT=' '
+export GEOMETRY_SYMBOL_PROMPT=' '
+# export GEOMETRY_SYMBOL_PROMPT=' '
 # export GEOMETRY_SYMBOL_PROMPT=''
 # export GEOMETRY_SYMBOL_PROMPT=''
 # export GEOMETRY_SYMBOL_PROMPT='λ'
@@ -56,6 +63,10 @@ export GEOMETRY_COLOR_GIT_BRANCH=3
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedxbxgxcxd
 
+# Now in GNU flavor
+export LS_COLORS="di=1;34:ln=1;35:so=1;31:pi=1;33:ex=1;32:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43"
+
+# This is the default setting but lets make sure
 export ZSH_AUTOSUGGEST_USE_ASYNC='1'
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1

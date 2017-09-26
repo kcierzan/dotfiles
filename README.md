@@ -1,49 +1,75 @@
 # Dotfiles
+I'm a (recovering) dotfile obsessive doing web-y, python-y stuff on macOS.
+I like it when stuff works like vi.
 
-I like to use quite a few tools for fun and profit. This is my attempt to
-gather and manage them which, although being useful for setting up a
-development environment, has become something of a zen activity in and of
-itself.
+If that sounds like you, give some of this stuff a whirl.
+Batteries aren't necessarily included.
 
-The general philosophy here is thus:
+Also, most of this probably won't work on Linux. Windows is *right out*.
 
-* Move fast
-* Look good
-* Stay modular
-* Use the right tool for the job
+## Installation
+0. Install Xcode command line tools
 
-This setup revolves around macOS, zsh, and a couple very old text editors.
-Some day, things will work on Arch Linux.
-
-## From Scratch
-
-1. Install Xcode command line tools.
-
-```Shell
+```shell
 xcode-select --install
 ```
 
-2. Clone this repo to your home directory.
+1. Install brew
 
-```Shell
+```shell
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+2. Clone this repo.
+
+```shell
 git clone https://github.com/kcierzan/dotfiles.git ~/.dotfiles
 ```
 
-3. Install brew casks and formulae. (These scripts also install brew if you
-don't already have it installed.)
+2. Run the installation scripts.
 
-```Shell
-./install/brew.sh && ./install/cask.sh
+```shell
+./install/brew.sh $$ ./install/cask.sh
 ```
 
-4. You should now have GNU Stow installed. Stow will handle symlinking the
-folders and files here to your home directory. For example, in order to create
-symlinks in your home folder for the included zsh dotfiles, punch in the
-following:
+3. Symlink some dotfiles.
 
-```Shell
+We're going to symlink our dotfiles to the home directory.
+That way everything is under version control and we can do neat things like checkout branches to change a bunch of settings with a single command.
+Setting up the symlinks is easy with GNU Stow.
+
+We only need to pass some directories to `stow`. Like so:
+
+```shell
 stow zsh
+stow tmux
+stow scripts
+stow neovim
+stow misc
+stow ncmpcpp
 ```
 
-**Notes**: I have tried to make each directory self-contained, however the
-included tmux theme depends on a script in the .scripts directory.
+4. The kitchen sink.
+
+A number of applications I have taken to use plists or proprietary configuration files.
+These are a pain because they are often arcane, unreadable, and liable to break on updates.
+They are as follows:
+
+#### Alfred
+    * Open Alfred -> Advanced -> Set Sync Folder -> ~/.dotfiles/alfred
+    * Install [alfred-devdocs](https://github.com/yannickglt/alfred-devdocs) workflow.
+    * Install [colors](http://www.packal.org/workflow/colors) workflow.
+#### Moom
+    * `cp moom/com.manytricks.Moom.plist ~/Library/Preferences/com.manytricks.Moom.plist`.
+#### Sublime Text
+    * `cp -R sublime/User ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/`.
+    * install [package control](https://packagecontrol.io/installation).
+#### Pycharm CE
+    * Open Pycharm CE > File > Import Settings > select .jar file
+    * [This](https://github.com/yurtaev/idea-one-dark-theme) is a good theme...
+    * Install ideavim plugin
+    * Symlink .ideavimrc with `stow pycharm`.
+#### Things
+    * Mac app store
+#### Bear
+    * Mac app store

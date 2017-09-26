@@ -8,36 +8,15 @@
 source ~/.zsh/completion.zsh
 
 # Lazy load fasd
-f() {
-    eval "$( command fasd --init auto )"
-    fasd -f "$@"
-}
-
-a() {
-    eval "$( command fasd --init auto )"
-    fasd -a "$@"
-}
-
-s() {
-    eval "$( command fasd --init auto )"
-    fasd -si "$@"
-}
-
-d() {
-    eval "$( command fasd --init auto )"
-    fasd -d "$@"
-}
-
-z() {
-    eval "$( command fasd --init auto )"
-    fasd_cd -d "$@"
-}
+fasdinit() { eval "$( command fasd --init auto )" }
+f() {fasdinit && fasd -f "$@"}
+a() {fasdinit && fasd -a "$@"}
+s() {fasdinit && fasd -si "$@"}
+d() {fasdinit && fasd -d "$@"}
+z() {fasdinit && fasd_cd -d "$@"}
 
 # Lazy load rbenv
-rbenv() {
-    eval "$( command rbenv init - --no-rehash )"
-    rbenv "$@"
-}
+rbenv() { eval "$( command rbenv init - --no-rehash )" && rbenv "$@" }
 
 # Lazy load pyenv-virtualenv
 pyenv-virtualenv-init() {
@@ -86,7 +65,7 @@ echo -en "\033]6;1;bg;red;brightness;40\a"
 echo -en "\033]6;1;bg;green;brightness;44\a"
 echo -en "\033]6;1;bg;blue;brightness;52\a"
 
-# Tmux is life, we start it on interactive shell
+# Tmux is fun. We start it on interactive shell
 if which tmux >/dev/null 2>&1; then
     # if no session is started, start a new session
     test -z ${TMUX} && tmux
@@ -96,4 +75,3 @@ if which tmux >/dev/null 2>&1; then
         tmux attach || break
     done
 fi
-

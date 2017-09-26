@@ -1,0 +1,61 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 5,
+      "subtext" : {
+        "size" : 13,
+        "colorSelected" : "#8BBE5DFF",
+        "font" : "FuraCode Nerd Font",
+        "color" : "#FFFFFF7E"
+      },
+      "shortcut" : {
+        "size" : 19,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "FuraCode Nerd Font",
+        "color" : "#C678D6FF"
+      },
+      "backgroundSelected" : "#3A414CFF",
+      "text" : {
+        "size" : 21,
+        "colorSelected" : "#51AEEEFF",
+        "font" : "Fira Sans",
+        "color" : "#FFFFFFCB"
+      },
+      "iconPaddingHorizontal" : 4,
+      "paddingVertical" : 3,
+      "iconSize" : 40
+    },
+    "search" : {
+      "paddingVertical" : 5,
+      "background" : "#272B33FF",
+      "spacing" : 8,
+      "text" : {
+        "size" : 59,
+        "colorSelected" : "#000000FF",
+        "font" : "Fira Sans",
+        "color" : "#51AEEEFF"
+      },
+      "backgroundSelected" : "#7AC7FFFF"
+    },
+    "window" : {
+      "color" : "#272B33FF",
+      "paddingHorizontal" : 0,
+      "width" : 750,
+      "borderPadding" : 0,
+      "borderColor" : "#0000007F",
+      "blur" : 15,
+      "roundness" : 5,
+      "paddingVertical" : 9
+    },
+    "credit" : "Kyle Cierzan",
+    "separator" : {
+      "color" : "#CBCBCBF3",
+      "thickness" : 0
+    },
+    "scrollbar" : {
+      "color" : "#358188FF",
+      "thickness" : 2
+    },
+    "name" : "One Dark"
+  }
+}
