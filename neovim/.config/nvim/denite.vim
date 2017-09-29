@@ -4,7 +4,7 @@
 " / /_/ /  __/ / / / / /_/  __/| |/ / / / / / / /
 " \____/\___/_/ /_/_/\__/\___(_)___/_/_/ /_/ /_/ 
                                               
-call denite#custom#option('default', 'prompt', '')
+call denite#custom#option('default', 'prompt', 'µ')
 call denite#custom#option('default', 'winheight', '15')
 
 call denite#custom#var('file_rec', 'command', 

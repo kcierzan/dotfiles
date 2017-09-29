@@ -26,8 +26,8 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 
 # One Dark Theme for FZF
 export FZF_DEFAULT_OPTS='
---color=fg:#bbc2cf,bg:-1,fg+:4,bg+:-1,header:3
---color=hl:241,hl+:12,prompt:6,spinner:5,pointer:2,marker:4,info:2'
+--color=fg:#839496,bg:-1,fg+:4,bg+:-1,header:3
+--color=hl:3,hl+:13,prompt:6,spinner:5,pointer:2,marker:4,info:2'
 
 # Fast key repeat
 export KEYTIMEOUT=1
@@ -38,26 +38,25 @@ export KEYTIMEOUT=1
 # Available here: https://github.com/ryanoasis/nerd-fonts
 export GEOMETRY_PROMPT_PLUGINS=(git tag virtualenv vi_mode)
 export GEOMETRY_COLOR_VIRTUALENV=4
-export GEOMETRY_SYMBOL_PROMPT=' '
-# export GEOMETRY_SYMBOL_PROMPT=' '
-# export GEOMETRY_SYMBOL_PROMPT=''
-# export GEOMETRY_SYMBOL_PROMPT=''
-# export GEOMETRY_SYMBOL_PROMPT='λ'
-export GEOMETRY_SYMBOL_EXIT_VALUE=''
-export GEOMETRY_SYMBOL_GIT_CLEAN=''
+export GEOMETRY_SYMBOL_PROMPT='µ'
+export GEOMETRY_SYMBOL_EXIT_VALUE='Ʃ'
+export GEOMETRY_SYMBOL_GIT_CLEAN='✔'
 export GEOMETRY_COLOR_GIT_CLEAN=2
-export GEOMETRY_SYMBOL_GIT_DIRTY=''
+export GEOMETRY_SYMBOL_GIT_DIRTY='✘'
 export GEOMETRY_COLOR_GIT_DIRTY=1
-export GEOMETRY_SYMBOL_GIT_CONFLICTS_SOLVED=''
+export GEOMETRY_TAG_SYMBOL='⌂'
+export GEOMETRY_SYMBOL_GIT_CONFLICTS_SOLVED='✭'
 export GEOMETRY_COLOR_GIT_CONFLICTS_SOLVED=2
-export GEOMETRY_SYMBOL_GIT_CONFLICTS_UNSOLVED=''
+export GEOMETRY_SYMBOL_GIT_CONFLICTS_UNSOLVED='⚠'
 export GEOMETRY_COLOR_GIT_CONFLICTS_UNSOLVED=1
 export GEOMETRY_COLOR_PROMPT=6
 export GEOMETRY_COLOR_EXIT_VALUE=1
 export GEOMETRY_COLOR_DIR=5
 export PROMPT_GEOMETRY_GIT_TIME=false
-export GEOMETRY_SYMBOL_GIT_REBASE="\ue726"
+export GEOMETRY_SYMBOL_GIT_REBASE="⎇"
 export GEOMETRY_COLOR_GIT_BRANCH=3
+export GEOMETRY_VI_MODE_SYMBOL_INSERT='⌔'
+export GEOMETRY_VI_MODE_SYMBOL_NORMAL='⌑'
 
 # One Dark LSCOLORS
 export CLICOLOR=1

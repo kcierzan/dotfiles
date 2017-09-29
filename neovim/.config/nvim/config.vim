@@ -65,7 +65,8 @@ endif
 " ============ COLORSCHEME ======================
 syntax enable
 set background=dark
-colorscheme termina
+" colorscheme termina
+colorscheme solarized
 
 " highlight current window
 augroup SwitchPanes

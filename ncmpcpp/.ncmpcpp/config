@@ -22,8 +22,8 @@ cyclic_scrolling = "yes"
 display_bitrate= "yes"
 ignore_leading_the = "yes"
 enable_window_title = "yes"
-#l progressbar_look = " "
-progressbar_look = " "
+#l progressbar_look = "⎯⎯ "
+progressbar_look = "⎯⎯ "
 
 # Interface
 user_interface="classic"

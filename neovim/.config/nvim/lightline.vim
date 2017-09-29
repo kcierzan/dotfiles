@@ -48,9 +48,9 @@ let g:lightline = {
 
 function! LightlineModified()
   if &filetype ==? 'help'
-    return ''
+    return ''
   elseif &modified
-    return ''
+    return '⍙'
   elseif &modifiable
     return ''
   else

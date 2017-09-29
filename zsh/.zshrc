@@ -7,13 +7,13 @@
 # Set up zsh completion ASAP
 source ~/.zsh/completion.zsh
 
-# Lazy load fasd
-fasdinit() { eval "$( command fasd --init auto )" }
-f() {fasdinit && fasd -f "$@"}
-a() {fasdinit && fasd -a "$@"}
-s() {fasdinit && fasd -si "$@"}
-d() {fasdinit && fasd -d "$@"}
-z() {fasdinit && fasd_cd -d "$@"}
+# Cache fasd init files
+fasd_cache="$HOME/.fasd-init-cache"
+if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache
 
 # Lazy load rbenv
 rbenv() { eval "$( command rbenv init - --no-rehash )" && rbenv "$@" }
@@ -42,7 +42,6 @@ source $ZPLUG_HOME/init.zsh
 # ------------ ZPLUG PLUGINS ------------------------
 zplug "zsh-users/zsh-autosuggestions",   use:zsh-autosuggestions.zsh
 zplug "geometry-zsh/geometry"
-# zplug "unixorn/warhol.plugin.zsh"
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug load
 
@@ -61,17 +60,16 @@ if [ $? -eq 0 ]; then
 fi
 
 # Set iTerm2 title bar to One Dark background
-echo -en "\033]6;1;bg;red;brightness;40\a"
-echo -en "\033]6;1;bg;green;brightness;44\a"
-echo -en "\033]6;1;bg;blue;brightness;52\a"
+echo -en "\033]6;1;bg;red;brightness;0\a"
+echo -en "\033]6;1;bg;green;brightness;41\a"
+echo -en "\033]6;1;bg;blue;brightness;51\a"
 
 # Tmux is fun. We start it on interactive shell
-if which tmux >/dev/null 2>&1; then
-    # if no session is started, start a new session
-    test -z ${TMUX} && tmux
-
-    # when quitting tmux, try to attach
-    while test -z ${TMUX}; do
-        tmux attach || break
-    done
+if [[ -z "$TMUX" ]] ;then
+    ID="`tmux ls | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
+    if [[ -z "$ID" ]] ;then # if not available create a new one
+        tmux new-session
+    else
+        tmux attach-session -t "$ID" # if available attach to it
+    fi
 fi
