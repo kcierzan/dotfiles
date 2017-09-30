@@ -65,9 +65,6 @@ export LSCOLORS=ExFxBxDxCxegedxbxgxcxd
 # Now in GNU flavor
 export LS_COLORS="di=1;34:ln=1;35:so=1;31:pi=1;33:ex=1;32:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43"
 
-# This is the default setting but lets make sure
-export ZSH_AUTOSUGGEST_USE_ASYNC='1'
-
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # Lazy load pyenv... yeah...

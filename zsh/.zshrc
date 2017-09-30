@@ -46,7 +46,9 @@ zplug "zsh-users/zsh-syntax-highlighting"
 zplug load
 
 # Don't underline paths in command line
-ZSH_HIGHLIGHT_STYLES[path]=none
+export ZSH_HIGHLIGHT_STYLES[path]=none
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
+export ZSH_AUTOSUGGEST_USE_ASYNC='1'
 
 # Source additional dotfiles
 source ~/.zsh/aliases.zsh
