@@ -1,25 +1,25 @@
 {
   "alfredtheme" : {
     "result" : {
-      "textSpacing" : 5,
+      "textSpacing" : 10,
       "subtext" : {
-        "size" : 14,
-        "colorSelected" : "#8BBE5DFF",
+        "size" : 13,
+        "colorSelected" : "#2AA198FF",
         "font" : "Pragmata Pro",
-        "color" : "#FFFFFF7E"
+        "color" : "#586D75FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
         "font" : "Fira Sans",
-        "color" : "#C678D6FF"
+        "color" : "#849900FF"
       },
-      "backgroundSelected" : "#3A414CFF",
+      "backgroundSelected" : "#004254FF",
       "text" : {
         "size" : 24,
-        "colorSelected" : "#51AEEEFF",
+        "colorSelected" : "#D33582FF",
         "font" : "Fira Sans",
-        "color" : "#FFFFFFCB"
+        "color" : "#829496FF"
       },
       "iconPaddingHorizontal" : 4,
       "paddingVertical" : 10,
@@ -27,18 +27,18 @@
     },
     "search" : {
       "paddingVertical" : 5,
-      "background" : "#272B33FF",
+      "background" : "#00252FFF",
       "spacing" : 8,
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
         "font" : "Fira Sans",
-        "color" : "#51AEEEFF"
+        "color" : "#268AD1FF"
       },
       "backgroundSelected" : "#7AC7FFFF"
     },
     "window" : {
-      "color" : "#272B33FF",
+      "color" : "#00252FFF",
       "paddingHorizontal" : 0,
       "width" : 750,
       "borderPadding" : 0,
@@ -56,6 +56,6 @@
       "color" : "#358188FF",
       "thickness" : 2
     },
-    "name" : "One Dark"
+    "name" : "Solarized Dark"
   }
 }

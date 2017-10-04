@@ -40,8 +40,6 @@ pkgs=(
  httpie
  hub
  jq
- khd
- koekeishiya/formulae/khd
  less
  markdown
  mopidy
@@ -71,7 +69,6 @@ pkgs=(
  stow
  the_silver_searcher
  tmux
- weechat
  xz
  youtube-dl
  zplug

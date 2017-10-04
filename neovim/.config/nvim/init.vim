@@ -55,8 +55,9 @@ Plug 'Shougo/neosnippet-snippets'          " Snippet collection
 Plug 'tpope/vim-rhubarb'                   " Access GitHub
 Plug 'mattn/emmet-vim'                     " Markup Expansion
 Plug 'majutsushi/tagbar'                   " show some tags
-Plug 'vim-python/python-syntax'
+Plug 'vim-python/python-syntax'            " Make python look a little better
 Plug 'luochen1990/rainbow'                 " Rainbow Parens
+Plug 'altercation/vim-colors-solarized'    " Termina sucks with solarized
 call plug#end()
 
 " Source nvim modules

@@ -1,15 +1,13 @@
-# Optimized for One Dark colors
-# This tmux statusbar config was created by tmuxline.vim
-# on Mon, 17 Apr 2017
+# Optimized for ANSI colors
 
-# You're going to want a patched font. 
+# You're going to want a patched font.
 # Available here: https://github.com/ryanoasis/nerd-fonts
 
 set-option -g status-position bottom
 
 set -g status-bg "colour0"
 set -g message-command-fg "colour04"
-set -g status-justify "left"
+set -g status-justify "centre"
 set -g status-left-length "100"
 set -g status "on"
 set -g pane-active-border-fg "colour04"
@@ -28,12 +26,11 @@ setw -g window-status-activity-attr "none"
 setw -g window-status-activity-fg "colour04"
 setw -g window-status-separator ""
 setw -g window-status-bg "colour0"
-set -g @batt_charged_icon ""
-set -g @batt_charging_icon ""
-set -g @batt_discharging_icon " "
-set -g @batt_attached_icon ""
-set -g status-left "#[fg=colour05,bold] #S "
-set -g status-right "#[fg=colour04] %b %d#[fg=colour05] :: #[fg=colour04]%I:%M#[fg=colour05] :: #[fg=colour04]#(cat ~/.scripts/weather.txt) #[bg=colour02,fg=colour0,nobold]#{battery_status_bg} #{battery_icon} #{battery_percentage} "
-setw -g window-status-format "#[fg=colour04,bg=colour0] #I#[fg=colour05,bg=colour0]::#[fg=colour04,bg=colour0]#W "
-setw -g window-status-current-format "#[fg=colour0,bg=colour04] ::#W:: "
-
+set -g @batt_charged_icon "⊙"
+set -g @batt_charging_icon "⊕"
+set -g @batt_discharging_icon "⊖"
+set -g @batt_attached_icon "⊗"
+set -g status-left "#[bg=colour05,fg=colour0,bold] #S "
+set -g status-right "#[fg=colour04] %b %d#[fg=colour05] :: #[fg=colour04]%I:%M#[fg=colour05] :: #[fg=colour04]#(cat ~/.scripts/weather.txt) #[bg=colour02,fg=colour0,nobold]#{battery_status_bg} #{battery_percentage} "
+setw -g window-status-format "#[fg=colour04,bg=colour0]: #[fg=colour02,bg=colour0]#I=>#W#[fg=colour04,bg=colour0] #[fg=colour04,bg=colour0]:"
+setw -g window-status-current-format "#[fg=colour04,bg=colour0]: #[fg=colour0,bg=colour04] #W #[fg=colour04,bg=colour0] :"
