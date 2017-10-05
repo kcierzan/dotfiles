@@ -68,28 +68,37 @@
       "command": "sort_lines",
       "context": [{"key": "setting.command_mode"}]
     },
-    { "keys": [" ", "g", "d"],
+    { "keys": ["g", "d"],
       "command": "goto_definition",
       "context": [{"key": "setting.command_mode"}]
     },
     { "keys": [" ", "f", "f"],
       "command": "show_overlay",
-      "args": {"overlay": "goto", "show_files": true}
+      "args": {"overlay": "goto", "show_files": true},
+      "context": [{"key": "setting.command_mode"}]
     },
     { "keys": [" ", "j", "s"],
       "command": "show_overlay",
-      "args": {"overlay": "goto", "text": "@"}
+      "args": {"overlay": "goto", "text": "@"},
+      "context": [{"key": "setting.command_mode"}]
     },
     { "keys": [" ", "j", "l"],
       "command": "show_overlay",
-      "args": {"overlay": "goto", "text": ":"}
+      "args": {"overlay": "goto", "text": ":"},
+      "context": [{"key": "setting.command_mode"}]
     },
     { "keys": [" ", "s", "f"],
       "command": "show_panel",
-      "args": {"panel": "find", "reverse": false}
+      "args": {"panel": "find", "reverse": false},
+      "context": [{"key": "setting.command_mode"}]
     },
     { "keys": [" ", "s", "p"],
       "command": "show_panel",
-      "args": {"panel": "find_in_files"}
+      "args": {"panel": "find_in_files"},
+      "context": [{"key": "setting.command_mode"}]
+    },
+    { "keys": [" ", "p", "p"],
+      "command": "prompt_select_workspace",
+      "context": [{"key": "setting.command_mode"}]
     }
 ]
