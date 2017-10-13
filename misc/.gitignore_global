@@ -30,3 +30,6 @@ GRTAGS
 
 #Emacs projectile
 .projectile
+
+#vscode projects
+**/.vscode

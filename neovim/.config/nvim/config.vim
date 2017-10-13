@@ -65,8 +65,8 @@ endif
 " ============ COLORSCHEME ======================
 syntax enable
 set background=dark
-" colorscheme termina
-colorscheme solarized
+colorscheme termina
+" colorscheme solarized
 
 " highlight current window
 augroup SwitchPanes
@@ -268,7 +268,7 @@ let g:limelight_paragraph_span      = 1
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
 let g:AutoPairsMapCR=0
-let g:deoplete#auto_complete_start_length = 1 
+let g:deoplete#auto_complete_start_length = 1
 " weird hack to close completion popup/expand snippets (expand with <C-k>)
 imap <expr><TAB> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 smap <expr><TAB> pumvisible() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"

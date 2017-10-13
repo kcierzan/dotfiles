@@ -1,0 +1,61 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 10,
+      "subtext" : {
+        "size" : 13,
+        "colorSelected" : "#2D9474FF",
+        "font" : "Pragmata Pro",
+        "color" : "#586D75FF"
+      },
+      "shortcut" : {
+        "size" : 23,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "Fira Sans",
+        "color" : "#BEA425FF"
+      },
+      "backgroundSelected" : "#2B2C30FF",
+      "text" : {
+        "size" : 24,
+        "colorSelected" : "#BB6DC3FF",
+        "font" : "Fira Sans",
+        "color" : "#989999FF"
+      },
+      "iconPaddingHorizontal" : 4,
+      "paddingVertical" : 10,
+      "iconSize" : 40
+    },
+    "search" : {
+      "paddingVertical" : 5,
+      "background" : "#1E1F22FF",
+      "spacing" : 8,
+      "text" : {
+        "size" : 64,
+        "colorSelected" : "#000000FF",
+        "font" : "Fira Sans",
+        "color" : "#4380B4FF"
+      },
+      "backgroundSelected" : "#7AC7FFFF"
+    },
+    "window" : {
+      "color" : "#1E1F22FF",
+      "paddingHorizontal" : 0,
+      "width" : 750,
+      "borderPadding" : 0,
+      "borderColor" : "#0000007F",
+      "blur" : 15,
+      "roundness" : 5,
+      "paddingVertical" : 9
+    },
+    "credit" : "Kyle Cierzan",
+    "separator" : {
+      "color" : "#CBCBCBF3",
+      "thickness" : 0
+    },
+    "scrollbar" : {
+      "color" : "#358188FF",
+      "thickness" : 2
+    },
+    "name" : "Spacemacs Dark"
+  }
+}

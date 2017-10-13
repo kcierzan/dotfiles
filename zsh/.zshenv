@@ -6,7 +6,8 @@
 
 # Remeber to comment out the annoying shenanigans going on in /etc/zprofile
 # Just place anything in /etc/paths.d into $PATH as defined here
-export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
+export JAVA_HOME='/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin'
+export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
 
 export EDITOR='nvim'
 export GIT_EDITOR='nvim'
@@ -34,8 +35,6 @@ export KEYTIMEOUT=1
 
 # Geometry ZSH prompt theme settings
 
-# You're going to want a patched font. I like Iosevka.
-# Available here: https://github.com/ryanoasis/nerd-fonts
 export GEOMETRY_PROMPT_PLUGINS=(git tag virtualenv vi_mode)
 export GEOMETRY_COLOR_VIRTUALENV=4
 export GEOMETRY_SYMBOL_PROMPT='µ'

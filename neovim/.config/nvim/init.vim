@@ -58,6 +58,8 @@ Plug 'majutsushi/tagbar'                   " show some tags
 Plug 'vim-python/python-syntax'            " Make python look a little better
 Plug 'luochen1990/rainbow'                 " Rainbow Parens
 Plug 'altercation/vim-colors-solarized'    " Termina sucks with solarized
+Plug 'scrooloose/vim-slumlord'             " Diagrams are cool
+Plug 'aklt/plantuml-syntax'
 call plug#end()
 
 " Source nvim modules

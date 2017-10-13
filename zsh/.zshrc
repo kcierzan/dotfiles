@@ -47,7 +47,7 @@ zplug load
 
 # Don't underline paths in command line
 export ZSH_HIGHLIGHT_STYLES[path]=none
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 export ZSH_AUTOSUGGEST_USE_ASYNC='1'
 
 # Source additional dotfiles
@@ -61,13 +61,11 @@ if [ $? -eq 0 ]; then
   source ~/.zsh/vi_mode_plugin.zsh
 fi
 
-# Set iTerm2 title bar to One Dark background
-echo -en "\033]6;1;bg;red;brightness;0\a"
-echo -en "\033]6;1;bg;green;brightness;41\a"
-echo -en "\033]6;1;bg;blue;brightness;51\a"
+# Set iTerm2 to Spacemacs background
+source ~/.zsh/monokaipro-itermbar.zsh
 
-# Tmux is fun. We start it on interactive shell
-if [[ -z "$TMUX" ]] ;then
+# Tmux is fun. We start it on iTerm shells
+if [[ -z "$TMUX" ]] && [[ "$TERM_PROGRAM" != "vscode" ]] ;then
     ID="`tmux ls | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
     if [[ -z "$ID" ]] ;then # if not available create a new one
         tmux new-session

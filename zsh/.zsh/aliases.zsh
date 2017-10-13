@@ -247,8 +247,7 @@ fdd() {
 
 # Recursive filename search and edit
 #   - CTRL-o     open with `open` command
-#   - CTRL-y     open with pycharm
-#   - CTRL-a     edit with atom
+#   - CTRL-v     open with vsocde
 #   - CTRL-x     prompt for deletion
 #   - ENTER      edit with neovim
 ff() {
@@ -263,14 +262,12 @@ ff() {
     if [ -n "$file" ]; then
         if [ "$key" = ctrl-o ]; then
             open "$file"
-        elif [ "$key" = ctrl-v ]; then
-            nvim "$file"
-        elif [ "$key" = ctrl-y ]; then
-            charm "$file"
         elif [ "$key" = ctrl-x ]; then
             rm -i "$file"
+        elif [ "$key" = ctrl-v ]; then
+            code "$file"
         else
-            subl "$file"
+            nvim "$file"
         fi
     fi
 }
@@ -285,22 +282,19 @@ fr() {
 
 # Recent directory search and edit
 #   - CTRL-o    open with `open` command
-#   - CTRL-a    cd and edit with atom
-#   - CTRL-y    cd and open with pycharm
+#   - CTRL-v    cd and open with vscode
 #   - CTRL-x    prompt for recursive deletion
 #   - ENTER     cd
 fd() {
     local out dir key
-    IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-a,ctrl-x,ctrl-y,ctrl-s +m)"
+    IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v +m)"
     key=$(head -1 <<< "$out")
     dir=$(head -2 <<< "$out" | tail -1)
     if [ -d "$dir" ]; then
         if [ "$key" = ctrl-o ]; then
             open "$dir"
-        elif [ "$key" = ctrl-s ]; then
-            cd "$dir" && subl "$dir"
-        elif [ "$key" = ctrl-y ]; then
-            cd "$dir" && charm "$dir"
+        elif [ "$key" = ctrl-v ]; then
+            cd "$dir" && code "$dir"
         elif [ "$key" = ctrl-x ]; then
             rm -ir "$dir"
         else
