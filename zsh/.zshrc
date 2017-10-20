@@ -40,10 +40,14 @@ nvm() {
 source $ZPLUG_HOME/init.zsh
 
 # ------------ ZPLUG PLUGINS ------------------------
-zplug "zsh-users/zsh-autosuggestions",   use:zsh-autosuggestions.zsh
-zplug "geometry-zsh/geometry"
+zplug "zsh-users/zsh-autosuggestions", use:zsh-autosuggestions.zsh
+# zplug "geometry-zsh/geometry"
+# zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
+zplug "denysdovhan/spaceship-zsh-theme", use:spaceship.zsh, from:github, as:theme
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug load
+
+
 
 # Don't underline paths in command line
 export ZSH_HIGHLIGHT_STYLES[path]=none
@@ -61,7 +65,7 @@ if [ $? -eq 0 ]; then
   source ~/.zsh/vi_mode_plugin.zsh
 fi
 
-# Set iTerm2 to Spacemacs background
+# Set iTerm2 menu bar to Monokai background
 source ~/.zsh/monokaipro-itermbar.zsh
 
 # Tmux is fun. We start it on iTerm shells

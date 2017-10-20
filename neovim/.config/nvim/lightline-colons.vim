@@ -42,8 +42,8 @@ let g:lightline = {
       \   'ale': 'error',
       \   'buffers': 'tabsel'
       \ },
-      \ 'separator': { 'left': "", 'right': "" },
-      \ 'subseparator': { 'left': "::", 'right': "::" },
+      \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
       \ }
 
 function! LightlineModified()
