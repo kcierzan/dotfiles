@@ -50,7 +50,7 @@ function! LightlineModified()
   if &filetype ==? 'help'
     return ''
   elseif &modified
-    return '⍙'
+    return 'Δ'
   elseif &modifiable
     return ''
   else
