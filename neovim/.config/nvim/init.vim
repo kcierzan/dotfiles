@@ -60,7 +60,7 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
 " ============ COLORSCHEME ======================
-Plug '~/git/termina'                       " TUI colorscheme
+Plug '~/git/termina'
 
 " highlight current window
 augroup SwitchPanes
@@ -72,13 +72,13 @@ augroup END
 
 " Set up Python style
 autocmd BufNewFile,BufRead *.py
-  \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix colorcolumn=80 expandtab autoindent |
+      \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix colorcolumn=80 expandtab autoindent |
 
 " Edit macos cron jobs
 autocmd filetype crontab setlocal nobackup nowritebackup
 
 autocmd BufNewFile,BufRead *.thtml
-  \ setlocal syntax=phtml
+      \ setlocal syntax=phtml
 
 " ============= PLUGIN CONFIGURATION ==============
 
@@ -128,7 +128,6 @@ endif
 " Close the completion buffer once completion is done
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-"----------- Polyglot ------------------------
 "---------- ALE ----------------------
 filetype off
 filetype plugin on
@@ -137,100 +136,68 @@ filetype plugin on
 " flake8 installed
 "
 " let g:ale_history_log_output = 1
-let g:ale_linters                        = { 'python': ['pylint', 'flake8'],
-                                           \ 'javascript': ['eslint'],
-                                           \ 'css': ['stylelint'],
-                                           \ 'php': ['phpstan'],
-                                           \ 'bash': ['shellcheck'],
-                                           \ 'html': ['tidy'],
-                                           \ 'vim': ['vint'],
-                                           \ 'yaml': ['yamllint'],
-                                           \ 'jsx': ['eslint']
-                                           \ }
-let g:ale_linter_aliases                 = { 'jsx': 'javascript',
-                                           \ 'thtml': 'html',
-                                           \ 'phtml': 'html',
-                                           \ }
-let g:ale_python_pylint_options          = '--rcfile=~/.pylintrc'
-let g:ale_python_pylint_use_global       = 1
-let g:ale_python_flake8_use_global       = 1
-let g:ale_javascript_eslint_use_global   = 1
-let g:ale_python_flake8_executable       =  $HOME . '/.pyenv/versions/neovim3/bin/flake8'
-let g:ale_vim_vint_executable            = $HOME . '/.pyenv/versions/neovim3/bin/vint'
-let g:ale_python_pylint_executable       = $HOME . '/.pyenv/versions/neovim3/bin/pylint'
+let g:ale_linters = {
+      \ 'python': ['pylint', 'flake8'],
+      \ 'javascript': ['eslint'],
+      \ 'css': ['stylelint'],
+      \ 'php': ['phpstan'],
+      \ 'bash': ['shellcheck'],
+      \ 'html': ['tidy'],
+      \ 'vim': ['vint'],
+      \ 'yaml': ['yamllint'],
+      \ 'jsx': ['eslint']
+      \ }
+let g:ale_linter_aliases = {
+      \ 'jsx': 'javascript',
+      \ 'thtml': 'html',
+      \ 'phtml': 'html',
+      \ }
+let g:ale_python_pylint_options = '--rcfile=~/.pylintrc'
+let g:ale_python_pylint_use_global = 1
+let g:ale_python_flake8_use_global = 1
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_python_flake8_executable = $HOME . '/.pyenv/versions/neovim3/bin/flake8'
+let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/neovim3/bin/vint'
+let g:ale_python_pylint_executable = $HOME . '/.pyenv/versions/neovim3/bin/pylint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
-let g:ale_javascript_eslint_options      = '-c ~/.eslintrc.yml'
-let g:ale_echo_msg_format                = '[%severity%] %s [%linter%]'
-let g:ale_sign_error                     = '✖'
-let g:ale_sign_warning                   = '⚠'
-let g:ale_statusline_format              = ['✖ %d', '⚠ %d', '']
+let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
+let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '⚠'
+let g:ale_statusline_format = ['✖ %d', '⚠ %d', '']
 let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_lint_on_text_changed           = 'normal'
-highlight ALEErrorSign   ctermfg=1
+let g:ale_lint_on_text_changed = 'normal'
+highlight ALEErrorSign ctermfg=1
 highlight ALEWarningSign ctermfg=3
 
 "----------- indentLine -----------------
-let g:indentLine_enabled              = 1
-let g:indentLine_char                 = '│'
-let g:indentLine_first_char           = '│'
+let g:indentLine_enabled = 1
+let g:indentLine_char = '│'
+let g:indentLine_first_char = '│'
 let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_fileTypeExclude      = ['text', 'sh', 'startify', 'man', 'help']
-let g:indentLine_setColors            = 1
+let g:indentLine_fileTypeExclude = ['text', 'sh', 'startify', 'man', 'help']
+let g:indentLine_setColors = 1
 
 " ----------- vim-test -------------------
 Plug 'janko-m/vim-test'                    " Run tests
 Plug 'benmills/vimux'                      " Interact with tmux from vim
 
-let g:test#python#runner       = 'nose'
-let g:test#strategy            = 'vimux'
+let g:test#python#runner = 'nose'
+let g:test#strategy = 'vimux'
 let g:test#python#nose#options = '-x -v -s --with-coverage'
 
 "----------- rainbow_parentheses ---------
 let g:rainbow_active = 1
-let g:rainbow_conf   = { 'ctermfgs': ['blue', 'cyan', 'magenta', 'red', 'yellow', 'green'] }
+let g:rainbow_conf = { 'ctermfgs': ['blue', 'cyan', 'magenta', 'red', 'yellow', 'green'] }
 
 " ------------- Gitgutter ------------------
 let g:gitgutter_map_keys = 0
 
-" ------------- NERD Tree ------------------
-Plug 'scrooloose/nerdtree',                { 'on': ['NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] } " Load nerdtree on demand
-
-let g:NERDTreeHijackNetrw      = 1
-let g:NERDTreeWinSize          = 31
-let g:NERDTreeChDirMode        = 2
-let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeShowBookmarks    = 1
-let g:NERDTreeShowHidden         = 1
-
-" NERDTree Colorscheme
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
- exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
-
-call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('md', 'green', 'none', '#3366FF', '#151515')
-call NERDTreeHighlightFile('py', 'blue', 'none', '#3366FF', '#151515')
-call NERDTreeHighlightFile('yml', 'Magenta', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
-
-" Open directories with NERDTree
-augroup OpenDirInNerdTree
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTreeToggle' argv()[0] | wincmd p | ene | endif
-augroup END
+" ------------- Vinegar --------------------
+Plug 'tpope/vim-vinegar'
 
 " ------------ Goyo -----------------------
-Plug 'junegunn/goyo.vim'                   " Remove distractions
+Plug 'junegunn/goyo.vim' " Remove distractions
 
 let g:goyo_width = 120
 let g:goyo_linenr = 0
@@ -272,9 +239,9 @@ augroup END
 "----------- Limelight ---------------------
 Plug 'junegunn/limelight.vim'              " Draw attention to code
 
-let g:limelight_conceal_ctermfg     = 238
+let g:limelight_conceal_ctermfg = 238
 let g:limelight_default_coefficient = 0.5
-let g:limelight_paragraph_span      = 1
+let g:limelight_paragraph_span = 1
 
 "------------ neosnippet -------------------
 Plug 'Shougo/neosnippet.vim'               " Snippet functionality
@@ -283,7 +250,7 @@ Plug 'Shougo/neosnippet-snippets'          " Snippet collection
  
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
-let g:AutoPairsMapCR=0
+let g:AutoPairsMapCR = 0
 let g:deoplete#auto_complete_start_length = 1
 " weird hack to close completion popup/expand snippets (expand with <C-k>)
 imap <expr><TAB> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
@@ -295,7 +262,8 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
 "----------- CleverF ------------------------
-Plug 'rhysd/clever-f.vim'                  " F and T are repeatable
+" F and T are repeatable
+Plug 'rhysd/clever-f.vim'
 
 let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
@@ -337,6 +305,7 @@ Plug 'luochen1990/rainbow'                 " Rainbow Parens
 Plug 'altercation/vim-colors-solarized'    " Termina sucks with solarized
 Plug 'scrooloose/vim-slumlord'             " Diagrams are cool
 Plug 'aklt/plantuml-syntax'
+Plug 'ap/vim-buftabline'
 call plug#end()
 
 syntax enable
