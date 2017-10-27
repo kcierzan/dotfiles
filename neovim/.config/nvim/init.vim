@@ -82,10 +82,6 @@ autocmd BufNewFile,BufRead *.thtml
 
 " ============= PLUGIN CONFIGURATION ==============
 
-" ------------- Denite --------------------
-Plug 'Shougo/neomru.vim'                   " MRU Source for Denite
-Plug 'Shougo/denite.nvim'                  " Unite all interfaces
-
 " ------------- EasyMotion ----------------
 Plug 'easymotion/vim-easymotion'           " Easymotion
 
@@ -110,7 +106,7 @@ Plug 'zchee/deoplete-jedi',                { 'for': 'python' } " Deoplete Jedi f
 Plug 'carlitux/deoplete-ternjs',           { 'do': 'npm install -g tern' }
 
 " Point to python neovim virtualenvs
-" Depends on the existence of a pYenv virtualenv for python2.7 and 3.6
+" Depends on the existence of a pyenv virtualenv for python2.7 and 3.6
 let g:python_host_prog  = $HOME . '/.pyenv/versions/neovim2/bin/python'
 let g:python3_host_prog = $HOME . '/.pyenv/versions/neovim3/bin/python'
 
@@ -132,8 +128,7 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 filetype off
 filetype plugin on
 
-" Depends on the existence of a pyenv virtualenv with pylint >= 1.7.1 and
-" flake8 installed
+" Depends on the existence of a pyenv virtualenv with pylint >= 1.7.1 and flake8 installed
 "
 " let g:ale_history_log_output = 1
 let g:ale_linters = {
@@ -191,10 +186,8 @@ let g:rainbow_active = 1
 let g:rainbow_conf = { 'ctermfgs': ['blue', 'cyan', 'magenta', 'red', 'yellow', 'green'] }
 
 " ------------- Gitgutter ------------------
+Plug 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
-
-" ------------- Vinegar --------------------
-Plug 'tpope/vim-vinegar'
 
 " ------------ Goyo -----------------------
 Plug 'junegunn/goyo.vim' " Remove distractions
@@ -273,12 +266,14 @@ let g:polyglot_disabled = [ 'javascript', 'python' ]
 
 let g:python_highlight_all = 1
 
+Plug 'tpope/vim-vinegar'                   " Make netrw better
+Plug 'Shougo/neomru.vim'                   " MRU Source for Denite
+Plug 'Shougo/denite.nvim'                  " Unite all interfaces
 Plug 'tpope/vim-repeat'                    " Use . to repeat some stuff
 Plug 'jiangmiao/auto-pairs'                " Automatic deliminters
 Plug 'tpope/vim-surround'                  " Surround with brackets, quotes etc
 Plug 'tpope/vim-commentary'                " Comment for great success
 Plug 'wellle/targets.vim'                  " Provide additional text objects
-Plug 'airblade/vim-gitgutter'              " Git gutter
 Plug 'mbbill/undotree'                     " Undo Tree
 Plug 'mhinz/vim-startify'                  " The cow says...
 Plug 'moll/vim-bbye'                       " Delete and close buffers without closing windows

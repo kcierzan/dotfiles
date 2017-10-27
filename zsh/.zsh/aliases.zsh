@@ -274,10 +274,27 @@ ff() {
 
 # Edit a frecent file
 fr() {
-  local file
-  file=$(gsed '1d' ~/.cache/neomru/file |
-         fzf --query="$1" --select-1 --exit-0 --preview "pygmentize -g {}")
-  [ -n "$file" ] && subl "$file"
+  local file out key
+  IFS=$'\n'
+  out=($(gsed '1d' ~/.cache/neomru/file |
+         fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-a,ctrl-x,ctrl-y,ctrl-v --preview-window=up:75% --preview '[[ $(file --mime {}) =~ binary ]] &&
+                   echo {} is a binary file ||
+                   (highlight -O ansi -l {} ||
+                   pygmentize -g {} ||
+                   cat {}) 2> /dev/null | head -2000'))
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+      if [ "$key" = ctrl-o ]; then
+          open "$file"
+      elif [ "$key" = ctrl-x ]; then
+          rm -i "$file"
+      elif [ "$key" = ctrl-v ]; then
+          code "$file"
+      else
+          nvim "$file"
+      fi
+  fi
 }
 
 # Recent directory search and edit

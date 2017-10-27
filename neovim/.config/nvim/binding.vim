@@ -250,34 +250,6 @@ let g:lmap.f.o = ['Denite outline', 'Search ctags']
 nnoremap <silent> <Leader>fe :Denite command<CR>
 let g:lmap.f.e = ['Denite command', 'Search neovim commands']
 
-"" ------ Dir ------------
-"let g:lmap.d = { 'name' : 'Dir' }
-"nnoremap <Leader>df :call NERDTreeToggleAndFind()<CR>
-"let g:lmap.d.f = ['call NERDTreeToggleAndFind()', 'Show file in tree']
-"nnoremap <Leader>dc :NERDTreeCWD<CR>
-"let g:lmap.d.c = ['NERDTreeCWD', 'Open tree at current location']
-"nnoremap <Leader>dt :NERDTreeToggle<CR>
-"let g:lmap.d.t = ['NERDTreeToggle', 'Toggle NerdTree']
-""cd to current file directory and move up one level
-"nnoremap <Leader>dd :lcd %:p:h<CR>:cd ..<CR>
-"let g:lmap.d.d = ['lcd %:p:h', 'CD to current directory']
-"nnoremap <Leader>du :cd ..<CR> 
-"let g:lmap.d.u = ['cd ..', 'CD to parent directory']
-"nnoremap <Leader>dg :cd ~/git<CR> 
-"let g:lmap.d.g = ['cd ~/git', 'CD to git directory']
-"nnoremap <leader>dp :pwd<CR>
-"let g:lmap.d.p = ['pwd', 'Print working directory']
-"nnoremap <leader>da :set invautochdir<CR>
-"let g:lmap.d.a = ['set invautochdir', 'Toggle autochange dir']
-
-"function! NERDTreeToggleAndFind()
-"  if (exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1)
-"    execute ':NERDTreeClose'
-"  else
-"    execute ':NERDTreeFind'
-"  endif
-"endfunction
-
 "------- Terminal-------------
 let g:lmap['\'] = { 'name': 'Debug' }
 let g:lmap['\']['r'] = ['pry', 'Pry']

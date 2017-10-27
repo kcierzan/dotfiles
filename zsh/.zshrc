@@ -47,7 +47,8 @@ zplug "denysdovhan/spaceship-zsh-theme", use:spaceship.zsh, from:github, as:them
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug load
 
-
+# Set variable vi-style cursor 
+source ~/.zsh/vi_cursor.zsh
 
 # Don't underline paths in command line
 export ZSH_HIGHLIGHT_STYLES[path]=none

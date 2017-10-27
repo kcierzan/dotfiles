@@ -48,28 +48,3 @@ stow neovim
 stow misc
 stow ncmpcpp
 ```
-
-4. The kitchen sink.
-
-A number of applications I have taken to use plists or proprietary configuration files.
-These are a pain because they are often arcane, unreadable, and liable to break on updates.
-They are as follows:
-
-#### Alfred
-    * Open Alfred -> Advanced -> Set Sync Folder -> ~/.dotfiles/alfred
-    * Install [alfred-devdocs](https://github.com/yannickglt/alfred-devdocs) workflow.
-    * Install [colors](http://www.packal.org/workflow/colors) workflow.
-#### Moom
-    * `cp moom/com.manytricks.Moom.plist ~/Library/Preferences/com.manytricks.Moom.plist`.
-#### Sublime Text
-    * `cp -R sublime/User ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/`.
-    * install [package control](https://packagecontrol.io/installation).
-#### Pycharm CE
-    * Open Pycharm CE > File > Import Settings > select .jar file
-    * [This](https://github.com/yurtaev/idea-one-dark-theme) is a good theme...
-    * Install ideavim plugin
-    * Symlink .ideavimrc with `stow pycharm`.
-#### Things
-    * Mac app store
-#### Bear
-    * Mac app store
