@@ -66,8 +66,8 @@ if [ $? -eq 0 ]; then
   source ~/.zsh/vi_mode_plugin.zsh
 fi
 
-# Set iTerm2 menu bar to Monokai background
-source ~/.zsh/monokaipro-itermbar.zsh
+# Set iTerm2 menu bar color
+source ~/.zsh/nord-itermbar.zsh
 
 # Tmux is fun. We start it on iTerm shells
 if [[ -z "$TMUX" ]] && [[ "$TERM_PROGRAM" != "vscode" ]] ;then

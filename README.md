@@ -1,11 +1,6 @@
 # Dotfiles
-I'm a (recovering) dotfile obsessive doing web-y, python-y stuff on macOS.
-I like it when stuff works like vi.
 
-If that sounds like you, give some of this stuff a whirl.
-Batteries aren't necessarily included.
-
-Also, most of this probably won't work on Linux. Windows is *right out*.
+Python // MacOS // VSCode // Neovim // TMUX
 
 ## Installation
 0. Install Xcode command line tools
@@ -29,7 +24,7 @@ git clone https://github.com/kcierzan/dotfiles.git ~/.dotfiles
 2. Run the installation scripts.
 
 ```shell
-./install/brew.sh $$ ./install/cask.sh
+./install/brew.sh && ./install/cask.sh
 ```
 
 3. Symlink some dotfiles.
