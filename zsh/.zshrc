@@ -69,8 +69,7 @@ fi
 # Set iTerm2 menu bar color
 source ~/.zsh/nord-itermbar.zsh
 
-# Tmux is fun. We start it on iTerm shells
-if [[ -z "$TMUX" ]] && [[ "$TERM_PROGRAM" != "vscode" ]] ;then
+if [[ -z "$TMUX" ]] ;then
     ID="`tmux ls | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
     if [[ -z "$ID" ]] ;then # if not available create a new one
         tmux new-session
@@ -78,3 +77,4 @@ if [[ -z "$TMUX" ]] && [[ "$TERM_PROGRAM" != "vscode" ]] ;then
         tmux attach-session -t "$ID" # if available attach to it
     fi
 fi
+

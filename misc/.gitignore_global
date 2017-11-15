@@ -33,3 +33,6 @@ GRTAGS
 
 #vscode projects
 **/.vscode
+
+#vscode nose files
+.noseids

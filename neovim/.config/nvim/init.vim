@@ -1,3 +1,9 @@
+"     _       _ __        _
+"    (_)___  (_) /__   __(_)___ ___
+"   / / __ \/ / __/ | / / / __ `__ \
+"  / / / / / / /__| |/ / / / / / / /
+" /_/_/ /_/_/\__(_)___/_/_/ /_/ /_/
+
 " ======= Set up Defaults ==============
 scriptencoding utf-8
 
@@ -26,8 +32,6 @@ set expandtab
 set nowrap
 set shiftround
 set hidden
-" Always show tabline
-set showtabline=2
 
 " Completion options
 set completeopt-=preview
@@ -129,7 +133,7 @@ filetype off
 filetype plugin on
 
 " Depends on the existence of a pyenv virtualenv with pylint >= 1.7.1 and flake8 installed
-"
+
 " let g:ale_history_log_output = 1
 let g:ale_linters = {
       \ 'python': ['pylint', 'flake8'],
@@ -199,6 +203,7 @@ function! s:goyo_enter()
   silent !tmux set status off
   silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
   set noshowcmd
+  set noshowmode
   set scrolloff=999
   set nocursorline
   nunmap <silent> <leader>
@@ -213,6 +218,7 @@ function! s:goyo_leave()
   silent !tmux set status on
   silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
   set showcmd
+  set showmode
   set scrolloff=3
   set cursorline
   colorscheme termina
@@ -300,7 +306,6 @@ Plug 'luochen1990/rainbow'                 " Rainbow Parens
 Plug 'altercation/vim-colors-solarized'    " Termina sucks with solarized
 Plug 'scrooloose/vim-slumlord'             " Diagrams are cool
 Plug 'aklt/plantuml-syntax'
-Plug 'ap/vim-buftabline'
 call plug#end()
 
 " ---------- Denite Config ----------
