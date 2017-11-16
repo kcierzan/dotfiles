@@ -6,7 +6,6 @@
 
 " ======= Set up Defaults ==============
 scriptencoding utf-8
-
 set splitright
 set splitbelow
 set showcmd
@@ -16,7 +15,7 @@ set number
 set lazyredraw
 set noswapfile
 set cursorline
-set number
+set nonumber
 " disable auto break long lines
 set textwidth=0
 set ignorecase
@@ -68,8 +67,8 @@ Plug '~/git/termina'
 
 " highlight current window
 augroup SwitchPanes
-  autocmd WinEnter * set cursorline | set nu | IndentLinesEnable
-  autocmd WinLeave * set nocursorline | set nonumber | IndentLinesDisable
+  autocmd WinEnter * set cursorline
+  autocmd WinLeave * set nocursorline
 augroup END
 
 " ============ FILETYPE SETTINGS ==================
@@ -85,6 +84,9 @@ autocmd BufNewFile,BufRead *.thtml
       \ setlocal syntax=phtml
 
 " ============= PLUGIN CONFIGURATION ==============
+
+" ------------- Startify ----------------
+Plug 'mhinz/vim-startify'                  " The cow says...
 
 " ------------- EasyMotion ----------------
 Plug 'easymotion/vim-easymotion'           " Easymotion
@@ -129,6 +131,7 @@ endif
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 "---------- ALE ----------------------
+Plug 'w0rp/ale'                            " Asynchronous linting engine
 filetype off
 filetype plugin on
 
@@ -272,16 +275,15 @@ let g:polyglot_disabled = [ 'javascript', 'python' ]
 
 let g:python_highlight_all = 1
 
-Plug 'tpope/vim-vinegar'                   " Make netrw better
-Plug 'Shougo/neomru.vim'                   " MRU Source for Denite
 Plug 'Shougo/denite.nvim'                  " Unite all interfaces
+Plug 'Shougo/neomru.vim'                   " MRU Source for Denite
+Plug 'tpope/vim-vinegar'                   " Make netrw better
 Plug 'tpope/vim-repeat'                    " Use . to repeat some stuff
 Plug 'jiangmiao/auto-pairs'                " Automatic deliminters
 Plug 'tpope/vim-surround'                  " Surround with brackets, quotes etc
 Plug 'tpope/vim-commentary'                " Comment for great success
 Plug 'wellle/targets.vim'                  " Provide additional text objects
 Plug 'mbbill/undotree'                     " Undo Tree
-Plug 'mhinz/vim-startify'                  " The cow says...
 Plug 'moll/vim-bbye'                       " Delete and close buffers without closing windows
 Plug 'itchyny/lightline.vim'               " Lightline for more speed
 Plug 'mkitt/tabline.vim'                   " Better looking tabs
@@ -297,7 +299,6 @@ Plug 'AndrewRadev/sideways.vim'            " Move stuff sideways
 Plug 'hecal3/vim-leader-guide'             " Spacemacs style leader guide
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
-Plug 'w0rp/ale'                            " Asynchronous linting engine
 Plug 'tpope/vim-rhubarb'                   " Access GitHub
 Plug 'mattn/emmet-vim'                     " Markup Expansion
 Plug 'majutsushi/tagbar'                   " show some tags
@@ -306,7 +307,16 @@ Plug 'luochen1990/rainbow'                 " Rainbow Parens
 Plug 'altercation/vim-colors-solarized'    " Termina sucks with solarized
 Plug 'scrooloose/vim-slumlord'             " Diagrams are cool
 Plug 'aklt/plantuml-syntax'
+Plug 'haya14busa/vim-keeppad'              " Keep padding when line nums go away
 call plug#end()
+
+" ---------- Post Plugin Config ----------
+syntax enable
+set background=dark
+colorscheme termina
+
+let g:startify_custom_header =
+        \ startify#fortune#cowsay('═','║','╔','╗','╝','╚')
 
 " ---------- Denite Config ----------
 call denite#custom#option('default', 'prompt', '>')
@@ -321,15 +331,15 @@ call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
 call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
+call denite#custom#option('_', 'empty', 0)
 call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
-call denite#custom#option('file_rec', '')
 call denite#custom#source('outline', 'sorters', ['sorter_sublime'])
 call denite#custom#var('file_rec/git', 'command',
       \ ['git', 'ls-files', '-co', '--exclude-standard'])
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 
-hi! deniteMatched ctermfg=none ctermbg=none
-hi! deniteMatchedChar ctermfg=3 ctermbg=none
+hi! deniteMatched ctermfg=2 ctermbg=none
+hi! deniteMatchedChar ctermfg=6 ctermbg=none
 hi! deniteMatchedRange ctermfg=none ctermbg=none
 hi! deniteSource_grepFile ctermfg=4 ctermbg=none
 hi! deniteSource_grepLineNR ctermfg=5 ctermbg=none
@@ -361,11 +371,7 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
   \ [ '.git/', '.ropeproject/', '__pycache__/',
   \   'env/', 'images/', '*.min.*', 'img/', 'fonts/'])
 
-syntax enable
-set background=dark
-colorscheme termina
-" colorscheme solarized
-
+" ----------- Load additional config ----------------
 if filereadable(expand('~/.config/nvim/binding.vim'))
   source ~/.config/nvim/binding.vim
 endif

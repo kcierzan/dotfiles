@@ -18,8 +18,8 @@ alias j="jobs"
 # Kill unattached tmux sessions
 alias tkill="tmux ls | grep -v attached | awk '{ print $1 }' | sed 's/://' | cut -d ' ' -f1 | xargs -I {} tmux kill-session -t {}"
 
-# Bypass useless bsd ctags
-alias ctags='/usr/local/bin/ctags'
+# Exuberant ctags that includes python modules
+alias ctags="/usr/local/bin/ctags && /usr/local/bin/ctags --append tags -R $(pyenv prefix)"
 
 # List all files colorized in long format, including dot files
 alias la="exa -lah --group-directories-first --git"
@@ -144,7 +144,6 @@ alias ts='tmux new-session -s'
 alias tl='tmux list-sessions'
 alias tksv='tmux kill-server'
 alias tkss='tmux kill-session -t'
-
 
 # ------------------------ F U N C T I O N S -----------------------
 
@@ -319,30 +318,6 @@ fd() {
         fi
     fi
 }
-
-# Turn this into an interactive killer
-
-# ses() {
-#   local out sessions session key
-#   IFS=$'\n'
-#   sessions=$(
-#     tmux list-sessions -F '#{session_name};#{session_windows} windows;#{?session_attached,(attached),}' |
-#     column -s\; -t |
-#     awk '{print "["NR-1"]", $0}'
-#   )
-
-#   out=($(echo "$sessions" | fzf --reverse --exit-0 --exact -m --expect=ctrl-x))
-#   key=$(head -1 <<< "$out")
-#   session=$(head -2 <<< "{$out}\n" | tail -1)
-#   echo "$session"
-#   if [ -n "session" ]; then
-#     if [ "$key" = ctrl-x ]; then
-#         echo "$session" | awk '{print $2}' | xargs -I {} tmux kill-session -t {}
-#     else
-#         echo "$sesssion" | xargs tmux switch-client -t
-#     fi
-#   fi
-# }
 
 # fuzzy checkout a git branch
 fb() {
