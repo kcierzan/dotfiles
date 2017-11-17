@@ -86,10 +86,11 @@ autocmd BufNewFile,BufRead *.thtml
 " ============= PLUGIN CONFIGURATION ==============
 
 " ------------- Startify ----------------
-Plug 'mhinz/vim-startify'                  " The cow says...
+" The cow says...
+Plug 'mhinz/vim-startify'
 
 " ------------- EasyMotion ----------------
-Plug 'easymotion/vim-easymotion'           " Easymotion
+Plug 'easymotion/vim-easymotion'
 
 " With this option set, v will match both v and V, but V will match V only.
 let g:EasyMotion_use_smartsign_us = 1 " US layout
@@ -199,7 +200,7 @@ let g:gitgutter_map_keys = 0
 " ------------ Goyo -----------------------
 Plug 'junegunn/goyo.vim' " Remove distractions
 
-let g:goyo_width = 120
+let g:goyo_width = 100
 let g:goyo_linenr = 0
 
 function! s:goyo_enter()
@@ -270,6 +271,11 @@ Plug 'rhysd/clever-f.vim'
 let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
 
+" ---------- Expand Region -------------------
+Plug 'terryma/vim-expand-region'
+vmap e <Plug>(expand_region_expand)
+vmap E <Plug>(expand_region_shrink)
+
 "------------- Misc Plugins -----------------
 let g:polyglot_disabled = [ 'javascript', 'python' ]
 
@@ -321,7 +327,9 @@ let g:startify_custom_header =
 " ---------- Denite Config ----------
 call denite#custom#option('default', 'prompt', '>')
 call denite#custom#option('default', 'winheight', '15')
-
+call denite#custom#option('default', 'highlight_matched_range', 'Comment')
+call denite#custom#option('_', 'auto_resize', 1)
+call denite#custom#option('_', 'reversed', 1)
 call denite#custom#var('file_rec', 'command', 
     \ ['rg', '--files','--hidden', '-g', '!.git', '-g', '!.pyc'])
 call denite#custom#var('grep', 'command', ['rg'])

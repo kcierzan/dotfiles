@@ -67,7 +67,7 @@ if [ $? -eq 0 ]; then
 fi
 
 # Set iTerm2 menu bar color
-source ~/.zsh/nord-itermbar.zsh
+source ~/.zsh/wryan-itermbar.zsh
 
 if [[ -z "$TMUX" ]] ;then
     ID="`tmux ls | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
