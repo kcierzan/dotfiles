@@ -26,8 +26,10 @@ def get_location():
         output.write(location_data.status_code)
         return
     city = location.get('city', 'Chalfont')
-    region = location.get('region', 'Pennsylvania')
-    return '{}, {}'.format(city, region)
+    # region = location.get('region', 'Pennsylvania')
+    output_city = city if city else 'Chalfont'
+    # output_region = region if region else 'Pennsylvania'
+    return '{}'.format(output_city)
 
 
 def get_weather(location):

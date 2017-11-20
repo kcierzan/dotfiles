@@ -75,7 +75,7 @@ augroup END
 
 " Set up Python style
 autocmd BufNewFile,BufRead *.py
-      \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix colorcolumn=80 expandtab autoindent |
+      \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix expandtab autoindent |
 
 " Edit macos cron jobs
 autocmd filetype crontab setlocal nobackup nowritebackup
@@ -276,6 +276,9 @@ Plug 'terryma/vim-expand-region'
 vmap e <Plug>(expand_region_expand)
 vmap E <Plug>(expand_region_shrink)
 
+" ---------- Diminactive --------------------
+Plug 'blueyed/vim-diminactive'
+
 "------------- Misc Plugins -----------------
 let g:polyglot_disabled = [ 'javascript', 'python' ]
 
@@ -345,6 +348,9 @@ call denite#custom#source('outline', 'sorters', ['sorter_sublime'])
 call denite#custom#var('file_rec/git', 'command',
       \ ['git', 'ls-files', '-co', '--exclude-standard'])
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#option('default', 'highlight_mode_insert', 'PMenu')
+call denite#custom#option('default', 'updatetime', 1)
+call denite#custom#option('default', 'max_candidate_width', 200)
 
 hi! deniteMatched ctermfg=2 ctermbg=none
 hi! deniteMatchedChar ctermfg=6 ctermbg=none
