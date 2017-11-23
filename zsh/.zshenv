@@ -7,7 +7,7 @@
 # Remeber to comment out the annoying shenanigans going on in /etc/zprofile
 # Just place anything in /etc/paths.d into $PATH as defined here
 export JAVA_HOME='/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin'
-export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
+export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin"
 
 export EDITOR='nvim'
 export GIT_EDITOR='nvim'
@@ -30,7 +30,7 @@ export FZF_DEFAULT_OPTS='
 --color=fg:#839496,bg:-1,fg+:6,bg+:-1,header:3
 --color=hl:3,hl+:13,prompt:6,spinner:5,pointer:2,marker:4,info:2'
 
-# Fast key repeat
+# 10ms for key sequences
 export KEYTIMEOUT=1
 
 # Powerlevel9k prompt settings

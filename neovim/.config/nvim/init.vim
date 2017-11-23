@@ -12,7 +12,8 @@ set showcmd
 set noshowmode
 set noerrorbells
 set number
-set lazyredraw
+set nolazyredraw
+set ttyfast
 set noswapfile
 set cursorline
 set nonumber
@@ -278,6 +279,9 @@ vmap E <Plug>(expand_region_shrink)
 
 " ---------- Diminactive --------------------
 Plug 'blueyed/vim-diminactive'
+
+" ----------- Comfortable Motion ------------
+Plug 'yuttie/comfortable-motion.vim'
 
 "------------- Misc Plugins -----------------
 let g:polyglot_disabled = [ 'javascript', 'python' ]
