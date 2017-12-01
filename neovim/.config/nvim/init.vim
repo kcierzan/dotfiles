@@ -60,6 +60,10 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
+" Vim autosaves and reflects changes to files on disk
+au FocusGained,BufEnter * :silent! !
+au FocusLost,WinLeave * :silent! w
+
 " Load plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -265,13 +269,6 @@ imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
-"----------- CleverF ------------------------
-" F and T are repeatable
-Plug 'rhysd/clever-f.vim'
-
-let g:clever_f_across_no_line = 1
-let g:clever_f_smart_case = 1
-
 " ---------- Expand Region -------------------
 Plug 'terryma/vim-expand-region'
 vmap e <Plug>(expand_region_expand)
@@ -282,6 +279,11 @@ Plug 'blueyed/vim-diminactive'
 
 " ----------- Comfortable Motion ------------
 Plug 'yuttie/comfortable-motion.vim'
+let g:comfortable_motion_friction = 20.0
+let g:comfortable_motion_air_drag = 4.0
+
+" ------------ Vim Wiki --------------------
+Plug 'vimwiki/vimwiki'
 
 "------------- Misc Plugins -----------------
 let g:polyglot_disabled = [ 'javascript', 'python' ]

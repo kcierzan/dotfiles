@@ -11,9 +11,11 @@
 		<key>string</key>
 		<string>V</string>
 	</dict>
+	<key>limit</key>
+	<integer>1</integer>
 	<key>persistFor</key>
-	<integer>2</integer>
+	<integer>3</integer>
 	<key>persistForFiles</key>
-	<integer>2</integer>
+	<integer>3</integer>
 </dict>
 </plist>

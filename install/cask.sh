@@ -6,8 +6,8 @@ brew tap | grep -q 'caskroom/fonts' || brew tap caskroom/fonts
 casks=(
   1password
   alfred
-  boostnote
   docker
+  emacs-mac-official-icon
   firefoxnightly
   flux
   font-fira-sans
@@ -22,7 +22,6 @@ casks=(
   vagrant
   vagrant-manager
   virtualbox
-  visual-studio-code
   xquartz
 )
 
