@@ -1,25 +1,25 @@
 {
   "alfredtheme" : {
     "result" : {
-      "textSpacing" : 5,
+      "textSpacing" : 10,
       "subtext" : {
-        "size" : 11,
-        "colorSelected" : "#8BBE5DFF",
-        "font" : "Knack Nerd Font",
-        "color" : "#FFFFFF7E"
+        "size" : 13,
+        "colorSelected" : "#689C6AFF",
+        "font" : "Pragmata Pro",
+        "color" : "#586D75FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Knack Nerd Font",
-        "color" : "#C678D6FF"
+        "font" : "Fira Sans",
+        "color" : "#98971AFF"
       },
-      "backgroundSelected" : "#3A414CFF",
+      "backgroundSelected" : "#3C3C3CFF",
       "text" : {
         "size" : 24,
-        "colorSelected" : "#51AEEEFF",
-        "font" : "Knack Nerd Font",
-        "color" : "#FFFFFFCB"
+        "colorSelected" : "#B16186FF",
+        "font" : "Fira Sans",
+        "color" : "#829496FF"
       },
       "iconPaddingHorizontal" : 4,
       "paddingVertical" : 10,
@@ -27,18 +27,18 @@
     },
     "search" : {
       "paddingVertical" : 5,
-      "background" : "#272B33FF",
+      "background" : "#272827FF",
       "spacing" : 8,
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Knack Nerd Font",
-        "color" : "#51AEEEFF"
+        "font" : "Fira Sans",
+        "color" : "#458587FF"
       },
       "backgroundSelected" : "#7AC7FFFF"
     },
     "window" : {
-      "color" : "#272B33FF",
+      "color" : "#272827FF",
       "paddingHorizontal" : 0,
       "width" : 750,
       "borderPadding" : 0,
@@ -56,6 +56,6 @@
       "color" : "#358188FF",
       "thickness" : 2
     },
-    "name" : "One Dark"
+    "name" : "Gruvbox Dark"
   }
 }
