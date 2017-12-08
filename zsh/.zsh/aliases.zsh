@@ -19,7 +19,6 @@ alias j="jobs"
 alias tkill="tmux ls | grep -v attached | awk '{ print $1 }' | sed 's/://' | cut -d ' ' -f1 | xargs -I {} tmux kill-session -t {}"
 
 # Exuberant ctags that includes python modules
-alias ctags="/usr/local/bin/ctags && /usr/local/bin/ctags --append tags -R $(pyenv prefix)"
 
 # List all files colorized in long format, including dot files
 alias la="exa -lah --group-directories-first --git"
@@ -362,4 +361,22 @@ tre () {
 # benchmark of zsh startup
 timeshell() {
   for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
+}
+
+etags() {
+    version=$(pyenv version | cut -d ' ' -f 1)
+    if [ $version != system ]; then
+	/usr/local/bin/ctags -e && /usr/local/bin/ctags -e --append tags -R $(pyenv prefix)
+    else
+	/usr/local/bin/ctags -eR
+    fi
+}
+
+ctags() {
+    version=$(pyenv version | cut -d ' ' -f 1)
+    if [ $version != system ]; then
+	/usr/local/bin/ctags && /usr/local/bin/ctags --append tags -R $(pyenv prefix)
+    else
+	/usr/local/bin/ctags -R
+    fi
 }
