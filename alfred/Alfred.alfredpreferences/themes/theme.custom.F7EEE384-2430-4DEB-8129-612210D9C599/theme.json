@@ -5,20 +5,20 @@
       "subtext" : {
         "size" : 14,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "Pragmata Pro",
+        "font" : "InputMonoNarrow Nerd Font",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Fira Sans",
+        "font" : "InputMonoNarrow Nerd Font",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#51AEEEFF",
-        "font" : "Fira Sans",
+        "font" : "Input Sans Narrow",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Fira Sans",
+        "font" : "Input Sans Narrow",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
