@@ -28,7 +28,7 @@ alias ls="exa"
 alias find='gfind'
 alias sed='gsed'
 alias grep='ggrep'
-alias rm='grm -i'
+alias rm='grm'
 alias mv 'gmv -i'
 alias cp='gcp -i'
 alias gzip='/usr/local/bin/gzip'
@@ -355,7 +355,7 @@ cless () {
 
 # display a directory tree in style
 tre () {
-  exa --group-directories-first -T -L $1
+  exa --group-directories-first --all -T -L $1
 }
 
 # benchmark of zsh startup

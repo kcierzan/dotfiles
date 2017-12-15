@@ -69,6 +69,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " ============ COLORSCHEME ======================
 Plug '~/git/termina'
+Plug 'xero/vim-noctu'
 
 " highlight current window
 augroup SwitchPanes
@@ -230,6 +231,7 @@ function! s:goyo_leave()
   set showmode
   set scrolloff=3
   set cursorline
+  " colorscheme termina
   colorscheme termina
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
@@ -282,8 +284,6 @@ Plug 'yuttie/comfortable-motion.vim'
 let g:comfortable_motion_friction = 20.0
 let g:comfortable_motion_air_drag = 4.0
 
-" ------------ Vim Wiki --------------------
-Plug 'vimwiki/vimwiki'
 
 "------------- Misc Plugins -----------------
 let g:polyglot_disabled = [ 'javascript', 'python' ]

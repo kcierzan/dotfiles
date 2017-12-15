@@ -7,7 +7,6 @@ casks=(
   1password
   alfred
   docker
-  emacs-mac-official-icon
   firefoxnightly
   flux
   font-fira-sans

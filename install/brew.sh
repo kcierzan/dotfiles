@@ -3,12 +3,16 @@
 
 brew tap | grep -q 'universal-ctags' || brew tap universal-ctags/universal-ctags
 brew tap | grep -q 'mopidy/mopidy' || brew tap universal-ctags/universal-ctags
+brew tap | grep -q 'crisidev/chunkwm' || brew tap crisidev/homebrew-chunkwm
+brew tap | grep -q 'railwaycat/emacsmacport' || brew tap railwaycat/emacsmacport
 
 pkgs=(
  "ffmpeg --with-rtmpdump --with-openssl --with-libass --with-libbs2b --with-rubberband"
  "libass --without-harfbuzz"
  "mpv --with-vapoursynth --with-libarchive --with-bundle"
  "universal-ctags --HEAD"
+ "koekeishiya/formulae/khd"
+ "emacs-mac --with-official-icon --with-gnutls --with-imagemagick --with-no-title-bars"
  ansiweather
  bash
  ccat
@@ -73,6 +77,7 @@ pkgs=(
  youtube-dl
  zplug
  zsh
+ chunkwm
 )
 # Install all brew packages
 for pkg in "${pkgs[@]}"

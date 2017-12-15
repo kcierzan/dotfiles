@@ -10,7 +10,9 @@
 ;; multi-term
 ;; major mode map bindings
 ;; shackle buffers
-
+;; 
+(setq-default explicit-shell-file-name "/usr/local/bin/zsh")
+(setq-default shell-file-name "/usr/local/bin/zsh")
 (setq custom-file "~/.emacs.d/custom.el")
 
 (menu-bar-mode -1)
@@ -18,6 +20,10 @@
 (scroll-bar-mode -1)
 (recentf-mode 1)
 (global-hl-line-mode 1)
+(setq-default left-fringe-width 15)
+(set-frame-parameter nil 'internal-border-width 10)
+(custom-set-variables '(linum-format 'dynamic))
+(set-window-buffer nil (current-buffer))
 
 ;; UTF-8 please
 (when (fboundp 'set-charset-priority)
@@ -41,12 +47,13 @@
  inhibit-startup-screen t)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
-(add-to-list 'default-frame-alist '(font . "InputMonoNarrow Nerd Font"))
+(add-to-list 'default-frame-alist '(font . "PragmataPro Nerd Font"))
 (defun kyle//change-font-size ()
-  "Change the font after init"
+  "Change the font after init,"
   (set-face-attribute 'default nil :height 130))
 (add-hook 'window-setup-hook 'kyle//change-font-size)
-(add-hook 'text-mode-hook 'hl-line-mode)
+(add-hook 'prog-mode-hook 'hl-line-mode)
+(add-hook 'prog-mode-hook 'linum-mode)
 (global-eldoc-mode -1)
 (add-hook 'python-mode-hook 'eldoc-mode)
 
@@ -116,10 +123,17 @@
   :after evil
   :config (global-evil-surround-mode 1))
 
-(use-package doom-themes
+(use-package rainbow-delimiters
   :ensure t
   :pin melpa
-  :config (load-theme 'doom-one t))
+  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
+(use-package gruvbox-theme
+  :ensure t
+  :pin melpa
+  :config (load-theme 'gruvbox-dark-medium t)
+  (with-current-buffer (get-buffer " *Echo Area 0*")
+    (setq-local face-remapping-alist '((default (:height  1.1) default)))))
 
 (use-package powerline
   :ensure t
@@ -149,10 +163,15 @@
   (progn
     (require 'helm-config)
     (helm-mode 1)
+    (helm-autoresize-mode 1)
     (add-hook 'eshell-mode-hook
 	(lambda ()
 	(define-key eshell-mode-map (kbd "TAB") 'helm-esh-pcomplete)
-	(define-key eshell-mode-map (kbd "C-c C-l") 'helm-eshell-history))))
+	(define-key eshell-mode-map (kbd "C-c C-l") 'helm-eshell-history)))
+    (defun set-helm-font-bigger ()
+      (set (make-local-variable 'face-remapping-alist)
+	   '((default :height 1.4))))
+    (add-hook 'minibuffer-setup-hook 'set-helm-font-bigger))
     :bind (("M-x" . helm-M-x)
 	    ("M-y" . helm-show-kill-ring)
 	    ("C-x b" . helm-mini)
@@ -162,6 +181,7 @@
 	    ("C-x c o" . helm-occur)
 	    ("C-M-n" . helm-next-source)
 	    ("C-M-p" . helm-previous-source)))
+      
 
  (use-package helm-descbinds
    :ensure t
@@ -265,7 +285,7 @@
 
 (use-package anaconda-mode
   :ensure t
-  :pin melpa
+  :pin melpa-stable
   :config
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'eldoc-mode)
@@ -290,8 +310,8 @@
   :diminish company-mode
   :pin melpa
   :config
-  (setq company-minimum-prefix-length 1)
-  (setq company-idle-delay 0.1)
+  (setq company-minimum-prefix-length 2)
+  (setq company-idle-delay 0.0)
   (add-hook 'after-init-hook 'global-company-mode))
 
 
@@ -331,7 +351,6 @@
   :pin melpa
   :config (global-git-gutter-mode 1))
 
-;; TODO: intelligent pyenv switching based on project
 (use-package pyenv-mode
   :ensure t
   :pin melpa
@@ -391,9 +410,9 @@
 (use-package airline-themes
   :ensure t
   :pin melpa
-  :after powerline
+  :after (:all powerline gruvbox-theme)
   :config
-  (load-theme 'airline-doom-one t))
+  (load-theme 'airline-doom-molokai t))
 
 (use-package org
   :ensure t
@@ -428,11 +447,6 @@
   (general-define-key :keymaps 'helm-map "C-t" 'helm-toggle-visible-mark)
   (general-define-key :keymaps 'global "M-RET" 'toggle-frame-fullscreen)
   (define-key evil-normal-state-map (kbd "g C-]") 'xref-find-definitions)
-  ;; (defun kyle//jump-to-tag-now ()
-  ;;   "Jump to the tag under point without the prompt"
-  ;;   (interactive)
-  ;;   (find-tag (find-tag-default)))
-  ;; (add-hook 'evil-normal-state-entry-hook '(define-key evil-normal-state-map "g C-]" 'kyle//jump-to-tag-now))
   ;; Prefixes
   (general-define-key :keymaps 'evil-normal-state-map
 		      :prefix "SPC"
@@ -494,4 +508,5 @@
 		      "k" '(describe-key :wk "describe key")
 		      "v" '(describe-variable :wk "describe variable")
 		      "p" '(describe-package :wk "describe package")
+		      "a" '(describe-face :wk "describe face")
 		      "m" '(describe-mode :wk "describe mode")))

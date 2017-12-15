@@ -1,0 +1,61 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 5,
+      "subtext" : {
+        "size" : 14,
+        "colorSelected" : "#A3BD8BFF",
+        "font" : "InputMonoNarrow Nerd Font",
+        "color" : "#FFFFFF7E"
+      },
+      "shortcut" : {
+        "size" : 23,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "InputMonoNarrow Nerd Font",
+        "color" : "#B38EACFF"
+      },
+      "backgroundSelected" : "#3A414CFF",
+      "text" : {
+        "size" : 24,
+        "colorSelected" : "#80A1C1FF",
+        "font" : "Input Sans Narrow",
+        "color" : "#D7DDE9FF"
+      },
+      "iconPaddingHorizontal" : 4,
+      "paddingVertical" : 10,
+      "iconSize" : 40
+    },
+    "search" : {
+      "paddingVertical" : 5,
+      "background" : "#272B33FF",
+      "spacing" : 8,
+      "text" : {
+        "size" : 64,
+        "colorSelected" : "#000000FF",
+        "font" : "Input Sans Narrow",
+        "color" : "#6CA5CDFF"
+      },
+      "backgroundSelected" : "#7AC7FFFF"
+    },
+    "window" : {
+      "color" : "#272B33FF",
+      "paddingHorizontal" : 0,
+      "width" : 750,
+      "borderPadding" : 0,
+      "borderColor" : "#0000007F",
+      "blur" : 15,
+      "roundness" : 5,
+      "paddingVertical" : 9
+    },
+    "credit" : "Kyle Cierzan",
+    "separator" : {
+      "color" : "#CBCBCBF3",
+      "thickness" : 0
+    },
+    "scrollbar" : {
+      "color" : "#358188FF",
+      "thickness" : 2
+    },
+    "name" : "Nord"
+  }
+}
