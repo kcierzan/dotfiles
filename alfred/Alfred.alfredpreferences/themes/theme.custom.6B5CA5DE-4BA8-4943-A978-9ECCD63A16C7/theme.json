@@ -3,22 +3,22 @@
     "result" : {
       "textSpacing" : 10,
       "subtext" : {
-        "size" : 13,
+        "size" : 16,
         "colorSelected" : "#2D9474FF",
-        "font" : "Pragmata Pro",
+        "font" : "Iosevka Nerd Font",
         "color" : "#586D75FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Fira Sans",
-        "color" : "#BEA425FF"
+        "font" : "Roboto",
+        "color" : "#CD537AFF"
       },
       "backgroundSelected" : "#2B2C30FF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#BB6DC3FF",
-        "font" : "Fira Sans",
+        "font" : "Roboto",
         "color" : "#989999FF"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,8 +32,8 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Fira Sans",
-        "color" : "#4380B4FF"
+        "font" : "Roboto",
+        "color" : "#BEA425FF"
       },
       "backgroundSelected" : "#7AC7FFFF"
     },

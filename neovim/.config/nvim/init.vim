@@ -276,9 +276,6 @@ Plug 'terryma/vim-expand-region'
 vmap e <Plug>(expand_region_expand)
 vmap E <Plug>(expand_region_shrink)
 
-" ---------- Diminactive --------------------
-Plug 'blueyed/vim-diminactive'
-
 " ----------- Comfortable Motion ------------
 Plug 'yuttie/comfortable-motion.vim'
 let g:comfortable_motion_friction = 20.0

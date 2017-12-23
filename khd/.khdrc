@@ -14,18 +14,16 @@ pane - 0x35     : khd -e "mode activate default"
 # # Default (blue) (transparent)
 khd mode default  on_enter chunkc border::color 0x00ebdbb2
 # # Switcher (yellow)
-khd mode switcher on_enter chunkc border::color 0xFFd79921
+khd mode switcher on_enter chunkc border::color 0xFFbfa425
 # # Swap (red)
-khd mode swap     on_enter chunkc border::color 0xFFcc241d
+khd mode swap     on_enter chunkc border::color 0xFF2e9574 
 # # Pane (purple)
-khd mode pane     on_enter chunkc border::color 0xFF458588
+khd mode pane     on_enter chunkc border::color 0xFFbb6dc4
 
 
 # # Disable focus follows mouse
 switcher - backspace   :   khd -e 'chunkc set mouse_follows_focus';\
                            khd -e 'mode activate default'
-# # Restart kwm
-switcher - 8           :   brew services restart chunkwm && brew services restart khd
 
 # # --------------- switcher mode -----------------------
 switcher - a           :   khd -e "mode activate swap"
@@ -34,6 +32,8 @@ switcher - r           :   khd -e "reload" # reload config
 
 switcher - return      :   open -na /Applications/iTerm.app;\
                            khd -e "mode activate default"
+
+switcher + shift - r   :   brew services restart chunkwm
 
 # # focus windows
 switcher - h           :   chunkc tiling::window --focus west
@@ -92,6 +92,10 @@ pane + shift - p       :   chunkc tiling::desktop --padding dec
 pane + shift - g       :   chunkc tiling::desktop --gap dec
 pane - t               :   chunkc tiling::desktop --toggle offset
 
+pane - e               :   chunkc tiling::desktop --equalize
+pane - o               :   chunkc set bsp_split_mode optimal
+pane - v               :   chunkc set bsp_split_mode vertical
+pane - s               :   chunkc set bsp_split_mode horizontal
 
 pane - f               :   chunkc tiling::window --toggle fullscreen
 pane + shit - f        :   chunkc tiling::window --toggle native-fullscreen
@@ -100,14 +104,14 @@ pane - r               :   chunkc tiling::desktop --rotate 90
 pane - m               :   chunkc tiling::window --toggle split
 pane - b               :   chunkc tiling::window --toggle float
 
-pane - h               :   chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge west
-pane - j               :   chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge south
-pane - k               :   chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge north
-pane - l               :   chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge east
-pane + shift - h       :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge west
-pane + shift - j       :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge south
-pane + shift - k       :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge north
-pane + shift - l       :   chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge east
+pane - h               :   chunkc tiling::window --use-temporary-ratio 0.025 --adjust-window-edge west
+pane - j               :   chunkc tiling::window --use-temporary-ratio 0.025 --adjust-window-edge south
+pane - k               :   chunkc tiling::window --use-temporary-ratio 0.025 --adjust-window-edge north
+pane - l               :   chunkc tiling::window --use-temporary-ratio 0.025 --adjust-window-edge east
+pane + shift - h       :   chunkc tiling::window --use-temporary-ratio -0.025 --adjust-window-edge west
+pane + shift - j       :   chunkc tiling::window --use-temporary-ratio -0.025 --adjust-window-edge south
+pane + shift - k       :   chunkc tiling::window --use-temporary-ratio -0.025 --adjust-window-edge north
+pane + shift - l       :   chunkc tiling::window --use-temporary-ratio -0.025 --adjust-window-edge east
 
 lctrl - j:                          khd -p "- down"
 lctrl - k:                          khd -p "- up"

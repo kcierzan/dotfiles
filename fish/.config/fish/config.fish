@@ -26,6 +26,10 @@ end
 function fish_vi_cursor
 end
 
+function fish_greeting
+  fortune; and echo ''
+end
+
 # try to attach to a tmux session on startup
 if test -z $TMUX
     set -x TMUX_SESSION (tmux ls | grep -vm1 attached | cut -d: -f1) # get the id of a deattached session

@@ -1,16 +1,5 @@
 ;;;; -*- lexical-binding: t; -*-
 
-;; TODO:
-;; evil help
-;; elisp-slime-nav
-;; org-mode
-;; python import magic bindings
-;; python eldoc
-;; evil-org
-;; multi-term
-;; major mode map bindings
-;; shackle buffers
-;; 
 (setq-default explicit-shell-file-name "/usr/local/bin/zsh")
 (setq-default shell-file-name "/usr/local/bin/zsh")
 (setq custom-file "~/.emacs.d/custom.el")
@@ -18,11 +7,10 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(semantic-mode)
 (recentf-mode 1)
-(global-hl-line-mode 1)
 (setq-default left-fringe-width 15)
 (set-frame-parameter nil 'internal-border-width 10)
-(custom-set-variables '(linum-format 'dynamic))
 (set-window-buffer nil (current-buffer))
 
 ;; UTF-8 please
@@ -34,6 +22,10 @@
 (set-selection-coding-system 'utf-8)
 (setq locale-coding-system 'utf-8)
 (setq-default buffer-file-coding-system 'utf-8)
+(setq scroll-conservatively 101)
+(setq mouse-wheel-follow-mouse t
+      mouse-wheel-progressive-speed nil
+      mouse-wheel-scroll-amount '(2 ((shift) . 4) ((control) . 6)))
 
 (setq-default
  create-lockfiles nil
@@ -43,23 +35,27 @@
  history-length 500
  make-backup-files nil
  auto-save-default nil
- idle-update-delay 2
+ idle-update-delay 0.5
  inhibit-startup-screen t)
 
+(setq mac-redisplay-dont-reset-vscroll t
+      mac-mouse-wheel-smooth-scroll t
+      select-enable-primary t)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
-(add-to-list 'default-frame-alist '(font . "PragmataPro Nerd Font"))
+(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font"))
 (defun kyle//change-font-size ()
   "Change the font after init,"
-  (set-face-attribute 'default nil :height 130))
+  (set-face-attribute 'default nil :height 150))
 (add-hook 'window-setup-hook 'kyle//change-font-size)
-(add-hook 'prog-mode-hook 'hl-line-mode)
-(add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'prog-mode-hook 'nlinum-mode)
 (global-eldoc-mode -1)
 (add-hook 'python-mode-hook 'eldoc-mode)
 
 (require 'package)
 
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
@@ -74,17 +70,84 @@
     (require 'use-package)
     (package-initialize)))
 
-(use-package which-key
+(use-package anaconda-mode
+  :ensure t
+  :pin melpa-stable
+  :diminish anaconda-mode
+  :config
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  (add-hook 'python-mode-hook 'eldoc-mode)
+  (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
+
+(use-package avy
+  :ensure t
+  :pin melpa)
+
+(use-package beacon
+  :ensure t
+  :diminish beacon-mode
+  :pin elpa
+  :config
+  (beacon-mode 1))
+
+(use-package company
+  :ensure t
+  :diminish company-mode
+  :pin melpa
+  :config
+  (setq company-minimum-prefix-length 2
+	company-idle-delay 0.2
+	company-dabbrev-downcase nil
+	company-tooltip-limit 10
+	company-dabbrev-ignore-case nil
+	company-dabbrev-code-code-other-buffers t
+	company-tooltip-align-annotations t
+	company-require-match 'never
+	company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
+	company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
+	company-backends '(company-capf company-dabbrev company-ispell)
+	company-transformers '(company-sort-by-occurrence))
+  (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package company-anaconda
   :ensure t
   :pin melpa
-  :diminish which-key-mode
+  :after company
   :config
-  (which-key-setup-side-window-right-bottom)
-  (which-key-mode))
+  (add-hook 'python-mode-hook
+	    (lambda ()
+	      (set (make-local-variable 'company-backends)
+		   '((company-anaconda company-etags company-dabbrev-code) company-capf company-files)))))
+
+(use-package company-php
+  :ensure t
+  :commands (company-ac-php-backend)
+  :config
+  (unless (executable-find "phpctags")
+    (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
+
+(use-package company-statistics
+  :ensure t
+  :after company
+  :config
+  (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
+  (company-statistics-mode 1))
+
+(use-package diminish
+  :ensure t
+  :pin melpa)
+
+(use-package dumb-jump
+  :ensure t
+  :pin melpa
+  :config
+  (setq dumb-jump-force-searcher 'rg)
+  (setq dumb-jump-selector 'helm))
 
 (use-package evil
   :ensure t
   :pin melpa
+  :diminish evil-mode
   :init (setq evil-want-C-u-scroll t)
   :config
   (evil-mode 1)
@@ -117,306 +180,24 @@
   :diminish evil-commentary-mode
   :config (evil-commentary-mode))
 
-(use-package evil-surround
+(use-package evil-goggles
   :ensure t
   :pin melpa
-  :after evil
-  :config (global-evil-surround-mode 1))
-
-(use-package rainbow-delimiters
-  :ensure t
-  :pin melpa
-  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-
-(use-package gruvbox-theme
-  :ensure t
-  :pin melpa
-  :config (load-theme 'gruvbox-dark-medium t)
-  (with-current-buffer (get-buffer " *Echo Area 0*")
-    (setq-local face-remapping-alist '((default (:height  1.1) default)))))
-
-(use-package powerline
-  :ensure t
-  :pin melpa-stable
+  :diminish evil-goggles-mode
   :config
-  (powerline-default-theme)
-  (setq powerline-height 22))
-
-(use-package flycheck
-  :ensure t
-  :pin melpa
-  :config
-  (global-flycheck-mode)
-  (flycheck-add-next-checker 'python-flake8 'python-pylint)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled)))
-
-(use-package diminish
-  :ensure t
-  :pin melpa)
-
-; TODO: replace `:bind' with `general' mapping
-(use-package helm
-  :ensure t
-  :pin melpa
-  :diminish helm-mode
-  :config
-  (progn
-    (require 'helm-config)
-    (helm-mode 1)
-    (helm-autoresize-mode 1)
-    (add-hook 'eshell-mode-hook
-	(lambda ()
-	(define-key eshell-mode-map (kbd "TAB") 'helm-esh-pcomplete)
-	(define-key eshell-mode-map (kbd "C-c C-l") 'helm-eshell-history)))
-    (defun set-helm-font-bigger ()
-      (set (make-local-variable 'face-remapping-alist)
-	   '((default :height 1.4))))
-    (add-hook 'minibuffer-setup-hook 'set-helm-font-bigger))
-    :bind (("M-x" . helm-M-x)
-	    ("M-y" . helm-show-kill-ring)
-	    ("C-x b" . helm-mini)
-	    ("C-x C-b" . helm-buffers-list)
-	    ("C-x C-f" . helm-find-files)
-	    ("C-x C-r" . helm-recentf)
-	    ("C-x c o" . helm-occur)
-	    ("C-M-n" . helm-next-source)
-	    ("C-M-p" . helm-previous-source)))
-      
-
- (use-package helm-descbinds
-   :ensure t
-   :after helm
-   :pin melpa
-   :bind (("C-h b" . helm-descbinds)
- 	  ("C-h w" . helm-descbinds)))
-
-(use-package helm-swoop
-  :ensure t
-  :pin melpa
-  :after helm
-  :config
-  (progn
-    (setq helm-swoop-speed-or-color 1
-	    helm-swoop-use-fuzzy-match 1)
-    (setq-default helm-swoop-split-direction 'split-window-vertically)
-    (setq-default helm-swoop-split-with-multiple-windows t)
-    ;; disable swoop-thing-at-point
-    (setq helm-swoop-pre-input-function
-	    (lambda () ""))))
-
-(use-package projectile
-  :ensure t
-  :pin melpa-stable
-  :diminish projectile-mode
-  :commands
-  (helm-projectile-switch-project
-   helm-projectile-find-file
-   helm-projectile-find-dir)
-  :config
-  (projectile-mode t)
-  (projectile-discover-projects-in-directory "~/git"))
-
-(use-package helm-ag
-  :ensure t
-  :commands (helm-ag)
-  :pin melpa
-  :after helm
-  :config
-  (setq helm-ag-base-command "ag --nocolor --nogroup --hidden"))
-
- (use-package helm-descbinds
-   :ensure t
-   :after helm
-   :commands (helm-descbinds)
-   :pin melpa
-   :bind (("C-h b" . helm-descbinds)
- 	  ("C-h w" . helm-descbinds)))
-
-(use-package helm-swoop
-  :ensure t
-  :pin melpa
-  :after helm
-  :commands (helm-swoop)
-  :config
-  (progn
-    (setq helm-swoop-speed-or-color 1
-	    helm-swoop-use-fuzzy-match 1)
-    ;; disable swoop-thing-at-point
-    (setq helm-swoop-pre-input-function
-	    (lambda () ""))))
-
-(use-package projectile
-  :ensure t
-  :pin melpa-stable
-  :diminish projectile-mode
-  :config (projectile-mode t))
-
-(use-package magit
-  :ensure t
-  :commands (magit)
-  :pin melpa)
+  (evil-goggles-mode)
+  (setq evil-goggles-duration 0.15)
+  (evil-goggles-use-diff-faces))
 
 (use-package evil-magit
   :ensure t
   :after magit
   :pin melpa)
 
-(use-package autorevert
-  :diminish auto-revert-mode)
-
-(use-package git-gutter-fringe
-  :ensure t
-  :diminish git-gutter-mode
-  :pin melpa
-  :config (git-gutter-mode))
-
-(use-package pyenv-mode
-  :ensure t
-  :pin melpa)
-
-(use-package helm-projectile
-  :ensure t
-  :after (:all projectile helm)
-  :pin melpa
-  :config (helm-projectile-on))
-
-(use-package undo-tree
-  :diminish undo-tree-mode)
-
-(use-package anaconda-mode
-  :ensure t
-  :pin melpa-stable
-  :config
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'python-mode-hook 'eldoc-mode)
-  (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
-
-(use-package importmagic
-  :ensure t
-  :pin melpa
-  :config (add-hook 'python-mode-hook 'importmagic-mode))
-
-(use-package pip-requirements
-  :ensure t
-  :pin melpa)
-
 (use-package evil-matchit
   :ensure t
   :pin melpa
   :after evil)
-
-(use-package company
-  :ensure t
-  :diminish company-mode
-  :pin melpa
-  :config
-  (setq company-minimum-prefix-length 2)
-  (setq company-idle-delay 0.0)
-  (add-hook 'after-init-hook 'global-company-mode))
-
-
-(use-package php-extras
-  :ensure t
-  :pin marmalade
-  :config
-  (with-eval-after-load 'company
-    (add-hook 'php-mode-hook
-		(lambda ()
-		(set (make-local-variable 'company-backends)
-		    '((php-extras-company company-etags company-dabbrev-code) company-capf company-files))))))
-
-(use-package company-anaconda
-  :ensure t
-  :pin melpa
-  :after company
-  :config
-  (add-hook 'python-mode-hook
-	    (lambda ()
-	      (set (make-local-variable 'company-backends)
-		   '((company-anaconda company-etags company-dabbrev-code) company-capf company-files)))))
-
-(use-package magit
-  :ensure t
-  :pin melpa)
-
-(use-package evil-magit
-  :ensure t
-  :pin melpa)
-
-(use-package autorevert
-  :diminish auto-revert-mode)
-
-(use-package git-gutter-fringe
-  :ensure t
-  :pin melpa
-  :config (global-git-gutter-mode 1))
-
-(use-package pyenv-mode
-  :ensure t
-  :pin melpa
-  :config
-  (pyenv-mode)
-  (defun kyle//pyenv-mode-set-local-version ()
-    "Set pyenv version from \".python-version\" by looking in parent directories"
-    (interactive)
-    (let ((root-path (locate-dominating-file default-directory
-					     ".python-version")))
-      (when root-path
-	(let* ((file-path (expand-file-name ".python-version" root-path))
-	       (version
-		(with-temp-buffer
-		  (insert-file-contents-literally file-path)
-		  (buffer-substring-no-properties (line-beginning-position)
-						  (line-end-position)))))
-	  (if (member version (pyenv-mode-versions))
-	      (pyenv-mode-set version)
-	    (message "pyenv: version `%s' is not installed (set by %s)"
-		     version file-path))))))
-  (add-hook 'projectile-after-switch-project-hook 'kyle//pyenv-mode-set-local-version))
-
-(use-package web-mode
-  :ensure
-  :pin melpa
-  :mode (("\\.html?$" . web-mode)
-	 ("\\.thtml$" . web-mode)
-	 ("\\.phtml$" . web-mode)))
-
-(use-package php-mode
-  :ensure t
-  :pin melpa
-  :config
-  (add-hook 'php-mode-hook
-	    (lambda ()
-	      (set (make-local-variable 'company-backends)
-		   '((company-ac-php-backend php-extras-company compand-dabbrev-code) company-capf company-files))))
-  :mode (("\\.php$" . php-mode)
-	 ("\\.inc$"  . php-mode)))
-
-(use-package company-php
-  :ensure t
-  :commands (company-ac-php-backend)
-  :config
-  (unless (executable-find "phpctags")
-    (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
-
-(use-package avy
-  :ensure t
-  :pin melpa)
-
-(use-package switch-window
-  :ensure t
-  :pin melpa)
-
-(use-package airline-themes
-  :ensure t
-  :pin melpa
-  :after (:all powerline gruvbox-theme)
-  :config
-  (load-theme 'airline-doom-molokai t))
-
-(use-package org
-  :ensure t
-  :pin melpa)
 
 (use-package evil-org
   :ensure t
@@ -428,10 +209,19 @@
 	    (lambda ()
 	      (evil-org-set-key-theme))))
 
-(use-package multi-term
+(use-package evil-surround
   :ensure t
   :pin melpa
-  :config (setq multi-term-program "/usr/local/bin/zsh"))
+  :after evil
+  :config (global-evil-surround-mode 1))
+
+(use-package flycheck
+  :ensure t
+  :pin melpa
+  :config
+  (global-flycheck-mode)
+  (flycheck-add-next-checker 'python-flake8 'python-pylint)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled)))
 
 (use-package general
   :ensure t
@@ -466,6 +256,7 @@
 		      "l" '(helm-swoop :wk "line"
 					:package helm-swoop)
 		      "r" '(helm-recentf :wk "recent")
+		      "o" '(helm-semantic-or-imenu :wk "definitions")
 		      "f" '(helm-find-files :wk "files")
 		      "g" '(helm-do-ag :wk "ag"
 					:package helm-ag))
@@ -508,5 +299,217 @@
 		      "k" '(describe-key :wk "describe key")
 		      "v" '(describe-variable :wk "describe variable")
 		      "p" '(describe-package :wk "describe package")
+		      "w" '(helm-man-woman :wk "man woman")
 		      "a" '(describe-face :wk "describe face")
 		      "m" '(describe-mode :wk "describe mode")))
+
+(use-package git-gutter-fringe
+  :ensure t
+  :diminish git-gutter-mode
+  :pin melpa
+  :config (git-gutter-mode))
+
+(use-package helm
+  :ensure t
+  :pin melpa
+  :diminish helm-mode
+  :general
+  (helm-map "TAB" 'helm-execute-persistent-action)
+  :config
+  (progn
+    (require 'helm-config)
+    (helm-mode 1)
+    (helm-autoresize-mode 1)
+    (setq helm-autoresize-min-height 5)
+    (setq helm-echo-input-in-header-line t)
+    (defun set-helm-font-bigger ()
+      (set (make-local-variable 'face-remapping-alist)
+	   '((default :height 1.0))))
+    (add-hook 'minibuffer-setup-hook 'set-helm-font-bigger))
+    :bind (("M-x" . helm-M-x)
+	    ("M-y" . helm-show-kill-ring)
+	    ("C-x b" . helm-mini)
+	    ("C-x C-b" . helm-buffers-list)
+	    ("C-x C-f" . helm-find-files)
+	    ("C-x C-r" . helm-recentf)
+	    ("C-x c o" . helm-occur)
+	    ("C-M-n" . helm-next-source)
+	    ("C-M-p" . helm-previous-source)))
+      
+(use-package helm-ag
+  :ensure t
+  :commands (helm-ag)
+  :pin melpa
+  :after helm
+  :config
+  (setq helm-ag-base-command "ag --nocolor --nogroup --hidden"))
+
+ (use-package helm-descbinds
+   :ensure t
+   :after helm
+   :commands (helm-descbinds)
+   :pin melpa
+   :bind (("C-h b" . helm-descbinds)
+ 	  ("C-h w" . helm-descbinds)))
+
+(use-package helm-projectile
+  :ensure t
+  :after (:all projectile helm)
+  :pin melpa
+  :config (helm-projectile-on))
+
+(use-package helm-swoop
+  :ensure t
+  :pin melpa
+  :after helm
+  :config
+  (progn
+    (setq helm-swoop-speed-or-color 1
+	    helm-swoop-use-fuzzy-match 1)
+    (setq-default helm-swoop-split-direction 'split-window-vertically)
+    (setq-default helm-swoop-split-with-multiple-windows t)
+    ;; disable swoop-thing-at-point
+    (setq helm-swoop-pre-input-function
+	    (lambda () ""))))
+
+(use-package magit
+  :ensure t
+  :commands (magit)
+  :pin melpa)
+
+(use-package multi-term
+  :ensure t
+  :pin melpa
+  :config (setq multi-term-program "/usr/local/bin/zsh"))
+
+(use-package org
+  :ensure t
+  :pin melpa)
+
+(use-package org-bullets
+  :ensure t
+  :pin melpa
+  :init
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package paradox
+  :ensure t
+  :pin melpa
+  :config
+  (paradox-enable))
+
+(use-package php-extras
+  :ensure t
+  :pin marmalade
+  :config
+  (with-eval-after-load 'company
+    (add-hook 'php-mode-hook
+		(lambda ()
+		(set (make-local-variable 'company-backends)
+		    '((php-extras-company company-etags company-dabbrev-code) company-capf company-files))))))
+
+(use-package php-mode
+  :ensure t
+  :pin melpa
+  :config
+  (add-hook 'php-mode-hook
+	    (lambda ()
+	      (set (make-local-variable 'company-backends)
+		   '((company-ac-php-backend php-extras-company compand-dabbrev-code) company-capf company-files))))
+  :mode (("\\.php$" . php-mode)
+	 ("\\.inc$"  . php-mode)))
+
+(use-package pip-requirements
+  :ensure t
+  :pin melpa)
+
+(use-package projectile
+  :ensure t
+  :pin melpa-stable
+  :diminish projectile-mode
+  :commands
+  (helm-projectile-switch-project
+   helm-projectile-find-file
+   helm-projectile-find-dir)
+  :config
+  (projectile-mode t)
+  (projectile-discover-projects-in-directory "~/git"))
+
+(use-package pyenv-mode
+  :ensure t
+  :pin melpa
+  :config
+  (pyenv-mode)
+  (defun kyle//pyenv-mode-set-local-version ()
+    "Set pyenv version from \".python-version\" by looking in parent directories"
+    (interactive)
+    (let ((root-path (locate-dominating-file default-directory
+					     ".python-version")))
+      (when root-path
+	(let* ((file-path (expand-file-name ".python-version" root-path))
+	       (version
+		(with-temp-buffer
+		  (insert-file-contents-literally file-path)
+		  (buffer-substring-no-properties (line-beginning-position)
+						  (line-end-position)))))
+	  (if (member version (pyenv-mode-versions))
+	      (pyenv-mode-set version)
+	    (message "pyenv: version `%s' is not installed (set by %s)"
+		     version file-path))))))
+  (add-hook 'projectile-after-switch-project-hook 'kyle//pyenv-mode-set-local-version))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :pin melpa
+  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
+(use-package spaceline
+  :ensure t
+  :pin melpa
+  :config
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state))
+
+(use-package spacemacs-theme
+  :ensure t
+  :defer t
+  :pin melpa
+  :init (load-theme 'spacemacs-dark t)
+  :config
+  (with-current-buffer (get-buffer " *Echo Area 0*")
+    (setq-local face-remapping-alist '((default (:height  1.0) default)))))
+
+(use-package spaceline-all-the-icons
+  :after spaceline
+  :ensure t
+  :config (spaceline-all-the-icons-theme)
+  (setq spaceline-all-the-icons-separator-type 'wave)
+  (set-face-attribute 'mode-line nil :height 140))
+
+(use-package switch-window
+  :ensure t
+  :pin melpa)
+
+(use-package undo-tree
+  :diminish undo-tree-mode)
+
+(use-package vi-tilde-fringe
+  :ensure t
+  :diminish vi-tilde-fringe-mode
+  :pin melpa
+  :config
+  (add-hook 'prog-mode-hook 'vi-tilde-fringe-mode))
+
+(use-package web-mode
+  :ensure
+  :pin melpa
+  :mode (("\\.html?$" . web-mode)
+	 ("\\.thtml$" . web-mode)
+	 ("\\.phtml$" . web-mode)))
+
+(use-package which-key
+  :ensure t
+  :pin melpa
+  :diminish which-key-mode
+  :config
+  (which-key-setup-side-window-right-bottom)
+  (which-key-mode))

@@ -1,4 +1,5 @@
 #!/bin/bash
+
 IFS=$'\n'
 out=($(gsed '1d' ~/.cache/neomru/file |
         fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:75% --preview '[[ $(file --mime {}) =~ binary ]] &&
@@ -19,3 +20,7 @@ if [ -n "$file" ]; then
         nvim "$file"
     fi
 fi
+unset out
+unset file
+unset key
+unset IFS
