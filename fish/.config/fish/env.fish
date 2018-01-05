@@ -1,4 +1,4 @@
-set -x PATH $HOME/.pyenv/shims $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin $JAVA_HOME /usr/bin /bin /usr/sbin /sbin /opt/X11/bin $HOME/.cargo/bin
+set -x PATH $HOME/.rbenv/shims /usr/local/bin /usr/local/sbin $JAVA_HOME /usr/bin /bin /usr/sbin /sbin
 
 set -x JAVA_HOME "/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin"
 set -x EDITOR nvim

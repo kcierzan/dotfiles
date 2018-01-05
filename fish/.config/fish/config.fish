@@ -40,3 +40,4 @@ if test -z $TMUX
     end
 end
 
+eval (python -m virtualfish)
