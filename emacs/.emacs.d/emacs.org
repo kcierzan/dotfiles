@@ -1,0 +1,1030 @@
+#+TITLE: Emacs Configuration
+#+STARTUP: content
+* Basic Configuration
+** Global minor modes
+   #+name: basic
+   #+BEGIN_SRC emacs-lisp
+     (semantic-mode)
+     (recentf-mode 1)
+     (global-auto-revert-mode)
+   #+END_SRC
+   
+** UI
+   #+name: basic-ui
+   #+BEGIN_SRC emacs-lisp
+     (menu-bar-mode -1)
+     (tool-bar-mode -1)
+     (scroll-bar-mode -1)
+     (setq-default left-fringe-width 5
+                 line-spacing 4
+                 ring-bell-function 'ignore
+                 idle-update-delay 0.5
+                 inhibit-startup-screen t)
+     (set-frame-parameter nil 'internal-border-width 2)
+   #+END_SRC
+   
+*** Smooth Scrolling
+    #+name: basic-ui
+    #+BEGIN_SRC emacs-lisp
+      (setq mac-redisplay-dont-reset-vscroll t
+          mac-mouse-wheel-smooth-scroll t
+          scroll-conservatively 101
+          select-enable-primary t
+          mouse-wheel-follow-mouse t
+          mouse-wheel-progressive-speed nil
+          mouse-wheel-scroll-amount '(2 ((shift) . 4) ((control) . 6)))
+    #+END_SRC
+    
+*** Fonts
+    Iosevka and Overpass should be installable with brew
+    #+name: basic-ui
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font"))
+      (set-face-attribute 'variable-pitch nil :font "Overpass" :height 140)
+      (set-face-attribute 'fixed-pitch nil :font "Iosevka Nerd Font")
+      (set-face-attribute 'default  nil :font "Iosevka Nerd Font")
+      (set-face-attribute 'mode-line nil :height 140)
+
+      (defun kyle//change-font-size ()
+        "Change the font after init,"
+        (set-face-attribute 'default nil :height 130))
+
+      (add-hook 'window-setup-hook 'kyle//change-font-size)
+    #+END_SRC
+    
+** UTF-8
+   #+name: basic
+   #+BEGIN_SRC emacs-lisp
+     (when (fboundp 'set-charset-priority)
+       (set-charset-priority 'unicode))
+     (prefer-coding-system 'utf-8)
+     (set-terminal-coding-system 'utf-8)
+     (set-keyboard-coding-system 'utf-8)
+     (set-selection-coding-system 'utf-8)
+     (setq locale-coding-system 'utf-8)
+     (setq-default buffer-file-coding-system 'utf-8)
+   #+END_SRC
+   
+** Dired
+   #+name: basic
+   #+BEGIN_SRC emacs-lisp
+     (setq dired-always-copies 'always
+           dired-recursive-deletes 'top)
+   #+END_SRC
+   
+** Misc
+   #+name: basic
+   Move custom configuration to a separate file
+   #+BEGIN_SRC emacs-lisp
+     (setq custom-file "~/.emacs.d/custom.el")
+   #+END_SRC
+   
+   We have the RAM - bump the garbage collection threshold
+   #+name: basic
+   #+BEGIN_SRC emacs-lisp
+     (setq gc-cons-threshold 16777216
+           gc-cons-percentage 0.1)
+   #+END_SRC
+   
+   Sentences end with a single space
+   #+name: basic
+   #+BEGIN_SRC emacs-lisp
+     (setq sentence-end-double-space nil)
+   #+END_SRC
+   
+   Set some limits
+   #+name: basic
+   #+BEGIN_SRC emacs-lisp
+     (setq recentf-max-menu-item 25
+           history-length 500)
+   #+END_SRC
+   
+   Backups and lockfiles aren't useful. Instead, revert automatically on change to a file.
+   #+name: basic
+   #+BEGIN_SRC emacs-lisp
+     (setq create-lockfiles nil
+           make-backup-files nil
+           auto-save-default nil
+           global-auto-revert-non-file-buffers t
+           auto-revert-verbose nil)
+   #+END_SRC
+   
+   Who wants to type "yes"?
+   #+name: basic
+   #+BEGIN_SRC emacs-lisp
+     (defalias 'yes-or-no-p 'y-or-n-p)
+   #+END_SRC
+   
+   global-eldoc is pretty annoying. Turn it on explicitly.
+   #+name: basic
+   #+BEGIN_SRC emacs-lisp
+     (global-eldoc-mode -1)
+     (add-hook 'python-mode-hook 'eldoc-mode)
+   #+END_SRC
+   
+** Packages
+*** Navigation
+**** ace-link
+     Navigate to links tridactyl-style
+     #+name: navigation
+     #+BEGIN_SRC emacs-lisp
+       (use-package ace-link
+         :ensure t
+         :pin melpa
+         :config
+         (ace-link-setup-default))
+     #+END_SRC
+     
+**** avy
+     Jump to text
+     #+name: navigation
+     #+BEGIN_SRC emacs-lisp
+       (use-package avy
+        :ensure t
+         :pin melpa)
+     #+END_SRC
+     
+**** dumb-jump
+     Jump to definitions using rg, ag, grep
+     #+name: navigation
+     #+BEGIN_SRC emacs-lisp
+       (use-package dumb-jump
+         :ensure t
+         :pin melpa
+         :config
+         (setq dumb-jump-force-searcher 'rg)
+         (setq dumb-jump-selector 'helm))
+     #+END_SRC
+     
+*** UI
+**** beacon
+     Highlight the cursor after a jump
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package beacon
+         :ensure t
+         :diminish beacon-mode
+         :pin elpa
+         :config
+         (setq beacon-color "#fcd845")
+         (beacon-mode 1))
+     #+END_SRC
+     
+**** diminish
+     Hide icons in the modeline
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package diminish
+         :ensure t
+         :pin melpa)
+     #+END_SRC
+     
+**** fringe-helper
+     Define fringe element shapes
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package fringe-helper
+         :ensure t
+         :pin melpa
+         :after (:all flycheck git-gutter-fringe)
+         :config
+         ;; A non-descript, left-pointing arrow
+         (fringe-helper-define 'flycheck-fringe-bitmap-double-arrow 'center
+           "...X...."
+           "..XX...."
+           ".XXX...."
+           "XXXX...."
+           ".XXX...."
+           "..XX...."
+           "...X....")
+         ;; thin fringe bitmaps
+         (fringe-helper-define 'git-gutter-fr:added '(center repeated)
+           "XXX.....")
+         (fringe-helper-define 'git-gutter-fr:modified '(center repeated)
+           "XXX.....")
+         (fringe-helper-define 'git-gutter-fr:deleted 'bottom
+           "X......."
+           "XX......"
+           "XXX....."
+           "XXXX...."))
+     #+END_SRC
+     
+**** nlinum
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package nlinum
+         :ensure t
+         :pin elpa
+         :config
+         (add-hook 'prog-mode-hook 'nlinum-mode))
+     #+END_SRC
+     
+**** pos-tip
+     The melpa version improves on the baked in pos-tip
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package pos-tip
+         :ensure t
+         :pin melpa)
+     #+END_SRC
+     
+**** rainbow-delimiters
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package rainbow-delimiters
+         :ensure t
+         :pin melpa
+         :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+     #+END_SRC
+     
+**** spaceline
+     The modeline from spacemacs
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package spaceline
+         :ensure t
+         :pin melpa
+         :config
+         (require 'spaceline-config)
+         (spaceline-spacemacs-theme)
+         (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+         (set-face-attribute 'cursor nil :background "#fcd845"))
+     #+END_SRC
+     
+**** spacemacs-theme
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package spacemacs-theme
+         :ensure t
+         :defer t
+         :pin melpa
+         :init (load-theme 'spacemacs-dark t)
+         :config
+         (with-current-buffer (get-buffer " *Echo Area 0*")
+           (setq-local face-remapping-alist '((default (:height  1.0) default)))))
+     #+END_SRC
+     
+**** spaceline-all-the-icons
+     Spaceline theme dependency
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package spaceline-all-the-icons
+         :after spaceline
+         :ensure t
+         :config (spaceline-all-the-icons-theme)
+         (setq spaceline-all-the-icons-separator-type 'wave)
+         (spaceline-all-the-icons--setup-paradox)
+         (setq spaceline-all-the-icons-icon-set-flycheck-slim 'dots)
+         (set-face-attribute 'mode-line nil :height 130))
+     #+END_SRC
+     
+**** switch-window
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package switch-window
+         :ensure t
+         :commands (switch-window)
+         :pin melpa)
+     #+END_SRC
+     
+**** vi-tilde-fringe
+     Mark empty lines
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package vi-tilde-fringe
+         :ensure t
+         :diminish vi-tilde-fringe-mode
+         :pin melpa
+         :config
+         (add-hook 'prog-mode-hook 'vi-tilde-fringe-mode))
+     #+END_SRC
+     
+**** which-key
+     Show keybindings
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package which-key
+         :ensure t
+         :pin melpa
+         :diminish which-key-mode
+         :config
+         (which-key-setup-side-window-right-bottom)
+         (which-key-mode))
+     #+END_SRC
+     
+*** Python
+**** anaconda-mode
+     Navigation, documentation, and linting for Python
+     #+name: python
+     #+BEGIN_SRC emacs-lisp
+       (use-package anaconda-mode
+         :ensure t
+         :pin melpa-stable
+         :mode ("\\.py$'" . python-mode)
+         :diminish anaconda-mode
+         :config
+         (add-hook 'python-mode-hook 'anaconda-mode)
+         (add-hook 'python-mode-hook 'eldoc-mode)
+         (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
+     #+END_SRC
+     
+**** pip-requirements
+     #+name: python
+     #+BEGIN_SRC emacs-lisp
+       (use-package pip-requirements
+         :ensure t
+         :pin melpa)
+     #+END_SRC
+     
+**** pyvenv
+     Use virtual environments from virtualfish
+     #+name: python
+     #+BEGIN_SRC emacs-lisp
+       (use-package pyvenv
+         :ensure t
+         :pin melpa
+         :config
+         (defun pyvenv-autoload ()
+           (with-eval-after-load 'projectile
+             (lambda () (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".venv")))
+           (if (file-exists-p pfile)
+               (pyvenv-workon (with-temp-buffer
+                                (insert-file-contents pfile)
+                                (nth 0 (split-string (buffer-string))))))))))
+         (add-hook 'python-mode-hook 'pyvenv-autoload))
+     #+END_SRC
+     
+*** Editing
+**** smartparens
+     Automatically match delimiters
+     #+name: editing
+     #+BEGIN_SRC emacs-lisp
+       (use-package smartparens
+         :ensure t
+         :pin melpa
+         :config
+         ;; TODO: conditionally enable strict-mode
+         (require 'smartparens-config)
+         (add-hook 'prog-mode-hook 'smartparens-mode))
+     #+END_SRC
+     
+**** undo-tree
+     #+name: editing
+     #+BEGIN_SRC emacs-lisp
+       (use-package undo-tree
+         :diminish undo-tree-mode)
+     #+END_SRC
+     
+**** evil-multiedit
+     #+name: editing
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-multiedit
+         :ensure t
+         :pin melpa
+         :config
+         (evil-multiedit-default-keybinds))
+     #+END_SRC
+     
+**** evil-mc
+     #+name: editing
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-mc
+         :pin melpa
+         :ensure t
+         :config
+         (global-evil-mc-mode 1))
+     #+END_SRC
+     
+**** evil-visualstar
+     Enable search-at-point from visual mode
+     #+name: editing
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-visualstar
+         :pin melpa
+         :ensure t
+         :config
+         (global-evil-visualstar-mode))
+     #+END_SRC
+     
+**** evil-snipe
+     #+name: editing
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-snipe
+         :pin melpa
+         :ensure t
+         :init
+         (setq evil-snipe-smart-case t)
+         :config
+         (evil-snipe-override-mode 1))
+     #+END_SRC
+     
+*** Completion
+**** company
+     A full-featured completion system
+     #+name: completion
+     #+BEGIN_SRC emacs-lisp
+       (use-package company
+         :ensure t
+         :diminish company-mode
+         :pin melpa
+         :config
+         (setq company-minimum-prefix-length 2
+               company-idle-delay 0
+               company-dabbrev-downcase nil
+               company-tooltip-limit 10
+               company-dabbrev-ignore-case nil
+               company-dabbrev-code-code-other-buffers t
+               company-tooltip-align-annotations t
+               company-require-match 'never
+               company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
+               company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
+               company-backends '(company-capf company-dabbrev-code company-dabbrev company-etags company-ispell)
+               company-transformers '(company-sort-by-occurrence))
+         (add-hook 'after-init-hook 'global-company-mode))
+     #+END_SRC
+     
+**** company-anaconda
+     Completion for python
+     #+name: python
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-anaconda
+         :ensure t
+         :pin melpa
+         :after company
+         :config
+         (add-to-list 'company-backends '(company-anaconda :separate company-etags)))
+     #+END_SRC
+     
+**** company-php
+     Completion for php
+     #+name: php
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-php
+         :ensure t
+         :commands (company-ac-php-backend)
+         :config
+         (unless (executable-find "phpctags")
+           (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
+     #+END_SRC
+     
+**** company-statistics
+     Completion by frecency
+     #+name: completion
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-statistics
+         :ensure t
+         :after company
+         :config
+         (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
+         (company-statistics-mode 1))
+     #+END_SRC
+     
+**** company-quickhelp
+     Documentation popups
+     #+name: completion
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-quickhelp
+         :ensure t
+         :pin melpa
+         :init
+         (setq company-quickhelp-delay 0.5)
+         :config
+         (company-quickhelp-mode 1))
+     #+END_SRC
+     
+*** Org
+    N.B. - Org-mode itself is configured and loaded in `init.el`
+**** org-bullets
+     Use UTF-8 symbols for org headings
+     #+name: org
+     #+BEGIN_SRC emacs-lisp
+       (use-package org-bullets
+         :ensure t
+         :pin melpa
+         :after org
+         :init
+         (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+     #+END_SRC
+     
+*** Helm
+**** helm-descbinds
+     #+name: helm
+     #+BEGIN_SRC emacs-lisp
+       (use-package helm-descbinds
+         :ensure t
+         :after helm
+         :commands (helm-descbinds)
+         :pin melpa)
+     #+END_SRC
+     
+**** helm
+     Unified fuzzy search for almost everything
+     #+name: helm
+     #+BEGIN_SRC emacs-lisp
+       (use-package helm
+         :ensure t
+         :pin melpa
+         :diminish helm-mode
+         :init 
+         (setq helm-split-window-inside-p 1)
+         :config
+         (setq helm-boring-buffer-regexp-list (append helm-boring-buffer-regexp-list '("TAGS")))
+         (require 'helm-config)
+         (helm-mode 1)
+         (helm-autoresize-mode 1)
+         (setq helm-autoresize-min-height 5)
+         (setq helm-echo-input-in-header-line t)
+         (defun set-helm-font-bigger ()
+             (set (make-local-variable 'face-remapping-alist)
+            '((default :height 1.0))))
+         (add-hook 'minibuffer-setup-hook 'set-helm-font-bigger))
+     #+END_SRC
+     
+**** helm-ag
+     #+name: helm
+     #+BEGIN_SRC emacs-lisp
+       (use-package helm-ag
+         :ensure t
+         :commands (helm-ag)
+         :pin melpa
+         :after helm
+         :config
+         (setq helm-ag-base-command "ag --nocolor --nogroup --hidden"))
+     #+END_SRC
+     
+**** helm-projectile
+     #+name: helm
+     #+BEGIN_SRC emacs-lisp
+       (use-package helm-projectile
+         :ensure t
+         ;; fuzzy matching makes helm slightly slower
+         ;; :init (setq helm-projectile-fuzzy-match nil)
+         :after (:all projectile helm)
+         :commands
+         (helm-projectile-ag
+         helm-projectile-recentf
+         helm-projectile-find-dir
+         helm-projectile-find-file
+         helm-projectile-switch-project)
+         :pin melpa
+         :config (helm-projectile-on))
+     #+END_SRC
+     
+**** helm-swoop
+     Search text linewise in a separate buffer
+     #+name: helm
+     #+BEGIN_SRC emacs-lisp
+       (use-package helm-swoop
+         :ensure t
+         :commands (helm-swoop)
+         :pin melpa
+         :after helm
+         :config
+         (progn
+           (setq helm-swoop-speed-or-color 1
+              helm-swoop-use-fuzzy-match 1)
+           (setq-default helm-swoop-split-direction 'split-window-vertically)
+           (setq-default helm-swoop-split-with-multiple-windows t)
+           ;; disable swoop-thing-at-point
+           (setq helm-swoop-pre-input-function
+              (lambda () ""))))
+     #+END_SRC
+     
+*** Keys
+**** general
+     Unified system for doing all sorts of keybinding stuff
+     #+name: keys
+     #+BEGIN_SRC emacs-lisp
+       (use-package general
+         :ensure t
+         :pin melpa
+         :init 
+         (setq general-default-keymaps '(evil-normal-state-map evil-motion-state-map info-mode-map help-mode-map dired-mode-map))
+         :config
+         (general-evil-setup)
+         ;; special modes ignore space
+         (general-define-key :keymaps '(dired-mode-map info-mode-map help-mode-map) :states '(normal motion)
+                             "SPC" nil)
+         (general-create-definer global-leader :prefix "SPC")
+         (general-create-definer buffer-leader :prefix "SPC b")
+         (general-create-definer help-leader :prefix "SPC h")
+         (general-create-definer elisp-leader :prefix "SPC e")
+         (general-create-definer find-leader :prefix "SPC f")
+         (general-create-definer projectile-leader :prefix "SPC p")
+         (general-create-definer git-leader :prefix "SPC g")
+         (general-create-definer window-leader :prefix "SPC w")
+         (global-leader "" '(nil :wk "Leader")
+                        "f" '(:ignore t :wk "Find")
+                        "g" '(:ignore t :wk "Git")
+                        "p" '(:ignore t :wk "Projectile")
+                        "b" '(:ignore t :wk "Buffers")
+                        "e" '(:ignore t :wk "Elisp")
+                        "h" '(:ignore t :wk "Help")
+                        "w" '(:ignore t :wk "Window")
+                        "j" '(:ignore t :wk "Jump"))
+         (buffer-leader "d" 'kill-this-buffer
+                        "s" 'evil-write
+                        "b" 'helm-mini)
+         (help-leader "f" 'describe-function
+                      "k" 'describe-key
+                      "w" 'helm-man-woman
+                      "v" 'describe-variable
+                      "p" 'describe-package
+                      "a" 'describe-face
+                      "m" 'describe-mode)
+         (find-leader "r" 'helm-recentf
+                      "o" 'helm-semantic-or-imenu
+                      "g" 'helm-do-ag
+                      "f" 'helm-find-files
+                      "l" 'helm-swoop)
+         (projectile-leader "g" 'helm-projectile-ag
+                            "r" 'helm-projectile-recentf
+                            "d" 'helm-projectile-find-dir
+                            "f" 'helm-projectile-find-file
+                            "s" 'helm-projectile-switch-project)
+         (elisp-leader "e" 'eval-buffer)
+         (git-leader "g" 'magit)
+         (window-leader "s" 'switch-window)
+         ;; universal argument is C-f
+         (general-define-key :keymaps '(universal-argument-map)
+                             "C-f" 'universal-argument-more)
+         ;; non-prefix motion state
+         (general-mmap "C-;" 'helm-M-x
+                       "g C-'" 'anaconda-mode-find-definitions
+                       ;; make window splitting behave more like vim
+                       "C-w v" '((lambda () (interactive) (evil-window-vsplit) (other-window 1)) :wk "evil-window-vsplit")
+                       "gl" 'evil-avy-goto-line
+                       "gs" 'evil-avy-goto-char-2
+                       "C-f" 'universal-argument
+                       "C-u" 'evil-scroll-up
+                       "C-w s" '((lambda () (interactive) (evil-window-split) (other-window 1)) :wk "evil-window-split")
+                       "g C-]" 'xref-find-definitions)
+         ;; non-prefix global
+         (general-define-key :keymaps 'global
+                             "C-u" 'nil
+                             "C-f" 'universal-argument
+                             "M-RET" 'toggle-frame-fullscreen
+                             "M-x" 'helm-M-x
+                             "M-y" 'helm-show-kill-ring
+                             "C-x b" 'helm-mini
+                             "C-x C-b" 'helm-buffers-list
+                             "C-x C-f" 'helm-find-files
+                             "C-x C-r" 'helm-recent
+                             "C-x c o" 'helm-occur
+                             "C-M-n" 'helm-next-source
+                             "C-M-p" 'helm-previous-source
+                             "C-h b" 'helm-descbinds)
+         ;; helm mappings
+         (general-define-key :keymaps 'helm-map
+                             "TAB" 'helm-execute-persistent-action
+                             "C-t" 'helm-toggle-visible-mark)
+         ;; fix company completion
+         (general-define-key :keymaps 'company-active-map
+                             "RET" 'company-complete-selection))
+     #+END_SRC
+     
+*** Lint
+**** flycheck
+     Check syntax asynchronously
+     #+name: lint
+     #+BEGIN_SRC emacs-lisp
+       (use-package flycheck
+         :ensure t
+         :pin melpa
+         :config
+         (global-flycheck-mode)
+         (flycheck-add-next-checker 'python-flake8 'python-pylint)
+         (setq flycheck-check-syntax-automatically '(save mode-enabled))
+          ;; because git-gutter is in the left fringe
+         (setq flycheck-indication-mode 'right-fringe))
+     #+END_SRC
+     
+**** flycheck-pos-tip
+     Put linter messages into a popup
+     #+name: lint
+     #+BEGIN_SRC emacs-lisp
+       (use-package flycheck-pos-tip
+         :ensure t
+         :pin melpa
+         :after flycheck
+         :config
+         (setq flycheck-pos-tip-timeout 10
+               flycheck-display-errors-delay 0.5)
+         (flycheck-pos-tip-mode 1))
+     #+END_SRC
+     
+*** PHP
+**** php-extras
+     Completion for php
+     #+name: php
+     #+BEGIN_SRC emacs-lisp
+       (use-package php-extras
+         :ensure t
+         :pin marmalade
+         :after php-mode
+         :config
+         (with-eval-after-load 'company
+           (add-hook 'php-mode-hook
+                       (lambda ()
+                       (set (make-local-variable 'company-backends)
+                           '((php-extras-company company-etags company-dabbrev-code) company-capf company-files))))))
+     #+END_SRC
+     
+**** php-mode
+     #+name: php
+     #+BEGIN_SRC emacs-lisp
+       (use-package php-mode
+         :ensure t
+         :pin melpa
+         :config
+         (add-hook 'php-mode-hook
+                   (lambda ()
+                     (set (make-local-variable 'company-backends)
+                          '((company-ac-php-backend php-extras-company company-dabbrev-code) company-capf company-files))))
+         :mode (("\\.php$" . php-mode)
+                ("\\.inc$"  . php-mode)))
+     #+END_SRC
+     
+*** Shell
+**** exec-path-from-shell
+     Use $PATH as specified by the user's shell
+     #+name: shell
+     #+BEGIN_SRC emacs-lisp
+       (use-package exec-path-from-shell
+         :ensure t
+         :pin melpa
+         :config
+         (when (memq window-system '(mac ns x))
+           (exec-path-from-shell-initialize)))
+     #+END_SRC
+     
+**** multi-term
+     #+name: shell
+     #+BEGIN_SRC emacs-lisp
+       (use-package multi-term
+         :ensure t
+         :commands (multi-term)
+         :pin melpa
+         :config (setq multi-term-program "/usr/local/bin/fish"))
+     #+END_SRC
+     
+*** Git
+**** git-gutter-fringe
+     #+name: git
+     #+BEGIN_SRC emacs-lisp
+       (use-package git-gutter-fringe
+         :ensure t
+         :diminish git-gutter-mode
+         :pin melpa
+         :config
+         (global-git-gutter-mode)
+         (setq-default fringes-outside-margins t))
+     #+END_SRC
+     
+**** magit
+     The only git gui worth mentioning
+     #+name: git
+     #+BEGIN_SRC emacs-lisp
+       (use-package magit
+         :ensure t
+         :commands (magit)
+         :pin melpa)
+     #+END_SRC
+     
+**** dired-k
+     Highlight directories  like k
+     #+name: git
+     #+BEGIN_SRC emacs-lisp
+       (use-package dired-k
+         :ensure t
+         :pin melpa
+         :config
+         (add-hook 'dired-initial-position-hook 'dired-k))
+     #+END_SRC
+     
+*** Imenu
+**** imenu-anywhere
+     Does what it says on the tin 
+     #+name: imenu
+     #+BEGIN_SRC emacs-lisp
+       (use-package imenu-anywhere
+         :ensure t
+         :pin melpa
+         :commands (ido-menu-anywhere helm-imenu-anywhere)
+         :config (setq imenu-anywhere-delimiter ": "))
+     #+END_SRC
+     
+**** imenu-list
+     "Tagbar" like buffer for imenu
+     #+name: imenu
+     #+BEGIN_SRC emacs-lisp
+       (use-package imenu-list
+         :ensure t
+         :pin melpa
+         :config
+         (setq imenu-list-focus-after-activation t))
+     #+END_SRC
+     
+*** Packages
+**** paradox
+     Extends package management
+     #+name: packages
+     #+BEGIN_SRC emacs-lisp
+       (use-package paradox
+         :ensure t
+         :pin melpa
+         :config
+         (paradox-enable))
+     #+END_SRC
+     
+*** Projects
+**** projectile
+     #+name: projects
+     #+BEGIN_SRC emacs-lisp
+       (use-package projectile
+         :ensure t
+         :pin melpa-stable
+         ;; N.B. - using fish likely slows down projectile somewhat
+         :init (setq projectile-enable-caching t)
+         :diminish projectile-mode
+         :config
+         (projectile-mode t)
+         (projectile-discover-projects-in-directory "~/git"))
+     #+END_SRC
+     
+*** Web
+**** web-mode
+     Major mode for editing web templates
+     #+name: web
+     #+BEGIN_SRC emacs-lisp
+       (use-package web-mode
+         :ensure
+         :pin melpa
+         :mode (("\\.html?$" . web-mode)
+                ("\\.thtml$" . web-mode)
+                ("\\.phtml$" . web-mode)))
+     #+END_SRC
+     
+*** Evil
+**** evil
+     #+BEGIN_QUOTE
+     Evil is whatever distracts. -- Franz Kafka
+     #+END_QUOTE
+     
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil
+         :ensure t
+         :pin melpa
+         :diminish evil-mode
+         :init 
+         (setq evil-want-C-u-scroll t)
+         (setq evil-want-integration nil)
+         :config
+         (evil-mode 1)
+         ;; ESC now escapes that pesky minibuffer
+         (defun minibuffer-keyboard-quit ()
+           "Abort recursive edit.
+          In Delete selection mode, if mark is active, just deactivate it;
+          then it takes a second \\[keyboard-quit] to abort the minibuffer."
+           (interactive)
+           (if (and delete-selection-mode transient-mark-mode mark-active)
+               (setq deactivate-mark t)
+             (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+             (abort-recursive-edit)))
+         (define-key evil-normal-state-map [escape] 'keyboard-quit)
+         (define-key evil-visual-state-map [escape] 'keyboard-quit)
+         (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+         (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+         (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+         (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+         (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+         (evil-declare-change-repeat 'company-complete)
+         ;; 's' is pretty useless in evil - now it starts avy
+         (with-eval-after-load 'avy
+           (define-key evil-motion-state-map "s" 'evil-avy-goto-char-2)
+           (define-key evil-normal-state-map "s" 'evil-avy-goto-char-2)))
+     #+END_SRC
+     
+**** evil-collection
+     Enable evil everywhere
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-collection
+         :ensure t
+         :pin melpa
+         :custom (evil-collection-setup-minibuffer t)
+         :config (evil-collection-init))
+     #+END_SRC
+     
+**** evil-commentary
+     (n)vim-style comments
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-commentary
+         :ensure t
+         :pin melpa
+         :diminish evil-commentary-mode
+         :config (evil-commentary-mode))
+     #+END_SRC
+     
+**** evil-goggles
+     Flash text highlighting when performing vim-motion operations
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-goggles
+         :ensure t
+         :pin melpa
+         :diminish evil-goggles-mode
+         :config
+         (evil-goggles-mode)
+         (setq evil-goggles-duration 0.15)
+         (evil-goggles-use-diff-faces))
+     #+END_SRC
+     
+**** evil-magit
+     Enable evil in magit buffers
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-magit
+         :ensure t
+         :after magit
+         :pin melpa)
+     #+END_SRC
+     
+**** evil-matchit
+     Jump to opening/closing delimiters vim-style
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-matchit
+         :ensure t
+         :pin melpa
+         :after evil)
+     #+END_SRC
+     
+**** evil-org
+     Evil bindings for org mode
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-org
+         :ensure t
+         :pin melpa
+         :after org
+         :config
+         (add-hook 'org-mode-hook 'evil-org-mode)
+         (add-hook 'evil-org-mode-hook
+             (lambda ()
+               (evil-org-set-key-theme))))
+     #+END_SRC
+     
+**** evil-smartparens
+     Play nice with smartparens
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-smartparens
+         :ensure t
+         :after smartparens
+         :pin melpa
+         :config
+         (add-hook 'smartparens-enabled-hook 'evil-smartparens-mode))
+     #+END_SRC
+     
+**** evil-surround
+     Surround text objects with delimiters
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-surround
+         :ensure t
+         :pin melpa
+         :after evil
+         :config (global-evil-surround-mode 1))
+     #+END_SRC
+     
+** Tangle
+   Generate an emacs-lisp configuration file
+   #+BEGIN_SRC emacs-lisp :tangle yes :noweb no-export :exports code
+     ;;;; -*- lexical-binding: t; -*-
+     ;;;; Do not modify this file by hand.  It was automatically generated
+     ;;;; from `emacs.org` in the same directory. See that file for more
+     ;;;; information.
+     ;;;;
+     <<basic>>
+     <<basic-ui>>
+     <<evil>>
+     <<navigation>>
+     <<completion>>
+     <<projects>>
+     <<editing>>
+     <<interface>>
+     <<python>>
+     <<org>>
+     <<helm>>
+     <<keys>>
+     <<lint>>
+     <<php>>
+     <<shell>>
+     <<git>>
+     <<imenu>>
+     <<packages>>
+     <<web>>
+   #+END_SRC

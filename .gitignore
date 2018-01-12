@@ -31,3 +31,6 @@ Thumbs.db
 
 # Repo scratch directory
 scratch/
+
+# generated emacs config
+**/emacs.el

@@ -5,10 +5,12 @@
 # \___/\____/_/ /_/_/ /_/\__, (_)_/ /_/____/_/ /_/ 
 #                       /____/                     
 
-# change iterm2 title bar color
-echo -en "\033]6;1;bg;red;brightness;46\a"
-echo -en "\033]6;1;bg;green;brightness;52\a"
-echo -en "\033]6;1;bg;blue;brightness;64\a"
+# change iterm2 title bar color - not working on High Sierra afaik
+if [ $TERM = "tmux-256color" ]
+  echo -en "\033]6;1;bg;red;brightness;46\a"
+  echo -en "\033]6;1;bg;green;brightness;52\a"
+  echo -en "\033]6;1;bg;blue;brightness;64\a"
+end
 
 # set environment variables
 source ~/.config/fish/env.fish
@@ -30,14 +32,16 @@ function fish_greeting
   fortune; and echo ''
 end
 
-# try to attach to a tmux session on startup
-if test -z $TMUX
-    set -x TMUX_SESSION (tmux ls | grep -vm1 attached | cut -d: -f1) # get the id of a deattached session
-    if test -z $TMUX_SESSION # if not available create a new one
-        tmux new-session
-    else
-        tmux attach-session -t $TMUX_SESSION # if available attach to it
-    end
+# try to attach to a tmux session on startup if we are in a good terminal
+if [ $TERM = "tmux-256color" ]
+  if test -z $TMUX
+      set -x TMUX_SESSION (tmux ls | grep -vm1 attached | cut -d: -f1) # get the id of a deattached session
+      if test -z $TMUX_SESSION # if not available create a new one
+          tmux new-session
+      else
+          tmux attach-session -t $TMUX_SESSION # if available attach to it
+      end
+  end
 end
 
-eval (python -m virtualfish)
+eval (python -m virtualfish auto_activation compat_aliases)

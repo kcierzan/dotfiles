@@ -3,22 +3,22 @@
     "result" : {
       "textSpacing" : 10,
       "subtext" : {
-        "size" : 16,
+        "size" : 14,
         "colorSelected" : "#2D9474FF",
-        "font" : "Iosevka Nerd Font",
+        "font" : "Overpass Mono",
         "color" : "#586D75FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Roboto",
+        "font" : "Overpass",
         "color" : "#CD537AFF"
       },
-      "backgroundSelected" : "#2B2C30FF",
+      "backgroundSelected" : "#282D34FF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#BB6DC3FF",
-        "font" : "Roboto",
+        "font" : "Overpass",
         "color" : "#989999FF"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Roboto",
+        "font" : "Overpass",
         "color" : "#BEA425FF"
       },
       "backgroundSelected" : "#7AC7FFFF"

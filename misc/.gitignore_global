@@ -16,9 +16,10 @@
 # .Trashes holds disk specific trash folders
 .Trashes
 
-# Pyenv project virtualenv files
+# Virtual environment files
 .python-version
 .ruby-version
+.venv
 
 #ctags
 tags
