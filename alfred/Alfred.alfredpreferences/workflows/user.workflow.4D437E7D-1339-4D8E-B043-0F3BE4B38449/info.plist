@@ -109,6 +109,16 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>284D921F-188B-48D8-8194-D948AD1946B6</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>Copy server to clipboard and paste into frontmost application</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 		</array>
 		<key>4D328D88-9931-4E50-9441-204BB4457813</key>
 		<array>
@@ -141,6 +151,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>4019DC63-24E6-4317-B760-E259EE81EBCC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>58FB2A16-3367-4205-804B-BA65E3E0A950</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>05C0D8B8-6CB3-473A-9DC4-11891E51129E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -349,7 +372,7 @@
 				<key>runningsubtext</key>
 				<string>...</string>
 				<key>script</key>
-				<string>/Users/kylec/.pyenv/versions/neovim2/bin/python go.py github "{query}"</string>
+				<string>./go.py github "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -359,7 +382,7 @@
 				<key>title</key>
 				<string>Open Git Repo</string>
 				<key>type</key>
-				<integer>5</integer>
+				<integer>0</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -378,7 +401,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/open https://github.aweber.io/{query}</string>
+				<string>open https://github.aweber.io/{query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -423,7 +446,8 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>URL=https://jira.aweber.io/secure/QuickSearch.jspa?searchString=
-QUERY=$(echo {query} | xargs)
+QUERY=$(echo "{query}" | xargs)
+
 if [[ $QUERY =~ ^[0-9]+$ ]]; then
     QUERY=CCPANEL-$QUERY
 fi
@@ -432,13 +456,13 @@ if [[ $QUERY =~ ^[a-z]+-[0-9]+$ ]]; then
 	URL=https://jira.aweber.io/browse/
 fi
 
-/usr/bin/open $URL$QUERY</string>
+open "$URL$QUERY"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>type</key>
-				<integer>5</integer>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
@@ -536,8 +560,12 @@ fi
 				<false/>
 				<key>modsmode</key>
 				<integer>0</integer>
+				<key>relatedApps</key>
+				<array>
+					<string>com.sublimetext.3</string>
+				</array>
 				<key>relatedAppsMode</key>
-				<integer>0</integer>
+				<integer>2</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.hotkey</string>
@@ -778,7 +806,7 @@ response = requests.head(url + '/production/')
 if response.status_code == 200:
    url += '/production'
 
-subprocess.call(["/usr/bin/open", url])</string>
+subprocess.call(["open", url])</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -851,9 +879,9 @@ subprocess.call(["/usr/bin/open", url])</string>
 				<string>BASE_URL=https://confluence.aweber.io
 QUERY={query}
 if [[ -n $QUERY ]]; then
-	/usr/bin/open "$BASE_URL/dosearchsite.action?queryString=$QUERY"
+	open "$BASE_URL/dosearchsite.action?queryString=$QUERY"
 else
-	/usr/bin/open $BASE_URL/dashboard.action
+	open $BASE_URL/dashboard.action
 fi</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -866,6 +894,29 @@ fi</string>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
 			<string>F7627986-D3C4-49F4-8427-1731A370BB0D</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>python -c 'from email.Utils import formatdate; print formatdate(localtime=True)' | tr -d '\n'</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>131EB6B7-8EDB-48D4-8434-45716ABB4116</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -893,23 +944,17 @@ fi</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>transient</key>
 				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>python -c 'from email.Utils import formatdate; print formatdate(localtime=True)' | tr -d '\n'</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
-			<string>131EB6B7-8EDB-48D4-8434-45716ABB4116</string>
+			<string>75C45C58-6360-4C32-85D3-417C9821D4BC</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -945,9 +990,9 @@ fi</string>
 				<string>ADMIN_URL=https://www.aweber.com/admin
 QUERY='{query}'
 if [[ -n $QUERY ]]; then
-	/usr/bin/open "$ADMIN_URL/account/index/$QUERY"
+	open "$ADMIN_URL/account/index/$QUERY"
 else
-	/usr/bin/open $ADMIN_URL
+	open $ADMIN_URL
 fi</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -1010,7 +1055,7 @@ fi</string>
 				<key>runningsubtext</key>
 				<string>...</string>
 				<key>script</key>
-				<string>/Users/kylec/.pyenv/versions/neovim2/bin/python go.py servers "{query}"</string>
+				<string>./go.py servers "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1020,7 +1065,7 @@ fi</string>
 				<key>title</key>
 				<string>Search AWeber servers</string>
 				<key>type</key>
-				<integer>5</integer>
+				<integer>0</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -1035,7 +1080,7 @@ fi</string>
 			<key>config</key>
 			<dict>
 				<key>autopaste</key>
-				<true/>
+				<false/>
 				<key>clipboardtext</key>
 				<string>{query}</string>
 				<key>transient</key>
@@ -1044,7 +1089,7 @@ fi</string>
 			<key>type</key>
 			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
-			<string>75C45C58-6360-4C32-85D3-417C9821D4BC</string>
+			<string>284D921F-188B-48D8-8194-D948AD1946B6</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -1059,9 +1104,9 @@ fi</string>
 				<string>ADMIN_URL=https://www.aweber.com/admin
 QUERY='0/{query}'
 if [[ -n $QUERY ]]; then
-	/usr/bin/open "$ADMIN_URL/account/index/$QUERY"
+	open "$ADMIN_URL/account/index/$QUERY"
 else
-	/usr/bin/open $ADMIN_URL
+	open $ADMIN_URL
 fi</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -1132,7 +1177,7 @@ fi</string>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/open http://grafana.colo.lair/dashboard/{query}</string>
+				<string>open http://grafana.colo.lair/dashboard/{query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1181,7 +1226,7 @@ if [[ $QUERY =~ ^[0-9]+$ ]]; then
    QUERY="\$$QUERY"
 fi
 
-/usr/bin/open "https://www.aweber.com/admin/account/login/$QUERY"</string>
+open "https://www.aweber.com/admin/account/login/$QUERY"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1222,7 +1267,7 @@ fi
 				<key>runningsubtext</key>
 				<string>...</string>
 				<key>script</key>
-				<string>/Users/kylec/.pyenv/versions/neovim2/bin/python ./go.py hipchat "{query}"</string>
+				<string>./go.py hipchat "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1251,7 +1296,7 @@ fi
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/open {query}</string>
+				<string>open {query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1321,13 +1366,13 @@ fi
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/open hipchat://aweber.hipchat.com/{query}</string>
+				<string>open hipchat://aweber.hipchat.com/{query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>type</key>
-				<integer>5</integer>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
@@ -1438,7 +1483,7 @@ fi
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/usr/bin/open https://calendar.google.com/calendar/render</string>
+				<string>open https://calendar.google.com/calendar/render</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1461,7 +1506,7 @@ fi
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>/usr/bin/open https://recipient.aweberprod.com/subscriber/{query}</string>
+				<string>open https://recipient.aweberprod.com/subscriber/{query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1496,6 +1541,76 @@ fi
 			<string>A767CE5C-36B8-4E5C-AFBF-ECAD60EAA127</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>62</integer>
+				<key>keyword</key>
+				<string>si</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>...</string>
+				<key>script</key>
+				<string>./go.py services "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Search the Service Inventory</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>58FB2A16-3367-4205-804B-BA65E3E0A950</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>open "https://docs.google.com/spreadsheets/d/1TOXGcuqi-FjsTTkMP2sa8c7kpkrkqAK9dG3cE73Z7ys/edit#gid=0&amp;range={query}:{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>05C0D8B8-6CB3-473A-9DC4-11891E51129E</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -1549,7 +1664,7 @@ fi
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>/usr/bin/open https://recipient.aweberstage.com/subscriber/{query}</string>
+				<string>open https://recipient.aweberstage.com/subscriber/{query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1574,7 +1689,14 @@ fi
 			<key>xpos</key>
 			<integer>210</integer>
 			<key>ypos</key>
-			<integer>1320</integer>
+			<integer>1430</integer>
+		</dict>
+		<key>05C0D8B8-6CB3-473A-9DC4-11891E51129E</key>
+		<dict>
+			<key>xpos</key>
+			<integer>410</integer>
+			<key>ypos</key>
+			<integer>1310</integer>
 		</dict>
 		<key>090264B5-B0A9-41D3-A61C-1DBA94FCD674</key>
 		<dict>
@@ -1595,7 +1717,7 @@ fi
 			<key>xpos</key>
 			<integer>870</integer>
 			<key>ypos</key>
-			<integer>620</integer>
+			<integer>570</integer>
 		</dict>
 		<key>14382A7B-A380-4505-95CC-50AAD70BE44A</key>
 		<dict>
@@ -1617,6 +1739,13 @@ fi
 			<integer>410</integer>
 			<key>ypos</key>
 			<integer>290</integer>
+		</dict>
+		<key>284D921F-188B-48D8-8194-D948AD1946B6</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1110</integer>
+			<key>ypos</key>
+			<integer>750</integer>
 		</dict>
 		<key>2DD26730-2A86-4CFD-B627-1294BD41B0AA</key>
 		<dict>
@@ -1656,7 +1785,7 @@ fi
 		<key>40CC8B21-DB66-4740-A064-2BA61DBE6396</key>
 		<dict>
 			<key>xpos</key>
-			<integer>640</integer>
+			<integer>630</integer>
 			<key>ypos</key>
 			<integer>750</integer>
 		</dict>
@@ -1688,6 +1817,13 @@ fi
 			<key>ypos</key>
 			<integer>250</integer>
 		</dict>
+		<key>58FB2A16-3367-4205-804B-BA65E3E0A950</key>
+		<dict>
+			<key>xpos</key>
+			<integer>210</integer>
+			<key>ypos</key>
+			<integer>1310</integer>
+		</dict>
 		<key>5F71E88D-6230-4CF2-BBEB-5C98599E0912</key>
 		<dict>
 			<key>xpos</key>
@@ -1698,16 +1834,16 @@ fi
 		<key>75C45C58-6360-4C32-85D3-417C9821D4BC</key>
 		<dict>
 			<key>xpos</key>
-			<integer>1100</integer>
+			<integer>1110</integer>
 			<key>ypos</key>
-			<integer>750</integer>
+			<integer>580</integer>
 		</dict>
 		<key>825EA34E-6808-4812-BDE9-FC0839519E22</key>
 		<dict>
 			<key>xpos</key>
 			<integer>410</integer>
 			<key>ypos</key>
-			<integer>1320</integer>
+			<integer>1430</integer>
 		</dict>
 		<key>8EE5223A-DEDF-44C1-A5F1-96BA3BDF95A6</key>
 		<dict>

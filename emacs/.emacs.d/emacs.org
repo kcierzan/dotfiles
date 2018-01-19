@@ -15,11 +15,12 @@
      (menu-bar-mode -1)
      (tool-bar-mode -1)
      (scroll-bar-mode -1)
+     (setq frame-title-format "emacs")
      (setq-default left-fringe-width 5
-                 line-spacing 4
-                 ring-bell-function 'ignore
-                 idle-update-delay 0.5
-                 inhibit-startup-screen t)
+                   line-spacing 4
+                   ring-bell-function 'ignore
+                   idle-update-delay 0.5
+                   inhibit-startup-screen t)
      (set-frame-parameter nil 'internal-border-width 2)
    #+END_SRC
    
@@ -27,12 +28,12 @@
     #+name: basic-ui
     #+BEGIN_SRC emacs-lisp
       (setq mac-redisplay-dont-reset-vscroll t
-          mac-mouse-wheel-smooth-scroll t
-          scroll-conservatively 101
-          select-enable-primary t
-          mouse-wheel-follow-mouse t
-          mouse-wheel-progressive-speed nil
-          mouse-wheel-scroll-amount '(2 ((shift) . 4) ((control) . 6)))
+            mac-mouse-wheel-smooth-scroll t
+            scroll-conservatively 101
+            select-enable-primary t
+            mouse-wheel-follow-mouse t
+            mouse-wheel-progressive-speed nil
+            mouse-wheel-scroll-amount '(2 ((shift) . 4) ((control) . 6)))
     #+END_SRC
     
 *** Fonts
@@ -140,7 +141,7 @@
      #+name: navigation
      #+BEGIN_SRC emacs-lisp
        (use-package avy
-        :ensure t
+         :ensure t
          :pin melpa)
      #+END_SRC
      
@@ -166,6 +167,7 @@
          :diminish beacon-mode
          :pin elpa
          :config
+         ;; spacemacs yellow
          (setq beacon-color "#fcd845")
          (beacon-mode 1))
      #+END_SRC
@@ -174,9 +176,14 @@
      Hide icons in the modeline
      #+name: interface
      #+BEGIN_SRC emacs-lisp
-       (use-package diminish
-         :ensure t
-         :pin melpa)
+              (use-package diminish
+                :ensure t
+                :pin melpa
+                :config
+                (diminish 'buffer-face-mode)
+                (diminish 'evil-smartparens-mode)
+                (diminish 'smartparens-mode)
+                (diminish 'evil-mc-mode))
      #+END_SRC
      
 **** fringe-helper
@@ -241,14 +248,14 @@
      The modeline from spacemacs
      #+name: interface
      #+BEGIN_SRC emacs-lisp
-       (use-package spaceline
-         :ensure t
-         :pin melpa
-         :config
-         (require 'spaceline-config)
-         (spaceline-spacemacs-theme)
-         (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-         (set-face-attribute 'cursor nil :background "#fcd845"))
+       ;; (use-package spaceline
+       ;;   :ensure t
+       ;;   :pin melpa
+       ;;   :config
+       ;;   (require 'spaceline-config)
+       ;;   (spaceline-spacemacs-theme)
+       ;;   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+       ;;   )
      #+END_SRC
      
 **** spacemacs-theme
@@ -258,7 +265,9 @@
          :ensure t
          :defer t
          :pin melpa
-         :init (load-theme 'spacemacs-dark t)
+         :init
+         (load-theme 'spacemacs-dark t)
+         (set-face-attribute 'cursor nil :background "#fcd845")
          :config
          (with-current-buffer (get-buffer " *Echo Area 0*")
            (setq-local face-remapping-alist '((default (:height  1.0) default)))))
@@ -268,14 +277,15 @@
      Spaceline theme dependency
      #+name: interface
      #+BEGIN_SRC emacs-lisp
-       (use-package spaceline-all-the-icons
-         :after spaceline
-         :ensure t
-         :config (spaceline-all-the-icons-theme)
-         (setq spaceline-all-the-icons-separator-type 'wave)
-         (spaceline-all-the-icons--setup-paradox)
-         (setq spaceline-all-the-icons-icon-set-flycheck-slim 'dots)
-         (set-face-attribute 'mode-line nil :height 130))
+       ;; (use-package spaceline-all-the-icons
+       ;;   :after spaceline
+       ;;   :ensure t
+       ;;   :config
+       ;;   (spaceline-all-the-icons-theme)
+       ;;   (setq spaceline-all-the-icons-separator-type 'wave
+       ;;         spaceline-all-the-icons-icon-set-flycheck-slim 'dots)
+       ;;   (spaceline-all-the-icons--setup-paradox)
+       ;;   (set-face-attribute 'mode-line nil :height 130))
      #+END_SRC
      
 **** switch-window
@@ -347,23 +357,24 @@
          (defun pyvenv-autoload ()
            (with-eval-after-load 'projectile
              (lambda () (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".venv")))
-           (if (file-exists-p pfile)
-               (pyvenv-workon (with-temp-buffer
-                                (insert-file-contents pfile)
-                                (nth 0 (split-string (buffer-string))))))))))
+                          (if (file-exists-p pfile)
+                              (pyvenv-workon (with-temp-buffer
+                                               (insert-file-contents pfile)
+                                               (nth 0 (split-string (buffer-string))))))))))
          (add-hook 'python-mode-hook 'pyvenv-autoload))
      #+END_SRC
      
 *** Editing
 **** smartparens
      Automatically match delimiters
+**** TODO conditionally enable strict-mode
      #+name: editing
      #+BEGIN_SRC emacs-lisp
        (use-package smartparens
          :ensure t
+         :diminish t
          :pin melpa
          :config
-         ;; TODO: conditionally enable strict-mode
          (require 'smartparens-config)
          (add-hook 'prog-mode-hook 'smartparens-mode))
      #+END_SRC
@@ -390,6 +401,7 @@
      #+BEGIN_SRC emacs-lisp
        (use-package evil-mc
          :pin melpa
+         :diminish t
          :ensure t
          :config
          (global-evil-mc-mode 1))
@@ -450,6 +462,7 @@
        (use-package company-anaconda
          :ensure t
          :pin melpa
+         :mode ("\\.py$" . python-mode)
          :after company
          :config
          (add-to-list 'company-backends '(company-anaconda :separate company-etags)))
@@ -528,7 +541,6 @@
          :init 
          (setq helm-split-window-inside-p 1)
          :config
-         (setq helm-boring-buffer-regexp-list (append helm-boring-buffer-regexp-list '("TAGS")))
          (require 'helm-config)
          (helm-mode 1)
          (helm-autoresize-mode 1)
@@ -537,7 +549,9 @@
          (defun set-helm-font-bigger ()
              (set (make-local-variable 'face-remapping-alist)
             '((default :height 1.0))))
-         (add-hook 'minibuffer-setup-hook 'set-helm-font-bigger))
+         (add-hook 'minibuffer-setup-hook 'set-helm-font-bigger)
+         (with-eval-after-load 'helm
+           (append helm-boring-buffer-regexp-list '("TAGS" "\\*anaconda-mode\\*"))))
      #+END_SRC
      
 **** helm-ag
@@ -605,6 +619,8 @@
          ;; special modes ignore space
          (general-define-key :keymaps '(dired-mode-map info-mode-map help-mode-map) :states '(normal motion)
                              "SPC" nil)
+         (general-define-key :keymaps '(dired-mode-map info-mode-map help-mode-map) :states '(normal motion)
+                             "gz" nil)
          (general-create-definer global-leader :prefix "SPC")
          (general-create-definer buffer-leader :prefix "SPC b")
          (general-create-definer help-leader :prefix "SPC h")
@@ -613,6 +629,10 @@
          (general-create-definer projectile-leader :prefix "SPC p")
          (general-create-definer git-leader :prefix "SPC g")
          (general-create-definer window-leader :prefix "SPC w")
+         (general-create-definer dir-leader :prefix "SPC d")
+         (general-create-definer evil-leader :prefix "g" :keymaps '(evil-normal-state-map evil-motion-state-map))
+         (evil-leader "" '(:ignore t :wk "Evil")
+                      "z" '(:ignore t :wk "evil-mc"))
          (global-leader "" '(nil :wk "Leader")
                         "f" '(:ignore t :wk "Find")
                         "g" '(:ignore t :wk "Git")
@@ -625,6 +645,7 @@
          (buffer-leader "d" 'kill-this-buffer
                         "s" 'evil-write
                         "b" 'helm-mini)
+         (dir-leader "d" 'dired)
          (help-leader "f" 'describe-function
                       "k" 'describe-key
                       "w" 'helm-man-woman
@@ -643,14 +664,27 @@
                             "f" 'helm-projectile-find-file
                             "s" 'helm-projectile-switch-project)
          (elisp-leader "e" 'eval-buffer)
-         (git-leader "g" 'magit)
+         (git-leader "g" 'magit
+                     "b" 'magit-blame)
          (window-leader "s" 'switch-window)
+         (general-define-key :keymaps 'evil-mc-key-map :prefix "gz" :states '(normal visual)
+                    "s" 'evil-mc-make-all-cursors
+                    "u" 'evil-mc-undo-all-cursors
+                    "n" 'evil-mc-make-and-goto-next-cursor
+                    "p" 'evil-mc-make-and-goto-prev-cursor
+                    "N" 'evil-mc-make-and-goto-last-cursor
+                    "P" 'evil-mc-make-and-goto-first-cursor)
+         ;; evil-mc active mappings
+         (general-define-key :keymaps 'evil-mc-key-map :states '(normal visual)
+                             "C-n" 'evil-mc-make-and-goto-next-cursor
+                             "C-N" 'evil-mc-make-and-goto-last-cursor
+                             "C-p" 'evil-mc-make-and-goto-prev-cursor
+                             "C-P" 'evil-mc-make-and-goto-first-cursor)
          ;; universal argument is C-f
-         (general-define-key :keymaps '(universal-argument-map)
+         (general-define-key :keymaps 'universal-argument-map
                              "C-f" 'universal-argument-more)
          ;; non-prefix motion state
          (general-mmap "C-;" 'helm-M-x
-                       "g C-'" 'anaconda-mode-find-definitions
                        ;; make window splitting behave more like vim
                        "C-w v" '((lambda () (interactive) (evil-window-vsplit) (other-window 1)) :wk "evil-window-vsplit")
                        "gl" 'evil-avy-goto-line
@@ -663,7 +697,7 @@
          (general-define-key :keymaps 'global
                              "C-u" 'nil
                              "C-f" 'universal-argument
-                             "M-RET" 'toggle-frame-fullscreen
+                             "M-f" 'toggle-frame-fullscreen
                              "M-x" 'helm-M-x
                              "M-y" 'helm-show-kill-ring
                              "C-x b" 'helm-mini
@@ -750,12 +784,12 @@
      Use $PATH as specified by the user's shell
      #+name: shell
      #+BEGIN_SRC emacs-lisp
-       (use-package exec-path-from-shell
-         :ensure t
-         :pin melpa
-         :config
-         (when (memq window-system '(mac ns x))
-           (exec-path-from-shell-initialize)))
+       ;; (use-package exec-path-from-shell
+       ;;   :ensure t
+       ;;   :pin melpa
+       ;;   :config
+       ;;   (when (memq window-system '(mac ns x))
+       ;;     (exec-path-from-shell-initialize)))
      #+END_SRC
      
 **** multi-term
@@ -804,7 +838,6 @@
      
 *** Imenu
 **** imenu-anywhere
-     Does what it says on the tin 
      #+name: imenu
      #+BEGIN_SRC emacs-lisp
        (use-package imenu-anywhere
@@ -832,6 +865,7 @@
      #+BEGIN_SRC emacs-lisp
        (use-package paradox
          :ensure t
+         :commands (list-packages paradox-list-packages package-list-packages)
          :pin melpa
          :config
          (paradox-enable))
@@ -879,7 +913,6 @@
          :diminish evil-mode
          :init 
          (setq evil-want-C-u-scroll t)
-         (setq evil-want-integration nil)
          :config
          (evil-mode 1)
          ;; ESC now escapes that pesky minibuffer
@@ -913,6 +946,7 @@
        (use-package evil-collection
          :ensure t
          :pin melpa
+         :after evil
          :custom (evil-collection-setup-minibuffer t)
          :config (evil-collection-init))
      #+END_SRC
@@ -924,6 +958,7 @@
        (use-package evil-commentary
          :ensure t
          :pin melpa
+         :after evil
          :diminish evil-commentary-mode
          :config (evil-commentary-mode))
      #+END_SRC
@@ -934,6 +969,7 @@
      #+BEGIN_SRC emacs-lisp
        (use-package evil-goggles
          :ensure t
+         :after evil
          :pin melpa
          :diminish evil-goggles-mode
          :config
@@ -948,7 +984,7 @@
      #+BEGIN_SRC emacs-lisp
        (use-package evil-magit
          :ensure t
-         :after magit
+         :after (:all magit evil)
          :pin melpa)
      #+END_SRC
      
@@ -958,6 +994,7 @@
      #+BEGIN_SRC emacs-lisp
        (use-package evil-matchit
          :ensure t
+         :after evil
          :pin melpa
          :after evil)
      #+END_SRC
@@ -968,8 +1005,9 @@
      #+BEGIN_SRC emacs-lisp
        (use-package evil-org
          :ensure t
+         :diminish evil-org-mode
          :pin melpa
-         :after org
+         :after (:all org evil)
          :config
          (add-hook 'org-mode-hook 'evil-org-mode)
          (add-hook 'evil-org-mode-hook
@@ -982,11 +1020,12 @@
      #+name: evil
      #+BEGIN_SRC emacs-lisp
        (use-package evil-smartparens
-         :ensure t
-         :after smartparens
-         :pin melpa
-         :config
-         (add-hook 'smartparens-enabled-hook 'evil-smartparens-mode))
+	 :ensure t
+	 :diminish t
+	 :after (:all smartparens evil)
+	 :pin melpa
+	 :config
+	 (add-hook 'smartparens-enabled-hook 'evil-smartparens-mode))
      #+END_SRC
      
 **** evil-surround
@@ -1003,11 +1042,6 @@
 ** Tangle
    Generate an emacs-lisp configuration file
    #+BEGIN_SRC emacs-lisp :tangle yes :noweb no-export :exports code
-     ;;;; -*- lexical-binding: t; -*-
-     ;;;; Do not modify this file by hand.  It was automatically generated
-     ;;;; from `emacs.org` in the same directory. See that file for more
-     ;;;; information.
-     ;;;;
      <<basic>>
      <<basic-ui>>
      <<evil>>

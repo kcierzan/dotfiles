@@ -9,6 +9,7 @@ sys.path.insert(0, 'lib')
 import argparse
 import arrow
 import httplib2
+import itertools
 import os
 
 from apiclient import discovery
@@ -16,9 +17,10 @@ from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 
-SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 CLIENT_SECRET_FILE = 'google_client_id.json'
 APPLICATION_NAME = 'AWeber Alfred Workflow'
+SCOPES = ['https://www.googleapis.com/auth/calendar.readonly',
+          'https://www.googleapis.com/auth/spreadsheets.readonly']
 
 
 def get_credentials():
@@ -86,3 +88,21 @@ def get_vacation_events():
         timeMax=end_date,
         singleEvents=True).execute()
     return [format_event(event) for event in result.get('items', [])]
+
+
+def get_services():
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    discoveryUrl = 'https://sheets.googleapis.com/$discovery/rest?version=v4'
+    service = discovery.build(
+        'sheets', 'v4', http=http, discoveryServiceUrl=discoveryUrl)
+
+    spreadsheetId = '1TOXGcuqi-FjsTTkMP2sa8c7kpkrkqAK9dG3cE73Z7ys'
+    rangeName = 'Services Inventory!A2:E'
+    result = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheetId, range=rangeName).execute()
+    values = result.get('values', [])
+
+    columns = ['rownum', 'name', 'jira', 'team', 'maintainers', 'description']
+    return [dict(itertools.izip_longest(columns, [i + 2] + row))
+            for i, row in enumerate(values)]

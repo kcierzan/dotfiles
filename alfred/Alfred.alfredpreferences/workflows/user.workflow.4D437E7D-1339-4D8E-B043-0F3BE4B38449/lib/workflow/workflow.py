@@ -2996,7 +2996,7 @@ class Workflow(object):
         :rtype: `tuple` (`int`, ``unicode``)
 
         """
-        cmd = ['/usr/bin/security', action, '-s', service, '-a', account] + list(args)
+        cmd = ['security', action, '-s', service, '-a', account] + list(args)
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         stdout, _ = p.communicate()

@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 import sys
-# print(sys.path)
 
 # Add lib directory to path
 sys.path.insert(0, 'lib')
@@ -114,6 +113,15 @@ def _fetch_pto(wf):
             for event in events]
 
 
+def _fetch_services(wf):
+    services = google.get_services()
+    return [Result(title=service['name'],
+                   arg='{}'.format(service['rownum']),
+                   subtitle='Team: {} - Description: {}'.format(
+                       service['team'], service['description']))
+            for service in services]
+
+
 def search(operation, wf, args):
     query = args[0] if args else ''
     func = FETCH_OPERATIONS.get(operation)
@@ -149,6 +157,7 @@ FETCH_OPERATIONS = {
     'docs': _fetch_docs,
     'hipchat': _fetch_hipchat,
     'pto': _fetch_pto,
+    'services': _fetch_services,
     'servers': _fetch_servers,
 }
 

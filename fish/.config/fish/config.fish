@@ -7,9 +7,9 @@
 
 # change iterm2 title bar color - not working on High Sierra afaik
 if [ $TERM = "tmux-256color" ]
-  echo -en "\033]6;1;bg;red;brightness;46\a"
-  echo -en "\033]6;1;bg;green;brightness;52\a"
-  echo -en "\033]6;1;bg;blue;brightness;64\a"
+  echo -en "\033]6;1;bg;red;brightness;37\a"
+  echo -en "\033]6;1;bg;green;brightness;47\a"
+  echo -en "\033]6;1;bg;blue;brightness;52\a"
 end
 
 # set environment variables
