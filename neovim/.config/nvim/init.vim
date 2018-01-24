@@ -17,6 +17,7 @@ set ttyfast
 set noswapfile
 set cursorline
 set nonumber
+
 " disable auto break long lines
 set textwidth=0
 set ignorecase
@@ -113,30 +114,14 @@ augroup END
 " Map alt + hjkl to navigation
 let g:tmux_navigator_no_mappings = 1
 
-" ------------- Deoplete ------------------
-Plug 'Shougo/deoplete.nvim',               { 'do': ':UpdateRemotePlugins' } " Deoplete completion
-Plug 'zchee/deoplete-jedi',                { 'for': 'python' } " Deoplete Jedi for great python success
-Plug 'carlitux/deoplete-ternjs',           { 'do': 'npm install -g tern' }
+"----------nvim-completion-manager---------
+Plug 'roxma/nvim-completion-manager'
+set shortmess+=c
+imap <expr> <CR> (pumvisible() ? "\<c-y>\<Plug>(expand_or_nil)" : "\<CR>")
+imap <expr> <Plug>(expand_or_nil) (cm#completed_is_snippet() > "\<C-k>":"\<CR>")
 
-" Point to python neovim virtualenvs
-" Depends on the existence of a pyenv virtualenv for python2.7 and 3.6
-let g:python_host_prog  = $HOME . '/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = $HOME . '/.pyenv/versions/neovim3/bin/python'
-
-" Enable deoplete at startup
-let g:deoplete#enable_at_startup = 1
-
-" Use smartcase.
-let g:deoplete#enable_smart_case = 1
-
-" <C-h>, <BS>: close popup and delete backword char.
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
-
-" Close the completion buffer once completion is done
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
+inoremap <expr> <Tab> pumvisible() > "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() > "\<C-p>" : "\<S-Tab>"
 "---------- ALE ----------------------
 Plug 'w0rp/ale'                            " Asynchronous linting engine
 filetype off
