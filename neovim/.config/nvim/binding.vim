@@ -197,28 +197,28 @@ let g:lmap.g.p = ['GitGutterPreviewHunk', 'Preview hunk']
 
 "--------Denite-----------
 let g:lmap.f = { 'name' : 'Find' }
-nnoremap <silent> <leader>ff :Denite `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec'`<CR>
-let g:lmap.f.f = ['Denite file_rec', 'Find files']
-nnoremap <silent> <leader>fh :Denite help<CR>
-let g:lmap.f.h = ['Denite help', 'Find help']
-nnoremap <silent> <leader>fb :Denite buffer<CR>
-let g:lmap.f.b = ['Denite buffer', 'Find buffers']
-nnoremap <silent> <leader>fl :Denite line<CR>
-let g:lmap.f.l = ['Denite line', 'Find lines']
-nnoremap <silent> <leader>fr :Denite file_mru<CR>
-let g:lmap.f.r = ['Denite file_mru', 'Find recent']
-nnoremap <silent> <leader>fg :Denite grep<CR>
-let g:lmap.f.g = ['Denite grep', 'Grep']
-nnoremap <silent> <leader>ft :Denite filetype<CR>
-let g:lmap.f.t = ['Denite filetype', 'Find filetypes']
-nnoremap <silent> <Leader>fd :Denite directory_mru<CR>
-let g:lmap.f.d = ['Denite file', 'Find recent dirs']
-nnoremap <silent> <Leader>fc :Denite colorscheme<CR>
-let g:lmap.f.c = ['Denite coloscheme', 'Find colorschemes']
-nnoremap <silent> <Leader>fo :Denite outline<CR>
-let g:lmap.f.o = ['Denite outline', 'Find ctags']
-nnoremap <silent> <Leader>fe :Denite command<CR>
-let g:lmap.f.e = ['Denite command', 'Find commands']
+nnoremap <silent> <leader>ff :GFiles<CR>
+let g:lmap.f.f = ['fzf ripgrep', 'Find files']
+nnoremap <silent> <leader>fh :Helptags<CR>
+let g:lmap.f.h = ['fzf help', 'Find help']
+nnoremap <silent> <leader>fb :Buffers<CR>
+let g:lmap.f.b = ['fzf buffer', 'Find buffers']
+nnoremap <silent> <leader>fl :BLines<CR>
+let g:lmap.f.l = ['fzf line', 'Find lines']
+nnoremap <silent> <leader>fr :History<CR>
+let g:lmap.f.r = ['fzf file_mru', 'Find recent']
+nnoremap <silent> <leader>fg :Rg<CR>
+let g:lmap.f.g = ['fzf grep', 'Grep']
+nnoremap <silent> <leader>ft :fzf filetype<CR>
+let g:lmap.f.t = ['fzf filetype', 'Find filetypes']
+nnoremap <silent> <Leader>fc :Colors<CR>
+let g:lmap.f.c = ['fzf coloscheme', 'Find colorschemes']
+nnoremap <silent> <Leader>fo :Tags<CR>
+let g:lmap.f.o = ['fzf outline', 'Find ctags']
+nnoremap <silent> <Leader>fe :Commands<CR>
+let g:lmap.f.e = ['fzf command', 'Find commands']
+nnoremap <silent> <Leader>fp :GGrep<CR>
+let g:lmap.f.p = ['fzf command', 'Git Grep']
 
 "***** None of this works *****
 "------- Terminal-------------

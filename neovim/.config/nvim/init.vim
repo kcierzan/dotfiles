@@ -65,6 +65,9 @@ endif
 au FocusGained,BufEnter * :silent! !
 au FocusLost,WinLeave * :silent! w
 
+" Make a virtualenv in neovim
+let g:python3_host_prog = $HOME . '/.virtualenvs/neovim/bin/python3'
+
 " Load plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -127,7 +130,7 @@ Plug 'w0rp/ale'                            " Asynchronous linting engine
 filetype off
 filetype plugin on
 
-" Depends on the existence of a pyenv virtualenv with pylint >= 1.7.1 and flake8 installed
+" Depends on the existence of a virtualfish virtualenv with pylint >= 1.7.1 and flake8 installed
 
 " let g:ale_history_log_output = 1
 let g:ale_linters = {
@@ -150,9 +153,9 @@ let g:ale_python_pylint_options = '--rcfile=~/.pylintrc'
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
-let g:ale_python_flake8_executable = $HOME . '/.pyenv/versions/neovim3/bin/flake8'
-let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/neovim3/bin/vint'
-let g:ale_python_pylint_executable = $HOME . '/.pyenv/versions/neovim3/bin/pylint'
+let g:ale_python_flake8_executable = $HOME . '/.virtualenvs/neovim/bin/flake8'
+let g:ale_vim_vint_executable = $HOME . '/.virtualenvs/neovim/bin/vint'
+let g:ale_python_pylint_executable = $HOME . '/.virtualenvs/neovim/bin/pylint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
 let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
 let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
@@ -266,13 +269,28 @@ Plug 'yuttie/comfortable-motion.vim'
 let g:comfortable_motion_friction = 20.0
 let g:comfortable_motion_air_drag = 4.0
 
+"------------fzf.vim----------------
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 1,
+  \ <bang>0 ? fzf#vim#with_preview('up:60%')
+  \         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \ <bang>0)
 
 "------------- Misc Plugins -----------------
 let g:polyglot_disabled = [ 'javascript', 'python' ]
 
 let g:python_highlight_all = 1
 
-Plug 'Shougo/denite.nvim'                  " Unite all interfaces
 Plug 'Shougo/neomru.vim'                   " MRU Source for Denite
 Plug 'tpope/vim-vinegar'                   " Make netrw better
 Plug 'tpope/vim-repeat'                    " Use . to repeat some stuff
@@ -313,65 +331,7 @@ set background=dark
 colorscheme termina
 
 let g:startify_custom_header =
-        \ startify#fortune#cowsay('═','║','╔','╗','╝','╚')
-
-" ---------- Denite Config ----------
-call denite#custom#option('default', 'prompt', '>')
-call denite#custom#option('default', 'winheight', '15')
-call denite#custom#option('default', 'highlight_matched_range', 'Comment')
-call denite#custom#option('_', 'auto_resize', 1)
-call denite#custom#option('_', 'reversed', 1)
-call denite#custom#var('file_rec', 'command', 
-    \ ['rg', '--files','--hidden', '-g', '!.git', '-g', '!.pyc'])
-call denite#custom#var('grep', 'command', ['rg'])
-call denite#custom#var('grep', 'default_opts',
-    \ [ '-L', '--hidden', '--vimgrep', '--no-heading', '-g', '!.pyc', '-g', '!.git'])
-call denite#custom#var('grep', 'recursive_opts', [])
-call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', [])
-call denite#custom#option('_', 'empty', 0)
-call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
-call denite#custom#source('outline', 'sorters', ['sorter_sublime'])
-call denite#custom#var('file_rec/git', 'command',
-      \ ['git', 'ls-files', '-co', '--exclude-standard'])
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#option('default', 'highlight_mode_insert', 'PMenu')
-call denite#custom#option('default', 'updatetime', 1)
-call denite#custom#option('default', 'max_candidate_width', 200)
-
-hi! deniteMatched ctermfg=2 ctermbg=none
-hi! deniteMatchedChar ctermfg=6 ctermbg=none
-hi! deniteMatchedRange ctermfg=none ctermbg=none
-hi! deniteSource_grepFile ctermfg=4 ctermbg=none
-hi! deniteSource_grepLineNR ctermfg=5 ctermbg=none
-hi! deniteGrepPatterns ctermfg=2 ctermbg=none
-hi! deniteSource_lineNumber ctermfg=5
-
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-n>',
-      \ '<denite:move_to_next_line>',
-      \ 'noremap'
-      \)
-
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-p>',
-      \ '<denite:move_to_previous_line>',
-      \ 'noremap'
-      \)
-
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-s>',
-      \ '<denite:do_action:vsplitswitch>',
-      \ 'noremap'
-      \)
-
-call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-  \ [ '.git/', '.ropeproject/', '__pycache__/',
-  \   'env/', 'images/', '*.min.*', 'img/', 'fonts/'])
+      \ startify#fortune#cowsay('','═','║','╔','╗','╝','╚')
 
 " ----------- Load additional config ----------------
 if filereadable(expand('~/.config/nvim/binding.vim'))
