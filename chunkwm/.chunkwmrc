@@ -12,7 +12,6 @@ chunkc core::hotload 1
 
 # NOTE: the following are config variables for the chunkwm-tiling plugin.
 
-
 chunkc set 1_desktop_mode                bsp
 chunkc set 2_desktop_mode                float
 

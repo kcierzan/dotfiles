@@ -28,9 +28,10 @@ end
 function fish_vi_cursor
 end
 
-function fish_greeting
-  fortune; and echo ''
-end
+# MOTD
+# function fish_greeting
+#   fortune -s; and echo ''
+# end
 
 # try to attach to a tmux session on startup if we are in a good terminal
 if [ $TERM = "tmux-256color" ]

@@ -3,22 +3,22 @@
     "result" : {
       "textSpacing" : 10,
       "subtext" : {
-        "size" : 13,
+        "size" : 15,
         "colorSelected" : "#FFD866FF",
-        "font" : "Pragmata Pro",
+        "font" : "FuraCode Nerd Font",
         "color" : "#665F69FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Overpass",
+        "font" : "FuraCode Nerd Font",
         "color" : "#FB9866FF"
       },
       "backgroundSelected" : "#334249FF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#FBFCF9FF",
-        "font" : "Overpass",
+        "font" : "Fira Sans",
         "color" : "#746C77FF"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Overpass",
+        "font" : "Fira Sans",
         "color" : "#FF6087FF"
       },
       "backgroundSelected" : "#7AC7FFFF"
