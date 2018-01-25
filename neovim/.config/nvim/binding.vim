@@ -42,6 +42,10 @@ nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <M-b> :TmuxNavigatePrevious<cr>
 
+" jk is escape
+inoremap jk <Esc>
+inoremap kj <Esc>
+
 " H and L move to start and end of lines
 nmap L <Nop>
 nmap H <Nop>
@@ -198,7 +202,9 @@ let g:lmap.g.p = ['GitGutterPreviewHunk', 'Preview hunk']
 "--------Denite-----------
 let g:lmap.f = { 'name' : 'Find' }
 nnoremap <silent> <leader>ff :GFiles<CR>
-let g:lmap.f.f = ['fzf ripgrep', 'Find files']
+let g:lmap.f.f = ['fzf ripgrep', 'Find git files']
+nnoremap <silent> <leader>fa :Files<CR>
+let g:lmap.f.a = ['fzf find files', 'Find all files']
 nnoremap <silent> <leader>fh :Helptags<CR>
 let g:lmap.f.h = ['fzf help', 'Find help']
 nnoremap <silent> <leader>fb :Buffers<CR>

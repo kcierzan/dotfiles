@@ -291,7 +291,7 @@ let g:polyglot_disabled = [ 'javascript', 'python' ]
 
 let g:python_highlight_all = 1
 
-Plug 'Shougo/neomru.vim'                   " MRU Source for Denite
+Plug 'Shougo/neomru.vim'                   " Recent files
 Plug 'tpope/vim-vinegar'                   " Make netrw better
 Plug 'tpope/vim-repeat'                    " Use . to repeat some stuff
 Plug 'jiangmiao/auto-pairs'                " Automatic deliminters
