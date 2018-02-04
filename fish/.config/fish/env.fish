@@ -7,7 +7,7 @@ set -x GIT_EDITOR nvim
 set -x PYENV_ROOT ~/.pyenv
 set -x NVM_DIR "$HOME/.nvm"
 set -x FZF_COMPLETION_TRIGGER "**"
-set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc"'
+set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc" 2> /dev/null'
 set -x FZF_DEFAULT_OPTS "--color=fg:#839496,bg:-1,fg+:6,bg+:-1,header:3,hl:3,hl+:13,prompt:6,spinner:5,pointer:2,marker:4,info:2"
 set -x KEYTIMEOUT 1
 set -x CLICOLOR 1

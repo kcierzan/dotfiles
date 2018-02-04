@@ -26,9 +26,9 @@ nmap gsl :SidewaysRight<CR>
 " Jump to characters
 nmap s <Plug>(easymotion-overwin-f2)
 " Jump to tag in new window
-nnoremap gD g<C-]>
+nnoremap gT g<C-]>
 " Jump to tag
-nnoremap gd g<C-]>
+nnoremap gt g<C-]>
 " jump to next error message
 nnoremap ge :ALENextWrap<CR>
 " jumpt to next line
@@ -41,6 +41,11 @@ nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <M-b> :TmuxNavigatePrevious<cr>
+
+imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
+imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-k>":"")
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " jk is escape
 inoremap jk <Esc>
@@ -59,6 +64,11 @@ xnoremap L $
 xnoremap H ^
 onoremap L $
 onoremap H ^
+
+" unbind Q for another binding
+nmap Q <Nop>
+xmap Q <Nop>
+omap Q <Nop>
 
 "buffer navigation
 nmap <C-L> <Nop>
@@ -83,13 +93,6 @@ let g:lmap.Q = [':q!', 'Force close window']
 
 "------ Windows -------
 let g:lmap.w = { 'name' : 'Windows' }
-" Intelligently close deoplete popup
-" inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
-" <CR>: close deoplete popup and save indent.
-inoremap <expr><CR> <SID>my_cr_function()
-function! s:my_cr_function() abort
-  return pumvisible() ? deoplete#close_popup() : "\<CR>"
-endfunction
 
 nnoremap <leader>wv :vsp<CR>
 let g:lmap.w.v = [':vsp', 'Split vertical']
@@ -199,7 +202,7 @@ let g:lmap.g.u = ['GitGutterUndoHunk', 'Undo hunk']
 nnoremap <silent> <leader>gp :GitGutterPreviewHunk<CR>
 let g:lmap.g.p = ['GitGutterPreviewHunk', 'Preview hunk']
 
-"--------Denite-----------
+"--------FZF-----------
 let g:lmap.f = { 'name' : 'Find' }
 nnoremap <silent> <leader>ff :GFiles<CR>
 let g:lmap.f.f = ['fzf ripgrep', 'Find git files']
@@ -215,7 +218,7 @@ nnoremap <silent> <leader>fr :History<CR>
 let g:lmap.f.r = ['fzf file_mru', 'Find recent']
 nnoremap <silent> <leader>fg :Rg<CR>
 let g:lmap.f.g = ['fzf grep', 'Grep']
-nnoremap <silent> <leader>ft :fzf filetype<CR>
+nnoremap <silent> <leader>ft :Filetypes<CR>
 let g:lmap.f.t = ['fzf filetype', 'Find filetypes']
 nnoremap <silent> <Leader>fc :Colors<CR>
 let g:lmap.f.c = ['fzf coloscheme', 'Find colorschemes']
@@ -246,5 +249,3 @@ call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
 nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
 vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
 
-" ------ Solarized --------
-" call togglebg#map("<leader>\")

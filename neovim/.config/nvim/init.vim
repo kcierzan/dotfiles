@@ -5,6 +5,10 @@
 " /_/_/ /_/_/\__(_)___/_/_/ /_/ /_/
 
 " ======= Set up Defaults ==============
+
+" Fix $PATH issues from using Fish
+set shell=/bin/sh
+
 scriptencoding utf-8
 set splitright
 set splitbelow
@@ -16,15 +20,17 @@ set nolazyredraw
 set ttyfast
 set noswapfile
 set cursorline
-set nonumber
+set number
 
 " disable auto break long lines
 set textwidth=0
 set ignorecase
 set smartcase
 set gdefault
+
 " Start scrolling 3 lines before horizontal border
 set scrolloff=3
+
 " Set up standard indentation
 set tabstop=2
 set softtabstop=2
@@ -38,12 +44,9 @@ set hidden
 set completeopt-=preview
 set pumheight=10
 
-" Allow cursor changing with tmux
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
-
 " Enable blinking cursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-"
+
 " Enable system clipboard
 set clipboard=unnamed
 
@@ -65,7 +68,7 @@ endif
 au FocusGained,BufEnter * :silent! !
 au FocusLost,WinLeave * :silent! w
 
-" Make a virtualenv in neovim
+" Virtualenv for python-dependent plugins
 let g:python3_host_prog = $HOME . '/.virtualenvs/neovim/bin/python3'
 
 " Load plugins
@@ -73,7 +76,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " ============ COLORSCHEME ======================
 Plug '~/git/termina'
-Plug 'xero/vim-noctu'
 
 " highlight current window
 augroup SwitchPanes
@@ -120,11 +122,7 @@ let g:tmux_navigator_no_mappings = 1
 "----------nvim-completion-manager---------
 Plug 'roxma/nvim-completion-manager'
 set shortmess+=c
-imap <expr> <CR> (pumvisible() ? "\<c-y>\<Plug>(expand_or_nil)" : "\<CR>")
-imap <expr> <Plug>(expand_or_nil) (cm#completed_is_snippet() > "\<C-k>":"\<CR>")
 
-inoremap <expr> <Tab> pumvisible() > "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() > "\<C-p>" : "\<S-Tab>"
 "---------- ALE ----------------------
 Plug 'w0rp/ale'                            " Asynchronous linting engine
 filetype off
@@ -207,7 +205,6 @@ function! s:goyo_enter()
   nunmap <silent> <leader>
   vunmap <silent> <leader>
   IndentLinesDisable
-  call deoplete#disable()
   ALEDisable
   set nonumber
 endfunction
@@ -219,11 +216,9 @@ function! s:goyo_leave()
   set showmode
   set scrolloff=3
   set cursorline
-  " colorscheme termina
   colorscheme termina
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
-  call deoplete#enable()
   IndentLinesEnable
   ALEEnable
   set number
@@ -250,11 +245,6 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
 let g:AutoPairsMapCR = 0
 let g:deoplete#auto_complete_start_length = 1
-" weird hack to close completion popup/expand snippets (expand with <C-k>)
-imap <expr><TAB> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> pumvisible() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-inoremap <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
@@ -273,6 +263,8 @@ let g:comfortable_motion_air_drag = 4.0
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
+let g:fzf_buffers_jump = 1
+
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
@@ -285,6 +277,19 @@ command! -bang -nargs=* GGrep
   \ <bang>0 ? fzf#vim#with_preview('up:60%')
   \         : fzf#vim#with_preview('right:50%:hidden', '?'),
   \ <bang>0)
+"------------- Jedi -------------------------
+Plug 'davidhalter/jedi-vim'
+
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#use_splits_not_buffers = 1
+let g:jedi#goto_command = 'gd'
+let g:jedi#goto_assignments_command = ""
+let g:jedi#goto_definitions_command = ""
+let g:jedi#goto_usages_command = 'gn'
+let g:jedi#completions_command = ""
+let g:jedi#rename_command = 'gr'
+let g:jedi#documentation_command = "gk"
+let g:jedi#completions_enabled = 0
 
 "------------- Misc Plugins -----------------
 let g:polyglot_disabled = [ 'javascript', 'python' ]
@@ -305,7 +310,6 @@ Plug 'mkitt/tabline.vim'                   " Better looking tabs
 Plug 'tpope/vim-fugitive'                  " Git Wrapper
 Plug 'christoomey/vim-tmux-navigator'      " Vim Tmux navigation harmony
 Plug 'sheerun/vim-polyglot'                " Lots of language packs
-Plug 'tpope/vim-endwise'                   " Automagically add ending statements
 Plug 'Yggdroot/indentLine'                 " indent lines
 Plug 'junegunn/vim-easy-align'             " align stuff
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
@@ -317,11 +321,11 @@ Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.j
 Plug 'tpope/vim-rhubarb'                   " Access GitHub
 Plug 'mattn/emmet-vim'                     " Markup Expansion
 Plug 'majutsushi/tagbar'                   " show some tags
-Plug 'vim-python/python-syntax'            " Make python look a little better
+Plug 'vim-python/python-syntax',           { 'for': ['python'] } " Make python look a little better
 Plug 'luochen1990/rainbow'                 " Rainbow Parens
 Plug 'altercation/vim-colors-solarized'    " Termina sucks with solarized
 Plug 'scrooloose/vim-slumlord'             " Diagrams are cool
-Plug 'aklt/plantuml-syntax'
+Plug 'aklt/plantuml-syntax'                " Draw diagrams via annoying Java dependency...
 Plug 'haya14busa/vim-keeppad'              " Keep padding when line nums go away
 call plug#end()
 
@@ -330,8 +334,32 @@ syntax enable
 set background=dark
 colorscheme termina
 
-let g:startify_custom_header =
-      \ startify#fortune#cowsay('','═','║','╔','╗','╝','╚')
+let g:ascii = [
+      \ '    ███▄    █ ▓█████  ▒█████   ██▒   █▓ ██▓ ███▄ ▄███▓',
+      \ '    ██ ▀█   █ ▓█   ▀ ▒██▒  ██▒▓██░   █▒▓██▒▓██▒▀█▀ ██▒',
+      \ '   ▓██  ▀█ ██▒▒███   ▒██░  ██▒ ▓██  █▒░▒██▒▓██    ▓██░',
+      \ '   ▓██▒  ▐▌██▒▒▓█  ▄ ▒██   ██░  ▒██ █░░░██░▒██    ▒██ ',
+      \ '   ▒██░   ▓██░░▒████▒░ ████▓▒░   ▒▀█░  ░██░▒██▒   ░██▒',
+      \ '   ░ ▒░   ▒ ▒ ░░ ▒░ ░░ ▒░▒░▒░    ░ ▐░  ░▓  ░ ▒░   ░  ░',
+      \ '   ░ ░░   ░ ▒░ ░ ░  ░  ░ ▒ ▒░    ░ ░░   ▒ ░░  ░      ░',
+      \ '      ░   ░ ░    ░   ░ ░ ░ ▒       ░░   ▒ ░░      ░   ',
+      \ '            ░    ░  ░    ░ ░        ░   ░         ░   ',
+      \ '                                   ░                  '
+      \]
+let g:scroll =
+      \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"   ". v:val')
+
+let g:drip_header =
+      \ map(g:ascii + g:scroll, '"   ".v:val')
+
+function! s:filter_header(lines) abort
+    let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
+    let centered_lines = map(copy(a:lines),
+        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
+    return centered_lines
+endfunction
+
+let g:startify_custom_header = s:filter_header(g:drip_header)
 
 " ----------- Load additional config ----------------
 if filereadable(expand('~/.config/nvim/binding.vim'))
