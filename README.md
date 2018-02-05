@@ -1,8 +1,9 @@
 # Dotfiles
 
-python // macos // emacs // neovim // tmux
+python // macos // neovim // tmux
 
 ## Installation
+
 0. Install Xcode command line tools
 
 ```shell
