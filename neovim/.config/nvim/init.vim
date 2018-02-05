@@ -89,6 +89,9 @@ augroup END
 autocmd BufNewFile,BufRead *.py
       \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix expandtab autoindent |
 
+autocmd BufNewFile,BufRead *.md
+      \ setlocal wrap tabstop=2 softtabstop=2 shiftwidth=2 textwidth=100 fileformat=unix expandtab autoindent |
+
 " Edit macos cron jobs
 autocmd filetype crontab setlocal nobackup nowritebackup
 

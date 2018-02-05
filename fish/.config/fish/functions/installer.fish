@@ -1,1 +1,0 @@
-/Users/kyle/.config/fisherman/pure/installer.fish

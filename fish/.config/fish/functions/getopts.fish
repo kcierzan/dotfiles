@@ -1,1 +1,0 @@
-/Users/kyle/.config/fisherman/getopts/getopts.fish
