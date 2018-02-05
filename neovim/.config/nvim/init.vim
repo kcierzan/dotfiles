@@ -71,6 +71,18 @@ au FocusLost,WinLeave * :silent! w
 " Virtualenv for python-dependent plugins
 let g:python3_host_prog = $HOME . '/.virtualenvs/neovim/bin/python3'
 
+"------------ Commands ------------------------
+function! JSONify()
+  %!python -mjson.tool
+  set syntax=json
+endfunction
+
+"JSON pretty print
+command J :call JSONify()
+
+" Remove trailing whitespace
+command Nows :%s/\s\+$//
+
 " Load plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -165,6 +177,7 @@ let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['✖ %d', '⚠ %d', '']
 let g:ale_warn_about_trailing_whitespace = 1
 let g:ale_lint_on_text_changed = 'normal'
+
 highlight ALEErrorSign ctermfg=1
 highlight ALEWarningSign ctermfg=3
 
@@ -349,6 +362,7 @@ let g:ascii = [
       \ '            ░    ░  ░    ░ ░        ░   ░         ░   ',
       \ '                                   ░                  '
       \]
+
 let g:scroll =
       \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"   ". v:val')
 
