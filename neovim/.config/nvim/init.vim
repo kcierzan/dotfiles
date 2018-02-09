@@ -4,8 +4,6 @@
 "  / / / / / / /__| |/ / / / / / / /
 " /_/_/ /_/_/\__(_)___/_/_/ /_/ /_/
 
-" ======= Set up Defaults ==============
-
 " Fix $PATH issues from using Fish
 set shell=/bin/sh
 
@@ -21,17 +19,11 @@ set ttyfast
 set noswapfile
 set cursorline
 set number
-
-" disable auto break long lines
 set textwidth=0
 set ignorecase
 set smartcase
 set gdefault
-
-" Start scrolling 3 lines before horizontal border
 set scrolloff=3
-
-" Set up standard indentation
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -39,10 +31,9 @@ set expandtab
 set nowrap
 set shiftround
 set hidden
-
-" Completion options
 set completeopt-=preview
 set pumheight=10
+set conceallevel=2
 
 " Enable blinking cursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
@@ -53,7 +44,6 @@ set clipboard=unnamed
 " Disable annoying automatic comments
 autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn |
 
-" Set a persistent undo file
 set undodir=~/.undo
 set undofile
 set undolevels=100000
@@ -71,58 +61,76 @@ au FocusLost,WinLeave * :silent! w
 " Virtualenv for python-dependent plugins
 let g:python3_host_prog = $HOME . '/.virtualenvs/neovim/bin/python3'
 
-"------------ Commands ------------------------
-function! JSONify()
-  %!python -mjson.tool
-  set syntax=json
-endfunction
-
-"JSON pretty print
-command J :call JSONify()
-
-" Remove trailing whitespace
-command Nows :%s/\s\+$//
-
-" Load plugins
-call plug#begin('~/.local/share/nvim/plugged')
-
-" ============ COLORSCHEME ======================
-Plug '~/git/termina'
-
-" highlight current window
-augroup SwitchPanes
-  autocmd WinEnter * set cursorline
-  autocmd WinLeave * set nocursorline
-augroup END
-
-" ============ FILETYPE SETTINGS ==================
-
-" Set up Python style
+"autocmds
 autocmd BufNewFile,BufRead *.py
       \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix expandtab autoindent |
 
 autocmd BufNewFile,BufRead *.md
       \ setlocal wrap tabstop=2 softtabstop=2 shiftwidth=2 textwidth=100 fileformat=unix expandtab autoindent |
 
-" Edit macos cron jobs
 autocmd filetype crontab setlocal nobackup nowritebackup
 
 autocmd BufNewFile,BufRead *.thtml
       \ setlocal syntax=phtml
 
-" ============= PLUGIN CONFIGURATION ==============
+augroup SwitchPanes
+  autocmd WinEnter * set cursorline
+  autocmd WinLeave * set nocursorline
+augroup END
 
-" ------------- Startify ----------------
-" The cow says...
+"ex commands
+function! JSONify()
+  %!python -mjson.tool
+  set syntax=json
+endfunction
+
+"json pretty print
+command J :call JSONify()
+
+" Remove trailing whitespace
+command Nows :%s/\s\+$//
+
+call plug#begin('~/.local/share/nvim/plugged')
+
+Plug '~/git/termina'
+
+"vim-startify
 Plug 'mhinz/vim-startify'
 
-" ------------- EasyMotion ----------------
+let g:ascii = [
+      \ '    ███▄    █ ▓█████  ▒█████   ██▒   █▓ ██▓ ███▄ ▄███▓',
+      \ '    ██ ▀█   █ ▓█   ▀ ▒██▒  ██▒▓██░   █▒▓██▒▓██▒▀█▀ ██▒',
+      \ '   ▓██  ▀█ ██▒▒███   ▒██░  ██▒ ▓██  █▒░▒██▒▓██    ▓██░',
+      \ '   ▓██▒  ▐▌██▒▒▓█  ▄ ▒██   ██░  ▒██ █░░░██░▒██    ▒██ ',
+      \ '   ▒██░   ▓██░░▒████▒░ ████▓▒░   ▒▀█░  ░██░▒██▒   ░██▒',
+      \ '   ░ ▒░   ▒ ▒ ░░ ▒░ ░░ ▒░▒░▒░    ░ ▐░  ░▓  ░ ▒░   ░  ░',
+      \ '   ░ ░░   ░ ▒░ ░ ░  ░  ░ ▒ ▒░    ░ ░░   ▒ ░░  ░      ░',
+      \ '      ░   ░ ░    ░   ░ ░ ░ ▒       ░░   ▒ ░░      ░   ',
+      \ '            ░    ░  ░    ░ ░        ░   ░         ░   ',
+      \ '                                   ░                  '
+      \]
+
+let g:scroll =
+      \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"   ". v:val')
+
+let g:drip_header =
+      \ map(g:ascii + g:scroll, '"   ".v:val')
+
+function! s:filter_header(lines) abort
+    let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
+    let centered_lines = map(copy(a:lines),
+        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
+    return centered_lines
+endfunction
+
+let g:startify_custom_header = s:filter_header(g:drip_header)
+
+"vim-easymotion
 Plug 'easymotion/vim-easymotion'
 
 " With this option set, v will match both v and V, but V will match V only.
 let g:EasyMotion_use_smartsign_us = 1 " US layout
 
-" Use vim smartcase for global searches
 let g:EasyMotion_smartcase = 1
 
 " Remove annoying prefix
@@ -130,22 +138,20 @@ augroup RemoveEasyMotionPrefix
   au VimEnter *  nmap <leader><leader> <Nop> |
 augroup END
 
-" ------------- Tmux Navigator ------------
+"vim-tmux-navigator
 " Map alt + hjkl to navigation
 let g:tmux_navigator_no_mappings = 1
+Plug 'christoomey/vim-tmux-navigator'      " Vim Tmux navigation harmony
 
-"----------nvim-completion-manager---------
+"nvim-completion-manager
 Plug 'roxma/nvim-completion-manager'
 set shortmess+=c
 
-"---------- ALE ----------------------
-Plug 'w0rp/ale'                            " Asynchronous linting engine
+"ALE
+Plug 'w0rp/ale'
 filetype off
 filetype plugin on
 
-" Depends on the existence of a virtualfish virtualenv with pylint >= 1.7.1 and flake8 installed
-
-" let g:ale_history_log_output = 1
 let g:ale_linters = {
       \ 'python': ['pylint', 'flake8'],
       \ 'javascript': ['eslint'],
@@ -166,6 +172,7 @@ let g:ale_python_pylint_options = '--rcfile=~/.pylintrc'
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
+"*** DEPENDS ON THE EXISTENCE OF A VIRTUALFISH VIRTUALENV WITH PYLINT >= 1.7.1 AND FLAKE8 INSTALLED ***
 let g:ale_python_flake8_executable = $HOME . '/.virtualenvs/neovim/bin/flake8'
 let g:ale_vim_vint_executable = $HOME . '/.virtualenvs/neovim/bin/vint'
 let g:ale_python_pylint_executable = $HOME . '/.virtualenvs/neovim/bin/pylint'
@@ -181,7 +188,8 @@ let g:ale_lint_on_text_changed = 'normal'
 highlight ALEErrorSign ctermfg=1
 highlight ALEWarningSign ctermfg=3
 
-"----------- indentLine -----------------
+"indentLine
+Plug 'Yggdroot/indentLine'                 " indent lines
 let g:indentLine_enabled = 1
 let g:indentLine_char = '│'
 let g:indentLine_first_char = '│'
@@ -189,23 +197,25 @@ let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['text', 'sh', 'startify', 'man', 'help']
 let g:indentLine_setColors = 1
 
-" ----------- vim-test -------------------
+"vim-test
 Plug 'janko-m/vim-test'                    " Run tests
 Plug 'benmills/vimux'                      " Interact with tmux from vim
 
 let g:test#python#runner = 'nose'
-let g:test#strategy = 'vimux'
+let g:test#strategy = 'neovim'
 let g:test#python#nose#options = '-x -v -s --with-coverage'
 
-"----------- rainbow_parentheses ---------
+"rainbow_parentheses
+Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
 let g:rainbow_conf = { 'ctermfgs': ['blue', 'cyan', 'magenta', 'red', 'yellow', 'green'] }
 
-" ------------- Gitgutter ------------------
+"vim-gitgutter
+
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
 
-" ------------ Goyo -----------------------
+"goyo
 Plug 'junegunn/goyo.vim' " Remove distractions
 
 let g:goyo_width = 100
@@ -245,14 +255,14 @@ augroup GoyoToggle
   autocmd! User GoyoLeave nested call <SID>goyo_leave()
 augroup END
 
-"----------- Limelight ---------------------
+"limelight
 Plug 'junegunn/limelight.vim'              " Draw attention to code
 
 let g:limelight_conceal_ctermfg = 238
 let g:limelight_default_coefficient = 0.5
 let g:limelight_paragraph_span = 1
 
-"------------ neosnippet -------------------
+"neosnippet
 Plug 'Shougo/neosnippet.vim'               " Snippet functionality
 Plug 'honza/vim-snippets'                  " Snippet collection
 Plug 'Shougo/neosnippet-snippets'          " Snippet collection
@@ -265,17 +275,17 @@ imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
-" ---------- Expand Region -------------------
+"vim-expand-region
 Plug 'terryma/vim-expand-region'
 vmap e <Plug>(expand_region_expand)
 vmap E <Plug>(expand_region_shrink)
 
-" ----------- Comfortable Motion ------------
+"comfortable-motion
 Plug 'yuttie/comfortable-motion.vim'
 let g:comfortable_motion_friction = 20.0
 let g:comfortable_motion_air_drag = 4.0
 
-"------------fzf.vim----------------
+"fzf.vim
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
@@ -293,7 +303,14 @@ command! -bang -nargs=* GGrep
   \ <bang>0 ? fzf#vim#with_preview('up:60%')
   \         : fzf#vim#with_preview('right:50%:hidden', '?'),
   \ <bang>0)
-"------------- Jedi -------------------------
+
+command! -bang -nargs=* GFiles
+      \ call fzf#vim#files(<q-args>,
+      \                    <bang>0 ? fzf#vim#with_preview('up:60%')
+      \                            : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \                    <bang>0)
+
+"jedi-vim
 Plug 'davidhalter/jedi-vim'
 
 let g:jedi#auto_vim_configuration = 0
@@ -307,7 +324,13 @@ let g:jedi#rename_command = 'gr'
 let g:jedi#documentation_command = "gk"
 let g:jedi#completions_enabled = 0
 
-"------------- Misc Plugins -----------------
+"vim-markdown
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+let g:vim_markdown_folding_level = 2
+let g:vim_markdown_frontmatter = 1
+
+"misc plugins
 let g:polyglot_disabled = [ 'javascript', 'python' ]
 
 let g:python_highlight_all = 1
@@ -324,9 +347,7 @@ Plug 'moll/vim-bbye'                       " Delete and close buffers without cl
 Plug 'itchyny/lightline.vim'               " Lightline for more speed
 Plug 'mkitt/tabline.vim'                   " Better looking tabs
 Plug 'tpope/vim-fugitive'                  " Git Wrapper
-Plug 'christoomey/vim-tmux-navigator'      " Vim Tmux navigation harmony
 Plug 'sheerun/vim-polyglot'                " Lots of language packs
-Plug 'Yggdroot/indentLine'                 " indent lines
 Plug 'junegunn/vim-easy-align'             " align stuff
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'tpope/vim-abolish'                   " correct common misspellings
@@ -338,47 +359,16 @@ Plug 'tpope/vim-rhubarb'                   " Access GitHub
 Plug 'mattn/emmet-vim'                     " Markup Expansion
 Plug 'majutsushi/tagbar'                   " show some tags
 Plug 'vim-python/python-syntax',           { 'for': ['python'] } " Make python look a little better
-Plug 'luochen1990/rainbow'                 " Rainbow Parens
 Plug 'altercation/vim-colors-solarized'    " Termina sucks with solarized
 Plug 'scrooloose/vim-slumlord'             " Diagrams are cool
 Plug 'aklt/plantuml-syntax'                " Draw diagrams via annoying Java dependency...
 Plug 'haya14busa/vim-keeppad'              " Keep padding when line nums go away
 call plug#end()
 
-" ---------- Post Plugin Config ----------
 syntax enable
-set background=dark
+set background=light
 colorscheme termina
 
-let g:ascii = [
-      \ '    ███▄    █ ▓█████  ▒█████   ██▒   █▓ ██▓ ███▄ ▄███▓',
-      \ '    ██ ▀█   █ ▓█   ▀ ▒██▒  ██▒▓██░   █▒▓██▒▓██▒▀█▀ ██▒',
-      \ '   ▓██  ▀█ ██▒▒███   ▒██░  ██▒ ▓██  █▒░▒██▒▓██    ▓██░',
-      \ '   ▓██▒  ▐▌██▒▒▓█  ▄ ▒██   ██░  ▒██ █░░░██░▒██    ▒██ ',
-      \ '   ▒██░   ▓██░░▒████▒░ ████▓▒░   ▒▀█░  ░██░▒██▒   ░██▒',
-      \ '   ░ ▒░   ▒ ▒ ░░ ▒░ ░░ ▒░▒░▒░    ░ ▐░  ░▓  ░ ▒░   ░  ░',
-      \ '   ░ ░░   ░ ▒░ ░ ░  ░  ░ ▒ ▒░    ░ ░░   ▒ ░░  ░      ░',
-      \ '      ░   ░ ░    ░   ░ ░ ░ ▒       ░░   ▒ ░░      ░   ',
-      \ '            ░    ░  ░    ░ ░        ░   ░         ░   ',
-      \ '                                   ░                  '
-      \]
-
-let g:scroll =
-      \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"   ". v:val')
-
-let g:drip_header =
-      \ map(g:ascii + g:scroll, '"   ".v:val')
-
-function! s:filter_header(lines) abort
-    let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
-    let centered_lines = map(copy(a:lines),
-        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
-    return centered_lines
-endfunction
-
-let g:startify_custom_header = s:filter_header(g:drip_header)
-
-" ----------- Load additional config ----------------
 if filereadable(expand('~/.config/nvim/binding.vim'))
   source ~/.config/nvim/binding.vim
 endif
