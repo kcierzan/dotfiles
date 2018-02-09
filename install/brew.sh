@@ -9,23 +9,29 @@ brew tap | grep -q 'crisidev/chunkwm' || brew tap crisidev/homebrew-chunkwm
 brew tap | grep -q 'railwaycat/emacsmacport' || brew tap railwaycat/emacsmacport
 
 pkgs=(
+ "emacs-mac --with-official-icon --with-gnutls --with-imagemagick --with-no-title-bars"
  "ffmpeg --with-rtmpdump --with-openssl --with-libass --with-libbs2b --with-rubberband"
+ "koekeishiya/formulae/khd"
  "libass --without-harfbuzz"
  "mpv --with-vapoursynth --with-libarchive --with-bundle"
  "universal-ctags --HEAD"
- "koekeishiya/formulae/khd"
- "emacs-mac --with-official-icon --with-gnutls --with-imagemagick --with-no-title-bars"
  ansiweather
  bash
+ boxes
  ccat
+ chunkwm
  coreutils
+ cowsay
  curl
  ddate
  exa
  fasd
  ffms2
+ figlet
  findutils
+ fish
  fontforge
+ fortune
  fzf
  gawk
  gcc
@@ -64,6 +70,7 @@ pkgs=(
  pyenv-virtualenv
  python
  python3
+ ranger
  rbenv
  readline
  reattach-to-user-namespace
@@ -73,13 +80,15 @@ pkgs=(
  sqlite
  ssh-copy-id
  stow
+ tcpdump
  the_silver_searcher
  tmux
+ watson
+ weechat
  xz
  youtube-dl
  zplug
  zsh
- chunkwm
 )
 # Install all brew packages
 for pkg in "${pkgs[@]}"

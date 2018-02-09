@@ -11,8 +11,23 @@ casks=(
   docker
   firefoxnightly
   flux
+  font-fantasquesansmono-nerd-font
   font-fira-sans
+  font-firacode-nerd-font
+  font-hack-nerd-font
+  font-inconsolata-nerd-font
+  font-iosevka
+  font-iosevka-nerd-font
+  font-lekton-nerd-font
   font-merriweather
+  font-monoid-nerd-font
+  font-mononoki-nerd-font
+  font-mplus-nerd-font
+  font-profont-nerd-font
+  font-roboto
+  font-roboto-condensed
+  font-robotomono-nerd-font
+  font-sharetechmono-nerd-font
   fontforge
   google-drive
   handbrake
