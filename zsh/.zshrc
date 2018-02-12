@@ -39,6 +39,9 @@ nvm() {
 # Initialize zplug
 source $ZPLUG_HOME/init.zsh
 
+bindkey jk vi-cmd-mode
+bindkey kj vi-cmd-mode
+
 # ------------ ZPLUG PLUGINS ------------------------
 zplug "zsh-users/zsh-autosuggestions", use:zsh-autosuggestions.zsh
 # zplug "geometry-zsh/geometry"
@@ -69,11 +72,11 @@ fi
 # Set iTerm2 menu bar color
 # source ~/.zsh/firewatch-itermbar.zsh
 
-if [[ -z "$TMUX" ]] ;then
-    ID="`tmux ls | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
-    if [[ -z "$ID" ]] ;then # if not available create a new one
-        tmux new-session
-    else
-        tmux attach-session -t "$ID" # if available attach to it
-    fi
-fi
+# if [[ -z "$TMUX" ]] ;then
+#     ID="`tmux ls | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
+#     if [[ -z "$ID" ]] ;then # if not available create a new one
+#         tmux new-session
+#     else
+#         tmux attach-session -t "$ID" # if available attach to it
+#     fi
+# fi

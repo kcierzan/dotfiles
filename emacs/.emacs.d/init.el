@@ -1,4 +1,5 @@
 ;;;; -*- lexical-binding: t; -*-
+(setq custom-file "~/.emacs.d/custom.el")
 
 (require 'package)
 
@@ -56,23 +57,3 @@
 (setq vc-follow-symlinks t)
 (setq evil-want-integration nil)
 (org-babel-load-file "~/.emacs.d/emacs.org")
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(evil-collection-setup-minibuffer t)
- '(package-selected-packages
-   (quote
-    (web-mode paradox imenu-list imenu-anywhere dired-k git-gutter-fringe multi-term php-extras company-php flycheck-pos-tip flycheck general helm-swoop helm-projectile helm-ag helm-descbinds org-bullets company-anaconda pyvenv pip-requirements anaconda-mode which-key vi-tilde-fringe switch-window spacemacs-theme rainbow-delimiters nlinum fringe-helper diminish beacon evil-snipe evil-visualstar evil-mc evil-multiedit projectile company-quickhelp company-statistics company dumb-jump ace-link evil-surround evil-smartparens evil-org evil-matchit evil-magit evil-goggles evil-commentary evil-collection evil use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(evil-goggles-delete-face ((t (:inherit diff-removed))))
- '(evil-goggles-paste-face ((t (:inherit diff-added))))
- '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
- '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
- '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
- '(evil-goggles-yank-face ((t (:inherit diff-changed)))))

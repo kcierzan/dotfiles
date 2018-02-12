@@ -5,20 +5,20 @@
       "subtext" : {
         "size" : 14,
         "colorSelected" : "#2D9474FF",
-        "font" : "Overpass Mono",
+        "font" : "OperatorMono Nerd Font",
         "color" : "#586D75FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Overpass",
+        "font" : "OperatorMono Nerd Font",
         "color" : "#CD537AFF"
       },
       "backgroundSelected" : "#282D34FF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#BB6DC3FF",
-        "font" : "Overpass",
+        "font" : "OperatorMono Nerd Font",
         "color" : "#989999FF"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Overpass",
+        "font" : "OperatorMono Nerd Font",
         "color" : "#EDAD0DFF"
       },
       "backgroundSelected" : "#7AC7FFFF"

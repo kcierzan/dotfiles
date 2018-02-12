@@ -34,15 +34,15 @@ end
 # end
 
 # try to attach to a tmux session on startup if we are in a good terminal
-if [ $TERM = "tmux-256color" ]
-  if test -z $TMUX
-      set -x TMUX_SESSION (tmux ls | grep -vm1 attached | cut -d: -f1) # get the id of a deattached session
-      if test -z $TMUX_SESSION # if not available create a new one
-          tmux new-session
-      else
-          tmux attach-session -t $TMUX_SESSION # if available attach to it
-      end
-  end
-end
+# if [ $TERM = "tmux-256color" ]
+#   if test -z $TMUX
+#       set -x TMUX_SESSION (tmux ls | grep -vm1 attached | cut -d: -f1) # get the id of a deattached session
+#       if test -z $TMUX_SESSION # if not available create a new one
+#           tmux new-session
+#       else
+#           tmux attach-session -t $TMUX_SESSION # if available attach to it
+#       end
+#   end
+# end
 
 eval (python -m virtualfish auto_activation compat_aliases)

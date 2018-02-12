@@ -8,6 +8,7 @@
 # Just place anything in /etc/paths.d into $PATH as defined here
 export JAVA_HOME='/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin'
 export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin"
+export TERM='xterm-256color'
 
 export EDITOR='nvim'
 export GIT_EDITOR='nvim'

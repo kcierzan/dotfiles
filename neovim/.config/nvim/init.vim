@@ -366,7 +366,7 @@ Plug 'haya14busa/vim-keeppad'              " Keep padding when line nums go away
 call plug#end()
 
 syntax enable
-set background=light
+set background=dark
 colorscheme termina
 
 if filereadable(expand('~/.config/nvim/binding.vim'))

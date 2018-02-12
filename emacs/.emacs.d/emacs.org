@@ -37,13 +37,12 @@
     #+END_SRC
     
 *** Fonts
-    Iosevka and Overpass should be installable with brew
     #+name: basic-ui
     #+BEGIN_SRC emacs-lisp
-      (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font"))
-      (set-face-attribute 'variable-pitch nil :font "Overpass" :height 140)
-      (set-face-attribute 'fixed-pitch nil :font "Iosevka Nerd Font")
-      (set-face-attribute 'default  nil :font "Iosevka Nerd Font")
+      (add-to-list 'default-frame-alist '(font . "OperatorMono Nerd Font"))
+      (set-face-attribute 'variable-pitch nil :font "Fira Sans" :height 140)
+      (set-face-attribute 'fixed-pitch nil :font "OperatorMono Nerd Font")
+      (set-face-attribute 'default  nil :font "OperatorMono Nerd Font")
       (set-face-attribute 'mode-line nil :height 140)
 
       (defun kyle//change-font-size ()
@@ -80,11 +79,16 @@
      (setq custom-file "~/.emacs.d/custom.el")
    #+END_SRC
    
-   We have the RAM - bump the garbage collection threshold
+   Bump the GC threshold for startup only
    #+name: basic
    #+BEGIN_SRC emacs-lisp
-     (setq gc-cons-threshold 16777216
-           gc-cons-percentage 0.1)
+     (setq gc-cons-threshold 402653184
+           gc-cons-percentage 0.6)
+
+     (add-hook 'emacs-startup-hook
+               (lambda ()
+                 (setq gc-cons-threshold 16777216)
+                 (setq gc-cons-percentage 0.1)))
    #+END_SRC
    
    Sentences end with a single space
@@ -268,6 +272,7 @@
          :init
          (load-theme 'spacemacs-dark t)
          (set-face-attribute 'cursor nil :background "#fcd845")
+         (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
          :config
          (with-current-buffer (get-buffer " *Echo Area 0*")
            (setq-local face-remapping-alist '((default (:height  1.0) default)))))
@@ -356,7 +361,7 @@
          :config
          (defun pyvenv-autoload ()
            (with-eval-after-load 'projectile
-             (lambda () (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".venv")))
+             (lambda () (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".python-version")))
                           (if (file-exists-p pfile)
                               (pyvenv-workon (with-temp-buffer
                                                (insert-file-contents pfile)
@@ -462,7 +467,6 @@
        (use-package company-anaconda
          :ensure t
          :pin melpa
-         :mode ("\\.py$" . python-mode)
          :after company
          :config
          (add-to-list 'company-backends '(company-anaconda :separate company-etags)))
@@ -500,7 +504,7 @@
          :ensure t
          :pin melpa
          :init
-         (setq company-quickhelp-delay 0.5)
+         (setq company-quickhelp-delay 1)
          :config
          (company-quickhelp-mode 1))
      #+END_SRC
@@ -536,7 +540,7 @@
      #+BEGIN_SRC emacs-lisp
        (use-package helm
          :ensure t
-         :pin melpa
+         :pin melpa-stable
          :diminish helm-mode
          :init 
          (setq helm-split-window-inside-p 1)
@@ -594,16 +598,24 @@
          :pin melpa
          :after helm
          :config
-         (progn
-           (setq helm-swoop-speed-or-color 1
-              helm-swoop-use-fuzzy-match 1)
-           (setq-default helm-swoop-split-direction 'split-window-vertically)
-           (setq-default helm-swoop-split-with-multiple-windows t)
-           ;; disable swoop-thing-at-point
-           (setq helm-swoop-pre-input-function
-              (lambda () ""))))
+         (setq helm-swoop-speed-or-color 1
+               helm-swoop-use-fuzzy-match 1)
+         (setq-default helm-swoop-split-direction 'split-window-vertically)
+         (setq-default helm-swoop-split-with-multiple-windows t)
+         ;; disable swoop-thing-at-point
+         (setq helm-swoop-pre-input-function
+               (lambda () "")))
      #+END_SRC
      
+*** Ivy
+**** Ivy
+     Experimental completion framework
+     #+name: helm
+     #+BEGIN_SRC emacs-lisp
+       (use-package swiper
+         :ensure t
+         :pin melpa)
+     #+END_SRC
 *** Keys
 **** general
      Unified system for doing all sorts of keybinding stuff
@@ -657,7 +669,7 @@
                       "o" 'helm-semantic-or-imenu
                       "g" 'helm-do-ag
                       "f" 'helm-find-files
-                      "l" 'helm-swoop)
+                      "l" 'swiper)
          (projectile-leader "g" 'helm-projectile-ag
                             "r" 'helm-projectile-recentf
                             "d" 'helm-projectile-find-dir
@@ -686,16 +698,48 @@
          ;; non-prefix motion state
          (general-mmap "C-;" 'helm-M-x
                        ;; make window splitting behave more like vim
-                       "C-w v" '((lambda () (interactive) (evil-window-vsplit) (other-window 1)) :wk "evil-window-vsplit")
+                       "C-w v" 'evil-window-vsplit
                        "gl" 'evil-avy-goto-line
                        "gs" 'evil-avy-goto-char-2
                        "C-f" 'universal-argument
                        "C-u" 'evil-scroll-up
-                       "C-w s" '((lambda () (interactive) (evil-window-split) (other-window 1)) :wk "evil-window-split")
+                       "C-w s" 'evil-window-split
                        "g C-]" 'xref-find-definitions)
-         ;; non-prefix global
+
+         (defun minibuffer-keyboard-quit ()
+           "Abort recursive edit.
+           In Delete selection mode, if mark is active, just deactivate it;
+           then it takes a second \\[keyboard-quit] to abort the minibuffer."
+           (interactive)
+           (if (and delete-selection-mode transient-mark-mode mark-active)
+               (setq deactivate-mark t)
+             (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+             (abort-recursive-edit)))
+         (general-define-key :keymaps '(minibuffer-local-map
+                                        minibuffer-local-ns-map
+                                        minibuffer-local-completion-map
+                                        minibuffer-local-isearch-map
+                                        minibuffer-local-must-match-map)
+                             "C-q" 'minibuffer-keyboard-quit)
+         (defun helm-quit-mini ()
+             (general-define-key :keymaps 'helm-map
+                                 "C-q" 'helm-keyboard-quit))
+         (general-define-key :keymaps 'swiper-map
+                             "C-q" 'minibuffer-keyboard-quit)
+         (add-hook 'after-init-hook 'helm-quit-mini)
+         ;; insert mode mappings
+         (general-define-key :keymaps 'evil-insert-state-map
+                             "j"
+                             (general-key-dispatch 'self-insert-command
+                               :timeout 0.1
+                               "k" 'evil-normal-state))
+         (general-define-key :keymaps 'evil-insert-state-map
+                             "k"
+                             (general-key-dispatch 'self-insert-command
+                               :timeout 0.1
+                               "j" 'evil-normal-state))
+       ;; non-prefix global
          (general-define-key :keymaps 'global
-                             "C-u" 'nil
                              "C-f" 'universal-argument
                              "M-f" 'toggle-frame-fullscreen
                              "M-x" 'helm-M-x
@@ -799,7 +843,7 @@
          :ensure t
          :commands (multi-term)
          :pin melpa
-         :config (setq multi-term-program "/usr/local/bin/fish"))
+         :config (setq multi-term-program "/usr/local/bin/zsh"))
      #+END_SRC
      
 *** Git
@@ -916,23 +960,11 @@
          :config
          (evil-mode 1)
          ;; ESC now escapes that pesky minibuffer
-         (defun minibuffer-keyboard-quit ()
-           "Abort recursive edit.
-          In Delete selection mode, if mark is active, just deactivate it;
-          then it takes a second \\[keyboard-quit] to abort the minibuffer."
-           (interactive)
-           (if (and delete-selection-mode transient-mark-mode mark-active)
-               (setq deactivate-mark t)
-             (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
-             (abort-recursive-edit)))
-         (define-key evil-normal-state-map [escape] 'keyboard-quit)
-         (define-key evil-visual-state-map [escape] 'keyboard-quit)
-         (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-         (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-         (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-         (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-         (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
          (evil-declare-change-repeat 'company-complete)
+         (defun +evil-window-follow (&rest _) (evil-window-down 1))
+         (defun +evil-window-vfollow (&rest _) (evil-window-right 1))
+         (advice-add #'evil-window-split :after #'+evil-window-follow)
+         (advice-add #'evil-window-vsplit :after #'+evil-window-vfollow)
          ;; 's' is pretty useless in evil - now it starts avy
          (with-eval-after-load 'avy
            (define-key evil-motion-state-map "s" 'evil-avy-goto-char-2)
@@ -1062,3 +1094,4 @@
      <<packages>>
      <<web>>
    #+END_SRC
+   
