@@ -83,6 +83,7 @@ swap - m               :   chunkc tiling::window --send-to-monitor prev
 swap + shift - n       :   chunkc tiling::window --send-to-monitor next;\
                            chunkc tiling::monitor -f next
 swap + shift - m       :   chunkc tiling::window --send-to-monitor prev;\
+                           chunkc tiling::monitor -f prev
 
 # --------------- pane mode -----------------------
 pane - a               :   khd -e "mode activate swap"

@@ -8,14 +8,25 @@
 # Just place anything in /etc/paths.d into $PATH as defined here
 export JAVA_HOME='/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin'
 export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin"
-export TERM='xterm-256color'
 
-export EDITOR='nvim'
-export GIT_EDITOR='nvim'
+export TERM='tmux-256color'
+export EDITOR='emacs'
+export GIT_EDITOR='emacs'
 
 export PYENV_ROOT=~/.pyenv
 export NVM_DIR="$HOME/.nvm"
+
 export ZPLUG_HOME="/usr/local/opt/zplug"
+
+# colored man pages! hooray!
+export LESS_TERMCAP_mb=$(printf "\e[1;34m")
+export LESS_TERMCAP_md=$(printf "\e[1;34m")
+export LESS_TERMCAP_me=$(printf "\e[0m")
+export LESS_TERMCAP_so=$(printf "\e[1;47;33m")
+export LESS_TERMCAP_se=$(printf "\e[0m")
+export LESS_TERMCAP_us=$(printf "\e[1;32m")
+export LESS_TERMCAP_ue=$(printf "\e[0m")
+export PAGER="${commands[less]:-$PAGER}"
 
 export FZF_COMPLETION_TRIGGER='**'
 

@@ -40,6 +40,7 @@
 	    '(lambda ()
 	       (variable-pitch-mode 1)
 	       (setq line-spacing 2)
+	       (company-mode 0)
 	       (mapc
 		(lambda (face)
 		  (set-face-attribute face nil :inherit 'fixed-pitch :height 140))

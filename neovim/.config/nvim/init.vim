@@ -214,6 +214,7 @@ let g:rainbow_conf = { 'ctermfgs': ['blue', 'cyan', 'magenta', 'red', 'yellow', 
 
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
+let g:gitgutter_max_signs = 5000
 
 "goyo
 Plug 'junegunn/goyo.vim' " Remove distractions
