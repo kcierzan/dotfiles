@@ -51,7 +51,9 @@ zplug "zsh-users/zsh-syntax-highlighting"
 zplug load
 
 # Set variable vi-style cursor 
-source ~/.zsh/vi_cursor.zsh
+if [ "$TERM_PROGRAM" = "iTerm.app" ]; then
+  source ~/.zsh/vi_cursor.zsh
+fi
 
 # Don't underline paths in command line
 export ZSH_HIGHLIGHT_STYLES[path]=none

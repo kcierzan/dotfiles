@@ -23,6 +23,7 @@
                    idle-update-delay 0.5
                    inhibit-startup-screen t)
      (set-frame-parameter nil 'internal-border-width 2)
+     (add-hook 'prog-mode-hook 'hl-line-mode)
    #+END_SRC
 
 *** Smooth Scrolling
@@ -151,6 +152,32 @@
     #+name: basic
     #+BEGIN_SRC emacs-lisp
       (setq explicit-shell-file-name "/usr/local/bin/zsh")
+    #+END_SRC
+
+** Eshell
+   I am learning to like eshell. It's weird. Let's make it work better.
+    #+name: basic
+    #+BEGIN_SRC emacs-lisp
+      (use-package eshell
+        :init
+        (setenv "PAGER" "cat")
+        (setq eshell-scroll-to-bottom-on-input t
+              eshell-error-if-no-glob t
+              eshell-hist-ignoredups t
+              eshell-save-history-on-exit t
+              eshell-prefer-lisp-functions nil
+              eshell-destroy-buffer-when-process-dies t))
+      (add-hook 'eshell-mode-hook '(lambda ()
+                                     (eshell/alias "ff" "find-file $1")
+                                     (eshell/alias "gd" "magit-diff-unstaged")
+                                     (eshell/alias "gds" "magit-diff-staged")
+                                     (eshell/alias "d" "dired $1")
+                                     (beacon-mode -1)
+                                     (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                                                   "/usr/local/bin/gls"
+                                                 "/bin/ls")))
+                                       (eshell/alias "la" (concat ls " -AlohG --color=always")))
+                                     (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)))
     #+END_SRC
 
 ** Packages
@@ -339,6 +366,18 @@
          (which-key-mode))
      #+END_SRC
 
+**** smart-mode-line
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package smart-mode-line
+         :pin melpa
+         :ensure t
+         :init
+         (setq sml/no-confirm-load-theme t
+               sml/theme 'respectful)
+         :config
+         (sml/setup))
+     #+END_SRC
 *** Python
 **** anaconda-mode
      Navigation, documentation, and linting for Python
@@ -453,7 +492,8 @@
      #+BEGIN_SRC emacs-lisp
        (use-package wgrep
          :ensure t
-         :pin melpa)
+         :pin melpa
+         :commands (wgrep-change-to-wgrep-mode))
      #+END_SRC
 
 *** Completion
@@ -478,7 +518,7 @@
                company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
                company-backends '(company-capf company-dabbrev-code company-dabbrev company-etags company-ispell)
                company-transformers '(company-sort-by-occurrence))
-         (add-hook 'after-init-hook 'global-company-mode)
+         (add-hook 'prog-mode-hook 'company-mode)
          (add-hook 'after-init-hook (lambda ()
                                       (define-key company-active-map (kbd "RET") 'company-complete-selection)
                                       (define-key company-active-map (quote [return]) 'company-complete-selection))))

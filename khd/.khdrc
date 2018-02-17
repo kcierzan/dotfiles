@@ -55,8 +55,8 @@ switcher - j         : chunkc tiling::window --focus south
 switcher - k         : chunkc tiling::window --focus north
 
 # focus monitors
-switcher - n         : chunkc tiling::monitor -f next
-switcher - m         : chunkc tiling::monitor -f prev
+switcher + shift - h         : chunkc tiling::monitor -f next
+switcher + shift - l         : chunkc tiling::monitor -f prev
 
 # --------------- swap mode -----------------------
 swap - d               :   khd -e "mode activate pane"
@@ -70,20 +70,20 @@ swap - k               :   chunkc tiling::window --swap north
 swap - l               :   chunkc tiling::window --swap east
 
 # Move windows and adjust layout
-swap + shift - h       :   chunkc tiling::window --warp west
-swap + shift - j       :   chunkc tiling::window --warp south
-swap + shift - k       :   chunkc tiling::window --warp north
-swap + shift - l       :   chunkc tiling::window --warp east
+swap + lctrl - h          :   chunkc tiling::window --warp west
+swap + lctrl - j          :   chunkc tiling::window --warp south
+swap + lctrl - k          :   chunkc tiling::window --warp north
+swap + lctrl - l          :   chunkc tiling::window --warp east
 
 # send to monitor
-swap - n               :   chunkc tiling::window --send-to-monitor next
-swap - m               :   chunkc tiling::window --send-to-monitor prev
+swap + shift + lcmd - h  : chunkc tiling::window --send-to-monitor next
+swap + shift + lcmd - l  : chunkc tiling::window --send-to-monitor prev
 
 # send to monitor with focus
-swap + shift - n       :   chunkc tiling::window --send-to-monitor next;\
-                           chunkc tiling::monitor -f next
-swap + shift - m       :   chunkc tiling::window --send-to-monitor prev;\
-                           chunkc tiling::monitor -f prev
+swap + shift - h          :   chunkc tiling::window --send-to-monitor next;\
+                              chunkc tiling::monitor -f next
+swap + shift - l          :   chunkc tiling::window --send-to-monitor prev;\
+                              chunkc tiling::monitor -f prev
 
 # --------------- pane mode -----------------------
 pane - a               :   khd -e "mode activate swap"

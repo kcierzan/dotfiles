@@ -52,7 +52,7 @@ if [[ "${terminfo[kcud1]}" != "" ]]; then
 fi
 
 #
-# bindkey -v
+bindkey -v
 
 zle -N zle-line-init
 zle -N zle-line-finish

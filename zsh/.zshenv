@@ -7,11 +7,11 @@
 # Remeber to comment out the annoying shenanigans going on in /etc/zprofile
 # Just place anything in /etc/paths.d into $PATH as defined here
 export JAVA_HOME='/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin'
-export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin"
+export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin"
 
-export TERM='tmux-256color'
-export EDITOR='emacs'
-export GIT_EDITOR='emacs'
+# export TERM='tmux-256color'
+export EDITOR='launch-emacs'
+export GIT_EDITOR='launch-emacs'
 
 export PYENV_ROOT=~/.pyenv
 export NVM_DIR="$HOME/.nvm"

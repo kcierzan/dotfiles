@@ -76,12 +76,12 @@ bindkey '^[[B' down-line-or-search
 
 # Go back through completion menu
 bindkey '^[[Z' reverse-menu-complete
+# auto rehash commands
 # ctrl-\ executes suggestion
 bindkey '^\' autosuggest-execute
 # ctrl-] accepts suggestion
 bindkey '^]' autosuggest-accept
 
-# auto rehash commands
 # http://www.zsh.org/mla/users/2011/msg00531.html
 zstyle ':completion:*' rehash true
 

@@ -11,8 +11,7 @@ export SPACESHIP_PROMPT_ORDER=(
   line_sep
   char
 )
-export SPACESHIP_PROMPT_SYMBOL=''
-# export SPACESHIP_PROMPT_SYMBOL=''
+export SPACESHIP_CHAR_SYMBOL=' '
 export SPACESHIP_KUBECONTEXT_SHOW=false
 export SPACESHIP_PYENV_COLOR='green'
 export SPACESHIP_GIT_SYMBOL=' '
