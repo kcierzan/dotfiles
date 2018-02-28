@@ -37,3 +37,6 @@ GRTAGS
 
 #vscode nose files
 .noseids
+
+#emacs dumb jump package
+.dumpjump
