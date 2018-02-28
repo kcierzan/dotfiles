@@ -10,8 +10,8 @@ export JAVA_HOME='/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Ho
 export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin"
 
 # export TERM='tmux-256color'
-export EDITOR='launch-emacs'
-export GIT_EDITOR='launch-emacs'
+export EDITOR='nvim'
+export GIT_EDITOR='nvim'
 
 export PYENV_ROOT=~/.pyenv
 export NVM_DIR="$HOME/.nvm"

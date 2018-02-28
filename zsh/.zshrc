@@ -38,9 +38,7 @@ source $ZPLUG_HOME/init.zsh
 
 # ------------ ZPLUG PLUGINS ------------------------
 zplug "zsh-users/zsh-autosuggestions", use:zsh-autosuggestions.zsh
-# zplug "geometry-zsh/geometry"
-# zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
-zplug "denysdovhan/spaceship-zsh-theme", use:spaceship.zsh, from:github, as:theme
+zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug load
 
@@ -50,9 +48,9 @@ if [ "$TERM_PROGRAM" = "iTerm.app" ]; then
 fi
 
 # Don't underline paths in command line
-export ZSH_HIGHLIGHT_STYLES[path]=none
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
-export ZSH_AUTOSUGGEST_USE_ASYNC='1'
+# export ZSH_HIGHLIGHT_STYLES[path]=none
+# export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
+# export ZSH_AUTOSUGGEST_USE_ASYNC='1'
 
 # Source additional dotfiles
 source ~/.zsh/aliases.zsh
