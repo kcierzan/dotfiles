@@ -68,8 +68,8 @@ chunkc core::load ffm.so
 # NOTE: shell commands require escaped quotes
 #       to pass value containing a whitespace.
 
-chunkc tiling::rule --owner Finder --name Copy --state float
+chunkc tiling::rule --owner Finder --state float
 chunkc tiling::rule --owner 1Password --state float
-# chunkc tiling::rule --owner Spark --state float
-# chunkc tiling::rule --owner HipChat --state float
+chunkc tiling::rule --owner Spark --state float
+chunkc tiling::rule --owner HipChat --state float
 chunkc tiling::rule --owner \"App Store\" --state float

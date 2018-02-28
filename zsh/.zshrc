@@ -4,9 +4,6 @@
 #  _ / /_(__  ) / / / /  / /__
 # (_)___/____/_/ /_/_/   \___/
 
-# Set up zsh completion ASAP
-source ~/.zsh/completion.zsh
-
 # Cache fasd init files
 fasd_cache="$HOME/.fasd-init-cache"
 if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
@@ -39,9 +36,6 @@ nvm() {
 # Initialize zplug
 source $ZPLUG_HOME/init.zsh
 
-# bindkey jk vi-cmd-mode
-# bindkey kj vi-cmd-mode
-
 # ------------ ZPLUG PLUGINS ------------------------
 zplug "zsh-users/zsh-autosuggestions", use:zsh-autosuggestions.zsh
 # zplug "geometry-zsh/geometry"
@@ -73,6 +67,9 @@ fi
 
 # Set iTerm2 menu bar color
 source ~/.zsh/firewatch-itermbar.zsh
+
+# Set up zsh completion
+source ~/.zsh/completion.zsh
 
 # if [[ -z "$TMUX" ]] ;then
 #     ID="`tmux ls | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session

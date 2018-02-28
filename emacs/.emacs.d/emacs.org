@@ -1,6 +1,5 @@
 #+TITLE: Emacs Configuration
 #+STARTUP: content
-
 * Basic Configuration
 ** Global minor modes
    #+name: basic
@@ -16,43 +15,31 @@
      (menu-bar-mode -1)
      (tool-bar-mode -1)
      (scroll-bar-mode -1)
-     (setq frame-title-format "emacs")
+     (show-paren-mode 1)
+     (setq frame-title-format "Emacs")
      (setq-default left-fringe-width 5
                    line-spacing 4
                    ring-bell-function 'ignore
                    idle-update-delay 0.5
-                   inhibit-startup-screen t)
+                   inhibit-startup-screen t
+                   inhibit-startup-message t
+                   inhibit-startup-echo-area-message user-login-name
+                   inhibit-default-init t
+                   initial-scratch-message nil)
      (set-frame-parameter nil 'internal-border-width 2)
      (add-hook 'prog-mode-hook 'hl-line-mode)
+     (add-to-list 'default-frame-alist '(font . "OperatorMono Nerd Font"))
+     (set-face-attribute 'variable-pitch nil :font "Fira Sans" :height 140)
+     (set-face-attribute 'fixed-pitch nil :font "OperatorMono Nerd Font")
+     (set-face-attribute 'default  nil :font "OperatorMono Nerd Font")
+     (set-face-attribute 'mode-line nil :height 140)
+
+     (defun kyle//change-font-size ()
+       "Change the font after init,"
+       (set-face-attribute 'default nil :height 140))
+
+     (add-hook 'window-setup-hook 'kyle//change-font-size)
    #+END_SRC
-
-*** Smooth Scrolling
-    #+name: basic-ui
-    #+BEGIN_SRC emacs-lisp
-      (setq mac-redisplay-dont-reset-vscroll t
-            mac-mouse-wheel-smooth-scroll t
-            scroll-conservatively 101
-            select-enable-primary t
-            mouse-wheel-follow-mouse t
-            mouse-wheel-progressive-speed nil
-            mouse-wheel-scroll-amount '(2 ((shift) . 4) ((control) . 6)))
-    #+END_SRC
-
-*** Fonts
-    #+name: basic-ui
-    #+BEGIN_SRC emacs-lisp
-      (add-to-list 'default-frame-alist '(font . "OperatorMono Nerd Font"))
-      (set-face-attribute 'variable-pitch nil :font "Fira Sans" :height 140)
-      (set-face-attribute 'fixed-pitch nil :font "OperatorMono Nerd Font")
-      (set-face-attribute 'default  nil :font "OperatorMono Nerd Font")
-      (set-face-attribute 'mode-line nil :height 140)
-
-      (defun kyle//change-font-size ()
-        "Change the font after init,"
-        (set-face-attribute 'default nil :height 140))
-
-      (add-hook 'window-setup-hook 'kyle//change-font-size)
-    #+END_SRC
 
 ** UTF-8
    #+name: basic
@@ -75,12 +62,6 @@
    #+END_SRC
 
 ** Misc
-   #+name: basic
-   Move custom configuration to a separate file
-   #+BEGIN_SRC emacs-lisp
-     (setq custom-file "~/.emacs.d/custom.el")
-   #+END_SRC
-
    Bump the GC threshold for startup only
    #+name: basic
    #+BEGIN_SRC emacs-lisp
@@ -99,11 +80,18 @@
      (setq sentence-end-double-space nil)
    #+END_SRC
 
-   Set some limits
+   Recentf
    #+name: basic
    #+BEGIN_SRC emacs-lisp
-     (setq recentf-max-menu-item 25
-           history-length 500)
+     (use-package recentf
+       :pin melpa
+       :ensure t
+       :config
+       (setq recentf-max-menu-items 0
+             recentf-max-saved-items 300
+             recentf-filename-handlers '(file-truename)
+             recentf-exclude
+             (list "^/ssh:" "/TAGS$")))
    #+END_SRC
 
    Backups and lockfiles aren't useful. Instead, revert automatically on change to a file.
@@ -118,9 +106,9 @@
 
    Don't ask me about large files.
    #+name: basic
-    #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
       (setq large-file-warning-threshold nil)
-    #+END_SRC
+   #+END_SRC
 
    Who wants to type "yes"?
    #+name: basic
@@ -154,6 +142,75 @@
       (setq explicit-shell-file-name "/usr/local/bin/zsh")
     #+END_SRC
 
+    A bunch of settings cribbed from doom-emacs
+    #+name: basic
+    #+BEGIN_SRC emacs-lisp
+      (setq-default
+       bidi-display-reordering nil
+       cursor-in-non-selected-windows nil
+       display-line-numbers-width 3
+       frame-inhibit-implied-resize t
+       ;; remove continuation arrow on right fringe
+       fringe-indicator-alist (delq (assq 'continuation fringe-indicator-alist)
+                                    fringe-indicator-alist)
+       highlight-nonselected-windows nil
+       image-animate-loop t
+       indicate-buffer-boundaries nil
+       indicate-empty-lines nil
+       max-mini-window-height 0.3
+       ;; disable mode-line mouseovers
+       mode-line-default-help-echo nil
+       mouse-yank-at-point t
+       ibuffer-use-other-window t
+       resize-mini-windows 'grow-only
+       show-help-function nil
+       split-width-threshold 160
+       uniquify-buffer-name-style 'forward
+       use-dialog-box nil
+       visible-cursor nil
+       x-stretch-cursor nil
+       ;; defer jit font locking slightly to improve performance
+       jit-lock-defer-time nil
+       jit-lock-stealth-nice 0.1
+       jit-lock-stealth-time 0.2
+       jit-lock-stealth-verbose nil
+       ;; `pos-tip' defaults
+       pos-tip-internal-border-width 6
+       pos-tip-border-width 1)
+    #+END_SRC
+
+    Some sensible defaults for general text editing.
+    #+name: basic
+    #+BEGIN_SRC emacs-lisp
+      (setq-default
+       delete-trailing-lines nil
+       fill-column 80
+       sentence-end-double-space nil
+       word-wrap t
+       hscroll-margin 1
+       hscroll-step 1
+       scroll-conservatively 1001
+       scroll-margin 0
+       scroll-preserve-screen-position t
+       require-final-newline t
+       tab-always-indent t
+       tab-width 4
+       tabify-regexp "^t* [ \t]+" ; for retab
+       truncate-lines t
+       truncate-partial-width-windows 50
+       whitespace-line-column fill-column
+       whitespace-style
+       '(face indentation tabs tab-mark spaces space-mark newline newline-mark
+              trailing lines-tail)
+       whitespace-display-mappings
+       '((tab-mark ?\t [?› ?\t])
+         (newline-mark ?\n [?¬ ?\n])
+         (space-mark ?\  [?·] [?.])))
+
+      (if (fboundp 'fringe-mode) (fringe-mode '4))
+      (tooltip-mode -1)
+    #+END_SRC
+
 ** Eshell
    I am learning to like eshell. It's weird. Let's make it work better.
     #+name: basic
@@ -183,7 +240,7 @@
 ** Packages
 *** Navigation
 **** ace-link
-     Navigate to links tridactyl-style
+     Navigate to links cvim-style
      #+name: navigation
      #+BEGIN_SRC emacs-lisp
        (use-package ace-link
@@ -215,20 +272,6 @@
      #+END_SRC
 
 *** UI
-**** beacon
-     Highlight the cursor after a jump
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       (use-package beacon
-         :ensure t
-         :diminish beacon-mode
-         :pin elpa
-         :config
-         ;; spacemacs yellow
-         (setq beacon-color "#fcd845")
-         (beacon-mode 1))
-     #+END_SRC
-
 **** diminish
      Hide icons in the modeline
      #+name: interface
@@ -372,12 +415,12 @@
        (use-package smart-mode-line
          :pin melpa
          :ensure t
-         :init
-         (setq sml/no-confirm-load-theme t
-               sml/theme 'respectful)
          :config
-         (sml/setup))
+         (setq sml/no-confirm-load-theme t)
+         (sml/setup)
+         (setq sml/theme 'respectful))
      #+END_SRC
+
 *** Python
 **** anaconda-mode
      Navigation, documentation, and linting for Python
@@ -420,10 +463,20 @@
          (add-hook 'python-mode-hook 'pyvenv-autoload))
      #+END_SRC
 
+**** evil-text-object-python
+     Adds  text-objects for python statements using the letter 'l'.
+     #+name: python
+     #+BEGIN_SRC emacs-lisp
+       (use-package evil-text-object-python
+         :pin melpa
+         :ensure t
+         :config
+         (add-hook 'python-mode-hook 'evil-text-object-python-add-bindings))
+     #+END_SRC
+
 *** Editing
 **** smartparens
      Automatically match delimiters
-**** TODO conditionally enable strict-mode
      #+name: editing
      #+BEGIN_SRC emacs-lisp
        (use-package smartparens
@@ -432,6 +485,11 @@
          :pin melpa
          :config
          (require 'smartparens-config)
+         (setq sp-autowrap-region nil
+               sp-highlight-pair-overlay nil
+               sp-autoskip-on-backward-movement nil
+               sp-show-pair-delay 0
+               sp-max-pair-length 3)
          (add-hook 'prog-mode-hook 'smartparens-mode))
      #+END_SRC
 
@@ -450,18 +508,6 @@
          :pin melpa
          :config
          (evil-multiedit-default-keybinds))
-     #+END_SRC
-
-**** evil-mc
-     #+name: editing
-     #+BEGIN_SRC emacs-lisp
-       (use-package evil-mc
-         :pin melpa
-         :diminish t
-         :ensure t
-         :config
-         (add-hook 'prog-mode-hook 'turn-on-evil-mc-mode)
-         (add-hook 'text-mode-hook 'turn-on-evil-mc-mode))
      #+END_SRC
 
 **** evil-visualstar
@@ -613,14 +659,14 @@
          (require 'helm-config)
          (helm-mode 1)
          (helm-autoresize-mode 1)
+         (setq-default helm-boring-buffer-regexp-list
+                       (append '("TAGS" "\\*anaconda-mode\\*") helm-boring-buffer-regexp-list))
          (setq helm-autoresize-min-height 5)
          (setq helm-echo-input-in-header-line t)
          (defun set-helm-font-bigger ()
              (set (make-local-variable 'face-remapping-alist)
             '((default :height 1.0))))
-         (add-hook 'minibuffer-setup-hook 'set-helm-font-bigger)
-         (with-eval-after-load 'helm
-           (append helm-boring-buffer-regexp-list '("TAGS" "\\*anaconda-mode\\*"))))
+         (add-hook 'minibuffer-setup-hook 'set-helm-font-bigger))
      #+END_SRC
 
 **** helm-ag
@@ -632,6 +678,8 @@
          :pin melpa
          :after helm
          :config
+         ;; breaks helm-projectile which hardcodes a "--ignore" flag :(
+         ;; (setq helm-ag-base-command "rg --vimgrep --no-heading --smart-case"))
          (setq helm-ag-base-command "ag --nocolor --nogroup --hidden"))
      #+END_SRC
 
@@ -680,27 +728,34 @@
        (use-package general
          :ensure t
          :pin melpa
-         :init
-         (setq general-default-keymaps '(evil-normal-state-map evil-motion-state-map info-mode-map help-mode-map dired-mode-map))
          :config
          (general-evil-setup)
-         ;; special modes ignore space
-         (general-define-key :keymaps '(dired-mode-map info-mode-map help-mode-map) :states '(normal motion)
-                             "SPC" nil)
-         (general-define-key :keymaps '(dired-mode-map info-mode-map help-mode-map) :states '(normal motion)
-                             "gz" nil)
-         (general-create-definer global-leader :prefix "SPC")
-         (general-create-definer buffer-leader :prefix "SPC b")
-         (general-create-definer help-leader :prefix "SPC h")
-         (general-create-definer elisp-leader :prefix "SPC e")
-         (general-create-definer find-leader :prefix "SPC f")
-         (general-create-definer projectile-leader :prefix "SPC p")
-         (general-create-definer git-leader :prefix "SPC g")
-         (general-create-definer window-leader :prefix "SPC w")
-         (general-create-definer dir-leader :prefix "SPC d")
-         (general-create-definer evil-leader :prefix "g" :keymaps '(evil-normal-state-map evil-motion-state-map))
-         (evil-leader "" '(:ignore t :wk "Evil")
-                      "z" '(:ignore t :wk "evil-mc"))
+
+         (setq general-override-states '(insert
+                                         emacs
+                                         hybrid
+                                         normal
+                                         visual
+                                         motion
+                                         operator
+                                         replace))
+         (general-override-mode)
+         ;; unbind prefix keys
+         (general-define-key :keymaps 'override :states '(normal visual motion) "SPC" nil)
+         (general-define-key :keymaps 'override :states '(normal visual motion) "gz" nil)
+
+         (general-create-definer global-leader :prefix "SPC" :keymaps 'override :states '(normal visual motion))
+         (general-create-definer buffer-leader :prefix "SPC b" :keymaps 'override :states '(normal visual motion))
+         (general-create-definer help-leader :prefix "SPC h" :keymaps 'override :states '(normal visual motion))
+         (general-create-definer elisp-leader :prefix "SPC e" :keymaps 'override :states '(normal visual motion))
+         (general-create-definer find-leader :prefix "SPC f" :keymaps 'override :states '(normal visual motion))
+         (general-create-definer projectile-leader :prefix "SPC p" :keymaps 'override :states '(normal visual motion))
+         (general-create-definer git-leader :prefix "SPC g" :keymaps 'override :states '(normal visual motion))
+         (general-create-definer window-leader :prefix "SPC w" :keymaps 'override :states '(normal visual motion))
+         (general-create-definer dir-leader :prefix "SPC d" :keymaps 'override :states '(normal visual motion))
+         (general-create-definer evil-leader :prefix "g" :keymaps 'override :states '(normal visual motion))
+         (evil-leader "" '(:ignore t :wk "Evil"))
+         ;;              "z" '(:ignore t :wk "evil-mc"))
          (global-leader "" '(nil :wk "Leader")
                         "f" '(:ignore t :wk "Find")
                         "g" '(:ignore t :wk "Git")
@@ -725,7 +780,7 @@
                       "o" 'helm-semantic-or-imenu
                       "g" 'helm-do-ag
                       "f" 'helm-find-files
-                      "l" 'swiper)
+                      "l" 'helm-swoop)
          (projectile-leader "g" 'helm-projectile-ag
                             "r" 'helm-projectile-recentf
                             "d" 'helm-projectile-find-dir
@@ -734,31 +789,19 @@
          (elisp-leader "e" 'eval-buffer)
          (git-leader "g" 'magit
                      "b" 'magit-blame)
-         (window-leader "s" 'switch-window)
-         (general-define-key :keymaps 'evil-mc-key-map :prefix "gz" :states '(normal visual)
-                    "s" 'evil-mc-make-all-cursors
-                    "u" 'evil-mc-undo-all-cursors
-                    "n" 'evil-mc-make-and-goto-next-cursor
-                    "p" 'evil-mc-make-and-goto-prev-cursor
-                    "N" 'evil-mc-make-and-goto-last-cursor
-                    "P" 'evil-mc-make-and-goto-first-cursor)
-         ;; evil-mc active mappings
-         (general-define-key :keymaps 'evil-mc-key-map :states '(normal visual)
-                             "C-n" 'evil-mc-make-and-goto-next-cursor
-                             "C-N" 'evil-mc-make-and-goto-last-cursor
-                             "C-p" 'evil-mc-make-and-goto-prev-cursor
-                             "C-P" 'evil-mc-make-and-goto-first-cursor)
+         (window-leader "s" 'evil-window-split
+                        "v" 'evil-window-vsplit
+                        "o" 'delete-other-windows
+                        "d" 'evil-window-delete)
          ;; universal argument is C-f
          (general-define-key :keymaps 'universal-argument-map
                              "C-f" 'universal-argument-more)
          ;; non-prefix motion state
          (general-mmap "C-;" 'helm-M-x
-                       ;; make window splitting behave more like vim
-                       "C-w v" 'evil-window-vsplit
                        "gl" 'evil-avy-goto-line
                        "gs" 'evil-avy-goto-char-2
+                       "gD" 'dumb-jump-go
                        "C-f" 'universal-argument
-                       "C-w s" 'evil-window-split
                        "g C-]" 'xref-find-definitions)
 
          (defun minibuffer-keyboard-quit ()
@@ -774,14 +817,7 @@
                                         minibuffer-local-ns-map
                                         minibuffer-local-completion-map
                                         minibuffer-local-isearch-map
-                                        minibuffer-local-must-match-map)
-                             "C-q" 'minibuffer-keyboard-quit)
-         (defun helm-quit-mini ()
-             (general-define-key :keymaps 'helm-map
-                                 "C-q" 'helm-keyboard-quit))
-         (general-define-key :keymaps 'swiper-map
-                             "C-q" 'minibuffer-keyboard-quit)
-         (add-hook 'after-init-hook 'helm-quit-mini)
+                                        minibuffer-local-must-match-map))
          (general-define-key :keymaps '(evil-motion-state-map evil-insert-state-map evil-normal-state-map evil-operator-state-map)
                             "A-h" 'evil-window-left
                             "A-j" 'evil-window-down
@@ -800,12 +836,13 @@
                              "C-x c o" 'helm-occur
                              "C-M-n" 'helm-next-source
                              "C-M-p" 'helm-previous-source
-                             "C-h b" 'helm-descbinds)
+                             "C-h b" 'helm-descbinds
+                             "M-v" 'evil-paste-after)
          (general-define-key "C-u" 'evil-scroll-up)
          ;; helm mappings
-         (general-define-key :keymaps 'helm-map
+         (general-define-key :keymaps 'helm-map :states '(normal visual)
                              "TAB" 'helm-execute-persistent-action
-                             "C-t" 'helm-toggle-visible-mark))
+                             "A-SPC" 'helm-toggle-visible-mark))
      #+END_SRC
 
 *** Lint
@@ -834,7 +871,7 @@
          :after flycheck
          :config
          (setq flycheck-pos-tip-timeout 10
-               flycheck-display-errors-delay 0.5)
+               flycheck-display-errors-delay 0.9)
          (flycheck-pos-tip-mode 1))
      #+END_SRC
 
@@ -970,7 +1007,11 @@
          :ensure t
          :pin melpa-stable
          ;; N.B. - using fish likely slows down projectile somewhat
-         :init (setq projectile-enable-caching t)
+         :init
+         (setq projectile-enable-caching (not noninteractive)
+               projectile-indexing-method 'alien
+               projectile-globally-ignored-files '(".DS_STORE" "TAGS")
+               projectile-globally-ignored-file-suffixes '(".elc" ".pyc"))
          :diminish projectile-mode
          :config
          (projectile-mode t)
@@ -990,12 +1031,21 @@
                 ("\\.phtml$" . web-mode)))
      #+END_SRC
 
+*** Markdown
+    #+name: markdown
+    #+BEGIN_SRC emacs-lisp
+      (use-package markdown-mode
+        :ensure t
+        :pin melpa
+        :commands (markdown-mode gfm-mode)
+        :mode (("README\\.md\\'" . gfm-mode)
+               ("\\.md\\'" . markdown-mode)
+               ("\\.markdown\\'" . markdown-mode))
+        :init (setq markdown-command "multimarkdown"))
+    #+END_SRC
+
 *** Evil
 **** evil
-     #+BEGIN_QUOTE
-     Evil is whatever distracts. -- Franz Kafka
-     #+END_QUOTE
-
      #+name: evil
      #+BEGIN_SRC emacs-lisp
        (use-package evil
@@ -1006,7 +1056,6 @@
          (setq evil-want-C-u-scroll t)
          :config
          (evil-mode 1)
-         ;; ESC now escapes that pesky minibuffer
          (evil-declare-change-repeat 'company-complete)
          (evil-declare-change-repeat 'company-complete-selection)
          (evil-declare-change-repeat 'company-complete-common)
@@ -1014,7 +1063,7 @@
          (defun +evil-window-vfollow (&rest _) (evil-window-right 1))
          (advice-add #'evil-window-split :after #'+evil-window-follow)
          (advice-add #'evil-window-vsplit :after #'+evil-window-vfollow)
-         ;; 's' is pretty useless in evil - now it starts avy
+         ;; 's' is pretty useless in evil-mode - now it starts avy
          (with-eval-after-load 'avy
            (define-key evil-motion-state-map "s" 'evil-avy-goto-char-2)
            (define-key evil-normal-state-map "s" 'evil-avy-goto-char-2)))
@@ -1033,7 +1082,6 @@
      #+END_SRC
 
 **** evil-commentary
-     (n)vim-style comments
      #+name: evil
      #+BEGIN_SRC emacs-lisp
        (use-package evil-commentary
@@ -1060,7 +1108,7 @@
      #+END_SRC
 
 **** evil-magit
-     Enable evil in magit buffers
+     Enable basic evil motion in magit buffers
      #+name: evil
      #+BEGIN_SRC emacs-lisp
        (use-package evil-magit
@@ -1132,6 +1180,7 @@
      <<editing>>
      <<interface>>
      <<python>>
+     <<markdown>>
      <<org>>
      <<helm>>
      <<keys>>

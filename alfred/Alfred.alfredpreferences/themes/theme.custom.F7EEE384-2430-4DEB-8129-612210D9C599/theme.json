@@ -3,22 +3,22 @@
     "result" : {
       "textSpacing" : 5,
       "subtext" : {
-        "size" : 14,
+        "size" : 16,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "InputMonoNarrow Nerd Font",
+        "font" : "OperatorMono Nerd Font",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "InputMonoNarrow Nerd Font",
+        "font" : "OperatorMono Nerd Font",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#51AEEEFF",
-        "font" : "Input Sans Narrow",
+        "font" : "Fira Sans",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Input Sans Narrow",
+        "font" : "Fira Sans",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"

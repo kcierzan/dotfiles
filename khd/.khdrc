@@ -8,38 +8,38 @@ switcher + shift - backspace : chunkc core::load ffm.so;\
 switcher + lctrl - space : khd -e "mode activate default"
 swap + lctrl - space     : khd -e "mode activate default"
 pane + lctrl - space     : khd -e "mode activate default"
-grid + lctrl - space     : khd -e "mode activate default"
+float + lctrl - space     : khd -e "mode activate default"
 
 # Escape to quit
 switcher - 0x35          : khd -e "mode activate default"
 swap - 0x35              : khd -e "mode activate default"
 pane - 0x35              : khd -e "mode activate default"
-grid - 0x35              : khd -e "mode activate default"
+float - 0x35              : khd -e "mode activate default"
 
 # Ctrl-C to quit
 switcher + lctrl - c     : khd -e "mode activate default"
 swap + lctrl - c         : khd -e "mode activate default"
 pane + lctrl - c         : khd -e "mode activate default"
-grid + lctrl - c         : khd -e "mode activate default"
+float + lctrl - c         : khd -e "mode activate default"
 
 # -------------- Mode Colors ---------------------------
 
 # Default (blue) (transparent)
 khd mode default  on_enter chunkc border::color 0x00ebdbb2
 # Switcher (yellow)
-khd mode switcher on_enter chunkc border::color 0xFFbfa425
+khd mode switcher on_enter chunkc border::color 0xFFdaaa7d
 # Swap (red)
-khd mode swap     on_enter chunkc border::color 0xFF2e9574 
+khd mode swap     on_enter chunkc border::color 0xFFff6c6b
 # Pane (purple)
-khd mode pane     on_enter chunkc border::color 0xFFbb6dc4
-# Grid (green)
-khd mode grid     on_enter chunkc border::color 0xFF91b4b7
+khd mode pane     on_enter chunkc border::color 0xFFc678dd
+# Float (green)
+khd mode float     on_enter chunkc border::color 0xFF98be65
 
-# --------------- switcher mode -----------------------
+# -------------- switcher mode --------------------------
 lctrl - space        : khd -e "mode activate switcher"
 switcher - a         : khd -e "mode activate swap"
 switcher - d         : khd -e "mode activate pane"
-switcher - y         : khd -e "mode activate grid"
+switcher - y         : khd -e "mode activate float"
 
 switcher - r         : khd -e "reload"
 
@@ -61,7 +61,7 @@ switcher + shift - l         : chunkc tiling::monitor -f prev
 # --------------- swap mode -----------------------
 swap - d               :   khd -e "mode activate pane"
 swap - s               :   khd -e "mode activate switcher"
-swap - y               :   khd -e "mode activate grid"
+swap - y               :   khd -e "mode activate float"
 
 # Move windows around
 swap - h               :   chunkc tiling::window --swap west
@@ -88,7 +88,7 @@ swap + shift - l          :   chunkc tiling::window --send-to-monitor prev;\
 # --------------- pane mode -----------------------
 pane - a               :   khd -e "mode activate swap"
 pane - s               :   khd -e "mode activate switcher"
-pane - y               :   khd -e "mode activate grid"
+pane - y               :   khd -e "mode activate float"
 
 # Gaps and padding
 pane - p               :   chunkc tiling::desktop --padding inc
@@ -119,24 +119,51 @@ pane + shift - j       :   chunkc tiling::window --use-temporary-ratio -0.025 --
 pane + shift - k       :   chunkc tiling::window --use-temporary-ratio -0.025 --adjust-window-edge north
 pane + shift - l       :   chunkc tiling::window --use-temporary-ratio -0.025 --adjust-window-edge east
 
-# --------------- grid mode -----------------------
-grid - a         : khd -e "mode activate swap"
-grid - s         : khd -e "mode activate switcher"
-grid - d         : khd -e "mode activate pane"
+# --------------- float mode -----------------------
 
-grid - y         : chunkc tiling::window --toggle float
+float - a         : khd -e "mode activate swap"
+float - s         : khd -e "mode activate switcher"
+float - d         : khd -e "mode activate pane"
+
+float - y         : chunkc tiling::window --toggle float
+
+# E.g. Half Left: --grid-layout 1:2:0:0:1:1
+# divide screen into 1 row, 2 colummns
+# place window on square (column, row)
+# window is 1 grid wide and 1 grid tall.
 
 # half left
-grid - h         : chunkc tiling::window --grid-layout 1:2:0:0:1:1
+float - h         : chunkc tiling::window --grid-layout 1:2:0:0:1:1
 
 # half right
-grid - l         : chunkc tiling::window --grid-layout 1:2:1:0:1:1
+float - l         : chunkc tiling::window --grid-layout 1:2:1:0:1:1
 
 # 70% left
-grid + shift - h : chunkc tiling::window --grid-layout 1:10:0:0:7:1
+float + shift - h : chunkc tiling::window --grid-layout 1:10:0:0:7:1
 
-# 30% right?
-grid + shift - l : chunkc tiling::window --grid-layout 1:10:7:0:3:1
+# 30% left
+float + shift + lctrl - h : chunkc tiling::window --grid-layout 1:10:0:0:3:1
+
+# 70% right
+float + shift - l : chunkc tiling::window --grid-layout 1:10:3:0:7:1
+
+# 30% right
+float + shift + lctrl - l : chunkc tiling::window --grid-layout 1:10:7:0:3:1
+
+# Center box
+float - f         : chunkc tiling::window --grid-layout 10:10:2:2:6:6
+
+# upper left
+float - u         : chunkc tiling::window --grid-layout 10:10:0:0:5:5
+
+# upper right
+float - i         : chunkc tiling::window --grid-layout 10:10:5:0:5:5
+
+# lower left
+float - n         : chunkc tiling::window --grid-layout 10:10:0:5:5:5
+
+# lower right
+float - m         : chunkc tiling::window --grid-layout 10:10:5:5:5:5
 
 # ---------------- global keybindings ------------------
 lctrl - l         ![iTerm2, Emacs]: khd -p "- right"

@@ -1,12 +1,12 @@
 @font-face {
-  font-family: 'Fira Sans';
-  src: url('../../../../../../../../Fonts/FiraSans-Regular.ttf')  format('opentype');
+  font-family: 'OperatorMono Nerd Font';
+  src: url('../../../../../../../../Fonts/Operator Mono Medium Nerd Font Complete.otf')  format('opentype');
 }
 
 #cVim-command-bar, #cVim-command-bar-mode, #cVim-command-bar-input, #cVim-command-bar-search-results,
 .cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left,
 .cVim-completion-item .cVim-right {
-  font-family: Fira Sans, Helvetica Neue, Neue, sans-serif, monospace, Arial;
+  font-family: OperatorMono Nerd Font, Helvetica Neue, Neue, sans-serif, monospace, Arial;
   font-weight: 400 !important;
   font-size: 10pt !important;
   -webkit-font-smoothing: antialiased !important;
