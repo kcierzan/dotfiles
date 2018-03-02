@@ -28,9 +28,9 @@ alias ls="exa"
 alias find='gfind'
 alias sed='gsed'
 alias grep='ggrep'
-alias rm='grm'
-alias mv 'gmv -i'
-alias cp='gcp -i'
+# alias rm='grm'
+# alias mv 'gmv -i'
+# alias cp='gcp -i'
 alias gzip='/usr/local/bin/gzip'
 
 # Enable aliases to be sudo’ed

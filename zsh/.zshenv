@@ -1,24 +1,5 @@
-#                __
-#    ____  _____/ /_  ___  ____ _   __
-#   /_  / / ___/ __ \/ _ \/ __ \ | / /
-#  _ / /_(__  ) / / /  __/ / / / |/ /
-# (_)___/____/_/ /_/\___/_/ /_/|___/
-
-# Remeber to comment out the annoying shenanigans going on in /etc/zprofile
-# Just place anything in /etc/paths.d into $PATH as defined here
-export JAVA_HOME='/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin'
 export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin"
 
-# export TERM='tmux-256color'
-export EDITOR='nvim'
-export GIT_EDITOR='nvim'
-
-export PYENV_ROOT=~/.pyenv
-export NVM_DIR="$HOME/.nvm"
-
-export ZPLUG_HOME="/usr/local/opt/zplug"
-
-# colored man pages! hooray!
 export LESS_TERMCAP_mb=$(printf "\e[1;34m")
 export LESS_TERMCAP_md=$(printf "\e[1;34m")
 export LESS_TERMCAP_me=$(printf "\e[0m")
@@ -30,35 +11,17 @@ export PAGER="${commands[less]:-$PAGER}"
 
 export FZF_COMPLETION_TRIGGER='**'
 
-# the silver searcher - for when ripgrep is busted.
-# export FZF_DEFAULT_COMMAND='ag --hidden --follow --ignore="**.pyc" --ignore="**.min.*" -g ""'
-
-# ripgrep has issues with writing output to a broken pipe - it is 'fixed' for now...
-# https://github.com/BurntSushi/ripgrep/issues/200
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc"'
 
-# One Dark Theme for FZF
 export FZF_DEFAULT_OPTS='
 --color=fg:#839496,bg:-1,fg+:6,bg+:-1,header:3
 --color=hl:3,hl+:13,prompt:6,spinner:5,pointer:2,marker:4,info:2'
 
-# 10ms for key sequences
 export KEYTIMEOUT=1
 
-# Powerlevel9k prompt settings
-# source ~/.zsh/powerlevel9k.zsh
-
-# Geometry prompt settings
-# source ~/.zsh/geometry.zsh
-
-# Spaceship prompt settings
-source ~/.zsh/spaceship.zsh
-
-# One Dark LSCOLORS
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedxbxgxcxd
 
-# Now in GNU flavor
 export LS_COLORS="di=1;34:ln=1;35:so=1;31:pi=1;33:ex=1;32:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43"
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -119,3 +82,7 @@ _pyenv_lazy_load() {
   add-zsh-hook -d chpwd _pyenv_lazy_load
 }
 add-zsh-hook chpwd _pyenv_lazy_load
+# Ensure that a non-login, non-interactive shell has a defined environment.
+if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprofile"
+fi
