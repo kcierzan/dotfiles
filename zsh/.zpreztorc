@@ -45,7 +45,7 @@ zstyle ':prezto:load' pmodule \
 #
 
 # Set the query found color.
-zstyle ':prezto:module:autosuggestions:color' found 'green'
+zstyle ':prezto:module:autosuggestions:color' found 'fg=240'
 
 #
 # Completions
@@ -136,7 +136,7 @@ zstyle ':prezto:module:prompt' theme 'sorin'
 #
 
 # Auto switch the Python virtualenv on directory change.
-# zstyle ':prezto:module:python' skip-virtualenvwrapper-init 'no'
+# zstyle ':prezto:module:python' skip-virtualenvwrapper-init 'yes'
 # zstyle ':prezto:module:python:virtualenv' auto-switch 'no'
 
 # Automatically initialize virtualenvwrapper if pre-requisites are met.

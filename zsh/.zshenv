@@ -26,6 +26,8 @@ export LS_COLORS="di=1;34:ln=1;35:so=1;31:pi=1;33:ex=1;32:bd=34;46:cd=34;43:su=0
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
+
 # Lazy load pyenv... yeah...
 if [[ -d ~/.pyenv ]] && ! (( $+functions[zsh_setup_pyenv] )); then # only once!
   if ! (( $+PYENV_ROOT )); then
@@ -82,6 +84,7 @@ _pyenv_lazy_load() {
   add-zsh-hook -d chpwd _pyenv_lazy_load
 }
 add-zsh-hook chpwd _pyenv_lazy_load
+
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
