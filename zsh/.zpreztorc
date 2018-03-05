@@ -34,11 +34,11 @@ zstyle ':prezto:load' pmodule \
   'directory' \
   'utility' \
   'completion' \
-  'prompt' \
   'git' \
   'syntax-highlighting' \
   'history-substring-search' \
-  'autosuggestions'
+  'autosuggestions' \
+  'prompt'
 
 #
 # Autosuggestions
