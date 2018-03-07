@@ -1,9 +1,9 @@
-"    __    _           ___                   _         
-"   / /_  (_)___  ____/ (_)___  ____ __   __(_)___ ___ 
+"    __    _           ___                   _
+"   / /_  (_)___  ____/ (_)___  ____ __   __(_)___ ___
 "  / __ \/ / __ \/ __  / / __ \/ __ `/ | / / / __ `__ \
 " / /_/ / / / / / /_/ / / / / / /_/ /| |/ / / / / / / /
-"/_____/_/_/ /_/\__,_/_/_/ /_/\__, (_)___/_/_/ /_/ /_/ 
-"                            /____/                    
+"/_____/_/_/ /_/\__,_/_/_/ /_/\__, (_)___/_/_/ /_/ /_/
+"                            /____/
 
 " Keep search results in the center of the screen
 nmap n nzz
@@ -46,10 +46,6 @@ imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
 imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-k>":"")
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" jk is escape
-inoremap jk <Esc>
-inoremap kj <Esc>
 
 " H and L move to start and end of lines
 nmap L <Nop>
@@ -214,7 +210,7 @@ nnoremap <silent> <leader>fb :Buffers<CR>
 let g:lmap.f.b = ['fzf buffer', 'Find buffers']
 nnoremap <silent> <leader>fl :BLines<CR>
 let g:lmap.f.l = ['fzf line', 'Find lines']
-nnoremap <silent> <leader>fr :History<CR>
+nnoremap <silent> <leader>fr :HHistory<CR>
 let g:lmap.f.r = ['fzf file_mru', 'Find recent']
 nnoremap <silent> <leader>fg :Rg<CR>
 let g:lmap.f.g = ['fzf grep', 'Grep']

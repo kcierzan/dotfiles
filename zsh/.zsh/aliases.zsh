@@ -246,7 +246,7 @@ fdd() {
 #   - ENTER      edit with neovim
 ff() {
     local out file key
-    IFS=$'\n' out=($(fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:75% --preview '[[ $(file --mime {}) =~ binary ]] &&
+    IFS=$'\n' out=($(fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
                    echo {} is a binary file ||
                    (highlight -O ansi -l {} ||
                    pygmentize -g {} ||
@@ -271,7 +271,7 @@ fr() {
   local file out key
   IFS=$'\n'
   out=($(gsed '1d' ~/.cache/neomru/file |
-         fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:75% --preview '[[ $(file --mime {}) =~ binary ]] &&
+         fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
                    echo {} is a binary file ||
                    (highlight -O ansi -l {} ||
                    pygmentize -g {} ||
@@ -381,4 +381,12 @@ ctags() {
     else
 	/usr/local/bin/ctags -R
     fi
+}
+
+pf() {
+  fd && ff
+}
+
+hdi() {
+  howdoi $* -c -n 3
 }
