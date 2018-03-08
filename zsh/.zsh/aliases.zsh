@@ -375,12 +375,12 @@ etags() {
 }
 
 ctags() {
-    version=$(pyenv version | cut -d ' ' -f 1)
-    if [ $version != system ]; then
-	/usr/local/bin/ctags && /usr/local/bin/ctags --append tags -R $(pyenv prefix)
-    else
-	/usr/local/bin/ctags -R
-    fi
+  version=$(pyenv version | cut -d ' ' -f 1)
+  if [ $version != system ]; then
+    /usr/local/bin/ctags && /usr/local/bin/ctags --append tags -R $(pyenv prefix)
+  else
+    /usr/local/bin/ctags -R
+  fi
 }
 
 pf() {

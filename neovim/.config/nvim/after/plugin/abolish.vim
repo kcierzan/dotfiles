@@ -1,2 +1,2 @@
-Abolish {,un}su{bcr,bsrc,scr,bs,cr,sbcr,sci}ibe{,r,s,rs} {}su{bscri}be{} 
-Abolish r{i,e}c{e,i}p{ei,i,e}nt r{e}c{i}p{ie}nt']} 
+Abolish {,un}su{bcr,bsrc,scr,bs,cr,sbcr,sci}ibe {}su{bscri}be{}
+Abolish r{i,e}c{e,i}p{ei,i,e}nt r{e}c{i}p{ie}nt{}

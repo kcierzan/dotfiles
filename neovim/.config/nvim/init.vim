@@ -4,10 +4,9 @@
 "  / / / / / / /__| |/ / / / / / / /
 " /_/_/ /_/_/\__(_)___/_/_/ /_/ /_/
 
-" Fix $PATH issues from using Fish
-set shell=/bin/sh
 
 scriptencoding utf-8
+set shell=/usr/local/bin/zsh
 set splitright
 set splitbelow
 set showcmd
@@ -30,6 +29,8 @@ set shiftwidth=2
 set expandtab
 set nowrap
 set shiftround
+set smartindent
+set autoindent
 set hidden
 set completeopt-=preview
 set pumheight=10
@@ -125,18 +126,11 @@ endfunction
 
 let g:startify_custom_header = s:filter_header(g:drip_header)
 
-"vim-easymotion
-Plug 'easymotion/vim-easymotion'
-
-" With this option set, v will match both v and V, but V will match V only.
-let g:EasyMotion_use_smartsign_us = 1 " US layout
-
-let g:EasyMotion_smartcase = 1
-
-" Remove annoying prefix
-augroup RemoveEasyMotionPrefix
-  au VimEnter *  nmap <leader><leader> <Nop> |
-augroup END
+"vim-sneak
+Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1
+let g:sneak#s_next =1
 
 "vim-tmux-navigator
 " Map alt + hjkl to navigation
@@ -172,10 +166,9 @@ let g:ale_python_pylint_options = '--rcfile=~/.pylintrc'
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
-"*** DEPENDS ON THE EXISTENCE OF A VIRTUALFISH VIRTUALENV WITH PYLINT >= 1.7.1 AND FLAKE8 INSTALLED ***
-let g:ale_python_flake8_executable = $HOME . '/.virtualenvs/neovim/bin/flake8'
+" let g:ale_python_flake8_executable = $HOME . '/.virtualenvs/neovim/bin/flake8'
 let g:ale_vim_vint_executable = $HOME . '/.virtualenvs/neovim/bin/vint'
-let g:ale_python_pylint_executable = $HOME . '/.virtualenvs/neovim/bin/pylint'
+" let g:ale_python_pylint_executable = $HOME . '/.virtualenvs/neovim/bin/pylint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
 let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
 let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
@@ -296,18 +289,22 @@ let g:fzf_buffers_jump = 1
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   'rg --line-number --no-heading --color=always '.shellescape(<q-args>), 0,
   \   fzf#vim#with_preview('right:50%'))
 
 command! -bang -nargs=* GGrep
-  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 1,
+  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0,
   \ fzf#vim#with_preview('right:50%'))
 
 command! -bang -nargs=* HHistory
   \ call fzf#vim#history(fzf#vim#with_preview('right:50%'))
 
 command! -bang -nargs=* GFiles
-      \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('up:50%'))
+      \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('right:50%'))
+
+command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
+  \ {'source': 'gfind '.(empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
+  \  'sink': 'cd'}))
 
 "jedi-vim
 Plug 'davidhalter/jedi-vim'
@@ -326,7 +323,7 @@ let g:jedi#completions_enabled = 0
 "vim-markdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
-let g:vim_markdown_folding_level = 2
+let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 
 "vim-airline

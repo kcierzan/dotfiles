@@ -15,25 +15,31 @@ nmap g# g#zz
 
 " Clear search highlight
 nnoremap <C-_> :nohlsearch<CR>
+
 " Select all text
 noremap vA ggVG
+
 " Align stuff
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
+
 " Move stuff left and right
 nmap gsh :SidewaysLeft<CR>
 nmap gsl :SidewaysRight<CR>
-" Jump to characters
-nmap s <Plug>(easymotion-overwin-f2)
+
 " Jump to tag in new window
 nnoremap gT g<C-]>
 " Jump to tag
 nnoremap gt g<C-]>
-" jump to next error message
+
+" Jump to next error message
 nnoremap ge :ALENextWrap<CR>
-" jumpt to next line
-nmap gl <Plug>(easymotion-bd-jk)
-nmap gl <Plug>(easymotion-overwin-line)
+
+" Replace f and t with sneak equivalents
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
 
 " Universal nvim split / Tmux navigation
 nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
@@ -218,12 +224,16 @@ nnoremap <silent> <leader>ft :Filetypes<CR>
 let g:lmap.f.t = ['fzf filetype', 'Find filetypes']
 nnoremap <silent> <Leader>fc :Colors<CR>
 let g:lmap.f.c = ['fzf coloscheme', 'Find colorschemes']
-nnoremap <silent> <Leader>fo :Tags<CR>
-let g:lmap.f.o = ['fzf outline', 'Find ctags']
+nnoremap <silent> <Leader>fO :Tags<CR>
+let g:lmap.f.O = ['fzf outline', 'Find ctags in project']
+nnoremap <silent> <Leader>fo :BTags<CR>
+let g:lmap.f.o = ['fzf outline', 'Find ctags in buffer']
 nnoremap <silent> <Leader>fe :Commands<CR>
 let g:lmap.f.e = ['fzf command', 'Find commands']
 nnoremap <silent> <Leader>fp :GGrep<CR>
 let g:lmap.f.p = ['fzf command', 'Git Grep']
+nnoremap <silent> <Leader>fd :Cd<CR>
+let g:lmap.f.d = ['fzf command', 'Change directory']
 
 "***** None of this works *****
 "------- Terminal-------------
