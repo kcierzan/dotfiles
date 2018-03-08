@@ -28,9 +28,9 @@ alias ls="exa"
 alias find='gfind'
 alias sed='gsed'
 alias grep='ggrep'
-alias rm='grm'
-alias mv 'gmv -i'
-alias cp='gcp -i'
+# alias rm='grm'
+# alias mv 'gmv -i'
+# alias cp='gcp -i'
 alias gzip='/usr/local/bin/gzip'
 
 # Enable aliases to be sudo’ed
@@ -246,7 +246,7 @@ fdd() {
 #   - ENTER      edit with neovim
 ff() {
     local out file key
-    IFS=$'\n' out=($(fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:75% --preview '[[ $(file --mime {}) =~ binary ]] &&
+    IFS=$'\n' out=($(fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
                    echo {} is a binary file ||
                    (highlight -O ansi -l {} ||
                    pygmentize -g {} ||
@@ -271,7 +271,7 @@ fr() {
   local file out key
   IFS=$'\n'
   out=($(gsed '1d' ~/.cache/neomru/file |
-         fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:75% --preview '[[ $(file --mime {}) =~ binary ]] &&
+         fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
                    echo {} is a binary file ||
                    (highlight -O ansi -l {} ||
                    pygmentize -g {} ||
@@ -375,10 +375,18 @@ etags() {
 }
 
 ctags() {
-    version=$(pyenv version | cut -d ' ' -f 1)
-    if [ $version != system ]; then
-	/usr/local/bin/ctags && /usr/local/bin/ctags --append tags -R $(pyenv prefix)
-    else
-	/usr/local/bin/ctags -R
-    fi
+  version=$(pyenv version | cut -d ' ' -f 1)
+  if [ $version != system ]; then
+    /usr/local/bin/ctags && /usr/local/bin/ctags --append tags -R $(pyenv prefix)
+  else
+    /usr/local/bin/ctags -R
+  fi
+}
+
+pf() {
+  fd && ff
+}
+
+hdi() {
+  howdoi $* -c -n 3
 }

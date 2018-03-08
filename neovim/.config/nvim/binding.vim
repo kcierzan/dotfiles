@@ -1,9 +1,9 @@
-"    __    _           ___                   _         
-"   / /_  (_)___  ____/ (_)___  ____ __   __(_)___ ___ 
+"    __    _           ___                   _
+"   / /_  (_)___  ____/ (_)___  ____ __   __(_)___ ___
 "  / __ \/ / __ \/ __  / / __ \/ __ `/ | / / / __ `__ \
 " / /_/ / / / / / /_/ / / / / / /_/ /| |/ / / / / / / /
-"/_____/_/_/ /_/\__,_/_/_/ /_/\__, (_)___/_/_/ /_/ /_/ 
-"                            /____/                    
+"/_____/_/_/ /_/\__,_/_/_/ /_/\__, (_)___/_/_/ /_/ /_/
+"                            /____/
 
 " Keep search results in the center of the screen
 nmap n nzz
@@ -15,25 +15,31 @@ nmap g# g#zz
 
 " Clear search highlight
 nnoremap <C-_> :nohlsearch<CR>
+
 " Select all text
 noremap vA ggVG
+
 " Align stuff
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
+
 " Move stuff left and right
 nmap gsh :SidewaysLeft<CR>
 nmap gsl :SidewaysRight<CR>
-" Jump to characters
-nmap s <Plug>(easymotion-overwin-f2)
+
 " Jump to tag in new window
 nnoremap gT g<C-]>
 " Jump to tag
 nnoremap gt g<C-]>
-" jump to next error message
+
+" Jump to next error message
 nnoremap ge :ALENextWrap<CR>
-" jumpt to next line
-nmap gl <Plug>(easymotion-bd-jk)
-nmap gl <Plug>(easymotion-overwin-line)
+
+" Replace f and t with sneak equivalents
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
 
 " Universal nvim split / Tmux navigation
 nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
@@ -46,10 +52,6 @@ imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
 imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-k>":"")
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" jk is escape
-inoremap jk <Esc>
-inoremap kj <Esc>
 
 " H and L move to start and end of lines
 nmap L <Nop>
@@ -214,7 +216,7 @@ nnoremap <silent> <leader>fb :Buffers<CR>
 let g:lmap.f.b = ['fzf buffer', 'Find buffers']
 nnoremap <silent> <leader>fl :BLines<CR>
 let g:lmap.f.l = ['fzf line', 'Find lines']
-nnoremap <silent> <leader>fr :History<CR>
+nnoremap <silent> <leader>fr :HHistory<CR>
 let g:lmap.f.r = ['fzf file_mru', 'Find recent']
 nnoremap <silent> <leader>fg :Rg<CR>
 let g:lmap.f.g = ['fzf grep', 'Grep']
@@ -222,12 +224,16 @@ nnoremap <silent> <leader>ft :Filetypes<CR>
 let g:lmap.f.t = ['fzf filetype', 'Find filetypes']
 nnoremap <silent> <Leader>fc :Colors<CR>
 let g:lmap.f.c = ['fzf coloscheme', 'Find colorschemes']
-nnoremap <silent> <Leader>fo :Tags<CR>
-let g:lmap.f.o = ['fzf outline', 'Find ctags']
+nnoremap <silent> <Leader>fO :Tags<CR>
+let g:lmap.f.O = ['fzf outline', 'Find ctags in project']
+nnoremap <silent> <Leader>fo :BTags<CR>
+let g:lmap.f.o = ['fzf outline', 'Find ctags in buffer']
 nnoremap <silent> <Leader>fe :Commands<CR>
 let g:lmap.f.e = ['fzf command', 'Find commands']
 nnoremap <silent> <Leader>fp :GGrep<CR>
 let g:lmap.f.p = ['fzf command', 'Git Grep']
+nnoremap <silent> <Leader>fd :Cd<CR>
+let g:lmap.f.d = ['fzf command', 'Change directory']
 
 "***** None of this works *****
 "------- Terminal-------------

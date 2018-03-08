@@ -4,10 +4,9 @@
 "  / / / / / / /__| |/ / / / / / / /
 " /_/_/ /_/_/\__(_)___/_/_/ /_/ /_/
 
-" Fix $PATH issues from using Fish
-set shell=/bin/sh
 
 scriptencoding utf-8
+set shell=/usr/local/bin/zsh
 set splitright
 set splitbelow
 set showcmd
@@ -30,6 +29,8 @@ set shiftwidth=2
 set expandtab
 set nowrap
 set shiftround
+set smartindent
+set autoindent
 set hidden
 set completeopt-=preview
 set pumheight=10
@@ -80,7 +81,7 @@ augroup END
 
 "ex commands
 function! JSONify()
-  %!python -mjson.tool
+  %!python -m json.tool
   set syntax=json
 endfunction
 
@@ -125,18 +126,11 @@ endfunction
 
 let g:startify_custom_header = s:filter_header(g:drip_header)
 
-"vim-easymotion
-Plug 'easymotion/vim-easymotion'
-
-" With this option set, v will match both v and V, but V will match V only.
-let g:EasyMotion_use_smartsign_us = 1 " US layout
-
-let g:EasyMotion_smartcase = 1
-
-" Remove annoying prefix
-augroup RemoveEasyMotionPrefix
-  au VimEnter *  nmap <leader><leader> <Nop> |
-augroup END
+"vim-sneak
+Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1
+let g:sneak#s_next =1
 
 "vim-tmux-navigator
 " Map alt + hjkl to navigation
@@ -172,10 +166,9 @@ let g:ale_python_pylint_options = '--rcfile=~/.pylintrc'
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
-"*** DEPENDS ON THE EXISTENCE OF A VIRTUALFISH VIRTUALENV WITH PYLINT >= 1.7.1 AND FLAKE8 INSTALLED ***
-let g:ale_python_flake8_executable = $HOME . '/.virtualenvs/neovim/bin/flake8'
+" let g:ale_python_flake8_executable = $HOME . '/.virtualenvs/neovim/bin/flake8'
 let g:ale_vim_vint_executable = $HOME . '/.virtualenvs/neovim/bin/vint'
-let g:ale_python_pylint_executable = $HOME . '/.virtualenvs/neovim/bin/pylint'
+" let g:ale_python_pylint_executable = $HOME . '/.virtualenvs/neovim/bin/pylint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
 let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
 let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
@@ -195,6 +188,7 @@ let g:indentLine_char = '│'
 let g:indentLine_first_char = '│'
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_fileTypeExclude = ['text', 'sh', 'startify', 'man', 'help']
+let g:indentLine_bufTypeExclude = ['terminal']
 let g:indentLine_setColors = 1
 
 "vim-test
@@ -267,7 +261,7 @@ let g:limelight_paragraph_span = 1
 Plug 'Shougo/neosnippet.vim'               " Snippet functionality
 Plug 'honza/vim-snippets'                  " Snippet collection
 Plug 'Shougo/neosnippet-snippets'          " Snippet collection
- 
+
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
 let g:AutoPairsMapCR = 0
@@ -290,26 +284,27 @@ let g:comfortable_motion_air_drag = 4.0
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
+let g:fzf_layout = { 'right': '~66%' }
 let g:fzf_buffers_jump = 1
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+  \   'rg --line-number --no-heading --color=always '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview('right:50%'))
 
 command! -bang -nargs=* GGrep
-  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 1,
-  \ <bang>0 ? fzf#vim#with_preview('up:60%')
-  \         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \ <bang>0)
+  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0,
+  \ fzf#vim#with_preview('right:50%'))
+
+command! -bang -nargs=* HHistory
+  \ call fzf#vim#history(fzf#vim#with_preview('right:50%'))
 
 command! -bang -nargs=* GFiles
-      \ call fzf#vim#files(<q-args>,
-      \                    <bang>0 ? fzf#vim#with_preview('up:60%')
-      \                            : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \                    <bang>0)
+      \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('right:50%'))
+
+command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
+  \ {'source': 'gfind '.(empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
+  \  'sink': 'cd'}))
 
 "jedi-vim
 Plug 'davidhalter/jedi-vim'
@@ -328,8 +323,17 @@ let g:jedi#completions_enabled = 0
 "vim-markdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
-let g:vim_markdown_folding_level = 2
+let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
+
+"vim-airline
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+let g:airline_powerline_fonts = 1
+let g:airline_theme='ayu_mirage'
+let g:airline#extensions#ale#enabled = 1
+let airline#extensions#ale#error_symbol = ' '
+let airline#extensions#ale#warning_symbol = ' '
 
 "misc plugins
 let g:polyglot_disabled = [ 'javascript', 'python' ]
@@ -345,7 +349,6 @@ Plug 'tpope/vim-commentary'                " Comment for great success
 Plug 'wellle/targets.vim'                  " Provide additional text objects
 Plug 'mbbill/undotree'                     " Undo Tree
 Plug 'moll/vim-bbye'                       " Delete and close buffers without closing windows
-Plug 'itchyny/lightline.vim'               " Lightline for more speed
 Plug 'mkitt/tabline.vim'                   " Better looking tabs
 Plug 'tpope/vim-fugitive'                  " Git Wrapper
 Plug 'sheerun/vim-polyglot'                " Lots of language packs
@@ -374,6 +377,3 @@ if filereadable(expand('~/.config/nvim/binding.vim'))
   source ~/.config/nvim/binding.vim
 endif
 
-if filereadable(expand('~/.config/nvim/lightline.vim'))
-  source ~/.config/nvim/lightline.vim
-endif

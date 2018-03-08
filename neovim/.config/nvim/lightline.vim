@@ -12,7 +12,9 @@ let g:lightline = {
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'gitgutter' ],
-      \             [ 'ale' ], [ 'filename' ]  ],
+      \             [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
+      \             [ 'filename' ]
+      \           ],
       \   'middle': [],
       \   'right': [ [ 'percent', 'lineinfo' ], [ 'filetype' ] ],
       \ },
@@ -36,7 +38,10 @@ let g:lightline = {
       \ },
       \ 'component_expand': {
         \ 'buffers': 'lightline#bufferline#buffers',
-        \ 'ale': 'LightLineAleStatus',
+        \  'linter_checking': 'lightline#ale#checking',
+        \  'linter_warnings': 'lightline#ale#warnings',
+        \  'linter_errors': 'lightline#ale#errors',
+        \  'linter_ok': 'lightline#ale#ok',
       \ },
       \ 'component_type': {
       \   'ale': 'error',
@@ -44,6 +49,22 @@ let g:lightline = {
       \ },
       \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
       \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
+      \ }
+
+let g:lightline#ale#indicator_checking = "\uf110"
+let g:lightline#ale#indicator_warnings = "\uf071"
+let g:lightline#ale#indicator_errors = "\uf05e"
+let g:lightline#ale#indicator_ok = "\uf00c"
+
+let g:lightline.component_type = {
+      \     'linter_checking': 'left',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'left',
+      \ }
+
+let g:lightline.component_type = {
+      \ 'filename': ''
       \ }
 
 function! LightlineModified()
@@ -120,10 +141,6 @@ function! LightlineReadonly()
   else
     return ''
   endif
-endfunction
-
-function! LightLineAleStatus()
-  return '%{ale#statusline#Status()}'
 endfunction
 
 augroup UpdateAleLightLine
