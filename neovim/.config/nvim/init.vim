@@ -4,7 +4,6 @@
 "  / / / / / / /__| |/ / / / / / / /
 " /_/_/ /_/_/\__(_)___/_/_/ /_/ /_/
 
-
 scriptencoding utf-8
 set shell=/usr/local/bin/zsh
 set splitright
@@ -131,6 +130,7 @@ Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 let g:sneak#s_next =1
+autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
 
 "vim-tmux-navigator
 " Map alt + hjkl to navigation
@@ -196,7 +196,7 @@ Plug 'janko-m/vim-test'                    " Run tests
 Plug 'benmills/vimux'                      " Interact with tmux from vim
 
 let g:test#python#runner = 'nose'
-let g:test#strategy = 'neovim'
+let g:test#strategy = 'vimux'
 let g:test#python#nose#options = '-x -v -s --with-coverage'
 
 "rainbow_parentheses
@@ -330,7 +330,7 @@ let g:vim_markdown_frontmatter = 1
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
-let g:airline_theme='ayu_mirage'
+let g:airline_theme='base16_monokai'
 let g:airline#extensions#ale#enabled = 1
 let airline#extensions#ale#error_symbol = ' '
 let airline#extensions#ale#warning_symbol = ' '
