@@ -66,7 +66,7 @@ autocmd BufNewFile,BufRead *.py
       \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix expandtab autoindent |
 
 autocmd BufNewFile,BufRead *.md
-      \ setlocal wrap tabstop=2 softtabstop=2 shiftwidth=2 textwidth=100 fileformat=unix expandtab autoindent |
+      \ setlocal wrap tabstop=2 softtabstop=2 shiftwidth=2 textwidth=100 fileformat=unix expandtab smartindent |
 
 autocmd filetype crontab setlocal nobackup nowritebackup
 
@@ -150,7 +150,7 @@ let g:ale_linters = {
       \ 'python': ['pylint', 'flake8'],
       \ 'javascript': ['eslint'],
       \ 'css': ['stylelint'],
-      \ 'php': ['phpstan'],
+      \ 'php': ['phpcs'],
       \ 'bash': ['shellcheck'],
       \ 'html': ['tidy'],
       \ 'vim': ['vint'],
@@ -330,43 +330,44 @@ let g:vim_markdown_frontmatter = 1
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
-let g:airline_theme='biogoo'
+" let g:airline_left_sep=''
+" let g:airline_right_sep=''
+let g:airline_theme='base16_monokai'
 let g:airline#extensions#ale#enabled = 1
 let airline#extensions#ale#error_symbol = ' '
 let airline#extensions#ale#warning_symbol = ' '
 
 "misc plugins
-let g:polyglot_disabled = [ 'javascript', 'python' ]
+let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
 
 let g:python_highlight_all = 1
 
-Plug 'Shougo/neomru.vim'                   " Recent files
-Plug 'tpope/vim-vinegar'                   " Make netrw better
-Plug 'tpope/vim-repeat'                    " Use . to repeat some stuff
-Plug 'jiangmiao/auto-pairs'                " Automatic deliminters
-Plug 'tpope/vim-surround'                  " Surround with brackets, quotes etc
-Plug 'tpope/vim-commentary'                " Comment for great success
-Plug 'wellle/targets.vim'                  " Provide additional text objects
-Plug 'mbbill/undotree'                     " Undo Tree
-Plug 'moll/vim-bbye'                       " Delete and close buffers without closing windows
-Plug 'mkitt/tabline.vim'                   " Better looking tabs
-Plug 'tpope/vim-fugitive'                  " Git Wrapper
-Plug 'sheerun/vim-polyglot'                " Lots of language packs
+Plug 'Shougo/neomru.vim'                   " recent files
+Plug 'tpope/vim-vinegar'                   " make netrw better
+Plug 'tpope/vim-repeat'                    " use . to repeat some stuff
+Plug 'jiangmiao/auto-pairs'                " automatic deliminters
+Plug 'tpope/vim-surround'                  " surround with brackets, quotes etc
+Plug 'tpope/vim-commentary'                " comment for great success
+Plug 'wellle/targets.vim'                  " provide additional text objects
+Plug 'mbbill/undotree'                     " undo Tree
+Plug 'moll/vim-bbye'                       " delete and close buffers without closing windows
+Plug 'mkitt/tabline.vim'                   " better looking tabs
+Plug 'tpope/vim-fugitive'                  " git Wrapper
+Plug 'sheerun/vim-polyglot'                " lots of language packs
 Plug 'junegunn/vim-easy-align'             " align stuff
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'tpope/vim-abolish'                   " correct common misspellings
-Plug 'AndrewRadev/sideways.vim'            " Move stuff sideways
-Plug 'hecal3/vim-leader-guide'             " Spacemacs style leader guide
-Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
-Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
-Plug 'tpope/vim-rhubarb'                   " Access GitHub
-Plug 'mattn/emmet-vim'                     " Markup Expansion
+Plug 'AndrewRadev/sideways.vim'            " move stuff sideways
+Plug 'hecal3/vim-leader-guide'             " which-key style leader guide
+Plug 'tpope/vim-rhubarb'                   " access GitHub
+Plug 'mattn/emmet-vim'                     " markup Expansion
 Plug 'majutsushi/tagbar'                   " show some tags
 Plug 'vim-python/python-syntax',           { 'for': ['python'] } " Make python look a little better
 Plug 'altercation/vim-colors-solarized'    " Termina sucks with solarized
-Plug 'scrooloose/vim-slumlord'             " Diagrams are cool
-Plug 'aklt/plantuml-syntax'                " Draw diagrams via annoying Java dependency...
 Plug 'haya14busa/vim-keeppad'              " Keep padding when line nums go away
+Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
+Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
+Plug 'wesQ3/vim-windowswap'                " Swap windows around
 call plug#end()
 
 syntax enable

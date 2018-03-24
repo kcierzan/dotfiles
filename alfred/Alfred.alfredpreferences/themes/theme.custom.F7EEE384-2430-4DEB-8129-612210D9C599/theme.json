@@ -3,15 +3,15 @@
     "result" : {
       "textSpacing" : 5,
       "subtext" : {
-        "size" : 16,
+        "size" : 14,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "OperatorMono Nerd Font",
+        "font" : "SFMono Nerd Font",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
-        "size" : 23,
+        "size" : 24,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "OperatorMono Nerd Font",
+        "font" : "SFMono Nerd Font",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",

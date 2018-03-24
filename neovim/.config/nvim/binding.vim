@@ -112,8 +112,6 @@ nnoremap <leader>wu :windo diffthis<CR>
 let g:lmap.w.u = ['windo diffthis', 'Vim diff']
 nnoremap <leader>wy :windo diffoff<CR>
 let g:lmap.w.y = ['windo diffoff', 'Diff off']
-nnoremap <leader>ww <C-w>w
-let g:lmap.w.w = ['<C-w>w', 'Switch split']
 nnoremap <leader>wr <C-w>r
 let g:lmap.w.r = ['<C-w>r', 'Rotate buffers']
 nnoremap <leader>wo <C-w>o
@@ -145,6 +143,8 @@ nnoremap <leader>bh :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
 let g:lmap.b.h = ['invcursorline', 'Toggle cursorline']
 nnoremap <leader>bi :IndentLinesToggle<CR>
 let g:lmap.b.i = [':IndentLinesToggle', 'Toggle indent lines']
+nnoremap <leader>bw :Nows<CR>
+let g:lmap.b.w = [':Nows', 'Remove trailing whitespace']
 
 "-------- Neovim -----------------
 let g:lmap.n = { 'name' : 'Neovim' }

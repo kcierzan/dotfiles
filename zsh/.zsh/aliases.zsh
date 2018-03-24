@@ -298,7 +298,7 @@ fr() {
 #   - ENTER     cd
 fd() {
     local out dir key
-    IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v +m)"
+    IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v,ctrl-e +m)"
     key=$(head -1 <<< "$out")
     dir=$(head -2 <<< "$out" | tail -1)
     if [ -d "$dir" ]; then
@@ -306,6 +306,8 @@ fd() {
             open "$dir"
         elif [ "$key" = ctrl-v ]; then
             cd "$dir" && code "$dir"
+        elif [ "$key" = ctrl-e ]; then
+            cd "$dir" && nvim "$dir"
         elif [ "$key" = ctrl-x ]; then
             rm -ir "$dir"
         else
