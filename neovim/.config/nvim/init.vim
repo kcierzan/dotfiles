@@ -145,7 +145,6 @@ set shortmess+=c
 Plug 'w0rp/ale'
 filetype off
 filetype plugin on
-
 let g:ale_linters = {
       \ 'python': ['pylint', 'flake8'],
       \ 'javascript': ['eslint'],
@@ -177,7 +176,6 @@ let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['✖ %d', '⚠ %d', '']
 let g:ale_warn_about_trailing_whitespace = 1
 let g:ale_lint_on_text_changed = 'normal'
-
 highlight ALEErrorSign ctermfg=1
 highlight ALEWarningSign ctermfg=3
 
@@ -194,7 +192,6 @@ let g:indentLine_setColors = 1
 "vim-test
 Plug 'janko-m/vim-test'                    " Run tests
 Plug 'benmills/vimux'                      " Interact with tmux from vim
-
 let g:test#python#runner = 'nose'
 let g:test#strategy = 'vimux'
 let g:test#python#nose#options = '-x -v -s --with-coverage'
@@ -205,14 +202,12 @@ let g:rainbow_active = 1
 let g:rainbow_conf = { 'ctermfgs': ['blue', 'cyan', 'magenta', 'red', 'yellow', 'green'] }
 
 "vim-gitgutter
-
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
 let g:gitgutter_max_signs = 5000
 
 "goyo
 Plug 'junegunn/goyo.vim' " Remove distractions
-
 let g:goyo_width = 100
 let g:goyo_linenr = 0
 
@@ -252,7 +247,6 @@ augroup END
 
 "limelight
 Plug 'junegunn/limelight.vim'              " Draw attention to code
-
 let g:limelight_conceal_ctermfg = 238
 let g:limelight_default_coefficient = 0.5
 let g:limelight_paragraph_span = 1
@@ -261,7 +255,6 @@ let g:limelight_paragraph_span = 1
 Plug 'Shougo/neosnippet.vim'               " Snippet functionality
 Plug 'honza/vim-snippets'                  " Snippet collection
 Plug 'Shougo/neosnippet-snippets'          " Snippet collection
-
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
 let g:AutoPairsMapCR = 0
@@ -277,13 +270,12 @@ vmap E <Plug>(expand_region_shrink)
 
 "comfortable-motion
 Plug 'yuttie/comfortable-motion.vim'
-let g:comfortable_motion_friction = 20.0
-let g:comfortable_motion_air_drag = 4.0
+let g:comfortable_motion_friction = 15.0
+let g:comfortable_motion_air_drag = 5.0
 
 "fzf.vim
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-
 let g:fzf_layout = { 'right': '~66%' }
 let g:fzf_buffers_jump = 1
 
@@ -308,7 +300,6 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
 
 "jedi-vim
 Plug 'davidhalter/jedi-vim'
-
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#use_splits_not_buffers = 1
 let g:jedi#goto_command = 'gd'
@@ -363,7 +354,6 @@ Plug 'tpope/vim-rhubarb'                   " access GitHub
 Plug 'mattn/emmet-vim'                     " markup Expansion
 Plug 'majutsushi/tagbar'                   " show some tags
 Plug 'vim-python/python-syntax',           { 'for': ['python'] } " Make python look a little better
-Plug 'altercation/vim-colors-solarized'    " Termina sucks with solarized
 Plug 'haya14busa/vim-keeppad'              " Keep padding when line nums go away
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
