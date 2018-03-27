@@ -34,6 +34,8 @@ set hidden
 set completeopt-=preview
 set pumheight=10
 set conceallevel=2
+set timeoutlen=1000
+set ttimeoutlen=0
 
 " Enable blinking cursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
@@ -327,6 +329,7 @@ let g:airline_theme='base16_monokai'
 let g:airline#extensions#ale#enabled = 1
 let airline#extensions#ale#error_symbol = ' '
 let airline#extensions#ale#warning_symbol = ' '
+" let g:airline#extensions#tabline#enabled = 1
 
 "misc plugins
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
@@ -354,10 +357,11 @@ Plug 'tpope/vim-rhubarb'                   " access GitHub
 Plug 'mattn/emmet-vim'                     " markup Expansion
 Plug 'majutsushi/tagbar'                   " show some tags
 Plug 'vim-python/python-syntax',           { 'for': ['python'] } " Make python look a little better
-Plug 'haya14busa/vim-keeppad'              " Keep padding when line nums go away
+Plug 'haya14busa/vim-keeppad'              " keep padding when line nums go away
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
-Plug 'wesQ3/vim-windowswap'                " Swap windows around
+Plug 'wesQ3/vim-windowswap'                " swap windows around
+Plug 'jrebert/vimagit'                     " magit for vim
 call plug#end()
 
 syntax enable
@@ -371,9 +375,6 @@ nmap * *zz
 nmap # #zz
 nmap g* g*zz
 nmap g# g#zz
-
-" Clear search highlight
-nnoremap <C-_> :nohlsearch<CR>
 
 " Select all text
 noremap vA ggVG
@@ -393,6 +394,11 @@ nnoremap gt g<C-]>
 
 " Jump to next error message
 nnoremap ge :ALENextWrap<CR>
+
+" Show syntax highlight at point
+map gi :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " Replace f and t with sneak equivalents
 nmap f <Plug>Sneak_f
@@ -508,7 +514,7 @@ let g:lmap.b.w = [':Nows', 'Remove trailing whitespace']
 "-------- Neovim -----------------
 let g:lmap.n = { 'name' : 'Neovim' }
 nnoremap <Leader>nr :so ~/.config/nvim/init.vim<CR>
-let g:lmap.n.r = ['so ~/.config/nvim/init.vim', 'Source dotfiles']
+let g:lmap.n.r = ['so ~/.config/nvim/init.vim', 'Source dotfile']
 nnoremap <Leader>ns :Startify<CR>
 let g:lmap.n.s = ['Startify', 'Open start menu']
 nnoremap <Leader>nu :PlugUpdate<CR>
@@ -564,35 +570,40 @@ nnoremap <silent> <leader>gp :GitGutterPreviewHunk<CR>
 let g:lmap.g.p = ['GitGutterPreviewHunk', 'Preview hunk']
 
 "--------FZF-----------
-let g:lmap.f = { 'name' : 'Find' }
-nnoremap <silent> <leader>ff :GFiles<CR>
-let g:lmap.f.f = ['fzf ripgrep', 'Find git files']
-nnoremap <silent> <leader>fa :Files<CR>
-let g:lmap.f.a = ['fzf find files', 'Find all files']
-nnoremap <silent> <leader>fh :Helptags<CR>
-let g:lmap.f.h = ['fzf help', 'Find help']
-nnoremap <silent> <leader>fb :Buffers<CR>
-let g:lmap.f.b = ['fzf buffer', 'Find buffers']
-nnoremap <silent> <leader>fl :BLines<CR>
-let g:lmap.f.l = ['fzf line', 'Find lines']
-nnoremap <silent> <leader>fr :HHistory<CR>
-let g:lmap.f.r = ['fzf file_mru', 'Find recent']
-nnoremap <silent> <leader>fg :Rg<CR>
-let g:lmap.f.g = ['fzf grep', 'Grep']
-nnoremap <silent> <leader>ft :Filetypes<CR>
-let g:lmap.f.t = ['fzf filetype', 'Find filetypes']
-nnoremap <silent> <Leader>fc :Colors<CR>
-let g:lmap.f.c = ['fzf coloscheme', 'Find colorschemes']
-nnoremap <silent> <Leader>fO :Tags<CR>
-let g:lmap.f.O = ['fzf outline', 'Find ctags in project']
-nnoremap <silent> <Leader>fo :BTags<CR>
-let g:lmap.f.o = ['fzf outline', 'Find ctags in buffer']
-nnoremap <silent> <Leader>fe :Commands<CR>
-let g:lmap.f.e = ['fzf command', 'Find commands']
-nnoremap <silent> <Leader>fp :GGrep<CR>
-let g:lmap.f.p = ['fzf command', 'Git Grep']
-nnoremap <silent> <Leader>fd :Cd<CR>
-let g:lmap.f.d = ['fzf command', 'Change directory']
+let g:lmap['<C-_>'] = { 'name' : 'FZF' }
+nnoremap <silent> <C-_>f :GFiles<CR>
+let g:lmap['<C-_>']['f'] = ['fzf ripgrep', 'Git files']
+nnoremap <silent> <C-_>a :Files<CR>
+let g:lmap['<C-_>']['a'] = ['fzf find files', 'All files']
+nnoremap <silent> <C-_>h :Helptags<CR>
+let g:lmap['<C-_>']['h'] = ['fzf help', 'Help']
+nnoremap <silent> <C-_>b :Buffers<CR>
+let g:lmap['<C-_>']['b'] = ['fzf buffer', 'Buffers']
+nnoremap <silent> <C-_>l :BLines<CR>
+let g:lmap['<C-_>']['l'] = ['fzf line', 'Lines']
+nnoremap <silent> <C-_>r :HHistory<CR>
+let g:lmap['<C-_>']['r'] = ['fzf file_mru', 'Recent files']
+nnoremap <silent> <C-_>g :Rg<CR>
+let g:lmap['<C-_>']['g'] = ['fzf grep', 'Rg']
+nnoremap <silent> <C-_>t :Filetypes<CR>
+let g:lmap['<C-_>']['t'] = ['fzf filetype', 'Filetypes']
+nnoremap <silent> <C-_>c :Colors<CR>
+let g:lmap['<C-_>']['c'] = ['fzf coloscheme', 'Colorschemes']
+nnoremap <silent> <C-_>O :Tags<CR>
+let g:lmap['<C-_>']['O'] = ['fzf outline', 'Project tags']
+nnoremap <silent> <C-_>o :BTags<CR>
+let g:lmap['<C-_>']['o'] = ['fzf outline', 'Buffer tags']
+nnoremap <silent> <C-_>e :Commands<CR>
+let g:lmap['<C-_>']['e'] = ['fzf command', 'Commands']
+nnoremap <silent> <C-_>p :GGrep<CR>
+let g:lmap['<C-_>']['p'] = ['fzf command', 'Git grep']
+nnoremap <silent> <C-_>d :Cd<CR>
+let g:lmap['<C-_>']['d'] = ['fzf command', 'Directories']
+"
+" Clear search highlight
+nnoremap <leader>c :nohlsearch<CR>
+let g:lmap.c = [':nohlsearch', 'Clear highlight']
+
 
 "***** None of this works *****
 "------- Terminal-------------

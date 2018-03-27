@@ -1,5 +1,4 @@
 export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin"
-# export PATH="$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin"
 
 export LESS_TERMCAP_mb=$(printf "\e[1;34m")
 export LESS_TERMCAP_md=$(printf "\e[1;34m")
@@ -18,7 +17,7 @@ export FZF_DEFAULT_OPTS='
 --color=fg:#839496,bg:-1,fg+:6,bg+:-1,header:3
 --color=hl:3,hl+:13,prompt:6,spinner:5,pointer:2,marker:4,info:2'
 
-export KEYTIMEOUT=1
+export KEYTIMEOUT=100
 
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedxbxgxcxd
