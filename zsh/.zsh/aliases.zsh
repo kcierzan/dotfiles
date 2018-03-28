@@ -241,7 +241,7 @@ bindkey '^_p' fkill
 
 # fzf search through history
 fh() {
-    print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+    LBUFFER+=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
 zle -N fh
 bindkey '^_h' fh
@@ -438,6 +438,12 @@ ctags() {
 pf() {
   fd && ff
 }
+
+range() {
+  tmux split-window -c "#{pane_current_path}" "ranger"
+}
+zle -N range
+bindkey '^_b' range
 
 hdi() {
   howdoi $* -c -n 3

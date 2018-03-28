@@ -325,11 +325,11 @@ Plug 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
 " let g:airline_left_sep=''
 " let g:airline_right_sep=''
-let g:airline_theme='base16_monokai'
+let g:airline_theme='termina'
 let g:airline#extensions#ale#enabled = 1
 let airline#extensions#ale#error_symbol = ' '
 let airline#extensions#ale#warning_symbol = ' '
-" let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
 
 "misc plugins
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]

@@ -24,16 +24,29 @@ float + lctrl - c         : khd -e "mode activate default"
 
 # -------------- Mode Colors ---------------------------
 
+# One Dark
+# Default (blue) (transparent)
+# khd mode default  on_enter chunkc border::color 0x00ebdbb2
+# Switcher (yellow)
+# khd mode switcher on_enter chunkc border::color 0xFFcfb372
+# Swap (red)
+# khd mode swap     on_enter chunkc border::color 0xFFfa6362
+# Pane (purple)
+# khd mode pane     on_enter chunkc border::color 0xFFc678dd
+# Float (green)
+# khd mode float     on_enter chunkc border::color 0xFF98be65
+
+# Gruvbox
 # Default (blue) (transparent)
 khd mode default  on_enter chunkc border::color 0x00ebdbb2
 # Switcher (yellow)
-khd mode switcher on_enter chunkc border::color 0xFFcfb372
+khd mode switcher on_enter chunkc border::color 0xFFd79921
 # Swap (red)
-khd mode swap     on_enter chunkc border::color 0xFFfa6362
+khd mode swap     on_enter chunkc border::color 0xFFcc241d
 # Pane (purple)
-khd mode pane     on_enter chunkc border::color 0xFFc678dd
+khd mode pane     on_enter chunkc border::color 0xFFb16286
 # Float (green)
-khd mode float     on_enter chunkc border::color 0xFF98be65
+khd mode float     on_enter chunkc border::color 0xFF689d6a
 
 # -------------- switcher mode --------------------------
 lctrl - space        : khd -e "mode activate switcher"
@@ -142,13 +155,13 @@ float - l         : chunkc tiling::window --grid-layout 1:2:1:0:1:1
 float + shift - h : chunkc tiling::window --grid-layout 1:10:0:0:7:1
 
 # 30% left
-float + shift + lctrl - h : chunkc tiling::window --grid-layout 1:10:0:0:3:1
+float + lctrl - h : chunkc tiling::window --grid-layout 1:10:0:0:3:1
 
 # 70% right
 float + shift - l : chunkc tiling::window --grid-layout 1:10:3:0:7:1
 
 # 30% right
-float + shift + lctrl - l : chunkc tiling::window --grid-layout 1:10:7:0:3:1
+float + lctrl - l : chunkc tiling::window --grid-layout 1:10:7:0:3:1
 
 # Center box
 float - f         : chunkc tiling::window --grid-layout 10:10:2:2:6:6
