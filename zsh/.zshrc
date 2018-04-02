@@ -20,13 +20,32 @@ pyenv-virtualenv-init() {
 }
 
 # Lazy load nvm
-nvm() {
-    (( $+commands[brew] )) && {
-        local pfx=$(brew --prefix)
-        [[ -f "$pfx/opt/nvm/nvm.sh" ]] && source "$pfx/opt/nvm/nvm.sh"
-        nvm "$@"
+# nvm() {
+#     (( $+commands[brew] )) && {
+#         local pfx=$(brew --prefix)
+#         [[ -f "$pfx/opt/nvm/nvm.sh" ]] && source "$pfx/opt/nvm/nvm.sh"
+#         nvm "$@"
+#   }
+# }
+
+# export NVM_DIR="$HOME/.nvm"
+# . "/usr/local/opt/nvm/nvm.sh"
+
+# Defer initialization of nvm until nvm, node or a node-dependent command is
+# run. Ensure this block is only run once if .bashrc gets sourced multiple times
+# by checking whether __init_nvm is a function.
+if [ -s "/usr/local/opt/nvm/nvm.sh" ] && [ ! "$(whence -w __init_nvm)" = function ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+  declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack')
+  function __init_nvm() {
+    for i in "${__node_commands[@]}"; do unalias $i; done
+    . /usr/local/opt/nvm/nvm.sh
+    unset __node_commands
+    unset -f __init_nvm
   }
-}
+  for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
+fi
 
 # Initialize fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -11,14 +11,14 @@
       "shortcut" : {
         "size" : 30,
         "colorSelected" : "#D7981EFF",
-        "font" : "Fira Sans",
+        "font" : "San Francisco Display",
         "color" : "#468783FF"
       },
       "backgroundSelected" : "#4B4C4CFF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#D7981EFF",
-        "font" : "Fira Sans",
+        "font" : "San Francisco Display",
         "color" : "#EBDAB1FF"
       },
       "iconPaddingHorizontal" : 4,
@@ -27,12 +27,12 @@
     },
     "search" : {
       "paddingVertical" : 6,
-      "background" : "#3B3C3CFF",
+      "background" : "#3A3C3AFF",
       "spacing" : 8,
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Fira Sans",
+        "font" : "San Francisco Display",
         "color" : "#458581FF"
       },
       "backgroundSelected" : "#7AC7FFFF"
@@ -43,7 +43,7 @@
       "width" : 750,
       "borderPadding" : 0,
       "borderColor" : "#0000007F",
-      "blur" : 15,
+      "blur" : 13,
       "roundness" : 5,
       "paddingVertical" : 9
     },

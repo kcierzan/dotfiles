@@ -218,7 +218,6 @@ function! s:goyo_enter()
   silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
   set noshowcmd
   set noshowmode
-  set scrolloff=999
   set nocursorline
   nunmap <silent> <leader>
   vunmap <silent> <leader>
@@ -232,7 +231,6 @@ function! s:goyo_leave()
   silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
   set showcmd
   set showmode
-  set scrolloff=3
   set cursorline
   colorscheme termina
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>

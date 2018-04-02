@@ -1,15 +1,16 @@
 @font-face {
-  font-family: 'OperatorMono Nerd Font';
-  src: url('../../../../../../../../Fonts/Operator Mono Medium Nerd Font Complete.otf')  format('opentype');
+  font-family: 'SFMono Nerd Font';
+  src: url('../../../../../../../../Fonts/SF Mono Regular Nerd Font Complete.otf')  format('opentype');
 }
 
 #cVim-command-bar, #cVim-command-bar-mode, #cVim-command-bar-input, #cVim-command-bar-search-results,
 .cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left,
 .cVim-completion-item .cVim-right {
-  font-family: OperatorMono Nerd Font, Helvetica Neue, Neue, sans-serif, monospace, Arial;
+  font-family: SFMono Nerd Font, Helvetica Neue, Neue, sans-serif, monospace, Arial;
   font-weight: 400 !important;
   font-size: 10pt !important;
-  -webkit-font-smoothing: antialiased !important;
+  font-smooth: always;
+  -webkit-font-smoothing: subpixel-antialiased !important;
 }
 
 #cVim-command-bar span {
@@ -22,7 +23,7 @@
 #cVim-command-bar {
   position: fixed;
   z-index: 2147483646;
-  background-color: #282c34;
+  background-color: #282828;
   color: #302505;
   display: none;
   box-sizing: content-box;
@@ -44,8 +45,8 @@
 }
 
 #cVim-command-bar-input {
-  background-color: #282c34;
-  color: #51afef;
+  background-color: #282828;
+  color: #458588;
   height: 100%;
   right: 0;
   top: 0;
@@ -60,7 +61,7 @@
   z-index: 2147483647;
   left: 0;
   box-shadow: 0 3px 3px rgba(0,0,0,0.4);
-  background-color: #282c34;
+  background-color: #282828;
 }
 
 .cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left, .cVim-completion-item .cVim-right {
@@ -74,7 +75,7 @@
 }
 
 .cVim-completion-item:nth-child(even) {
-  background-color: #21242b;
+  background-color: #2e2d2d;
 }
 
 .cVim-completion-item {
@@ -84,12 +85,12 @@
 
 .cVim-completion-item[active] {
   width: 100%; left: 0;
-  color: #98be65;
-  background-color: #5B6268;
+  color: #98971a;
+  background-color: #424141;
 }
 
 .cVim-completion-item[active] span {
-  color: #98be65;
+  color: #98971a;
 
 }
 .cVim-completion-item .cVim-left {
@@ -106,7 +107,7 @@
 
 #cVim-link-container, .cVim-link-hint,
 #cVim-hud, #cVim-status-bar {
-  font-family: Fira Sans, Helvetica Neue, Neue, sans-serif, monospace, Arial;
+  font-family: San Franciso Display, Helvetica Neue, Neue, sans-serif, monospace, Arial;
   font-size: 10pt !important;
   -webkit-font-smoothing: antialiased !important;
 }
@@ -122,7 +123,7 @@
 .cVim-link-hint {
   position: absolute;
   color: #ffffff !important;
-  background-color: #ff6c6b !important;
+  background-color: #fb4934 !important;
   border-radius: 2px !important;
   padding: 2px !important;
   font-size: 10pt !important;
@@ -152,7 +153,7 @@
   padding: 2px;
   padding-left: 4px;
   padding-right: 4px;
-  color: #51afef;
+  color: #458588;
   font-size: 10pt;
 }
 
