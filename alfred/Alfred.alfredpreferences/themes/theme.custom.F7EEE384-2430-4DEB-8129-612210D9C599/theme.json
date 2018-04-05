@@ -16,13 +16,13 @@
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
-        "size" : 24,
+        "size" : 25,
         "colorSelected" : "#51AEEEFF",
-        "font" : "Fira Sans",
+        "font" : "San Francisco Display",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 10,
+      "paddingVertical" : 13,
       "iconSize" : 40
     },
     "search" : {
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Fira Sans",
+        "font" : "San Francisco Display",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
