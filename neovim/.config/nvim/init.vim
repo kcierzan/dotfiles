@@ -350,7 +350,6 @@ Plug 'junegunn/vim-easy-align'             " align stuff
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'tpope/vim-abolish'                   " correct common misspellings
 Plug 'AndrewRadev/sideways.vim'            " move stuff sideways
-Plug 'hecal3/vim-leader-guide'             " which-key style leader guide
 Plug 'tpope/vim-rhubarb'                   " access GitHub
 Plug 'mattn/emmet-vim'                     " markup Expansion
 Plug 'majutsushi/tagbar'                   " show some tags
@@ -359,7 +358,7 @@ Plug 'haya14busa/vim-keeppad'              " keep padding when line nums go away
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
 Plug 'wesQ3/vim-windowswap'                " swap windows around
-Plug 'jrebert/vimagit'                     " magit for vim
+Plug 'jreybert/vimagit'                     " magit for vim
 call plug#end()
 
 syntax enable
@@ -441,185 +440,101 @@ nmap <C-H> <Nop>
 nnoremap <C-L> :bnext<CR>
 nnoremap <C-H> :bprev<CR>
 
-" Define leader guide dictionary
-let g:lmap = {}
-
 " -----Top Level Commands -------
 " Set leader key
 let mapleader = "\<Space>"
 tnoremap <Esc> <C-\><C-n>
 
-let g:lmap[' '] = ['', 'Exit']
 nnoremap <Leader>q :q<CR>
-let g:lmap.q = [':q', 'Close window']
 " Force close window
 nnoremap <Leader>Q :q!<CR>
-let g:lmap.Q = [':q!', 'Force close window']
 
 "------ Windows -------
-let g:lmap.w = { 'name' : 'Windows' }
-
 nnoremap <leader>wv :vsp<CR>
-let g:lmap.w.v = [':vsp', 'Split vertical']
 nnoremap <leader>ws :sp<CR>
-let g:lmap.w.s = [':sp', 'Split horizontal']
 nnoremap <leader>wk 10<C-w>+
-let g:lmap.w.k = ['<C-w>+', 'Expand split vertically']
 nnoremap <leader>wj 10<C-w>-
-let g:lmap.w.j = ['<C-w>-', 'Shrink split vertically']
 nnoremap <leader>wl 10<C-w>>
-let g:lmap.w.l = ['<C-w>>', 'Expand split right']
 nnoremap <leader>wh 10<C-w><
-let g:lmap.w.h = ['<C-w><', 'Expand split left']
 nnoremap <leader>wu :windo diffthis<CR>
-let g:lmap.w.u = ['windo diffthis', 'Vim diff']
 nnoremap <leader>wy :windo diffoff<CR>
-let g:lmap.w.y = ['windo diffoff', 'Diff off']
 nnoremap <leader>wr <C-w>r
-let g:lmap.w.r = ['<C-w>r', 'Rotate buffers']
 nnoremap <leader>wo <C-w>o
-let g:lmap.w.o = ['<C-w>o', 'Close splits']
 nnoremap <leader>we <C-w>=
-let g:lmap.w.e = ['<C-w>e', 'Equalize splits']
 nnoremap <leader>wV <C-w>H
-let g:lmap.w.V = ['<C-w>H', 'To vertical splits']
 nnoremap <leader>wS <C-w>J
-let g:lmap.w.S = ['<C-w>J', 'To horizontal splits']
 
 "---------Buffers ---------------
-let g:lmap.b = { 'name' : 'Buffers' }
 nnoremap <Leader>bd :Bdelete<CR>
-let g:lmap.b.d = [':Bdelete', 'Close buffer']
 nnoremap <Leader>bD :Bdelete!<CR>
-let g:lmap.b.D = [':Bdelete', 'Close buffer force']
 nnoremap <leader>bn :new<CR>
-let g:lmap.b.n = ['new', 'New buffer']
 nnoremap <leader>b% :set invrelativenumber<CR>
-let g:lmap.b['%'] = ['set invrelativenumber', 'Toggle relative numbers']
 nnoremap <leader>b# :set invnumber<CR>
-let g:lmap.b['#'] = ['set invnumber', 'Toggle line numbers']
 nnoremap <leader>bs :w<CR>
-let g:lmap.b.s = ['w', 'Save buffer']
 nnoremap <leader>br :edit!<CR>
-let g:lmap.b.r = ['edit!', 'Revert changes']
 nnoremap <leader>bh :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
-let g:lmap.b.h = ['invcursorline', 'Toggle cursorline']
 nnoremap <leader>bi :IndentLinesToggle<CR>
-let g:lmap.b.i = [':IndentLinesToggle', 'Toggle indent lines']
 nnoremap <leader>bw :Nows<CR>
-let g:lmap.b.w = [':Nows', 'Remove trailing whitespace']
 
 "-------- Neovim -----------------
-let g:lmap.n = { 'name' : 'Neovim' }
 nnoremap <Leader>nr :so ~/.config/nvim/init.vim<CR>
-let g:lmap.n.r = ['so ~/.config/nvim/init.vim', 'Source dotfile']
 nnoremap <Leader>ns :Startify<CR>
-let g:lmap.n.s = ['Startify', 'Open start menu']
 nnoremap <Leader>nu :PlugUpdate<CR>
-let g:lmap.n.u = ['Plug Update', 'Update plugins']
 nnoremap <Leader>ni :PlugInstall<CR>
-let g:lmap.n.i = ['Plug Install', 'Install plugins']
 nnoremap <Leader>nc :PlugClean<CR>
-let g:lmap.n.c = ['Plug Clean', 'Remove unmanaged plugins']
 
 "-------Extensions-------------------
-let g:lmap.e = { 'name' : 'Extensions' }
 nnoremap <leader>el :Limelight<CR>
-let g:lmap.e.l = ['Limelight', 'Focus code On']
 nnoremap <leader>eL :Limelight!<CR>
-let g:lmap.e.L = ['Limelight!', 'Focus code Off']
 nnoremap <leader>ez :Goyo<CR>
-let g:lmap.e.z = ['Goyo', 'Toggle zen mode']
 nnoremap <leader>eu :UndotreeToggle<CR>
-let g:lmap.e.u = ['UndoTree', 'Toggle UndoTree']
 nnoremap <leader>ea :ALEToggle<CR>
-let g:lmap.e.a = ['ALEToggle', 'Toggle linter']
 nnoremap <leader>et :TagbarToggle<CR>
-let g:lmap.e.t = ['TagbarToggle', 'Toggle tag bar']
 
 "-------Test-----------------
-let g:lmap.t = { 'name' : 'Test' }
 nnoremap <silent> <leader>tn :TestNearest<CR>
-let g:lmap.t.n = ['TestNearest', 'Run nearest test']
 nnoremap <silent> <leader>tf :TestFile<CR>
-let g:lmap.t.f = ['TestFile', 'Run tests for file']
 nnoremap <silent> <leader>ts :TestSuite<CR>
-let g:lmap.t.s = ['TestSuite', 'Run test suite']
 nnoremap <silent> <leader>tl :TestLast<CR>
-let g:lmap.t.l = ['TestLast', 'Run last test']
 nnoremap <silent> <leader>tv :TestVisit<CR>
-let g:lmap.t.v = ['TestVisit', 'Last run test']
 
 "-------Version Control-----------
-let g:lmap.g = { 'name' : 'Git' }
 nnoremap <silent> <leader>gs :Gstatus<CR>
-let g:lmap.g.s = ['Gstatus', 'Git status']
 nnoremap <silent> <leader>gb :Gblame<CR>
-let g:lmap.g.b = ['Gblame', 'Git blame']
 nnoremap <silent> <leader>gn :GitGutterNextHunk<CR>
-let g:lmap.g.n = ['GitGutterNextHunk', 'Next hunk']
 nnoremap <silent> <leader>gN :GitGutterPrevHunk<CR>
-let g:lmap.g.N = ['GitGutterPrevHunk', 'Previous hunk']
 nnoremap <silent> <leader>gh :GitGutterStageHunk<CR>
-let g:lmap.g.h = ['GitGutterStageHunk', 'Stage hunk']
 nnoremap <silent> <leader>gu :GitGutterUndoHunk<CR>
-let g:lmap.g.u = ['GitGutterUndoHunk', 'Undo hunk']
 nnoremap <silent> <leader>gp :GitGutterPreviewHunk<CR>
-let g:lmap.g.p = ['GitGutterPreviewHunk', 'Preview hunk']
 
 "--------FZF-----------
-let g:lmap['<C-_>'] = { 'name' : 'FZF' }
-nnoremap <silent> <C-_>f :GFiles<CR>
-let g:lmap['<C-_>']['f'] = ['fzf ripgrep', 'Git files']
-nnoremap <silent> <C-_>a :Files<CR>
-let g:lmap['<C-_>']['a'] = ['fzf find files', 'All files']
-nnoremap <silent> <C-_>h :Helptags<CR>
-let g:lmap['<C-_>']['h'] = ['fzf help', 'Help']
-nnoremap <silent> <C-_>b :Buffers<CR>
-let g:lmap['<C-_>']['b'] = ['fzf buffer', 'Buffers']
-nnoremap <silent> <C-_>l :BLines<CR>
-let g:lmap['<C-_>']['l'] = ['fzf line', 'Lines']
-nnoremap <silent> <C-_>r :HHistory<CR>
-let g:lmap['<C-_>']['r'] = ['fzf file_mru', 'Recent files']
-nnoremap <silent> <C-_>g :Rg<CR>
-let g:lmap['<C-_>']['g'] = ['fzf grep', 'Rg']
-nnoremap <silent> <C-_>t :Filetypes<CR>
-let g:lmap['<C-_>']['t'] = ['fzf filetype', 'Filetypes']
-nnoremap <silent> <C-_>c :Colors<CR>
-let g:lmap['<C-_>']['c'] = ['fzf coloscheme', 'Colorschemes']
-nnoremap <silent> <C-_>O :Tags<CR>
-let g:lmap['<C-_>']['O'] = ['fzf outline', 'Project tags']
-nnoremap <silent> <C-_>o :BTags<CR>
-let g:lmap['<C-_>']['o'] = ['fzf outline', 'Buffer tags']
-nnoremap <silent> <C-_>e :Commands<CR>
-let g:lmap['<C-_>']['e'] = ['fzf command', 'Commands']
-nnoremap <silent> <C-_>p :GGrep<CR>
-let g:lmap['<C-_>']['p'] = ['fzf command', 'Git grep']
-nnoremap <silent> <C-_>d :Cd<CR>
-let g:lmap['<C-_>']['d'] = ['fzf command', 'Directories']
+nnoremap <silent> <C-space>f :GFiles<CR>
+nnoremap <silent> <C-space>a :Files<CR>
+nnoremap <silent> <C-space>h :Helptags<CR>
+nnoremap <silent> <C-space>b :Buffers<CR>
+nnoremap <silent> <C-space>l :BLines<CR>
+nnoremap <silent> <C-space>r :HHistory<CR>
+nnoremap <silent> <C-space>g :Rg<CR>
+nnoremap <silent> <C-space>t :Filetypes<CR>
+nnoremap <silent> <C-space>c :Colors<CR>
+nnoremap <silent> <C-space>O :Tags<CR>
+nnoremap <silent> <C-space>o :BTags<CR>
+nnoremap <silent> <C-space>e :Commands<CR>
+nnoremap <silent> <C-space>p :GGrep<CR>
+nnoremap <silent> <C-space>d :Cd<CR>
 "
 " Clear search highlight
 nnoremap <leader>c :nohlsearch<CR>
-let g:lmap.c = [':nohlsearch', 'Clear highlight']
 
 
 "***** None of this works *****
 "------- Terminal-------------
-let g:lmap['\'] = { 'name': 'Debug' }
-let g:lmap['\']['r'] = ['pry', 'Pry']
 nnoremap <leader>\r :call DebugInTerminal('pry')<CR>
-let g:lmap['\']['p'] = ['pdb', 'Pdb']
 nnoremap <leader>\p :call DebugInTerminal('python -m pdb')<CR>
-let g:lmap['\']['n'] = ['node-debug', 'Node Debug']
 nnoremap <leader>\n :call DebugInTerminal('node-debug')<CR>
 
 function! DebugInTerminal(args)
   botright split
   execute 'terminal' a:args expand('%:p')
 endfunction
-
-" ------ Leader guide --------
-call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
-nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
-vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
 

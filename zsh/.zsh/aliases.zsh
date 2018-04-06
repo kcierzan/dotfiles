@@ -28,9 +28,9 @@ alias ls="exa"
 alias find='gfind'
 alias sed='gsed'
 alias grep='ggrep'
-# alias rm='grm'
-# alias mv 'gmv -i'
-# alias cp='gcp -i'
+alias awk='gawk'
+alias tar='gtar'
+
 alias gzip='/usr/local/bin/gzip'
 
 # Enable aliases to be sudo’ed
@@ -140,8 +140,6 @@ alias tl='tmux list-sessions'
 alias tksv='tmux kill-server'
 alias tkss='tmux kill-session -t'
 
-# ------------------------ F U N C T I O N S -----------------------
-
 # Create a new directory and enter it
 # Create a relative path to arg1 from ar2
 relpath() {
@@ -218,43 +216,6 @@ codepoint() {
     fi;
 }
 
-redraw-prompt() {
-    local precmd
-    for precmd in $precmd_functions; do
-        $precmd
-    done
-    zle reset-prompt
-}
-zle -N redraw-prompt
-
-# fzf based process killer
-fkill() {
-    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-
-    if [ "x$pid" != "x" ]
-    then
-        kill -${1:-9} $pid
-    fi
-}
-zle -N fkill
-bindkey '^_p' fkill
-
-# fzf search through history
-fh() {
-    LBUFFER+=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
-}
-zle -N fh
-bindkey '^_h' fh
-
-# cd to a child directory (hidden directories included)
-fdd() {
-    local dir
-    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
-    zle redraw-prompt
-}
-zle -N fdd
-bindkey '^_t' fdd
-
 # Recursive filename search and edit
 #   - CTRL-o     open with `open` command
 #   - CTRL-v     open with vsocde
@@ -283,63 +244,6 @@ ff() {
   fi
 }
 
-findfile() {
-  local out file key
-  IFS=$'\n'
-  out=($(rg ${1:-.} --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc" 2> /dev/null | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
-                  echo {} is a binary file ||
-                  (highlight -O ansi -l {} ||
-                  pygmentize -g {} ||
-                  cat {}) 2> /dev/null | head -2000'))
-  key=$(head -1 <<< "$out")
-  file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-      if [ "$key" = ctrl-o ]; then
-          open "$file"
-      elif [ "$key" = ctrl-x ]; then
-          rm -i "$file"
-      elif [ "$key" = ctrl-v ]; then
-          code "$file"
-      else
-          nvim "$file"
-      fi
-  fi
-}
-zle -N findfile
-bindkey '^_f' findfile
-
-# Edit a frecent file
-fr() {
-  local file out key
-  IFS=$'\n'
-  out=($(gsed '1d' ~/.cache/neomru/file |
-         fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
-                   echo {} is a binary file ||
-                   (highlight -O ansi -l {} ||
-                   pygmentize -g {} ||
-                   cat {}) 2> /dev/null | head -2000'))
-  key=$(head -1 <<< "$out")
-  file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-      if [ "$key" = ctrl-o ]; then
-          open "$file"
-      elif [ "$key" = ctrl-x ]; then
-          rm -i "$file"
-      elif [ "$key" = ctrl-v ]; then
-          code "$file"
-      else
-          nvim "$file"
-      fi
-  fi
-}
-zle -N fr
-bindkey '^_r' fr
-
-# Recent directory search and edit
-#   - CTRL-o    open with `open` command
-#   - CTRL-v    cd and open with vscode
-#   - CTRL-x    prompt for recursive deletion
-#   - ENTER     cd
 fd() {
     local out dir key
     IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v,ctrl-e +m)"
@@ -358,19 +262,6 @@ fd() {
             cd "$dir"
         fi
     fi
-    zle redraw-prompt
-}
-zle -N fd
-bindkey '^_d' fd
-
-# fuzzy checkout a git branch
-fb() {
-  local branches branch
-    branches=$(git branch --all | grep -v HEAD) &&
-    branch=$(echo "$branches" |
-            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-    git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-    zle && { zle reset-prompt; zle -R }
 }
 
 # fuzzy upgrade brew packages
@@ -394,13 +285,6 @@ flog() {
 termcol () {
   for code ({000..255}) print -P -- "$code: %F{$code}Isn't this a fun color?%f"
 }
-
-# fuzzy sshs into known hosts
-sshs() {
-  ~/.scripts/sshs -m
-}
-zle -N sshs
-bindkey '^_s' sshs
 
 # Color less
 cless () {
@@ -439,12 +323,164 @@ pf() {
   fd && ff
 }
 
+hdi() {
+  howdoi $* -c -n 3
+}
+
+# ----------------- ZLE ----------------------
+redraw-prompt() {
+    local precmd
+    for precmd in $precmd_functions; do
+        $precmd
+    done
+    zle reset-prompt
+}
+zle -N redraw-prompt
+
+# browse files in a new pane
 range() {
   tmux split-window -c "#{pane_current_path}" "ranger"
 }
 zle -N range
-bindkey '^_b' range
+bindkey '^[ b' range
 
-hdi() {
-  howdoi $* -c -n 3
+# fuzzy sshs into known hosts
+sshs() {
+  ~/.scripts/sshs -m
 }
+zle -N sshs
+bindkey '^ s' sshs
+
+# fuzzy checkout a git branch
+fb() {
+  local branches branch
+    branches=$(git branch --all | grep -v HEAD) &&
+    branch=$(echo "$branches" |
+            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+    git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+    zle && { zle reset-prompt; zle -R }
+}
+zle -N fb
+bindkey '^ g' fb
+
+# Recent directory search and edit
+#   - CTRL-o    open with `open` command
+#   - CTRL-v    cd and open with vscode
+#   - CTRL-x    prompt for recursive deletion
+#   - ENTER     cd
+recentdir() {
+    local out dir key
+    IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v,ctrl-e +m)"
+    key=$(head -1 <<< "$out")
+    dir=$(head -2 <<< "$out" | tail -1)
+    if [ -d "$dir" ]; then
+        if [ "$key" = ctrl-o ]; then
+            open "$dir"
+        elif [ "$key" = ctrl-v ]; then
+            cd "$dir" && code "$dir"
+        elif [ "$key" = ctrl-e ]; then
+            cd "$dir" && nvim "$dir"
+        elif [ "$key" = ctrl-x ]; then
+            rm -ir "$dir"
+        else
+            cd "$dir"
+        fi
+    fi
+    zle redraw-prompt
+}
+zle -N recentdir
+bindkey '^ d' recentdir
+
+# Edit a frecent file
+fr() {
+  local file out key
+  IFS=$'\n'
+  out=($(gsed '1d' ~/.cache/neomru/file |
+         fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
+                   echo {} is a binary file ||
+                   (highlight -O ansi -l {} ||
+                   pygmentize -g {} ||
+                   cat {}) 2> /dev/null | head -2000'))
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+      if [ "$key" = ctrl-o ]; then
+          open "$file"
+      elif [ "$key" = ctrl-x ]; then
+          rm -i "$file"
+      elif [ "$key" = ctrl-v ]; then
+          code "$file"
+      else
+          nvim "$file"
+      fi
+  fi
+}
+zle -N fr
+bindkey '^ r' fr
+
+findfile() {
+  local out file key
+  IFS=$'\n'
+  out=($(rg ${1:-.} --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc" 2> /dev/null | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
+                  echo {} is a binary file ||
+                  (highlight -O ansi -l {} ||
+                  pygmentize -g {} ||
+                  cat {}) 2> /dev/null | head -2000'))
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+      if [ "$key" = ctrl-o ]; then
+          open "$file"
+      elif [ "$key" = ctrl-x ]; then
+          rm -i "$file"
+      elif [ "$key" = ctrl-v ]; then
+          code "$file"
+      else
+          nvim "$file"
+      fi
+  fi
+}
+zle -N findfile
+bindkey '^ f' findfile
+
+# fzf based process killer
+fkill() {
+    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+    if [ "x$pid" != "x" ]
+    then
+        kill -${1:-9} $pid
+    fi
+}
+zle -N fkill
+bindkey '^ p' fkill
+
+# fzf search through history
+fh() {
+    LBUFFER+=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}
+zle -N fh
+bindkey '^ h' fh
+
+# cd to a child directory (hidden directories included)
+fdd() {
+    local dir
+    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+    zle redraw-prompt
+}
+zle -N fdd
+bindkey '^ t' fdd
+
+flog() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --header "Press CTRL-S to toggle sort" \
+      --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+                 xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
+      --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+              xargs -I % sh -c 'nvim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
+}
+zle -N flog
+bindkey '^ c' flog
+

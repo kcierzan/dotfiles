@@ -5,10 +5,10 @@ switcher + shift - backspace : chunkc core::load ffm.so;\
                                khd -e 'mode activate default'
 
 # Repeat prefix to quit
-switcher + lctrl - space : khd -e "mode activate default"
-swap + lctrl - space     : khd -e "mode activate default"
-pane + lctrl - space     : khd -e "mode activate default"
-float + lctrl - space     : khd -e "mode activate default"
+switcher + lalt - space : khd -e "mode activate default"
+swap + lalt - space     : khd -e "mode activate default"
+pane + lalt - space     : khd -e "mode activate default"
+float + lalt - space     : khd -e "mode activate default"
 
 # Escape to quit
 switcher - 0x35          : khd -e "mode activate default"
@@ -49,7 +49,7 @@ khd mode pane     on_enter chunkc border::color 0xFFb16286
 khd mode float     on_enter chunkc border::color 0xFF689d6a
 
 # -------------- switcher mode --------------------------
-lctrl - space        : khd -e "mode activate switcher"
+lalt - space        : khd -e "mode activate switcher"
 switcher - a         : khd -e "mode activate swap"
 switcher - d         : khd -e "mode activate pane"
 switcher - y         : khd -e "mode activate float"
@@ -83,10 +83,10 @@ swap - k               :   chunkc tiling::window --swap north
 swap - l               :   chunkc tiling::window --swap east
 
 # Move windows and adjust layout
-swap + lctrl - h          :   chunkc tiling::window --warp west
-swap + lctrl - j          :   chunkc tiling::window --warp south
-swap + lctrl - k          :   chunkc tiling::window --warp north
-swap + lctrl - l          :   chunkc tiling::window --warp east
+swap + lalt - h          :   chunkc tiling::window --warp west
+swap + lalt - j          :   chunkc tiling::window --warp south
+swap + lalt - k          :   chunkc tiling::window --warp north
+swap + lalt - l          :   chunkc tiling::window --warp east
 
 # send to monitor
 swap + shift + lcmd - h  : chunkc tiling::window --send-to-monitor next

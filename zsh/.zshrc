@@ -59,8 +59,8 @@ source ~/.zsh/aliases.zsh
 source ~/.zsh/extra.zsh
 
 echo -en "\033]6;1;bg;red;brightness;40\a"
-echo -en "\033]6;1;bg;green;brightness;40\a"
-echo -en "\033]6;1;bg;blue;brightness;40\a"
+echo -en "\033]6;1;bg;green;brightness;44\a"
+echo -en "\033]6;1;bg;blue;brightness;52\a"
 
 if [[ -z "$TMUX" ]] ;then
     ID="`tmux ls | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
