@@ -465,7 +465,7 @@ bindkey '^ h' fh
 # cd to a child directory (hidden directories included)
 fdd() {
     local dir
-    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+    dir=$(find ${1:-.} -type d -not -path "*/.git/*" 2> /dev/null | fzf +m) && cd "$dir"
     zle redraw-prompt
 }
 zle -N fdd
