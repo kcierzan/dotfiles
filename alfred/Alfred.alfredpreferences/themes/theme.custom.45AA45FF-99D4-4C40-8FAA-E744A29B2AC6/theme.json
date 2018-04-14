@@ -1,44 +1,44 @@
 {
   "alfredtheme" : {
     "result" : {
-      "textSpacing" : 10,
+      "textSpacing" : 5,
       "subtext" : {
-        "size" : 13,
-        "colorSelected" : "#2AA198FF",
-        "font" : "SFMono Nerd Font",
-        "color" : "#586D75FF"
+        "size" : 14,
+        "colorSelected" : "#A1A2A4FF",
+        "font" : "ShureTechMono Nerd Font",
+        "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 23,
-        "colorSelected" : "#FFFFFFFF",
-        "font" : "SFMono Nerd Font",
-        "color" : "#849900FF"
+        "colorSelected" : "#DC312EFF",
+        "font" : "ShureTechMono Nerd Font",
+        "color" : "#6D6B70FF"
       },
-      "backgroundSelected" : "#004254FF",
+      "backgroundSelected" : "#F0F0F0FF",
       "text" : {
-        "size" : 24,
-        "colorSelected" : "#D33582FF",
-        "font" : "San Francisco Display",
-        "color" : "#829496FF"
+        "size" : 19,
+        "colorSelected" : "#606061FF",
+        "font" : "Open Sans",
+        "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 8,
+      "paddingVertical" : 5,
       "iconSize" : 40
     },
     "search" : {
       "paddingVertical" : 0,
-      "background" : "#00252FFF",
+      "background" : "#F7F5FF00",
       "spacing" : 8,
       "text" : {
-        "size" : 64,
+        "size" : 47,
         "colorSelected" : "#000000FF",
-        "font" : "San Francisco Display",
-        "color" : "#268AD1FF"
+        "font" : "Open Sans",
+        "color" : "#DC312EFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
     },
     "window" : {
-      "color" : "#00252FFF",
+      "color" : "#FFFFFF9B",
       "paddingHorizontal" : 0,
       "width" : 750,
       "borderPadding" : 0,
@@ -49,13 +49,13 @@
     },
     "credit" : "Kyle Cierzan",
     "separator" : {
-      "color" : "#CBCBCBF3",
+      "color" : "#FFFFFF00",
       "thickness" : 0
     },
     "scrollbar" : {
-      "color" : "#358188FF",
+      "color" : "#DC312EFF",
       "thickness" : 2
     },
-    "name" : "Solarized Dark"
+    "name" : "IceNine"
   }
 }

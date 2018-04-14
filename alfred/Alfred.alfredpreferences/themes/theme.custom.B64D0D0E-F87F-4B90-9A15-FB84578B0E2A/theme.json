@@ -5,7 +5,7 @@
       "subtext" : {
         "size" : 14,
         "colorSelected" : "#A3BD8BFF",
-        "font" : "InputMonoNarrow Nerd Font",
+        "font" : "FuraCode Nerd Font",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
@@ -18,7 +18,7 @@
       "text" : {
         "size" : 24,
         "colorSelected" : "#80A1C1FF",
-        "font" : "Input Sans Narrow",
+        "font" : "Fira Sans",
         "color" : "#D7DDE9FF"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Input Sans Narrow",
+        "font" : "Fira Sans",
         "color" : "#6CA5CDFF"
       },
       "backgroundSelected" : "#7AC7FFFF"

@@ -1,6 +1,6 @@
 # Dotfiles
 
-I have used a lot of different tools on my (anti)productivity journey. This repo should
+I have used a lot of different tools on my ~~counter~~productivity journey. This repo should
 serve as a snapshot of my latest config sensibilities. Some configs are under much more
 active development than others.
 
