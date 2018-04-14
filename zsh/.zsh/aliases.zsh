@@ -239,7 +239,7 @@ ff() {
       elif [ "$key" = ctrl-v ]; then
           code "$file"
       else
-          nvim "$file"
+          emacsclient -a '' "$file"
       fi
   fi
 }
@@ -255,7 +255,7 @@ fd() {
         elif [ "$key" = ctrl-v ]; then
             cd "$dir" && code "$dir"
         elif [ "$key" = ctrl-e ]; then
-            cd "$dir" && nvim "$dir"
+            emacsclient -a '' "$dir"
         elif [ "$key" = ctrl-x ]; then
             rm -ir "$dir"
         else
@@ -411,7 +411,7 @@ fr() {
       elif [ "$key" = ctrl-v ]; then
           code "$file"
       else
-          nvim "$file"
+          emacsclient -a '' "$file"
       fi
   fi
 }
@@ -436,7 +436,7 @@ findfile() {
       elif [ "$key" = ctrl-v ]; then
           code "$file"
       else
-          nvim "$file"
+          emacsclient -a '' "$file"
       fi
   fi
 }
