@@ -45,7 +45,7 @@
    #+END_SRC
 
 *** Doom modeline
-    An absolutely insane amount of elisp to make a bar at the bottom of the frame.
+    An absolutely absurd amount of elisp to make a bar at the bottom of the frame.
     #+name: interface
     #+BEGIN_SRC emacs-lisp
       (defvar doom--transient-counter 0)
@@ -1414,7 +1414,7 @@
                company-require-match 'never
                company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
                company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
-               company-backends '(company-capf company-dabbrev-code company-dabbrev company-etags company-ispell)
+               company-backends '(company-capf company-etags company-dabbrev-code company-files)
                company-transformers '(company-sort-by-occurrence))
          (add-hook 'after-init-hook (lambda ()
                                       (define-key company-active-map (kbd "RET") 'company-complete-selection)
