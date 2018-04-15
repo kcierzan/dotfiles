@@ -1395,7 +1395,7 @@
 
 *** Completion
 **** company
-     A full-featured completion system
+     code completion
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package company
@@ -1408,7 +1408,7 @@
                company-idle-delay 0
                company-dabbrev-downcase nil
                company-tooltip-limit 10
-               company-dabbrev-ignore-case nil
+               company-dabbrev-ignore-case t
                company-dabbrev-code-code-other-buffers t
                company-tooltip-align-annotations t
                company-require-match 'never
@@ -1429,8 +1429,11 @@
          :ensure t
          :after company
          :config
-         (eval-after-load "company"
-           '(add-to-list 'company-backends '(company-anaconda :separate company-etags)))
+         (with-eval-after-load 'company
+           (add-hook 'python-mode-hook
+                     (lambda ()
+                       (set (make-local-variable 'company-backends)
+                            '((company-anaconda company-etags company-dabbrev-code company-files))))))
          :pin melpa)
      #+END_SRC
 
