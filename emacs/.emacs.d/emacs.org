@@ -1244,9 +1244,9 @@
          :init
          (setq doom-themes-enable-bold t
                doom-themes-enable-italic t)
-         (doom-themes-org-config)
-         (load-theme 'doom-molokai t)
+         (load-theme 'doom-city-lights t)
          :config
+         (doom-themes-org-config)
          (set-face-attribute 'font-lock-comment-face nil :slant 'italic))
      #+END_SRC
 
@@ -1283,6 +1283,15 @@
          (which-key-mode))
      #+END_SRC
 
+**** neotree
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package neotree
+         :ensure t
+         :pin melpa
+         :init
+         (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+     #+END_SRC
 *** Python
 **** anaconda-mode
      Navigation, documentation, and linting for Python
@@ -1604,121 +1613,124 @@
      Unified system for doing all sorts of keybinding stuff
      #+name: keys
      #+BEGIN_SRC emacs-lisp
-       (use-package general
-         :ensure t
-         :pin melpa
-         :config
-         (general-evil-setup)
-         ;; set up an override for binding space no matter what
-         (setq general-override-states '(insert
-                                         emacs
-                                         hybrid
-                                         normal
-                                         visual
-                                         motion
-                                         operator
-                                         replace))
-         (general-override-mode)
-         (general-define-key :keymaps 'override :states '(normal visual motion) "SPC" nil)
+                            (use-package general
+                              :ensure t
+                              :pin melpa
+                              :config
+                              (general-evil-setup)
+                              ;; set up an override for binding space no matter what
+                              (setq general-override-states '(insert
+                                                              emacs
+                                                              hybrid
+                                                              normal
+                                                              visual
+                                                              motion
+                                                              operator
+                                                              replace))
+                              (general-override-mode)
+                              (general-define-key :keymaps 'override :states '(normal visual motion) "SPC" nil)
 
-         ;; set up sequenced prefixes
-         (general-create-definer global-leader :prefix "SPC" :keymaps 'override :states '(normal visual motion))
-         (general-create-definer buffer-leader :prefix "SPC b" :keymaps 'override :states '(normal visual motion))
-         (general-create-definer help-leader :prefix "SPC h" :keymaps 'override :states '(normal visual motion))
-         (general-create-definer find-leader :prefix "SPC f" :keymaps 'override :states '(normal visual motion))
-         (general-create-definer projectile-leader :prefix "SPC p" :keymaps 'override :states '(normal visual motion))
-         (general-create-definer git-leader :prefix "SPC g" :keymaps 'override :states '(normal visual motion))
-         (general-create-definer window-leader :prefix "SPC w" :keymaps 'override :states '(normal visual motion))
-         (general-create-definer dir-leader :prefix "SPC d" :keymaps 'override :states '(normal visual motion))
-         (general-create-definer evil-leader :prefix "g" :keymaps 'override :states '(normal visual motion))
+                              ;; set up sequenced prefixes
+                              (general-create-definer global-leader :prefix "SPC" :keymaps 'override :states '(normal visual motion))
+                              (general-create-definer buffer-leader :prefix "SPC b" :keymaps 'override :states '(normal visual motion))
+                              (general-create-definer help-leader :prefix "SPC h" :keymaps 'override :states '(normal visual motion))
+                              (general-create-definer find-leader :prefix "SPC f" :keymaps 'override :states '(normal visual motion))
+                              (general-create-definer projectile-leader :prefix "SPC p" :keymaps 'override :states '(normal visual motion))
+                              (general-create-definer git-leader :prefix "SPC g" :keymaps 'override :states '(normal visual motion))
+                              (general-create-definer window-leader :prefix "SPC w" :keymaps 'override :states '(normal visual motion))
+                              (general-create-definer dir-leader :prefix "SPC d" :keymaps 'override :states '(normal visual motion))
+                              (general-create-definer evil-leader :prefix "g" :keymaps 'override :states '(normal visual motion))
 
-         (evil-leader "" '(:ignore t :wk "Evil"))
-         (global-leader "" '(nil :wk "Leader")
-                        "f" '(:ignore t :wk "Find")
-                        "g" '(:ignore t :wk "Git")
-                        "p" '(:ignore t :wk "Projectile")
-                        "b" '(:ignore t :wk "Buffers")
-                        "e" '(:ignore t :wk "Elisp")
-                        "h" '(:ignore t :wk "Help")
-                        "w" '(:ignore t :wk "Window")
-                        "j" '(:ignore t :wk "Jump"))
-         (buffer-leader "d" 'kill-this-buffer
-                        "s" 'evil-write
-                        "b" 'helm-mini)
-         (dir-leader "d" 'dired)
-         (help-leader "f" 'describe-function
-                      "k" 'describe-key
-                      "w" 'helm-man-woman
-                      "v" 'describe-variable
-                      "p" 'describe-package
-                      "a" 'describe-face
-                      "m" 'describe-mode)
-         (find-leader "r" 'helm-recentf
-                      "o" 'helm-semantic-or-imenu
-                      "g" 'helm-do-ag
-                      "f" 'helm-find-files
-                      "l" 'helm-swoop)
-         (projectile-leader "g" 'helm-projectile-ag
-                            "r" 'helm-projectile-recentf
-                            "d" 'helm-projectile-find-dir
-                            "f" 'helm-projectile-find-file
-                            "s" 'helm-projectile-switch-project)
-         (git-leader "g" 'magit
-                     "b" 'magit-blame)
-         (window-leader "s" 'evil-window-split
-                        "v" 'evil-window-vsplit
-                        "o" 'delete-other-windows
-                        "d" 'evil-window-delete)
-         ;; HERESY: universal argument is bound to C-f. We need C-u for scrolling.
-         (general-define-key :keymaps 'universal-argument-map
-                             "C-f" 'universal-argument-more)
-         ;; non-prefix motion state
-         (general-mmap "C-;" 'helm-M-x
-                       "gl" 'evil-avy-goto-line
-                       "gs" 'evil-avy-goto-char-2
-                       "gD" 'dumb-jump-go
-                       "C-f" 'universal-argument
-                       "g C-]" 'xref-find-definitions)
+                              (evil-leader "" '(:ignore t :wk "Evil"))
+                              (global-leader "" '(nil :wk "Leader")
+                                             "f" '(:ignore t :wk "Find")
+                                             "g" '(:ignore t :wk "Git")
+                                             "p" '(:ignore t :wk "Projectile")
+                                             "b" '(:ignore t :wk "Buffers")
+                                             "e" '(:ignore t :wk "Elisp")
+                                             "h" '(:ignore t :wk "Help")
+                                             "w" '(:ignore t :wk "Window")
+                                             "j" '(:ignore t :wk "Jump")
+                                             "q" 'evil-quit)
+                              (buffer-leader "d" 'kill-this-buffer
+                                             "s" 'evil-write
+                                             "b" 'helm-mini)
+                              (dir-leader "d" 'dired)
+                              (help-leader "f" 'describe-function
+                                           "k" 'describe-key
+                                           "w" 'helm-man-woman
+                                           "v" 'describe-variable
+                                           "p" 'describe-package
+                                           "a" 'describe-face
+                                           "m" 'describe-mode)
+                              (find-leader "r" 'helm-recentf
+                                           "o" 'helm-semantic-or-imenu
+                                           "g" 'helm-do-ag
+                                           "f" 'helm-find-files
+                                           "l" 'helm-swoop)
+                              (projectile-leader "g" 'helm-projectile-ag
+                                                 "r" 'helm-projectile-recentf
+                                                 "d" 'helm-projectile-find-dir
+                                                 "f" 'helm-projectile-find-file
+                                                 "s" 'helm-projectile-switch-project
+                                                 "o" 'projectile-find-tag)
+                              (git-leader "g" 'magit
+                                          "b" 'magit-blame)
+                              (window-leader "s" 'evil-window-split
+                                             "v" 'evil-window-vsplit
+                                             "o" 'delete-other-windows
+                                             "d" 'evil-window-delete
+                                             "t" 'neotree-toggle)
+                              ;; HERESY: universal argument is bound to C-f. We need C-u for scrolling.
+                              (general-define-key :keymaps 'universal-argument-map
+                                                  "C-f" 'universal-argument-more)
+                              ;; non-prefix motion state
+                              (general-mmap "C-;" 'helm-M-x
+                                            "gl" 'evil-avy-goto-line
+                                            "gs" 'evil-avy-goto-char-2
+                                            "gD" 'dumb-jump-go
+                                            "C-f" 'universal-argument
+                                            "g C-]" 'xref-find-definitions)
 
-         (defun minibuffer-keyboard-quit ()
-           "Abort recursive edit.
-           In Delete selection mode, if mark is active, just deactivate it;
-           then it takes a second \\[keyboard-quit] to abort the minibuffer."
-           (interactive)
-           (if (and delete-selection-mode transient-mark-mode mark-active)
-               (setq deactivate-mark t)
-             (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
-             (abort-recursive-edit)))
-         (general-define-key :keymaps '(minibuffer-local-map
-                                        minibuffer-local-ns-map
-                                        minibuffer-local-completion-map
-                                        minibuffer-local-isearch-map
-                                        minibuffer-local-must-match-map))
-         (general-define-key :keymaps '(evil-motion-state-map evil-insert-state-map evil-normal-state-map evil-operator-state-map)
-                            "A-h" 'evil-window-left
-                            "A-j" 'evil-window-down
-                            "A-k" 'evil-window-up
-                            "A-l" 'evil-window-right)
-       ;; non-prefix global
-         (general-define-key :keymaps 'global
-                             "C-f" 'universal-argument
-                             "M-f" 'toggle-frame-fullscreen
-                             "M-x" 'helm-M-x
-                             "M-y" 'helm-show-kill-ring
-                             "C-x b" 'helm-mini
-                             "C-x C-b" 'helm-buffers-list
-                             "C-x C-f" 'helm-find-files
-                             "C-x C-r" 'helm-recent
-                             "C-x c o" 'helm-occur
-                             "C-M-n" 'helm-next-source
-                             "C-M-p" 'helm-previous-source
-                             "C-h b" 'helm-descbinds
-                             "M-v" 'evil-paste-after)
-         (general-define-key "C-u" 'evil-scroll-up)
-         ;; helm mappings
-         (general-define-key :keymaps 'helm-map :states '(normal visual)
-                             "TAB" 'helm-execute-persistent-action
-                             "A-SPC" 'helm-toggle-visible-mark))
+                              (defun minibuffer-keyboard-quit ()
+                                "Abort recursive edit.
+                                In Delete selection mode, if mark is active, just deactivate it;
+                                then it takes a second \\[keyboard-quit] to abort the minibuffer."
+                                (interactive)
+                                (if (and delete-selection-mode transient-mark-mode mark-active)
+                                    (setq deactivate-mark t)
+                                  (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+                                  (abort-recursive-edit)))
+                              (general-define-key :keymaps '(minibuffer-local-map
+                                                             minibuffer-local-ns-map
+                                                             minibuffer-local-completion-map
+                                                             minibuffer-local-isearch-map
+                                                             minibuffer-local-must-match-map))
+                              (general-define-key :keymaps '(evil-motion-state-map evil-insert-state-map evil-normal-state-map evil-operator-state-map)
+                                                 "A-h" 'evil-window-left
+                                                 "A-j" 'evil-window-down
+                                                 "A-k" 'evil-window-up
+                                                 "A-l" 'evil-window-right)
+                            ;; non-prefix global
+                              (general-define-key :keymaps 'global
+                                                  "C-f" 'universal-argument
+                                                  "M-f" 'toggle-frame-fullscreen
+                                                  "M-x" 'helm-M-x
+                                                  "M-y" 'helm-show-kill-ring
+                                                  "C-x b" 'helm-mini
+                                                  "C-x C-b" 'helm-buffers-list
+                                                  "C-x C-f" 'helm-find-files
+                                                  "C-x C-r" 'helm-recent
+                                                  "C-x c o" 'helm-occur
+                                                  "C-M-n" 'helm-next-source
+                                                  "C-M-p" 'helm-previous-source
+                                                  "C-h b" 'helm-descbinds
+                                                  "M-v" 'evil-paste-after)
+                              (general-define-key "C-u" 'evil-scroll-up)
+                              ;; helm mappings
+                              (general-define-key :keymaps 'helm-map :states '(normal visual)
+                                                  "TAB" 'helm-execute-persistent-action
+                                                  "A-SPC" 'helm-toggle-visible-mark))
      #+END_SRC
 
 *** Lint
@@ -1732,7 +1744,6 @@
          :hook ((rst-mode . (lambda () (setq-local flycheck-disabled-checkers '(rst rst-sphinx))))
                 (prog-mode . flycheck-mode))
          :config
-         ;; (global-flycheck-mode)
          (flycheck-add-next-checker 'python-flake8 'python-pylint)
          (setq flycheck-check-syntax-automatically '(save mode-enabled))
          ;; because git-gutter is in the left fringe

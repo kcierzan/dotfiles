@@ -28,8 +28,9 @@
   :pin melpa
   :init
   (setq org-src-fontify-natively t
-	org-src-tabs-act-natively t
-	org-src-preserve-indentation nil)
+        org-src-tabs-act-natively t
+        org-src-preserve-indentation nil
+        org-catch-invisible-edits t)
   :mode (("\\.org$" . org-mode))
   :config
   (add-hook 'after-init-hook
