@@ -1,1135 +1,254 @@
 #+TITLE: emacs.org
 #+STARTUP: content
-* emacs.org
-** Global minor modes
+* Global minor modes
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+    (semantic-mode)
+    (recentf-mode 1)
+    (global-auto-revert-mode)
+    (server-start)
+  #+END_SRC
+
+* UI
+  #+name: interface
+  #+BEGIN_SRC emacs-lisp
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
+    (show-paren-mode 1)
+    (setq frame-title-format "Emacs")
+    (setq-default left-fringe-width 5
+                  line-spacing 5
+                  ring-bell-function 'ignore
+                  idle-update-delay 0.5
+                  inhibit-startup-screen t
+                  inhibit-startup-message t
+                  inhibit-startup-echo-area-message user-login-name
+                  inhibit-default-init t
+                  initial-scratch-message nil)
+    (set-frame-parameter nil 'internal-border-width 2)
+    (add-hook 'prog-mode-hook 'hl-line-mode)
+    (set-face-attribute 'fixed-pitch nil :font "OperatorMono Nerd Font")
+    (set-face-attribute 'default  nil :font "OperatorMono Nerd Font")
+    (set-face-attribute 'variable-pitch nil :font "San Francisco Display" :height 140)
+    (set-face-attribute 'mode-line nil :height 140)
+    (setq default-frame-alist
+          '((top . 50) (left . 130)
+            (width . 200) (height . 60)
+            (font . "OperatorMono Nerd Font")))
+    (defun kyle//change-font-size ()
+      "Change the font after init,"
+      (set-face-attribute 'default nil :height 140))
+
+    (add-hook 'window-setup-hook 'kyle//change-font-size)
+  #+END_SRC
+
+* UTF-8
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+    (when (fboundp 'set-charset-priority)
+      (set-charset-priority 'unicode))
+    (prefer-coding-system 'utf-8)
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    (set-selection-coding-system 'utf-8)
+    (setq locale-coding-system 'utf-8)
+    (setq-default buffer-file-coding-system 'utf-8)
+  #+END_SRC
+
+* Dired
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+    (setq dired-always-copies 'always
+          dired-recursive-deletes 'top)
+
+    (use-package dired
+      :ensure nil
+      :hook (dired-mode . dired-omit-mode)
+      :config
+      (require 'dired-x)
+      (setq dired-omit-files
+            (concat dired-omit-files "\\pyc$\\|^.git$")))
+  #+END_SRC
+
+* Misc
+  Bump the GC threshold for startup only
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+    (setq gc-cons-threshold 402653184
+          gc-cons-percentage 0.6)
+
+    (add-hook 'emacs-startup-hook
+              (lambda ()
+                (setq gc-cons-threshold 16777216)
+                (setq gc-cons-percentage 0.1)))
+  #+END_SRC
+
+  Sentences end with a single space.
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+    (setq sentence-end-double-space nil)
+  #+END_SRC
+
+  Recentf
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+    (use-package recentf
+      :pin melpa
+      :ensure t
+      :config
+      (setq recentf-max-menu-items 0
+            recentf-max-saved-items 300
+            recentf-filename-handlers '(file-truename)
+            recentf-exclude
+            (list "^/ssh:" "/TAGS$")))
+  #+END_SRC
+
+  Backups and lockfiles aren't useful. Instead, revert automatically on change to a file.
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+    (setq create-lockfiles nil
+          make-backup-files nil
+          auto-save-default nil
+          global-auto-revert-non-file-buffers t
+          auto-revert-verbose nil)
+  #+END_SRC
+
+  Don't ask me about large files.
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+     (setq large-file-warning-threshold nil)
+  #+END_SRC
+
+  Who wants to type "yes"?
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+    (defalias 'yes-or-no-p 'y-or-n-p)
+  #+END_SRC
+
+  global-eldoc is pretty annoying. Turn it on explicitly.
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+    (global-eldoc-mode -1)
+    (add-hook 'python-mode-hook 'eldoc-mode)
+  #+END_SRC
+
+   Until they make a space commander keyboard again...
    #+name: basic
    #+BEGIN_SRC emacs-lisp
-     (semantic-mode)
-     (recentf-mode 1)
-     (global-auto-revert-mode)
-     (server-start)
+     (setq mac-command-modifier 'meta)
+     (setq mac-option-modifier 'alt)
    #+END_SRC
-
-** UI
-   #+name: interface
-   #+BEGIN_SRC emacs-lisp
-     (menu-bar-mode -1)
-     (tool-bar-mode -1)
-     (scroll-bar-mode -1)
-     (show-paren-mode 1)
-     (setq frame-title-format "Emacs")
-     (setq-default left-fringe-width 5
-                   line-spacing 5
-                   ring-bell-function 'ignore
-                   idle-update-delay 0.5
-                   inhibit-startup-screen t
-                   inhibit-startup-message t
-                   inhibit-startup-echo-area-message user-login-name
-                   inhibit-default-init t
-                   initial-scratch-message nil)
-     (set-frame-parameter nil 'internal-border-width 2)
-     (add-hook 'prog-mode-hook 'hl-line-mode)
-     (set-face-attribute 'fixed-pitch nil :font "OperatorMono Nerd Font")
-     (set-face-attribute 'default  nil :font "OperatorMono Nerd Font")
-     (set-face-attribute 'variable-pitch nil :font "San Francisco Display" :height 140)
-     (set-face-attribute 'mode-line nil :height 140)
-     (setq default-frame-alist
-           '((top . 50) (left . 130)
-             (width . 200) (height . 60)
-             (font . "OperatorMono Nerd Font")))
-     (defun kyle//change-font-size ()
-       "Change the font after init,"
-       (set-face-attribute 'default nil :height 140))
-
-     (add-hook 'window-setup-hook 'kyle//change-font-size)
-   #+END_SRC
-
-*** Doom modeline
-    An absolutely absurd amount of elisp to make a bar at the bottom of the frame.
-    #+name: interface
-    #+BEGIN_SRC emacs-lisp
-      (defvar doom--transient-counter 0)
-      (defvar +doom-modeline-buffer-file-name-style 'truncate-upto-project)
-
-      (defmacro add-hook! (hook &rest func-or-forms)
-        "A convenience macro for `add-hook'.
-
-      HOOK can be one hook or a list of hooks. If the hook(s) are not quoted, -hook is
-      appended to them automatically. If they are quoted, they are used verbatim.
-
-      FUNC-OR-FORMS can be a quoted symbol, a list of quoted symbols, or forms. Forms will be
-      wrapped in a lambda. A list of symbols will expand into a series of add-hook calls.
-
-      Examples:
-          (add-hook! 'some-mode-hook 'enable-something)
-          (add-hook! some-mode '(enable-something and-another))
-          (add-hook! '(one-mode-hook second-mode-hook) 'enable-something)
-          (add-hook! (one-mode second-mode) 'enable-something)
-          (add-hook! (one-mode second-mode) (setq v 5) (setq a 2))"
-        (declare (indent defun) (debug t))
-        (unless func-or-forms
-          (error "add-hook!: FUNC-OR-FORMS is empty"))
-        (let* ((val (car func-or-forms))
-               (quoted (eq (car-safe hook) 'quote))
-               (hook (if quoted (cadr hook) hook))
-               (funcs (if (eq (car-safe val) 'quote)
-                          (if (cdr-safe (cadr val))
-                              (cadr val)
-                            (list (cadr val)))
-                        (list func-or-forms)))
-               (forms '()))
-          (mapc
-           (lambda (f)
-             (let ((func (cond ((symbolp f) `(quote ,f))
-                               (t `(lambda (&rest _) ,@func-or-forms)))))
-               (mapc
-                (lambda (h)
-                  (push `(add-hook ',(if quoted h (intern (format "%s-hook" h))) ,func) forms))
-                (-list hook)))) funcs)
-          `(progn ,@forms)))
-
-
-      (defmacro add-transient-hook! (hook &rest forms)
-        "Attaches transient forms to a HOOK.
-            HOOK can be a quoted hook or a sharp-quoted function (which will be advised).
-            These forms will be evaluated once when that function/hook is first invoked,
-            then it detaches itself."
-        (declare (indent 1))
-        (let ((append (eq (car forms) :after))
-              (fn (intern (format "doom-transient-hook-%s" (cl-incf doom--transient-counter)))))
-          `(when ,hook
-             (fset ',fn
-                   (lambda (&rest _)
-                     ,@forms
-                     (cond ((functionp ,hook) (advice-remove ,hook #',fn))
-                           ((symbolp ,hook)   (remove-hook ,hook #',fn)))
-                     (unintern ',fn nil)))
-             (cond ((functionp ,hook)
-                    (advice-add ,hook ,(if append :after :before) #',fn))
-                   ((symbolp ,hook)
-                    (add-hook ,hook #',fn ,append))))))
-
-      (use-package dash
-        :ensure t
-        :pin melpa)
-
-      (use-package shrink-path
-        :ensure t
-        :pin melpa)
-
-      (use-package eldoc-eval
-        :ensure t
-        :pin melpa
-        :config
-        (defun +doom-modeline-eldoc (text)
-          (concat (when (display-graphic-p)
-                    (+doom-modeline--make-xpm
-                     (face-background 'doom-modeline-eldoc-bar nil t)
-                     +doom-modeline-height
-                     +doom-modeline-bar-width))
-                  text))
-        (defun +doom-modeline--show-eldoc (input)
-          "Display string STR in the mode-line next to minibuffer."
-          (with-current-buffer (eldoc-current-buffer)
-            (let* ((str              (and (stringp input) input))
-                   (mode-line-format (or (and str (or (+doom-modeline-eldoc str) str))
-                                         mode-line-format))
-                   mode-line-in-non-selected-windows)
-              (force-mode-line-update)
-              (sit-for eldoc-show-in-mode-line-delay))))
-
-        (setq eldoc-in-minibuffer-show-fn #'+doom-modeline--show-eldoc)
-        (eldoc-in-minibuffer-mode +1))
-
-      (use-package evil-anzu
-        :requires evil
-        :ensure t
-        :init
-        (add-transient-hook! #'evil-ex-start-search (require 'evil-anzu))
-        (add-transient-hook! #'evil-ex-start-word-search (require 'evil-anzu))
-        :config
-        (setq anzu-cons-mode-line-p nil
-              anzu-minimum-input-length 1
-              anzu-search-threshold 250)
-        ;; Avoid anzu conflicts across buffers
-        (mapc #'make-variable-buffer-local
-              '(anzu--total-matched anzu--current-position anzu--state
-                                    anzu--cached-count anzu--cached-positions anzu--last-command
-                                    anzu--last-isearch-string anzu--overflow-p))
-        ;; Ensure anzu state is cleared when searches & iedit are done
-        (add-hook! 'isearch-mode-end-hook #'anzu--reset-status t)
-        (add-hook! '+evil-esc-hook #'anzu--reset-status t)
-        (add-hook! 'iedit-mode-end-hook #'anzu--reset-status))
-
-      ;;;###autoload
-      (defvar doom-memoized-table (make-hash-table :test 'equal :size 10)
-        "A lookup table containing memoized functions. The keys are argument lists,
-      and the value is the function's return value.")
-
-      ;;;###autoload
-      (defun doom-memoize (name)
-        "Memoizes an existing function. NAME is a symbol."
-        (let ((func (symbol-function name)))
-          (put name 'function-documentation
-               (concat (documentation func) " (memoized)"))
-          (fset name
-                `(lambda (&rest args)
-                   (let ((key (cons ',name args)))
-                     (or (gethash key doom-memoized-table)
-                         (puthash key (apply ',func args)
-                                  doom-memoized-table)))))))
-
-      ;;;###autoload
-      (defmacro def-memoized! (name arglist &rest body)
-        "Create a memoize'd function. NAME, ARGLIST, DOCSTRING and BODY
-      have the same meaning as in `defun'."
-        (declare (indent defun) (doc-string 3))
-        `(,(if (bound-and-true-p byte-compile-current-file)
-               'with-no-warnings
-             'progn)
-          (defun ,name ,arglist ,@body)
-          (doom-memoize ',name)))
-
-      (defmacro def-modeline-segment! (name &rest forms)
-        "Defines a modeline segment and byte compiles it."
-        (declare (indent defun) (doc-string 2))
-        (let ((sym (intern (format "doom-modeline-segment--%s" name))))
-          `(progn
-             (defun ,sym () ,@forms)
-             ,(unless (bound-and-true-p byte-compile-current-file)
-                `(let (byte-compile-warnings)
-                   (byte-compile #',sym))))))
-
-      (defsubst doom--prepare-modeline-segments (segments)
-        (cl-loop for seg in segments
-                 if (stringp seg)
-                 collect seg
-                 else
-                 collect (list (intern (format "doom-modeline-segment--%s" (symbol-name seg))))))
-
-      (defmacro def-modeline! (name lhs &optional rhs)
-        "Defines a modeline format and byte-compiles it. NAME is a symbol to identify
-      it (used by `doom-modeline' for retrieval). LHS and RHS are lists of symbols of
-      modeline segments defined with `def-modeline-segment!'.
-      Example:
-        (def-modeline! minimal
-          (bar matches \" \" buffer-info)
-          (media-info major-mode))
-        (doom-set-modeline 'minimal t)"
-        (let ((sym (intern (format "doom-modeline-format--%s" name)))
-              (lhs-forms (doom--prepare-modeline-segments lhs))
-              (rhs-forms (doom--prepare-modeline-segments rhs)))
-          `(progn
-             (defun ,sym ()
-               (let ((lhs (list ,@lhs-forms))
-                     (rhs (list ,@rhs-forms)))
-                 (let ((rhs-str (format-mode-line rhs)))
-                   (list lhs
-                         (propertize
-                          " " 'display
-                          `((space :align-to (- (+ right right-fringe right-margin)
-                                                ,(+ 1 (string-width rhs-str))))))
-                         rhs-str))))
-             ,(unless (bound-and-true-p byte-compile-current-file)
-                `(let (byte-compile-warnings)
-                   (byte-compile #',sym))))))
-
-      (defun doom-modeline (key)
-        "Returns a mode-line configuration associated with KEY (a symbol). Throws an
-      error if it doesn't exist."
-        (let ((fn (intern (format "doom-modeline-format--%s" key))))
-          (when (functionp fn)
-            `(:eval (,fn)))))
-
-      (defun doom-set-modeline (key &optional default)
-        "Set the modeline format. Does nothing if the modeline KEY doesn't exist. If
-      DEFAULT is non-nil, set the default mode-line for all buffers."
-        (let ((modeline (doom-modeline key)))
-          (when modeline
-            (setf (if default
-                      (default-value 'mode-line-format)
-                    (buffer-local-value 'mode-line-format (current-buffer)))
-                  modeline))))
-
-      (defun doom-project-root ()
-        "Get the path to the root of your project.
-      If STRICT-P, return nil if no project was found, otherwise return
-      `default-directory'."
-        (let (projectile-require-project-root)
-          (projectile-project-root)))
-
-      ;; Keep `+doom-modeline-current-window' up-to-date
-      (defvar +doom-modeline-current-window (frame-selected-window))
-      (defun +doom-modeline|set-selected-window (&rest _)
-        "Sets `+doom-modeline-current-window' appropriately"
-        (let ((win (frame-selected-window)))
-          (unless (minibuffer-window-active-p win)
-            (setq +doom-modeline-current-window win))))
-
-      (add-hook 'window-configuration-change-hook #'+doom-modeline|set-selected-window)
-      (add-hook 'focus-in-hook #'+doom-modeline|set-selected-window)
-      (advice-add #'handle-switch-frame :after #'+doom-modeline|set-selected-window)
-      (advice-add #'select-window :after #'+doom-modeline|set-selected-window)
-
-      ;;
-      ;; Variables
-      ;;
-
-      (defvar +doom-modeline-height 40
-        "How tall the mode-line should be (only respected in GUI emacs).")
-
-      (defvar +doom-modeline-bar-width 3
-        "How wide the mode-line bar should be (only respected in GUI emacs).")
-
-      (defvar +doom-modeline-vspc
-        (propertize " " 'face 'variable-pitch)
-        "TODO")
-
-      ;; externs
-      (defvar anzu--state nil)
-      (defvar evil-mode nil)
-      (defvar evil-state nil)
-      (defvar evil-visual-selection nil)
-      (defvar iedit-mode nil)
-      (defvar all-the-icons-scale-factor)
-      (defvar all-the-icons-default-adjust)
-
-      ;;
-      ;; Custom faces
-      ;;
-
-      (defgroup +doom-modeline nil
-        ""
-        :group 'doom)
-
-      (defface doom-modeline-buffer-path
-        '((t (:inherit mode-line-emphasis :bold t)))
-        "Face used for the dirname part of the buffer path."
-        :group '+doom-modeline)
-
-      (defface doom-modeline-buffer-file
-        '((t (:inherit mode-line-buffer-id)))
-        "Face used for the filename part of the mode-line buffer path."
-        :group '+doom-modeline)
-
-      (defface doom-modeline-buffer-modified
-        '((t (:inherit error :background nil :bold t)))
-        "Face used for the 'unsaved' symbol in the mode-line."
-        :group '+doom-modeline)
-
-      (defface doom-modeline-buffer-major-mode
-        '((t (:inherit mode-line-emphasis :bold t)))
-        "Face used for the major-mode segment in the mode-line."
-        :group '+doom-modeline)
-
-      (defface doom-modeline-highlight
-        '((t (:inherit mode-line-emphasis)))
-        "Face for bright segments of the mode-line."
-        :group '+doom-modeline)
-
-      (defface doom-modeline-panel
-        '((t (:inherit mode-line-highlight)))
-        "Face for 'X out of Y' segments, such as `+doom-modeline--anzu', `+doom-modeline--evil-substitute' and
-      `iedit'"
-        :group '+doom-modeline)
-
-      (defface doom-modeline-info
-        `((t (:inherit success :bold t)))
-        "Face for info-level messages in the modeline. Used by `*vc'."
-        :group '+doom-modeline)
-
-      (defface doom-modeline-warning
-        `((t (:inherit warning :bold t)))
-        "Face for warnings in the modeline. Used by `*flycheck'"
-        :group '+doom-modeline)
-
-      (defface doom-modeline-urgent
-        `((t (:inherit error :bold t)))
-        "Face for errors in the modeline. Used by `*flycheck'"
-        :group '+doom-modeline)
-
-      ;; Bar
-      (defface doom-modeline-bar '((t (:inherit highlight)))
-        "The face used for the left-most bar on the mode-line of an active window."
-        :group '+doom-modeline)
-
-      (defface doom-modeline-eldoc-bar '((t (:inherit shadow)))
-        "The face used for the left-most bar on the mode-line when eldoc-eval is
-      active."
-        :group '+doom-modeline)
-
-      (defface doom-modeline-inactive-bar '((t (:inherit warning :inverse-video t)))
-        "The face used for the left-most bar on the mode-line of an inactive window."
-        :group '+doom-modeline)
-
-      ;;
-      ;; Bootstrap
-      ;;
-
-      ;; Version management with pyenv
-      (defvar +python-pyenv-root nil
-        "The path to pyenv's root directory. This is automatically set when `python'
-      is loaded.")
-
-      (defvar +python-pyenv-versions nil
-        "Available versions of python in pyenv.")
-      (defvar-local +python-current-version nil
-        "The currently active pyenv version.")
-
-      (defvar doom-major-mode-names
-        '((sh-mode . "sh")
-          (emacs-lisp-mode . "Elisp"))
-        "An alist mapping major modes symbols to strings (or functions that will
-      return a string). This changes the 'long' name of a major-mode, allowing for
-      shorter major mode name in the mode-line. See `doom|set-mode-name'.")
-
-      ;; like diminish, but for major-modes. [pedantry intensifies]
-      (defun doom|set-mode-name ()
-        "Set the major mode's `mode-name', as dictated by `doom-major-mode-names'."
-        (-when-let* ((name (cdr (assq major-mode doom-major-mode-names))))
-          (setq mode-name
-                (cond ((functionp name) (funcall name))
-                      ((stringp name) name)
-                      (t (error "'%s' isn't a valid name for %s" name major-mode))))))
-      (add-hook 'after-change-major-mode-hook #'doom|set-mode-name)
-
-      ;; Version management with pyenv
-        (defun +python|add-version-to-modeline ()
-          "Add version string to the major mode in the modeline."
-          (setq pyenv-shell-string (string-trim (shell-command-to-string "pyenv version-name")))
-          (setq current-pyenv-version
-                (if (not (string= pyenv-shell-string "system"))
-                    pyenv-shell-string nil))
-          (setq mode-name
-                (concat
-                  (if +python-current-version
-                      (format "Python %s" +python-current-version)
-                    "Python")
-                  (if current-pyenv-version
-                      (format " [%s]" current-pyenv-version) nil))))
-        (add-hook 'python-mode-hook #'+python|add-version-to-modeline)
-
-        (if (not (executable-find "pyenv"))
-            (setq +python-current-version (string-trim (shell-command-to-string "python --version 2>&1 | cut -d' ' -f2")))
-          (setq +python-pyenv-root     (string-trim (shell-command-to-string "pyenv root"))
-                +python-pyenv-versions (split-string (shell-command-to-string "pyenv versions --bare") "\n" t)))
-
-           (defun +python|detect-pyenv-version ()
-             "Detect the pyenv version for the current project and set the relevant
-       environment variables."
-             (-when-let* ((version-str (shell-command-to-string "python --version 2>&1 | cut -d' ' -f2")))
-               (setq version-str (string-trim version-str)
-                     +python-current-version version-str)
-               (let ((pyenv-current-path (concat +python-pyenv-root "/versions/" version-str)))
-                 (when (file-directory-p pyenv-current-path)
-                   (setq pythonic-environment pyenv-current-path)))))
-           (add-hook 'python-mode-hook #'+python|detect-pyenv-version)
-
-      ;;
-      ;; Modeline helpers
-      ;;
-
-      (defsubst active ()
-        (eq (selected-window) +doom-modeline-current-window))
-
-      ;; Inspired from `powerline's `pl/make-xpm'.
-      (def-memoized! +doom-modeline--make-xpm (color height width)
-        "Create an XPM bitmap."
-        (propertize
-         " " 'display
-         (let ((data (make-list height (make-list width 1)))
-               (color (or color "None")))
-           (create-image
-            (concat
-             (format "/* XPM */\nstatic char * percent[] = {\n\"%i %i 2 1\",\n\". c %s\",\n\"  c %s\","
-                     (length (car data))
-                     (length data)
-                     color
-                     color)
-             (apply #'concat
-                    (cl-loop with idx = 0
-                             with len = (length data)
-                             for dl in data
-                             do (cl-incf idx)
-                             collect
-                             (concat "\""
-                                     (cl-loop for d in dl
-                                              if (= d 0) collect (string-to-char " ")
-                                              else collect (string-to-char "."))
-                                     (if (eq idx len) "\"};" "\",\n")))))
-            'xpm t :ascent 'center))))
-
-      (defun +doom-modeline-buffer-file-name ()
-        "Propertized `buffer-file-name' based on `+doom-modeline-buffer-file-name-style'."
-        (propertize
-         (pcase +doom-modeline-buffer-file-name-style
-           ('truncate-upto-project (+doom-modeline--buffer-file-name 'shrink))
-           ('truncate-upto-root (+doom-modeline--buffer-file-name-truncate))
-           ('truncate-all (+doom-modeline--buffer-file-name-truncate t))
-           ('relative-to-project (+doom-modeline--buffer-file-name-relative))
-           ('relative-from-project (+doom-modeline--buffer-file-name-relative 'include-project))
-           ('file-name (propertize (file-name-nondirectory buffer-file-name)
-                                   'face
-                                   (let ((face (or (and (buffer-modified-p)
-                                                        'doom-modeline-buffer-modified)
-                                                   (and (active)
-                                                        'doom-modeline-buffer-file))))
-                                     (when face `(:inherit ,face))))))
-         'help-echo buffer-file-truename))
-
-      (defun +doom-modeline--buffer-file-name-truncate (&optional truncate-tail)
-        "Propertized `buffer-file-name' that truncates every dir along path.
-      If TRUNCATE-TAIL is t also truncate the parent directory of the file."
-        (let ((dirs (shrink-path-prompt (file-name-directory buffer-file-truename)))
-              (active (active)))
-          (if (null dirs)
-              (propertize "%b" 'face (if active 'doom-modeline-buffer-file))
-            (let ((modified-faces (if (buffer-modified-p) 'doom-modeline-buffer-modified)))
-              (let ((dirname (car dirs))
-                    (basename (cdr dirs))
-                    (dir-faces (or modified-faces (if active 'doom-modeline-project-root-dir)))
-                    (file-faces (or modified-faces (if active 'doom-modeline-buffer-file))))
-                (concat (propertize (concat dirname
-                                            (if truncate-tail (substring basename 0 1) basename)
-                                            "/")
-                                    'face (if dir-faces `(:inherit ,dir-faces)))
-                        (propertize (file-name-nondirectory buffer-file-name)
-                                    'face (if file-faces `(:inherit ,file-faces)))))))))
-
-      (defun +doom-modeline--buffer-file-name-relative (&optional include-project)
-        "Propertized `buffer-file-name' showing directories relative to project's root only."
-        (let ((root (doom-project-root))
-              (active (active)))
-          (if (null root)
-              (propertize "%b" 'face (if active 'doom-modeline-buffer-file))
-            (let* ((modified-faces (if (buffer-modified-p) 'doom-modeline-buffer-modified))
-                   (relative-dirs (file-relative-name (file-name-directory buffer-file-truename)
-                                                      (if include-project (concat root "../") root)))
-                   (relative-faces (or modified-faces (if active 'doom-modeline-buffer-path)))
-                   (file-faces (or modified-faces (if active 'doom-modeline-buffer-file))))
-              (if (equal "./" relative-dirs) (setq relative-dirs ""))
-              (concat (propertize relative-dirs 'face (if relative-faces `(:inherit ,relative-faces)))
-                      (propertize (file-name-nondirectory buffer-file-truename)
-                                  'face (if file-faces `(:inherit ,file-faces))))))))
-
-      (defun +doom-modeline--buffer-file-name (truncate-project-root-parent)
-        "Propertized `buffer-file-name'.
-      If TRUNCATE-PROJECT-ROOT-PARENT is t space will be saved by truncating it down
-      fish-shell style.
-      Example:
-      ~/Projects/FOSS/emacs/lisp/comint.el => ~/P/F/emacs/lisp/comint.el"
-        (let* ((project-root (doom-project-root))
-               (file-name-split (shrink-path-file-mixed project-root
-                                                        (file-name-directory buffer-file-truename)
-                                                        buffer-file-truename))
-               (active (active)))
-          (if (null file-name-split)
-              (propertize "%b" 'face (if active 'doom-modeline-buffer-file))
-            (pcase-let ((`(,root-path-parent ,project ,relative-path ,filename) file-name-split))
-              (let ((modified-faces (if (buffer-modified-p) 'doom-modeline-buffer-modified)))
-                (let ((sp-faces       (or modified-faces (if active 'font-lock-comment-face)))
-                      (project-faces  (or modified-faces (if active 'font-lock-string-face)))
-                      (relative-faces (or modified-faces (if active 'doom-modeline-buffer-path)))
-                      (file-faces     (or modified-faces (if active 'doom-modeline-buffer-file))))
-                  (let ((sp-props       `(,@(if sp-faces       `(:inherit ,sp-faces))      ,@(if active '(:weight bold))))
-                        (project-props  `(,@(if project-faces  `(:inherit ,project-faces)) ,@(if active '(:weight bold))))
-                        (relative-props `(,@(if relative-faces `(:inherit ,relative-faces))))
-                        (file-props     `(,@(if file-faces     `(:inherit ,file-faces)))))
-                    (concat (propertize (if truncate-project-root-parent
-                                            root-path-parent
-                                          (abbreviate-file-name project-root))
-                                        'face sp-props)
-                            (propertize (concat project "/") 'face project-props)
-                            (if relative-path (propertize relative-path 'face relative-props))
-                            (propertize filename 'face file-props)))))))))
-
-      ;;
-      ;; Segments
-      ;;
-      (def-modeline-segment! buffer-default-directory
-        "Displays `default-directory'. This is for special buffers like the scratch
-      buffer where knowing the current project directory is important."
-        (let ((face (if (active) 'doom-modeline-buffer-path)))
-          (concat (if (display-graphic-p) " ")
-                  (all-the-icons-octicon
-                   "file-directory"
-                   :face face
-                   :v-adjust -0.05
-                   :height 1.25)
-                  (propertize (concat " " (abbreviate-file-name default-directory))
-                              'face face))))
-
-      ;;
-      (def-modeline-segment! buffer-info
-        "Combined information about the current buffer, including the current working
-      directory, the file name, and its state (modified, read-only or non-existent)."
-        (concat (cond (buffer-read-only
-                       (concat (all-the-icons-octicon
-                                "lock"
-                                :face 'doom-modeline-warning
-                                :v-adjust -0.05)
-                               " "))
-                      ((buffer-modified-p)
-                       (concat (all-the-icons-faicon
-                                "floppy-o"
-                                :face 'doom-modeline-buffer-modified
-                                :v-adjust -0.0575)
-                               " "))
-                      ((and buffer-file-name
-                            (not (file-exists-p buffer-file-name)))
-                       (concat (all-the-icons-octicon
-                                "circle-slash"
-                                :face 'doom-modeline-urgent
-                                :v-adjust -0.05)
-                               " "))
-                      ((buffer-narrowed-p)
-                       (concat (all-the-icons-octicon
-                                "fold"
-                                :face 'doom-modeline-warning
-                                :v-adjust -0.05)
-                               " ")))
-                (if buffer-file-name
-                    (+doom-modeline-buffer-file-name)
-                  "%b")))
-
-      ;;
-      (def-modeline-segment! buffer-info-simple
-        "Display only the current buffer's name, but with fontification."
-        (propertize
-         "%b"
-         'face (cond ((and buffer-file-name (buffer-modified-p))
-                      'doom-modeline-buffer-modified)
-                     ((active) 'doom-modeline-buffer-file))))
-
-      (def-modeline-segment! buffer-encoding
-        "Displays the encoding and eol style of the buffer the same way Atom does."
-        (concat (let ((eol-type (coding-system-eol-type buffer-file-coding-system)))
-                  (cond ((eq eol-type 0) "LF  ")
-                        ((eq eol-type 1) "CRLF  ")
-                        ((eq eol-type 2) "CR  ")))
-                (let* ((sys (coding-system-plist buffer-file-coding-system))
-                       (sys-name (plist-get sys :name))
-                       (sys-cat (plist-get sys :category)))
-                  (cond ((memq sys-cat '(coding-category-undecided coding-category-utf-8))
-                         "UTF-8")
-                        (t (upcase (symbol-name sys-name)))))
-                "  "))
-
-      (def-modeline-segment! major-mode
-        "The major mode, including process, environment and text-scale info."
-        (propertize
-         (concat (format-mode-line mode-name)
-                 (when (stringp mode-line-process)
-                   mode-line-process)
-                 (and (featurep 'face-remap)
-                      (/= text-scale-mode-amount 0)
-                      (format " (%+d)" text-scale-mode-amount)))
-         'face (if (active) 'doom-modeline-buffer-major-mode)))
-
-      (def-modeline-segment! vcs
-        "Displays the current branch, colored based on its state."
-        (when vc-mode
-          (let ((backend (when buffer-file-name (vc-backend buffer-file-name)))
-                (state   (when buffer-file-name (vc-state buffer-file-name)))
-                (face    'mode-line-inactive)
-                (active  (active))
-                (all-the-icons-scale-factor 1.0)
-                (all-the-icons-default-adjust -0.1))
-            (concat "  "
-                    (cond ((memq state '(edited added))
-                           (if active (setq face 'doom-modeline-info))
-                           (all-the-icons-octicon
-                            "git-compare"
-                            :face face
-                            :height 1.2
-                            :v-adjust -0.05))
-                          ((eq state 'needs-merge)
-                           (if active (setq face 'doom-modeline-info))
-                           (all-the-icons-octicon "git-merge" :face face))
-                          ((eq state 'needs-update)
-                           (if active (setq face 'doom-modeline-warning))
-                           (all-the-icons-octicon "arrow-down" :face face))
-                          ((memq state '(removed conflict unregistered))
-                           (if active (setq face 'doom-modeline-urgent))
-                           (all-the-icons-octicon "alert" :face face))
-                          (t
-                           (if active (setq face 'font-lock-doc-face))
-                           (all-the-icons-octicon
-                            "git-compare"
-                            :face face
-                            :height 1.2
-                            :v-adjust -0.05)))
-                    " "
-                    (propertize (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
-                                'face (if active face))
-                    " "))))
-
-      (defun +doom-ml-icon (icon &optional text face voffset)
-        "Displays an octicon ICON with FACE, followed by TEXT. Uses
-      `all-the-icons-octicon' to fetch the icon."
-        (concat
-         (if vc-mode " " "  ")
-         (when icon
-           (concat
-            (all-the-icons-material icon :face face :height 1.1 :v-adjust (or voffset -0.2))
-            ;; (all-the-icons-octicon icon :face face :height 1.0 :v-adjust 0)
-            (if text +doom-modeline-vspc)))
-         (when text
-           (propertize text 'face face))
-         (if vc-mode "  " " ")))
-
-      (def-modeline-segment! flycheck
-        "Displays color-coded flycheck error status in the current buffer with pretty
-      icons."
-        (when (boundp 'flycheck-last-status-change)
-          (pcase flycheck-last-status-change
-            ('finished (if flycheck-current-errors
-                           (let-alist (flycheck-count-errors flycheck-current-errors)
-                             (let ((sum (+ (or .error 0) (or .warning 0))))
-                               (+doom-ml-icon "do_not_disturb_alt"
-                                              (number-to-string sum)
-                                              (if .error 'doom-modeline-urgent 'doom-modeline-warning)
-                                              -0.25)))
-                         (+doom-ml-icon "check" nil 'doom-modeline-info)))
-            ('running     (+doom-ml-icon "access_time" nil 'font-lock-doc-face -0.25))
-            ('no-checker  (+doom-ml-icon "sim_card_alert" "-" 'font-lock-doc-face))
-            ('errored     (+doom-ml-icon "sim_card_alert" "Error" 'doom-modeline-urgent))
-            ('interrupted (+doom-ml-icon "pause" "Interrupted" 'font-lock-doc-face)))))
-      ;; ('interrupted (+doom-ml-icon "x" "Interrupted" 'font-lock-doc-face)))))
-
-      ;;
-      (defsubst doom-column (pos)
-        (save-excursion (goto-char pos)
-                        (current-column)))
-
-      (def-modeline-segment! selection-info
-        "Information about the current selection, such as how many characters and
-      lines are selected, or the NxM dimensions of a block selection."
-        (when (and (active) (or mark-active (eq evil-state 'visual)))
-          (let ((reg-beg (region-beginning))
-                (reg-end (region-end)))
-            (propertize
-             (let ((lines (count-lines reg-beg (min (1+ reg-end) (point-max)))))
-               (cond ((or (bound-and-true-p rectangle-mark-mode)
-                          (eq 'block evil-visual-selection))
-                      (let ((cols (abs (- (doom-column reg-end)
-                                          (doom-column reg-beg)))))
-                        (format "%dx%dB" lines cols)))
-                     ((eq 'line evil-visual-selection)
-                      (format "%dL" lines))
-                     ((> lines 1)
-                      (format "%dC %dL" (- (1+ reg-end) reg-beg) lines))
-                     (t
-                      (format "%dC" (- (1+ reg-end) reg-beg)))))
-             'face 'doom-modeline-highlight))))
-
-
-      ;;
-      (defun +doom-modeline--macro-recording ()
-        "Display current Emacs or evil macro being recorded."
-        (when (and (active) (or defining-kbd-macro executing-kbd-macro))
-          (let ((sep (propertize " " 'face 'doom-modeline-panel)))
-            (concat sep
-                    (propertize (if (bound-and-true-p evil-this-macro)
-                                    (char-to-string evil-this-macro)
-                                  "Macro")
-                                'face 'doom-modeline-panel)
-                    sep
-                    (all-the-icons-octicon "triangle-right"
-                                           :face 'doom-modeline-panel
-                                           :v-adjust -0.05)
-                    sep))))
-
-      (defsubst +doom-modeline--anzu ()
-        "Show the match index and total number thereof. Requires `anzu', also
-      `evil-anzu' if using `evil-mode' for compatibility with `evil-search'."
-        (when (and anzu--state (not iedit-mode))
-          (propertize
-           (let ((here anzu--current-position)
-                 (total anzu--total-matched))
-             (cond ((eq anzu--state 'replace-query)
-                    (format " %d replace " total))
-                   ((eq anzu--state 'replace)
-                    (format " %d/%d " here total))
-                   (anzu--overflow-p
-                    (format " %s+ " total))
-                   (t
-                    (format " %s/%d " here total))))
-           'face (if (active) 'doom-modeline-panel))))
-
-      (defsubst +doom-modeline--evil-substitute ()
-        "Show number of :s matches in real time."
-        (when (and evil-mode
-                   (or (assq 'evil-ex-substitute evil-ex-active-highlights-alist)
-                       (assq 'evil-ex-global-match evil-ex-active-highlights-alist)
-                       (assq 'evil-ex-buffer-match evil-ex-active-highlights-alist)))
-          (propertize
-           (let ((range (if evil-ex-range
-                            (cons (car evil-ex-range) (cadr evil-ex-range))
-                          (cons (line-beginning-position) (line-end-position))))
-                 (pattern (car-safe (evil-delimited-arguments evil-ex-argument 2))))
-             (if pattern
-                 (format " %s matches " (how-many pattern (car range) (cdr range)))
-               " ... "))
-           'face (if (active) 'doom-modeline-panel))))
-
-      (defsubst +doom-modeline--iedit ()
-        "Show the number of iedit regions matches + what match you're on."
-        (when (and iedit-mode iedit-occurrences-overlays)
-          (propertize
-           (let ((this-oc (or (let ((inhibit-message t))
-                                (iedit-find-current-occurrence-overlay))
-                              (progn (iedit-prev-occurrence)
-                                     (iedit-find-current-occurrence-overlay))))
-                 (length (length iedit-occurrences-overlays)))
-             (format " %s/%d "
-                     (if this-oc
-                         (- length
-                            (length (cdr
-                                     (memq this-oc (sort (append iedit-occurrences-overlays (list))
-                                                         (lambda (x y) (< (overlay-start x) (overlay-start y))))))))
-                       "-")
-                     length))
-           'face (if (active) 'doom-modeline-panel))))
-
-      (def-modeline-segment! matches
-        "Displays: 1. the currently recording macro, 2. A current/total for the
-      current search term (with anzu), 3. The number of substitutions being conducted
-      with `evil-ex-substitute', and/or 4. The number of active `iedit' regions."
-        (let ((meta (concat (+doom-modeline--macro-recording)
-                            (+doom-modeline--anzu)
-                            (+doom-modeline--evil-substitute)
-                            (+doom-modeline--iedit))))
-          (or (and (not (string= meta "")) meta)
-              (if buffer-file-name " %I "))))
-
-      ;; TODO Include other information
-      (def-modeline-segment! media-info
-        "Metadata regarding the current file, such as dimensions for images."
-        (cond ((eq major-mode 'image-mode)
-               (let ((size (image-size (image-get-display-property) :pixels)))
-                 (format "  %dx%d  " (car size) (cdr size))))))
-
-      ;;
-      (def-modeline-segment! eldoc
-        "Display eldoc documentation in the mode-line while using the minibuffer (e.g.
-      `eval-expression')."
-        (bound-and-true-p str))
-
-      ;; These bars regulate the height of the mode-line in GUI Emacs.
-      (def-modeline-segment! bar
-        (if (display-graphic-p)
-            (+doom-modeline--make-xpm
-             (face-background (if (active)
-                                  'doom-modeline-bar
-                                'doom-modeline-inactive-bar)
-                              nil t)
-             +doom-modeline-height
-             +doom-modeline-bar-width)
-          ""))
-
-      (def-modeline-segment! eldoc-bar
-        "A differently colored bar, to signify an eldoc display."
-        (if (display-graphic-p)
-            (+doom-modeline--make-xpm
-             (face-background 'doom-modeline-eldoc-bar nil t)
-             +doom-modeline-height
-             +doom-modeline-bar-width)
-          ""))
-
-
-      ;;
-      ;; Mode lines
-      ;;
-
-      (def-modeline! main
-        (bar matches " " buffer-info "  %l:%c %p  " selection-info)
-        (buffer-encoding major-mode vcs flycheck))
-
-      (def-modeline! eldoc
-        (eldoc-bar " " eldoc)
-        (media-info major-mode))
-
-      (def-modeline! minimal
-        (bar matches " " buffer-info)
-        (media-info major-mode))
-
-      (def-modeline! special
-        (bar matches " " buffer-info-simple "  %l:%c %p  " selection-info)
-        (buffer-encoding major-mode flycheck))
-
-      (def-modeline! project
-        (bar buffer-default-directory)
-        (major-mode))
-
-      (def-modeline! media
-        (bar " %b  ")
-        (media-info major-mode))
-
-      ;;
-      (doom-set-modeline 'main t)
-
-      ;; This scratch buffer is already created, and doesn't get a modeline. For the
-      ;; love of Emacs, someone give the man a modeline!
-      (with-current-buffer "*scratch*"
-        (doom-set-modeline 'main))
-
-
-      ;;
-      ;; Hooks
-      ;;
-
-      (defun +doom-modeline|set-special-modeline ()
-        (doom-set-modeline 'special))
-
-      (defun +doom-modeline|set-media-modeline ()
-        (doom-set-modeline 'media))
-
-      (add-hook 'org-src-mode-hook #'+doom-modeline|set-special-modeline)
-      (add-hook 'image-mode-hook #'+doom-modeline|set-media-modeline)
-      (add-hook 'circe-mode-hook #'+doom-modeline|set-special-modeline)
-
-    #+END_SRC
-
-** UTF-8
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (when (fboundp 'set-charset-priority)
-       (set-charset-priority 'unicode))
-     (prefer-coding-system 'utf-8)
-     (set-terminal-coding-system 'utf-8)
-     (set-keyboard-coding-system 'utf-8)
-     (set-selection-coding-system 'utf-8)
-     (setq locale-coding-system 'utf-8)
-     (setq-default buffer-file-coding-system 'utf-8)
-   #+END_SRC
-
-** Dired
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (setq dired-always-copies 'always
-           dired-recursive-deletes 'top)
-
-     (use-package dired
-       :ensure nil
-       :hook (dired-mode . dired-omit-mode)
-       :config
-       (require 'dired-x)
-       (setq dired-omit-files
-             (concat dired-omit-files "\\pyc$\\|^.git$")))
-   #+END_SRC
-
-** Misc
-   Bump the GC threshold for startup only
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (setq gc-cons-threshold 402653184
-           gc-cons-percentage 0.6)
-
-     (add-hook 'emacs-startup-hook
-               (lambda ()
-                 (setq gc-cons-threshold 16777216)
-                 (setq gc-cons-percentage 0.1)))
-   #+END_SRC
-
-   Sentences end with a single space.
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (setq sentence-end-double-space nil)
-   #+END_SRC
-
-   Recentf
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (use-package recentf
-       :pin melpa
-       :ensure t
-       :config
-       (setq recentf-max-menu-items 0
-             recentf-max-saved-items 300
-             recentf-filename-handlers '(file-truename)
-             recentf-exclude
-             (list "^/ssh:" "/TAGS$")))
-   #+END_SRC
-
-   Backups and lockfiles aren't useful. Instead, revert automatically on change to a file.
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (setq create-lockfiles nil
-           make-backup-files nil
-           auto-save-default nil
-           global-auto-revert-non-file-buffers t
-           auto-revert-verbose nil)
-   #+END_SRC
-
-   Don't ask me about large files.
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-      (setq large-file-warning-threshold nil)
-   #+END_SRC
-
-   Who wants to type "yes"?
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (defalias 'yes-or-no-p 'y-or-n-p)
-   #+END_SRC
-
-   global-eldoc is pretty annoying. Turn it on explicitly.
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (global-eldoc-mode -1)
-     (add-hook 'python-mode-hook 'eldoc-mode)
-   #+END_SRC
-
-    Until they make a space commander keyboard again...
-    #+name: basic
-    #+BEGIN_SRC emacs-lisp
-      (setq mac-command-modifier 'meta)
-      (setq mac-option-modifier 'alt)
-    #+END_SRC
 
     Spaces.
     #+name: basic
     #+BEGIN_SRC emacs-lisp
-      (setq-default indent-tabs-mode nil)
+        (setq-default indent-tabs-mode nil)
     #+END_SRC
 
     ZSH. Fish doesn't really play nice with emacs afaik.
     #+name: basic
     #+BEGIN_SRC emacs-lisp
-      (setq explicit-shell-file-name "/usr/local/bin/zsh")
+        (setq explicit-shell-file-name "/usr/local/bin/zsh")
     #+END_SRC
 
     A bunch of settings cribbed from doom-emacs
     #+name: basic
     #+BEGIN_SRC emacs-lisp
-      (setq-default
-       bidi-display-reordering nil
-       cursor-in-non-selected-windows nil
-       display-line-numbers-width 3
-       frame-inhibit-implied-resize t
-       ;; remove continuation arrow on right fringe
-       fringe-indicator-alist (delq (assq 'continuation fringe-indicator-alist)
+        (setq-default
+        bidi-display-reordering nil
+        cursor-in-non-selected-windows nil
+        display-line-numbers-width 3
+        frame-inhibit-implied-resize t
+        ;; remove continuation arrow on right fringe
+        fringe-indicator-alist (delq (assq 'continuation fringe-indicator-alist)
                                     fringe-indicator-alist)
-       highlight-nonselected-windows nil
-       image-animate-loop t
-       indicate-buffer-boundaries nil
-       indicate-empty-lines nil
-       max-mini-window-height 0.3
-       ;; disable mode-line mouseovers
-       mode-line-default-help-echo nil
-       mouse-yank-at-point t
-       ibuffer-use-other-window t
-       resize-mini-windows 'grow-only
-       show-help-function nil
-       split-width-threshold 160
-       uniquify-buffer-name-style 'forward
-       use-dialog-box nil
-       visible-cursor nil
-       x-stretch-cursor nil
-       ;; defer jit font locking slightly to improve performance
-       jit-lock-defer-time nil
-       jit-lock-stealth-nice 0.1
-       jit-lock-stealth-time 0.2
-       jit-lock-stealth-verbose nil
-       ;; `pos-tip' defaults
-       pos-tip-internal-border-width 6
-       pos-tip-border-width 1)
+        highlight-nonselected-windows nil
+        image-animate-loop t
+        indicate-buffer-boundaries nil
+        indicate-empty-lines nil
+        max-mini-window-height 0.3
+        ;; disable mode-line mouseovers
+        mode-line-default-help-echo nil
+        mouse-yank-at-point t
+        ibuffer-use-other-window t
+        resize-mini-windows 'grow-only
+        show-help-function nil
+        split-width-threshold 160
+        uniquify-buffer-name-style 'forward
+        use-dialog-box nil
+        visible-cursor nil
+        x-stretch-cursor nil
+        ;; defer jit font locking slightly to improve performance
+        jit-lock-defer-time nil
+        jit-lock-stealth-nice 0.1
+        jit-lock-stealth-time 0.2
+        jit-lock-stealth-verbose nil
+        ;; `pos-tip' defaults
+        pos-tip-internal-border-width 6
+        pos-tip-border-width 1)
     #+END_SRC
 
     Some sensible defaults for general text editing.
     #+name: basic
     #+BEGIN_SRC emacs-lisp
-      (setq-default
-       delete-trailing-lines nil
-       fill-column 80
-       sentence-end-double-space nil
-       word-wrap t
-       hscroll-margin 1
-       hscroll-step 1
-       scroll-conservatively 1001
-       scroll-margin 0
-       scroll-preserve-screen-position t
-       require-final-newline t
-       tab-always-indent t
-       tab-width 4
-       tabify-regexp "^t* [ \t]+" ; for retab
-       truncate-lines t
-       truncate-partial-width-windows 50
-       whitespace-line-column fill-column
-       whitespace-style
-       '(face indentation tabs tab-mark spaces space-mark newline newline-mark
-              trailing lines-tail)
-       whitespace-display-mappings
-       '((tab-mark ?\t [?› ?\t])
-         (newline-mark ?\n [?¬ ?\n])
-         (space-mark ?\  [?·] [?.])))
+        (setq-default
+        delete-trailing-lines nil
+        fill-column 80
+        sentence-end-double-space nil
+        word-wrap t
+        hscroll-margin 1
+        hscroll-step 1
+        scroll-conservatively 1001
+        scroll-margin 0
+        scroll-preserve-screen-position t
+        require-final-newline t
+        tab-always-indent t
+        tab-width 4
+        tabify-regexp "^t* [ \t]+" ; for retab
+        truncate-lines t
+        truncate-partial-width-windows 50
+        whitespace-line-column fill-column
+        whitespace-style
+        '(face indentation tabs tab-mark spaces space-mark newline newline-mark
+                trailing lines-tail)
+        whitespace-display-mappings
+        '((tab-mark ?\t [?› ?\t])
+            (newline-mark ?\n [?¬ ?\n])
+            (space-mark ?\  [?·] [?.])))
 
-      (if (fboundp 'fringe-mode) (fringe-mode '4))
-      (tooltip-mode -1)
+        (if (fboundp 'fringe-mode) (fringe-mode '4))
+        (tooltip-mode -1)
     #+END_SRC
 
-** Eshell
-   I am learning to like eshell. It's weird. Let's make it work better.
-    #+name: basic
-    #+BEGIN_SRC emacs-lisp
-      (use-package eshell
-        :init
-        (setenv "PAGER" "cat")
-        (setq eshell-scroll-to-bottom-on-input t
-              eshell-error-if-no-glob t
-              eshell-hist-ignoredups t
-              eshell-save-history-on-exit t
-              eshell-prefer-lisp-functions nil
-              eshell-destroy-buffer-when-process-dies t))
-      (add-hook 'eshell-mode-hook '(lambda ()
-                                     (eshell/alias "ff" "find-file $1")
-                                     (eshell/alias "gd" "magit-diff-unstaged")
-                                     (eshell/alias "gds" "magit-diff-staged")
-                                     (eshell/alias "d" "dired $1")
-                                     (beacon-mode -1)
-                                     (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-                                                   "/usr/local/bin/gls"
-                                                 "/bin/ls")))
-                                       (eshell/alias "la" (concat ls " -AlohG --color=always")))
-                                     (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)))
-    #+END_SRC
+* Eshell
+  I am learning to like eshell. It's weird. Let's make it work better.
+   #+name: basic
+   #+BEGIN_SRC emacs-lisp
+     (use-package eshell
+       :init
+       (setenv "PAGER" "cat")
+       (setq eshell-scroll-to-bottom-on-input t
+             eshell-error-if-no-glob t
+             eshell-hist-ignoredups t
+             eshell-save-history-on-exit t
+             eshell-prefer-lisp-functions nil
+             eshell-destroy-buffer-when-process-dies t))
+     (add-hook 'eshell-mode-hook '(lambda ()
+                                    (eshell/alias "ff" "find-file $1")
+                                    (eshell/alias "gd" "magit-diff-unstaged")
+                                    (eshell/alias "gds" "magit-diff-staged")
+                                    (eshell/alias "d" "dired $1")
+                                    (beacon-mode -1)
+                                    (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                                                  "/usr/local/bin/gls"
+                                                "/bin/ls")))
+                                      (eshell/alias "la" (concat ls " -AlohG --color=always")))
+                                    (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)))
+   #+END_SRC
 
-** Packages
-*** Navigation
-**** ace-link
-     Navigate to links cvim-style
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package ace-link
-         :ensure t
-         :pin melpa
-         :config
-         (ace-link-setup-default))
-     #+END_SRC
-
-**** avy
-     Jump to text
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package avy
-         :ensure t
-         :pin melpa)
-     #+END_SRC
-
-**** dumb-jump
-     Jump to definitions using rg, ag, grep
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package dumb-jump
-         :ensure t
-         :pin melpa
-         :config
-         (setq dumb-jump-force-searcher 'rg)
-         (setq dumb-jump-selector 'helm))
-     #+END_SRC
-
-*** UI
+* Packages
+** Interface
 **** highlight-numbers
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -1146,20 +265,6 @@
        (use-package all-the-icons
          :ensure t
          :pin melpa)
-     #+END_SRC
-
-**** diminish
-     Hide icons in the modeline
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-              (use-package diminish
-                :ensure t
-                :pin melpa
-                :config
-                (diminish 'buffer-face-mode)
-                (diminish 'evil-smartparens-mode)
-                (diminish 'smartparens-mode)
-                (diminish 'evil-mc-mode))
      #+END_SRC
 
 **** fringe-helper
@@ -1219,22 +324,6 @@
          :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
      #+END_SRC
 
-**** spacemacs-theme
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       ;; (use-package spacemacs-theme
-       ;;   :ensure t
-       ;;   :defer t
-       ;;   :pin melpa
-       ;;   :init
-       ;;   ;; (load-theme 'spacemacs-dark t)
-       ;;   (set-face-attribute 'cursor nil :background "#fcd845")
-       ;;   (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
-       ;;   :config
-       ;;   (with-current-buffer (get-buffer " *Echo Area 0*")
-       ;;     (setq-local face-remapping-alist '((default (:height  1.0) default)))))
-     #+END_SRC
-
 **** doom-themes
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -1244,7 +333,7 @@
          :init
          (setq doom-themes-enable-bold t
                doom-themes-enable-italic t)
-         (load-theme 'doom-city-lights t)
+         (load-theme 'doom-one t)
          :config
          (doom-themes-org-config)
          (set-face-attribute 'font-lock-comment-face nil :slant 'italic))
@@ -1292,70 +381,998 @@
          :init
          (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
      #+END_SRC
-*** Python
-**** anaconda-mode
-     Navigation, documentation, and linting for Python
-     #+name: languages
+     
+**** doom modeline
+     An absolutely absurd amount of elisp to make a bar at the bottom of the frame.
+     #+name: interface
      #+BEGIN_SRC emacs-lisp
-       (use-package anaconda-mode
-         :ensure t
-         :hook
-         ((python-mode . anaconda-mode)
-          (python-mode . anaconda-eldoc-mode))
-         :pin melpa-stable
-         :diminish anaconda-mode)
-     #+END_SRC
-**** pip-requirements
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
-      (use-package pip-requirements
-        :ensure t
-        :mode "\\^requires-"
-        :pin melpa)
-    #+END_SRC
+       (defvar doom--transient-counter 0)
+       (defvar +doom-modeline-buffer-file-name-style 'truncate-upto-project)
 
-**** pyvenv
-     Use virtual environments from virtualfish
-    #+name: languages
+       (defmacro add-hook! (hook &rest func-or-forms)
+         "A convenience macro for `add-hook'.
+
+       HOOK can be one hook or a list of hooks. If the hook(s) are not quoted, -hook is
+       appended to them automatically. If they are quoted, they are used verbatim.
+
+       FUNC-OR-FORMS can be a quoted symbol, a list of quoted symbols, or forms. Forms will be
+       wrapped in a lambda. A list of symbols will expand into a series of add-hook calls.
+
+       Examples:
+           (add-hook! 'some-mode-hook 'enable-something)
+           (add-hook! some-mode '(enable-something and-another))
+           (add-hook! '(one-mode-hook second-mode-hook) 'enable-something)
+           (add-hook! (one-mode second-mode) 'enable-something)
+           (add-hook! (one-mode second-mode) (setq v 5) (setq a 2))"
+         (declare (indent defun) (debug t))
+         (unless func-or-forms
+           (error "add-hook!: FUNC-OR-FORMS is empty"))
+         (let* ((val (car func-or-forms))
+                (quoted (eq (car-safe hook) 'quote))
+                (hook (if quoted (cadr hook) hook))
+                (funcs (if (eq (car-safe val) 'quote)
+                           (if (cdr-safe (cadr val))
+                               (cadr val)
+                             (list (cadr val)))
+                         (list func-or-forms)))
+                (forms '()))
+           (mapc
+            (lambda (f)
+              (let ((func (cond ((symbolp f) `(quote ,f))
+                                (t `(lambda (&rest _) ,@func-or-forms)))))
+                (mapc
+                 (lambda (h)
+                   (push `(add-hook ',(if quoted h (intern (format "%s-hook" h))) ,func) forms))
+                 (-list hook)))) funcs)
+           `(progn ,@forms)))
+
+
+       (defmacro add-transient-hook! (hook &rest forms)
+         "Attaches transient forms to a HOOK.
+             HOOK can be a quoted hook or a sharp-quoted function (which will be advised).
+             These forms will be evaluated once when that function/hook is first invoked,
+             then it detaches itself."
+         (declare (indent 1))
+         (let ((append (eq (car forms) :after))
+               (fn (intern (format "doom-transient-hook-%s" (cl-incf doom--transient-counter)))))
+           `(when ,hook
+              (fset ',fn
+                    (lambda (&rest _)
+                      ,@forms
+                      (cond ((functionp ,hook) (advice-remove ,hook #',fn))
+                            ((symbolp ,hook)   (remove-hook ,hook #',fn)))
+                      (unintern ',fn nil)))
+              (cond ((functionp ,hook)
+                     (advice-add ,hook ,(if append :after :before) #',fn))
+                    ((symbolp ,hook)
+                     (add-hook ,hook #',fn ,append))))))
+
+       (use-package dash
+         :ensure t
+         :pin melpa)
+
+       (use-package shrink-path
+         :ensure t
+         :pin melpa)
+
+       (use-package eldoc-eval
+         :ensure t
+         :pin melpa
+         :config
+         (defun +doom-modeline-eldoc (text)
+           (concat (when (display-graphic-p)
+                     (+doom-modeline--make-xpm
+                      (face-background 'doom-modeline-eldoc-bar nil t)
+                      +doom-modeline-height
+                      +doom-modeline-bar-width))
+                   text))
+         (defun +doom-modeline--show-eldoc (input)
+           "Display string STR in the mode-line next to minibuffer."
+           (with-current-buffer (eldoc-current-buffer)
+             (let* ((str              (and (stringp input) input))
+                    (mode-line-format (or (and str (or (+doom-modeline-eldoc str) str))
+                                          mode-line-format))
+                    mode-line-in-non-selected-windows)
+               (force-mode-line-update)
+               (sit-for eldoc-show-in-mode-line-delay))))
+
+         (setq eldoc-in-minibuffer-show-fn #'+doom-modeline--show-eldoc)
+         (eldoc-in-minibuffer-mode +1))
+
+       (use-package evil-anzu
+         :requires evil
+         :ensure t
+         :init
+         (add-transient-hook! #'evil-ex-start-search (require 'evil-anzu))
+         (add-transient-hook! #'evil-ex-start-word-search (require 'evil-anzu))
+         :config
+         (setq anzu-cons-mode-line-p nil
+               anzu-minimum-input-length 1
+               anzu-search-threshold 250)
+         ;; Avoid anzu conflicts across buffers
+         (mapc #'make-variable-buffer-local
+               '(anzu--total-matched anzu--current-position anzu--state
+                                     anzu--cached-count anzu--cached-positions anzu--last-command
+                                     anzu--last-isearch-string anzu--overflow-p))
+         ;; Ensure anzu state is cleared when searches & iedit are done
+         (add-hook! 'isearch-mode-end-hook #'anzu--reset-status t)
+         (add-hook! '+evil-esc-hook #'anzu--reset-status t)
+         (add-hook! 'iedit-mode-end-hook #'anzu--reset-status))
+
+       ;;;###autoload
+       (defvar doom-memoized-table (make-hash-table :test 'equal :size 10)
+         "A lookup table containing memoized functions. The keys are argument lists,
+       and the value is the function's return value.")
+
+       ;;;###autoload
+       (defun doom-memoize (name)
+         "Memoizes an existing function. NAME is a symbol."
+         (let ((func (symbol-function name)))
+           (put name 'function-documentation
+                (concat (documentation func) " (memoized)"))
+           (fset name
+                 `(lambda (&rest args)
+                    (let ((key (cons ',name args)))
+                      (or (gethash key doom-memoized-table)
+                          (puthash key (apply ',func args)
+                                   doom-memoized-table)))))))
+
+       ;;;###autoload
+       (defmacro def-memoized! (name arglist &rest body)
+         "Create a memoize'd function. NAME, ARGLIST, DOCSTRING and BODY
+       have the same meaning as in `defun'."
+         (declare (indent defun) (doc-string 3))
+         `(,(if (bound-and-true-p byte-compile-current-file)
+                'with-no-warnings
+              'progn)
+           (defun ,name ,arglist ,@body)
+           (doom-memoize ',name)))
+
+       (defmacro def-modeline-segment! (name &rest forms)
+         "Defines a modeline segment and byte compiles it."
+         (declare (indent defun) (doc-string 2))
+         (let ((sym (intern (format "doom-modeline-segment--%s" name))))
+           `(progn
+              (defun ,sym () ,@forms)
+              ,(unless (bound-and-true-p byte-compile-current-file)
+                 `(let (byte-compile-warnings)
+                    (byte-compile #',sym))))))
+
+       (defsubst doom--prepare-modeline-segments (segments)
+         (cl-loop for seg in segments
+                  if (stringp seg)
+                  collect seg
+                  else
+                  collect (list (intern (format "doom-modeline-segment--%s" (symbol-name seg))))))
+
+       (defmacro def-modeline! (name lhs &optional rhs)
+         "Defines a modeline format and byte-compiles it. NAME is a symbol to identify
+       it (used by `doom-modeline' for retrieval). LHS and RHS are lists of symbols of
+       modeline segments defined with `def-modeline-segment!'.
+       Example:
+         (def-modeline! minimal
+           (bar matches \" \" buffer-info)
+           (media-info major-mode))
+         (doom-set-modeline 'minimal t)"
+         (let ((sym (intern (format "doom-modeline-format--%s" name)))
+               (lhs-forms (doom--prepare-modeline-segments lhs))
+               (rhs-forms (doom--prepare-modeline-segments rhs)))
+           `(progn
+              (defun ,sym ()
+                (let ((lhs (list ,@lhs-forms))
+                      (rhs (list ,@rhs-forms)))
+                  (let ((rhs-str (format-mode-line rhs)))
+                    (list lhs
+                          (propertize
+                           " " 'display
+                           `((space :align-to (- (+ right right-fringe right-margin)
+                                                 ,(+ 1 (string-width rhs-str))))))
+                          rhs-str))))
+              ,(unless (bound-and-true-p byte-compile-current-file)
+                 `(let (byte-compile-warnings)
+                    (byte-compile #',sym))))))
+
+       (defun doom-modeline (key)
+         "Returns a mode-line configuration associated with KEY (a symbol). Throws an
+       error if it doesn't exist."
+         (let ((fn (intern (format "doom-modeline-format--%s" key))))
+           (when (functionp fn)
+             `(:eval (,fn)))))
+
+       (defun doom-set-modeline (key &optional default)
+         "Set the modeline format. Does nothing if the modeline KEY doesn't exist. If
+       DEFAULT is non-nil, set the default mode-line for all buffers."
+         (let ((modeline (doom-modeline key)))
+           (when modeline
+             (setf (if default
+                       (default-value 'mode-line-format)
+                     (buffer-local-value 'mode-line-format (current-buffer)))
+                   modeline))))
+
+       (defun doom-project-root ()
+         "Get the path to the root of your project.
+       If STRICT-P, return nil if no project was found, otherwise return
+       `default-directory'."
+         (let (projectile-require-project-root)
+           (projectile-project-root)))
+
+       ;; Keep `+doom-modeline-current-window' up-to-date
+       (defvar +doom-modeline-current-window (frame-selected-window))
+       (defun +doom-modeline|set-selected-window (&rest _)
+         "Sets `+doom-modeline-current-window' appropriately"
+         (let ((win (frame-selected-window)))
+           (unless (minibuffer-window-active-p win)
+             (setq +doom-modeline-current-window win))))
+
+       (add-hook 'window-configuration-change-hook #'+doom-modeline|set-selected-window)
+       (add-hook 'focus-in-hook #'+doom-modeline|set-selected-window)
+       (advice-add #'handle-switch-frame :after #'+doom-modeline|set-selected-window)
+       (advice-add #'select-window :after #'+doom-modeline|set-selected-window)
+
+       ;;
+       ;; Variables
+       ;;
+
+       (defvar +doom-modeline-height 40
+         "How tall the mode-line should be (only respected in GUI emacs).")
+
+       (defvar +doom-modeline-bar-width 3
+         "How wide the mode-line bar should be (only respected in GUI emacs).")
+
+       (defvar +doom-modeline-vspc
+         (propertize " " 'face 'variable-pitch)
+         "TODO")
+
+       ;; externs
+       (defvar anzu--state nil)
+       (defvar evil-mode nil)
+       (defvar evil-state nil)
+       (defvar evil-visual-selection nil)
+       (defvar iedit-mode nil)
+       (defvar all-the-icons-scale-factor)
+       (defvar all-the-icons-default-adjust)
+
+       ;;
+       ;; Custom faces
+       ;;
+
+       (defgroup +doom-modeline nil
+         ""
+         :group 'doom)
+
+       (defface doom-modeline-buffer-path
+         '((t (:inherit mode-line-emphasis :bold t)))
+         "Face used for the dirname part of the buffer path."
+         :group '+doom-modeline)
+
+       (defface doom-modeline-buffer-file
+         '((t (:inherit mode-line-buffer-id)))
+         "Face used for the filename part of the mode-line buffer path."
+         :group '+doom-modeline)
+
+       (defface doom-modeline-buffer-modified
+         '((t (:inherit error :background nil :bold t)))
+         "Face used for the 'unsaved' symbol in the mode-line."
+         :group '+doom-modeline)
+
+       (defface doom-modeline-buffer-major-mode
+         '((t (:inherit mode-line-emphasis :bold t)))
+         "Face used for the major-mode segment in the mode-line."
+         :group '+doom-modeline)
+
+       (defface doom-modeline-highlight
+         '((t (:inherit mode-line-emphasis)))
+         "Face for bright segments of the mode-line."
+         :group '+doom-modeline)
+
+       (defface doom-modeline-panel
+         '((t (:inherit mode-line-highlight)))
+         "Face for 'X out of Y' segments, such as `+doom-modeline--anzu', `+doom-modeline--evil-substitute' and
+       `iedit'"
+         :group '+doom-modeline)
+
+       (defface doom-modeline-info
+         `((t (:inherit success :bold t)))
+         "Face for info-level messages in the modeline. Used by `*vc'."
+         :group '+doom-modeline)
+
+       (defface doom-modeline-warning
+         `((t (:inherit warning :bold t)))
+         "Face for warnings in the modeline. Used by `*flycheck'"
+         :group '+doom-modeline)
+
+       (defface doom-modeline-urgent
+         `((t (:inherit error :bold t)))
+         "Face for errors in the modeline. Used by `*flycheck'"
+         :group '+doom-modeline)
+
+       ;; Bar
+       (defface doom-modeline-bar '((t (:inherit highlight)))
+         "The face used for the left-most bar on the mode-line of an active window."
+         :group '+doom-modeline)
+
+       (defface doom-modeline-eldoc-bar '((t (:inherit shadow)))
+         "The face used for the left-most bar on the mode-line when eldoc-eval is
+       active."
+         :group '+doom-modeline)
+
+       (defface doom-modeline-inactive-bar '((t (:inherit warning :inverse-video t)))
+         "The face used for the left-most bar on the mode-line of an inactive window."
+         :group '+doom-modeline)
+
+       ;;
+       ;; Bootstrap
+       ;;
+
+       ;; Version management with pyenv
+       (defvar +python-pyenv-root nil
+         "The path to pyenv's root directory. This is automatically set when `python'
+       is loaded.")
+
+       (defvar +python-pyenv-versions nil
+         "Available versions of python in pyenv.")
+       (defvar-local +python-current-version nil
+         "The currently active pyenv version.")
+
+       (defvar doom-major-mode-names
+         '((sh-mode . "sh")
+           (emacs-lisp-mode . "Elisp"))
+         "An alist mapping major modes symbols to strings (or functions that will
+       return a string). This changes the 'long' name of a major-mode, allowing for
+       shorter major mode name in the mode-line. See `doom|set-mode-name'.")
+
+       ;; like diminish, but for major-modes. [pedantry intensifies]
+       (defun doom|set-mode-name ()
+         "Set the major mode's `mode-name', as dictated by `doom-major-mode-names'."
+         (-when-let* ((name (cdr (assq major-mode doom-major-mode-names))))
+           (setq mode-name
+                 (cond ((functionp name) (funcall name))
+                       ((stringp name) name)
+                       (t (error "'%s' isn't a valid name for %s" name major-mode))))))
+       (add-hook 'after-change-major-mode-hook #'doom|set-mode-name)
+
+       ;; Version management with pyenv
+         (defun +python|add-version-to-modeline ()
+           "Add version string to the major mode in the modeline."
+           (setq pyenv-shell-string (string-trim (shell-command-to-string "pyenv version-name")))
+           (setq current-pyenv-version
+                 (if (not (string= pyenv-shell-string "system"))
+                     pyenv-shell-string nil))
+           (setq mode-name
+                 (concat
+                   (if +python-current-version
+                       (format "Python %s" +python-current-version)
+                     "Python")
+                   (if current-pyenv-version
+                       (format " [%s]" current-pyenv-version) nil))))
+         (add-hook 'python-mode-hook #'+python|add-version-to-modeline)
+
+         (if (not (executable-find "pyenv"))
+             (setq +python-current-version (string-trim (shell-command-to-string "python --version 2>&1 | cut -d' ' -f2")))
+           (setq +python-pyenv-root     (string-trim (shell-command-to-string "pyenv root"))
+                 +python-pyenv-versions (split-string (shell-command-to-string "pyenv versions --bare") "\n" t)))
+
+            (defun +python|detect-pyenv-version ()
+              "Detect the pyenv version for the current project and set the relevant
+        environment variables."
+              (-when-let* ((version-str (shell-command-to-string "python --version 2>&1 | cut -d' ' -f2")))
+                (setq version-str (string-trim version-str)
+                      +python-current-version version-str)
+                (let ((pyenv-current-path (concat +python-pyenv-root "/versions/" version-str)))
+                  (when (file-directory-p pyenv-current-path)
+                    (setq pythonic-environment pyenv-current-path)))))
+            (add-hook 'python-mode-hook #'+python|detect-pyenv-version)
+
+       ;;
+       ;; Modeline helpers
+       ;;
+
+       (defsubst active ()
+         (eq (selected-window) +doom-modeline-current-window))
+
+       ;; Inspired from `powerline's `pl/make-xpm'.
+       (def-memoized! +doom-modeline--make-xpm (color height width)
+         "Create an XPM bitmap."
+         (propertize
+          " " 'display
+          (let ((data (make-list height (make-list width 1)))
+                (color (or color "None")))
+            (create-image
+             (concat
+              (format "/* XPM */\nstatic char * percent[] = {\n\"%i %i 2 1\",\n\". c %s\",\n\"  c %s\","
+                      (length (car data))
+                      (length data)
+                      color
+                      color)
+              (apply #'concat
+                     (cl-loop with idx = 0
+                              with len = (length data)
+                              for dl in data
+                              do (cl-incf idx)
+                              collect
+                              (concat "\""
+                                      (cl-loop for d in dl
+                                               if (= d 0) collect (string-to-char " ")
+                                               else collect (string-to-char "."))
+                                      (if (eq idx len) "\"};" "\",\n")))))
+             'xpm t :ascent 'center))))
+
+       (defun +doom-modeline-buffer-file-name ()
+         "Propertized `buffer-file-name' based on `+doom-modeline-buffer-file-name-style'."
+         (propertize
+          (pcase +doom-modeline-buffer-file-name-style
+            ('truncate-upto-project (+doom-modeline--buffer-file-name 'shrink))
+            ('truncate-upto-root (+doom-modeline--buffer-file-name-truncate))
+            ('truncate-all (+doom-modeline--buffer-file-name-truncate t))
+            ('relative-to-project (+doom-modeline--buffer-file-name-relative))
+            ('relative-from-project (+doom-modeline--buffer-file-name-relative 'include-project))
+            ('file-name (propertize (file-name-nondirectory buffer-file-name)
+                                    'face
+                                    (let ((face (or (and (buffer-modified-p)
+                                                         'doom-modeline-buffer-modified)
+                                                    (and (active)
+                                                         'doom-modeline-buffer-file))))
+                                      (when face `(:inherit ,face))))))
+          'help-echo buffer-file-truename))
+
+       (defun +doom-modeline--buffer-file-name-truncate (&optional truncate-tail)
+         "Propertized `buffer-file-name' that truncates every dir along path.
+       If TRUNCATE-TAIL is t also truncate the parent directory of the file."
+         (let ((dirs (shrink-path-prompt (file-name-directory buffer-file-truename)))
+               (active (active)))
+           (if (null dirs)
+               (propertize "%b" 'face (if active 'doom-modeline-buffer-file))
+             (let ((modified-faces (if (buffer-modified-p) 'doom-modeline-buffer-modified)))
+               (let ((dirname (car dirs))
+                     (basename (cdr dirs))
+                     (dir-faces (or modified-faces (if active 'doom-modeline-project-root-dir)))
+                     (file-faces (or modified-faces (if active 'doom-modeline-buffer-file))))
+                 (concat (propertize (concat dirname
+                                             (if truncate-tail (substring basename 0 1) basename)
+                                             "/")
+                                     'face (if dir-faces `(:inherit ,dir-faces)))
+                         (propertize (file-name-nondirectory buffer-file-name)
+                                     'face (if file-faces `(:inherit ,file-faces)))))))))
+
+       (defun +doom-modeline--buffer-file-name-relative (&optional include-project)
+         "Propertized `buffer-file-name' showing directories relative to project's root only."
+         (let ((root (doom-project-root))
+               (active (active)))
+           (if (null root)
+               (propertize "%b" 'face (if active 'doom-modeline-buffer-file))
+             (let* ((modified-faces (if (buffer-modified-p) 'doom-modeline-buffer-modified))
+                    (relative-dirs (file-relative-name (file-name-directory buffer-file-truename)
+                                                       (if include-project (concat root "../") root)))
+                    (relative-faces (or modified-faces (if active 'doom-modeline-buffer-path)))
+                    (file-faces (or modified-faces (if active 'doom-modeline-buffer-file))))
+               (if (equal "./" relative-dirs) (setq relative-dirs ""))
+               (concat (propertize relative-dirs 'face (if relative-faces `(:inherit ,relative-faces)))
+                       (propertize (file-name-nondirectory buffer-file-truename)
+                                   'face (if file-faces `(:inherit ,file-faces))))))))
+
+       (defun +doom-modeline--buffer-file-name (truncate-project-root-parent)
+         "Propertized `buffer-file-name'.
+       If TRUNCATE-PROJECT-ROOT-PARENT is t space will be saved by truncating it down
+       fish-shell style.
+       Example:
+       ~/Projects/FOSS/emacs/lisp/comint.el => ~/P/F/emacs/lisp/comint.el"
+         (let* ((project-root (doom-project-root))
+                (file-name-split (shrink-path-file-mixed project-root
+                                                         (file-name-directory buffer-file-truename)
+                                                         buffer-file-truename))
+                (active (active)))
+           (if (null file-name-split)
+               (propertize "%b" 'face (if active 'doom-modeline-buffer-file))
+             (pcase-let ((`(,root-path-parent ,project ,relative-path ,filename) file-name-split))
+               (let ((modified-faces (if (buffer-modified-p) 'doom-modeline-buffer-modified)))
+                 (let ((sp-faces       (or modified-faces (if active 'font-lock-comment-face)))
+                       (project-faces  (or modified-faces (if active 'font-lock-string-face)))
+                       (relative-faces (or modified-faces (if active 'doom-modeline-buffer-path)))
+                       (file-faces     (or modified-faces (if active 'doom-modeline-buffer-file))))
+                   (let ((sp-props       `(,@(if sp-faces       `(:inherit ,sp-faces))      ,@(if active '(:weight bold))))
+                         (project-props  `(,@(if project-faces  `(:inherit ,project-faces)) ,@(if active '(:weight bold))))
+                         (relative-props `(,@(if relative-faces `(:inherit ,relative-faces))))
+                         (file-props     `(,@(if file-faces     `(:inherit ,file-faces)))))
+                     (concat (propertize (if truncate-project-root-parent
+                                             root-path-parent
+                                           (abbreviate-file-name project-root))
+                                         'face sp-props)
+                             (propertize (concat project "/") 'face project-props)
+                             (if relative-path (propertize relative-path 'face relative-props))
+                             (propertize filename 'face file-props)))))))))
+
+       ;;
+       ;; Segments
+       ;;
+       (def-modeline-segment! buffer-default-directory
+         "Displays `default-directory'. This is for special buffers like the scratch
+       buffer where knowing the current project directory is important."
+         (let ((face (if (active) 'doom-modeline-buffer-path)))
+           (concat (if (display-graphic-p) " ")
+                   (all-the-icons-octicon
+                    "file-directory"
+                    :face face
+                    :v-adjust -0.05
+                    :height 1.25)
+                   (propertize (concat " " (abbreviate-file-name default-directory))
+                               'face face))))
+
+       ;;
+       (def-modeline-segment! buffer-info
+         "Combined information about the current buffer, including the current working
+       directory, the file name, and its state (modified, read-only or non-existent)."
+         (concat (cond (buffer-read-only
+                        (concat (all-the-icons-octicon
+                                 "lock"
+                                 :face 'doom-modeline-warning
+                                 :v-adjust -0.05)
+                                " "))
+                       ((buffer-modified-p)
+                        (concat (all-the-icons-faicon
+                                 "floppy-o"
+                                 :face 'doom-modeline-buffer-modified
+                                 :v-adjust -0.0575)
+                                " "))
+                       ((and buffer-file-name
+                             (not (file-exists-p buffer-file-name)))
+                        (concat (all-the-icons-octicon
+                                 "circle-slash"
+                                 :face 'doom-modeline-urgent
+                                 :v-adjust -0.05)
+                                " "))
+                       ((buffer-narrowed-p)
+                        (concat (all-the-icons-octicon
+                                 "fold"
+                                 :face 'doom-modeline-warning
+                                 :v-adjust -0.05)
+                                " ")))
+                 (if buffer-file-name
+                     (+doom-modeline-buffer-file-name)
+                   "%b")))
+
+       ;;
+       (def-modeline-segment! buffer-info-simple
+         "Display only the current buffer's name, but with fontification."
+         (propertize
+          "%b"
+          'face (cond ((and buffer-file-name (buffer-modified-p))
+                       'doom-modeline-buffer-modified)
+                      ((active) 'doom-modeline-buffer-file))))
+
+       (def-modeline-segment! buffer-encoding
+         "Displays the encoding and eol style of the buffer the same way Atom does."
+         (concat (let ((eol-type (coding-system-eol-type buffer-file-coding-system)))
+                   (cond ((eq eol-type 0) "LF  ")
+                         ((eq eol-type 1) "CRLF  ")
+                         ((eq eol-type 2) "CR  ")))
+                 (let* ((sys (coding-system-plist buffer-file-coding-system))
+                        (sys-name (plist-get sys :name))
+                        (sys-cat (plist-get sys :category)))
+                   (cond ((memq sys-cat '(coding-category-undecided coding-category-utf-8))
+                          "UTF-8")
+                         (t (upcase (symbol-name sys-name)))))
+                 "  "))
+
+       (def-modeline-segment! major-mode
+         "The major mode, including process, environment and text-scale info."
+         (propertize
+          (concat (format-mode-line mode-name)
+                  (when (stringp mode-line-process)
+                    mode-line-process)
+                  (and (featurep 'face-remap)
+                       (/= text-scale-mode-amount 0)
+                       (format " (%+d)" text-scale-mode-amount)))
+          'face (if (active) 'doom-modeline-buffer-major-mode)))
+
+       (def-modeline-segment! vcs
+         "Displays the current branch, colored based on its state."
+         (when vc-mode
+           (let ((backend (when buffer-file-name (vc-backend buffer-file-name)))
+                 (state   (when buffer-file-name (vc-state buffer-file-name)))
+                 (face    'mode-line-inactive)
+                 (active  (active))
+                 (all-the-icons-scale-factor 1.0)
+                 (all-the-icons-default-adjust -0.1))
+             (concat "  "
+                     (cond ((memq state '(edited added))
+                            (if active (setq face 'doom-modeline-info))
+                            (all-the-icons-octicon
+                             "git-compare"
+                             :face face
+                             :height 1.2
+                             :v-adjust -0.05))
+                           ((eq state 'needs-merge)
+                            (if active (setq face 'doom-modeline-info))
+                            (all-the-icons-octicon "git-merge" :face face))
+                           ((eq state 'needs-update)
+                            (if active (setq face 'doom-modeline-warning))
+                            (all-the-icons-octicon "arrow-down" :face face))
+                           ((memq state '(removed conflict unregistered))
+                            (if active (setq face 'doom-modeline-urgent))
+                            (all-the-icons-octicon "alert" :face face))
+                           (t
+                            (if active (setq face 'font-lock-doc-face))
+                            (all-the-icons-octicon
+                             "git-compare"
+                             :face face
+                             :height 1.2
+                             :v-adjust -0.05)))
+                     " "
+                     (propertize (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
+                                 'face (if active face))
+                     " "))))
+
+       (defun +doom-ml-icon (icon &optional text face voffset)
+         "Displays an octicon ICON with FACE, followed by TEXT. Uses
+       `all-the-icons-octicon' to fetch the icon."
+         (concat
+          (if vc-mode " " "  ")
+          (when icon
+            (concat
+             (all-the-icons-material icon :face face :height 1.1 :v-adjust (or voffset -0.2))
+             ;; (all-the-icons-octicon icon :face face :height 1.0 :v-adjust 0)
+             (if text +doom-modeline-vspc)))
+          (when text
+            (propertize text 'face face))
+          (if vc-mode "  " " ")))
+
+       (def-modeline-segment! flycheck
+         "Displays color-coded flycheck error status in the current buffer with pretty
+       icons."
+         (when (boundp 'flycheck-last-status-change)
+           (pcase flycheck-last-status-change
+             ('finished (if flycheck-current-errors
+                            (let-alist (flycheck-count-errors flycheck-current-errors)
+                              (let ((sum (+ (or .error 0) (or .warning 0))))
+                                (+doom-ml-icon "do_not_disturb_alt"
+                                               (number-to-string sum)
+                                               (if .error 'doom-modeline-urgent 'doom-modeline-warning)
+                                               -0.25)))
+                          (+doom-ml-icon "check" nil 'doom-modeline-info)))
+             ('running     (+doom-ml-icon "access_time" nil 'font-lock-doc-face -0.25))
+             ('no-checker  (+doom-ml-icon "sim_card_alert" "-" 'font-lock-doc-face))
+             ('errored     (+doom-ml-icon "sim_card_alert" "Error" 'doom-modeline-urgent))
+             ('interrupted (+doom-ml-icon "pause" "Interrupted" 'font-lock-doc-face)))))
+       ;; ('interrupted (+doom-ml-icon "x" "Interrupted" 'font-lock-doc-face)))))
+
+       ;;
+       (defsubst doom-column (pos)
+         (save-excursion (goto-char pos)
+                         (current-column)))
+
+       (def-modeline-segment! selection-info
+         "Information about the current selection, such as how many characters and
+       lines are selected, or the NxM dimensions of a block selection."
+         (when (and (active) (or mark-active (eq evil-state 'visual)))
+           (let ((reg-beg (region-beginning))
+                 (reg-end (region-end)))
+             (propertize
+              (let ((lines (count-lines reg-beg (min (1+ reg-end) (point-max)))))
+                (cond ((or (bound-and-true-p rectangle-mark-mode)
+                           (eq 'block evil-visual-selection))
+                       (let ((cols (abs (- (doom-column reg-end)
+                                           (doom-column reg-beg)))))
+                         (format "%dx%dB" lines cols)))
+                      ((eq 'line evil-visual-selection)
+                       (format "%dL" lines))
+                      ((> lines 1)
+                       (format "%dC %dL" (- (1+ reg-end) reg-beg) lines))
+                      (t
+                       (format "%dC" (- (1+ reg-end) reg-beg)))))
+              'face 'doom-modeline-highlight))))
+
+
+       ;;
+       (defun +doom-modeline--macro-recording ()
+         "Display current Emacs or evil macro being recorded."
+         (when (and (active) (or defining-kbd-macro executing-kbd-macro))
+           (let ((sep (propertize " " 'face 'doom-modeline-panel)))
+             (concat sep
+                     (propertize (if (bound-and-true-p evil-this-macro)
+                                     (char-to-string evil-this-macro)
+                                   "Macro")
+                                 'face 'doom-modeline-panel)
+                     sep
+                     (all-the-icons-octicon "triangle-right"
+                                            :face 'doom-modeline-panel
+                                            :v-adjust -0.05)
+                     sep))))
+
+       (defsubst +doom-modeline--anzu ()
+         "Show the match index and total number thereof. Requires `anzu', also
+       `evil-anzu' if using `evil-mode' for compatibility with `evil-search'."
+         (when (and anzu--state (not iedit-mode))
+           (propertize
+            (let ((here anzu--current-position)
+                  (total anzu--total-matched))
+              (cond ((eq anzu--state 'replace-query)
+                     (format " %d replace " total))
+                    ((eq anzu--state 'replace)
+                     (format " %d/%d " here total))
+                    (anzu--overflow-p
+                     (format " %s+ " total))
+                    (t
+                     (format " %s/%d " here total))))
+            'face (if (active) 'doom-modeline-panel))))
+
+       (defsubst +doom-modeline--evil-substitute ()
+         "Show number of :s matches in real time."
+         (when (and evil-mode
+                    (or (assq 'evil-ex-substitute evil-ex-active-highlights-alist)
+                        (assq 'evil-ex-global-match evil-ex-active-highlights-alist)
+                        (assq 'evil-ex-buffer-match evil-ex-active-highlights-alist)))
+           (propertize
+            (let ((range (if evil-ex-range
+                             (cons (car evil-ex-range) (cadr evil-ex-range))
+                           (cons (line-beginning-position) (line-end-position))))
+                  (pattern (car-safe (evil-delimited-arguments evil-ex-argument 2))))
+              (if pattern
+                  (format " %s matches " (how-many pattern (car range) (cdr range)))
+                " ... "))
+            'face (if (active) 'doom-modeline-panel))))
+
+       (defsubst +doom-modeline--iedit ()
+         "Show the number of iedit regions matches + what match you're on."
+         (when (and iedit-mode iedit-occurrences-overlays)
+           (propertize
+            (let ((this-oc (or (let ((inhibit-message t))
+                                 (iedit-find-current-occurrence-overlay))
+                               (progn (iedit-prev-occurrence)
+                                      (iedit-find-current-occurrence-overlay))))
+                  (length (length iedit-occurrences-overlays)))
+              (format " %s/%d "
+                      (if this-oc
+                          (- length
+                             (length (cdr
+                                      (memq this-oc (sort (append iedit-occurrences-overlays (list))
+                                                          (lambda (x y) (< (overlay-start x) (overlay-start y))))))))
+                        "-")
+                      length))
+            'face (if (active) 'doom-modeline-panel))))
+
+       (def-modeline-segment! matches
+         "Displays: 1. the currently recording macro, 2. A current/total for the
+       current search term (with anzu), 3. The number of substitutions being conducted
+       with `evil-ex-substitute', and/or 4. The number of active `iedit' regions."
+         (let ((meta (concat (+doom-modeline--macro-recording)
+                             (+doom-modeline--anzu)
+                             (+doom-modeline--evil-substitute)
+                             (+doom-modeline--iedit))))
+           (or (and (not (string= meta "")) meta)
+               (if buffer-file-name " %I "))))
+
+       ;; TODO Include other information
+       (def-modeline-segment! media-info
+         "Metadata regarding the current file, such as dimensions for images."
+         (cond ((eq major-mode 'image-mode)
+                (let ((size (image-size (image-get-display-property) :pixels)))
+                  (format "  %dx%d  " (car size) (cdr size))))))
+
+       ;;
+       (def-modeline-segment! eldoc
+         "Display eldoc documentation in the mode-line while using the minibuffer (e.g.
+       `eval-expression')."
+         (bound-and-true-p str))
+
+       ;; These bars regulate the height of the mode-line in GUI Emacs.
+       (def-modeline-segment! bar
+         (if (display-graphic-p)
+             (+doom-modeline--make-xpm
+              (face-background (if (active)
+                                   'doom-modeline-bar
+                                 'doom-modeline-inactive-bar)
+                               nil t)
+              +doom-modeline-height
+              +doom-modeline-bar-width)
+           ""))
+
+       (def-modeline-segment! eldoc-bar
+         "A differently colored bar, to signify an eldoc display."
+         (if (display-graphic-p)
+             (+doom-modeline--make-xpm
+              (face-background 'doom-modeline-eldoc-bar nil t)
+              +doom-modeline-height
+              +doom-modeline-bar-width)
+           ""))
+
+
+       ;;
+       ;; Mode lines
+       ;;
+
+       (def-modeline! main
+         (bar matches " " buffer-info "  %l:%c %p  " selection-info)
+         (buffer-encoding major-mode vcs flycheck))
+
+       (def-modeline! eldoc
+         (eldoc-bar " " eldoc)
+         (media-info major-mode))
+
+       (def-modeline! minimal
+         (bar matches " " buffer-info)
+         (media-info major-mode))
+
+       (def-modeline! special
+         (bar matches " " buffer-info-simple "  %l:%c %p  " selection-info)
+         (buffer-encoding major-mode flycheck))
+
+       (def-modeline! project
+         (bar buffer-default-directory)
+         (major-mode))
+
+       (def-modeline! media
+         (bar " %b  ")
+         (media-info major-mode))
+
+       ;;
+       (doom-set-modeline 'main t)
+
+       ;; This scratch buffer is already created, and doesn't get a modeline. For the
+       ;; love of Emacs, someone give the man a modeline!
+       (with-current-buffer "*scratch*"
+         (doom-set-modeline 'main))
+
+
+       ;;
+       ;; Hooks
+       ;;
+
+       (defun +doom-modeline|set-special-modeline ()
+         (doom-set-modeline 'special))
+
+       (defun +doom-modeline|set-media-modeline ()
+         (doom-set-modeline 'media))
+
+       (add-hook 'org-src-mode-hook #'+doom-modeline|set-special-modeline)
+       (add-hook 'image-mode-hook #'+doom-modeline|set-media-modeline)
+       (add-hook 'circe-mode-hook #'+doom-modeline|set-special-modeline)
+
+     #+END_SRC
+
+** Programming
+*** Completion
+**** company
+    #+name: programming
     #+BEGIN_SRC emacs-lisp
-      (use-package pyvenv
+      (use-package company
         :ensure t
+        :diminish company-mode
+        :hook (prog-mode . company-mode)
         :pin melpa
         :config
-        (defun pyvenv-autoload ()
-          (with-eval-after-load 'projectile
-            (lambda () (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".python-version")))
-                         (if (file-exists-p pfile)
-                             (pyvenv-workon (with-temp-buffer
-                                              (insert-file-contents pfile)
-                                              (nth 0 (split-string (buffer-string))))))))))
-        (add-hook 'python-mode 'pyenv-autoload))
+        (setq company-minimum-prefix-length 2
+              company-idle-delay 0
+              company-dabbrev-downcase nil
+              company-tooltip-limit 10
+              company-dabbrev-ignore-case t
+              company-dabbrev-code-code-other-buffers t
+              company-tooltip-align-annotations t
+              company-require-match 'never
+              company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
+              company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
+              company-backends '((company-etags company-files company-capf company-dabbrev-code))
+              company-transformers '(company-sort-by-occurrence))
+        (add-hook 'after-init-hook (lambda ()
+                                     (define-key company-active-map (kbd "RET") 'company-complete-selection)
+                                     (define-key company-active-map (quote [return]) 'company-complete-selection))))
     #+END_SRC
 
-**** evil-text-object-python
-     Adds  text-objects for python statements using the letter 'l'.
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
-      (use-package evil-text-object-python
-        :pin melpa
-        :hook (python-mode . evil-text-object-python-add-bindings)
-        :ensure t)
-    #+END_SRC
-
-*** Elm
-**** elm-mode
+**** company-anaconda
+     Completion for python
      #+name: languages
      #+BEGIN_SRC emacs-lisp
-       (use-package elm-mode
-         :pin melpa
+       (use-package company-anaconda
          :ensure t
+         :defer 2
+         :after company
          :config
-         (with-eval-after-load 'company
-           (add-hook 'elm-mode-hook
-                     (lambda ()
-                       (set (make-local-variable 'company-backends)
-                            '((company-elm company-etags company-files))))))
-         :mode (("\\.elm$" . elm-mode)))
+         (add-hook 'python-mode-hook
+                   (lambda ()
+                     (set (make-local-variable 'company-backends)
+                          '((company-anaconda company-etags company-files)))))
+         :pin melpa)
+     #+END_SRC
+
+**** company-php
+     Completion for php
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-php
+         :ensure t
+         :commands (company-ac-php-backend)
+         :config
+         (unless (executable-find "phpctags")
+           (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
+     #+END_SRC
+
+**** company-statistics
+     Completion by frecency
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-statistics
+         :ensure t
+         :after company
+         :hook (company-mode . company-statistics-mode)
+         :config
+         (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
+         (company-statistics-mode 1))
+     #+END_SRC
+
+**** company-quickhelp
+     Documentation popups
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-quickhelp
+         :ensure t
+         :pin melpa
+         :hook (company-mode . company-quickhelp-mode)
+         :init
+         (setq company-quickhelp-delay 1)
+         :config
+         (company-quickhelp-mode 1))
+     #+END_SRC
+
+*** Navigation
+**** ace-link
+     Navigate to links cvim-style
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package ace-link
+         :ensure t
+         :pin melpa
+         :config
+         (ace-link-setup-default))
+     #+END_SRC
+
+**** avy
+     Jump to text
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package avy
+         :ensure t
+         :pin melpa)
+     #+END_SRC
+
+**** dumb-jump
+     Jump to definitions using rg, ag, grep
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package dumb-jump
+         :ensure t
+         :pin melpa
+         :config
+         (setq dumb-jump-force-searcher 'rg)
+         (setq dumb-jump-selector 'helm))
+     #+END_SRC
+
+**** imenu-list
+     "Tagbar" like buffer for imenu
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package imenu-list
+         :ensure t
+         :pin melpa
+         :commands (imenu-list)
+         :config
+         (setq imenu-list-focus-after-activation t))
+     #+END_SRC
+
+**** projectile
+     #+name: basic
+     #+BEGIN_SRC emacs-lisp
+       (use-package projectile
+         :ensure t
+         :pin melpa-stable
+         ;; N.B. - using fish likely slows down projectile somewhat
+         :init
+         (setq projectile-enable-caching (not noninteractive)
+               projectile-indexing-method 'alien
+               projectile-globally-ignored-files '(".DS_STORE" "TAGS")
+               projectile-globally-ignored-file-suffixes '(".elc" ".pyc"))
+         :diminish projectile-mode
+         :config
+         (projectile-mode t)
+         (projectile-discover-projects-in-directory "~/git"))
      #+END_SRC
 
 *** Editing
@@ -1426,313 +1443,6 @@
         :commands (wgrep-change-to-wgrep-mode))
     #+END_SRC
 
-*** Completion
-**** company
-    #+name: programming
-    #+BEGIN_SRC emacs-lisp
-      (use-package company
-        :ensure t
-        :diminish company-mode
-        :hook (prog-mode . company-mode)
-        :pin melpa
-        :config
-        (setq company-minimum-prefix-length 2
-              company-idle-delay 0
-              company-dabbrev-downcase nil
-              company-tooltip-limit 10
-              company-dabbrev-ignore-case t
-              company-dabbrev-code-code-other-buffers t
-              company-tooltip-align-annotations t
-              company-require-match 'never
-              company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
-              company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
-              company-backends '((company-etags company-files company-capf company-dabbrev-code))
-              company-transformers '(company-sort-by-occurrence))
-        (add-hook 'after-init-hook (lambda ()
-                                     (define-key company-active-map (kbd "RET") 'company-complete-selection)
-                                     (define-key company-active-map (quote [return]) 'company-complete-selection))))
-    #+END_SRC
-
-**** company-anaconda
-     Completion for python
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-anaconda
-         :ensure t
-         :after company
-         :config
-         (with-eval-after-load 'company
-           (add-hook 'python-mode-hook
-                     (lambda ()
-                       (set (make-local-variable 'company-backends)
-                            '((company-anaconda company-etags company-files))))))
-         :pin melpa)
-     #+END_SRC
-
-**** company-php
-     Completion for php
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-php
-         :ensure t
-         :commands (company-ac-php-backend)
-         :config
-         (unless (executable-find "phpctags")
-           (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
-     #+END_SRC
-
-**** company-statistics
-     Completion by frecency
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-statistics
-         :ensure t
-         :after company
-         :hook (company-mode . company-statistics-mode)
-         :config
-         (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
-         (company-statistics-mode 1))
-     #+END_SRC
-
-**** company-quickhelp
-     Documentation popups
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-quickhelp
-         :ensure t
-         :pin melpa
-         :hook (company-mode . company-quickhelp-mode)
-         :init
-         (setq company-quickhelp-delay 1)
-         :config
-         (company-quickhelp-mode 1))
-     #+END_SRC
-
-*** Org
-    N.B. - Org-mode itself is configured and loaded in `init.el`
-**** org-bullets
-     Use UTF-8 symbols for org headings
-     #+name: org
-     #+BEGIN_SRC emacs-lisp
-       (use-package org-bullets
-         :ensure t
-         :pin melpa
-         :hook (org-mode . (lambda () (org-bullets-mode 1)))
-         :after org)
-     #+END_SRC
-
-*** Helm
-**** helm-descbinds
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
-       (use-package helm-descbinds
-         :ensure t
-         :after helm
-         :commands (helm-descbinds)
-         :pin melpa)
-     #+END_SRC
-
-**** helm
-     Unified fuzzy search for almost everything
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
-       (use-package helm
-         :ensure t
-         :pin melpa-stable
-         :diminish helm-mode
-         :init
-         (setq helm-exit-idle-delay 0)
-         (setq helm-split-window-inside-p 1)
-         :config
-         (require 'helm-config)
-         (helm-mode 1)
-         (helm-autoresize-mode 1)
-         (setq-default helm-boring-buffer-regexp-list
-                       (append '("TAGS" "\\*anaconda-mode\\*") helm-boring-buffer-regexp-list))
-         (setq helm-autoresize-min-height 5)
-         (setq helm-echo-input-in-header-line nil)
-         (defun set-helm-font-bigger ()
-             (set (make-local-variable 'face-remapping-alist)
-            '((default :height 1.0))))
-         (add-hook 'minibuffer-setup-hook 'set-helm-font-bigger))
-     #+END_SRC
-
-**** helm-ag
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
-       (use-package helm-ag
-         :ensure t
-         :commands (helm-ag)
-         :pin melpa
-         :after helm
-         :config
-         ;; breaks helm-projectile which hardcodes a "--ignore" flag :(
-         ;; (setq helm-ag-base-command "rg --vimgrep --no-heading --smart-case"))
-         (setq helm-ag-base-command "ag --nocolor --nogroup --hidden"))
-     #+END_SRC
-
-**** helm-projectile
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
-       (use-package helm-projectile
-         :ensure t
-         ;; fuzzy matching makes helm slightly slower
-         ;; :init (setq helm-projectile-fuzzy-match nil)
-         :after (:all projectile helm)
-         :commands
-         (helm-projectile-ag
-         helm-projectile-recentf
-         helm-projectile-find-dir
-         helm-projectile-find-file
-         helm-projectile-switch-project)
-         :pin melpa
-         :config (helm-projectile-on))
-     #+END_SRC
-
-**** helm-swoop
-     Search text linewise in a separate buffer
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
-       (use-package helm-swoop
-         :ensure t
-         :commands (helm-swoop)
-         :pin melpa
-         :after helm
-         :config
-         (setq helm-swoop-speed-or-color 1
-               helm-swoop-use-fuzzy-match 1)
-         (setq-default helm-swoop-split-direction 'split-window-vertically)
-         (setq-default helm-swoop-split-with-multiple-windows t)
-         ;; disable swoop-thing-at-point
-         (setq helm-swoop-pre-input-function
-               (lambda () "")))
-     #+END_SRC
-
-*** Keybindings
-**** general
-     Unified system for doing all sorts of keybinding stuff
-     #+name: keys
-     #+BEGIN_SRC emacs-lisp
-                            (use-package general
-                              :ensure t
-                              :pin melpa
-                              :config
-                              (general-evil-setup)
-                              ;; set up an override for binding space no matter what
-                              (setq general-override-states '(insert
-                                                              emacs
-                                                              hybrid
-                                                              normal
-                                                              visual
-                                                              motion
-                                                              operator
-                                                              replace))
-                              (general-override-mode)
-                              (general-define-key :keymaps 'override :states '(normal visual motion) "SPC" nil)
-
-                              ;; set up sequenced prefixes
-                              (general-create-definer global-leader :prefix "SPC" :keymaps 'override :states '(normal visual motion))
-                              (general-create-definer buffer-leader :prefix "SPC b" :keymaps 'override :states '(normal visual motion))
-                              (general-create-definer help-leader :prefix "SPC h" :keymaps 'override :states '(normal visual motion))
-                              (general-create-definer find-leader :prefix "SPC f" :keymaps 'override :states '(normal visual motion))
-                              (general-create-definer projectile-leader :prefix "SPC p" :keymaps 'override :states '(normal visual motion))
-                              (general-create-definer git-leader :prefix "SPC g" :keymaps 'override :states '(normal visual motion))
-                              (general-create-definer window-leader :prefix "SPC w" :keymaps 'override :states '(normal visual motion))
-                              (general-create-definer dir-leader :prefix "SPC d" :keymaps 'override :states '(normal visual motion))
-                              (general-create-definer evil-leader :prefix "g" :keymaps 'override :states '(normal visual motion))
-
-                              (evil-leader "" '(:ignore t :wk "Evil"))
-                              (global-leader "" '(nil :wk "Leader")
-                                             "f" '(:ignore t :wk "Find")
-                                             "g" '(:ignore t :wk "Git")
-                                             "p" '(:ignore t :wk "Projectile")
-                                             "b" '(:ignore t :wk "Buffers")
-                                             "e" '(:ignore t :wk "Elisp")
-                                             "h" '(:ignore t :wk "Help")
-                                             "w" '(:ignore t :wk "Window")
-                                             "j" '(:ignore t :wk "Jump")
-                                             "q" 'evil-quit)
-                              (buffer-leader "d" 'kill-this-buffer
-                                             "s" 'evil-write
-                                             "b" 'helm-mini)
-                              (dir-leader "d" 'dired)
-                              (help-leader "f" 'describe-function
-                                           "k" 'describe-key
-                                           "w" 'helm-man-woman
-                                           "v" 'describe-variable
-                                           "p" 'describe-package
-                                           "a" 'describe-face
-                                           "m" 'describe-mode)
-                              (find-leader "r" 'helm-recentf
-                                           "o" 'helm-semantic-or-imenu
-                                           "g" 'helm-do-ag
-                                           "f" 'helm-find-files
-                                           "l" 'helm-swoop)
-                              (projectile-leader "g" 'helm-projectile-ag
-                                                 "r" 'helm-projectile-recentf
-                                                 "d" 'helm-projectile-find-dir
-                                                 "f" 'helm-projectile-find-file
-                                                 "s" 'helm-projectile-switch-project
-                                                 "o" 'projectile-find-tag)
-                              (git-leader "g" 'magit
-                                          "b" 'magit-blame)
-                              (window-leader "s" 'evil-window-split
-                                             "v" 'evil-window-vsplit
-                                             "o" 'delete-other-windows
-                                             "d" 'evil-window-delete
-                                             "t" 'neotree-toggle)
-                              ;; HERESY: universal argument is bound to C-f. We need C-u for scrolling.
-                              (general-define-key :keymaps 'universal-argument-map
-                                                  "C-f" 'universal-argument-more)
-                              ;; non-prefix motion state
-                              (general-mmap "C-;" 'helm-M-x
-                                            "gl" 'evil-avy-goto-line
-                                            "gs" 'evil-avy-goto-char-2
-                                            "gD" 'dumb-jump-go
-                                            "C-f" 'universal-argument
-                                            "g C-]" 'xref-find-definitions)
-
-                              (defun minibuffer-keyboard-quit ()
-                                "Abort recursive edit.
-                                In Delete selection mode, if mark is active, just deactivate it;
-                                then it takes a second \\[keyboard-quit] to abort the minibuffer."
-                                (interactive)
-                                (if (and delete-selection-mode transient-mark-mode mark-active)
-                                    (setq deactivate-mark t)
-                                  (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
-                                  (abort-recursive-edit)))
-                              (general-define-key :keymaps '(minibuffer-local-map
-                                                             minibuffer-local-ns-map
-                                                             minibuffer-local-completion-map
-                                                             minibuffer-local-isearch-map
-                                                             minibuffer-local-must-match-map))
-                              (general-define-key :keymaps '(evil-motion-state-map evil-insert-state-map evil-normal-state-map evil-operator-state-map)
-                                                 "A-h" 'evil-window-left
-                                                 "A-j" 'evil-window-down
-                                                 "A-k" 'evil-window-up
-                                                 "A-l" 'evil-window-right)
-                            ;; non-prefix global
-                              (general-define-key :keymaps 'global
-                                                  "C-f" 'universal-argument
-                                                  "M-f" 'toggle-frame-fullscreen
-                                                  "M-x" 'helm-M-x
-                                                  "M-y" 'helm-show-kill-ring
-                                                  "C-x b" 'helm-mini
-                                                  "C-x C-b" 'helm-buffers-list
-                                                  "C-x C-f" 'helm-find-files
-                                                  "C-x C-r" 'helm-recent
-                                                  "C-x c o" 'helm-occur
-                                                  "C-M-n" 'helm-next-source
-                                                  "C-M-p" 'helm-previous-source
-                                                  "C-h b" 'helm-descbinds
-                                                  "M-v" 'evil-paste-after)
-                              (general-define-key "C-u" 'evil-scroll-up)
-                              ;; helm mappings
-                              (general-define-key :keymaps 'helm-map :states '(normal visual)
-                                                  "TAB" 'helm-execute-persistent-action
-                                                  "A-SPC" 'helm-toggle-visible-mark))
-     #+END_SRC
-
 *** Lint
 **** flycheck
      Check syntax asynchronously
@@ -1764,6 +1474,129 @@
                flycheck-display-errors-delay 0.9))
      #+END_SRC
 
+*** Shell
+**** exec-path-from-shell
+     Use $PATH as specified by the user's shell
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package exec-path-from-shell
+         :ensure t
+         :pin melpa
+         :config
+         (when (memq window-system '(mac ns x))
+           (exec-path-from-shell-initialize)))
+     #+END_SRC
+
+**** multi-term
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package multi-term
+         :ensure t
+         :commands (multi-term)
+         :pin melpa
+         :config (setq multi-term-program "/usr/local/bin/zsh"))
+     #+END_SRC
+
+*** Git
+**** git-gutter-fringe
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package git-gutter-fringe
+         :ensure t
+         :diminish git-gutter-mode
+         :pin melpa
+         :config
+         (global-git-gutter-mode)
+         (setq-default fringes-outside-margins t))
+     #+END_SRC
+
+**** magit
+     The only git gui worth mentioning
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package magit
+         :ensure t
+         :commands (magit)
+         :pin melpa)
+     #+END_SRC
+
+**** dired-k
+     Highlight directories  like k
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package dired-k
+         :ensure t
+         :hook (dired-initial-position . dired-k)
+         :pin melpa)
+     #+END_SRC
+
+** Languages
+*** Elm
+**** elm-mode
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package elm-mode
+         :pin melpa
+         :ensure t
+         :config
+         (with-eval-after-load 'company
+           (add-hook 'elm-mode-hook
+                     (lambda ()
+                       (set (make-local-variable 'company-backends)
+                            '((company-elm company-etags company-files))))))
+         :mode (("\\.elm$" . elm-mode)))
+     #+END_SRC
+
+*** Python
+**** anaconda-mode
+     Navigation, documentation, and linting for Python
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package anaconda-mode
+         :ensure t
+         :hook
+         ((python-mode . anaconda-mode)
+          (python-mode . anaconda-eldoc-mode))
+         :pin melpa-stable
+         :diminish anaconda-mode)
+     #+END_SRC
+**** pip-requirements
+    #+name: languages
+    #+BEGIN_SRC emacs-lisp
+      (use-package pip-requirements
+        :ensure t
+        :mode "\\^requires-"
+        :pin melpa)
+    #+END_SRC
+
+**** pyvenv
+     Use pyenv environments
+    #+name: languages
+    #+BEGIN_SRC emacs-lisp
+      (use-package pyvenv
+        :ensure t
+        :pin melpa
+        :config
+        (defun pyvenv-autoload ()
+          (with-eval-after-load 'projectile
+            (lambda () (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".python-version")))
+                         (if (file-exists-p pfile)
+                             (pyvenv-workon (with-temp-buffer
+                                              (insert-file-contents pfile)
+                                              (nth 0 (split-string (buffer-string))))))))))
+        (add-hook 'python-mode 'pyenv-autoload))
+    #+END_SRC
+
+**** evil-text-object-python
+     Adds  text-objects for python statements using the letter 'l'.
+    #+name: languages
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-text-object-python
+        :pin melpa
+        :hook (python-mode . evil-text-object-python-add-bindings)
+        :ensure t)
+    #+END_SRC
+
 *** PHP
 **** php-extras
      Completion for php
@@ -1790,105 +1623,18 @@
                 ("\\.inc$"  . php-mode)))
      #+END_SRC
 
-*** Shell
-**** exec-path-from-shell
-     Use $PATH as specified by the user's shell
-     #+name: shell
+*** Markdown
+**** markdown-mode
+     #+name: languages
      #+BEGIN_SRC emacs-lisp
-       (use-package exec-path-from-shell
+       (use-package markdown-mode
          :ensure t
          :pin melpa
-         :config
-         (when (memq window-system '(mac ns x))
-           (exec-path-from-shell-initialize)))
-     #+END_SRC
-
-**** multi-term
-     #+name: shell
-     #+BEGIN_SRC emacs-lisp
-       (use-package multi-term
-         :ensure t
-         :commands (multi-term)
-         :pin melpa
-         :config (setq multi-term-program "/usr/local/bin/zsh"))
-     #+END_SRC
-
-*** Git
-**** git-gutter-fringe
-     #+name: git
-     #+BEGIN_SRC emacs-lisp
-       (use-package git-gutter-fringe
-         :ensure t
-         :diminish git-gutter-mode
-         :pin melpa
-         :config
-         (global-git-gutter-mode)
-         (setq-default fringes-outside-margins t))
-     #+END_SRC
-
-**** magit
-     The only git gui worth mentioning
-     #+name: git
-     #+BEGIN_SRC emacs-lisp
-       (use-package magit
-         :ensure t
-         :commands (magit)
-         :pin melpa)
-     #+END_SRC
-
-**** dired-k
-     Highlight directories  like k
-     #+name: git
-     #+BEGIN_SRC emacs-lisp
-       (use-package dired-k
-         :ensure t
-         :hook (dired-initial-position . dired-k)
-         :pin melpa)
-     #+END_SRC
-
-*** Imenu
-**** imenu-list
-     "Tagbar" like buffer for imenu
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package imenu-list
-         :ensure t
-         :pin melpa
-         :commands (imenu-list)
-         :config
-         (setq imenu-list-focus-after-activation t))
-     #+END_SRC
-
-*** Packages
-**** paradox
-     Extends package management
-     #+name: packages
-     #+BEGIN_SRC emacs-lisp
-       (use-package paradox
-         :ensure t
-         :commands (list-packages paradox-list-packages package-list-packages)
-         :pin melpa
-         :config
-         (paradox-enable))
-     #+END_SRC
-
-*** Projects
-**** projectile
-     #+name: basic
-     #+BEGIN_SRC emacs-lisp
-       (use-package projectile
-         :ensure t
-         :pin melpa-stable
-         ;; N.B. - using fish likely slows down projectile somewhat
-         :init
-         (setq projectile-enable-caching (not noninteractive)
-               projectile-indexing-method 'alien
-               projectile-globally-ignored-files '(".DS_STORE" "TAGS")
-               projectile-globally-ignored-file-suffixes '(".elc" ".pyc"))
-         :diminish projectile-mode
-         :config
-         (projectile-mode t)
-         (projectile-discover-projects-in-directory "~/git"))
+         :commands (markdown-mode gfm-mode)
+         :mode (("README\\.md\\'" . gfm-mode)
+                ("\\.md\\'" . markdown-mode)
+                ("\\.markdown\\'" . markdown-mode))
+         :init (setq markdown-command "multimarkdown"))
      #+END_SRC
 
 *** Web
@@ -1904,6 +1650,7 @@
                 ("\\.phtml$" . web-mode)))
      #+END_SRC
 **** emmet-mode
+     Write markup more efficiently
      #+name: languages
     #+BEGIN_SRC emacs-lisp
       (use-package emmet-mode
@@ -1913,154 +1660,387 @@
         :config
         (setq emmet-move-cursor-between-quotes t))
     #+END_SRC
-*** Markdown
-**** markdown-mode
+*** Org
+    N.B. - Org-mode itself is configured and loaded in `init.el`
+**** org-bullets
+     Use UTF-8 symbols for org headings
      #+name: languages
      #+BEGIN_SRC emacs-lisp
-       (use-package markdown-mode
+       (use-package org-bullets
          :ensure t
          :pin melpa
-         :commands (markdown-mode gfm-mode)
-         :mode (("README\\.md\\'" . gfm-mode)
-                ("\\.md\\'" . markdown-mode)
-                ("\\.markdown\\'" . markdown-mode))
-         :init (setq markdown-command "multimarkdown"))
+         :hook (org-mode . (lambda () (org-bullets-mode 1)))
+         :after org)
      #+END_SRC
-
-*** Evil
-**** evil
-     #+name: evil
+*** JSON
+**** json-mode
+     #+name: languages
      #+BEGIN_SRC emacs-lisp
-       (use-package evil
+       (use-package json-mode
          :ensure t
          :pin melpa
-         :diminish evil-mode
-         :init
-         (setq evil-want-C-u-scroll t)
-         :config
-         (evil-mode 1)
-         (evil-declare-change-repeat 'company-complete)
-         (evil-declare-change-repeat 'company-complete-selection)
-         (evil-declare-change-repeat 'company-complete-common)
-         (defun +evil-window-follow (&rest _) (evil-window-down 1))
-         (defun +evil-window-vfollow (&rest _) (evil-window-right 1))
-         (advice-add #'evil-window-split :after #'+evil-window-follow)
-         (advice-add #'evil-window-vsplit :after #'+evil-window-vfollow)
-         ;; 's' is pretty useless in evil-mode - now it starts avy
-         (with-eval-after-load 'avy
-           (define-key evil-motion-state-map "s" 'evil-avy-goto-char-2)
-           (define-key evil-normal-state-map "s" 'evil-avy-goto-char-2)))
+         :mode "\\.json$")     
      #+END_SRC
+** Helm
+*** helm-descbinds
+    #+name: helm
+    #+BEGIN_SRC emacs-lisp
+      (use-package helm-descbinds
+        :ensure t
+        :after helm
+        :commands (helm-descbinds)
+        :pin melpa)
+    #+END_SRC
 
-**** evil-collection
-     Enable evil everywhere
-     #+name: evil
-     #+BEGIN_SRC emacs-lisp
-       (use-package evil-collection
-         :ensure t
-         :pin melpa
-         :after evil
-         :custom (evil-collection-setup-minibuffer t)
-         :config (evil-collection-init))
-     #+END_SRC
+*** helm
+    Unified fuzzy search for almost everything
+    #+name: helm
+    #+BEGIN_SRC emacs-lisp
+      (use-package helm
+        :ensure t
+        :pin melpa-stable
+        :diminish helm-mode
+        :init
+        (setq helm-exit-idle-delay 0)
+        (setq helm-split-window-inside-p 1)
+        :config
+        (require 'helm-config)
+        (helm-mode 1)
+        (helm-autoresize-mode 1)
+        (setq-default helm-boring-buffer-regexp-list
+                      (append '("TAGS" "\\*anaconda-mode\\*") helm-boring-buffer-regexp-list))
+        (setq helm-autoresize-min-height 5)
+        (setq helm-echo-input-in-header-line nil)
+        (defun set-helm-font-bigger ()
+            (set (make-local-variable 'face-remapping-alist)
+           '((default :height 1.0))))
+        (add-hook 'minibuffer-setup-hook 'set-helm-font-bigger))
+    #+END_SRC
 
-**** evil-commentary
-     #+name: evil
-     #+BEGIN_SRC emacs-lisp
-       (use-package evil-commentary
-         :ensure t
-         :pin melpa
-         :after evil
-         :diminish evil-commentary-mode
-         :config (evil-commentary-mode))
-     #+END_SRC
+*** helm-ag
+    helm frontend for the-silver-searcher
+    #+name: helm
+    #+BEGIN_SRC emacs-lisp
+      (use-package helm-ag
+        :ensure t
+        :commands (helm-ag)
+        :pin melpa
+        :after helm
+        :config
+        ;; breaks helm-projectile which hardcodes a "--ignore" flag :(
+        ;; (setq helm-ag-base-command "rg --vimgrep --no-heading --smart-case"))
+        (setq helm-ag-base-command "ag --nocolor --nogroup --hidden"))
+    #+END_SRC
 
-**** evil-goggles
-     Flash text highlighting when performing vim-motion operations
-     #+name: evil
-     #+BEGIN_SRC emacs-lisp
-       (use-package evil-goggles
-         :ensure t
-         :after evil
-         :pin melpa
-         :diminish evil-goggles-mode
-         :config
-         (evil-goggles-mode)
-         (setq evil-goggles-duration 0.15)
-         (evil-goggles-use-diff-faces))
-     #+END_SRC
+*** helm-projectile
+    #+name: helm
+    #+BEGIN_SRC emacs-lisp
+      (use-package helm-projectile
+        :ensure t
+        ;; fuzzy matching makes helm slightly slower
+        ;; :init (setq helm-projectile-fuzzy-match nil)
+        :after (:all projectile helm)
+        :commands
+        (helm-projectile-ag
+        helm-projectile-recentf
+        helm-projectile-find-dir
+        helm-projectile-find-file
+        helm-projectile-switch-project)
+        :pin melpa
+        :config (helm-projectile-on))
+    #+END_SRC
 
-**** evil-magit
-     Enable basic evil motion in magit buffers
-     #+name: evil
-     #+BEGIN_SRC emacs-lisp
-       (use-package evil-magit
-         :ensure t
-         :after (:all magit evil)
-         :pin melpa)
-     #+END_SRC
+*** helm-swoop
+    Search text linewise in a separate buffer
+    #+name: helm
+    #+BEGIN_SRC emacs-lisp
+      (use-package helm-swoop
+        :ensure t
+        :commands (helm-swoop)
+        :pin melpa
+        :after helm
+        :config
+        (setq helm-swoop-speed-or-color 1
+              helm-swoop-use-fuzzy-match 1)
+        (setq-default helm-swoop-split-direction 'split-window-vertically)
+        (setq-default helm-swoop-split-with-multiple-windows t)
+        ;; disable swoop-thing-at-point
+        (setq helm-swoop-pre-input-function
+              (lambda () "")))
+    #+END_SRC
 
-**** evil-matchit
-     Jump to opening/closing delimiters vim-style
-     #+name: evil
-     #+BEGIN_SRC emacs-lisp
-       (use-package evil-matchit
-         :ensure t
-         :after evil
-         :pin melpa
-         :after evil)
-     #+END_SRC
+** Keybindings
+*** general
+    Unified system for doing all sorts of keybinding stuff
+    #+name: keys
+    #+BEGIN_SRC emacs-lisp
+      (use-package general
+        :ensure t
+        :pin melpa
+        :config
+        (general-evil-setup)
+        ;; set up an override for binding space no matter what
+        (setq general-override-states '(insert
+                                        emacs
+                                        hybrid
+                                        normal
+                                        visual
+                                        motion
+                                        operator
+                                        replace))
+        (general-override-mode)
+        (general-define-key :keymaps 'override :states '(normal visual motion) "SPC" nil)
 
-**** evil-org
-     Evil bindings for org mode
-     #+name: evil
-     #+BEGIN_SRC emacs-lisp
-       (use-package evil-org
-         :ensure t
-         :diminish evil-org-mode
-         :hook
-         ((org-mode . evil-org-mode)
-          (evil-org-mode . (lambda ()
-                             (evil-org-set-key-theme))))
-         :pin melpa
-         :after (:all org evil))
-     #+END_SRC
+        ;; set up sequenced prefixes
+        (general-create-definer global-leader :prefix "SPC" :keymaps 'override :states '(normal visual motion))
+        (general-create-definer buffer-leader :prefix "SPC b" :keymaps 'override :states '(normal visual motion))
+        (general-create-definer help-leader :prefix "SPC h" :keymaps 'override :states '(normal visual motion))
+        (general-create-definer find-leader :prefix "SPC f" :keymaps 'override :states '(normal visual motion))
+        (general-create-definer projectile-leader :prefix "SPC p" :keymaps 'override :states '(normal visual motion))
+        (general-create-definer git-leader :prefix "SPC g" :keymaps 'override :states '(normal visual motion))
+        (general-create-definer window-leader :prefix "SPC w" :keymaps 'override :states '(normal visual motion))
+        (general-create-definer dir-leader :prefix "SPC d" :keymaps 'override :states '(normal visual motion))
+        (general-create-definer evil-leader :prefix "g" :keymaps 'override :states '(normal visual motion))
+        (general-create-definer org-leader :prefix "SPC o" :keymaps 'override :states '(normal visual motion))
 
-**** evil-smartparens
-     Play nice with smartparens
-     #+name: evil
-     #+BEGIN_SRC emacs-lisp
-       (use-package evil-smartparens
-         :ensure t
-         :diminish t
-         :hook
-         (smartparens-enabled . evil-smartparens-mode)
-         :after (:all smartparens evil)
-         :pin melpa)
-     #+END_SRC
+        (evil-leader "" '(:ignore t :wk "Evil"))
+        (global-leader "" '(nil :wk "Leader")
+                       "f" '(:ignore t :wk "Find")
+                       "g" '(:ignore t :wk "Git")
+                       "p" '(:ignore t :wk "Projectile")
+                       "b" '(:ignore t :wk "Buffers")
+                       "e" '(:ignore t :wk "Elisp")
+                       "h" '(:ignore t :wk "Help")
+                       "w" '(:ignore t :wk "Window")
+                       "j" '(:ignore t :wk "Jump")
+                       "o" '(:ignore t :wk "Org")
+                       "q" 'evil-quit)
+        (buffer-leader "d" 'kill-this-buffer
+                       "s" 'evil-write
+                       "b" 'helm-mini)
+        (dir-leader "d" 'dired)
+        (help-leader "f" 'describe-function
+                     "k" 'describe-key
+                     "w" 'helm-man-woman
+                     "v" 'describe-variable
+                     "p" 'describe-package
+                     "a" 'describe-face
+                     "m" 'describe-mode)
+        (find-leader "r" 'helm-recentf
+                     "o" 'helm-semantic-or-imenu
+                     "g" 'helm-do-ag
+                     "f" 'helm-find-files
+                     "l" 'helm-swoop)
+        (projectile-leader "g" 'helm-projectile-ag
+                           "r" 'helm-projectile-recentf
+                           "d" 'helm-projectile-find-dir
+                           "f" 'helm-projectile-find-file
+                           "s" 'helm-projectile-switch-project
+                           "o" 'projectile-find-tag)
+        (git-leader "g" 'magit
+                    "b" 'magit-blame)
+        (org-leader "c" 'org-capture)
+        (window-leader "s" 'evil-window-split
+                       "v" 'evil-window-vsplit
+                       "o" 'delete-other-windows
+                       "d" 'evil-window-delete
+                       "t" 'neotree-toggle)
+        ;; HERESY: universal argument is bound to C-f. We need C-u for scrolling.
+        (general-define-key :keymaps 'universal-argument-map
+                            "C-f" 'universal-argument-more)
+        ;; non-prefix motion state
+        (general-mmap "C-;" 'helm-M-x
+                      "gl" 'evil-avy-goto-line
+                      "gs" 'evil-avy-goto-char-2
+                      "gD" 'dumb-jump-go
+                      "C-f" 'universal-argument
+                      "g C-]" 'xref-find-definitions)
 
-**** evil-surround
-     Surround text objects with delimiters
-     #+name: evil
-     #+BEGIN_SRC emacs-lisp
-       (use-package evil-surround
-         :ensure t
-         :pin melpa
-         :after evil
-         :config (global-evil-surround-mode 1))
-     #+END_SRC
+        (defun minibuffer-keyboard-quit ()
+          "Abort recursive edit.
+          In Delete selection mode, if mark is active, just deactivate it;
+          then it takes a second \\[keyboard-quit] to abort the minibuffer."
+          (interactive)
+          (if (and delete-selection-mode transient-mark-mode mark-active)
+              (setq deactivate-mark t)
+            (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+            (abort-recursive-edit)))
+        (general-define-key :keymaps '(minibuffer-local-map
+                                       minibuffer-local-ns-map
+                                       minibuffer-local-completion-map
+                                       minibuffer-local-isearch-map
+                                       minibuffer-local-must-match-map))
+        (general-define-key :keymaps '(evil-motion-state-map evil-insert-state-map evil-normal-state-map evil-operator-state-map)
+                           "A-h" 'evil-window-left
+                           "A-j" 'evil-window-down
+                           "A-k" 'evil-window-up
+                           "A-l" 'evil-window-right)
+      ;; non-prefix global
+        (general-define-key :keymaps 'global
+                            "C-f" 'universal-argument
+                            "M-f" 'toggle-frame-fullscreen
+                            "M-x" 'helm-M-x
+                            "M-y" 'helm-show-kill-ring
+                            "C-x b" 'helm-mini
+                            "C-x C-b" 'helm-buffers-list
+                            "C-x C-f" 'helm-find-files
+                            "C-x C-r" 'helm-recent
+                            "C-x c o" 'helm-occur
+                            "C-M-n" 'helm-next-source
+                            "C-M-p" 'helm-previous-source
+                            "C-h b" 'helm-descbinds
+                            "M-v" 'evil-paste-after)
+        (general-define-key "C-u" 'evil-scroll-up)
+        ;; helm mappings
+        (general-define-key :keymaps 'helm-map :states '(normal visual)
+                            "TAB" 'helm-execute-persistent-action
+                            "A-SPC" 'helm-toggle-visible-mark))
+    #+END_SRC
 
-** Tangle
-   Generate an emacs-lisp configuration file
-   #+BEGIN_SRC emacs-lisp :tangle yes :noweb no-export :exports code
-     <<basic>>
-     <<evil>>
-     <<programming>>
-     <<languages>>
-     <<interface>>
-     <<org>>
-     <<helm>>
-     <<keys>>
-     <<shell>>
-     <<git>>
-   #+END_SRC
+** Packages
+*** paradox
+    Extends package management
+    #+name: packages
+    #+BEGIN_SRC emacs-lisp
+      (use-package paradox
+        :ensure t
+        :commands (list-packages paradox-list-packages package-list-packages)
+        :pin melpa
+        :config
+        (paradox-enable))
+    #+END_SRC
+
+** Evil
+*** evil
+    #+name: evil
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil
+        :ensure t
+        :pin melpa
+        :diminish evil-mode
+        :init
+        (setq evil-want-C-u-scroll t)
+        :config
+        (evil-mode 1)
+        (evil-declare-change-repeat 'company-complete)
+        (evil-declare-change-repeat 'company-complete-selection)
+        (evil-declare-change-repeat 'company-complete-common)
+        (defun +evil-window-follow (&rest _) (evil-window-down 1))
+        (defun +evil-window-vfollow (&rest _) (evil-window-right 1))
+        (advice-add #'evil-window-split :after #'+evil-window-follow)
+        (advice-add #'evil-window-vsplit :after #'+evil-window-vfollow)
+        ;; 's' is pretty useless in evil-mode - now it starts avy
+        (with-eval-after-load 'avy
+          (define-key evil-motion-state-map "s" 'evil-avy-goto-char-2)
+          (define-key evil-normal-state-map "s" 'evil-avy-goto-char-2)))
+    #+END_SRC
+
+*** evil-collection
+    Enable evil everywhere
+    #+name: evil
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-collection
+        :ensure t
+        :pin melpa
+        :after evil
+        :custom (evil-collection-setup-minibuffer t)
+        :config (evil-collection-init))
+    #+END_SRC
+
+*** evil-commentary
+    #+name: evil
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-commentary
+        :ensure t
+        :pin melpa
+        :after evil
+        :diminish evil-commentary-mode
+        :config (evil-commentary-mode))
+    #+END_SRC
+
+*** evil-goggles
+    Flash text highlighting when performing vim-motion operations
+    #+name: evil
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-goggles
+        :ensure t
+        :after evil
+        :pin melpa
+        :diminish evil-goggles-mode
+        :config
+        (evil-goggles-mode)
+        (setq evil-goggles-duration 0.15)
+        (evil-goggles-use-diff-faces))
+    #+END_SRC
+
+*** evil-magit
+    Enable basic evil motion in magit buffers
+    #+name: evil
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-magit
+        :ensure t
+        :after (:all magit evil)
+        :pin melpa)
+    #+END_SRC
+
+*** evil-matchit
+    Jump to opening/closing delimiters vim-style
+    #+name: evil
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-matchit
+        :ensure t
+        :after evil
+        :pin melpa
+        :after evil)
+    #+END_SRC
+
+*** evil-org
+    Evil bindings for org mode
+    #+name: evil
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-org
+        :ensure t
+        :diminish evil-org-mode
+        :hook
+        ((org-mode . evil-org-mode)
+         (evil-org-mode . (lambda ()
+                            (evil-org-set-key-theme))))
+        :pin melpa
+        :after (:all org evil))
+    #+END_SRC
+
+*** evil-smartparens
+    Play nice with smartparens
+    #+name: evil
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-smartparens
+        :ensure t
+        :diminish t
+        :hook
+        (smartparens-enabled . evil-smartparens-mode)
+        :after (:all smartparens evil)
+        :pin melpa)
+    #+END_SRC
+
+*** evil-surround
+    Surround text objects with delimiters
+    #+name: evil
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-surround
+        :ensure t
+        :pin melpa
+        :after evil
+        :config (global-evil-surround-mode 1))
+    #+END_SRC
+
+* Tangle
+  Generate an emacs-lisp configuration file
+  #+BEGIN_SRC emacs-lisp :tangle yes :noweb no-export :exports code
+    <<basic>>
+    <<evil>>
+    <<programming>>
+    <<languages>>
+    <<interface>>
+    <<helm>>
+    <<keys>>
+  #+END_SRC

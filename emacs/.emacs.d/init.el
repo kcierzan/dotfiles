@@ -31,6 +31,20 @@
         org-src-tabs-act-natively t
         org-src-preserve-indentation nil
         org-catch-invisible-edits t)
+  (setq org-capture-templates
+        '(("j" "Journal Entry" plain
+           (file+olp+datetree "~/git/org/journal.org")
+           "%U\n\n%?" :empty-lines-before 1)
+          ("w" "Log Work Task" entry
+           (file+olp+datetree "~/git/org/worklog.org")
+           "* TODO %^{Description} %^g\n\%?\n\nAdded: %U"
+           :clock-in t
+           :clock-keep t)))
+  (setq org-todo-keyword-faces
+        '(("TEST" . "yellow")
+          ("TODO" . org-warning)
+          ("REVIEW" . "orange")
+          ("BACKLOG" . org-level-5)))
   :mode (("\\.org$" . org-mode))
   :config
   (add-hook 'after-init-hook
@@ -49,14 +63,16 @@
 		(list 'org-code
 		      'org-link
 		      'org-block
-		      'org-block-background
+		      ;; 'org-block-background
 		      'org-table
 		      'org-block-begin-line
 		      'org-block-end-line
 		      'org-meta-line
 		      'org-document-info-keyword)))))
 
+;; We are going to use evil-collection instead
+(setq evil-want-integration nil)
+
 ;; needed to source symlinked emacs.org
 (setq vc-follow-symlinks t)
-(setq evil-want-integration nil)
 (org-babel-load-file "~/.emacs.d/emacs.org")
