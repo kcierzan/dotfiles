@@ -5,20 +5,20 @@
       "subtext" : {
         "size" : 14,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "SFMono Nerd Font",
+        "font" : "Operator Mono Lig",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 24,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "SFMono Nerd Font",
+        "font" : "Operator Mono Lig",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 25,
         "colorSelected" : "#51AEEEFF",
-        "font" : "San Francisco Display",
+        "font" : "Caecilia LT Std",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
@@ -30,9 +30,9 @@
       "background" : "#272B33FF",
       "spacing" : 8,
       "text" : {
-        "size" : 64,
+        "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "San Francisco Display",
+        "font" : "Caecilia LT Std",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"

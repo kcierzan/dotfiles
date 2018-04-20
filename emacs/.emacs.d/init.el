@@ -41,34 +41,29 @@
            :clock-in t
            :clock-keep t)))
   (setq org-todo-keyword-faces
-        '(("TEST" . "yellow")
-          ("TODO" . org-warning)
-          ("REVIEW" . "orange")
-          ("BACKLOG" . org-level-5)))
-  :mode (("\\.org$" . org-mode))
+        '(("TODO" . org-warning)
+          ("DOING" . "orange")))
+  :mode ("\\.org$" . org-mode)
   :config
-  (add-hook 'after-init-hook
-	    (lambda ()
-	      (require 'org-indent)
-	      (set-face-attribute 'org-indent nil :inherit 'fixed-pitch)))
-  (add-hook 'org-mode-hook
-	    '(lambda ()
-	       (variable-pitch-mode 1)
-	       (setq line-spacing 2)
-	       (company-mode 0)
-           (setq truncate-lines nil)
-	       (mapc
-		(lambda (face)
-		  (set-face-attribute face nil :inherit 'fixed-pitch :height 140))
-		(list 'org-code
-		      'org-link
-		      'org-block
-		      ;; 'org-block-background
-		      'org-table
-		      'org-block-begin-line
-		      'org-block-end-line
-		      'org-meta-line
-		      'org-document-info-keyword)))))
+  (add-hook 'after-init-hook '(lambda ()
+                                (require 'org-indent)
+                                (set-face-attribute 'org-indent nil :inherit 'fixed-pitch)))
+  (add-hook 'org-mode-hook '(lambda ()
+                              (variable-pitch-mode 1)
+                              (setq line-spacing 2)
+                              (company-mode 0)
+                              (setq truncate-lines nil)
+                              (set-face-attribute 'org-link nil :underline t)
+                              (mapc (lambda (face)
+                                      (set-face-attribute face nil :inherit 'fixed-pitch :height 140))
+                                    (list 'org-code
+                                          'org-link
+                                          'org-block
+                                          'org-table
+                                          'org-block-begin-line
+                                          'org-block-end-line
+                                          'org-meta-line
+                                          'org-document-info-keyword)))))
 
 ;; We are going to use evil-collection instead
 (setq evil-want-integration nil)
