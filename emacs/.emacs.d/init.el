@@ -17,10 +17,11 @@
     (progn
       (package-refresh-contents)
       (package-install 'use-package)
-      (defvar use-package-verbose t)
+      (defvar use-package-verbose nil)
       (require 'use-package)
       (package-initialize))))
 
+(setq use-package-always-ensure t)
 (setq use-package-verbose t)
 
 (use-package org

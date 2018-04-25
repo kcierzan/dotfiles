@@ -11,14 +11,14 @@
       "shortcut" : {
         "size" : 24,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Operator Mono Lig",
+        "font" : "Adelle Sans",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 25,
         "colorSelected" : "#51AEEEFF",
-        "font" : "Caecilia LT Std",
+        "font" : "Adelle Sans",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "Caecilia LT Std",
+        "font" : "Adelle Sans",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"

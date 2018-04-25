@@ -108,8 +108,8 @@ alias reload="exec $SHELL -l"
 
 alias vim="nvim"
 alias vi="nvim"
-alias e="emacsclient -a ''"
-alias emacs="emacsclient -a ''"
+alias e="launch-emacs"
+alias emacs="launch-emacs"
 
 # Activate a python virtualenv
 alias venv="source env/bin/activate"
@@ -239,7 +239,7 @@ ff() {
       elif [ "$key" = ctrl-v ]; then
           code "$file"
       else
-          emacsclient -a '' "$file"
+          $EDITOR "$file"
       fi
   fi
 }
@@ -255,7 +255,7 @@ fd() {
         elif [ "$key" = ctrl-v ]; then
             cd "$dir" && code "$dir"
         elif [ "$key" = ctrl-e ]; then
-            emacsclient -a '' "$dir"
+            $EDITOR "$dir"
         elif [ "$key" = ctrl-x ]; then
             rm -ir "$dir"
         else
@@ -411,7 +411,7 @@ fr() {
       elif [ "$key" = ctrl-v ]; then
           code "$file"
       else
-          emacsclient -a '' "$file"
+          $EDITOR "$file"
       fi
   fi
 }
@@ -436,7 +436,7 @@ findfile() {
       elif [ "$key" = ctrl-v ]; then
           code "$file"
       else
-          emacsclient -a '' "$file"
+          $EDITOR "$file"
       fi
   fi
 }

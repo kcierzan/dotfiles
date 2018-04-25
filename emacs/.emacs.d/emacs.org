@@ -6,7 +6,10 @@
     (semantic-mode)
     (recentf-mode 1)
     (global-auto-revert-mode)
-    (server-start)
+    (require 'server)
+    (unless (server-running-p)
+      (server-start))
+    (add-hook 'server-done-hook 'kill-buffer)
   #+END_SRC
 * UI
   #+name: interface
@@ -27,6 +30,7 @@
                   initial-scratch-message nil)
     (set-frame-parameter nil 'internal-border-width 2)
     (if (fboundp 'mac-auto-operator-composition-mode) (mac-auto-operator-composition-mode))
+    (setq hl-line-sticky-flag nil)
     (add-hook 'prog-mode-hook 'hl-line-mode)
      (set-face-attribute 'fixed-pitch nil :font "Operator Mono Lig")
      (set-face-attribute 'default  nil :font "Operator Mono Lig")
@@ -118,7 +122,6 @@
   #+BEGIN_SRC emacs-lisp
     (use-package recentf
       :pin melpa
-      :ensure t
       :config
       (setq recentf-max-menu-items 0
             recentf-max-saved-items 300
@@ -273,8 +276,6 @@
     #+name: programming
     #+BEGIN_SRC emacs-lisp
       (use-package company
-        :ensure t
-        :diminish company-mode
         :hook (prog-mode . company-mode)
         :pin melpa
         :config
@@ -299,14 +300,9 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package company-anaconda
-         :ensure t
-         :defer 2
+         :defer t
          :after company
-         :config
-         (add-hook 'python-mode-hook
-                   (lambda ()
-                     (set (make-local-variable 'company-backends)
-                          '((company-anaconda company-etags company-files)))))
+         :commands (company-anaconda)
          :pin melpa)
      #+END_SRC
 **** company-php
@@ -314,7 +310,6 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package company-php
-         :ensure t
          :commands (company-ac-php-backend)
          :config
          (unless (executable-find "phpctags")
@@ -325,7 +320,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package company-statistics
-         :ensure t
          :after company
          :hook (company-mode . company-statistics-mode)
          :config
@@ -337,7 +331,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package company-quickhelp
-         :ensure t
          :pin melpa
          :hook (company-mode . company-quickhelp-mode)
          :init
@@ -351,7 +344,7 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package ace-link
-         :ensure t
+         :commands (ace-link ace-link-org)
          :pin melpa
          :config
          (ace-link-setup-default))
@@ -361,7 +354,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package avy
-         :ensure t
          :pin melpa)
      #+END_SRC
 **** dumb-jump
@@ -369,7 +361,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package dumb-jump
-         :ensure t
          :pin melpa
          :config
          (setq dumb-jump-force-searcher 'rg)
@@ -380,7 +371,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package imenu-list
-         :ensure t
          :pin melpa
          :commands (imenu-list)
          :config
@@ -390,7 +380,6 @@
      #+name: basic
      #+BEGIN_SRC emacs-lisp
        (use-package projectile
-         :ensure t
          :pin melpa-stable
          ;; N.B. - using fish likely slows down projectile somewhat
          :init
@@ -398,7 +387,6 @@
                projectile-indexing-method 'alien
                projectile-globally-ignored-files '(".DS_STORE" "TAGS")
                projectile-globally-ignored-file-suffixes '(".elc" ".pyc"))
-         :diminish projectile-mode
          :config
          (projectile-mode t)
          (projectile-discover-projects-in-directory "~/git"))
@@ -409,8 +397,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package smartparens
-         :ensure t
-         :diminish t
          :hook (prog-mode . smartparens-mode)
          :pin melpa
          :config
@@ -424,14 +410,13 @@
 **** undo-tree
     #+name: programming
     #+BEGIN_SRC emacs-lisp
-      (use-package undo-tree
-        :diminish undo-tree-mode)
+      (use-package undo-tree)
     #+END_SRC
 **** evil-multiedit
     #+name: programming
     #+BEGIN_SRC emacs-lisp
       (use-package evil-multiedit
-        :ensure t
+        :commands (evil-multiedit-match-symbol-and-next evil-multiedit-match-symbol-and-prev)
         :pin melpa
         :config
         (evil-multiedit-default-keybinds))
@@ -441,8 +426,8 @@
     #+name: programming
     #+BEGIN_SRC emacs-lisp
       (use-package evil-visualstar
+        :defer 5
         :pin melpa
-        :ensure t
         :config
         (global-evil-visualstar-mode))
     #+END_SRC
@@ -451,7 +436,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package evil-snipe
         :pin melpa
-        :ensure t
+        :commands (evil-snipe-t evil-snipe-T evil-snipe-F evil-snipe-f)
         :init
         (setq evil-snipe-smart-case t)
         :config
@@ -461,7 +446,6 @@
     #+name: programming
     #+BEGIN_SRC emacs-lisp
       (use-package wgrep
-        :ensure t
         :pin melpa
         :commands (wgrep-change-to-wgrep-mode))
     #+END_SRC
@@ -471,7 +455,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package flycheck
-         :ensure t
          :pin melpa
          :hook ((rst-mode . (lambda () (setq-local flycheck-disabled-checkers '(rst rst-sphinx))))
                 (prog-mode . flycheck-mode))
@@ -486,7 +469,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package flycheck-pos-tip
-         :ensure t
          :pin melpa
          :when (= emacs-major-version 25)
          :after flycheck
@@ -502,7 +484,7 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package exec-path-from-shell
-         :ensure t
+         :defer 5
          :pin melpa
          :config
          (when (memq window-system '(mac ns x))
@@ -512,7 +494,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package multi-term
-         :ensure t
          :commands (multi-term)
          :pin melpa
          :config (setq multi-term-program "/usr/local/bin/zsh"))
@@ -522,8 +503,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package git-gutter-fringe
-         :ensure t
-         :diminish git-gutter-mode
          :pin melpa
          :config
          (global-git-gutter-mode)
@@ -534,7 +513,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package magit
-         :ensure t
          :commands (magit)
          :pin melpa)
      #+END_SRC
@@ -543,7 +521,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package dired-k
-         :ensure t
          :hook (dired-initial-position . dired-k)
          :pin melpa)
      #+END_SRC
@@ -552,7 +529,6 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package highlight-numbers
-         :ensure t
          :hook (prog-mode . highlight-numbers-mode)
          :pin melpa)
      #+END_SRC
@@ -561,7 +537,6 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package all-the-icons
-         :ensure t
          :pin melpa)
      #+END_SRC
 **** fringe-helper
@@ -569,9 +544,8 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package fringe-helper
-         :ensure t
          :pin melpa
-         :after (:all flycheck git-gutter-fringe)
+         :after (flycheck git-gutter-fringe)
          :config
          ;; A non-descript, left-pointing arrow
          (fringe-helper-define 'flycheck-fringe-bitmap-double-arrow 'center
@@ -597,7 +571,8 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package nlinum
-         :ensure t
+         :config
+         (setq nlinum-highlight-current-line t)
          :hook (prog-mode . nlinum-mode)
          :pin elpa)
      #+END_SRC
@@ -606,14 +581,12 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package pos-tip
-         :ensure t
          :pin melpa)
      #+END_SRC
 **** rainbow-delimiters
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package rainbow-delimiters
-         :ensure t
          :pin melpa
          :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
      #+END_SRC
@@ -621,21 +594,21 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package doom-themes
-         :ensure t
          :pin melpa
          :init
          (setq doom-themes-enable-bold t
                doom-themes-enable-italic t)
-         (load-theme 'doom-nova t)
+         (load-theme 'doom-one t)
          :config
          (doom-themes-org-config)
-         (set-face-attribute 'font-lock-comment-face nil :slant 'italic))
+         (add-hook 'prog-mode-hook '(lambda ()
+                                            (set-face-attribute 'font-lock-comment-face nil
+                                                                :slant 'italic))))
      #+END_SRC
 **** switch-window
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package switch-window
-         :ensure t
          :commands (switch-window)
          :pin melpa)
      #+END_SRC
@@ -644,8 +617,6 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package vi-tilde-fringe
-         :ensure t
-         :diminish vi-tilde-fringe-mode
          :hook (prog-mode . vi-tilde-fringe-mode)
          :pin melpa)
      #+END_SRC
@@ -654,9 +625,7 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package which-key
-         :ensure t
          :pin melpa
-         :diminish which-key-mode
          :config
          (which-key-setup-side-window-right-bottom)
          (which-key-mode))
@@ -665,7 +634,7 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package neotree
-         :ensure t
+         :commands (neotree-toggle)
          :pin melpa
          :init
          (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
@@ -736,15 +705,12 @@
                      (add-hook ,hook #',fn ,append))))))
 
        (use-package dash
-         :ensure t
          :pin melpa)
 
        (use-package shrink-path
-         :ensure t
          :pin melpa)
 
        (use-package eldoc-eval
-         :ensure t
          :pin melpa
          :config
          (defun +doom-modeline-eldoc (text)
@@ -769,7 +735,6 @@
 
        (use-package evil-anzu
          :requires evil
-         :ensure t
          :init
          (add-transient-hook! #'evil-ex-start-search (require 'evil-anzu))
          (add-transient-hook! #'evil-ex-start-word-search (require 'evil-anzu))
@@ -1515,6 +1480,12 @@
        (add-hook 'circe-mode-hook #'+doom-modeline|set-special-modeline)
 
      #+END_SRC
+**** highlight-indentation
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package highlight-indentation
+         :pin melpa)
+     #+END_SRC
 ** Languages
 *** Elm
 **** elm-mode
@@ -1522,7 +1493,6 @@
      #+BEGIN_SRC emacs-lisp
        (use-package elm-mode
          :pin melpa
-         :ensure t
          :config
          (with-eval-after-load 'company
            (add-hook 'elm-mode-hook
@@ -1537,18 +1507,18 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package anaconda-mode
-         :ensure t
          :hook
          ((python-mode . anaconda-mode)
-          (python-mode . anaconda-eldoc-mode))
-         :pin melpa-stable
-         :diminish anaconda-mode)
+          (python-mode . anaconda-eldoc-mode)
+          (python-mode . (lambda ()
+                           (set (make-local-variable 'company-backends)
+                                '((company-anaconda company-etags company-files))))))
+         :pin melpa-stable)
      #+END_SRC
 **** pip-requirements
     #+name: languages
     #+BEGIN_SRC emacs-lisp
       (use-package pip-requirements
-        :ensure t
         :mode "\\^requires-"
         :pin melpa)
     #+END_SRC
@@ -1557,7 +1527,6 @@
     #+name: languages
     #+BEGIN_SRC emacs-lisp
       (use-package pyvenv
-        :ensure t
         :pin melpa
         :config
         (defun pyvenv-autoload ()
@@ -1576,22 +1545,20 @@
     #+BEGIN_SRC emacs-lisp
       (use-package evil-text-object-python
         :pin melpa
-        :hook (python-mode . evil-text-object-python-add-bindings)
-        :ensure t)
+        :hook (python-mode . evil-text-object-python-add-bindings))
     #+END_SRC
 **** yapfify
      format python code
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package yapfify
-         :ensure t
+         :commands (yapfify-buffer yapfify-region)
          :pin melpa)
      #+END_SRC
-****  nose
+**** nose
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package nose
-         :ensure t
          :after python
          :pin melpa)
      #+END_SRC
@@ -1601,7 +1568,6 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package js2-mode
-         :ensure t
          :pin melpa
          :mode "\\.js$"
          :interpreter "node")
@@ -1611,7 +1577,6 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package rjsx-mode
-         :ensure t
          :mode "\\.jsx$"
          :mode "components/.+\\.js$"
          :pin melpa)
@@ -1622,7 +1587,6 @@
      #+BEGIN_SRC emacs-lisp
        (use-package xref-js2
          :after js2-mode
-         :ensure t
          :pin melpa
          :hook (js2-mode . (lambda ()
                              (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
@@ -1635,7 +1599,6 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package tern
-       :ensure t
        :pin melpa
        :hook (js2-mode . tern-mode))
      #+END_SRC
@@ -1643,8 +1606,7 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package company-tern
-         :ensure t
-         :after (:all company tern)
+         :after (company tern)
          :hook
          (js2-mode .  (lambda ()
                         (set (make-local-variable 'company-backends)
@@ -1657,7 +1619,6 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package php-extras
-         :ensure t
          :pin marmalade
          :after php-mode)
      #+END_SRC
@@ -1665,22 +1626,26 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package php-mode
-         :ensure t
          :hook
          (php-mode .  (lambda ()
             (set (make-local-variable 'company-backends)
-                  '((company-ac-php-backend php-extras-company company-files) company-dabbrev-files))))
+                  '((company-ac-php-backend php-extras-company) (company-files company-dabbrev-files)))))
          :pin melpa
          :config
          :mode (("\\.php$" . php-mode)
                 ("\\.inc$"  . php-mode)))
+     #+END_SRC
+**** php-mode
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package php-mode
+         :pin melpa)
      #+END_SRC
 *** Markdown
 **** markdown-mode
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package markdown-mode
-         :ensure t
          :pin melpa
          :commands (markdown-mode gfm-mode)
          :mode (("README\\.md\\'" . gfm-mode)
@@ -1695,7 +1660,6 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package web-mode
-         :ensure
          :pin melpa
          :mode (("\\.html?$" . web-mode)
                 ("\\.thtml$" . web-mode)
@@ -1707,7 +1671,6 @@
      #+name: languages
     #+BEGIN_SRC emacs-lisp
       (use-package emmet-mode
-        :ensure t
         :pin melpa
         :hook (css-mode web-mode html-mode haml-mode rjsx-mode)
         :config
@@ -1720,7 +1683,6 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package org-bullets
-         :ensure t
          :pin melpa
          :hook (org-mode . (lambda () (org-bullets-mode 1)))
          :after org)
@@ -1729,7 +1691,6 @@
     #+name: languages
     #+BEGIN_SRC emacs-lisp
     (use-package json-mode
-        :ensure t
         :pin melpa
         :mode "\\.json$")
     #+END_SRC
@@ -1738,7 +1699,6 @@
     #+BEGIN_SRC emacs-lisp
       (use-package yaml-mode
         :pin melpa
-        :ensure t
         :mode "\\.ya?ml$")
     #+END_SRC
 *** Dockerfile
@@ -1746,7 +1706,6 @@
     #+BEGIN_SRC emacs-lisp
       (use-package dockerfile-mode
         :pin melpa
-        :ensure t
         :mode "/Dockerfile$")
     #+END_SRC
 ** Helm
@@ -1754,7 +1713,6 @@
     #+name: helm
     #+BEGIN_SRC emacs-lisp
       (use-package helm-descbinds
-        :ensure t
         :after helm
         :commands (helm-descbinds)
         :pin melpa)
@@ -1764,9 +1722,7 @@
     #+name: helm
     #+BEGIN_SRC emacs-lisp
       (use-package helm
-        :ensure t
         :pin melpa-stable
-        :diminish helm-mode
         :init
         (setq helm-exit-idle-delay 0)
         (setq helm-split-window-inside-p 1)
@@ -1788,7 +1744,6 @@
     #+name: helm
     #+BEGIN_SRC emacs-lisp
       (use-package helm-ag
-        :ensure t
         :commands (helm-ag)
         :pin melpa
         :after helm
@@ -1801,10 +1756,9 @@
     #+name: helm
     #+BEGIN_SRC emacs-lisp
       (use-package helm-projectile
-        :ensure t
         ;; fuzzy matching makes helm slightly slower
         ;; :init (setq helm-projectile-fuzzy-match nil)
-        :after (:all projectile helm)
+        :after (projectile helm)
         :commands
         (helm-projectile-ag
         helm-projectile-recentf
@@ -1819,7 +1773,6 @@
     #+name: helm
     #+BEGIN_SRC emacs-lisp
       (use-package helm-swoop
-        :ensure t
         :commands (helm-swoop)
         :pin melpa
         :after helm
@@ -1834,10 +1787,9 @@
     #+END_SRC
 ** General
    Unified system for doing all sorts of keybinding stuff
-   #+name: keys
+   #+name: general
    #+BEGIN_SRC emacs-lisp
      (use-package general
-       :ensure t
        :pin melpa
        :config
        (general-evil-setup)
@@ -1911,18 +1863,17 @@
        (general-def universal-argument-map
          "C-f" 'universal-argument-more)
        ;; non-prefix motion state
-       (general-mmap "C-;" 'helm-M-x
-                     "gl" 'evil-avy-goto-line
+       (general-mmap "gl" 'evil-avy-goto-line
                      "gs" 'evil-avy-goto-char-2
                      "gD" 'dumb-jump-go
                      "C-f" 'universal-argument
                      "g C-]" 'xref-find-definitions)
 
-       (general-define-key :keymaps '(evil-motion-state-map evil-insert-state-map evil-normal-state-map evil-operator-state-map)
-                          "A-h" 'evil-window-left
-                          "A-j" 'evil-window-down
-                          "A-k" 'evil-window-up
-                          "A-l" 'evil-window-right)
+       ;; (general-define-key :keymaps '(evil-motion-state-map evil-insert-state-map evil-normal-state-map evil-operator-state-map)
+       ;;                    "A-h" 'evil-window-left
+       ;;                    "A-j" 'evil-window-down
+       ;;                    "A-k" 'evil-window-up
+       ;;                    "A-l" 'evil-window-right)
      ;; non-prefix global
        (general-def "C-f" 'universal-argument
                     "M-f" 'toggle-frame-fullscreen
@@ -1936,8 +1887,14 @@
                     "C-M-n" 'helm-next-source
                     "C-M-p" 'helm-previous-source
                     "C-h b" 'helm-descbinds
-                    "M-v" 'evil-paste-after)
-       (general-def "C-u" 'evil-scroll-up)
+                    "M-v" 'evil-paste-after
+                    "C-u" 'evil-scroll-up
+                    "M-m" 'suspend-frame
+                    "A-h" 'evil-window-left
+                    "A-l" 'evil-window-right
+                    "A-j" 'evil-window-down
+                    "A-k" 'evil-window-up
+                    "C-;" 'helm-M-x)
        ;; helm mappings
        (general-def '(normal visual) helm-map
          "TAB" 'helm-execute-persistent-action
@@ -1948,14 +1905,19 @@
            "TAB" 'completion-at-point))
        ;; nosetests
        (general-def '(normal visual) python-mode-map
-         "C-c a" 'nosetests-all
-         "C-c m" 'nosetests-module
-         "C-c s" 'nosetests-suite
-         "C-c ." 'nosetests-one)
+         "C-c a" 'nosetest-all
+         "C-c m" 'nosetest-module
+         "C-c s" 'nosetest-suite
+         "C-c ." 'nosetest-one)
+       (general-def '(visual normal)
+         "M-d" 'evil-multiedit-match-symbol-and-next)
+       (general-def '(visual normal)
+         "M-D" 'evil-multiedit-match-symbol-and-prev)
        ;; window split orientation
        (general-def '(normal visual)
          "C-w R" 'kyle/toggle-window-split)
-       (general-def "M-m" 'suspend-frame))
+       (general-def '(normal visual)
+         "C-w a" 'switch-window))
    #+END_SRC
 ** Packages
 *** paradox
@@ -1963,7 +1925,6 @@
     #+name: packages
     #+BEGIN_SRC emacs-lisp
       (use-package paradox
-        :ensure t
         :commands (list-packages paradox-list-packages package-list-packages)
         :pin melpa
         :config
@@ -1974,9 +1935,7 @@
     #+name: evil
     #+BEGIN_SRC emacs-lisp
       (use-package evil
-        :ensure t
         :pin melpa
-        :diminish evil-mode
         :init
         (setq evil-want-C-u-scroll t)
         :config
@@ -1998,7 +1957,6 @@
     #+name: evil
     #+BEGIN_SRC emacs-lisp
       (use-package evil-collection
-        :ensure t
         :pin melpa
         :after evil
         :custom (evil-collection-setup-minibuffer t)
@@ -2008,21 +1966,17 @@
     #+name: evil
     #+BEGIN_SRC emacs-lisp
       (use-package evil-commentary
-        :ensure t
         :pin melpa
         :after evil
-        :diminish evil-commentary-mode
-        :config (evil-commentary-mode))
+        :hook (prog-mode . evil-commentary-mode))
     #+END_SRC
 *** evil-goggles
     Flash text highlighting when performing vim-motion operations
     #+name: evil
     #+BEGIN_SRC emacs-lisp
       (use-package evil-goggles
-        :ensure t
         :after evil
         :pin melpa
-        :diminish evil-goggles-mode
         :config
         (evil-goggles-mode)
         (setq evil-goggles-duration 0.15)
@@ -2033,8 +1987,7 @@
     #+name: evil
     #+BEGIN_SRC emacs-lisp
       (use-package evil-magit
-        :ensure t
-        :after (:all magit evil)
+        :after (magit evil)
         :pin melpa)
     #+END_SRC
 *** evil-matchit
@@ -2042,7 +1995,6 @@
     #+name: evil
     #+BEGIN_SRC emacs-lisp
       (use-package evil-matchit
-        :ensure t
         :after evil
         :pin melpa
         :after evil)
@@ -2052,25 +2004,21 @@
     #+name: evil
     #+BEGIN_SRC emacs-lisp
       (use-package evil-org
-        :ensure t
-        :diminish evil-org-mode
         :hook
         ((org-mode . evil-org-mode)
          (evil-org-mode . (lambda ()
                             (evil-org-set-key-theme))))
         :pin melpa
-        :after (:all org evil))
+        :after (org evil))
     #+END_SRC
 *** evil-smartparens
     Play nice with smartparens
     #+name: evil
     #+BEGIN_SRC emacs-lisp
       (use-package evil-smartparens
-        :ensure t
-        :diminish t
         :hook
         (smartparens-enabled . evil-smartparens-mode)
-        :after (:all smartparens evil)
+        :after (smartparens evil)
         :pin melpa)
     #+END_SRC
 *** evil-surround
@@ -2078,9 +2026,9 @@
     #+name: evil
     #+BEGIN_SRC emacs-lisp
       (use-package evil-surround
-        :ensure t
-        :pin melpa
         :after evil
+        :pin melpa
+        :commands (evil-surround-edit evil-Surround-edit evil-surround-region evil-Surround-region)
         :config (global-evil-surround-mode 1))
     #+END_SRC
 * Tangle
@@ -2092,5 +2040,5 @@
     <<languages>>
     <<interface>>
     <<helm>>
-    <<keys>>
+    <<general>>
   #+END_SRC
