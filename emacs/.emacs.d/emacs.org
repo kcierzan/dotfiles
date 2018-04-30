@@ -29,14 +29,16 @@
                   inhibit-default-init t
                   initial-scratch-message nil)
     (set-frame-parameter nil 'internal-border-width 2)
+    ;; maybe enable ligatures on emacs-mac
     (if (fboundp 'mac-auto-operator-composition-mode) (mac-auto-operator-composition-mode))
     (setq hl-line-sticky-flag nil)
     (add-hook 'prog-mode-hook 'hl-line-mode)
-     (set-face-attribute 'fixed-pitch nil :font "Operator Mono Lig")
-     (set-face-attribute 'default  nil :font "Operator Mono Lig")
-    (set-face-attribute 'variable-pitch nil :font "Caecilia LT Std" :height 160 :weight 'medium)
+     ;; (set-face-attribute 'fixed-pitch nil :font "Operator Mono Lig")
+     ;; (set-face-attribute 'default  nil :font "Operator Mono Lig")
+     (set-face-attribute 'fixed-pitch nil :font "FuraCode Nerd Font Retina")
+     (set-face-attribute 'default  nil :font "FuraCode Nerd Font Retina")
+    (set-face-attribute 'variable-pitch nil :font "Bitter" :height 140 :weight 'medium)
     (set-face-attribute 'mode-line nil :height 140)
-    ;; maybe enable ligatures on emacs-mac
     (setq default-frame-alist
           '((top . 50) (left . 130)
             (width . 200) (height . 60)))
@@ -284,7 +286,7 @@
               company-dabbrev-downcase nil
               company-tooltip-limit 10
               company-dabbrev-ignore-case t
-              company-dabbrev-code-code-other-buffers t
+              company-dabbrev-code-other-buffers t
               company-tooltip-align-annotations t
               company-require-match 'never
               company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
@@ -295,26 +297,6 @@
                                       (define-key company-active-map (kbd "RET") 'company-complete-selection)
                                       (define-key company-active-map (quote [return]) 'company-complete-selection))))
     #+END_SRC
-**** company-anaconda
-     Completion for python
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-anaconda
-         :defer t
-         :after company
-         :commands (company-anaconda)
-         :pin melpa)
-     #+END_SRC
-**** company-php
-     Completion for php
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-php
-         :commands (company-ac-php-backend)
-         :config
-         (unless (executable-find "phpctags")
-           (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
-     #+END_SRC
 **** company-statistics
      Completion by frecency
      #+name: programming
@@ -322,8 +304,9 @@
        (use-package company-statistics
          :after company
          :hook (company-mode . company-statistics-mode)
-         :config
+         :init
          (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
+         :config
          (company-statistics-mode 1))
      #+END_SRC
 **** company-quickhelp
@@ -362,7 +345,7 @@
      #+BEGIN_SRC emacs-lisp
        (use-package dumb-jump
          :pin melpa
-         :config
+         :init
          (setq dumb-jump-force-searcher 'rg)
          (setq dumb-jump-selector 'helm))
      #+END_SRC
@@ -393,11 +376,12 @@
      #+END_SRC
 *** Editing
 **** smartparens
-     Automatically match delimiters
+     Automatically match delimiters. Make it tough to unbalance parentheses in lispy modes.
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package smartparens
          :hook (prog-mode . smartparens-mode)
+         :hook (emacs-lisp-mode . smartparens-strict-mode)
          :pin melpa
          :config
          (require 'smartparens-config)
@@ -411,36 +395,6 @@
     #+name: programming
     #+BEGIN_SRC emacs-lisp
       (use-package undo-tree)
-    #+END_SRC
-**** evil-multiedit
-    #+name: programming
-    #+BEGIN_SRC emacs-lisp
-      (use-package evil-multiedit
-        :commands (evil-multiedit-match-symbol-and-next evil-multiedit-match-symbol-and-prev)
-        :pin melpa
-        :config
-        (evil-multiedit-default-keybinds))
-    #+END_SRC
-**** evil-visualstar
-        Enable search-at-point from visual mode
-    #+name: programming
-    #+BEGIN_SRC emacs-lisp
-      (use-package evil-visualstar
-        :defer 5
-        :pin melpa
-        :config
-        (global-evil-visualstar-mode))
-    #+END_SRC
-**** evil-snipe
-    #+name: programming
-    #+BEGIN_SRC emacs-lisp
-      (use-package evil-snipe
-        :pin melpa
-        :commands (evil-snipe-t evil-snipe-T evil-snipe-F evil-snipe-f)
-        :init
-        (setq evil-snipe-smart-case t)
-        :config
-        (evil-snipe-override-mode 1))
     #+END_SRC
 **** wgrep
     #+name: programming
@@ -1515,6 +1469,16 @@
                                 '((company-anaconda company-etags company-files))))))
          :pin melpa-stable)
      #+END_SRC
+**** company-anaconda
+     Completion for python
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-anaconda
+         :defer t
+         :after company
+         :commands (company-anaconda)
+         :pin melpa)
+     #+END_SRC
 **** pip-requirements
     #+name: languages
     #+BEGIN_SRC emacs-lisp
@@ -1641,6 +1605,16 @@
        (use-package php-mode
          :pin melpa)
      #+END_SRC
+**** company-php
+     Completion for php
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-php
+         :commands (company-ac-php-backend)
+         :config
+         (unless (executable-find "phpctags")
+           (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
+     #+END_SRC
 *** Markdown
 **** markdown-mode
      #+name: languages
@@ -1708,6 +1682,19 @@
         :pin melpa
         :mode "/Dockerfile$")
     #+END_SRC
+*** Shell
+**** company-shell
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-shell
+         :pin melpa
+         :init
+         (setq company-shell-delete-duplicates t)
+         :hook
+         (sh-mode .  (lambda ()
+                        (set (make-local-variable 'company-backends)
+                             '((company-shell company-files) company-dabbrev-files)))))
+     #+END_SRC
 ** Helm
 *** helm-descbinds
     #+name: helm
@@ -1725,15 +1712,15 @@
         :pin melpa-stable
         :init
         (setq helm-exit-idle-delay 0)
-        (setq helm-split-window-inside-p 1)
+        (setq helm-split-window-inside-p nil)
+        (setq helm-autoresize-min-height 5)
+        (setq helm-echo-input-in-header-line nil)
         :config
         (require 'helm-config)
         (helm-mode 1)
         (helm-autoresize-mode 1)
         (setq-default helm-boring-buffer-regexp-list
                       (append '("TAGS" "\\*anaconda-mode\\*") helm-boring-buffer-regexp-list))
-        (setq helm-autoresize-min-height 5)
-        (setq helm-echo-input-in-header-line nil)
         (defun set-helm-font-bigger ()
             (set (make-local-variable 'face-remapping-alist)
            '((default :height 1.0))))
@@ -1784,6 +1771,13 @@
         ;; disable swoop-thing-at-point
         (setq helm-swoop-pre-input-function
               (lambda () "")))
+    #+END_SRC
+*** helm-xref
+    Display xref results in helm
+    #+BEGIN_SRC emacs-lisp
+      (use-package helm-xref
+        :pin melpa
+        :init (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
     #+END_SRC
 ** General
    Unified system for doing all sorts of keybinding stuff
@@ -1977,10 +1971,11 @@
       (use-package evil-goggles
         :after evil
         :pin melpa
+        :init
+        (setq evil-goggles-duration 0.15)
         :config
         (evil-goggles-mode)
-        (setq evil-goggles-duration 0.15)
-        (evil-goggles-use-diff-faces))
+        (evil-goggles-use-magit-faces))
     #+END_SRC
 *** evil-magit
     Enable basic evil motion in magit buffers
@@ -1997,6 +1992,8 @@
       (use-package evil-matchit
         :after evil
         :pin melpa
+        :config
+        (global-evil-matchit-mode 1)
         :after evil)
     #+END_SRC
 *** evil-org
@@ -2016,8 +2013,7 @@
     #+name: evil
     #+BEGIN_SRC emacs-lisp
       (use-package evil-smartparens
-        :hook
-        (smartparens-enabled . evil-smartparens-mode)
+        :hook (smartparens-enabled . evil-smartparens-mode)
         :after (smartparens evil)
         :pin melpa)
     #+END_SRC
@@ -2031,6 +2027,36 @@
         :commands (evil-surround-edit evil-Surround-edit evil-surround-region evil-Surround-region)
         :config (global-evil-surround-mode 1))
     #+END_SRC
+*** evil-multiedit
+   #+name: evil
+   #+BEGIN_SRC emacs-lisp
+     (use-package evil-multiedit
+       :commands (evil-multiedit-match-symbol-and-next evil-multiedit-match-symbol-and-prev)
+       :pin melpa
+       :config
+       (evil-multiedit-default-keybinds))
+   #+END_SRC
+*** evil-visualstar
+       Enable search-at-point from visual mode
+   #+name: evil
+   #+BEGIN_SRC emacs-lisp
+     (use-package evil-visualstar
+       :defer 5
+       :pin melpa
+       :config
+       (global-evil-visualstar-mode))
+   #+END_SRC
+*** evil-snipe
+   #+name: evil
+   #+BEGIN_SRC emacs-lisp
+     (use-package evil-snipe
+       :pin melpa
+       :commands (evil-snipe-t evil-snipe-T evil-snipe-F evil-snipe-f)
+       :init
+       (setq evil-snipe-smart-case t)
+       :config
+       (evil-snipe-override-mode 1))
+   #+END_SRC
 * Tangle
   Generate an emacs-lisp configuration file
   #+BEGIN_SRC emacs-lisp :tangle yes :noweb no-export :exports code
