@@ -3,26 +3,26 @@
     "result" : {
       "textSpacing" : 5,
       "subtext" : {
-        "size" : 14,
+        "size" : 15,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "Operator Mono Lig",
+        "font" : "Pragmata Pro",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 24,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Adelle Sans",
+        "font" : "Bitter",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 25,
         "colorSelected" : "#51AEEEFF",
-        "font" : "Adelle Sans",
+        "font" : "Bitter",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 13,
+      "paddingVertical" : 11,
       "iconSize" : 40
     },
     "search" : {
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "Adelle Sans",
+        "font" : "Bitter",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
