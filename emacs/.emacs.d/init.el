@@ -56,17 +56,7 @@
                               (setq truncate-lines nil)
                               (set-face-attribute 'org-link nil :underline t)
                               (mapc (lambda (face)
-                                      (set-face-attribute face nil :font "Work Sans" :height 1.5))
-                                    (list 'org-level-1
-                                          'org-level-2
-                                          'org-level-3
-                                          'org-level-4
-                                          'org-level-5
-                                          'org-level-6
-                                          'org-level-7
-                                          'org-level-8))
-                              (mapc (lambda (face)
-                                      (set-face-attribute face nil :inherit 'fixed-pitch :height 1.2))
+                                      (set-face-attribute face nil :inherit 'fixed-pitch :height 1.25))
                                     (list 'org-code
                                           'org-link
                                           'org-block
