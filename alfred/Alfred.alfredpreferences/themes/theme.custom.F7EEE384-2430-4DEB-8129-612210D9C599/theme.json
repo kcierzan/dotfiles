@@ -3,36 +3,36 @@
     "result" : {
       "textSpacing" : 5,
       "subtext" : {
-        "size" : 15,
+        "size" : 14,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "Pragmata Pro",
+        "font" : "SFMono Nerd Font",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 24,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Bitter",
+        "font" : "SFMono Nerd Font",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 25,
         "colorSelected" : "#51AEEEFF",
-        "font" : "Bitter",
+        "font" : "San Francisco Display",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 11,
+      "paddingVertical" : 15,
       "iconSize" : 40
     },
     "search" : {
-      "paddingVertical" : 5,
+      "paddingVertical" : 7,
       "background" : "#272B33FF",
       "spacing" : 8,
       "text" : {
         "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "Bitter",
+        "font" : "San Francisco Display",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"

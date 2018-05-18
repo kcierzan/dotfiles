@@ -1,3 +1,16 @@
+/*
+ONE DARK
+----------
+blue: #51afef
+green: #98be65
+magenta: #ff4ea3
+purple: #c678dd
+orange: #da8548
+background: #282c34
+dark background: #23272e
+light background: #42444a
+*/
+
 @font-face {
   font-family: 'SFMono Nerd Font';
   src: url('../../../../../../../../Fonts/SF Mono Regular Nerd Font Complete.otf')  format('opentype');
@@ -45,8 +58,8 @@
 }
 
 #cVim-command-bar-input {
-  background-color: #282828;
-  color: #458588;
+  background-color: #282c34;
+  color: #51afef;
   height: 100%;
   right: 0;
   top: 0;
@@ -61,7 +74,7 @@
   z-index: 2147483647;
   left: 0;
   box-shadow: 0 3px 3px rgba(0,0,0,0.4);
-  background-color: #282828;
+  background-color: #282c34;
 }
 
 .cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left, .cVim-completion-item .cVim-right {
@@ -75,7 +88,7 @@
 }
 
 .cVim-completion-item:nth-child(even) {
-  background-color: #2e2d2d;
+  background-color: #23272e;
 }
 
 .cVim-completion-item {
@@ -85,12 +98,12 @@
 
 .cVim-completion-item[active] {
   width: 100%; left: 0;
-  color: #98971a;
-  background-color: #424141;
+  color: #98be65;
+  background-color: #42444a;
 }
 
 .cVim-completion-item[active] span {
-  color: #98971a;
+  color: #98be65;
 
 }
 .cVim-completion-item .cVim-left {
@@ -153,7 +166,7 @@
   padding: 2px;
   padding-left: 4px;
   padding-right: 4px;
-  color: #458588;
+  color: #51afef;
   font-size: 10pt;
 }
 

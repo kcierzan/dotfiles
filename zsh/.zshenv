@@ -17,7 +17,7 @@ export FZF_DEFAULT_OPTS='
 --color=fg:#839496,bg:-1,fg+:6,bg+:-1,header:3
 --color=hl:3,hl+:13,prompt:6,spinner:5,pointer:2,marker:4,info:2'
 
-export KEYTIMEOUT=100
+export KEYTIMEOUT=1
 
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedxbxgxcxd

@@ -164,7 +164,8 @@ float + shift - l : chunkc tiling::window --grid-layout 1:10:3:0:7:1
 float + lctrl - l : chunkc tiling::window --grid-layout 1:10:7:0:3:1
 
 # Center box
-float - f         : chunkc tiling::window --grid-layout 10:10:2:2:6:6
+float + shift - f : chunkc tiling::window --grid-layout 12:12:1:1:10:10
+float - f         : chunkc tiling::window --grid-layout 12:12:3:3:6:6
 
 # upper left
 float - u         : chunkc tiling::window --grid-layout 10:10:0:0:5:5

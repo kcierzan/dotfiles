@@ -109,7 +109,6 @@ alias reload="exec $SHELL -l"
 alias vim="nvim"
 alias vi="nvim"
 alias e="launch-emacs"
-alias emacs="launch-emacs"
 
 # Activate a python virtualenv
 alias venv="source env/bin/activate"
@@ -379,7 +378,7 @@ recentdir() {
         elif [ "$key" = ctrl-v ]; then
             cd "$dir" && code "$dir"
         elif [ "$key" = ctrl-e ]; then
-            cd "$dir" && nvim "$dir"
+            cd "$dir" && $EDITOR "$dir"
         elif [ "$key" = ctrl-x ]; then
             rm -ir "$dir"
         else
