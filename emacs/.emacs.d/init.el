@@ -9,7 +9,10 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 
-(setq monospace-font "SF Mono")
+;; (setq monospace-font "SF Mono")
+;; (setq nerd-font "SFMono Nerd Font")
+(setq monospace-font "FuraCode Nerd Font")
+(setq nerd-font "FuraCode Nerd Font")
 (setq variable-pitch-font "Bitter")
 
 (setq package-enable-at-startup nil)

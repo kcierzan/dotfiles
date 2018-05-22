@@ -441,11 +441,11 @@
                                                   try-complete-lisp-symbol)))
      #+END_SRC
 **** lsp-mode
-     An elisp implementation of the language server protocol from VS Code
+     An elisp implementation of the language server protocol from VS Code. Doesn't work at the moment.
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package lsp-mode
-         ;; :disabled t
+         :disabled t
          :config
          (lsp-define-stdio-client
           my-lsp-python
@@ -1683,6 +1683,8 @@
          :config
          (delight 'abbrev-mode nil "abbrev")
          (delight 'python-mode (all-the-icons-alltheicon "python") :major)
+         (with-eval-after-load "face-remap"
+           '(delight 'buffer-face-mode nil t))
          (delight 'buffer-face-mode nil t)
          (delight 'auto-revert-mode nil t)
          (delight 'dired-omit-mode "" "Omit")
@@ -2437,11 +2439,11 @@
    #+name: final
    #+BEGIN_SRC emacs-lisp
      (load custom-file)
-     (set-face-attribute 'powerline-active1 nil :background nil :foreground nil :inherit 'highlight :family "SFMono Nerd Font")
+     (set-face-attribute 'powerline-active1 nil :background nil :foreground nil :inherit 'highlight :family 'nerd-font)
      (set-face-attribute 'powerline-active2 nil :background (face-attribute 'fringe :foreground) :inherit nil)
-     (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'fringe :foreground) :inherit nil :family "SFMono Nerd Font")
-     (set-face-attribute 'mode-line nil :background (face-attribute 'shadow :background) :inherit nil :family "SFMono Nerd Font")
-     (set-face-attribute 'spaceline-highlight-face nil :background (face-attribute 'org-code :foreground) :family "SFMono Nerd Font")
+     (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'fringe :foreground) :inherit nil :family nerd-font)
+     (set-face-attribute 'mode-line nil :background (face-attribute 'shadow :background) :inherit nil :family nerd-font)
+     (set-face-attribute 'spaceline-highlight-face nil :background (face-attribute 'org-code :foreground) :family nerd-font)
    #+END_SRC
 * Tangle
   Generate an emacs-lisp configuration file
