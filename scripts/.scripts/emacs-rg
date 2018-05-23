@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+newargs="$(echo "$@" | sed 's/\-\-ignore .* //')"
+rg --hidden --follow --no-ignore --glob "!.git/*" -g "!*.pyc" -g "!node_modules/*" -g "!tags" -g "!TAGS" $newargs 2>/dev/null
