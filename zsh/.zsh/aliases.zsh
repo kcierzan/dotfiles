@@ -18,26 +18,78 @@ alias j="jobs"
 # Kill unattached tmux sessions
 alias tkill="tmux ls | grep -v attached | awk '{ print $1 }' | sed 's/://' | cut -d ' ' -f1 | xargs -I {} tmux kill-session -t {}"
 
-# Exuberant ctags that includes python modules
-
-# List all files colorized in long format, including dot files
+# list all files colorized in long format, including dot files
 alias la="exa -lah --group-directories-first --git"
 alias ls="exa"
 
-# Use gnu tools
-alias find='gfind'
-alias sed='gsed'
-alias grep='ggrep'
-alias awk='gawk'
-alias tar='gtar'
+# set up some macOS specific aliases
+if [[ $OSTYPE == 'darwin'* ]]; then
+    # Use gnu tools on macOS
+    alias find='gfind'
+    alias sed='gsed'
+    alias grep='ggrep'
+    alias awk='gawk'
+    alias tar='gtar'
+    alias gzip='/usr/local/bin/gzip'
 
-alias gzip='/usr/local/bin/gzip'
+    alias bbounce="brew services restart"
+    alias bstop="brew services stop"
+    alias bstart="brew services start"
 
-# Enable aliases to be sudo’ed
-alias sudo='sudo '
+    # iTerm2 visor occasionally doesn't like C-l
+    alias cl='clear'
+    # Clean up LaunchServices to remove duplicates in the “Open With” menu
+    alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
 
-# iTerm2 visor occasionally doesn't like C-l
-alias cl='clear'
+    # Trim new lines and copy to clipboard
+    alias c="tr -d '\n' | pbcopy"
+
+    # Recursively delete `.DS_Store` files
+    alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+    alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
+
+    # Lock the screen
+    alias afk="/usr/bin/open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app"
+
+    # Show/hide hidden files in Finder
+    alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+    alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+
+    # Hide/show all desktop icons (useful when presenting)
+    alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+    alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+    # Change working directory to the top-most Finder window location
+    cdf() { # short for `cdfinder`
+        cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
+    }
+
+    # fuzzy upgrade brew packages
+    brewup() {
+        brew update && brew outdated | fzf -m -n 1 --tac --header='Select formulae to upgrade' | xargs brew upgrade
+    }
+
+    ctags() {
+        version=$(pyenv version | cut -d ' ' -f 1)
+        if [ $version != system ]; then
+            /usr/local/bin/ctags && /usr/local/bin/ctags --append tags -R $(pyenv prefix)
+        else
+            /usr/local/bin/ctags -R
+        fi
+    }
+
+    etags() {
+        version=$(pyenv version | cut -d ' ' -f 1)
+        if [ $version != system ]; then
+            /usr/local/bin/ctags -e && /usr/local/bin/ctags -e --append tags -R $(pyenv prefix)
+        else
+            /usr/local/bin/ctags -eR
+        fi
+    }
+
+fi
+
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
@@ -49,9 +101,6 @@ alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[
 
 # Flush Directory Service cache
 alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
-
-# Clean up LaunchServices to remove duplicates in the “Open With” menu
-alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
 
 # View HTTP traffic
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
@@ -68,22 +117,6 @@ command -v md5sum > /dev/null || alias md5sum="md5"
 # OS X has no `sha1sum`, so use `shasum` as a fallback
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
 
-# Trim new lines and copy to clipboard
-alias c="tr -d '\n' | pbcopy"
-
-# Recursively delete `.DS_Store` files
-alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-
-alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
-
-# Show/hide hidden files in Finder
-alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
-alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
-
-# Hide/show all desktop icons (useful when presenting)
-alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
-alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
-
 # URL-encode strings
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
@@ -99,9 +132,6 @@ alias plistbuddy="/usr/libexec/PlistBuddy"
 # For example, to list all directories that contain a certain file:
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
-
-# Lock the screen
-alias afk="/usr/bin/open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app"
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
@@ -123,10 +153,6 @@ alias tarx="tar -xvzf"
 # listen to some music
 alias spo="ncmpcpp"
 
-alias bbounce="brew services restart"
-alias bstop="brew services stop"
-alias bstart="brew services start"
-
 # Stop and remove all docker containers
 alias dockstop="docker ps -a -q | xargs docker stop 2>&1"
 alias dockrm="docker ps -a -q | xargs docker rm 2>&1"
@@ -143,11 +169,6 @@ alias tkss='tmux kill-session -t'
 # Create a relative path to arg1 from ar2
 relpath() {
     python -c "import os.path; print os.path.relpath('$1','${2:-$PWD}')";
-}
-
-# Change working directory to the top-most Finder window location
-cdf() { # short for `cdfinder`
-    cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
 }
 
 # Determine size of a file or total size of a directory
@@ -263,11 +284,6 @@ fd() {
     fi
 }
 
-# fuzzy upgrade brew packages
-brewup() {
-  brew update && brew outdated | fzf -m -n 1 --tac --header='Select formulae to upgrade' | xargs brew upgrade
-}
-
 # fuzzy search through git log
 flog() {
   git log --graph --color=always \
@@ -300,23 +316,6 @@ timeshell() {
   for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
 }
 
-etags() {
-    version=$(pyenv version | cut -d ' ' -f 1)
-    if [ $version != system ]; then
-	/usr/local/bin/ctags -e && /usr/local/bin/ctags -e --append tags -R $(pyenv prefix)
-    else
-	/usr/local/bin/ctags -eR
-    fi
-}
-
-ctags() {
-  version=$(pyenv version | cut -d ' ' -f 1)
-  if [ $version != system ]; then
-    /usr/local/bin/ctags && /usr/local/bin/ctags --append tags -R $(pyenv prefix)
-  else
-    /usr/local/bin/ctags -R
-  fi
-}
 
 pf() {
   fd && ff
@@ -348,7 +347,7 @@ sshs() {
   ~/.scripts/sshs -m
 }
 zle -N sshs
-bindkey '^ s' sshs
+bindkey '^[s' sshs
 
 # fuzzy checkout a git branch
 fb() {
@@ -360,7 +359,7 @@ fb() {
     zle && { zle reset-prompt; zle -R }
 }
 zle -N fb
-bindkey '^ g' fb
+bindkey '^[g' fb
 
 # Recent directory search and edit
 #   - CTRL-o    open with `open` command
@@ -414,8 +413,8 @@ fr() {
       fi
   fi
 }
-zle -N fr
-bindkey '^ r' fr
+# zle -N fr
+# bindkey '^ r' fr
 
 findfile() {
   local out file key
@@ -440,7 +439,7 @@ findfile() {
   fi
 }
 zle -N findfile
-bindkey '^ f' findfile
+bindkey '^[e' findfile
 
 # fzf based process killer
 fkill() {
@@ -452,34 +451,26 @@ fkill() {
     fi
 }
 zle -N fkill
-bindkey '^ p' fkill
+bindkey '^[o' fkill
 
 # fzf search through history
-fh() {
-    LBUFFER+=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
-}
-zle -N fh
-bindkey '^ h' fh
+# N.B not necessary with CTRL-R fzf binding
+# fh() {
+#     LBUFFER+=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+# }
+# zle -N fh
+# bindkey '^ h' fh
 
-# cd to a child directory (hidden directories included)
-fdd() {
-    local dir
-    dir=$(find ${1:-.} -type d -not -path "*/.git/*" 2> /dev/null | fzf +m) && cd "$dir"
-    zle redraw-prompt
-}
-zle -N fdd
-bindkey '^ t' fdd
-
-flog() {
-  git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-      --header "Press CTRL-S to toggle sort" \
-      --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
-                 xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
-      --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
-              xargs -I % sh -c 'nvim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
-}
-zle -N flog
-bindkey '^ c' flog
-
+# fix me to work with magit
+# flog() {
+#   git log --graph --color=always \
+#       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+#   fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+#       --header "Press CTRL-S to toggle sort" \
+#       --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+#                  xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
+#       --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+#               xargs -I % sh -c 'nvim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
+# }
+# zle -N flog
+# bindkey '^ c' flog
