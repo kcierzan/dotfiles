@@ -11,9 +11,10 @@
 
 ;; (setq monospace-font "SF Mono")
 ;; (setq nerd-font "SFMono Nerd Font")
-(setq monospace-font "FuraCode Nerd Font")
-(setq nerd-font "FuraCode Nerd Font")
-(setq variable-pitch-font "Bitter")
+(setq monospace-font "Iosevka Nerd Font")
+(setq string-font "Iosevka Slab")
+(setq nerd-font "Iosevka Nerd Font")
+(setq variable-pitch-font "Iosevka Slab")
 
 (setq package-enable-at-startup nil)
 (package-initialize)

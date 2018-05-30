@@ -3,7 +3,6 @@
 * Globals
   #+name: basic
   #+BEGIN_SRC emacs-lisp
-    (require 'tramp)
     (setq initial-major-mode 'org-mode)
     (setq password-cache-expiry nil)
     (semantic-mode)
@@ -574,7 +573,7 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package ws-butler
-         :delight ""
+         :delight
          :hook ((text-mode prog-mode) . ws-butler-mode)
          :config
          (setq ws-butler-keep-whitespace-before-point nil))
@@ -648,7 +647,7 @@
          :pin melpa)
      #+END_SRC
 **** dired-k
-     Highlight directories  like k
+     Highlight directories
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package dired-k
@@ -656,21 +655,6 @@
          :pin melpa)
      #+END_SRC
 ** Interface
-
-**** spaceline
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       (use-package spaceline
-         :after doom-themes
-         :init
-         (setq-default powerline-height 26)
-         (setq powerline-default-separator 'wave)
-         (setq spaceline-minor-modes-separator " | ")
-         :config
-         (spaceline-helm-mode 1)
-         (setq spaceline-evil-state-p nil)
-         (spaceline-spacemacs-theme))
-     #+END_SRC
 **** highlight-numbers
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -718,7 +702,7 @@
        (use-package nlinum
          :config
          (setq nlinum-highlight-current-line t)
-         :hook (prog-mode . nlinum-mode)
+         ;; :hook (prog-mode . nlinum-mode)
          :pin elpa)
      #+END_SRC
 **** pos-tip
@@ -734,27 +718,6 @@
        (use-package rainbow-delimiters
          :pin melpa
          :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-     #+END_SRC
-**** doom-themes
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       (use-package doom-themes
-         :pin melpa
-         ;; :disabled t
-         :init
-         (setq doom-themes-enable-bold t
-               doom-themes-enable-italic t)
-         :config
-         (doom-themes-org-config)
-         (load-theme 'doom-one t))
-     #+END_SRC
-**** moe-theme
-     #+BEGIN_SRC emacs-lisp
-       (use-package moe-theme
-         :disabled t
-         :config
-         (moe-theme-set-color 'blue)
-         (moe-dark))
      #+END_SRC
 **** switch-window
      #+name: interface
@@ -777,7 +740,7 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package which-key
-         :delight ""
+         :delight
          :pin melpa
          :config
          (which-key-setup-side-window-right-bottom)
@@ -1643,7 +1606,7 @@
      #+BEGIN_SRC emacs-lisp
        (use-package beacon
          :defer 3
-         :delight ""
+         :delight
          :init
          (setq beacon-blink-duration 0.17)
          :config
@@ -1691,6 +1654,74 @@
          (delight 'eldoc-mode nil "eldoc")
          (delight 'flycheck-mode "" "flycheck")
          (delight 'git-gutter-mode nil "git-gutter"))
+     #+END_SRC
+**** color-identifiers-mode
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package color-identifiers-mode
+         :hook (after-init . global-color-identifiers-mode))
+     #+END_SRC
+** Themes
+**** doom-themes
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package doom-themes
+         :pin melpa
+         :disabled t
+         :init
+         (setq doom-themes-enable-bold t
+               doom-themes-enable-italic t)
+         :config
+         (doom-themes-org-config)
+         (load-theme 'doom-one t))
+     #+END_SRC
+**** solarized-emacs
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package solarized-theme
+         :disabled t
+         :config
+         (load-theme 'solarized-dark t)
+         )
+     #+END_SRC
+**** moe-theme
+     #+BEGIN_SRC emacs-lisp
+       (use-package moe-theme
+         ;; :disabled t
+         :init
+         (setq moe-theme-highlight-buffer-id nil)
+         :config
+         (moe-theme-set-color 'orange)
+         (moe-dark))
+     #+END_SRC
+**** base16-theme
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package base16-theme
+         :disabled t
+         :config
+         (load-theme 'base16-oceanicnext t))
+     #+END_SRC
+**** spaceline
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package spaceline
+         :init
+         (setq-default powerline-height 26)
+         (setq powerline-default-separator 'wave)
+         (setq spaceline-minor-modes-separator " | ")
+         :config
+         (spaceline-helm-mode 1)
+         (setq spaceline-evil-state-p nil)
+         (spaceline-spacemacs-theme))
+     #+END_SRC
+**** eziam-theme
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
+       (use-package eziam-theme
+       :disabled t
+       :config
+       (load-theme 'eziam-dark t))
      #+END_SRC
 ** Languages
 *** SQL
@@ -1996,7 +2027,7 @@
      #+name: helm
      #+BEGIN_SRC emacs-lisp
        (use-package helm
-         :delight ""
+         :delight
          :pin melpa-stable
          :commands (helm-M-x helm-mini helm-imenu helm-resume helm-execute-persistent-action helm-select-action)
          :init
@@ -2434,7 +2465,7 @@
         :config
         (evil-snipe-override-mode 1))
     #+END_SRC
-**  Final
+** Final
    Things to do after the rest of the config has loaded. This is can be tricky given the deferred loading going on with =use-package=.
    #+name: final
    #+BEGIN_SRC emacs-lisp
