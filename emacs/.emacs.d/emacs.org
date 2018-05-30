@@ -1667,13 +1667,13 @@
      #+BEGIN_SRC emacs-lisp
        (use-package doom-themes
          :pin melpa
-         :disabled t
+         ;; :disabled t
          :init
          (setq doom-themes-enable-bold t
                doom-themes-enable-italic t)
          :config
          (doom-themes-org-config)
-         (load-theme 'doom-one t))
+         (load-theme 'doom-molokai t))
      #+END_SRC
 **** solarized-emacs
      #+name: interface
@@ -1687,7 +1687,7 @@
 **** moe-theme
      #+BEGIN_SRC emacs-lisp
        (use-package moe-theme
-         ;; :disabled t
+         :disabled t
          :init
          (setq moe-theme-highlight-buffer-id nil)
          :config
@@ -2470,11 +2470,17 @@
    #+name: final
    #+BEGIN_SRC emacs-lisp
      (load custom-file)
-     (set-face-attribute 'powerline-active1 nil :background nil :foreground nil :inherit 'highlight :family 'nerd-font)
+     (set-face-attribute 'powerline-active1 nil :background nil :foreground nil :inherit 'highlight :family nerd-font)
      (set-face-attribute 'powerline-active2 nil :background (face-attribute 'fringe :foreground) :inherit nil)
      (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'fringe :foreground) :inherit nil :family nerd-font)
      (set-face-attribute 'mode-line nil :background (face-attribute 'shadow :background) :inherit nil :family nerd-font)
      (set-face-attribute 'spaceline-highlight-face nil :background (face-attribute 'org-code :foreground) :family nerd-font)
+     (set-face-attribute 'font-lock-string-face nil :family string-font)
+     (set-face-attribute 'org-verbatim nil :family monospace-font)
+     (set-face-attribute 'variable-pitch nil :family variable-pitch-font)
+     (set-face-attribute 'org-special-keyword nil :family monospace-font)
+     (set-face-attribute 'org-property-value nil :family monospace-font)
+     (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
    #+END_SRC
 * Tangle
   Generate an emacs-lisp configuration file

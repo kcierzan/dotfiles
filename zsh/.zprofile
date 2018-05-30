@@ -18,6 +18,7 @@ fi
 #
 
 export EDITOR='launch-emacs'
+export ALTERNATE_EDITOR=''
 export VISUAL='launch-emacs'
 export PAGER='less'
 

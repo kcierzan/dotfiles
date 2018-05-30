@@ -11,7 +11,7 @@
 
 ;; (setq monospace-font "SF Mono")
 ;; (setq nerd-font "SFMono Nerd Font")
-(setq monospace-font "Iosevka Nerd Font")
+(setq monospace-font "Iosevka")
 (setq string-font "Iosevka Slab")
 (setq nerd-font "Iosevka Nerd Font")
 (setq variable-pitch-font "Iosevka Slab")
