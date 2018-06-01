@@ -4,6 +4,7 @@
 #  _ / /_(__  ) / / / /  / /__
 # (_)___/____/_/ /_/_/   \___/
 
+# avoid fancy prompt stuff when in emacs
 if [[ $TERM == "dumb" ]]; then
     unsetopt zle
     unsetopt prompt_cr
@@ -13,7 +14,7 @@ if [[ $TERM == "dumb" ]]; then
     PS1='❯ '
 else
 
-# Source Prezto.
+# source prezto
     if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
         source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
     fi
@@ -59,7 +60,7 @@ if [ -s "/usr/local/opt/nvm/nvm.sh" ] && [ ! "$(whence -w __init_nvm)" = functio
   for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
 fi
 
-# Initialize fzf
+# initialize fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 source ~/.zsh/aliases.zsh
