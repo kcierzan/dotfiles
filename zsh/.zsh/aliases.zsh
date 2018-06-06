@@ -388,7 +388,7 @@ recentdir() {
     zle redraw-prompt
 }
 zle -N recentdir
-bindkey '^[u' recentdir
+bindkey '^[d' recentdir
 
 # Edit a frecent file
 fr() {
@@ -440,7 +440,7 @@ findfile() {
   fi
 }
 zle -N findfile
-bindkey '^[o' findfile
+bindkey '^[f' findfile
 
 # fzf based process killer
 fkill() {
@@ -452,4 +452,4 @@ fkill() {
     fi
 }
 zle -N fkill
-bindkey '^[i' fkill
+bindkey '^[p' fkill
