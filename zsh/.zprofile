@@ -17,9 +17,9 @@ fi
 # Editors
 #
 
-export EDITOR='launch-emacs'
+export EDITOR='code'
 export ALTERNATE_EDITOR=''
-export VISUAL='launch-emacs'
+export VISUAL='code'
 export PAGER='less'
 
 #

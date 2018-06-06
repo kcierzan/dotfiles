@@ -1,0 +1,61 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 8,
+      "subtext" : {
+        "size" : 13,
+        "colorSelected" : "#A6E22EFF",
+        "font" : "SF Mono",
+        "color" : "#75715EFF"
+      },
+      "shortcut" : {
+        "size" : 19,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "San Francisco Display",
+        "color" : "#F92672FF"
+      },
+      "backgroundSelected" : "#2D2E28FF",
+      "text" : {
+        "size" : 18,
+        "colorSelected" : "#F8F8F2FF",
+        "font" : "Fira Sans",
+        "color" : "#75715EFF"
+      },
+      "iconPaddingHorizontal" : 4,
+      "paddingVertical" : 11,
+      "iconSize" : 38
+    },
+    "search" : {
+      "paddingVertical" : 10,
+      "background" : "#21221DFF",
+      "spacing" : 8,
+      "text" : {
+        "size" : 59,
+        "colorSelected" : "#000000FF",
+        "font" : "San Francisco Display",
+        "color" : "#F92672FF"
+      },
+      "backgroundSelected" : "#7AC7FFFF"
+    },
+    "window" : {
+      "color" : "#21221DFF",
+      "paddingHorizontal" : 0,
+      "width" : 594,
+      "borderPadding" : 0,
+      "borderColor" : "#0000007F",
+      "blur" : 15,
+      "roundness" : -64,
+      "paddingVertical" : 0
+    },
+    "credit" : "Kyle Cierzan",
+    "separator" : {
+      "color" : "#2D292EFF",
+      "thickness" : 0
+    },
+    "scrollbar" : {
+      "color" : "#F9266AFF",
+      "thickness" : 3
+    },
+    "name" : "Minimal"
+  }
+}

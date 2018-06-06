@@ -19,8 +19,9 @@ alias j="jobs"
 alias tkill="tmux ls | grep -v attached | awk '{ print $1 }' | sed 's/://' | cut -d ' ' -f1 | xargs -I {} tmux kill-session -t {}"
 
 # list all files colorized in long format, including dot files
-alias la="exa -lah --group-directories-first --git"
-alias ls="exa"
+# alias la="exa -lah --group-directories-first --git"
+# alias ls="exa"
+alias la='ls -lah'
 
 # set up some macOS specific aliases
 if [[ $OSTYPE == 'darwin'* ]]; then
@@ -48,6 +49,9 @@ if [[ $OSTYPE == 'darwin'* ]]; then
     alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
     alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
+
+    # PlistBuddy alias, because sometimes `defaults` just doesn’t cut it
+    alias plistbuddy="/usr/libexec/PlistBuddy"
 
     # Lock the screen
     alias afk="/usr/bin/open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app"
@@ -124,9 +128,6 @@ alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.ar
 alias spotoff="sudo mdutil -a -i off"
 # Enable Spotlight
 alias spoton="sudo mdutil -a -i on"
-
-# PlistBuddy alias, because sometimes `defaults` just doesn’t cut it
-alias plistbuddy="/usr/libexec/PlistBuddy"
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
@@ -340,14 +341,14 @@ range() {
   tmux split-window -c "#{pane_current_path}" "ranger"
 }
 zle -N range
-bindkey '^[ b' range
+bindkey '^[b' range
 
 # fuzzy sshs into known hosts
 sshs() {
   ~/.scripts/sshs -m
 }
 zle -N sshs
-bindkey '^[s' sshs
+bindkey '^[h' sshs
 
 # fuzzy checkout a git branch
 fb() {
@@ -387,13 +388,13 @@ recentdir() {
     zle redraw-prompt
 }
 zle -N recentdir
-bindkey '^ d' recentdir
+bindkey '^[u' recentdir
 
 # Edit a frecent file
 fr() {
   local file out key
   IFS=$'\n'
-  out=($(gsed '1d' ~/.cache/neomru/file |
+  out=($(sed '1d' ~/.cache/neomru/file |
          fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
                    echo {} is a binary file ||
                    (highlight -O ansi -l {} ||
@@ -413,8 +414,8 @@ fr() {
       fi
   fi
 }
-# zle -N fr
-# bindkey '^ r' fr
+zle -N fr
+bindkey '^[r' fr
 
 findfile() {
   local out file key
@@ -439,7 +440,7 @@ findfile() {
   fi
 }
 zle -N findfile
-bindkey '^[e' findfile
+bindkey '^[o' findfile
 
 # fzf based process killer
 fkill() {
@@ -451,26 +452,4 @@ fkill() {
     fi
 }
 zle -N fkill
-bindkey '^[o' fkill
-
-# fzf search through history
-# N.B not necessary with CTRL-R fzf binding
-# fh() {
-#     LBUFFER+=$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
-# }
-# zle -N fh
-# bindkey '^ h' fh
-
-# fix me to work with magit
-# flog() {
-#   git log --graph --color=always \
-#       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-#   fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-#       --header "Press CTRL-S to toggle sort" \
-#       --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
-#                  xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
-#       --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
-#               xargs -I % sh -c 'nvim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
-# }
-# zle -N flog
-# bindkey '^ c' flog
+bindkey '^[i' fkill

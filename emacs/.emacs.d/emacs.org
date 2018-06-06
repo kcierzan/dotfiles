@@ -47,14 +47,14 @@
     ;; defined in `init.el'
     (set-face-attribute 'fixed-pitch nil :font monospace-font)
     (set-face-attribute 'default  nil :font monospace-font)
-    (set-face-attribute 'variable-pitch nil :font variable-pitch-font)
+    (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 1.3)
 
     (setq default-frame-alist
           '((top . 50) (left . 130)
             (width . 200) (height . 60)))
 
     (add-hook 'window-setup-hook '(lambda ()
-                                    (set-face-attribute 'default nil :height 140)))
+                                    (set-face-attribute 'default nil :height 160)))
     ;; don't warn about theme loading
     (use-package custom
       :ensure nil
@@ -93,6 +93,10 @@
                                                                       '((vertical-scroll-bars . nil)
                                                                         (horizontal-scroll-bars . nil)))))
   #+END_SRC
+
+  #+RESULTS: interface
+  | evil-init-esc | (lambda (frame) (modify-frame-parameters frame (quote ((vertical-scroll-bars) (horizontal-scroll-bars))))) |
+
 * UTF-8
   #+name: basic
   #+BEGIN_SRC emacs-lisp
@@ -853,7 +857,7 @@
        (use-package base16-theme
          ;; :disabled t
          :config
-         (load-theme 'base16-gruvbox-dark-medium t))
+         (load-theme 'base16-monokai t))
      #+END_SRC
 **** spaceline
      #+name: interface
