@@ -348,7 +348,7 @@ sshs() {
   ~/.scripts/sshs -m
 }
 zle -N sshs
-bindkey '^[h' sshs
+bindkey '^[s' sshs
 
 # fuzzy checkout a git branch
 fb() {
