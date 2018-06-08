@@ -1,5 +1,5 @@
 #+TITLE: emacs.org
-#+STARTUP: content
+#+STARTUP: indent
 * Globals
   #+name: basic
   #+BEGIN_SRC emacs-lisp
@@ -47,14 +47,14 @@
     ;; defined in `init.el'
     (set-face-attribute 'fixed-pitch nil :font monospace-font)
     (set-face-attribute 'default  nil :font monospace-font)
-    (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 1.3)
+    (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 1.2)
 
     (setq default-frame-alist
           '((top . 50) (left . 130)
             (width . 200) (height . 60)))
 
     (add-hook 'window-setup-hook '(lambda ()
-                                    (set-face-attribute 'default nil :height 160)))
+                                    (set-face-attribute 'default nil :height 140)))
     ;; don't warn about theme loading
     (use-package custom
       :ensure nil
@@ -93,10 +93,6 @@
                                                                       '((vertical-scroll-bars . nil)
                                                                         (horizontal-scroll-bars . nil)))))
   #+END_SRC
-
-  #+RESULTS: interface
-  | evil-init-esc | (lambda (frame) (modify-frame-parameters frame (quote ((vertical-scroll-bars) (horizontal-scroll-bars))))) |
-
 * UTF-8
   #+name: basic
   #+BEGIN_SRC emacs-lisp
@@ -267,7 +263,7 @@
        hscroll-step 1
        scroll-margin 0
        mac-mouse-wheel-smooth-scroll nil
-       mouse-wheel-progressive-speed nil ;don't accelerate scrolling
+       mouse-wheel-progressive-speed nil ; don't accelerate scrolling
        scroll-preserve-screen-position t
        require-final-newline t
        tab-always-indent t
@@ -441,43 +437,12 @@
                                                   try-complete-lisp-symbol-partially
                                                   try-complete-lisp-symbol)))
      #+END_SRC
-**** lsp-mode
-     An elisp implementation of the language server protocol from VS Code. Doesn't work at the moment.
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package lsp-mode
-         :disabled t
-         :config
-         (lsp-define-stdio-client
-          my-lsp-python
-          "python"
-          (lambda () default-directory)
-          '("pyls"))
-         (add-hook 'python-mode-hook #'my-lsp-python-enable)
-         (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
-     #+END_SRC
-**** company-lsp
-     #+name: programming
-    #+BEGIN_SRC emacs-lisp
-       (use-package company-lsp
-         ;; :disabled t
-         ;; :after lsp-mode
-         :init
-         (setq company-lsp-cache-candidate 'auto
-               company-lsp-async t
-               company-lsp-enable-snippet t)
-         :config
-         (add-hook 'python-mode-hook '(lambda ()
-                                        (push 'company-lsp company-backends))))
-    #+END_SRC
 **** eglot
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package eglot
-         :disabled t
          :commands (eglot eglot-reconnect eglot-rename eglot-help-at-point eglot-events-buffer))
      #+END_SRC
-
 *** Navigation
 **** ace-link
      Navigate to links cvim-style
@@ -526,7 +491,7 @@
                projectile-indexing-method 'alien
                projectile-globally-ignored-files '(".DS_STORE" "TAGS")
                projectile-globally-ignored-file-suffixes '(".elc" ".pyc")
-               projectile-switch-project-action 'projectile-dired
+               projectile-switch-project-action 'helm-projectile-find-file
                projectile-mode-line nil)
          :config
          (projectile-discover-projects-in-directory "~/git")
@@ -909,16 +874,41 @@
     #+name: languages
     #+BEGIN_SRC emacs-lisp
       (use-package lsp-python
-        :disabled t
+        ;; :disabled t
         :after lsp-mode
         :config
         (add-hook 'python-mode-hook #'lsp-python-enable))
     #+END_SRC
+**** lsp-mode
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :hook (python-mode . lsp-mode))
+#+END_SRC
+**** company-lsp
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package company-lsp
+    :hook
+    (python-mode .  (lambda ()
+                   (set (make-local-variable 'company-backends)
+                        '((company-lsp company-files company-dabbrev)))))
+    :config
+    (setq company-lsp-async t))
+#+END_SRC
+**** lsp-ui
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-ui
+    :config
+    :hook (lsp-mode . lsp-ui-mode))
+#+END_SRC
 **** anaconda-mode
      Navigation, documentation, and linting for Python
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package anaconda-mode
+         :disabled t
          :delight ""
          :hook
          ((python-mode . anaconda-mode)
@@ -926,13 +916,14 @@
           (python-mode . (lambda ()
                            (set (make-local-variable 'company-backends)
                                 '((company-anaconda company-dabbrev company-dabbrev-code company-etags company-files))))))
-         :pin melpa-stable)
+         :pin melpa)
      #+END_SRC
 **** company-anaconda
      Completion for python
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package company-anaconda
+         :disabled t
          :defer t
          :after company
          :commands (company-anaconda)
@@ -1356,98 +1347,98 @@
 
        (evil-leader "" '(:ignore t :wk "Evil"))
        (global-leader "" '(nil :wk "Leader")
-                      "f" '(:ignore t :wk "Find")
-                      "g" '(:ignore t :wk "Git")
-                      "s" '(:ignore t :wk "Shell")
-                      "p" '(:ignore t :wk "Projectile")
-                      "d" '(:ignore t :wk "Dired")
-                      "b" '(:ignore t :wk "Buffers")
-                      "e" '(:ignore t :wk "Eval")
-                      "h" '(:ignore t :wk "Help")
-                      "w" '(:ignore t :wk "Window")
-                      "j" '(:ignore t :wk "Jump")
-                      "o" '(:ignore t :wk "Org")
-                      "q" 'evil-quit)
+         "f" '(:ignore t :wk "Find")
+         "g" '(:ignore t :wk "Git")
+         "s" '(:ignore t :wk "Shell")
+         "p" '(:ignore t :wk "Projectile")
+         "d" '(:ignore t :wk "Dired")
+         "b" '(:ignore t :wk "Buffers")
+         "e" '(:ignore t :wk "Eval")
+         "h" '(:ignore t :wk "Help")
+         "w" '(:ignore t :wk "Window")
+         "j" '(:ignore t :wk "Jump")
+         "o" '(:ignore t :wk "Org")
+         "q" 'evil-quit)
        (buffer-leader "d" 'kill-this-buffer
-                      "s" 'evil-write
-                      "n" 'evil-buffer-new
-                      "b" 'helm-mini)
+         "s" 'evil-write
+         "n" 'evil-buffer-new
+         "b" 'helm-mini)
        (dir-leader "d" 'dired)
        (help-leader "f" 'describe-function
-                    "k" 'describe-key
-                    "w" 'helm-man-woman
-                    "v" 'describe-variable
-                    "p" 'describe-package
-                    "a" 'describe-face
-                    "m" 'describe-mode)
+         "k" 'describe-key
+         "w" 'helm-man-woman
+         "v" 'describe-variable
+         "p" 'describe-package
+         "a" 'describe-face
+         "m" 'describe-mode)
        (find-leader "r" 'helm-recentf
-                    "o" 'helm-semantic-or-imenu
-                    "O" 'helm-etags-select
-                    "g" 'helm-do-ag
-                    "G" 'helm-google-suggest
-                    "f" 'helm-find-files
-                    "l" 'helm-swoop)
+         "o" 'helm-semantic-or-imenu
+         "O" 'helm-etags-select
+         "g" 'helm-do-ag
+         "G" 'helm-google-suggest
+         "f" 'helm-find-files
+         "l" 'helm-swoop)
        (projectile-leader "g" 'helm-projectile-ag
-                          "r" 'helm-projectile-recentf
-                          "d" 'helm-projectile-find-dir
-                          "f" 'helm-projectile-find-file
-                          "s" 'helm-projectile-switch-project
-                          "o" 'projectile-find-tag)
+         "r" 'helm-projectile-recentf
+         "d" 'helm-projectile-find-dir
+         "f" 'helm-projectile-find-file
+         "s" 'helm-projectile-switch-project
+         "o" 'projectile-find-tag)
        (git-leader "g" 'magit
-                   "b" 'magit-blame
-                   "p" 'git-gutter:previous-hunk
-                   "n" 'git-gutter:next-hunk)
+         "b" 'magit-blame
+         "p" 'git-gutter:previous-hunk
+         "n" 'git-gutter:next-hunk)
        (org-leader "c" 'org-capture
-                   "a" 'org-agenda
-                   "l" 'kyle/position-to-kill-ring)
+         "a" 'org-agenda
+         "l" 'kyle/position-to-kill-ring)
        (window-leader "s" 'evil-window-split
-                      "v" 'evil-window-vsplit
-                      "o" 'delete-other-windows
-                      "i" 'imenu-list-minor-mode
-                      "d" 'evil-window-delete
-                      "t" 'neotree-toggle)
+         "v" 'evil-window-vsplit
+         "o" 'delete-other-windows
+         "i" 'imenu-list-minor-mode
+         "d" 'evil-window-delete
+         "t" 'neotree-toggle)
        (eval-leader "e" 'eldoc-eval-expression
-                    "s" 'shell-command
-                    "f" 'load-file
-                    "o" 'org-babel-load-file
-                    "l" 'eval-last-sexp)
+         "s" 'shell-command
+         "f" 'load-file
+         "o" 'org-babel-load-file
+         "l" 'eval-last-sexp)
        (shell-leader "e" 'eshell
-                     "s" 'shell
-                     "a" 'ansi-term)
+         "s" 'shell
+         "a" 'ansi-term)
 
        ;; HERESY: universal argument is bound to C-f. We need C-u for scrolling.
        (general-def universal-argument-map
          "C-f" 'universal-argument-more)
        ;; non-prefix motion state
        (general-mmap "gl" 'evil-avy-goto-line
-                     "gs" 'evil-avy-goto-char-2
-                     "gD" 'dumb-jump-go
-                     "C-f" 'universal-argument
-                     "g C-]" 'xref-find-definitions)
+         "gs" 'evil-avy-goto-char-2
+         "gD" 'dumb-jump-go
+         "C-f" 'universal-argument
+         "g C-]" 'xref-find-definitions)
 
-     ;; non-prefix global
+       ;; non-prefix global
        (general-def "C-f" 'universal-argument
-                    "M-f" 'toggle-frame-fullscreen
-                    "M-x" 'helm-M-x
-                    "M-y" 'helm-show-kill-ring
-                    "C-x b" 'helm-mini
-                    "C-x C-b" 'helm-buffers-list
-                    "C-x C-f" 'helm-find-files
-                    "C-x C-r" 'helm-recent
-                    "C-x c o" 'helm-occur
-                    "C-M-n" 'helm-next-source
-                    "C-M-p" 'helm-previous-source
-                    "C-h b" 'helm-descbinds
-                    "M-v" 'evil-paste-after
-                    "C-u" 'evil-scroll-up
-                    "M-m" 'suspend-frame
-                    "A-h" 'evil-window-left
-                    "A-l" 'evil-window-right
-                    "A-j" 'evil-window-down
-                    "A-k" 'evil-window-up
-                    "M--" 'text-scale-decrease
-                    "M-=" 'text-scale-increase
-                    "C-;" 'helm-M-x)
+         "M-f" 'toggle-frame-fullscreen
+         "M-x" 'helm-M-x
+         "M-y" 'helm-show-kill-ring
+         "C-x b" 'helm-mini
+         "C-x C-b" 'helm-buffers-list
+         "C-x C-f" 'helm-find-files
+         "C-x C-r" 'helm-recent
+         "C-x c o" 'helm-occur
+         "C-M-n" 'helm-next-source
+         "C-M-p" 'helm-previous-source
+         "C-h b" 'helm-descbinds
+         "M-v" 'evil-paste-after
+         "C-u" 'evil-scroll-up
+         "M-m" 'suspend-frame
+         "A-h" 'evil-window-left
+         "A-l" 'evil-window-right
+         "A-j" 'evil-window-down
+         "A-k" 'evil-window-up
+         "M--" 'text-scale-decrease
+         "M-=" 'text-scale-increase
+         "C-;" 'helm-M-x)
        ;; helm mappings
        (general-def '(normal visual) helm-map
          "TAB" 'helm-execute-persistent-action

@@ -317,7 +317,6 @@ timeshell() {
   for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
 }
 
-
 pf() {
   fd && ff
 }
@@ -334,21 +333,17 @@ redraw-prompt() {
     done
     zle reset-prompt
 }
-zle -N redraw-prompt
+# zle -N redraw-prompt
 
 # browse files in a new pane
 range() {
   tmux split-window -c "#{pane_current_path}" "ranger"
 }
-zle -N range
-bindkey '^[b' range
 
 # fuzzy sshs into known hosts
 sshs() {
   ~/.scripts/sshs -m
 }
-zle -N sshs
-bindkey '^[s' sshs
 
 # fuzzy checkout a git branch
 fb() {
@@ -359,8 +354,8 @@ fb() {
     git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
     zle && { zle reset-prompt; zle -R }
 }
-zle -N fb
-bindkey '^[g' fb
+
+
 
 # Recent directory search and edit
 #   - CTRL-o    open with `open` command
@@ -385,10 +380,8 @@ recentdir() {
             cd "$dir"
         fi
     fi
-    zle redraw-prompt
+    # zle redraw-prompt
 }
-zle -N recentdir
-bindkey '^[d' recentdir
 
 # Edit a frecent file
 fr() {
@@ -414,8 +407,6 @@ fr() {
       fi
   fi
 }
-zle -N fr
-bindkey '^[r' fr
 
 findfile() {
   local out file key
@@ -439,8 +430,6 @@ findfile() {
       fi
   fi
 }
-zle -N findfile
-bindkey '^[f' findfile
 
 # fzf based process killer
 fkill() {
@@ -451,5 +440,3 @@ fkill() {
         kill -${1:-9} $pid
     fi
 }
-zle -N fkill
-bindkey '^[p' fkill
