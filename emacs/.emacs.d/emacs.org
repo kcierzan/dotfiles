@@ -889,12 +889,11 @@
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package company-lsp
+    :init (setq company-lsp-async nil)
     :hook
-    (python-mode .  (lambda ()
-                   (set (make-local-variable 'company-backends)
-                        '((company-lsp company-files company-dabbrev)))))
-    :config
-    (setq company-lsp-async t))
+    (python-mode . (lambda ()
+                     (set (make-local-variable 'company-backends)
+                          '((company-lsp company-files company-dabbrev))))))
 #+END_SRC
 **** lsp-ui
 #+name: languages
