@@ -511,20 +511,20 @@ nnoremap <silent> <leader>gu :GitGutterUndoHunk<CR>
 nnoremap <silent> <leader>gp :GitGutterPreviewHunk<CR>
 
 "--------FZF-----------
-nnoremap <silent> <C-space>f :GFiles<CR>
-nnoremap <silent> <C-space>a :Files<CR>
-nnoremap <silent> <C-space>h :Helptags<CR>
-nnoremap <silent> <C-space>b :Buffers<CR>
-nnoremap <silent> <C-space>l :BLines<CR>
-nnoremap <silent> <C-space>r :HHistory<CR>
-nnoremap <silent> <C-space>g :Rg<CR>
-nnoremap <silent> <C-space>t :Filetypes<CR>
-nnoremap <silent> <C-space>c :Colors<CR>
-nnoremap <silent> <C-space>O :Tags<CR>
-nnoremap <silent> <C-space>o :BTags<CR>
-nnoremap <silent> <C-space>e :Commands<CR>
-nnoremap <silent> <C-space>p :GGrep<CR>
-nnoremap <silent> <C-space>d :Cd<CR>
+nnoremap <silent> <leader>ff :GFiles<CR>
+nnoremap <silent> <leader>fa :Files<CR>
+nnoremap <silent> <leader>fh :Helptags<CR>
+nnoremap <silent> <leader>fb :Buffers<CR>
+nnoremap <silent> <leader>fl :BLines<CR>
+nnoremap <silent> <leader>fr :HHistory<CR>
+nnoremap <silent> <leader>fg :Rg<CR>
+nnoremap <silent> <leader>ft :Filetypes<CR>
+nnoremap <silent> <leader>fc :Colors<CR>
+nnoremap <silent> <leader>fO :Tags<CR>
+nnoremap <silent> <leader>fo :BTags<CR>
+nnoremap <silent> <leader>fe :Commands<CR>
+nnoremap <silent> <leader>fp :GGrep<CR>
+nnoremap <silent> <leader>fd :Cd<CR>
 "
 " Clear search highlight
 nnoremap <leader>c :nohlsearch<CR>

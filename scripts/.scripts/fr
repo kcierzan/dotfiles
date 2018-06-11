@@ -2,7 +2,7 @@
 
 IFS=$'\n'
 out=($(gsed '1d' ~/.cache/neomru/file |
-        fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:75% --preview '[[ $(file --mime {}) =~ binary ]] &&
+        fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
                   echo {} is a binary file ||
                   (highlight -O ansi -l {} ||
                   pygmentize -g {} ||
@@ -17,7 +17,7 @@ if [ -n "$file" ]; then
     elif [ "$key" = ctrl-v ]; then
         code "$file"
     else
-        nvim "$file"
+        $EDITOR "$file"
     fi
 fi
 unset out
