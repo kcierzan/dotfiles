@@ -96,7 +96,6 @@
                               (setq line-spacing 2)
                               (company-mode 0)
                               (setq truncate-lines nil)
-                              ;; (set-face-attribute 'default nil :family "Bitter")
                               (set-face-attribute 'org-link nil :underline t)
                               (mapc (lambda (face)
                                       (set-face-attribute face nil :family monospace-font))
@@ -130,7 +129,7 @@ for the current buffer's file name, and the line number at point."
                                (ruby . t)))
 (setq org-confirm-babel-evaluate nil))
 
-;; We are going to use evil-collection instead
+;; evil-collection will handle evil compatibility
 (setq evil-want-integration nil)
 
 ;; needed to source symlinked emacs.org

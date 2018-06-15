@@ -889,7 +889,8 @@
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package company-lsp
-    :init (setq company-lsp-async nil)
+    :disabled t
+    :init (setq company-lsp-async t)
     :hook
     (python-mode . (lambda ()
                      (set (make-local-variable 'company-backends)
@@ -907,7 +908,7 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package anaconda-mode
-         :disabled t
+         ;; :disabled t
          :delight ""
          :hook
          ((python-mode . anaconda-mode)
@@ -922,8 +923,7 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package company-anaconda
-         :disabled t
-         :defer t
+         ;; :disabled t
          :after company
          :commands (company-anaconda)
          :pin melpa)
