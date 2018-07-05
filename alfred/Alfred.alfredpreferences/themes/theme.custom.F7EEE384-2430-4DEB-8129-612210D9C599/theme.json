@@ -3,30 +3,30 @@
     "result" : {
       "textSpacing" : 5,
       "subtext" : {
-        "size" : 14,
+        "size" : 12,
         "colorSelected" : "#8BBE5DFF",
         "font" : "SFMono Nerd Font",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
-        "size" : 24,
+        "size" : 22,
         "colorSelected" : "#FFFFFFFF",
         "font" : "SFMono Nerd Font",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
-        "size" : 25,
+        "size" : 21,
         "colorSelected" : "#51AEEEFF",
         "font" : "San Francisco Display",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 15,
+      "paddingVertical" : 7,
       "iconSize" : 40
     },
     "search" : {
-      "paddingVertical" : 7,
+      "paddingVertical" : 8,
       "background" : "#272B33FF",
       "spacing" : 8,
       "text" : {
@@ -40,11 +40,11 @@
     "window" : {
       "color" : "#272B33FF",
       "paddingHorizontal" : 0,
-      "width" : 750,
+      "width" : 634,
       "borderPadding" : 0,
       "borderColor" : "#0000007F",
       "blur" : 15,
-      "roundness" : 5,
+      "roundness" : -53,
       "paddingVertical" : 9
     },
     "credit" : "Kyle Cierzan",

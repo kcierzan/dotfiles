@@ -54,7 +54,7 @@
             (width . 200) (height . 60)))
 
     (add-hook 'window-setup-hook '(lambda ()
-                                    (set-face-attribute 'default nil :height 140)))
+                                    (set-face-attribute 'default nil :height 130)))
     ;; don't warn about theme loading
     (use-package custom
       :ensure nil
@@ -315,7 +315,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package eshell-prompt-extras
        :after esh-opt
-       :defer 4
+       :defer 3
        :config
        (autoload 'epe-theme-dakrone "eshell-prompt-extras")
        (setq eshell-highlight-prompt nil
@@ -332,11 +332,9 @@
    #+BEGIN_SRC emacs-lisp
      (use-package esh-autosuggest
        :hook (eshell-mode . esh-autosuggest-mode))
-
      ;; Autocomplete for git commands in shell and the git command from magit
      (use-package pcmpl-git
        :after pcomplete)
-
      (use-package pcmpl-pip
        :after pcomplete)
    #+END_SRC
@@ -437,8 +435,8 @@
                                                   try-complete-lisp-symbol-partially
                                                   try-complete-lisp-symbol)))
      #+END_SRC
-**** eglot
-     #+name: programming
+**** +name
+     #eglot: programming
      #+BEGIN_SRC emacs-lisp
        (use-package eglot
          :commands (eglot eglot-reconnect eglot-rename eglot-help-at-point eglot-events-buffer))
@@ -514,7 +512,7 @@
          (setq sp-autowrap-region nil
                sp-highlight-pair-overlay nil
                sp-autoskip-on-backward-movement nil
-               sp-show-pair-delay 0
+               sp-show-pair-delay 0.2
                sp-max-pair-length 3))
      #+END_SRC
 **** undo-tree
@@ -575,7 +573,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package exec-path-from-shell
-         ;; :defer 5
          :pin melpa
          :config
          (when (memq window-system '(mac ns x))
@@ -746,20 +743,6 @@
          :config
          (sublimity-mode 1))
      #+END_SRC
-**** dashboard
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       (use-package dashboard
-         :disabled t
-         :init
-         (setq dashboard-banner-logo-title "Welcome to Emacs")
-         (setq dashboard-startup-banner "~/.emacs.d/emacs.png")
-         (setq dashboard-items '((agenda . 5)
-                                 (recents  . 5)
-                                 (projects . 5)))
-         :config
-         (dashboard-setup-startup-hook))
-     #+END_SRC
 **** diminish
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -781,15 +764,21 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package color-identifiers-mode
+         :delight ""
          :hook (after-init . global-color-identifiers-mode))
      #+END_SRC
+**** shackle
+#+name: interface
+#+BEGIN_SRC emacs-lisp
+  (use-package shackle)
+#+END_SRC
 ** Themes
 **** doom-themes
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package doom-themes
          :pin melpa
-         :disabled t
+         ;; :disabled t
          :init
          (setq doom-themes-enable-bold t
                doom-themes-enable-italic t)
@@ -803,8 +792,7 @@
        (use-package solarized-theme
          :disabled t
          :config
-         (load-theme 'solarized-dark t)
-         )
+         (load-theme 'solarized-dark t))
      #+END_SRC
 **** moe-theme
      #+BEGIN_SRC emacs-lisp
@@ -820,7 +808,7 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package base16-theme
-         ;; :disabled t
+         :disabled t
          :config
          (load-theme 'base16-monokai t))
      #+END_SRC
@@ -828,15 +816,34 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package spaceline
+         :disabled t
          :init
-         (setq-default powerline-height 26)
+         (setq-default powerline-height 24)
          (setq powerline-default-separator 'wave)
          (setq spaceline-minor-modes-separator " | ")
          :config
          (spaceline-helm-mode 1)
          (setq spaceline-evil-state-p nil)
          (spaceline-spacemacs-theme))
+         ;;(set-face-attribute 'powerline-active1 nil :background nil :foreground nil :inherit 'highlight :family nerd-font)
+         ;;(set-face-attribute 'powerline-active2 nil :background (face-attribute 'fringe :foreground) :inherit nil)
+         ;;(set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'fringe :foreground) :inherit nil :family nerd-font)
+         ;;(set-face-attribute 'mode-line nil :background (face-attribute 'shadow :background) :inherit nil :family nerd-font)
+         ;;(set-face-attribute 'spaceline-highlight-face nil :background (face-attribute 'org-code :foreground) :family nerd-font))
      #+END_SRC
+**** doom-modeline
+#+name: interface
+#+BEGIN_SRC emacs-lisp
+  (use-package shrink-path)
+  (use-package eldoc-eval)
+  (use-package doom-modeline
+    ;; :disabled t
+    :defer t
+    :requires (shrink-path eldoc-eval)
+    :init
+    (setq doom-modeline-height 36)
+    :hook (after-init . doom-modeline-init))
+#+END_SRC
 **** eziam-theme
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -870,7 +877,6 @@
      #+END_SRC
 *** Python
 **** python-lsp
-     This seems broken at the moment
     #+name: languages
     #+BEGIN_SRC emacs-lisp
       (use-package lsp-python
@@ -883,9 +889,11 @@
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
+    :delight ""
     :hook (python-mode . lsp-mode))
 #+END_SRC
 **** company-lsp
+This is unusably slow as of 06/21/18
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package company-lsp
@@ -915,7 +923,7 @@
           (python-mode . anaconda-eldoc-mode)
           (python-mode . (lambda ()
                            (set (make-local-variable 'company-backends)
-                                '((company-anaconda company-dabbrev company-dabbrev-code company-etags company-files))))))
+                                '((company-anaconda company-dabbrev company-dabbrev-code company-files))))))
          :pin melpa)
      #+END_SRC
 **** company-anaconda
@@ -1116,7 +1124,7 @@
         (setq emmet-move-cursor-between-quotes t))
     #+END_SRC
 *** Org
-    N.B. - Org-mode itself is configured and loaded in `init.el`
+N.B. - Org-mode itself is configured and loaded in `init.el`
 **** org-bullets
      Use UTF-8 symbols for org headings
      #+name: languages
@@ -1202,10 +1210,6 @@
          :pin melpa
          :after helm
          :config
-         ;; ripgrep breaks helm-projectile which hardcodes a "--ignore" flag :(
-         ;; (setq helm-ag-base-command "rg --vimgrep --no-heading --smart-case"))
-         ;; (setq helm-ag-base-command "ag --nocolor --nogroup --hidden")
-
          ;; references a wrapper script that removes the --ignore flag helm-projectile tries pass to rg
          (setq helm-ag-base-command "emacs-rg --vimgrep --no-heading --smart-case"))
      #+END_SRC
@@ -1213,20 +1217,7 @@
      #+name: helm
      #+BEGIN_SRC emacs-lisp
        (use-package helm-projectile
-         ;; :disabled t
-         ;; fuzzy matching makes helm slightly slower
-         ;; :init (setq helm-projectile-fuzzy-match nil)
          :after (projectile)
-         :config
-         ;; (defadvice helm-projectile-on (around exlude-tramp activate)
-         ;;   "This should disable projectile when visiting a remote file"
-         ;;   (unless  (--any? (and it (file-remote-p it))
-         ;;                    (list
-         ;;                     (buffer-file-name)
-         ;;                     list-buffers-directory
-         ;;                     default-directory
-         ;;                     dired-directory))
-         ;;     ad-do-it))
          :commands
          (helm-projectile-ag
           helm-projectile-recentf
@@ -1247,7 +1238,7 @@
                helm-swoop-use-fuzzy-match 1)
          (setq-default helm-swoop-split-direction 'split-window-vertically)
          (setq-default helm-swoop-split-with-multiple-windows t)
-         ;; disable swoop-thing-at-point
+         ;; disable default behavior of swooping-thing-at-point
          (setq helm-swoop-pre-input-function
                (lambda () "")))
      #+END_SRC
@@ -1262,7 +1253,7 @@
          :init (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
      #+END_SRC
 ** Keys
-   Unified system for doing all sorts of keybinding stuff
+   General provides some nice macros for dealing with evil keybindings
    #+name: keys
    #+BEGIN_SRC emacs-lisp
      (use-package general
@@ -1314,6 +1305,11 @@
          :keymaps 'override
          :states '(normal visual motion))
 
+       (general-create-definer insert-leader
+         :prefix "SPC i"
+         :keymaps 'override
+         :states '(normal visual motion))
+
        (general-create-definer window-leader
          :prefix "SPC w"
          :keymaps 'override
@@ -1344,7 +1340,18 @@
          :keymaps 'override
          :states '(normal visual motion))
 
+       (general-create-definer next-leader
+         :prefix "SPC ]"
+         :keymaps 'override
+         :states '(normal visual motion))
+
+       (general-create-definer previous-leader
+         :prefix "SPC ["
+         :keymaps 'override
+         :states '(normal visual motion))
+
        (evil-leader "" '(:ignore t :wk "Evil"))
+
        (global-leader "" '(nil :wk "Leader")
          "f" '(:ignore t :wk "Find")
          "g" '(:ignore t :wk "Git")
@@ -1354,12 +1361,17 @@
          "b" '(:ignore t :wk "Buffers")
          "e" '(:ignore t :wk "Eval")
          "h" '(:ignore t :wk "Help")
+         "i" '(:ignore t :wk "Insert")
          "w" '(:ignore t :wk "Window")
          "j" '(:ignore t :wk "Jump")
          "o" '(:ignore t :wk "Org")
+         "]" '(:ignore t :wk "Next")
+         "[" '(:ignore t :wk "Previous")
+         "u" 'universal-argument
          "q" 'evil-quit)
        (buffer-leader "d" 'kill-this-buffer
          "s" 'evil-write
+         "r" 'rename-buffer
          "n" 'evil-buffer-new
          "b" 'helm-mini)
        (dir-leader "d" 'dired)
@@ -1372,9 +1384,11 @@
          "m" 'describe-mode)
        (find-leader "r" 'helm-recentf
          "o" 'helm-semantic-or-imenu
-         "O" 'helm-etags-select
+         "t" 'helm-etags-select
+         "O" 'helm-imenu-in-all-buffers
          "g" 'helm-do-ag
          "G" 'helm-google-suggest
+         "L" 'helm-locate
          "f" 'helm-find-files
          "l" 'helm-swoop)
        (projectile-leader "g" 'helm-projectile-ag
@@ -1392,22 +1406,36 @@
          "l" 'kyle/position-to-kill-ring)
        (window-leader "s" 'evil-window-split
          "v" 'evil-window-vsplit
+         "t" 'toggle-truncate-lines
+         "w" 'switch-window
+         "a" 'text-scale-adjust
          "o" 'delete-other-windows
+         "f" 'toggle-frame-fullscreen
          "i" 'imenu-list-minor-mode
          "d" 'evil-window-delete
-         "t" 'neotree-toggle)
+         "e" 'neotree-toggle)
        (eval-leader "e" 'eldoc-eval-expression
          "s" 'shell-command
          "f" 'load-file
          "o" 'org-babel-load-file
          "l" 'eval-last-sexp)
+       (next-leader "]" 'text-scale-increase
+         "d" 'git-gutter:next-hunk
+         "e" 'next-error
+         "s" 'evil-next-flyspell-error)
+       (previous-leader "[" 'text-scale-decrease
+         "d" 'git-gutter:previous-hunk
+         "e" 'previous-error
+         "s" 'evil-prev-flyspell-error)
+       (insert-leader "i" 'helm-show-kill-ring)
        (shell-leader "e" 'eshell
          "s" 'shell
          "a" 'ansi-term)
 
-       ;; HERESY: universal argument is bound to C-f. We need C-u for scrolling.
+       ;; HERESY: universal argument is bound to SPC-u. We need C-u for scrolling.
        (general-def universal-argument-map
-         "C-f" 'universal-argument-more)
+         "u" 'universal-argument-more)
+
        ;; non-prefix motion state
        (general-mmap "gl" 'evil-avy-goto-line
          "gs" 'evil-avy-goto-char-2
@@ -1416,9 +1444,7 @@
          "g C-]" 'xref-find-definitions)
 
        ;; non-prefix global
-       (general-def "C-f" 'universal-argument
-         "M-f" 'toggle-frame-fullscreen
-         "M-x" 'helm-M-x
+       (general-def "M-x" 'helm-M-x
          "M-y" 'helm-show-kill-ring
          "C-x b" 'helm-mini
          "C-x C-b" 'helm-buffers-list
@@ -1431,21 +1457,12 @@
          "M-v" 'evil-paste-after
          "C-u" 'evil-scroll-up
          "M-m" 'suspend-frame
-         "A-h" 'evil-window-left
-         "A-l" 'evil-window-right
-         "A-j" 'evil-window-down
-         "A-k" 'evil-window-up
-         "M--" 'text-scale-decrease
-         "M-=" 'text-scale-increase
-         "C-;" 'helm-M-x)
+         "C-;" 'helm-M-x
+         "A-x" 'helm-M-x)
        ;; helm mappings
        (general-def '(normal visual) helm-map
          "TAB" 'helm-execute-persistent-action
          "A-SPC" 'helm-toggle-visible-mark)
-       ;; eshell
-       (with-eval-after-load 'eshell
-         (general-def 'insert 'eshell-mode-map 'evil-collection-eshell-maps
-           "TAB" 'completion-at-point))
        ;; nosetests
        (general-def '(normal visual) python-mode-map
          "C-c a" 'nosetest-all
@@ -1459,10 +1476,13 @@
        ;; window split orientation
        (general-def '(normal visual)
          "C-w R" 'kyle/toggle-window-split)
+       (add-hook 'eshell-mode-hook '(lambda ()
+                                      (general-define-key :keymaps 'eshell-mode-map
+                                                          :states '(insert normal)
+                                                          "C-SPC" 'completion-at-point
+                                                          "C-r" 'helm-eshell-history)))
        (general-def 'insert
-         "M-/" 'hippie-expand)
-       (general-def '(normal visual)
-         "C-w a" 'switch-window))
+         "C-SPC" 'hippie-expand))
    #+END_SRC
 ** Packages
 **** paradox
@@ -1496,6 +1516,12 @@
            (define-key evil-motion-state-map "s" 'evil-avy-goto-char-2)
            (define-key evil-normal-state-map "s" 'evil-avy-goto-char-2)))
      #+END_SRC
+**** evil-anzu
+#+name: evil
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-anzu
+    :after evil)
+#+END_SRC
 **** evil-collection
      Enable evil everywhere
      #+name: evil
@@ -1617,11 +1643,6 @@
    #+name: final
    #+BEGIN_SRC emacs-lisp
      (load custom-file)
-     (set-face-attribute 'powerline-active1 nil :background nil :foreground nil :inherit 'highlight :family nerd-font)
-     (set-face-attribute 'powerline-active2 nil :background (face-attribute 'fringe :foreground) :inherit nil)
-     (set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'fringe :foreground) :inherit nil :family nerd-font)
-     (set-face-attribute 'mode-line nil :background (face-attribute 'shadow :background) :inherit nil :family nerd-font)
-     (set-face-attribute 'spaceline-highlight-face nil :background (face-attribute 'org-code :foreground) :family nerd-font)
      (set-face-attribute 'font-lock-string-face nil :family string-font)
      (set-face-attribute 'org-verbatim nil :family monospace-font)
      (set-face-attribute 'variable-pitch nil :family variable-pitch-font)

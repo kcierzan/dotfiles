@@ -61,7 +61,7 @@ au FocusGained,BufEnter * :silent! !
 au FocusLost,WinLeave * :silent! w
 
 " Virtualenv for python-dependent plugins
-let g:python3_host_prog = $HOME . '/.virtualenvs/neovim/bin/python3'
+let g:python3_host_prog = $HOME . '/.pyenv/versions/neovim3/bin/python3'
 
 "autocmds
 autocmd BufNewFile,BufRead *.py
@@ -136,12 +136,13 @@ autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
 
 "vim-tmux-navigator
 " Map alt + hjkl to navigation
+"TODO: why doesn't this work on linux?
 let g:tmux_navigator_no_mappings = 1
-Plug 'christoomey/vim-tmux-navigator'      " Vim Tmux navigation harmony
+Plug 'christoomey/vim-tmux-navigator'
 
 "nvim-completion-manager
-Plug 'roxma/nvim-completion-manager'
-set shortmess+=c
+" Plug 'roxma/nvim-completion-manager'
+" set shortmess+=c
 
 "ALE
 Plug 'w0rp/ale'
@@ -168,7 +169,7 @@ let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
 " let g:ale_python_flake8_executable = $HOME . '/.virtualenvs/neovim/bin/flake8'
-let g:ale_vim_vint_executable = $HOME . '/.virtualenvs/neovim/bin/vint'
+let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/neovim3/bin/vint'
 " let g:ale_python_pylint_executable = $HOME . '/.virtualenvs/neovim/bin/pylint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
 let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
@@ -178,6 +179,7 @@ let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['✖ %d', '⚠ %d', '']
 let g:ale_warn_about_trailing_whitespace = 1
 let g:ale_lint_on_text_changed = 'normal'
+let g:ale_set_highlights = 0
 highlight ALEErrorSign ctermfg=1
 highlight ALEWarningSign ctermfg=3
 
@@ -258,7 +260,6 @@ Plug 'Shougo/neosnippet-snippets'          " Snippet collection
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
 let g:AutoPairsMapCR = 0
-let g:deoplete#auto_complete_start_length = 1
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
@@ -302,12 +303,12 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
 Plug 'davidhalter/jedi-vim'
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#use_splits_not_buffers = 1
-let g:jedi#goto_command = 'gd'
+" let g:jedi#goto_command = 'gd'
 let g:jedi#goto_assignments_command = ""
 let g:jedi#goto_definitions_command = ""
 let g:jedi#goto_usages_command = 'gn'
 let g:jedi#completions_command = ""
-let g:jedi#rename_command = 'gr'
+" let g:jedi#rename_command = 'gr'
 let g:jedi#documentation_command = "gk"
 let g:jedi#completions_enabled = 0
 
@@ -361,11 +362,42 @@ Plug 'haya14busa/vim-keeppad'              " keep padding when line nums go away
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
 Plug 'wesQ3/vim-windowswap'                " swap windows around
-Plug 'jreybert/vimagit'                     " magit for vim
+Plug 'jreybert/vimagit'                    " magit for vim
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
+
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    \ 'python': ['pyls'],
+    \ }
+
+Plug 'airblade/vim-rooter'
+let g:rooter_use_lcd = 1
+let g:rooter_resolve_links = 1
+let g:rooter_silent_chdir = 1
+
+" Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
 call plug#end()
 
 syntax enable
-set background=dark
+set background=light
 colorscheme termina
 
 " Keep search results in the center of the screen
@@ -487,12 +519,13 @@ nnoremap <Leader>ni :PlugInstall<CR>
 nnoremap <Leader>nc :PlugClean<CR>
 
 "-------Extensions-------------------
-nnoremap <leader>el :Limelight<CR>
-nnoremap <leader>eL :Limelight!<CR>
+nnoremap <leader>eh :Limelight<CR>
+nnoremap <leader>eH :Limelight!<CR>
 nnoremap <leader>ez :Goyo<CR>
 nnoremap <leader>eu :UndotreeToggle<CR>
 nnoremap <leader>ea :ALEToggle<CR>
 nnoremap <leader>et :TagbarToggle<CR>
+nnoremap <leader>el :call LanguageClient_contextMenu()<CR>
 
 "-------Test-----------------
 nnoremap <silent> <leader>tn :TestNearest<CR>

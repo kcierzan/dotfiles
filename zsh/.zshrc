@@ -9,9 +9,10 @@ if [[ $TERM == "dumb" ]]; then
     unsetopt zle
     unsetopt prompt_cr
     unsetopt prompt_subst
-    unfunction precmd
-    unfunction preexec
-    PS1='❯ '
+    # unfunction precmd
+    # unfunction preexec
+    # PS1="\w \n ❯ "
+    PS1="%(?..[%?])%~ ❯ "
 else
 
 # source prezto
@@ -29,6 +30,7 @@ else
 
 fi
 
+# load fasd
 fasd_cache="$HOME/.fasd-init-cache"
 if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
   fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install >| "$fasd_cache"
@@ -36,16 +38,17 @@ fi
 source "$fasd_cache"
 unset fasd_cache
 
+# lazy load rbenv
 rbenv() { eval "$( command rbenv init - --no-rehash )" && rbenv "$@" }
 
-# Lazy load pyenv-virtualenv
+# lazy load pyenv-virtualenv
 pyenv-virtualenv-init() {
     eval "$( command pyenv virtualenv-init - )"
     pyenv-virtualenv-init "$@"
 }
 
 # Defer initialization of nvm until nvm, node or a node-dependent command is
-# run. Ensure this block is only run once if .bashrc gets sourced multiple times
+# run. Ensure this block is only run once if .zshrc gets sourced multiple times
 # by checking whether __init_nvm is a function.
 if [ -s "/usr/local/opt/nvm/nvm.sh" ] && [ ! "$(whence -w __init_nvm)" = function ]; then
   export NVM_DIR="$HOME/.nvm"
@@ -65,7 +68,3 @@ fi
 
 source ~/.zsh/aliases.zsh
 source ~/.zsh/extra.zsh
-
-# echo -en "\033]6;1;bg;red;brightness;40\a"
-# echo -en "\033]6;1;bg;green;brightness;44\a"
-# echo -en "\033]6;1;bg;blue;brightness;52\a"
