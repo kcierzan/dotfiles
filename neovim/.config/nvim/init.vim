@@ -277,23 +277,26 @@ let g:comfortable_motion_air_drag = 5.0
 "fzf.vim
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-let g:fzf_layout = { 'right': '~66%' }
+let g:fzf_layout = { 'window': '-tabnew' }
 let g:fzf_buffers_jump = 1
+autocmd! FileType fzf
+autocmd FileType fzf set laststatus=0 noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --line-number --no-heading --color=always '.shellescape(<q-args>), 0,
-  \   fzf#vim#with_preview('right:50%'))
+  \   (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -bang -nargs=* GGrep
   \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0,
-  \ fzf#vim#with_preview('right:50%'))
+  \ (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -bang -nargs=* HHistory
-  \ call fzf#vim#history(fzf#vim#with_preview('right:50%'))
+  \ call fzf#vim#history((winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -bang -nargs=* GFiles
-      \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('right:50%'))
+      \ call fzf#vim#files(<q-args>, (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
   \ {'source': 'gfind '.(empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
@@ -349,6 +352,7 @@ Plug 'mbbill/undotree'                     " undo Tree
 Plug 'moll/vim-bbye'                       " delete and close buffers without closing windows
 Plug 'mkitt/tabline.vim'                   " better looking tabs
 Plug 'tpope/vim-fugitive'                  " git Wrapper
+Plug 'junegunn/gv.vim'                     " git commit browser
 Plug 'sheerun/vim-polyglot'                " lots of language packs
 Plug 'junegunn/vim-easy-align'             " align stuff
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
@@ -394,10 +398,12 @@ let g:rooter_silent_chdir = 1
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
+
+Plug 'lambdalisue/gina.vim'
 call plug#end()
 
 syntax enable
-set background=light
+set background=dark
 colorscheme termina
 
 " Keep search results in the center of the screen
