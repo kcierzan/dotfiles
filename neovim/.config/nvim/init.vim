@@ -5,37 +5,36 @@
 " /_/_/ /_/_/\__(_)___/_/_/ /_/ /_/
 
 scriptencoding utf-8
-set shell=/usr/local/bin/zsh
-set splitright
-set splitbelow
-set showcmd
-set noshowmode
-set noerrorbells
-set number
-set nolazyredraw
-set ttyfast
-set noswapfile
-set cursorline
-set number
-set textwidth=0
-set ignorecase
-set smartcase
-set gdefault
-set scrolloff=3
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
-set nowrap
-set shiftround
-set smartindent
 set autoindent
-set hidden
 set completeopt-=preview
-set pumheight=10
 set conceallevel=2
-set timeoutlen=1000
+set cursorline
+set expandtab
+set gdefault
+set nohidden
+set ignorecase
+set noerrorbells
+set nolazyredraw
+set noshowmode
+set noswapfile
+set nowrap
+set number
+set pumheight=10
+set scrolloff=3
+set shell=/usr/local/bin/zsh
+set shiftround
+set shiftwidth=2
+set showcmd
+set smartcase
+set smartindent
+set softtabstop=2
+set splitbelow
+set splitright
+set tabstop=2
+set textwidth=0
+set timeoutlen=800
 set ttimeoutlen=0
+set ttyfast
 
 " Enable blinking cursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
@@ -74,6 +73,17 @@ autocmd filetype crontab setlocal nobackup nowritebackup
 
 autocmd BufNewFile,BufRead *.thtml
       \ setlocal syntax=phtml
+
+augroup netrw_buf_hidden_fix
+  autocmd!
+
+  " Set all non-netrw buffers to bufhidden=hide
+  autocmd BufWinEnter *
+        \  if &ft != 'netrw'
+        \|     set bufhidden=hide
+        \| endif
+
+augroup end
 
 augroup SwitchPanes
   autocmd WinEnter * set cursorline
@@ -119,10 +129,10 @@ let g:drip_header =
       \ map(g:ascii + g:scroll, '"   ".v:val')
 
 function! s:filter_header(lines) abort
-    let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
-    let centered_lines = map(copy(a:lines),
+  let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
+  let centered_lines = map(copy(a:lines),
         \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
-    return centered_lines
+  return centered_lines
 endfunction
 
 let g:startify_custom_header = s:filter_header(g:drip_header)
@@ -140,16 +150,12 @@ autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
 let g:tmux_navigator_no_mappings = 1
 Plug 'christoomey/vim-tmux-navigator'
 
-"nvim-completion-manager
-" Plug 'roxma/nvim-completion-manager'
-" set shortmess+=c
-
 "ALE
 Plug 'w0rp/ale'
 filetype off
 filetype plugin on
 let g:ale_linters = {
-      \ 'python': ['pylint', 'flake8'],
+      \ 'python': ['pylint', 'flake8', 'pyls'],
       \ 'javascript': ['eslint'],
       \ 'css': ['stylelint'],
       \ 'php': ['phpcs'],
@@ -210,6 +216,48 @@ Plug 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
 let g:gitgutter_max_signs = 5000
 
+function! NextHunkAllBuffers()
+  let line = line('.')
+  GitGutterNextHunk
+  if line('.') != line
+    return
+  endif
+
+  let bufnr = bufnr('')
+  while 1
+    bnext
+    if bufnr('') == bufnr
+      return
+    endif
+    if !empty(GitGutterGetHunks())
+      normal! 1G
+      GitGutterNextHunk
+      return
+    endif
+  endwhile
+endfunction
+
+function! PrevHunkAllBuffers()
+  let line = line('.')
+  GitGutterPrevHunk
+  if line('.') != line
+    return
+  endif
+
+  let bufnr = bufnr('')
+  while 1
+    bprevious
+    if bufnr('') == bufnr
+      return
+    endif
+    if !empty(GitGutterGetHunks())
+      normal! G
+      GitGutterPrevHunk
+      return
+    endif
+  endwhile
+endfunction
+
 "goyo
 Plug 'junegunn/goyo.vim' " Remove distractions
 let g:goyo_width = 100
@@ -221,8 +269,8 @@ function! s:goyo_enter()
   set noshowcmd
   set noshowmode
   set nocursorline
-  nunmap <silent> <leader>
   vunmap <silent> <leader>
+  nunmap <silent> <leader>
   IndentLinesDisable
   ALEDisable
   set nonumber
@@ -281,26 +329,26 @@ let g:fzf_layout = { 'window': '-tabnew' }
 let g:fzf_buffers_jump = 1
 autocmd! FileType fzf
 autocmd FileType fzf set laststatus=0 noshowmode noruler
-    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+      \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --line-number --no-heading --color=always '.shellescape(<q-args>), 0,
-  \   (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
+      \ call fzf#vim#grep(
+      \   'rg --line-number --no-heading --color=always '.shellescape(<q-args>), 0,
+      \   (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -bang -nargs=* GGrep
-  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0,
-  \ (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
+      \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0,
+      \ (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -bang -nargs=* HHistory
-  \ call fzf#vim#history((winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
+      \ call fzf#vim#history((winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -bang -nargs=* GFiles
       \ call fzf#vim#files(<q-args>, (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
-  \ {'source': 'gfind '.(empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
-  \  'sink': 'cd'}))
+      \ {'source': 'gfind '.(empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
+      \  'sink': 'cd'}))
 
 "jedi-vim
 Plug 'davidhalter/jedi-vim'
@@ -343,6 +391,7 @@ let g:python_highlight_all = 1
 
 Plug 'Shougo/neomru.vim'                   " recent files
 Plug 'tpope/vim-vinegar'                   " make netrw better
+Plug 'tpope/vim-eunuch'                    " unix tools
 Plug 'tpope/vim-repeat'                    " use . to repeat some stuff
 Plug 'jiangmiao/auto-pairs'                " automatic deliminters
 Plug 'tpope/vim-surround'                  " surround with brackets, quotes etc
@@ -366,7 +415,8 @@ Plug 'haya14busa/vim-keeppad'              " keep padding when line nums go away
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
 Plug 'wesQ3/vim-windowswap'                " swap windows around
-Plug 'jreybert/vimagit'                    " magit for vim
+Plug 'diepm/vim-rest-console'              " http client
+" Plug 'vimwiki/vimwiki'                     " notes
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -378,33 +428,28 @@ endif
 let g:deoplete#enable_at_startup = 1
 
 Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+      \ 'branch': 'next',
+      \ 'do': 'bash install.sh',
+      \ }
 
+let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['pyls'],
-    \ }
+      \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+      \ 'javascript': ['javascript-typescript-stdio'],
+      \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+      \ 'python': ['pyls'],
+      \ }
 
 Plug 'airblade/vim-rooter'
 let g:rooter_use_lcd = 1
 let g:rooter_resolve_links = 1
 let g:rooter_silent_chdir = 1
 
+let g:windowswap_map_keys = 0
 " Or map each action separately
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
-
-Plug 'lambdalisue/gina.vim'
-call plug#end()
-
-syntax enable
-set background=dark
-colorscheme termina
 
 " Keep search results in the center of the screen
 nmap n nzz
@@ -435,8 +480,8 @@ nnoremap ge :ALENextWrap<CR>
 
 " Show syntax highlight at point
 map gi :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+      \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " Replace f and t with sneak equivalents
 nmap f <Plug>Sneak_f
@@ -451,10 +496,14 @@ nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <M-b> :TmuxNavigatePrevious<cr>
 
-imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
-imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-k>":"")
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
+" imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-k>":"")
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+imap <expr><TAB>
+      \ neosnippet#expandable_or_jumpable() ?
+      \    "\<Plug>(neosnippet_expand_or_jump)" :
+      \ 	  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " H and L move to start and end of lines
 nmap L <Nop>
@@ -482,6 +531,10 @@ nnoremap <C-L> :bnext<CR>
 nnoremap <C-H> :bprev<CR>
 
 " -----Top Level Commands -------
+Plug 'hecal3/vim-leader-guide'
+let g:lmap = {}
+let g:lmap.f = { 'name': 'Find' }
+let g:lmap.t = { 'name': 'Test' }
 " Set leader key
 let mapleader = "\<Space>"
 tnoremap <Esc> <C-\><C-n>
@@ -489,16 +542,33 @@ tnoremap <Esc> <C-\><C-n>
 nnoremap <Leader>q :q<CR>
 " Force close window
 nnoremap <Leader>Q :q!<CR>
-
+let g:lmap.Q = {'name': 'force quit'}
+let g:lmap.q = {'name': 'quit'}
 "------ Windows -------
+let g:lmap.w = { 'name': 'Window',
+      \ 'v': ['vsp', 'split vertical'],
+      \ 's': ['sp', 'split horizontal'],
+      \ 'k': ['<C-w>+', 'increase height'],
+      \ 'j': ['<C-w>-', 'decreate height'],
+      \ 'h': ['<C-w>>', 'decrease width'],
+      \ 'l': ['<C-w><', 'increase width'],
+      \ 'd': ['windo diffthis', 'show diff'],
+      \ 'D': ['windo diffoff', 'hide diff'],
+      \ 'w': ['call WindowSwap#EasyWindowSwap', 'swap window with...'],
+      \ 'r': ['<C-w>r', 'rotate windows'],
+      \ 'o': ['<C-w>o', 'hide other panes'],
+      \ 'e': ['<C-w>e', 'equalize panes'],
+      \ 'V': ['<C-w>H', 'to vertical splits'],
+      \ 'S': ['<C-w>J', 'to horizontal splits']
+      \}
 nnoremap <leader>wv :vsp<CR>
 nnoremap <leader>ws :sp<CR>
 nnoremap <leader>wk 10<C-w>+
 nnoremap <leader>wj 10<C-w>-
 nnoremap <leader>wl 10<C-w>>
 nnoremap <leader>wh 10<C-w><
-nnoremap <leader>wu :windo diffthis<CR>
-nnoremap <leader>wy :windo diffoff<CR>
+nnoremap <leader>wd :windo diffthis<CR>
+nnoremap <leader>wD :windo diffoff<CR>
 nnoremap <leader>wr <C-w>r
 nnoremap <leader>wo <C-w>o
 nnoremap <leader>we <C-w>=
@@ -506,6 +576,23 @@ nnoremap <leader>wV <C-w>H
 nnoremap <leader>wS <C-w>J
 
 "---------Buffers ---------------
+let g:lmap.b = { 'name': 'Buffer',
+      \ 's': ['w', 'write buffer'],
+      \ 'n': ['new', 'new buffer'],
+      \ 'd': ['Bdelete', 'kill buffer'],
+      \ 'D': ['Bdelete!', 'force kill buffer'],
+      \ 'r': ['edit!', 'revert buffer'],
+      \ '%': ['set invrelativenumber', 'relative lines'],
+      \ '#': ['set invnumber', 'toggle line numbers'],
+      \ 'h': ['set invcursorline', 'toggle cursorline'],
+      \ 'i': ['IndentLinesToggle', 'toggle indent lines'],
+      \ 'w': ['Nows', 'whitespace cleanup'],
+      \ 'z': ['Goyo', 'zen mode'],
+      \ 'l': ['Limelight', 'highlight sections on'],
+      \ 'L': ['Limelight!', 'highlight sections off'],
+      \ 'b': ['UndotreeToggle', 'toggle undo tree'],
+      \ 'c': ['nohlsearch', 'clear search highlight'],
+      \}
 nnoremap <Leader>bd :Bdelete<CR>
 nnoremap <Leader>bD :Bdelete!<CR>
 nnoremap <leader>bn :new<CR>
@@ -516,22 +603,23 @@ nnoremap <leader>br :edit!<CR>
 nnoremap <leader>bh :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
 nnoremap <leader>bi :IndentLinesToggle<CR>
 nnoremap <leader>bw :Nows<CR>
+nnoremap <leader>bf :Goyo<CR>
+nnoremap <leader>bl :Limelight<CR>
+nnoremap <leader>bL :Limelight!<CR>
+nnoremap <leader>bu :UndotreeToggle<CR>
+nnoremap <leader>bc :nohlsearch<CR>
 
 "-------- Neovim -----------------
 nnoremap <Leader>nr :so ~/.config/nvim/init.vim<CR>
+nnoremap <Leader>ne :edit ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>ns :Startify<CR>
 nnoremap <Leader>nu :PlugUpdate<CR>
 nnoremap <Leader>ni :PlugInstall<CR>
 nnoremap <Leader>nc :PlugClean<CR>
 
-"-------Extensions-------------------
-nnoremap <leader>eh :Limelight<CR>
-nnoremap <leader>eH :Limelight!<CR>
-nnoremap <leader>ez :Goyo<CR>
-nnoremap <leader>eu :UndotreeToggle<CR>
-nnoremap <leader>ea :ALEToggle<CR>
-nnoremap <leader>et :TagbarToggle<CR>
-nnoremap <leader>el :call LanguageClient_contextMenu()<CR>
+"-------Code-------------------
+nnoremap <leader>ct :TagbarToggle<CR>
+nnoremap <leader>cm :call LanguageClient_contextMenu()<CR>
 
 "-------Test-----------------
 nnoremap <silent> <leader>tn :TestNearest<CR>
@@ -540,7 +628,22 @@ nnoremap <silent> <leader>ts :TestSuite<CR>
 nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 
-"-------Version Control-----------
+"------------Git--------------
+let g:lmap.g = { 'name': 'Git',
+      \ 's': ['Gstatus', 'git status'],
+      \ 'c': ['Gcommit', 'git commit'],
+      \ 'd': ['Gvdiff', 'git diff'],
+      \ 'b': ['Gblame', 'git blame'],
+      \ 'l': ['GV', 'git log'],
+      \ 'n': ['GitGutterNextHunk', 'next hunk'],
+      \ 'N': ['GitGutterPrevHunk', 'previous hunk'],
+      \ '[': ['PrevHunkAllBuffers', 'previous hunk all buffers'],
+      \ ']': ['NextHunkAllBuffers', 'next hunk all buffers'],
+      \ 'h': ['GitGutterStageHunk', 'stage hunk'],
+      \ 'u': ['GitGutterUndoHunk', 'undo hunk'],
+      \ 'p': ['GitGutterPreviewHunk', 'preview hunk'],
+      \ 'o': ['Gbrowse', 'open file in browser'],
+      \}
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gn :GitGutterNextHunk<CR>
@@ -548,13 +651,36 @@ nnoremap <silent> <leader>gN :GitGutterPrevHunk<CR>
 nnoremap <silent> <leader>gh :GitGutterStageHunk<CR>
 nnoremap <silent> <leader>gu :GitGutterUndoHunk<CR>
 nnoremap <silent> <leader>gp :GitGutterPreviewHunk<CR>
+nnoremap <silent> <leader>gd :Gvdiff<CR>
+nnoremap <silent> <leader>gl :GV<CR>
+nnoremap <silent> <leader>go :Gbrowse<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
 
 "--------FZF-----------
+let g:lmap.f = { 'name': 'Find',
+      \ 'f': ['GFiles', 'git files'],
+      \ 'r': ['HHistory', 'recent files'],
+      \ 'a': ['Files', 'all files'],
+      \ 'F': ['Locate', 'locate'],
+      \ 'h': ['Helptags', 'help'],
+      \ 'b': ['Buffers', 'buffers'],
+      \ 'l': ['Blines', 'buffer lines'],
+      \ 'L': ['Lines', 'all open buffer lines'],
+      \ 'g': ['Rg', 'ripgrep'],
+      \ 't': ['Filetypes', 'filetypes'],
+      \ 'O': ['Tags', 'tags'],
+      \ 'o': ['BTags', 'buffer tags'],
+      \ 'e': ['Commands', 'commands'],
+      \ 'p': ['GGrep', 'git grep'],
+      \ 'd': ['Cd', 'projects'],
+      \}
 nnoremap <silent> <leader>ff :GFiles<CR>
 nnoremap <silent> <leader>fa :Files<CR>
+nnoremap <silent> <leader>fF :Locate 
 nnoremap <silent> <leader>fh :Helptags<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
 nnoremap <silent> <leader>fl :BLines<CR>
+nnoremap <silent> <leader>fL :Lines<CR>
 nnoremap <silent> <leader>fr :HHistory<CR>
 nnoremap <silent> <leader>fg :Rg<CR>
 nnoremap <silent> <leader>ft :Filetypes<CR>
@@ -564,12 +690,8 @@ nnoremap <silent> <leader>fo :BTags<CR>
 nnoremap <silent> <leader>fe :Commands<CR>
 nnoremap <silent> <leader>fp :GGrep<CR>
 nnoremap <silent> <leader>fd :Cd<CR>
-"
-" Clear search highlight
-nnoremap <leader>c :nohlsearch<CR>
 
-
-"***** None of this works *****
+" TODO: work on basic pdb functionality
 "------- Terminal-------------
 nnoremap <leader>\r :call DebugInTerminal('pry')<CR>
 nnoremap <leader>\p :call DebugInTerminal('python -m pdb')<CR>
@@ -580,3 +702,12 @@ function! DebugInTerminal(args)
   execute 'terminal' a:args expand('%:p')
 endfunction
 
+call plug#end()
+
+syntax enable
+set background=dark
+colorscheme termina
+
+call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
+nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
+vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>

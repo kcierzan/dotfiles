@@ -923,7 +923,8 @@ This is unusably slow as of 06/21/18
           (python-mode . anaconda-eldoc-mode)
           (python-mode . (lambda ()
                            (set (make-local-variable 'company-backends)
-                                '((company-anaconda company-dabbrev company-dabbrev-code company-files))))))
+                                '((company-anaconda company-dabbrev company-dabbrev-code company-files)))))
+          )
          :pin melpa)
      #+END_SRC
 **** company-anaconda
