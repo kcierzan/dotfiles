@@ -32,7 +32,7 @@ set splitbelow
 set splitright
 set tabstop=2
 set textwidth=0
-set timeoutlen=800
+set timeoutlen=1000
 set ttimeoutlen=0
 set ttyfast
 
@@ -415,8 +415,11 @@ Plug 'haya14busa/vim-keeppad'              " keep padding when line nums go away
 Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
 Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
 Plug 'wesQ3/vim-windowswap'                " swap windows around
+
 Plug 'diepm/vim-rest-console'              " http client
-" Plug 'vimwiki/vimwiki'                     " notes
+let g:vrc_include_response_header = 1
+
+Plug 'vimwiki/vimwiki'                     " notes
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -451,6 +454,8 @@ nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
 
+
+Plug 'blueyed/vim-diminactive'
 " Keep search results in the center of the screen
 nmap n nzz
 nmap N Nzz
@@ -542,38 +547,28 @@ tnoremap <Esc> <C-\><C-n>
 nnoremap <Leader>q :q<CR>
 " Force close window
 nnoremap <Leader>Q :q!<CR>
-let g:lmap.Q = {'name': 'force quit'}
-let g:lmap.q = {'name': 'quit'}
-"------ Windows -------
-let g:lmap.w = { 'name': 'Window',
-      \ 'v': ['vsp', 'split vertical'],
-      \ 's': ['sp', 'split horizontal'],
-      \ 'k': ['<C-w>+', 'increase height'],
-      \ 'j': ['<C-w>-', 'decreate height'],
-      \ 'h': ['<C-w>>', 'decrease width'],
-      \ 'l': ['<C-w><', 'increase width'],
-      \ 'd': ['windo diffthis', 'show diff'],
-      \ 'D': ['windo diffoff', 'hide diff'],
-      \ 'w': ['call WindowSwap#EasyWindowSwap', 'swap window with...'],
-      \ 'r': ['<C-w>r', 'rotate windows'],
-      \ 'o': ['<C-w>o', 'hide other panes'],
-      \ 'e': ['<C-w>e', 'equalize panes'],
-      \ 'V': ['<C-w>H', 'to vertical splits'],
-      \ 'S': ['<C-w>J', 'to horizontal splits']
-      \}
-nnoremap <leader>wv :vsp<CR>
-nnoremap <leader>ws :sp<CR>
-nnoremap <leader>wk 10<C-w>+
-nnoremap <leader>wj 10<C-w>-
-nnoremap <leader>wl 10<C-w>>
-nnoremap <leader>wh 10<C-w><
-nnoremap <leader>wd :windo diffthis<CR>
-nnoremap <leader>wD :windo diffoff<CR>
-nnoremap <leader>wr <C-w>r
-nnoremap <leader>wo <C-w>o
-nnoremap <leader>we <C-w>=
-nnoremap <leader>wV <C-w>H
-nnoremap <leader>wS <C-w>J
+
+"---------Interface-------------
+let g:lmap.i = {'name': 'Interface',
+      \ '%': ['set invrelativenumber', 'relative lines'],
+      \ '#': ['set invnumber', 'toggle line numbers'],
+      \ 'h': ['set invcursorline', 'toggle cursorline'],
+      \ 'i': ['IndentLinesToggle', 'toggle indent lines'],
+      \ 'u': ['UndotreeToggle', 'toggle undo tree'],
+      \ 'c': ['nohlsearch', 'clear search highlight'],
+      \ 'z': ['Goyo', 'zen mode'],
+      \ 'l': ['Limelight', 'highlight sections on'],
+      \ 'L': ['Limelight!', 'highlight sections off'],
+      \ }
+nnoremap <leader>i% :set invrelativenumber<CR>
+nnoremap <leader>i# :set invnumber<CR>
+nnoremap <leader>ih :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
+nnoremap <leader>ii :IndentLinesToggle<CR>
+nnoremap <leader>iu :UndotreeToggle<CR>
+nnoremap <leader>ic :nohlsearch<CR>
+nnoremap <leader>iz :Goyo<CR>
+nnoremap <leader>il :Limelight<CR>
+nnoremap <leader>iL :Limelight!<CR>
 
 "---------Buffers ---------------
 let g:lmap.b = { 'name': 'Buffer',
@@ -581,35 +576,59 @@ let g:lmap.b = { 'name': 'Buffer',
       \ 'n': ['new', 'new buffer'],
       \ 'd': ['Bdelete', 'kill buffer'],
       \ 'D': ['Bdelete!', 'force kill buffer'],
+      \ 'c': ['windo diffthis', 'show diff'],
+      \ 'C': ['windo diffoff', 'hide diff'],
       \ 'r': ['edit!', 'revert buffer'],
-      \ '%': ['set invrelativenumber', 'relative lines'],
-      \ '#': ['set invnumber', 'toggle line numbers'],
-      \ 'h': ['set invcursorline', 'toggle cursorline'],
-      \ 'i': ['IndentLinesToggle', 'toggle indent lines'],
       \ 'w': ['Nows', 'whitespace cleanup'],
-      \ 'z': ['Goyo', 'zen mode'],
-      \ 'l': ['Limelight', 'highlight sections on'],
-      \ 'L': ['Limelight!', 'highlight sections off'],
-      \ 'b': ['UndotreeToggle', 'toggle undo tree'],
-      \ 'c': ['nohlsearch', 'clear search highlight'],
       \}
+nnoremap <leader>bs :w<CR>
+nnoremap <leader>bn :new<CR>
 nnoremap <Leader>bd :Bdelete<CR>
 nnoremap <Leader>bD :Bdelete!<CR>
-nnoremap <leader>bn :new<CR>
-nnoremap <leader>b% :set invrelativenumber<CR>
-nnoremap <leader>b# :set invnumber<CR>
-nnoremap <leader>bs :w<CR>
+nnoremap <leader>bc :windo diffthis<CR>
+nnoremap <leader>bC :windo diffoff<CR>
 nnoremap <leader>br :edit!<CR>
-nnoremap <leader>bh :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
-nnoremap <leader>bi :IndentLinesToggle<CR>
 nnoremap <leader>bw :Nows<CR>
-nnoremap <leader>bf :Goyo<CR>
-nnoremap <leader>bl :Limelight<CR>
-nnoremap <leader>bL :Limelight!<CR>
-nnoremap <leader>bu :UndotreeToggle<CR>
-nnoremap <leader>bc :nohlsearch<CR>
+
+"-----------Splits---------------
+let g:lmap.s = { 'name': 'Splits',
+      \ 'v': ['vsp', 'vertical split'],
+      \ 's': ['sp', 'horizontal split'],
+      \ 'e': ['<C-w>e', 'equalize buffers'],
+      \ 'k': ['10<C-w>+', 'increase buffer height'],
+      \ 'j': ['10<C-w>-', 'decrease buffer height'],
+      \ 'l': ['10<C-w>>', 'increase width right'],
+      \ 'h': ['10<C-w><', 'increase width left'],
+      \ 'r': ['<C-w>r', 'swap buffers'],
+      \ 'o': ['<C-w>o', 'close other panes'],
+      \ 'c': ['call WindowSwap#EasyWindowSwap', 'swap buffer with...'],
+      \ 'V': ['<C-w>H', 'to vertical splits'],
+      \ 'S': ['<C-w>J', 'to horizontal splits'],
+      \}
+nnoremap <leader>sv :vsp<CR>
+nnoremap <leader>ss :sp<CR>
+nnoremap <leader>se <C-w>e
+nnoremap <leader>sk 10<C-w>+
+nnoremap <leader>sj 10<C-w>-
+nnoremap <leader>sl 10<C-w>>
+nnoremap <leader>sh 10<C-w><
+nnoremap <leader>sr <C-w>r
+nnoremap <leader>so <C-w>o
+nnoremap <leader>se <C-w>=
+nnoremap <leader>sV <C-w>H
+nnoremap <leader>sS <C-w>J
+nnoremap <leader>sc :call WindowSwap#EasyWindowSwap
 
 "-------- Neovim -----------------
+let g:lmap.n = { 'name': 'Neovim',
+      \ 'r': ['so ~/.config/nvim/init.vim', 'reload init.vim'],
+      \ 'e': ['edit ~/.config/nvim/init.vim', 'edit init.vim'],
+      \ 's': ['Startify', 'homepage'],
+      \ 'u': ['PlugUpdate', 'update plugins'],
+      \ 'U': ['PlugUpgrade', 'update vim-plug'],
+      \ 'i': ['PlugInstall', 'install plugins'],
+      \ 'c': ['PlugClean', 'clean up plugins'],
+      \}
 nnoremap <Leader>nr :so ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>ne :edit ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>ns :Startify<CR>
@@ -618,10 +637,21 @@ nnoremap <Leader>ni :PlugInstall<CR>
 nnoremap <Leader>nc :PlugClean<CR>
 
 "-------Code-------------------
+let g:lmap.c = {'name': 'Code',
+      \ 't': ['TagbarToggle', 'toggle tagbar'],
+      \ 'm': ['LanguageClient_contextMenu', 'LSP menu'],
+      \}
 nnoremap <leader>ct :TagbarToggle<CR>
 nnoremap <leader>cm :call LanguageClient_contextMenu()<CR>
 
 "-------Test-----------------
+let g:lmap.t = {'name': 'Test',
+      \ 'n': ['TestNearest', 'test nearest'],
+      \ 'f': ['TestFile', 'test file'],
+      \ 's': ['TestSuite', 'test suite'],
+      \ 'l': ['TestLast', 'test last'],
+      \ 'v': ['TestVisit', 'test visit'],
+      \}
 nnoremap <silent> <leader>tn :TestNearest<CR>
 nnoremap <silent> <leader>tf :TestFile<CR>
 nnoremap <silent> <leader>ts :TestSuite<CR>
