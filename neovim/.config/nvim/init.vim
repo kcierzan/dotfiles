@@ -664,6 +664,7 @@ let g:lmap.g = { 'name': 'Git',
       \ 'c': ['Gcommit', 'git commit'],
       \ 'd': ['Gvdiff', 'git diff'],
       \ 'b': ['Gblame', 'git blame'],
+      \ 'P': ['Gpush', 'git push'],
       \ 'l': ['GV', 'git log'],
       \ 'n': ['GitGutterNextHunk', 'next hunk'],
       \ 'N': ['GitGutterPrevHunk', 'previous hunk'],
@@ -720,6 +721,18 @@ nnoremap <silent> <leader>fo :BTags<CR>
 nnoremap <silent> <leader>fe :Commands<CR>
 nnoremap <silent> <leader>fp :GGrep<CR>
 nnoremap <silent> <leader>fd :Cd<CR>
+
+"--------VimWiki-------------
+let g:lmap.w = {'name': 'VimWiki',
+      \ 'w': ['<leader>ww', 'open index'],
+      \ 's': ['<leader>ws', 'select and open'],
+      \ 'd': ['<leader>wd', 'delete current file'],
+      \ 'r': ['<leader>wr', 'rename current file'],
+      \ 't': ['<leader>wt', 'tab index'],
+      \ 'i': ['<leader>wi', 'diary index'],
+      \ 'c': ['VimwikiToggleListItem', 'toggle todo'],
+      \}
+nnoremap <leader>wc :VimwikiToggleListItem<CR>
 
 " TODO: work on basic pdb functionality
 "------- Terminal-------------

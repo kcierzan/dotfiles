@@ -12,8 +12,8 @@ set -g status-right " #[fg=colour02]%I:%M  %b %d #{?battery_percentage, ,}#{batt
 set -g status-right-style "bold"
 set -g status-right-length 100
  
-set -g window-status-current-style "bold fg=2"
-# set -g window-status-style "fg=7"
+set -g window-status-current-style "bold fg=2 bg=0"
+set -g window-status-style "fg=7 bg=0"
 set -g window-status-format " #{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-current-format " #{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-separator ""
