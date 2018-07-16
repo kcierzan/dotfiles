@@ -489,7 +489,7 @@
                projectile-indexing-method 'alien
                projectile-globally-ignored-files '(".DS_STORE" "TAGS")
                projectile-globally-ignored-file-suffixes '(".elc" ".pyc")
-               projectile-switch-project-action 'helm-projectile-find-file
+               projectile-switch-project-action 'projectile-dired
                projectile-mode-line nil)
          :config
          (projectile-discover-projects-in-directory "~/git")
@@ -505,7 +505,7 @@
          (smartparens-strict-mode "()")
          (smartparens-mode)
          :hook (prog-mode . smartparens-mode)
-         :hook (emacs-lisp-mode . smartparens-strict-mode)
+         ;; :hook (emacs-lisp-mode . smartparens-strict-mode)
          :pin melpa
          :config
          (require 'smartparens-config)
@@ -764,6 +764,7 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package color-identifiers-mode
+         :disabled t
          :delight ""
          :hook (after-init . global-color-identifiers-mode))
      #+END_SRC
@@ -784,7 +785,7 @@
                doom-themes-enable-italic t)
          :config
          (doom-themes-org-config)
-         (load-theme 'doom-molokai t))
+         (load-theme 'doom-one t))
      #+END_SRC
 **** solarized-emacs
      #+name: interface

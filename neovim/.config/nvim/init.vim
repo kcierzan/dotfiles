@@ -408,7 +408,14 @@ Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'tpope/vim-abolish'                   " correct common misspellings
 Plug 'AndrewRadev/sideways.vim'            " move stuff sideways
 Plug 'tpope/vim-rhubarb'                   " access GitHub
+
 Plug 'mattn/emmet-vim'                     " markup Expansion
+let g:user_emmet_settings = {
+      \ 'javascript.jsx': {
+      \   'extends': 'jsx',
+      \  },
+      \}
+
 Plug 'majutsushi/tagbar'                   " show some tags
 Plug 'vim-python/python-syntax',           { 'for': ['python'] } " Make python look a little better
 Plug 'haya14busa/vim-keeppad'              " keep padding when line nums go away
@@ -501,10 +508,6 @@ nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <M-b> :TmuxNavigatePrevious<cr>
 
-" imap <expr> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<CR>")
-" imap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-k>":"")
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 imap <expr><TAB>
       \ neosnippet#expandable_or_jumpable() ?
       \    "\<Plug>(neosnippet_expand_or_jump)" :
@@ -640,9 +643,11 @@ nnoremap <Leader>nc :PlugClean<CR>
 let g:lmap.c = {'name': 'Code',
       \ 't': ['TagbarToggle', 'toggle tagbar'],
       \ 'm': ['LanguageClient_contextMenu', 'LSP menu'],
+      \ 'r': ['!rm ctags && ctags', 'regenerate tags']
       \}
 nnoremap <leader>ct :TagbarToggle<CR>
 nnoremap <leader>cm :call LanguageClient_contextMenu()<CR>
+nnoremap <leader>cr :!rm tags && ctags<CR>
 
 "-------Test-----------------
 let g:lmap.t = {'name': 'Test',
@@ -692,6 +697,7 @@ let g:lmap.f = { 'name': 'Find',
       \ 'f': ['GFiles', 'git files'],
       \ 'r': ['HHistory', 'recent files'],
       \ 'a': ['Files', 'all files'],
+      \ 'c': ['Colors', 'colorschemes'],
       \ 'F': ['Locate', 'locate'],
       \ 'h': ['Helptags', 'help'],
       \ 'b': ['Buffers', 'buffers'],
@@ -731,6 +737,7 @@ let g:lmap.w = {'name': 'VimWiki',
       \ 't': ['<leader>wt', 'tab index'],
       \ 'i': ['<leader>wi', 'diary index'],
       \ 'c': ['VimwikiToggleListItem', 'toggle todo'],
+      \ 'h': ['Vimwiki2HTML', 'export to html'],
       \}
 nnoremap <leader>wc :VimwikiToggleListItem<CR>
 

@@ -1,4 +1,4 @@
-# Optimized for ANSI colors
+# Optimized for ANSI colors w/ "Violet" terminal theme
 
 set -g status-position bottom
 set -g status-justify "left"
@@ -21,4 +21,3 @@ set -g window-status-separator ""
 set -g pane-active-border-style "fg=#353738 bg=#353738"
 set -g pane-border-style "fg=#353738 bg=#353738"
 set -g window-active-style 'bg=#25272a'
-# set -g window-active-style "bg=#3a3d41"
