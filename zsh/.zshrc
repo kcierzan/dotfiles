@@ -19,7 +19,7 @@ else
     if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
         source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
     fi
-    if [[ -z "$TMUX" ]] ;then
+    if [[ -z "$TMUX" && $TERM_PROGRAM == "iTerm.app" ]] ;then
         ID="`tmux ls | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
         if [[ -z "$ID" ]] ;then # if not available create a new one
             tmux new-session

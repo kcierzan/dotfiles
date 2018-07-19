@@ -1,9 +1,11 @@
-"     _       _ __        _
-"    (_)___  (_) /__   __(_)___ ___
-"   / / __ \/ / __/ | / / / __ `__ \
-"  / / / / / / /__| |/ / / / / / / /
-" /_/_/ /_/_/\__(_)___/_/_/ /_/ /_/
 
+" ██╗███╗   ██╗██╗████████╗██╗   ██╗██╗███╗   ███╗
+" ██║████╗  ██║██║╚══██╔══╝██║   ██║██║████╗ ████║
+" ██║██╔██╗ ██║██║   ██║   ██║   ██║██║██╔████╔██║
+" ██║██║╚██╗██║██║   ██║   ╚██╗ ██╔╝██║██║╚██╔╝██║
+" ██║██║ ╚████║██║   ██║██╗ ╚████╔╝ ██║██║ ╚═╝ ██║
+" ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝
+                                                
 scriptencoding utf-8
 set autoindent
 set completeopt-=preview
@@ -18,7 +20,7 @@ set nolazyredraw
 set noshowmode
 set noswapfile
 set nowrap
-set number
+set nonumber
 set pumheight=10
 set scrolloff=3
 set shell=/usr/local/bin/zsh
@@ -34,6 +36,7 @@ set tabstop=2
 set textwidth=0
 set timeoutlen=1000
 set ttimeoutlen=0
+set autoread
 set ttyfast
 
 " Enable blinking cursor
@@ -44,6 +47,12 @@ set clipboard=unnamed
 
 " Disable annoying automatic comments
 autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn |
+
+" Trigger autoread when files change on disk
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+" Notification after file change
+autocmd FileChangedShellPost *
+      \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 set undodir=~/.undo
 set undofile
@@ -191,7 +200,7 @@ highlight ALEWarningSign ctermfg=3
 
 "indentLine
 Plug 'Yggdroot/indentLine'                 " indent lines
-let g:indentLine_enabled = 1
+let g:indentLine_enabled = 0
 let g:indentLine_char = '│'
 let g:indentLine_first_char = '│'
 let g:indentLine_showFirstIndentLevel = 1
@@ -355,11 +364,13 @@ Plug 'davidhalter/jedi-vim'
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#use_splits_not_buffers = 1
 " let g:jedi#goto_command = 'gd'
+let g:jedi#goto_command = ''
 let g:jedi#goto_assignments_command = ""
 let g:jedi#goto_definitions_command = ""
 let g:jedi#goto_usages_command = 'gn'
 let g:jedi#completions_command = ""
 " let g:jedi#rename_command = 'gr'
+let g:jedi#rename_command = ''
 let g:jedi#documentation_command = "gk"
 let g:jedi#completions_enabled = 0
 
@@ -461,8 +472,9 @@ nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
 
-
 Plug 'blueyed/vim-diminactive'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+
 " Keep search results in the center of the screen
 nmap n nzz
 nmap N Nzz
@@ -729,7 +741,7 @@ nnoremap <silent> <leader>fp :GGrep<CR>
 nnoremap <silent> <leader>fd :Cd<CR>
 
 "--------VimWiki-------------
-let g:lmap.w = {'name': 'VimWiki',
+let g:lmap.w = {'name': 'Notes',
       \ 'w': ['<leader>ww', 'open index'],
       \ 's': ['<leader>ws', 'select and open'],
       \ 'd': ['<leader>wd', 'delete current file'],
@@ -738,6 +750,13 @@ let g:lmap.w = {'name': 'VimWiki',
       \ 'i': ['<leader>wi', 'diary index'],
       \ 'c': ['VimwikiToggleListItem', 'toggle todo'],
       \ 'h': ['Vimwiki2HTML', 'export to html'],
+      \}
+let g:lmap.w[' '] = {'name': 'Diary',
+      \ 'i': ['<leader>w<leader>i', 'generate links'],
+      \ 'w': ['<leader>w<leader>w', 'make note'],
+      \ 't': ['<leader>w<leader>t', 'make note in new tab'],
+      \ 'm': ['<leader>w<leader>m', 'make diary note for tomorrow'],
+      \ 'y': ['<leader>w<leader>y', 'make diary note for yesterday'],
       \}
 nnoremap <leader>wc :VimwikiToggleListItem<CR>
 
