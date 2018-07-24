@@ -342,8 +342,8 @@ autocmd FileType fzf set laststatus=0 noshowmode noruler
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
-      \   'rg --line-number --no-heading --color=always '.shellescape(<q-args>), 0,
-      \   (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
+      \   'rg --line-number --no-heading --color=always -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
+      \   (winwidth(0) > 175 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -bang -nargs=* GGrep
       \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0,
@@ -707,11 +707,11 @@ nnoremap <silent> <leader>gc :Gcommit<CR>
 "--------FZF-----------
 let g:lmap.f = { 'name': 'Find',
       \ 'f': ['GFiles', 'git files'],
-      \ 'r': ['HHistory', 'recent files'],
+      \ 'h': ['HHistory', 'file history'],
       \ 'a': ['Files', 'all files'],
       \ 'c': ['Colors', 'colorschemes'],
       \ 'F': ['Locate', 'locate'],
-      \ 'h': ['Helptags', 'help'],
+      \ 'i': ['Helptags', 'information'],
       \ 'b': ['Buffers', 'buffers'],
       \ 'l': ['Blines', 'buffer lines'],
       \ 'L': ['Lines', 'all open buffer lines'],
@@ -721,16 +721,16 @@ let g:lmap.f = { 'name': 'Find',
       \ 'o': ['BTags', 'buffer tags'],
       \ 'e': ['Commands', 'commands'],
       \ 'p': ['GGrep', 'git grep'],
-      \ 'd': ['Cd', 'projects'],
+      \ 'j': ['Cd', 'projects'],
       \}
 nnoremap <silent> <leader>ff :GFiles<CR>
 nnoremap <silent> <leader>fa :Files<CR>
 nnoremap <silent> <leader>fF :Locate 
-nnoremap <silent> <leader>fh :Helptags<CR>
+nnoremap <silent> <leader>fi :Helptags<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
 nnoremap <silent> <leader>fl :BLines<CR>
 nnoremap <silent> <leader>fL :Lines<CR>
-nnoremap <silent> <leader>fr :HHistory<CR>
+nnoremap <silent> <leader>fh :HHistory<CR>
 nnoremap <silent> <leader>fg :Rg<CR>
 nnoremap <silent> <leader>ft :Filetypes<CR>
 nnoremap <silent> <leader>fc :Colors<CR>
@@ -738,7 +738,7 @@ nnoremap <silent> <leader>fO :Tags<CR>
 nnoremap <silent> <leader>fo :BTags<CR>
 nnoremap <silent> <leader>fe :Commands<CR>
 nnoremap <silent> <leader>fp :GGrep<CR>
-nnoremap <silent> <leader>fd :Cd<CR>
+nnoremap <silent> <leader>fj :Cd<CR>
 
 "--------VimWiki-------------
 let g:lmap.w = {'name': 'Notes',

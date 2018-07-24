@@ -256,7 +256,7 @@ redraw-prompt() {
     done
     zle reset-prompt
 }
-# zle -N redraw-prompt
+zle -N redraw-prompt
 
 # browse files in a new pane
 range() {
@@ -266,7 +266,10 @@ range() {
 # fuzzy sshs into known hosts
 sshs() {
   ~/.scripts/sshs -m
+  zle redraw-prompt
 }
+zle -N sshs
+bindkey '^N' sshs
 
 # fuzzy checkout a git branch
 fb() {
@@ -277,6 +280,8 @@ fb() {
     git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
     zle && { zle reset-prompt; zle -R }
 }
+zle -N fb
+bindkey '^b' fb
 
 
 
@@ -303,15 +308,17 @@ recentdir() {
             cd "$dir"
         fi
     fi
-    # zle redraw-prompt
+    zle redraw-prompt
 }
+zle -N recentdir
+bindkey '^J' recentdir
 
 # Edit a frecent file
 fr() {
   local file out key
   IFS=$'\n'
   out=($(sed '1d' ~/.cache/neomru/file |
-         fzf --query="$1" --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
+         fzf +m --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
                    echo {} is a binary file ||
                    (highlight -O ansi -l {} ||
                    pygmentize -g {} ||
@@ -329,12 +336,15 @@ fr() {
           $EDITOR "$file"
       fi
   fi
+  zle redraw-prompt
 }
+zle -N fr
+bindkey '^h' fr
 
 findfile() {
   local out file key
   IFS=$'\n'
-  out=($(rg ${1:-.} --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc" 2> /dev/null | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
+  out=($(rg ${1:-.} --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc" -g "!node-modules/*" 2> /dev/null | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
                   echo {} is a binary file ||
                   (highlight -O ansi -l {} ||
                   pygmentize -g {} ||
@@ -352,17 +362,35 @@ findfile() {
           $EDITOR "$file"
       fi
   fi
+  zle redraw-prompt
 }
+zle -N findfile
+bindkey '^f' findfile
 
 # fzf based process killer
 fkill() {
-    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
-    if [ "x$pid" != "x" ]
-    then
-        kill -${1:-9} $pid
-    fi
+  if [ "x$pid" != "x" ]
+  then
+    kill -${1:-9} $pid
+  fi
+  zle redraw-prompt
 }
+zle -N fkill
+bindkey '^p' fkill
+
+fzg() {
+  local file
+  linefile=($(rg -n -g "!.pyc" -g "!node-modules/*" -g "!env/*" -g "!TAGS" -g "!*.dmp" . 2> /dev/null | fzf --preview-window=right:50% --delimiter ':' --nth 3.. --preview 'preview {}' | gawk -F : '{print "+"$2" "$1 }'))
+
+  if [[ -n $linefile ]]; then
+    echo $linefile | xargs $EDITOR
+  fi
+  zle redraw-prompt
+}
+zle -N fzg
+bindkey '^G' fzg
 
 # set up some macOS specific aliases
 if [[ $OSTYPE == 'darwin'* ]]; then
