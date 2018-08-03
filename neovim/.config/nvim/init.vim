@@ -1,4 +1,3 @@
-
 " ██╗███╗   ██╗██╗████████╗██╗   ██╗██╗███╗   ███╗
 " ██║████╗  ██║██║╚══██╔══╝██║   ██║██║████╗ ████║
 " ██║██╔██╗ ██║██║   ██║   ██║   ██║██║██╔████╔██║
@@ -49,7 +48,7 @@ set clipboard=unnamed
 autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn |
 
 " Trigger autoread when files change on disk
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif | set fillchars+=vert:\ 
 " Notification after file change
 autocmd FileChangedShellPost *
       \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
@@ -342,7 +341,7 @@ autocmd FileType fzf set laststatus=0 noshowmode noruler
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
-      \   'rg --line-number --no-heading --color=always -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
+      \   'rg --hidden --line-number --no-heading --color=always -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
       \   (winwidth(0) > 175 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -bang -nargs=* GGrep
@@ -405,6 +404,7 @@ Plug 'tpope/vim-vinegar'                   " make netrw better
 Plug 'tpope/vim-eunuch'                    " unix tools
 Plug 'tpope/vim-repeat'                    " use . to repeat some stuff
 Plug 'jiangmiao/auto-pairs'                " automatic deliminters
+Plug 'adelarsq/vim-matchit'                " extend the % operator
 Plug 'tpope/vim-surround'                  " surround with brackets, quotes etc
 Plug 'tpope/vim-commentary'                " comment for great success
 Plug 'wellle/targets.vim'                  " provide additional text objects
@@ -418,7 +418,12 @@ Plug 'junegunn/vim-easy-align'             " align stuff
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'tpope/vim-abolish'                   " correct common misspellings
 Plug 'AndrewRadev/sideways.vim'            " move stuff sideways
+
 Plug 'tpope/vim-rhubarb'                   " access GitHub
+let g:github_enterprise_urls = ['https://github.aweber.io']
+
+Plug 'shumphrey/fugitive-gitlab.vim'       " access GitLab
+let g:fugitive_gitlab_domaines = ['https://gitlab.aweber.io']
 
 Plug 'mattn/emmet-vim'                     " markup Expansion
 let g:user_emmet_settings = {
@@ -498,6 +503,22 @@ nmap gsl :SidewaysRight<CR>
 nnoremap gT g<C-]>
 " Jump to tag
 nnoremap gt g<C-]>
+
+function! GoToOpenFold(direction)
+  let start = line('.')
+  if (a:direction == "next")
+    while (foldclosed(start) != -1)
+      let start = start + 1
+    endwhile
+  else
+    while (foldclosed(start) != -1)
+      let start = start - 1
+    endwhile
+  endif
+  call cursor(start, 0)
+endfunction
+nmap ]z :cal GoToOpenFold("next")
+nmap [z :cal GoToOpenFold("prev")
 
 " Jump to next error message
 nnoremap ge :ALENextWrap<CR>
@@ -710,7 +731,6 @@ let g:lmap.f = { 'name': 'Find',
       \ 'h': ['HHistory', 'file history'],
       \ 'a': ['Files', 'all files'],
       \ 'c': ['Colors', 'colorschemes'],
-      \ 'F': ['Locate', 'locate'],
       \ 'i': ['Helptags', 'information'],
       \ 'b': ['Buffers', 'buffers'],
       \ 'l': ['Blines', 'buffer lines'],
@@ -725,7 +745,6 @@ let g:lmap.f = { 'name': 'Find',
       \}
 nnoremap <silent> <leader>ff :GFiles<CR>
 nnoremap <silent> <leader>fa :Files<CR>
-nnoremap <silent> <leader>fF :Locate 
 nnoremap <silent> <leader>fi :Helptags<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
 nnoremap <silent> <leader>fl :BLines<CR>
@@ -762,14 +781,14 @@ nnoremap <leader>wc :VimwikiToggleListItem<CR>
 
 " TODO: work on basic pdb functionality
 "------- Terminal-------------
-nnoremap <leader>\r :call DebugInTerminal('pry')<CR>
-nnoremap <leader>\p :call DebugInTerminal('python -m pdb')<CR>
-nnoremap <leader>\n :call DebugInTerminal('node-debug')<CR>
+" nnoremap <leader>\r :call DebugInTerminal('pry')<CR>
+" nnoremap <leader>\p :call DebugInTerminal('python -m pdb')<CR>
+" nnoremap <leader>\n :call DebugInTerminal('node-debug')<CR>
 
-function! DebugInTerminal(args)
-  botright split
-  execute 'terminal' a:args expand('%:p')
-endfunction
+" function! DebugInTerminal(args)
+"   botright split
+"   execute 'terminal' a:args expand('%:p')
+" endfunction
 
 call plug#end()
 

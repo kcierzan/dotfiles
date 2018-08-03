@@ -3,28 +3,28 @@
 * Globals
   #+name: basic
   #+BEGIN_SRC emacs-lisp
-    (setq initial-major-mode 'org-mode)
-    (setq password-cache-expiry nil)
-    (semantic-mode)
-    (recentf-mode 1)
-    (savehist-mode)
-    (global-auto-revert-mode)
-    (require 'server)
-    (unless (server-running-p)
-      (server-start))
-    (add-hook 'server-done-hook 'kill-buffer)
-    (setq confirm-kill-emacs 'y-or-n-p)
-  #+END_SRC
-* UI
-  #+name: interface
-  #+BEGIN_SRC emacs-lisp
-    (menu-bar-mode -1)
-    (tool-bar-mode -1)
-    (setq auto-revert-interval 1)
-    (scroll-bar-mode -1)
-    (show-paren-mode 1)
-    (blink-cursor-mode -1)
-    (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+        (setq initial-major-mode 'org-mode)
+        (setq password-cache-expiry nil)
+        (semantic-mode)
+        (recentf-mode 1)
+        (savehist-mode)
+        (global-auto-revert-mode)
+        (require 'server)
+        (unless (server-running-p)
+        (server-start))
+        (add-hook 'server-done-hook 'kill-buffer)
+        (setq confirm-kill-emacs 'y-or-n-p)
+    #+END_SRC
+    * UI
+    #+name: interface
+    #+BEGIN_SRC emacs-lisp
+        (menu-bar-mode -1)
+        (tool-bar-mode -1)
+        (setq auto-revert-interval 1)
+        (scroll-bar-mode -1)
+        (show-paren-mode 1)
+        (blink-cursor-mode -1)
+        (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
     ;; show filenames in the frame title bar
     (setq frame-title-format
           '("" invocation-name " " (:eval (if (buffer-file-name)
@@ -131,9 +131,9 @@
       (epa-file-enable))
   #+END_SRC
 
-#+name: basic
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+  #+END_SRC
 
   Bump the GC threshold for startup only
   #+name: basic
@@ -195,28 +195,28 @@
     (add-hook 'python-mode-hook 'eldoc-mode)
   #+END_SRC
 
-   Until they make a space commander keyboard again...
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
+  Until they make a space commander keyboard again...
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
      (setq mac-command-modifier 'meta)
      (setq mac-option-modifier 'alt)
-   #+END_SRC
+  #+END_SRC
 
-    Spaces.
-    #+name: basic
-    #+BEGIN_SRC emacs-lisp
+  Spaces.
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
       (setq-default indent-tabs-mode nil)
-    #+END_SRC
+  #+END_SRC
 
-    Emacs likes POSIX-compliant shells.
-    #+name: basic
-    #+BEGIN_SRC emacs-lisp
+  Emacs likes POSIX-compliant shells.
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
       (setq explicit-shell-file-name "/usr/local/bin/zsh")
-    #+END_SRC
+  #+END_SRC
 
-    A bunch of settings cribbed from doom-emacs
-    #+name: basic
-    #+BEGIN_SRC emacs-lisp
+  A bunch of settings cribbed from doom-emacs
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
       (setq-default
        bidi-display-reordering nil
        cursor-in-non-selected-windows nil
@@ -249,11 +249,11 @@
        ;; `pos-tip' defaults
        pos-tip-internal-border-width 6
        pos-tip-border-width 1)
-    #+END_SRC
+  #+END_SRC
 
-    Some sensible defaults for general text editing.
-    #+name: basic
-    #+BEGIN_SRC emacs-lisp
+  Some sensible defaults for general text editing.
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
       (setq-default
        delete-trailing-lines nil
        fill-column 80
@@ -282,7 +282,7 @@
 
       (if (fboundp 'fringe-mode) (fringe-mode '4))
       (tooltip-mode -1)
-    #+END_SRC
+  #+END_SRC
 * Eshell
   I am learning to like eshell. It's weird. Let's make it work better.
 ** eshell
@@ -371,8 +371,8 @@
 ** Programming
 *** Completion
 **** company
-    #+name: programming
-    #+BEGIN_SRC emacs-lisp
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
       (use-package company
         :delight ""
         :hook ((org-mode prog-mode) . company-mode)
@@ -389,12 +389,12 @@
               company-require-match 'never
               company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
               company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
-              company-backends '((company-files company-capf company-dabbrev))
+              company-backends '((company-yasnippet company-files company-capf company-dabbrev))
               company-transformers '(company-sort-by-occurrence))
         (add-hook 'after-init-hook '(lambda ()
                                       (define-key company-active-map (kbd "RET") 'company-complete-selection)
                                       (define-key company-active-map (quote [return]) 'company-complete-selection))))
-    #+END_SRC
+     #+END_SRC
 **** company-statistics
      Completion by frecency
      #+name: programming
@@ -424,7 +424,8 @@
      #+BEGIN_SRC emacs-lisp
        (use-package hippie-exp
          :config
-         (setq hippie-expand-try-functions-list '(try-expand-dabbrev
+         (setq hippie-expand-try-functions-list '(yas-hippie-try-expand
+                                                  try-expand-dabbrev
                                                   try-expand-dabbrev-all-buffers
                                                   try-expand-dabbrev-from-kill
                                                   try-complete-file-name-partially
@@ -516,18 +517,18 @@
                sp-max-pair-length 3))
      #+END_SRC
 **** undo-tree
-    #+name: programming
-    #+BEGIN_SRC emacs-lisp
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
       (use-package undo-tree
         :delight)
-    #+END_SRC
+     #+END_SRC
 **** wgrep
-    #+name: programming
-    #+BEGIN_SRC emacs-lisp
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
       (use-package wgrep
         :pin melpa
         :commands (wgrep-change-to-wgrep-mode))
-    #+END_SRC
+     #+END_SRC
 **** ws-butler
      intelligently trim unnecessary whitespace
      #+name: programming
@@ -537,6 +538,20 @@
          :hook ((text-mode prog-mode) . ws-butler-mode)
          :config
          (setq ws-butler-keep-whitespace-before-point nil))
+     #+END_SRC
+**** yasnippet
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package yasnippet
+         :config (yas-global-mode 1)
+         :hook ((prog-mode org-mode) . yas-minor-mode))
+     #+END_SRC
+**** yasnippet-snippets
+     #+name: programming
+     #+BEGIN_SRC emacs-lisp
+       (use-package yasnippet-snippets
+         :after yasnippet
+         :defer 3)
      #+END_SRC
 *** Lint
 **** flycheck
@@ -769,10 +784,10 @@
          :hook (after-init . global-color-identifiers-mode))
      #+END_SRC
 **** shackle
-#+name: interface
-#+BEGIN_SRC emacs-lisp
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
   (use-package shackle)
-#+END_SRC
+     #+END_SRC
 ** Themes
 **** doom-themes
      #+name: interface
@@ -785,7 +800,7 @@
                doom-themes-enable-italic t)
          :config
          (doom-themes-org-config)
-         (load-theme 'doom-one t))
+         (load-theme 'doom-molokai t))
      #+END_SRC
 **** solarized-emacs
      #+name: interface
@@ -833,8 +848,8 @@
          ;;(set-face-attribute 'spaceline-highlight-face nil :background (face-attribute 'org-code :foreground) :family nerd-font))
      #+END_SRC
 **** doom-modeline
-#+name: interface
-#+BEGIN_SRC emacs-lisp
+     #+name: interface
+     #+BEGIN_SRC emacs-lisp
   (use-package shrink-path)
   (use-package eldoc-eval)
   (use-package doom-modeline
@@ -844,7 +859,7 @@
     :init
     (setq doom-modeline-height 36)
     :hook (after-init . doom-modeline-init))
-#+END_SRC
+     #+END_SRC
 **** eziam-theme
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -856,12 +871,12 @@
 ** Languages
 *** SQL
 **** sqlup-mode
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
       (use-package sqlup-mode
         :delight ""
         :hook ((sql-mode sql-interactive-mode) . sqlup-mode) )
-    #+END_SRC
+     #+END_SRC
 *** Elm
 **** elm-mode
      #+name: languages
@@ -878,25 +893,26 @@
      #+END_SRC
 *** Python
 **** python-lsp
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
       (use-package lsp-python
-        ;; :disabled t
+        :disabled t
         :after lsp-mode
         :config
         (add-hook 'python-mode-hook #'lsp-python-enable))
-    #+END_SRC
+     #+END_SRC
 **** lsp-mode
-#+name: languages
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :delight ""
-    :hook (python-mode . lsp-mode))
-#+END_SRC
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package lsp-mode
+         :disabled t
+         :delight ""
+         :hook (python-mode . lsp-mode))
+     #+END_SRC
 **** company-lsp
-This is unusably slow as of 06/21/18
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+     This is unusably slow as of 06/21/18
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
   (use-package company-lsp
     :disabled t
     :init (setq company-lsp-async t)
@@ -904,14 +920,14 @@ This is unusably slow as of 06/21/18
     (python-mode . (lambda ()
                      (set (make-local-variable 'company-backends)
                           '((company-lsp company-files company-dabbrev))))))
-#+END_SRC
+     #+END_SRC
 **** lsp-ui
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
   (use-package lsp-ui
     :config
     :hook (lsp-mode . lsp-ui-mode))
-#+END_SRC
+     #+END_SRC
 **** anaconda-mode
      Navigation, documentation, and linting for Python
      #+name: languages
@@ -924,7 +940,7 @@ This is unusably slow as of 06/21/18
           (python-mode . anaconda-eldoc-mode)
           (python-mode . (lambda ()
                            (set (make-local-variable 'company-backends)
-                                '((company-anaconda company-dabbrev company-dabbrev-code company-files)))))
+                                '((comapny-yasnippet company-anaconda company-dabbrev company-dabbrev-code company-files)))))
           )
          :pin melpa)
      #+END_SRC
@@ -939,16 +955,16 @@ This is unusably slow as of 06/21/18
          :pin melpa)
      #+END_SRC
 **** pip-requirements
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
       (use-package pip-requirements
         :mode "\\^requires-"
         :pin melpa)
-    #+END_SRC
+     #+END_SRC
 **** pyvenv
      Use pyenv environments
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
       (use-package pyvenv
         :pin melpa
         :config
@@ -960,16 +976,16 @@ This is unusably slow as of 06/21/18
                                               (insert-file-contents pfile)
                                               (nth 0 (split-string (buffer-string))))))))))
         (add-hook 'python-mode 'pyenv-autoload))
-    #+END_SRC
+     #+END_SRC
 
 **** evil-text-object-python
      Adds  text-objects for python statements using the letter 'l'.
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
       (use-package evil-text-object-python
         :pin melpa
         :hook (python-mode . evil-text-object-python-add-bindings))
-    #+END_SRC
+     #+END_SRC
 **** yapfify
      format python code
      #+name: languages
@@ -1039,7 +1055,7 @@ This is unusably slow as of 06/21/18
          :hook
          (js2-mode .  (lambda ()
                         (set (make-local-variable 'company-backends)
-                             '((company-tern company-files company-dabbrev-files)))))
+                             '((company-yasnippet company-tern company-files company-dabbrev-files)))))
          :pin melpa)
      #+END_SRC
 **** indium
@@ -1065,7 +1081,7 @@ This is unusably slow as of 06/21/18
          :hook
          (php-mode .  (lambda ()
             (set (make-local-variable 'company-backends)
-                  '((company-ac-php-backend php-extras-company company-files company-dabbrev)))))
+                  '((company-yasnippet company-ac-php-backend php-extras-company company-files company-dabbrev)))))
          :pin melpa
          :config
          :mode (("\\.php$" . php-mode)
@@ -1117,16 +1133,16 @@ This is unusably slow as of 06/21/18
 **** emmet-mode
      Write markup more efficiently
      #+name: languages
-    #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp
       (use-package emmet-mode
         :delight ""
         :pin melpa
         :hook (css-mode web-mode html-mode haml-mode rjsx-mode)
         :config
         (setq emmet-move-cursor-between-quotes t))
-    #+END_SRC
+     #+END_SRC
 *** Org
-N.B. - Org-mode itself is configured and loaded in `init.el`
+    N.B. - Org-mode itself is configured and loaded in `init.el`
 **** org-bullets
      Use UTF-8 symbols for org headings
      #+name: languages
@@ -1519,11 +1535,11 @@ N.B. - Org-mode itself is configured and loaded in `init.el`
            (define-key evil-normal-state-map "s" 'evil-avy-goto-char-2)))
      #+END_SRC
 **** evil-anzu
-#+name: evil
-#+BEGIN_SRC emacs-lisp
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
   (use-package evil-anzu
     :after evil)
-#+END_SRC
+     #+END_SRC
 **** evil-collection
      Enable evil everywhere
      #+name: evil
@@ -1611,27 +1627,27 @@ N.B. - Org-mode itself is configured and loaded in `init.el`
          :config (global-evil-surround-mode 1))
      #+END_SRC
 **** evil-multiedit
-    #+name: evil
-    #+BEGIN_SRC emacs-lisp
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
       (use-package evil-multiedit
         :commands (evil-multiedit-match-symbol-and-next evil-multiedit-match-symbol-and-prev)
         :pin melpa
         :config
         (evil-multiedit-default-keybinds))
-    #+END_SRC
+     #+END_SRC
 **** evil-visualstar
-        Enable search-at-point from visual mode
-    #+name: evil
-    #+BEGIN_SRC emacs-lisp
+     Enable search-at-point from visual mode
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
       (use-package evil-visualstar
         :defer 5
         :pin melpa
         :config
         (global-evil-visualstar-mode))
-    #+END_SRC
+     #+END_SRC
 **** evil-snipe
-    #+name: evil
-    #+BEGIN_SRC emacs-lisp
+     #+name: evil
+     #+BEGIN_SRC emacs-lisp
       (use-package evil-snipe
         :pin melpa
         :commands (evil-snipe-t evil-snipe-T evil-snipe-F evil-snipe-f)
@@ -1639,7 +1655,7 @@ N.B. - Org-mode itself is configured and loaded in `init.el`
         (setq evil-snipe-smart-case t)
         :config
         (evil-snipe-override-mode 1))
-    #+END_SRC
+     #+END_SRC
 ** Final
    Things to do after the rest of the config has loaded. This is can be tricky given the deferred loading going on with =use-package=.
    #+name: final

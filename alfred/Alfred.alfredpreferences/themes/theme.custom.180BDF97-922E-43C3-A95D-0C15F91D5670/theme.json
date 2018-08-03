@@ -4,43 +4,43 @@
       "textSpacing" : 5,
       "subtext" : {
         "size" : 12,
-        "colorSelected" : "#A3BD8BFF",
+        "colorSelected" : "#B4881DFF",
         "font" : "FuraCode Nerd Font",
-        "color" : "#FFFFFF7E"
+        "color" : "#576365FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "InputMonoNarrow Nerd Font",
-        "color" : "#B38EACFF"
+        "font" : "FuraCode Nerd Font",
+        "color" : "#DA5794FF"
       },
-      "backgroundSelected" : "#3A414CFF",
+      "backgroundSelected" : "#37393BFF",
       "text" : {
-        "size" : 17,
-        "colorSelected" : "#80A1C1FF",
+        "size" : 20,
+        "colorSelected" : "#D13A82FF",
         "font" : "Fira Sans",
-        "color" : "#D7DDE9FF"
+        "color" : "#839496FF"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 2,
+      "paddingVertical" : 6,
       "iconSize" : 40
     },
     "search" : {
-      "paddingVertical" : 5,
-      "background" : "#272B33FF",
+      "paddingVertical" : 7,
+      "background" : "#232527FF",
       "spacing" : 8,
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
         "font" : "Fira Sans",
-        "color" : "#6CA5CDFF"
+        "color" : "#97A431FF"
       },
       "backgroundSelected" : "#7AC7FFFF"
     },
     "window" : {
-      "color" : "#272B33FF",
+      "color" : "#222427FF",
       "paddingHorizontal" : 0,
-      "width" : 750,
+      "width" : 739,
       "borderPadding" : 0,
       "borderColor" : "#0000007F",
       "blur" : 15,
@@ -53,9 +53,9 @@
       "thickness" : 0
     },
     "scrollbar" : {
-      "color" : "#358188FF",
+      "color" : "#3E9FD5FF",
       "thickness" : 2
     },
-    "name" : "Nord"
+    "name" : "Violet"
   }
 }

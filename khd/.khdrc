@@ -8,19 +8,19 @@ switcher + shift - backspace : chunkc core::load ffm.so;\
 switcher + lalt - space : khd -e "mode activate default"
 swap + lalt - space     : khd -e "mode activate default"
 pane + lalt - space     : khd -e "mode activate default"
-float + lalt - space     : khd -e "mode activate default"
+float + lalt - space    : khd -e "mode activate default"
 
 # Escape to quit
 switcher - 0x35          : khd -e "mode activate default"
 swap - 0x35              : khd -e "mode activate default"
 pane - 0x35              : khd -e "mode activate default"
-float - 0x35              : khd -e "mode activate default"
+float - 0x35             : khd -e "mode activate default"
 
 # Ctrl-C to quit
 switcher + lctrl - c     : khd -e "mode activate default"
 swap + lctrl - c         : khd -e "mode activate default"
 pane + lctrl - c         : khd -e "mode activate default"
-float + lctrl - c         : khd -e "mode activate default"
+float + lctrl - c        : khd -e "mode activate default"
 
 # -------------- Mode Colors ---------------------------
 
@@ -36,17 +36,29 @@ float + lctrl - c         : khd -e "mode activate default"
 # Float (green)
 # khd mode float     on_enter chunkc border::color 0xFF98be65
 
-# Gruvbox
+# # Gruvbox
+# # Default (blue) (transparent)
+# khd mode default  on_enter chunkc border::color 0x00ebdbb2
+# # Switcher (yellow)
+# khd mode switcher on_enter chunkc border::color 0xFFd79921
+# # Swap (red)
+# khd mode swap     on_enter chunkc border::color 0xFFcc241d
+# # Pane (purple)
+# khd mode pane     on_enter chunkc border::color 0xFFb16286
+# # Float (green)
+# khd mode float     on_enter chunkc border::color 0xFF689d6a
+
+# Violet
 # Default (blue) (transparent)
-khd mode default  on_enter chunkc border::color 0x00ebdbb2
+khd mode default  on_enter chunkc border::color 0xFF389ed7
 # Switcher (yellow)
-khd mode switcher on_enter chunkc border::color 0xFFd79921
+khd mode switcher on_enter chunkc border::color 0xFFc29925
 # Swap (red)
-khd mode swap     on_enter chunkc border::color 0xFFcc241d
+khd mode swap     on_enter chunkc border::color 0xFFd5612c
 # Pane (purple)
-khd mode pane     on_enter chunkc border::color 0xFFb16286
+khd mode pane     on_enter chunkc border::color 0xFFdc5494
 # Float (green)
-khd mode float     on_enter chunkc border::color 0xFF689d6a
+khd mode float     on_enter chunkc border::color 0xFF97a624
 
 # -------------- switcher mode --------------------------
 lalt - space        : khd -e "mode activate switcher"

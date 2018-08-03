@@ -169,7 +169,7 @@ codepoint() {
 ff() {
   local out file key
   IFS=$'\n'
-  out=($(fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
+  out=($(fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% --preview '[[ $(file --mime {}) =~ binary ]] &&
                   echo {} is a binary file ||
                   (highlight -O ansi -l {} ||
                   pygmentize -g {} ||
@@ -266,7 +266,6 @@ range() {
 # fuzzy sshs into known hosts
 sshs() {
   ~/.scripts/sshs -m
-  zle redraw-prompt
 }
 zle -N sshs
 bindkey '^N' sshs
@@ -318,7 +317,7 @@ fr() {
   local file out key
   IFS=$'\n'
   out=($(sed '1d' ~/.cache/neomru/file |
-         fzf +m --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
+         fzf +m --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% --preview '[[ $(file --mime {}) =~ binary ]] &&
                    echo {} is a binary file ||
                    (highlight -O ansi -l {} ||
                    pygmentize -g {} ||
@@ -344,7 +343,7 @@ bindkey '^h' fr
 findfile() {
   local out file key
   IFS=$'\n'
-  out=($(rg ${1:-.} --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc" -g "!node-modules/*" 2> /dev/null | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=right:50% --preview '[[ $(file --mime {}) =~ binary ]] &&
+  out=($(rg ${1:-.} --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc" -g "!node-modules/*" -g "!tags" -g "!TAGS" 2> /dev/null | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% --preview '[[ $(file --mime {}) =~ binary ]] &&
                   echo {} is a binary file ||
                   (highlight -O ansi -l {} ||
                   pygmentize -g {} ||
@@ -381,8 +380,12 @@ zle -N fkill
 bindkey '^p' fkill
 
 fzg() {
-  local file
-  linefile=($(rg -n -g "!.pyc" -g "!node-modules/*" -g "!env/*" -g "!TAGS" -g "!*.dmp" . 2> /dev/null | fzf --preview-window=right:50% --delimiter ':' --nth 3.. --preview 'preview {}' | gawk -F : '{print "+"$2" "$1 }'))
+  local linefile
+  if [[ $EDITOR = 'nvim' ]]; then
+    linefile=($(rg -n --hidden -g "!.pyc" -g "!.git/*" -g "!node-modules/*" -g "!env/*" -g "!TAGS" -g "!*.dmp" . 2> /dev/null | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' | gawk -F : '{print "+"$2" "$1 }'))
+  elif [[ $EDITOR = 'code' ]]; then
+    linefile=($(rg -n --hidden -g "!.pyc" -g "!.git/*" -g "!node-modules/*" -g "!env/*" -g "!TAGS" -g "!*.dmp" . 2> /dev/null | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' | gawk -F : '{print "-g "$1":"$2 }'))
+  fi
 
   if [[ -n $linefile ]]; then
     echo $linefile | xargs $EDITOR

@@ -3,21 +3,21 @@
 set -g status-position bottom
 set -g status-justify "left"
 set -g status-style "bg=0"
-set -g window-style "bg=#353738"
+set -g window-style "bg=#2c2e2f"
 
 set -g status-left ""
 set -g status-left-length 10
 
-set -g status-right " #[fg=colour02]%I:%M  %b %d #{?battery_percentage, ,}#{battery_status_fg}#{battery_percentage} "
+set -g status-right " #[fg=colour03]%I:%M  %b %d #{?battery_percentage, ,}#{battery_status_fg}#{battery_percentage} "
 set -g status-right-style "bold"
 set -g status-right-length 100
  
-set -g window-status-current-style "bold fg=2 bg=0"
-set -g window-status-style "fg=7 bg=0"
+set -g window-status-current-style "bold fg=4 bg=0"
+set -g window-status-style "fg=8 bg=0"
 set -g window-status-format " #{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-current-format " #{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-separator ""
 
-set -g pane-active-border-style "fg=#353738 bg=#353738"
-set -g pane-border-style "fg=#353738 bg=#353738"
+set -g pane-active-border-style "fg=#2c2e2f bg=#2c2e2f"
+set -g pane-border-style "fg=#2c2e2f bg=#2c2e2f"
 set -g window-active-style 'bg=#25272a'
