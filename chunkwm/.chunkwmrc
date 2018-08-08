@@ -45,7 +45,7 @@ chunkc set mouse_modifier                fn
 # NOTE: the following are config variables for the chunkwm-border plugin.
 
 chunkc set focused_border_color          0x00ebdbb2
-chunkc set focused_border_width          7
+chunkc set focused_border_width          10
 chunkc set focused_border_radius         3
 chunkc set focused_border_skip_floating  0
 

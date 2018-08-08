@@ -50,7 +50,7 @@ float + lctrl - c        : khd -e "mode activate default"
 
 # Violet
 # Default (blue) (transparent)
-khd mode default  on_enter chunkc border::color 0xFF389ed7
+khd mode default  on_enter chunkc border::color 0xFF141516
 # Switcher (yellow)
 khd mode switcher on_enter chunkc border::color 0xFFc29925
 # Swap (red)

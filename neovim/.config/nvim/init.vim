@@ -676,7 +676,8 @@ nnoremap <Leader>nc :PlugClean<CR>
 let g:lmap.c = {'name': 'Code',
       \ 't': ['TagbarToggle', 'toggle tagbar'],
       \ 'm': ['LanguageClient_contextMenu', 'LSP menu'],
-      \ 'r': ['!rm ctags && ctags', 'regenerate tags']
+      \ 'r': ['!rm ctags && ctags', 'regenerate tags'],
+      \ 'T': ['!ctags', 'generate ctags']
       \}
 nnoremap <leader>ct :TagbarToggle<CR>
 nnoremap <leader>cm :call LanguageClient_contextMenu()<CR>
