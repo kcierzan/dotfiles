@@ -4,7 +4,8 @@
 " ██║██║╚██╗██║██║   ██║   ╚██╗ ██╔╝██║██║╚██╔╝██║
 " ██║██║ ╚████║██║   ██║██╗ ╚████╔╝ ██║██║ ╚═╝ ██║
 " ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝
-                                                
+
+"-------------------------------- SETTINGS --------------------------------
 scriptencoding utf-8
 set autoindent
 set completeopt-=preview
@@ -37,13 +38,25 @@ set timeoutlen=1000
 set ttimeoutlen=0
 set autoread
 set ttyfast
+set undodir=~/.undo
+set undofile
+set undolevels=100000
 
 " Enable blinking cursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-
 " Enable system clipboard
 set clipboard=unnamed
 
+" Set :grep to use ripgrep
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --no-heading
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+
+" Virtualenv for python-dependent plugins
+let g:python3_host_prog = $HOME . '/.pyenv/versions/neovim3/bin/python3'
+
+"-------------------------------- AUTOCOMMANDS --------------------------------
 " Disable annoying automatic comments
 autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn |
 
@@ -53,22 +66,9 @@ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checkti
 autocmd FileChangedShellPost *
       \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
-set undodir=~/.undo
-set undofile
-set undolevels=100000
-
-" Set :grep to use ripgrep
-if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-heading
-  set grepformat=%f:%l:%c:%m,%f:%l:%m
-endif
-
 " Vim autosaves and reflects changes to files on disk
 au FocusGained,BufEnter * :silent! !
 au FocusLost,WinLeave * :silent! w
-
-" Virtualenv for python-dependent plugins
-let g:python3_host_prog = $HOME . '/.pyenv/versions/neovim3/bin/python3'
 
 "autocmds
 autocmd BufNewFile,BufRead *.py
@@ -84,13 +84,11 @@ autocmd BufNewFile,BufRead *.thtml
 
 augroup netrw_buf_hidden_fix
   autocmd!
-
   " Set all non-netrw buffers to bufhidden=hide
   autocmd BufWinEnter *
         \  if &ft != 'netrw'
         \|     set bufhidden=hide
         \| endif
-
 augroup end
 
 augroup SwitchPanes
@@ -98,7 +96,7 @@ augroup SwitchPanes
   autocmd WinLeave * set nocursorline
 augroup END
 
-"ex commands
+"-------------------------------- EX COMMANDS --------------------------------
 function! JSONify()
   %!python -m json.tool
   set syntax=json
@@ -110,13 +108,14 @@ command J :call JSONify()
 " Remove trailing whitespace
 command Nows :%s/\s\+$//
 
+"-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
 
+" a colorscheme that plays nice with 16 color terminals
 Plug '~/git/termina'
 
-"vim-startify
+" vim-startify
 Plug 'mhinz/vim-startify'
-
 let g:ascii = [
       \ '    ███▄    █ ▓█████  ▒█████   ██▒   █▓ ██▓ ███▄ ▄███▓',
       \ '    ██ ▀█   █ ▓█   ▀ ▒██▒  ██▒▓██░   █▒▓██▒▓██▒▀█▀ ██▒',
@@ -129,76 +128,20 @@ let g:ascii = [
       \ '            ░    ░  ░    ░ ░        ░   ░         ░   ',
       \ '                                   ░                  '
       \]
-
 let g:scroll =
       \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"   ". v:val')
-
 let g:drip_header =
       \ map(g:ascii + g:scroll, '"   ".v:val')
-
 function! s:filter_header(lines) abort
   let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
   let centered_lines = map(copy(a:lines),
         \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
   return centered_lines
 endfunction
-
 let g:startify_custom_header = s:filter_header(g:drip_header)
 
-"vim-sneak
-Plug 'justinmk/vim-sneak'
-let g:sneak#label = 1
-let g:sneak#use_ic_scs = 1
-let g:sneak#s_next =1
-autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
-
-"vim-tmux-navigator
-" Map alt + hjkl to navigation
-"TODO: why doesn't this work on linux?
-let g:tmux_navigator_no_mappings = 1
-Plug 'christoomey/vim-tmux-navigator'
-
-"ALE
-Plug 'w0rp/ale'
-filetype off
-filetype plugin on
-let g:ale_linters = {
-      \ 'python': ['pylint', 'flake8', 'pyls'],
-      \ 'javascript': ['eslint'],
-      \ 'css': ['stylelint'],
-      \ 'php': ['phpcs'],
-      \ 'bash': ['shellcheck'],
-      \ 'html': ['tidy'],
-      \ 'vim': ['vint'],
-      \ 'yaml': ['yamllint'],
-      \ 'jsx': ['eslint']
-      \ }
-let g:ale_linter_aliases = {
-      \ 'jsx': 'javascript',
-      \ 'thtml': 'html',
-      \ 'phtml': 'html',
-      \ }
-let g:ale_python_pylint_options = '--rcfile=~/.pylintrc'
-let g:ale_python_pylint_use_global = 1
-let g:ale_python_flake8_use_global = 1
-let g:ale_javascript_eslint_use_global = 1
-" let g:ale_python_flake8_executable = $HOME . '/.virtualenvs/neovim/bin/flake8'
-let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/neovim3/bin/vint'
-" let g:ale_python_pylint_executable = $HOME . '/.virtualenvs/neovim/bin/pylint'
-let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
-let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
-let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '⚠'
-let g:ale_statusline_format = ['✖ %d', '⚠ %d', '']
-let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_set_highlights = 0
-highlight ALEErrorSign ctermfg=1
-highlight ALEWarningSign ctermfg=3
-
-"indentLine
-Plug 'Yggdroot/indentLine'                 " indent lines
+" indentLine
+Plug 'Yggdroot/indentLine'
 let g:indentLine_enabled = 0
 let g:indentLine_char = '│'
 let g:indentLine_first_char = '│'
@@ -207,19 +150,12 @@ let g:indentLine_fileTypeExclude = ['text', 'sh', 'startify', 'man', 'help']
 let g:indentLine_bufTypeExclude = ['terminal']
 let g:indentLine_setColors = 1
 
-"vim-test
-Plug 'janko-m/vim-test'                    " Run tests
-Plug 'benmills/vimux'                      " Interact with tmux from vim
-let g:test#python#runner = 'nose'
-let g:test#strategy = 'vimux'
-let g:test#python#nose#options = '-x -v -s --with-coverage'
-
-"rainbow_parentheses
+" rainbow_parentheses
 Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
 let g:rainbow_conf = { 'ctermfgs': ['blue', 'cyan', 'magenta', 'red', 'yellow', 'green'] }
 
-"vim-gitgutter
+" vim-gitgutter
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
 let g:gitgutter_max_signs = 5000
@@ -266,7 +202,7 @@ function! PrevHunkAllBuffers()
   endwhile
 endfunction
 
-"goyo
+" goyo
 Plug 'junegunn/goyo.vim' " Remove distractions
 let g:goyo_width = 100
 let g:goyo_linenr = 0
@@ -303,11 +239,81 @@ augroup GoyoToggle
   autocmd! User GoyoLeave nested call <SID>goyo_leave()
 augroup END
 
-"limelight
-Plug 'junegunn/limelight.vim'              " Draw attention to code
+" limelight
+Plug 'junegunn/limelight.vim'
 let g:limelight_conceal_ctermfg = 238
 let g:limelight_default_coefficient = 0.5
 let g:limelight_paragraph_span = 1
+
+" comfortable-motion
+Plug 'yuttie/comfortable-motion.vim'
+let g:comfortable_motion_friction = 15.0
+let g:comfortable_motion_air_drag = 5.0
+
+" vim-sneak
+Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1
+let g:sneak#s_next =1
+autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
+
+" vim-tmux-navigator
+" Map alt + hjkl to navigation
+"TODO: why doesn't this work on linux?
+let g:tmux_navigator_no_mappings = 1
+Plug 'christoomey/vim-tmux-navigator'
+
+" ALE
+Plug 'w0rp/ale'
+filetype off
+filetype plugin on
+let g:ale_linters = {
+      \ 'python': ['pylint', 'flake8', 'pyls'],
+      \ 'javascript': ['eslint'],
+      \ 'css': ['prettier'],
+      \ 'php': ['phpcs'],
+      \ 'bash': ['shellcheck'],
+      \ 'html': ['tidy'],
+      \ 'vim': ['vint'],
+      \ 'yaml': ['yamllint'],
+      \ 'jsx': ['eslint']
+      \ }
+let g:ale_linter_aliases = {
+      \ 'jsx': 'javascript',
+      \ 'thtml': 'html',
+      \ 'phtml': 'html',
+      \ }
+let g:ale_fixers = {
+      \ 'javascript': ['prettier', 'eslint'],
+      \ 'css': ['prettier'],
+      \ 'html': ['tidy'],
+      \}
+let g:ale_fix_on_save = 1
+let g:ale_python_pylint_options = '--rcfile=~/.pylintrc'
+let g:ale_python_pylint_use_global = 1
+let g:ale_python_flake8_use_global = 1
+let g:ale_javascript_eslint_use_global = 1
+" let g:ale_python_flake8_executable = $HOME . '/.virtualenvs/neovim/bin/flake8'
+let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/neovim3/bin/vint'
+" let g:ale_python_pylint_executable = $HOME . '/.virtualenvs/neovim/bin/pylint'
+let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
+let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
+let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '⚠'
+let g:ale_statusline_format = ['✖ %d', '⚠ %d', '']
+let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_set_highlights = 0
+highlight ALEErrorSign ctermfg=1
+highlight ALEWarningSign ctermfg=3
+
+"vim-test
+Plug 'janko-m/vim-test'                    " Run tests
+Plug 'benmills/vimux'                      " Interact with tmux from vim
+let g:test#python#runner = 'nose'
+let g:test#strategy = 'vimux'
+let g:test#python#nose#options = '-x -v -s --with-coverage'
 
 "neosnippet
 Plug 'Shougo/neosnippet.vim'               " Snippet functionality
@@ -324,11 +330,6 @@ xmap <C-k> <Plug>(neosnippet_expand_target)
 Plug 'terryma/vim-expand-region'
 vmap e <Plug>(expand_region_expand)
 vmap E <Plug>(expand_region_shrink)
-
-"comfortable-motion
-Plug 'yuttie/comfortable-motion.vim'
-let g:comfortable_motion_friction = 15.0
-let g:comfortable_motion_air_drag = 5.0
 
 "fzf.vim
 Plug '/usr/local/opt/fzf'
@@ -418,32 +419,36 @@ Plug 'junegunn/vim-easy-align'             " align stuff
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'tpope/vim-abolish'                   " correct common misspellings
 Plug 'AndrewRadev/sideways.vim'            " move stuff sideways
+Plug 'majutsushi/tagbar'                   " show some tags
+Plug 'vim-python/python-syntax',           { 'for': ['python'] } " Make python look a little better
+Plug 'haya14busa/vim-keeppad'              " keep padding when line nums go away
+Plug 'pangloss/vim-javascript'             " syntax highlighting for javascript
+Plug 'mxw/vim-jsx'                         " syntax highlighting for jsx
+Plug 'vimwiki/vimwiki'                     " notes
+Plug 'blueyed/vim-diminactive'             " change the color of inactive panes
+Plug 'tmux-plugins/vim-tmux-focus-events'  " add focus events to vim
 
-Plug 'tpope/vim-rhubarb'                   " access GitHub
+Plug 'wesQ3/vim-windowswap'
+let g:windowswap_map_keys = 0
+
+Plug 'tpope/vim-rhubarb'
 let g:github_enterprise_urls = ['https://github.aweber.io']
 
-Plug 'shumphrey/fugitive-gitlab.vim'       " access GitLab
+Plug 'shumphrey/fugitive-gitlab.vim'
 let g:fugitive_gitlab_domaines = ['https://gitlab.aweber.io']
 
-Plug 'mattn/emmet-vim'                     " markup Expansion
+Plug 'mattn/emmet-vim'
 let g:user_emmet_settings = {
       \ 'javascript.jsx': {
       \   'extends': 'jsx',
       \  },
       \}
 
-Plug 'majutsushi/tagbar'                   " show some tags
-Plug 'vim-python/python-syntax',           { 'for': ['python'] } " Make python look a little better
-Plug 'haya14busa/vim-keeppad'              " keep padding when line nums go away
-Plug 'othree/es.next.syntax.vim',          { 'for': ['javascript', 'javascript.jsx'] } " ES next syntax
-Plug 'othree/yajs.vim',                    { 'for': ['javascript', 'javascript.jsx'] } " improved JS syntax highlighting
-Plug 'wesQ3/vim-windowswap'                " swap windows around
-
-Plug 'diepm/vim-rest-console'              " http client
+" vim-rest-console
+Plug 'diepm/vim-rest-console'
 let g:vrc_include_response_header = 1
 
-Plug 'vimwiki/vimwiki'                     " notes
-
+" deoplete
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -453,11 +458,11 @@ else
 endif
 let g:deoplete#enable_at_startup = 1
 
+" languageclient neovim
 Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
       \ 'do': 'bash install.sh',
       \ }
-
 let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
       \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
@@ -466,19 +471,16 @@ let g:LanguageClient_serverCommands = {
       \ 'python': ['pyls'],
       \ }
 
+" vim-rooter
 Plug 'airblade/vim-rooter'
 let g:rooter_use_lcd = 1
 let g:rooter_resolve_links = 1
 let g:rooter_silent_chdir = 1
 
-let g:windowswap_map_keys = 0
-" Or map each action separately
+"-------------------------------- KEYBINDINGS -----------------------------------
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
-
-Plug 'blueyed/vim-diminactive'
-Plug 'tmux-plugins/vim-tmux-focus-events'
 
 " Keep search results in the center of the screen
 nmap n nzz
