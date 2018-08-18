@@ -17,7 +17,7 @@ fi
 # Editors
 #
 
-export EDITOR='nvim'
+export EDITOR='code'
 export ALTERNATE_EDITOR=''
 export VISUAL='nvim'
 export PAGER='less'

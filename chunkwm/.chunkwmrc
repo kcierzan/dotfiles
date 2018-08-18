@@ -72,4 +72,5 @@ chunkc tiling::rule --owner Finder --state float
 chunkc tiling::rule --owner 1Password --state float
 chunkc tiling::rule --owner Spark --state float
 chunkc tiling::rule --owner HipChat --state float
+chunkc tiling::rule --owner Emacs --state tile
 chunkc tiling::rule --owner \"App Store\" --state float

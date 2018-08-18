@@ -5,20 +5,20 @@
       "subtext" : {
         "size" : 12,
         "colorSelected" : "#B4881DFF",
-        "font" : "FuraCode Nerd Font",
+        "font" : "RobotoMono Nerd Font",
         "color" : "#576365FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "FuraCode Nerd Font",
+        "font" : "Roboto",
         "color" : "#DA5794FF"
       },
       "backgroundSelected" : "#37393BFF",
       "text" : {
         "size" : 20,
         "colorSelected" : "#D13A82FF",
-        "font" : "Fira Sans",
+        "font" : "Roboto",
         "color" : "#839496FF"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Fira Sans",
+        "font" : "Roboto",
         "color" : "#97A431FF"
       },
       "backgroundSelected" : "#7AC7FFFF"

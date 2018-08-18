@@ -343,7 +343,7 @@ autocmd FileType fzf set laststatus=0 noshowmode noruler
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --hidden --line-number --no-heading --color=always -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
-      \   (winwidth(0) > 175 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%') : fzf#vim#with_preview('up:80%')))
+      \   (winwidth(0) > 175 ? fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -bang -nargs=* GGrep
       \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0,
@@ -721,6 +721,8 @@ nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gn :GitGutterNextHunk<CR>
 nnoremap <silent> <leader>gN :GitGutterPrevHunk<CR>
 nnoremap <silent> <leader>gh :GitGutterStageHunk<CR>
+nnoremap <silent> <leader>g] :call NextHunkAllBuffers()<CR>
+nnoremap <silent> <leader>g[ :call PrevHunkAllBuffers()<CR>
 nnoremap <silent> <leader>gu :GitGutterUndoHunk<CR>
 nnoremap <silent> <leader>gp :GitGutterPreviewHunk<CR>
 nnoremap <silent> <leader>gd :Gvdiff<CR>

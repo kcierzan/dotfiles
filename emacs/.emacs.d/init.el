@@ -11,10 +11,10 @@
 
 ;; (setq monospace-font "SF Mono")
 ;; (setq nerd-font "SFMono Nerd Font")
-(setq monospace-font "FuraCode Nerd Font")
-(setq string-font "FuraCode Nerd Font")
-(setq nerd-font "FuraCode Nerd Font")
-(setq variable-pitch-font "Fira Sans")
+(setq monospace-font "Pragmata Pro")
+(setq string-font "Pragmata Pro")
+(setq nerd-font "PragmataPro Nerd Font")
+(setq variable-pitch-font "Pragmata Pro")
 
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -44,9 +44,9 @@
         org-src-preserve-indentation nil
         org-catch-invisible-edits t)
   (setq org-todo-keywords
-        '((sequence "TODO" "NEXT" "|" "DONE" "CANCELLED")))
+        '((sequence "TODO" "IN PROGRESS" "NEXT" "|" "DONE" "CANCELLED")))
   (setq org-capture-templates
-        '(("t" "todo" entry (file "~/git/org/refile.org")
+        '(("t" "todo" entry (file "~/git/org/todo.org")
            "* TODO %?\n%U\n%a\n"
            :clock-resume t)
           ("r" "respond" entry (file "~/git/org/refile.org")
@@ -66,8 +66,8 @@
         '(("TODO" . org-warning)
           ("DOING" . "orange")))
   ;; org refile targets
-  (setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                   (org-agenda-files :maxlevel . 9))))
+  (setq org-refile-targets (quote ((nil :maxlevel . 5)
+                                   (org-agenda-files :maxlevel . 5))))
   ;; use full outline paths for refile targets - file directly with helm
   (setq org-refile-use-outline-path t)
   ;; Targets complete with helm

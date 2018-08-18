@@ -104,6 +104,9 @@
     (set-selection-coding-system 'utf-8)
     (setq locale-coding-system 'utf-8)
     (setq-default buffer-file-coding-system 'utf-8)
+    (define-coding-system-alias 'UTF-8 'utf-8)
+    (define-coding-system-alias 'utf8 'utf-8)
+    (define-coding-system-alias 'UTF8 'utf-8)
   #+END_SRC
 * Dired
   #+name: basic
@@ -365,8 +368,7 @@
          (with-eval-after-load 'company
            (add-hook 'restclient-mode-hook
                      '(lambda ()
-                       (set (make-local-variable 'company-backends)
-                            '((company-restclient company-dabbrev company-files)))))))
+                        (add-to-list 'company-backends 'company-restclient)))))
      #+END_SRC
 ** Programming
 *** Completion
@@ -375,9 +377,8 @@
      #+BEGIN_SRC emacs-lisp
       (use-package company
         :delight ""
-        :hook ((org-mode prog-mode) . company-mode)
+        :hook ((org-mode prog-mode restclient-mode) . company-mode)
         :defer 2
-        :pin melpa
         :config
         (setq company-minimum-prefix-length 2
               company-idle-delay 0
@@ -389,7 +390,7 @@
               company-require-match 'never
               company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
               company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
-              company-backends '((company-yasnippet company-files company-capf company-dabbrev))
+              company-backends '(company-capf company-dabbrev company-yasnippet company-files)
               company-transformers '(company-sort-by-occurrence))
         (add-hook 'after-init-hook '(lambda ()
                                       (define-key company-active-map (kbd "RET") 'company-complete-selection)
@@ -402,10 +403,8 @@
        (use-package company-statistics
          :after company
          :hook (company-mode . company-statistics-mode)
-         :init
-         (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
-         :config
-         (company-statistics-mode 1))
+         :init (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
+         :config (company-statistics-mode 1))
      #+END_SRC
 **** company-quickhelp
      Documentation popups
@@ -414,10 +413,8 @@
        (use-package company-quickhelp
          :pin melpa
          :hook (company-mode . company-quickhelp-mode)
-         :init
-         (setq company-quickhelp-delay 1)
-         :config
-         (company-quickhelp-mode 1))
+         :init (setq company-quickhelp-delay 1)
+         :config (company-quickhelp-mode 1))
      #+END_SRC
 **** hippie-exp
      #+name: programming
@@ -440,6 +437,8 @@
      #eglot: programming
      #+BEGIN_SRC emacs-lisp
        (use-package eglot
+         :disabled t
+         :hook (python-mode . eglot-ensure)
          :commands (eglot eglot-reconnect eglot-rename eglot-help-at-point eglot-events-buffer))
      #+END_SRC
 *** Navigation
@@ -450,8 +449,7 @@
        (use-package ace-link
          :commands (ace-link ace-link-org)
          :pin melpa
-         :config
-         (ace-link-setup-default))
+         :config (ace-link-setup-default))
      #+END_SRC
 **** avy
      Jump to text
@@ -466,9 +464,8 @@
      #+BEGIN_SRC emacs-lisp
        (use-package dumb-jump
          :pin melpa
-         :init
-         (setq dumb-jump-force-searcher 'rg)
-         (setq dumb-jump-selector 'helm))
+         :init (setq dumb-jump-force-searcher 'rg
+                     dumb-jump-selector 'helm))
      #+END_SRC
 **** imenu-list
      "Tagbar" like buffer for imenu
@@ -477,21 +474,19 @@
        (use-package imenu-list
          :pin melpa
          :commands (imenu-list)
-         :config
-         (setq imenu-list-focus-after-activation t))
+         :config (setq imenu-list-focus-after-activation t))
      #+END_SRC
 **** projectile
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package projectile
          ;; :disabled t
-         :init
-         (setq projectile-enable-caching (not noninteractive)
-               projectile-indexing-method 'alien
-               projectile-globally-ignored-files '(".DS_STORE" "TAGS")
-               projectile-globally-ignored-file-suffixes '(".elc" ".pyc")
-               projectile-switch-project-action 'projectile-dired
-               projectile-mode-line nil)
+         :init (setq projectile-enable-caching (not noninteractive)
+                     projectile-indexing-method 'alien
+                     projectile-globally-ignored-files '(".DS_STORE" "TAGS")
+                     projectile-globally-ignored-file-suffixes '(".elc" ".pyc")
+                     projectile-switch-project-action 'projectile-dired
+                     projectile-mode-line nil)
          :config
          (projectile-discover-projects-in-directory "~/git")
          (projectile-mode 1))
@@ -577,9 +572,8 @@
          :when (= emacs-major-version 25)
          :after flycheck
          :hook (flycheck-mode . flycheck-pos-tip-mode)
-         :config
-         (setq flycheck-pos-tip-timeout 10
-               flycheck-display-errors-delay 0.9))
+         :config (setq flycheck-pos-tip-timeout 10
+                       flycheck-display-errors-delay 0.9))
      #+END_SRC
 
 *** Shell
@@ -589,9 +583,8 @@
      #+BEGIN_SRC emacs-lisp
        (use-package exec-path-from-shell
          :pin melpa
-         :config
-         (when (memq window-system '(mac ns x))
-           (exec-path-from-shell-initialize)))
+         :config (when (memq window-system '(mac ns x))
+                   (exec-path-from-shell-initialize)))
      #+END_SRC
 **** multi-term
      #+name: programming
@@ -684,6 +677,7 @@
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package pos-tip
+         ;; :disabled t
          :pin melpa)
      #+END_SRC
 **** rainbow-delimiters
@@ -726,13 +720,13 @@
        (use-package neotree
          :commands (neotree-toggle)
          :pin melpa
-         :init
-         (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+         :init (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
      #+END_SRC
 **** highlight-indentation
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package highlight-indentation
+         :disabled t
          :pin melpa)
      #+END_SRC
 **** beacon
@@ -741,10 +735,8 @@
        (use-package beacon
          :defer 3
          :delight
-         :init
-         (setq beacon-blink-duration 0.17)
-         :config
-         (beacon-mode 1))
+         :init (setq beacon-blink-duration 0.17)
+         :config (beacon-mode 1))
      #+END_SRC
 **** sublimity
      Smooth scrolling and distraction-free mode
@@ -752,11 +744,9 @@
      #+BEGIN_SRC emacs-lisp
        (use-package sublimity
          :defer 3
-         :init
-         (setq sublimity-scroll-weight 8
-               sublimity-scroll-drift-length 10)
-         :config
-         (sublimity-mode 1))
+         :init (setq sublimity-scroll-weight 8
+                     sublimity-scroll-drift-length 10)
+         :config (sublimity-mode 1))
      #+END_SRC
 **** diminish
      #+name: interface
@@ -786,7 +776,7 @@
 **** shackle
      #+name: interface
      #+BEGIN_SRC emacs-lisp
-  (use-package shackle)
+     (use-package shackle)
      #+END_SRC
 ** Themes
 **** doom-themes
@@ -795,27 +785,24 @@
        (use-package doom-themes
          :pin melpa
          ;; :disabled t
-         :init
-         (setq doom-themes-enable-bold t
-               doom-themes-enable-italic t)
+         :init (setq doom-themes-enable-bold t
+                     doom-themes-enable-italic t)
          :config
          (doom-themes-org-config)
-         (load-theme 'doom-molokai t))
+         (load-theme 'doom-vibrant t))
      #+END_SRC
 **** solarized-emacs
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package solarized-theme
          :disabled t
-         :config
-         (load-theme 'solarized-dark t))
+         :config (load-theme 'solarized-dark t))
      #+END_SRC
 **** moe-theme
      #+BEGIN_SRC emacs-lisp
        (use-package moe-theme
          :disabled t
-         :init
-         (setq moe-theme-highlight-buffer-id nil)
+         :init (setq moe-theme-highlight-buffer-id nil)
          :config
          (moe-theme-set-color 'orange)
          (moe-dark))
@@ -825,8 +812,7 @@
      #+BEGIN_SRC emacs-lisp
        (use-package base16-theme
          :disabled t
-         :config
-         (load-theme 'base16-monokai t))
+         :config (load-theme 'base16-monokai t))
      #+END_SRC
 **** spaceline
      #+name: interface
@@ -835,8 +821,8 @@
          :disabled t
          :init
          (setq-default powerline-height 24)
-         (setq powerline-default-separator 'wave)
-         (setq spaceline-minor-modes-separator " | ")
+         (setq powerline-default-separator 'wave
+               spaceline-minor-modes-separator " | ")
          :config
          (spaceline-helm-mode 1)
          (setq spaceline-evil-state-p nil)
@@ -856,8 +842,7 @@
     ;; :disabled t
     :defer t
     :requires (shrink-path eldoc-eval)
-    :init
-    (setq doom-modeline-height 36)
+    :init (setq doom-modeline-height 36)
     :hook (after-init . doom-modeline-init))
      #+END_SRC
 **** eziam-theme
@@ -865,8 +850,7 @@
      #+BEGIN_SRC emacs-lisp
        (use-package eziam-theme
        :disabled t
-       :config
-       (load-theme 'eziam-dark t))
+       :config (load-theme 'eziam-dark t))
      #+END_SRC
 ** Languages
 *** SQL
@@ -883,23 +867,18 @@
      #+BEGIN_SRC emacs-lisp
        (use-package elm-mode
          :pin melpa
-         :config
-         (with-eval-after-load 'company
-           (add-hook 'elm-mode-hook
-                     (lambda ()
-                       (set (make-local-variable 'company-backends)
-                            '((company-elm company-etags company-files))))))
+         :hook (elm-mode . (lambda ()
+                             (add-to-list 'company-backends 'company-elm)))
          :mode (("\\.elm$" . elm-mode)))
      #+END_SRC
 *** Python
 **** python-lsp
      #+name: languages
      #+BEGIN_SRC emacs-lisp
-      (use-package lsp-python
-        :disabled t
-        :after lsp-mode
-        :config
-        (add-hook 'python-mode-hook #'lsp-python-enable))
+       (use-package lsp-python
+         :disabled t
+         :after lsp-mode
+         :config (add-hook 'python-mode-hook #'lsp-python-enable))
      #+END_SRC
 **** lsp-mode
      #+name: languages
@@ -913,18 +892,17 @@
      This is unusably slow as of 06/21/18
      #+name: languages
      #+BEGIN_SRC emacs-lisp
-  (use-package company-lsp
-    :disabled t
-    :init (setq company-lsp-async t)
-    :hook
-    (python-mode . (lambda ()
-                     (set (make-local-variable 'company-backends)
-                          '((company-lsp company-files company-dabbrev))))))
+       (use-package company-lsp
+         :disabled t
+         :init (setq company-lsp-async t)
+         :hook (python-mode . (lambda ()
+                          (add-to-list 'company-backends 'company-lsp))))
      #+END_SRC
 **** lsp-ui
      #+name: languages
      #+BEGIN_SRC emacs-lisp
   (use-package lsp-ui
+    :disabled t
     :config
     :hook (lsp-mode . lsp-ui-mode))
      #+END_SRC
@@ -933,27 +911,31 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package anaconda-mode
-         ;; :disabled t
+         :disabled t
          :delight ""
-         :hook
-         ((python-mode . anaconda-mode)
-          (python-mode . anaconda-eldoc-mode)
-          (python-mode . (lambda ()
-                           (set (make-local-variable 'company-backends)
-                                '((comapny-yasnippet company-anaconda company-dabbrev company-dabbrev-code company-files)))))
-          )
-         :pin melpa)
+         :hook ((python-mode . anaconda-mode)
+                (python-mode . anaconda-eldoc-mode)
+                (python-mode . (lambda ()
+                                 (add-to-list 'company-backends 'company-anaconda)))))
      #+END_SRC
 **** company-anaconda
      Completion for python
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package company-anaconda
-         ;; :disabled t
+         :disabled t
          :after company
          :commands (company-anaconda)
          :pin melpa)
      #+END_SRC
+**** elpy
+Python IDE mode
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package elpy
+    ;; :disabled t
+    :config (elpy-enable))
+#+END_SRC
 **** pip-requirements
      #+name: languages
      #+BEGIN_SRC emacs-lisp
@@ -966,7 +948,6 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
       (use-package pyvenv
-        :pin melpa
         :config
         (defun pyvenv-autoload ()
           (with-eval-after-load 'projectile
@@ -1016,6 +997,14 @@
          :mode "\\.js$"
          :interpreter "node")
      #+END_SRC
+**** js2-refactor
+A javascript refactoring library for emacs
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-refactor
+    :hook (js2-mode . js2-refactor-mode))
+#+END_SRC
+
 **** rjsx-mode
      jsx support for js2-mode
      #+name: languages
@@ -1034,10 +1023,9 @@
          :pin melpa
          :hook (js2-mode . (lambda ()
                              (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
-         :config
          ;; unbind the standard goto def key for js2-mode
          ;; TODO: move this into general config
-         (define-key js2-mode-map (kbd "M-.") nil))
+         :config (define-key js2-mode-map (kbd "M-.") nil))
      #+END_SRC
 **** tern-mode
      #+name: languages
@@ -1053,10 +1041,8 @@
        (use-package company-tern
          :after (company tern)
          :hook
-         (js2-mode .  (lambda ()
-                        (set (make-local-variable 'company-backends)
-                             '((company-yasnippet company-tern company-files company-dabbrev-files)))))
-         :pin melpa)
+         (js2-mode . (lambda ()
+                       (add-to-list 'company-backends 'company-tern))))
      #+END_SRC
 **** indium
      #+name: languages
@@ -1078,12 +1064,8 @@
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package php-mode
-         :hook
-         (php-mode .  (lambda ()
-            (set (make-local-variable 'company-backends)
-                  '((company-yasnippet company-ac-php-backend php-extras-company company-files company-dabbrev)))))
-         :pin melpa
-         :config
+         :hook (php-mode . (lambda ()
+                             (append 'company-backends (company-ac-backend php-extras-company))))
          :mode (("\\.php$" . php-mode)
                 ("\\.inc$"  . php-mode)))
      #+END_SRC
@@ -1093,17 +1075,15 @@
      #+BEGIN_SRC emacs-lisp
        (use-package company-php
          :commands (company-ac-php-backend)
-         :config
-         (unless (executable-find "phpctags")
-           (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
+         :config (unless (executable-find "phpctags")
+                   (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
      #+END_SRC
 **** ac-php
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package ac-php
          ;; :mode "\\.php[s345]?$"
-         :config
-         (ac-php-core-eldoc-setup))
+         :config (ac-php-core-eldoc-setup))
      #+END_SRC
 *** Markdown
 **** markdown-mode
@@ -1138,8 +1118,7 @@
         :delight ""
         :pin melpa
         :hook (css-mode web-mode html-mode haml-mode rjsx-mode)
-        :config
-        (setq emmet-move-cursor-between-quotes t))
+        :config (setq emmet-move-cursor-between-quotes t))
      #+END_SRC
 *** Org
     N.B. - Org-mode itself is configured and loaded in `init.el`
@@ -1179,12 +1158,9 @@
      #+BEGIN_SRC emacs-lisp
        (use-package company-shell
          :pin melpa
-         :init
-         (setq company-shell-delete-duplicates t)
-         :hook
-         (sh-mode .  (lambda ()
-                        (set (make-local-variable 'company-backends)
-                             '((company-shell company-files) company-dabbrev-files)))))
+         :init (setq company-shell-delete-duplicates t)
+         :hook (sh-mode .  (lambda ()
+                       (add-to-list 'company-backends 'company-shell))))
      #+END_SRC
 ** Helm
 **** helm-descbinds
@@ -1203,14 +1179,13 @@
          :delight
          :pin melpa-stable
          :commands (helm-M-x helm-mini helm-imenu helm-resume helm-execute-persistent-action helm-select-action)
-         :init
-         (setq helm-exit-idle-delay 0)
-         (setq helm-split-window-inside-p nil)
-         (setq helm-autoresize-min-height 30)
-         (setq helm-autoresize-max-height 0)
-         (setq helm-buffer-skip-remote-checking t)
-         (setq helm-move-to-line-cycle-in-source t)
-         (setq helm-echo-input-in-header-line nil)
+         :init (setq helm-exit-idle-delay 0
+                     helm-split-window-inside-p nil
+                     helm-autoresize-min-height 30
+                     helm-autoresize-max-height 0
+                     helm-buffer-skip-remote-checking t
+                     helm-move-to-line-cycle-in-source t
+                     helm-echo-input-in-header-line nil)
          ;; (setq helm-google-suggest-use-curl-p t)
          :config
          (require 'helm-config)
@@ -1227,21 +1202,19 @@
          :commands (helm-ag)
          :pin melpa
          :after helm
-         :config
          ;; references a wrapper script that removes the --ignore flag helm-projectile tries pass to rg
-         (setq helm-ag-base-command "emacs-rg --vimgrep --no-heading --smart-case"))
+         :config (setq helm-ag-base-command "emacs-rg --vimgrep --no-heading --smart-case"))
      #+END_SRC
 **** helm-projectile
      #+name: helm
      #+BEGIN_SRC emacs-lisp
        (use-package helm-projectile
          :after (projectile)
-         :commands
-         (helm-projectile-ag
-          helm-projectile-recentf
-          helm-projectile-find-dir
-          helm-projectile-find-file
-          helm-projectile-switch-project))
+         :commands (helm-projectile-ag
+                    helm-projectile-recentf
+                    helm-projectile-find-dir
+                    helm-projectile-find-file
+                    helm-projectile-switch-project))
      #+END_SRC
 **** helm-swoop
      Search text linewise in a separate buffer
@@ -1279,14 +1252,7 @@
        :config
        (general-evil-setup)
        ;; set up an override for binding space no matter what
-       (setq general-override-states '(insert
-                                       emacs
-                                       hybrid
-                                       normal
-                                       visual
-                                       motion
-                                       operator
-                                       replace))
+       (setq general-override-states '(insert emacs hybrid normal visual motion operator replace))
        (general-override-mode)
 
        (general-define-key
@@ -1500,7 +1466,9 @@
                                                           "C-SPC" 'completion-at-point
                                                           "C-r" 'helm-eshell-history)))
        (general-def 'insert
-         "C-SPC" 'hippie-expand))
+         "C-SPC" 'completion-at-point)
+       (general-def 'insert
+         "C-TAB" 'hippie-expand))
    #+END_SRC
 ** Packages
 **** paradox
@@ -1510,8 +1478,7 @@
        (use-package paradox
          :commands (list-packages paradox-list-packages package-list-packages)
          :pin melpa
-         :config
-         (paradox-enable))
+         :config (paradox-enable))
      #+END_SRC
 ** Evil
 **** evil
@@ -1568,8 +1535,7 @@
          :after evil
          :defer 5
          :pin melpa
-         :init
-         (setq evil-goggles-duration 0.1)
+         :init (setq evil-goggles-duration 0.1)
          :config
          (evil-goggles-mode)
          (evil-goggles-use-magit-faces))
@@ -1589,8 +1555,7 @@
        (use-package evil-matchit
          :after evil
          :pin melpa
-         :config
-         (global-evil-matchit-mode 1)
+         :config (global-evil-matchit-mode 1)
          :after evil)
      #+END_SRC
 **** evil-org
@@ -1632,8 +1597,7 @@
       (use-package evil-multiedit
         :commands (evil-multiedit-match-symbol-and-next evil-multiedit-match-symbol-and-prev)
         :pin melpa
-        :config
-        (evil-multiedit-default-keybinds))
+        :config (evil-multiedit-default-keybinds))
      #+END_SRC
 **** evil-visualstar
      Enable search-at-point from visual mode
@@ -1642,8 +1606,7 @@
       (use-package evil-visualstar
         :defer 5
         :pin melpa
-        :config
-        (global-evil-visualstar-mode))
+        :config (global-evil-visualstar-mode))
      #+END_SRC
 **** evil-snipe
      #+name: evil
@@ -1651,10 +1614,8 @@
       (use-package evil-snipe
         :pin melpa
         :commands (evil-snipe-t evil-snipe-T evil-snipe-F evil-snipe-f)
-        :init
-        (setq evil-snipe-smart-case t)
-        :config
-        (evil-snipe-override-mode 1))
+        :init (setq evil-snipe-smart-case t)
+        :config (evil-snipe-override-mode 1))
      #+END_SRC
 ** Final
    Things to do after the rest of the config has loaded. This is can be tricky given the deferred loading going on with =use-package=.
