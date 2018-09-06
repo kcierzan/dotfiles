@@ -5,13 +5,13 @@
       "subtext" : {
         "size" : 13,
         "colorSelected" : "#A6E22EFF",
-        "font" : "SF Mono",
+        "font" : "Hack Nerd Font",
         "color" : "#75715EFF"
       },
       "shortcut" : {
         "size" : 19,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "San Francisco Display",
+        "font" : "Hack Nerd Font",
         "color" : "#F92672FF"
       },
       "backgroundSelected" : "#2D2E28FF",
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 59,
         "colorSelected" : "#000000FF",
-        "font" : "San Francisco Display",
+        "font" : "Fira Sans",
         "color" : "#F92672FF"
       },
       "backgroundSelected" : "#7AC7FFFF"

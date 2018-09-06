@@ -20,6 +20,7 @@
 .python-version
 .ruby-version
 .venv
+.env
 
 #ctags
 tags

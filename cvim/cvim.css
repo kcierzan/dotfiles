@@ -12,14 +12,14 @@ light background: #42444a
 */
 
 @font-face {
-  font-family: 'SFMono Nerd Font';
-  src: url('../../../../../../../../Fonts/SF Mono Regular Nerd Font Complete.otf')  format('opentype');
+  font-family: 'Hack Nerd Font';
+  src: url('../../../../../../../../Fonts/Hack Regular Nerd Font Complete.otf')  format('opentype');
 }
 
 #cVim-command-bar, #cVim-command-bar-mode, #cVim-command-bar-input, #cVim-command-bar-search-results,
 .cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left,
 .cVim-completion-item .cVim-right {
-  font-family: SFMono Nerd Font, Helvetica Neue, Neue, sans-serif, monospace, Arial;
+  font-family: Hack Nerd Font, Helvetica Neue, Neue, sans-serif, monospace, Arial;
   font-weight: 400 !important;
   font-size: 10pt !important;
   font-smooth: always;

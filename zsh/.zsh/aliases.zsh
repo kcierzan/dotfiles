@@ -399,3 +399,13 @@ bindkey '^G' fzg
 if [[ $OSTYPE == 'darwin'* ]]; then
     source ~/.zsh/macos.zsh
 fi
+
+envf() {
+    local envfile
+    envfile="$1"
+
+    if [ -z "$envfile" ]; then
+      envfile="build/test-environment"
+    fi
+    gsed 's/^export\s//i' "$envfile" >> .env
+}
