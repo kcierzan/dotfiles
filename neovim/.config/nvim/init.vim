@@ -268,7 +268,7 @@ Plug 'w0rp/ale'
 filetype off
 filetype plugin on
 let g:ale_linters = {
-      \ 'python': ['pylint', 'flake8', 'pyls'],
+      \ 'python': ['pylint', 'flake8', 'pyls', 'mypy'],
       \ 'javascript': ['eslint'],
       \ 'css': ['prettier'],
       \ 'php': ['phpcs'],
@@ -360,19 +360,19 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
       \  'sink': 'cd'}))
 
 "jedi-vim
-Plug 'davidhalter/jedi-vim'
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#use_splits_not_buffers = 1
-" let g:jedi#goto_command = 'gd'
-let g:jedi#goto_command = ''
-let g:jedi#goto_assignments_command = ""
-let g:jedi#goto_definitions_command = ""
-let g:jedi#goto_usages_command = 'gn'
-let g:jedi#completions_command = ""
-" let g:jedi#rename_command = 'gr'
-let g:jedi#rename_command = ''
-let g:jedi#documentation_command = "gk"
-let g:jedi#completions_enabled = 0
+" Plug 'davidhalter/jedi-vim'
+" let g:jedi#auto_vim_configuration = 0
+" let g:jedi#use_splits_not_buffers = 1
+" " let g:jedi#goto_command = 'gd'
+" let g:jedi#goto_command = ''
+" let g:jedi#goto_assignments_command = ""
+" let g:jedi#goto_definitions_command = ""
+" let g:jedi#goto_usages_command = 'gn'
+" let g:jedi#completions_command = ""
+" " let g:jedi#rename_command = 'gr'
+" let g:jedi#rename_command = ''
+" let g:jedi#documentation_command = "gk"
+" let g:jedi#completions_enabled = 0
 
 "vim-markdown
 Plug 'godlygeek/tabular'
