@@ -1,2 +1,2 @@
 #!/usr/local/bin/zsh
-emacsclient -n -a '' "$@"
+emacsclient -n -a '' $@

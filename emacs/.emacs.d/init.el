@@ -1,6 +1,11 @@
 ;;;; -*- lexical-binding: t; -*-
 (setq custom-file "~/.emacs.d/custom.el")
 
+;; add a folder for unmanaged random files to the load path
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(let ((default-directory "~/.emacs.d/lisp"))
+  (normal-top-level-add-subdirs-to-load-path))
+
 (require 'package)
 
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
@@ -9,12 +14,10 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 
-;; (setq monospace-font "SF Mono")
-;; (setq nerd-font "SFMono Nerd Font")
-(setq monospace-font "Pragmata Pro")
-(setq string-font "Pragmata Pro")
-(setq nerd-font "PragmataPro Nerd Font")
-(setq variable-pitch-font "Pragmata Pro")
+(setq monospace-font "FuraCode Nerd Font")
+(setq string-font "FuraCode Nerd Font")
+(setq nerd-font "FuraCode Nerd Font")
+(setq variable-pitch-font "Bitter")
 
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -83,6 +86,7 @@
   (setq org-refile-target-verify-function 'kyle/verify-refile-target)
   :mode ("\\.org$" . org-mode)
   :config
+  (require 'ox-confluence-en)
   (with-eval-after-load 'company
     (add-hook 'org-mode-hook
               (lambda ()
@@ -102,12 +106,9 @@
                                     (list 'org-code
                                           'org-link
                                           'org-block
+                                          'org-date
                                           'org-table
-                                          'org-level-1
-                                          'org-level-2
-                                          'org-level-3
-                                          'org-level-4
-                                          'org-level-5
+                                          'org-tag
                                           'org-block-begin-line
                                           'org-block-end-line
                                           'org-meta-line
@@ -125,12 +126,14 @@ for the current buffer's file name, and the line number at point."
                                (js . t)
                                (sql . t)
                                (emacs-lisp . t)
+                               (http . t)
                                (org . t)
                                (ruby . t)))
 (setq org-confirm-babel-evaluate nil))
 
 ;; evil-collection will handle evil compatibility
-(setq evil-want-integration nil)
+(setq evil-want-integration t)
+(setq evil-want-keybinding nil)
 
 ;; needed to source symlinked emacs.org
 (setq vc-follow-symlinks t)

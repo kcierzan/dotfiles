@@ -1,5 +1,5 @@
 #+TITLE: emacs.org
-#+STARTUP: indent
+#+STARTUP: indent logrefile lognoteclock-out
 * Globals
   #+name: basic
   #+BEGIN_SRC emacs-lisp
@@ -15,6 +15,7 @@
         (add-hook 'server-done-hook 'kill-buffer)
         (setq confirm-kill-emacs 'y-or-n-p)
     #+END_SRC
+
     * UI
     #+name: interface
     #+BEGIN_SRC emacs-lisp
@@ -23,7 +24,7 @@
         (setq auto-revert-interval 1)
         (scroll-bar-mode -1)
         (show-paren-mode 1)
-        (blink-cursor-mode -1)
+        (blink-cursor-mode 1)
         (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
     ;; show filenames in the frame title bar
     (setq frame-title-format
@@ -93,6 +94,7 @@
                                                                       '((vertical-scroll-bars . nil)
                                                                         (horizontal-scroll-bars . nil)))))
   #+END_SRC
+
 * UTF-8
   #+name: basic
   #+BEGIN_SRC emacs-lisp
@@ -108,6 +110,7 @@
     (define-coding-system-alias 'utf8 'utf-8)
     (define-coding-system-alias 'UTF8 'utf-8)
   #+END_SRC
+
 * Dired
   #+name: basic
   #+BEGIN_SRC emacs-lisp
@@ -122,6 +125,7 @@
       (setq dired-omit-files
             (concat dired-omit-files "\\pyc$\\|^.git$")))
   #+END_SRC
+
 * Misc
   #+name: basic
   #+BEGIN_SRC emacs-lisp
@@ -132,10 +136,6 @@
       (setq epg-gpg-home-directory "~/.gnupg")
       :config
       (epa-file-enable))
-  #+END_SRC
-
-  #+name: basic
-  #+BEGIN_SRC emacs-lisp
   #+END_SRC
 
   Bump the GC threshold for startup only
@@ -233,8 +233,7 @@
        indicate-buffer-boundaries nil
        indicate-empty-lines nil
        max-mini-window-height 0.3
-       ;; disable mode-line mouseovers
-       mode-line-default-help-echo nil
+       mode-line-default-help-echo nil ; disable mode-line mouseovers
        mouse-yank-at-point t
        ibuffer-use-other-window t
        resize-mini-windows 'grow-only
@@ -244,13 +243,11 @@
        use-dialog-box nil
        visible-cursor nil
        x-stretch-cursor nil
-       ;; defer jit font locking slightly to improve performance
-       jit-lock-defer-time nil
+       jit-lock-defer-time nil ; defer jit font locking slightly to improve performance
        jit-lock-stealth-nice 0.1
        jit-lock-stealth-time 0.2
        jit-lock-stealth-verbose nil
-       ;; `pos-tip' defaults
-       pos-tip-internal-border-width 6
+       pos-tip-internal-border-width 6 ; `pos-tip' defaults
        pos-tip-border-width 1)
   #+END_SRC
 
@@ -286,8 +283,14 @@
       (if (fboundp 'fringe-mode) (fringe-mode '4))
       (tooltip-mode -1)
   #+END_SRC
+
+  Iedit complains about being remapped. Stop that.
+  #+name: basic
+  #+BEGIN_SRC emacs-lisp
+    (setq iedit-toggle-key-default nil)
+  #+END_SRC
+
 * Eshell
-  I am learning to like eshell. It's weird. Let's make it work better.
 ** eshell
    #+name: basic
    #+BEGIN_SRC emacs-lisp
@@ -313,6 +316,7 @@
                                                   "/bin/ls")))
                                         (eshell/alias "la" (concat ls " -AlohG --color=always"))))))
    #+END_SRC
+
 ** eshell-extras
    #+name: basic
    #+BEGIN_SRC emacs-lisp
@@ -324,12 +328,14 @@
        (setq eshell-highlight-prompt nil
              eshell-prompt-function 'epe-theme-dakrone))
    #+END_SRC
+
 ** eshell-z
    #+name: basic
    #+BEGIN_SRC emacs-lisp
      (use-package eshell-z
        :after eshell)
    #+END_SRC
+
 ** eshell autocompletion
    #+name: basic
    #+BEGIN_SRC emacs-lisp
@@ -341,6 +347,7 @@
      (use-package pcmpl-pip
        :after pcomplete)
    #+END_SRC
+
 * Packages
 ** Applications
 **** hacker-typer
@@ -350,7 +357,9 @@
          :defer t
          :config (setq hacker-typer-remove-comments t))
      #+END_SRC
+
 **** rest-client
+#+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package restclient
          :mode("\\.rest" . restclient-mode)
@@ -360,7 +369,9 @@
            (outline-minor-mode)
            (setq-local outline-regexp "##+")))
      #+END_SRC
+
 **** company-restclient
+#+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package company-restclient
          :after (restclient company)
@@ -370,6 +381,21 @@
                      '(lambda ()
                         (add-to-list 'company-backends 'company-restclient)))))
      #+END_SRC
+
+**** writing
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package writeroom-mode)
+  (use-package writegood-mode)
+  (defun writing-mode ()
+    (interactive)
+    (nlinum-mode 0)
+    (writeroom-mode 1)
+    (writegood-mode 1)
+    (setq truncate-lines nil)
+    (setq global-hl-line-mode nil))
+#+END_SRC
+
 ** Programming
 *** Completion
 **** company
@@ -396,6 +422,7 @@
                                       (define-key company-active-map (kbd "RET") 'company-complete-selection)
                                       (define-key company-active-map (quote [return]) 'company-complete-selection))))
      #+END_SRC
+
 **** company-statistics
      Completion by frecency
      #+name: programming
@@ -406,6 +433,7 @@
          :init (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
          :config (company-statistics-mode 1))
      #+END_SRC
+
 **** company-quickhelp
      Documentation popups
      #+name: programming
@@ -416,6 +444,7 @@
          :init (setq company-quickhelp-delay 1)
          :config (company-quickhelp-mode 1))
      #+END_SRC
+
 **** hippie-exp
      #+name: programming
      #+BEGIN_SRC emacs-lisp
@@ -433,14 +462,16 @@
                                                   try-complete-lisp-symbol-partially
                                                   try-complete-lisp-symbol)))
      #+END_SRC
-**** +name
-     #eglot: programming
+
+**** Eglot
+     #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package eglot
-         :disabled t
+         ;; :disabled t
          :hook (python-mode . eglot-ensure)
          :commands (eglot eglot-reconnect eglot-rename eglot-help-at-point eglot-events-buffer))
      #+END_SRC
+
 *** Navigation
 **** ace-link
      Navigate to links cvim-style
@@ -451,6 +482,7 @@
          :pin melpa
          :config (ace-link-setup-default))
      #+END_SRC
+
 **** avy
      Jump to text
      #+name: programming
@@ -458,6 +490,7 @@
        (use-package avy
          :pin melpa)
      #+END_SRC
+
 **** dumb-jump
      Jump to definitions using rg, ag, grep
      #+name: programming
@@ -467,6 +500,7 @@
          :init (setq dumb-jump-force-searcher 'rg
                      dumb-jump-selector 'helm))
      #+END_SRC
+
 **** imenu-list
      "Tagbar" like buffer for imenu
      #+name: programming
@@ -476,6 +510,7 @@
          :commands (imenu-list)
          :config (setq imenu-list-focus-after-activation t))
      #+END_SRC
+
 **** projectile
      #+name: programming
      #+BEGIN_SRC emacs-lisp
@@ -501,8 +536,6 @@
          (smartparens-strict-mode "()")
          (smartparens-mode)
          :hook (prog-mode . smartparens-mode)
-         ;; :hook (emacs-lisp-mode . smartparens-strict-mode)
-         :pin melpa
          :config
          (require 'smartparens-config)
          (setq sp-autowrap-region nil
@@ -548,6 +581,7 @@
          :after yasnippet
          :defer 3)
      #+END_SRC
+
 *** Lint
 **** flycheck
      Check syntax asynchronously
@@ -563,6 +597,7 @@
          ;; git-gutter is in the left fringe
          (setq flycheck-indication-mode 'right-fringe))
      #+END_SRC
+
 **** flycheck-pos-tip
      Put linter messages into a popup
      #+name: programming
@@ -613,6 +648,34 @@
          :commands (magit)
          :pin melpa)
      #+END_SRC
+
+**** git-link
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package git-link)
+#+END_SRC
+
+**** git-timemachine
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package git-timemachine
+    :config
+    (setq git-timemachine-show-minibuffer-details t)
+    (defun +vc|enforce-git-commit-conventions ()
+      "Write good commits"
+      (setq fill-column 72
+            git-commit-summary-max-length 50
+            git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)))
+    (add-hook 'git-commit-mode-hook #'+vc|enforce-git-commit-conventions)
+
+    (defun +vc|start-in-insert-state-maybe ()
+      "Start git-commit-mode in insert state if in a blank commit message"
+      (when (and (bound-and-true-p evil-mode)
+                 (bobp) (eolp))
+        (evil-insert-state)))
+    (add-hook 'git-commit-setup-hook #'+vc|start-in-insert-state-maybe))
+#+END_SRC
+
 **** dired-k
      Highlight directories
      #+name: programming
@@ -629,12 +692,14 @@
          :hook (prog-mode . highlight-numbers-mode)
          :pin melpa)
      #+END_SRC
+
 **** all-the-icons
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package all-the-icons
          :pin melpa)
      #+END_SRC
+
 **** fringe-helper
      Define fringe element shapes
      #+name: interface
@@ -663,6 +728,7 @@
            "XXX....."
            "XXXX...."))
      #+END_SRC
+
 **** nlinum
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -672,6 +738,7 @@
          ;; :hook (prog-mode . nlinum-mode)
          :pin elpa)
      #+END_SRC
+
 **** pos-tip
      The melpa version improves on the baked in pos-tip
      #+name: interface
@@ -680,6 +747,7 @@
          ;; :disabled t
          :pin melpa)
      #+END_SRC
+
 **** rainbow-delimiters
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -687,6 +755,7 @@
          :pin melpa
          :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
      #+END_SRC
+
 **** switch-window
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -694,6 +763,7 @@
          :commands (switch-window)
          :pin melpa)
      #+END_SRC
+
 **** vi-tilde-fringe
      Mark empty lines
      #+name: interface
@@ -703,6 +773,7 @@
          :hook (prog-mode . vi-tilde-fringe-mode)
          :pin melpa)
      #+END_SRC
+
 **** which-key
      Show keybindings
      #+name: interface
@@ -714,14 +785,25 @@
          (which-key-setup-side-window-right-bottom)
          (which-key-mode))
      #+END_SRC
+
 **** neotree
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package neotree
          :commands (neotree-toggle)
+         :config
+         (defun neotree-resize-window (&rest _args)
+           "resize neotree window"
+           (interactive)
+           (neo-buffer--with-resizable-window
+            (let ((fit-window-to-buffer-horizontally t))
+              (fit-window-to-buffer))))
+         (add-hook 'neo-change-root-hook #'neotree-resize-window)
+         (add-hook 'neo-enter-hook #'neotree-resize-window)
          :pin melpa
          :init (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
      #+END_SRC
+
 **** highlight-indentation
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -729,6 +811,7 @@
          :disabled t
          :pin melpa)
      #+END_SRC
+
 **** beacon
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -738,6 +821,7 @@
          :init (setq beacon-blink-duration 0.17)
          :config (beacon-mode 1))
      #+END_SRC
+
 **** sublimity
      Smooth scrolling and distraction-free mode
      #+name: interface
@@ -748,6 +832,7 @@
                      sublimity-scroll-drift-length 10)
          :config (sublimity-mode 1))
      #+END_SRC
+
 **** diminish
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -765,6 +850,7 @@
          (delight 'flycheck-mode "" "flycheck")
          (delight 'git-gutter-mode nil "git-gutter"))
      #+END_SRC
+
 **** color-identifiers-mode
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -773,11 +859,13 @@
          :delight ""
          :hook (after-init . global-color-identifiers-mode))
      #+END_SRC
+
 **** shackle
      #+name: interface
      #+BEGIN_SRC emacs-lisp
      (use-package shackle)
      #+END_SRC
+
 ** Themes
 **** doom-themes
      #+name: interface
@@ -789,8 +877,9 @@
                      doom-themes-enable-italic t)
          :config
          (doom-themes-org-config)
-         (load-theme 'doom-vibrant t))
+         (load-theme 'doom-one t))
      #+END_SRC
+
 **** solarized-emacs
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -798,6 +887,7 @@
          :disabled t
          :config (load-theme 'solarized-dark t))
      #+END_SRC
+
 **** moe-theme
      #+BEGIN_SRC emacs-lisp
        (use-package moe-theme
@@ -807,6 +897,7 @@
          (moe-theme-set-color 'orange)
          (moe-dark))
      #+END_SRC
+
 **** base16-theme
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -814,6 +905,7 @@
          :disabled t
          :config (load-theme 'base16-monokai t))
      #+END_SRC
+
 **** spaceline
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -833,18 +925,19 @@
          ;;(set-face-attribute 'mode-line nil :background (face-attribute 'shadow :background) :inherit nil :family nerd-font)
          ;;(set-face-attribute 'spaceline-highlight-face nil :background (face-attribute 'org-code :foreground) :family nerd-font))
      #+END_SRC
+
 **** doom-modeline
      #+name: interface
      #+BEGIN_SRC emacs-lisp
-  (use-package shrink-path)
-  (use-package eldoc-eval)
-  (use-package doom-modeline
-    ;; :disabled t
-    :defer t
-    :requires (shrink-path eldoc-eval)
-    :init (setq doom-modeline-height 36)
-    :hook (after-init . doom-modeline-init))
+       (use-package shrink-path)
+       (use-package eldoc-eval)
+       (use-package doom-modeline
+         :defer t
+         :requires (shrink-path eldoc-eval)
+         :init (setq doom-modeline-height 36)
+         :hook (after-init . doom-modeline-init))
      #+END_SRC
+
 **** eziam-theme
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -852,15 +945,27 @@
        :disabled t
        :config (load-theme 'eziam-dark t))
      #+END_SRC
+
+**** solaire-mode
+#+name: interface
+#+BEGIN_SRC emacs-lisp
+  (use-package solaire-mode
+    :disabled t
+    :hook ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+    :config
+    (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
+    (solaire-mode-swap-bg))
+#+END_SRC
+
 ** Languages
-*** SQL
-**** sqlup-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-      (use-package sqlup-mode
-        :delight ""
-        :hook ((sql-mode sql-interactive-mode) . sqlup-mode) )
-     #+END_SRC
+*** Dockerfile
+    #+name: languages
+    #+BEGIN_SRC emacs-lisp
+      (use-package dockerfile-mode
+        :pin melpa
+        :mode "/Dockerfile$")
+    #+END_SRC
+
 *** Elm
 **** elm-mode
      #+name: languages
@@ -871,15 +976,228 @@
                              (add-to-list 'company-backends 'company-elm)))
          :mode (("\\.elm$" . elm-mode)))
      #+END_SRC
+
+*** JavaScript
+**** js2-mode
+     An improved javascript major mode
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package js2-mode
+         :pin melpa
+         :mode "\\.js$"
+         :interpreter "node"
+         :config
+         (setq js-chain-indent t
+               ;; let flycheck handle these
+               js2-mode-show-parse-errors nil
+               js2-mode-show-strict-warnings nil
+               ;; flycheck provides these features with eslint
+               js2-strict-trailing-comma-warning nil
+               js2-strict-missing-semi-warning nil
+               ;; maximum fontification
+               js2-highlight-level 3
+               js2-highlight-external-variables t))
+     #+END_SRC
+
+**** js2-refactor
+A javascript refactoring library for emacs
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-refactor
+    :hook (js2-mode . js2-refactor-mode))
+#+END_SRC
+
+**** rjsx-mode
+     jsx support for js2-mode
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package rjsx-mode
+         :mode "components/.+\\.js$"
+         :config
+         (add-hook 'rjsx-mode-hook '(lambda ()
+                                      (push 'javascript-jshint flycheck-disabled-checkers)))
+         ;; typing fast can mess up the autoclosing tags, force reparsing to catch up
+         (defun +javascript|reparse (n)
+           (if (= n 1) (rjsx-maybe-reparse)))
+         (advice-add #'rjsx-electric-gt :before #'+javascript|reparse))
+     #+END_SRC
+
+**** xref-js2
+     find definition/references backend for js2-mode
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package xref-js2
+         :after js2-mode
+         :pin melpa
+         :hook (js2-mode . (lambda ()
+                             (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+         ;; unbind the standard goto def key for js2-mode
+         ;; TODO: move this into general config
+         :config (define-key js2-mode-map (kbd "M-.") nil))
+     #+END_SRC
+
+**** tern-mode
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package tern
+         :delight ""
+         :pin melpa
+         :hook (js2-mode . tern-mode))
+     #+END_SRC
+
+**** company-tern
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-tern
+         :after (company tern)
+         :hook
+         (js2-mode . (lambda ()
+                       (add-to-list 'company-backends 'company-tern))))
+     #+END_SRC
+
+**** indium
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package indium)
+     #+END_SRC
+
+**** tide-mode
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package tide
+    :defer t
+    :init
+    (defun +javascript|init-tide ()
+      "Enable `tide-mode' if node is available"
+      (if (executable-find "node")
+          (tide-setup)
+        (message "Couldn't find `node', aborting tide server")))
+    (add-hook 'js2-mode #'+javascript|init-tide)
+    :config
+    (setq tide-completion-detailed t
+          tide-always-show-documentation t))
+#+END_SRC
+
+**** prettier
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package prettier-js
+    :hook (js2-mode . prettier-js-mode)
+    :config
+    (defun enable-minor-mode (my-pair)
+      "Enable minor mode if filename matches the regexp"
+      (if (buffer-file-name)
+          (if (string-match (car my-pair) buffer-file-name)
+              (funcall (cdr my-pair)))))
+    (add-hook 'web-mode-hook #'(lambda ()
+                                 (enable-minor-mode
+                                  '("\\.jsx?\\'" . prettier-js-mode)))))
+#+END_SRC
+
+*** JSON
+    #+name: languages
+    #+BEGIN_SRC emacs-lisp
+    (use-package json-mode
+        :pin melpa
+        :mode "\\.json$")
+    #+END_SRC
+
+*** LaTeX
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+    (use-package auctex
+      :defer t)
+#+END_SRC
+
+*** Markdown
+**** markdown-mode
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package markdown-mode
+         :pin melpa
+         :commands (markdown-mode gfm-mode)
+         :mode (("README\\.md\\'" . gfm-mode)
+                ("\\.md\\'" . markdown-mode)
+                ("\\.markdown\\'" . markdown-mode))
+         :init (setq markdown-command "multimarkdown"))
+     #+END_SRC
+
+*** PHP
+**** php-extras
+     Completion for php
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package php-extras
+         :pin marmalade
+         :config
+         ;; company should set itself up
+         (unless (file-exists-p (concat php-extras-eldoc-functions-file ".el"))
+           (message "Generating PHP eldoc files")
+           (async-start `(lambda ()
+                           ,(async-inject-variables "\\`\\(load-path\\|php-extras-eldoc-functions-file\\)$")
+                           (require 'php-extras-generate-eldoc)
+                           (php-extras-generate-eldoc-1 t))
+                        (lambda (_)
+                          (load (concat (php-extras-eldoc-functions-file ".el"))
+                                (message "PHP eldoc updated!")))))
+         :after php-mode)
+     #+END_SRC
+
+**** php-mode
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package php-mode
+         :hook (php-mode . (lambda ()
+                             (add-to-list 'company-backends 'company-ac-php-backend)
+                             (add-to-list 'company-backends 'php-extras-company)
+                             (ac-php-core-eldoc-setup)
+                             (setq-local sp-max-pair-length 6)))
+         :mode (("\\.php$" . php-mode)
+                ("\\.inc$"  . php-mode)))
+     #+END_SRC
+
+**** company-php
+     Completion for php
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package company-php
+         :commands (company-ac-php-backend)
+         :config (unless (executable-find "phpctags")
+                   (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
+     #+END_SRC
+
+**** ac-php
+     #+name: languages
+     #+BEGIN_SRC emacs-lisp
+       (use-package ac-php
+         :config (ac-php-core-eldoc-setup))
+     #+END_SRC
+
+**** PsySH
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package psysh
+    :defer t
+    :init
+    (setq psysh-comin-buffer-process "~/.scripts/shell.php"))
+#+END_SRC
+
+**** geben
+Support for Xdebug
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package geben)
+#+END_SRC
+
 *** Python
 **** python-lsp
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package lsp-python
          :disabled t
-         :after lsp-mode
-         :config (add-hook 'python-mode-hook #'lsp-python-enable))
+         :after lsp-mode)
      #+END_SRC
+
 **** lsp-mode
      #+name: languages
      #+BEGIN_SRC emacs-lisp
@@ -888,6 +1206,7 @@
          :delight ""
          :hook (python-mode . lsp-mode))
      #+END_SRC
+
 **** company-lsp
      This is unusably slow as of 06/21/18
      #+name: languages
@@ -898,16 +1217,18 @@
          :hook (python-mode . (lambda ()
                           (add-to-list 'company-backends 'company-lsp))))
      #+END_SRC
+
 **** lsp-ui
      #+name: languages
      #+BEGIN_SRC emacs-lisp
-  (use-package lsp-ui
-    :disabled t
-    :config
-    :hook (lsp-mode . lsp-ui-mode))
+       (use-package lsp-ui
+         :disabled t
+         :config
+         :hook (lsp-mode . lsp-ui-mode))
      #+END_SRC
+
 **** anaconda-mode
-     Navigation, documentation, and linting for Python
+     Navigation, documentation, and linting for Python. I don't use this any more.
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package anaconda-mode
@@ -918,6 +1239,7 @@
                 (python-mode . (lambda ()
                                  (add-to-list 'company-backends 'company-anaconda)))))
      #+END_SRC
+
 **** company-anaconda
      Completion for python
      #+name: languages
@@ -928,14 +1250,16 @@
          :commands (company-anaconda)
          :pin melpa)
      #+END_SRC
+
 **** elpy
 Python IDE mode
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package elpy
-    ;; :disabled t
+    :disabled t
     :config (elpy-enable))
 #+END_SRC
+
 **** pip-requirements
      #+name: languages
      #+BEGIN_SRC emacs-lisp
@@ -943,6 +1267,7 @@ Python IDE mode
         :mode "\\^requires-"
         :pin melpa)
      #+END_SRC
+
 **** pyvenv
      Use pyenv environments
      #+name: languages
@@ -967,6 +1292,7 @@ Python IDE mode
         :pin melpa
         :hook (python-mode . evil-text-object-python-add-bindings))
      #+END_SRC
+
 **** yapfify
      format python code
      #+name: languages
@@ -975,6 +1301,7 @@ Python IDE mode
          :commands (yapfify-buffer yapfify-region)
          :pin melpa)
      #+END_SRC
+
 **** nose
      #+name: languages
      #+BEGIN_SRC emacs-lisp
@@ -982,121 +1309,51 @@ Python IDE mode
          :after python
          :pin melpa)
      #+END_SRC
+
 **** live-py-mode
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package live-py-mode)
      #+END_SRC
-*** JavaScript
-**** js2-mode
-     An improved javascript major mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package js2-mode
-         :pin melpa
-         :mode "\\.js$"
-         :interpreter "node")
-     #+END_SRC
-**** js2-refactor
-A javascript refactoring library for emacs
+
+**** blacken
+automatically format python code
 #+name: languages
 #+BEGIN_SRC emacs-lisp
-  (use-package js2-refactor
-    :hook (js2-mode . js2-refactor-mode))
+    (use-package blacken
+      :init (setq blacken-line-length 79
+                  blacken-allow-py36 t
+                  blacken-skip-string-normalization t)
+      :hook (python-mode . blacken-mode))
 #+END_SRC
 
-**** rjsx-mode
-     jsx support for js2-mode
+*** SQL
+**** sqlup-mode
      #+name: languages
      #+BEGIN_SRC emacs-lisp
-       (use-package rjsx-mode
-         :mode "\\.jsx$"
-         :mode "components/.+\\.js$"
-         :pin melpa)
+      (use-package sqlup-mode
+        :delight ""
+        :hook ((sql-mode sql-interactive-mode) . sqlup-mode) )
      #+END_SRC
-**** xref-js2
-     find definition/references backend for js2-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package xref-js2
-         :after js2-mode
-         :pin melpa
-         :hook (js2-mode . (lambda ()
-                             (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
-         ;; unbind the standard goto def key for js2-mode
-         ;; TODO: move this into general config
-         :config (define-key js2-mode-map (kbd "M-.") nil))
-     #+END_SRC
-**** tern-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package tern
-         :delight ""
-         :pin melpa
-         :hook (js2-mode . tern-mode))
-     #+END_SRC
-**** company-tern
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-tern
-         :after (company tern)
-         :hook
-         (js2-mode . (lambda ()
-                       (add-to-list 'company-backends 'company-tern))))
-     #+END_SRC
-**** indium
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package indium)
-     #+END_SRC
-**** tide-mode
 
-*** PHP
-**** php-extras
-     Completion for php
+*** Org
+    N.B. - Org-mode itself is configured and loaded in =init.el=
+**** org-bullets
+     Use UTF-8 symbols for org headings
      #+name: languages
      #+BEGIN_SRC emacs-lisp
-       (use-package php-extras
-         :pin marmalade
-         :after php-mode)
-     #+END_SRC
-**** php-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package php-mode
-         :hook (php-mode . (lambda ()
-                             (append 'company-backends (company-ac-backend php-extras-company))))
-         :mode (("\\.php$" . php-mode)
-                ("\\.inc$"  . php-mode)))
-     #+END_SRC
-**** company-php
-     Completion for php
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-php
-         :commands (company-ac-php-backend)
-         :config (unless (executable-find "phpctags")
-                   (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
-     #+END_SRC
-**** ac-php
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package ac-php
-         ;; :mode "\\.php[s345]?$"
-         :config (ac-php-core-eldoc-setup))
-     #+END_SRC
-*** Markdown
-**** markdown-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package markdown-mode
+       (use-package org-bullets
          :pin melpa
-         :commands (markdown-mode gfm-mode)
-         :mode (("README\\.md\\'" . gfm-mode)
-                ("\\.md\\'" . markdown-mode)
-                ("\\.markdown\\'" . markdown-mode))
-         :init (setq markdown-command "multimarkdown"))
+         :hook (org-mode . (lambda () (org-bullets-mode 1)))
+         :after org)
      #+END_SRC
+
+**** ob-http
+http requests in org babel
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package ob-http)
+#+END_SRC
 
 *** Web
 **** web-mode
@@ -1110,6 +1367,7 @@ A javascript refactoring library for emacs
                 ("\\.phtml$" . web-mode)
                 ("\\.hbs$" . web-mode)))
      #+END_SRC
+
 **** emmet-mode
      Write markup more efficiently
      #+name: languages
@@ -1120,24 +1378,7 @@ A javascript refactoring library for emacs
         :hook (css-mode web-mode html-mode haml-mode rjsx-mode)
         :config (setq emmet-move-cursor-between-quotes t))
      #+END_SRC
-*** Org
-    N.B. - Org-mode itself is configured and loaded in `init.el`
-**** org-bullets
-     Use UTF-8 symbols for org headings
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package org-bullets
-         :pin melpa
-         :hook (org-mode . (lambda () (org-bullets-mode 1)))
-         :after org)
-     #+END_SRC
-*** JSON
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
-    (use-package json-mode
-        :pin melpa
-        :mode "\\.json$")
-    #+END_SRC
+
 *** YAML
     #+name: languages
     #+BEGIN_SRC emacs-lisp
@@ -1145,13 +1386,7 @@ A javascript refactoring library for emacs
         :pin melpa
         :mode "\\.ya?ml$")
     #+END_SRC
-*** Dockerfile
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
-      (use-package dockerfile-mode
-        :pin melpa
-        :mode "/Dockerfile$")
-    #+END_SRC
+
 *** Shell
 **** company-shell
      #+name: languages
@@ -1162,6 +1397,7 @@ A javascript refactoring library for emacs
          :hook (sh-mode .  (lambda ()
                        (add-to-list 'company-backends 'company-shell))))
      #+END_SRC
+
 ** Helm
 **** helm-descbinds
      #+name: helm
@@ -1171,6 +1407,7 @@ A javascript refactoring library for emacs
          :commands (helm-descbinds)
          :pin melpa)
      #+END_SRC
+
 **** helm
      Unified fuzzy search for almost everything
      #+name: helm
@@ -1194,6 +1431,7 @@ A javascript refactoring library for emacs
          (setq-default helm-boring-buffer-regexp-list
                        (append '("TAGS" "\\*anaconda-mode\\*") helm-boring-buffer-regexp-list)))
      #+END_SRC
+
 **** helm-ag
      helm frontend for the-silver-searcher
      #+name: helm
@@ -1205,6 +1443,7 @@ A javascript refactoring library for emacs
          ;; references a wrapper script that removes the --ignore flag helm-projectile tries pass to rg
          :config (setq helm-ag-base-command "emacs-rg --vimgrep --no-heading --smart-case"))
      #+END_SRC
+
 **** helm-projectile
      #+name: helm
      #+BEGIN_SRC emacs-lisp
@@ -1216,6 +1455,7 @@ A javascript refactoring library for emacs
                     helm-projectile-find-file
                     helm-projectile-switch-project))
      #+END_SRC
+
 **** helm-swoop
      Search text linewise in a separate buffer
      #+name: helm
@@ -1233,6 +1473,7 @@ A javascript refactoring library for emacs
          (setq helm-swoop-pre-input-function
                (lambda () "")))
      #+END_SRC
+
 **** helm-xref
      Display xref results in helm
      #+name: helm
@@ -1243,6 +1484,7 @@ A javascript refactoring library for emacs
          :pin melpa
          :init (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
      #+END_SRC
+
 ** Keys
    General provides some nice macros for dealing with evil keybindings
    #+name: keys
@@ -1251,7 +1493,7 @@ A javascript refactoring library for emacs
        :pin melpa
        :config
        (general-evil-setup)
-       ;; set up an override for binding space no matter what
+       ;; set up an override for binding space in all modes
        (setq general-override-states '(insert emacs hybrid normal visual motion operator replace))
        (general-override-mode)
 
@@ -1443,20 +1685,25 @@ A javascript refactoring library for emacs
          "M-m" 'suspend-frame
          "C-;" 'helm-M-x
          "A-x" 'helm-M-x)
+
        ;; helm mappings
        (general-def '(normal visual) helm-map
          "TAB" 'helm-execute-persistent-action
          "A-SPC" 'helm-toggle-visible-mark)
+
        ;; nosetests
        (general-def '(normal visual) python-mode-map
          "C-c a" 'nosetest-all
          "C-c m" 'nosetest-module
          "C-c s" 'nosetest-suite
          "C-c ." 'nosetest-one)
+
+       ;; multiedit
        (general-def '(visual normal)
          "M-d" 'evil-multiedit-match-symbol-and-next)
        (general-def '(visual normal)
          "M-D" 'evil-multiedit-match-symbol-and-prev)
+
        ;; window split orientation
        (general-def '(normal visual)
          "C-w R" 'kyle/toggle-window-split)
@@ -1465,11 +1712,21 @@ A javascript refactoring library for emacs
                                                           :states '(insert normal)
                                                           "C-SPC" 'completion-at-point
                                                           "C-r" 'helm-eshell-history)))
+       ;; completion
        (general-def 'insert
          "C-SPC" 'completion-at-point)
        (general-def 'insert
-         "C-TAB" 'hippie-expand))
+         "C-TAB" 'hippie-expand)
+
+       ;; move around like you did in vim
+       (general-def '(normal)
+         :keymaps 'override
+         "A-h" 'evil-window-left
+         "A-j" 'evil-window-down
+         "A-k" 'evil-window-up
+         "A-l" 'evil-window-right))
    #+END_SRC
+
 ** Packages
 **** paradox
      Extends package management
@@ -1480,6 +1737,7 @@ A javascript refactoring library for emacs
          :pin melpa
          :config (paradox-enable))
      #+END_SRC
+
 ** Evil
 **** evil
      #+name: evil
@@ -1501,12 +1759,14 @@ A javascript refactoring library for emacs
            (define-key evil-motion-state-map "s" 'evil-avy-goto-char-2)
            (define-key evil-normal-state-map "s" 'evil-avy-goto-char-2)))
      #+END_SRC
+
 **** evil-anzu
      #+name: evil
      #+BEGIN_SRC emacs-lisp
-  (use-package evil-anzu
-    :after evil)
+       (use-package evil-anzu
+         :after evil)
      #+END_SRC
+
 **** evil-collection
      Enable evil everywhere
      #+name: evil
@@ -1517,6 +1777,7 @@ A javascript refactoring library for emacs
          :custom (evil-collection-setup-minibuffer t)
          :config (evil-collection-init))
      #+END_SRC
+
 **** evil-commentary
      #+name: evil
      #+BEGIN_SRC emacs-lisp
@@ -1526,6 +1787,7 @@ A javascript refactoring library for emacs
          :after evil
          :hook (prog-mode . evil-commentary-mode))
      #+END_SRC
+
 **** evil-goggles
      Flash text highlighting when performing vim-motion operations
      #+name: evil
@@ -1540,6 +1802,7 @@ A javascript refactoring library for emacs
          (evil-goggles-mode)
          (evil-goggles-use-magit-faces))
      #+END_SRC
+
 **** evil-magit
      Enable basic evil motion in magit buffers
      #+name: evil
@@ -1548,6 +1811,7 @@ A javascript refactoring library for emacs
          :after (magit evil)
          :pin melpa)
      #+END_SRC
+
 **** evil-matchit
      Jump to opening/closing delimiters vim-style
      #+name: evil
@@ -1558,6 +1822,7 @@ A javascript refactoring library for emacs
          :config (global-evil-matchit-mode 1)
          :after evil)
      #+END_SRC
+
 **** evil-org
      Evil bindings for org mode
      #+name: evil
@@ -1571,6 +1836,7 @@ A javascript refactoring library for emacs
          :pin melpa
          :after (org evil))
      #+END_SRC
+
 **** evil-smartparens
      Play nice with smartparens
      #+name: evil
@@ -1581,6 +1847,7 @@ A javascript refactoring library for emacs
          :after (smartparens evil)
          :pin melpa)
      #+END_SRC
+
 **** evil-surround
      Surround text objects with delimiters
      #+name: evil
@@ -1591,6 +1858,7 @@ A javascript refactoring library for emacs
          :commands (evil-surround-edit evil-Surround-edit evil-surround-region evil-Surround-region)
          :config (global-evil-surround-mode 1))
      #+END_SRC
+
 **** evil-multiedit
      #+name: evil
      #+BEGIN_SRC emacs-lisp
@@ -1599,6 +1867,7 @@ A javascript refactoring library for emacs
         :pin melpa
         :config (evil-multiedit-default-keybinds))
      #+END_SRC
+
 **** evil-visualstar
      Enable search-at-point from visual mode
      #+name: evil
@@ -1608,6 +1877,7 @@ A javascript refactoring library for emacs
         :pin melpa
         :config (global-evil-visualstar-mode))
      #+END_SRC
+
 **** evil-snipe
      #+name: evil
      #+BEGIN_SRC emacs-lisp
@@ -1617,6 +1887,7 @@ A javascript refactoring library for emacs
         :init (setq evil-snipe-smart-case t)
         :config (evil-snipe-override-mode 1))
      #+END_SRC
+
 ** Final
    Things to do after the rest of the config has loaded. This is can be tricky given the deferred loading going on with =use-package=.
    #+name: final
@@ -1629,6 +1900,21 @@ A javascript refactoring library for emacs
      (set-face-attribute 'org-property-value nil :family monospace-font)
      (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
    #+END_SRC
+
+* Files
+Anything thrown in =.emacs.local.d= will get loaded automatically.
+#+name: files
+#+BEGIN_SRC emacs-lisp
+(defun my/load-elisp-directory (path)
+  (let ((file-pattern "\\.elc?$"))
+    (when (file-directory-p path)
+      (mapcar (lambda (lisp-file)
+                (load-file lisp-file))
+              (directory-files (expand-file-name path) t file-pattern)))))
+
+(my/load-elisp-directory "~/.emacs.local.d")
+#+END_SRC
+
 * Tangle
   Generate an emacs-lisp configuration file
   #+BEGIN_SRC emacs-lisp :tangle yes :noweb no-export :exports code
@@ -1639,5 +1925,6 @@ A javascript refactoring library for emacs
     <<interface>>
     <<helm>>
     <<keys>>
+    <<files>>
     <<final>>
   #+END_SRC
