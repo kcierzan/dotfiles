@@ -46,7 +46,7 @@ command -v md5sum > /dev/null || alias md5sum="md5"
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
 
 # URL-encode strings
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+alias urlencode='python3 -c "import sys, urllib.parse as ul; print(ul.quote_plus(sys.argv[1]))"'
 
 # Disable Spotlight
 alias spotoff="sudo mdutil -a -i off"
@@ -74,9 +74,6 @@ alias fit="tmux detach -a"
 # Verbose tar.gz compression and expansion
 alias tarc="tar -cvzf"
 alias tarx="tar -xvzf"
-
-# listen to some music
-alias spo="ncmpcpp"
 
 # Stop and remove all docker containers
 alias dockstop="docker ps -a -q | xargs docker stop 2>&1"
@@ -169,7 +166,8 @@ codepoint() {
 ff() {
   local out file key
   IFS=$'\n'
-  out=($(fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% --preview '[[ $(file --mime {}) =~ binary ]] &&
+  out=($(fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
+             --preview '[[ $(file --mime {}) =~ binary ]] &&
                   echo {} is a binary file ||
                   (highlight -O ansi -l {} ||
                   pygmentize -g {} ||
@@ -316,8 +314,9 @@ bindkey '^J' recentdir
 fr() {
   local file out key
   IFS=$'\n'
-  out=($(sed '1d' ~/.cache/neomru/file |
-         fzf +m --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% --preview '[[ $(file --mime {}) =~ binary ]] &&
+  out=($(sed '1d' ~/.cache/neomru/file \
+             | fzf +m --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
+                   --preview '[[ $(file --mime {}) =~ binary ]] &&
                    echo {} is a binary file ||
                    (highlight -O ansi -l {} ||
                    pygmentize -g {} ||
@@ -343,14 +342,24 @@ bindkey '^h' fr
 findfile() {
   local out file key
   IFS=$'\n'
-  out=($(rg ${1:-.} --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc" -g "!node-modules/*" -g "!tags" -g "!TAGS" 2> /dev/null | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% --preview '[[ $(file --mime {}) =~ binary ]] &&
+  out=($(rg ${1:-.} --files --no-ignore --hidden --follow \
+         -g "!.git/*" \
+         -g "!*.pyc" \
+         -g "!node-modules/*" \
+         -g "!tags" \
+         -g "!TAGS" \
+         2> /dev/null \
+         | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
+         --preview '[[ $(file --mime {}) =~ binary ]] &&
                   echo {} is a binary file ||
                   (highlight -O ansi -l {} ||
                   pygmentize -g {} ||
                   cat {}) 2> /dev/null | head -2000'))
+
   key=$(head -1 <<< "$out")
   file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
+
+if [ -n "$file" ]; then
       if [ "$key" = ctrl-o ]; then
           open "$file"
       elif [ "$key" = ctrl-x ]; then
@@ -381,15 +390,38 @@ bindkey '^p' fkill
 
 fzg() {
   local linefile
-  if [[ $EDITOR = 'nvim' ]]; then
-    linefile=($(rg -n --hidden -g "!.pyc" -g "!.git/*" -g "!node-modules/*" -g "!env/*" -g "!TAGS" -g "!*.dmp" . 2> /dev/null | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' | gawk -F : '{print "+"$2" "$1 }'))
+  if [[ $EDITOR = 'nvim' || $EDITOR =~ .*emacs ]]; then
+      linefile=($(rg -n --hidden \
+                     -g "!.pyc" \
+                     -g "!.git/*" \
+                     -g "!node-modules/*" \
+                     -g "!env/*" \
+                     -g "!TAGS" \
+                     -g "!*.dmp" \
+                     . \
+                     2> /dev/null \
+                     | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
+                     | gawk -F : '{print "+"$2" "$1 }'))
   elif [[ $EDITOR = 'code' ]]; then
-    linefile=($(rg -n --hidden -g "!.pyc" -g "!.git/*" -g "!node-modules/*" -g "!env/*" -g "!TAGS" -g "!*.dmp" . 2> /dev/null | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' | gawk -F : '{print "-g "$1":"$2 }'))
+      linefile=($(rg -n --hidden \
+                     -g "!.pyc" \
+                     -g "!.git/*" \
+                     -g "!node-modules/*" \
+                     -g "!env/*" \
+                     -g "!TAGS" \
+                     -g "!*.dmp" \
+                     . \
+                     2> /dev/null \
+                     | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
+                     | gawk -F : '{print "-g "$1":"$2 }'))
   fi
 
-  if [[ -n $linefile ]]; then
+  if [[ -n $linefile && ! $EDITOR =~ .*emacs ]]; then
     echo $linefile | xargs $EDITOR
+  elif [[ -n $linefile ]]; then
+      $EDITOR $linefile
   fi
+
   zle redraw-prompt
 }
 zle -N fzg
@@ -408,4 +440,8 @@ envf() {
       envfile="build/test-environment"
     fi
     gsed 's/^export\s//i' "$envfile" >> .env
+}
+
+stag() {
+    git log $(git describe --tags --abbrev=0)..HEAD --oneline
 }
