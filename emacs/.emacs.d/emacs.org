@@ -16,83 +16,83 @@
         (setq confirm-kill-emacs 'y-or-n-p)
     #+END_SRC
 
-    * UI
+* UI
     #+name: interface
     #+BEGIN_SRC emacs-lisp
-        (menu-bar-mode -1)
-        (tool-bar-mode -1)
-        (setq auto-revert-interval 1)
-        (scroll-bar-mode -1)
-        (show-paren-mode 1)
-        (blink-cursor-mode 1)
-        (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
-    ;; show filenames in the frame title bar
-    (setq frame-title-format
-          '("" invocation-name " " (:eval (if (buffer-file-name)
-                                              (abbreviate-file-name (buffer-file-name))
-                                            "%b"))))
-    (setq-default left-fringe-width 5
-                  line-spacing 5
-                  ring-bell-function 'ignore
-                  idle-update-delay 0.5
-                  inhibit-startup-screen t
-                  inhibit-startup-message t
-                  inhibit-startup-echo-area-message user-login-name
-                  inhibit-default-init t
-                  initial-scratch-message nil)
-    (set-frame-parameter nil 'internal-border-width 2)
-    ;; maybe enable ligatures on emacs-mac
-    (if (fboundp 'mac-auto-operator-composition-mode) (mac-auto-operator-composition-mode))
-    (setq hl-line-sticky-flag nil)
-    (add-hook 'prog-mode-hook 'hl-line-mode)
-    ;; defined in `init.el'
-    (set-face-attribute 'fixed-pitch nil :font monospace-font)
-    (set-face-attribute 'default  nil :font monospace-font)
-    (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 1.2)
+          (menu-bar-mode -1)
+          (tool-bar-mode -1)
+          (setq auto-revert-interval 1)
+          (scroll-bar-mode -1)
+          (show-paren-mode 1)
+          (blink-cursor-mode 1)
+          (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+      ;; show filenames in the frame title bar
+      (setq frame-title-format
+            '("" invocation-name " " (:eval (if (buffer-file-name)
+                                                (abbreviate-file-name (buffer-file-name))
+                                              "%b"))))
+      (setq-default left-fringe-width 5
+                    line-spacing 5
+                    ring-bell-function 'ignore
+                    idle-update-delay 0.5
+                    inhibit-startup-screen t
+                    inhibit-startup-message t
+                    inhibit-startup-echo-area-message user-login-name
+                    inhibit-default-init t
+                    initial-scratch-message nil)
+      (set-frame-parameter nil 'internal-border-width 2)
+      ;; maybe enable ligatures on emacs-mac
+      (if (fboundp 'mac-auto-operator-composition-mode) (mac-auto-operator-composition-mode))
+      (setq hl-line-sticky-flag nil)
+      (add-hook 'prog-mode-hook 'hl-line-mode)
+      ;; defined in `init.el'
+      (set-face-attribute 'fixed-pitch nil :font monospace-font :height 1.0)
+      (set-face-attribute 'default  nil :font monospace-font)
+      (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 180)
 
-    (setq default-frame-alist
-          '((top . 50) (left . 130)
-            (width . 200) (height . 60)))
+      (setq default-frame-alist
+            '((top . 50) (left . 130)
+              (width . 200) (height . 60)))
 
-    (add-hook 'window-setup-hook '(lambda ()
-                                    (set-face-attribute 'default nil :height 130)))
-    ;; don't warn about theme loading
-    (use-package custom
-      :ensure nil
-      :config
-      (setf custom-safe-themes t))
+      (add-hook 'window-setup-hook '(lambda ()
+                                      (set-face-attribute 'default nil :height 130)))
+      ;; don't warn about theme loading
+      (use-package custom
+        :ensure nil
+        :config
+        (setf custom-safe-themes t))
 
-    ;; toggle split orientation
-    (defun kyle/toggle-window-split ()
-      (interactive)
-      (if (= (count-windows) 2)
-          (let* ((this-win-buffer (window-buffer))
-                 (next-win-buffer (window-buffer (next-window)))
-                 (this-win-edges (window-edges (selected-window)))
-                 (next-win-edges (window-edges (next-window)))
-                 (this-win-2nd (not (and (<= (car this-win-edges)
-                                             (car next-win-edges))
-                                         (<= (cadr this-win-edges)
-                                             (cadr next-win-edges)))))
-                 (splitter
-                  (if (= (car this-win-edges)
-                         (car (window-edges (next-window))))
-                      'split-window-horizontally
-                    'split-window-vertically)))
-            (delete-other-windows)
-            (let ((first-win (selected-window)))
-              (funcall splitter)
-              (if this-win-2nd (other-window 1))
-              (set-window-buffer (selected-window) this-win-buffer)
-              (set-window-buffer (next-window) next-win-buffer)
-              (select-window first-win)
-              (if this-win-2nd (other-window 1))))))
+      ;; toggle split orientation
+      (defun kyle/toggle-window-split ()
+        (interactive)
+        (if (= (count-windows) 2)
+            (let* ((this-win-buffer (window-buffer))
+                   (next-win-buffer (window-buffer (next-window)))
+                   (this-win-edges (window-edges (selected-window)))
+                   (next-win-edges (window-edges (next-window)))
+                   (this-win-2nd (not (and (<= (car this-win-edges)
+                                               (car next-win-edges))
+                                           (<= (cadr this-win-edges)
+                                               (cadr next-win-edges)))))
+                   (splitter
+                    (if (= (car this-win-edges)
+                           (car (window-edges (next-window))))
+                        'split-window-horizontally
+                      'split-window-vertically)))
+              (delete-other-windows)
+              (let ((first-win (selected-window)))
+                (funcall splitter)
+                (if this-win-2nd (other-window 1))
+                (set-window-buffer (selected-window) this-win-buffer)
+                (set-window-buffer (next-window) next-win-buffer)
+                (select-window first-win)
+                (if this-win-2nd (other-window 1))))))
 
-    ;; disable weird scoll bar on emacsclient frames
-    (add-hook 'after-make-frame-functions '(lambda (frame)
-                                             (modify-frame-parameters frame
-                                                                      '((vertical-scroll-bars . nil)
-                                                                        (horizontal-scroll-bars . nil)))))
+      ;; disable weird scoll bar on emacsclient frames
+      (add-hook 'after-make-frame-functions '(lambda (frame)
+                                               (modify-frame-parameters frame
+                                                                        '((vertical-scroll-bars . nil)
+                                                                          (horizontal-scroll-bars . nil)))))
   #+END_SRC
 
 * UTF-8
@@ -138,7 +138,7 @@
       (epa-file-enable))
   #+END_SRC
 
-  Bump the GC threshold for startup only
+  Bump the garbage collection threshold for startup only
   #+name: basic
   #+BEGIN_SRC emacs-lisp
     (setq gc-cons-threshold (* 256 1024 1024)
@@ -385,7 +385,9 @@
 **** writing
 #+name: programming
 #+BEGIN_SRC emacs-lisp
-  (use-package writeroom-mode)
+  (use-package writeroom-mode
+    :config
+    (setq writeroom-width 0.66))
   (use-package writegood-mode)
   (defun writing-mode ()
     (interactive)
@@ -877,7 +879,7 @@
                      doom-themes-enable-italic t)
          :config
          (doom-themes-org-config)
-         (load-theme 'doom-one t))
+         (load-theme 'doom-nord t))
      #+END_SRC
 
 **** solarized-emacs
@@ -964,7 +966,35 @@
       (use-package dockerfile-mode
         :pin melpa
         :mode "/Dockerfile$")
-    #+END_SRC
+    #+END_SRC Elixir
+
+**** Alchemist
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package alchemist
+    :hook (elixir-mode . alchemist-mode))
+#+END_SRC
+
+**** elixir-mode
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package elixir-mode
+    :config
+    (add-hook 'elixir-mode-hook
+              (lambda () (add-hook 'before-save-hook 'elixir-format nil t))))
+#+END_SRC
+
+**** credo
+linting and static analysis
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+    (use-package flycheck-credo
+      :config
+      (setq flycheck-elixir-credo-strict t)
+      (eval-after-load 'flycheck
+        '(flycheck-credo-setup))
+      (add-hook 'elixir-mode-hook 'flycheck-mode))
+#+END_SRC
 
 *** Elm
 **** elm-mode
@@ -1337,7 +1367,7 @@ automatically format python code
      #+END_SRC
 
 *** Org
-    N.B. - Org-mode itself is configured and loaded in =init.el=
+N.B. - Org-mode itself is configured and loaded in =init.el=
 **** org-bullets
      Use UTF-8 symbols for org headings
      #+name: languages
@@ -1894,10 +1924,10 @@ http requests in org babel
    #+BEGIN_SRC emacs-lisp
      (load custom-file)
      (set-face-attribute 'font-lock-string-face nil :family string-font)
-     (set-face-attribute 'org-verbatim nil :family monospace-font)
+     ;; (set-face-attribute 'org-verbatim nil :family monospace-font)
      (set-face-attribute 'variable-pitch nil :family variable-pitch-font)
-     (set-face-attribute 'org-special-keyword nil :family monospace-font)
-     (set-face-attribute 'org-property-value nil :family monospace-font)
+     ;; (set-face-attribute 'org-special-keyword nil :family monospace-font)
+     ;; (set-face-attribute 'org-property-value nil :family monospace-font)
      (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
    #+END_SRC
 

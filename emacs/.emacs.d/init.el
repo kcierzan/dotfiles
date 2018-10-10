@@ -14,10 +14,10 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 
-(setq monospace-font "FuraCode Nerd Font")
-(setq string-font "FuraCode Nerd Font")
-(setq nerd-font "FuraCode Nerd Font")
-(setq variable-pitch-font "Bitter")
+(setq monospace-font "Hack Nerd Font")
+(setq string-font "Hack Nerd Font")
+(setq nerd-font "Hack Nerd Font")
+(setq variable-pitch-font "ETBembo")
 
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -39,6 +39,7 @@
 ;; we configure org mode early - the rest of the config is loaded via org-babel
 (use-package org
   :init
+  (setq org-ellipsis "  ")
   (setq org-agenda-files (quote ("~/git/org")))
   (setq org-use-fast-todo-selection t)
   (setq org-directory "~/git/org")
@@ -97,13 +98,25 @@
                                 (set-face-attribute 'org-indent nil :inherit 'fixed-pitch)))
   (add-hook 'org-mode-hook '(lambda ()
                               (variable-pitch-mode 1)
-                              (setq line-spacing 2)
+                              (setq line-spacing 1)
                               (company-mode 0)
                               (setq truncate-lines nil)
                               (set-face-attribute 'org-link nil :underline t)
                               (mapc (lambda (face)
-                                      (set-face-attribute face nil :family monospace-font))
+                                      (set-face-attribute face nil :family monospace-font :height 0.75))
                                     (list 'org-code
+                                          'org-warning
+                                          ;; 'org-level-1
+                                          ;; 'org-level-2
+                                          ;; 'org-level-3
+                                          ;; 'org-level-4
+                                          ;; 'org-level-5
+                                          ;; 'org-level-6
+                                          ;; 'org-level-7
+                                          ;; 'org-level-8
+                                          'org-special-keyword
+                                          'org-property-value
+                                          'org-verbatim
                                           'org-link
                                           'org-block
                                           'org-date
@@ -116,7 +129,7 @@
 (defun kyle/position-to-kill-ring ()
   "Copy to the kill ring a string in the format \"file-name:line-number\"
 for the current buffer's file name, and the line number at point."
-  (interactive)
+
   (kill-new
    (format "%s::%d" (buffer-file-name) (save-restriction
                                          (widen) (line-number-at-pos)))))
