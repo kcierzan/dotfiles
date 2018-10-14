@@ -5,34 +5,34 @@
       "subtext" : {
         "size" : 12,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "SFMono Nerd Font",
+        "font" : "FuraCode Nerd Font",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 22,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "SFMono Nerd Font",
+        "font" : "FuraCode Nerd Font",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
-        "size" : 21,
+        "size" : 24,
         "colorSelected" : "#51AEEEFF",
-        "font" : "San Francisco Display",
+        "font" : "Fira Sans",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 7,
+      "paddingVertical" : 9,
       "iconSize" : 40
     },
     "search" : {
-      "paddingVertical" : 8,
+      "paddingVertical" : 3,
       "background" : "#272B33FF",
       "spacing" : 8,
       "text" : {
         "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "San Francisco Display",
+        "font" : "Fira Sans",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
