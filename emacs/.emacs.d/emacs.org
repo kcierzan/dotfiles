@@ -32,7 +32,7 @@
                                                 (abbreviate-file-name (buffer-file-name))
                                               "%b"))))
       (setq-default left-fringe-width 5
-                    line-spacing 5
+                    line-spacing 6
                     ring-bell-function 'ignore
                     idle-update-delay 0.5
                     inhibit-startup-screen t
@@ -54,8 +54,11 @@
             '((top . 50) (left . 130)
               (width . 200) (height . 60)))
 
-      (add-hook 'window-setup-hook '(lambda ()
-                                      (set-face-attribute 'default nil :height 130)))
+      (add-hook 'window-setup-hook (lambda ()
+                                     (set-face-attribute 'default nil :height 150)
+                                     (set-face-attribute 'header-line nil :height 190)
+                                     (setq header-line-format " ")))
+
       ;; don't warn about theme loading
       (use-package custom
         :ensure nil
@@ -1374,6 +1377,9 @@ N.B. - Org-mode itself is configured and loaded in =init.el=
      #+BEGIN_SRC emacs-lisp
        (use-package org-bullets
          :pin melpa
+         :config
+         ;; Hide bullets completely
+         (setq org-bullets-bullet-list '(" "))
          :hook (org-mode . (lambda () (org-bullets-mode 1)))
          :after org)
      #+END_SRC

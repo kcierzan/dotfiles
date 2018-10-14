@@ -14,10 +14,10 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 
-(setq monospace-font "Hack Nerd Font")
-(setq string-font "Hack Nerd Font")
-(setq nerd-font "Hack Nerd Font")
-(setq variable-pitch-font "ETBembo")
+(setq monospace-font "Inconsolata Nerd Font")
+(setq string-font "Inconsolata Nerd Font")
+(setq nerd-font "Inconsolata Nerd Font")
+(setq variable-pitch-font "Vollkorn")
 
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -48,7 +48,7 @@
         org-src-preserve-indentation nil
         org-catch-invisible-edits t)
   (setq org-todo-keywords
-        '((sequence "TODO" "IN PROGRESS" "NEXT" "|" "DONE" "CANCELLED")))
+        '((sequence "TODO" "IN PROGRESS" "|" "DONE" "CANCELLED")))
   (setq org-capture-templates
         '(("t" "todo" entry (file "~/git/org/todo.org")
            "* TODO %?\n%U\n%a\n"
@@ -106,20 +106,14 @@
                                       (set-face-attribute face nil :family monospace-font :height 0.75))
                                     (list 'org-code
                                           'org-warning
-                                          ;; 'org-level-1
-                                          ;; 'org-level-2
-                                          ;; 'org-level-3
-                                          ;; 'org-level-4
-                                          ;; 'org-level-5
-                                          ;; 'org-level-6
-                                          ;; 'org-level-7
-                                          ;; 'org-level-8
                                           'org-special-keyword
                                           'org-property-value
                                           'org-verbatim
                                           'org-link
                                           'org-block
+                                          'org-done
                                           'org-date
+                                          'org-todo
                                           'org-table
                                           'org-tag
                                           'org-block-begin-line
