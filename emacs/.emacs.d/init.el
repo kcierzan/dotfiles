@@ -103,7 +103,7 @@
                               (setq truncate-lines nil)
                               (set-face-attribute 'org-link nil :underline t)
                               (mapc (lambda (face)
-                                      (set-face-attribute face nil :family monospace-font :height 0.75))
+                                      (set-face-attribute face nil :family monospace-font :height 0.85))
                                     (list 'org-code
                                           'org-warning
                                           'org-special-keyword

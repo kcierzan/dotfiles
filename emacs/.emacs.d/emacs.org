@@ -45,7 +45,7 @@
       (if (fboundp 'mac-auto-operator-composition-mode) (mac-auto-operator-composition-mode))
       (setq hl-line-sticky-flag nil)
       (add-hook 'prog-mode-hook 'hl-line-mode)
-      ;; defined in `init.el'
+      ;; the following font symbols are defined in `init.el'
       (set-face-attribute 'fixed-pitch nil :font monospace-font :height 1.0)
       (set-face-attribute 'default  nil :font monospace-font)
       (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 180)
@@ -56,8 +56,7 @@
 
       (add-hook 'window-setup-hook (lambda ()
                                      (set-face-attribute 'default nil :height 150)
-                                     (set-face-attribute 'header-line nil :height 190)
-                                     (setq header-line-format " ")))
+                                     (set-face-attribute 'header-line nil :height 190)))
 
       ;; don't warn about theme loading
       (use-package custom
@@ -828,7 +827,7 @@
      #+END_SRC
 
 **** sublimity
-     Smooth scrolling and distraction-free mode
+     "Smooth" scrolling
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package sublimity
@@ -865,7 +864,8 @@
          :hook (after-init . global-color-identifiers-mode))
      #+END_SRC
 
-**** shackle
+**** TODO shackle
+Define some rules for handling pesky windows.
      #+name: interface
      #+BEGIN_SRC emacs-lisp
      (use-package shackle)
@@ -882,7 +882,7 @@
                      doom-themes-enable-italic t)
          :config
          (doom-themes-org-config)
-         (load-theme 'doom-nord t))
+         (load-theme 'doom-one t))
      #+END_SRC
 
 **** solarized-emacs
@@ -1206,13 +1206,13 @@ A javascript refactoring library for emacs
          :config (ac-php-core-eldoc-setup))
      #+END_SRC
 
-**** PsySH
+**** TODO PsySH
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package psysh
     :defer t
     :init
-    (setq psysh-comin-buffer-process "~/.scripts/shell.php"))
+    (setq psysh-comint-buffer-process "~/.scripts/shell.php"))
 #+END_SRC
 
 **** geben
@@ -1370,7 +1370,7 @@ automatically format python code
      #+END_SRC
 
 *** Org
-N.B. - Org-mode itself is configured and loaded in =init.el=
+*N.B.*  Org-mode itself is configured and loaded in =init.el=
 **** org-bullets
      Use UTF-8 symbols for org headings
      #+name: languages
