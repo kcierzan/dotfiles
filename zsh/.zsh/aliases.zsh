@@ -280,8 +280,6 @@ fb() {
 zle -N fb
 bindkey '^b' fb
 
-
-
 # Recent directory search and edit
 #   - CTRL-o    open with `open` command
 #   - CTRL-v    cd and open with vscode
