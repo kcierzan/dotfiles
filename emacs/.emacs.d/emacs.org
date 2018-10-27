@@ -55,7 +55,7 @@
               (width . 200) (height . 60)))
 
       (add-hook 'window-setup-hook (lambda ()
-                                     (set-face-attribute 'default nil :height 150)
+                                     (set-face-attribute 'default nil :height 140)
                                      (set-face-attribute 'header-line nil :height 190)))
 
       ;; don't warn about theme loading
@@ -217,6 +217,7 @@
   #+name: basic
   #+BEGIN_SRC emacs-lisp
       (setq explicit-shell-file-name "/usr/local/bin/zsh")
+      (setq shell-command-switch "-ic")
   #+END_SRC
 
   A bunch of settings cribbed from doom-emacs
@@ -356,20 +357,21 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package hacker-typer
-         :defer t
+         :commands (hacker-typer)
          :config (setq hacker-typer-remove-comments t))
      #+END_SRC
 
 **** rest-client
 #+name: programming
      #+BEGIN_SRC emacs-lisp
-       (use-package restclient
-         :mode("\\.rest" . restclient-mode)
-         :hook (restclient-mode . restclient-outline-mode)
-         :config
-         (defun restclient-outline-mode ()
-           (outline-minor-mode)
-           (setq-local outline-regexp "##+")))
+  (use-package restclient
+    :mode ("\\.rest" . restclient-mode)
+    :hook (restclient-mode . restclient-outline-mode)
+    :commands (restclient-mode)
+    :config
+    (defun restclient-outline-mode ()
+      (outline-minor-mode)
+      (setq-local outline-regexp "##+")))
      #+END_SRC
 
 **** company-restclient
@@ -388,8 +390,9 @@
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package writeroom-mode
+    :commands (writeroom-mode)
     :config
-    (setq writeroom-width 0.66))
+    (setq writeroom-width 0.75))
   (use-package writegood-mode)
   (defun writing-mode ()
     (interactive)
@@ -471,7 +474,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package eglot
-         ;; :disabled t
          :hook (python-mode . eglot-ensure)
          :commands (eglot eglot-reconnect eglot-rename eglot-help-at-point eglot-events-buffer))
      #+END_SRC
@@ -500,6 +502,7 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package dumb-jump
+         :commands (dumb-jump-go dumb-jump-quick-look)
          :pin melpa
          :init (setq dumb-jump-force-searcher 'rg
                      dumb-jump-selector 'helm))
@@ -519,7 +522,6 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package projectile
-         ;; :disabled t
          :init (setq projectile-enable-caching (not noninteractive)
                      projectile-indexing-method 'alien
                      projectile-globally-ignored-files '(".DS_STORE" "TAGS")
@@ -644,6 +646,7 @@
          (global-git-gutter-mode)
          (setq-default fringes-outside-margins t))
      #+END_SRC
+
 **** magit
      king of git guis
      #+name: programming
@@ -656,7 +659,8 @@
 **** git-link
 #+name: programming
 #+BEGIN_SRC emacs-lisp
-  (use-package git-link)
+  (use-package git-link
+    :commands (git-link))
 #+END_SRC
 
 **** git-timemachine
@@ -688,6 +692,7 @@
          :hook (dired-initial-position . dired-k)
          :pin melpa)
      #+END_SRC
+
 ** Interface
 **** highlight-numbers
      #+name: interface
@@ -868,7 +873,8 @@
 Define some rules for handling pesky windows.
      #+name: interface
      #+BEGIN_SRC emacs-lisp
-     (use-package shackle)
+       (use-package shackle
+         :disabled t)
      #+END_SRC
 
 ** Themes
@@ -882,7 +888,7 @@ Define some rules for handling pesky windows.
                      doom-themes-enable-italic t)
          :config
          (doom-themes-org-config)
-         (load-theme 'doom-one t))
+         (load-theme 'doom-vibrant t))
      #+END_SRC
 
 **** solarized-emacs
@@ -1019,6 +1025,18 @@ linting and static analysis
          :pin melpa
          :mode "\\.js$"
          :interpreter "node"
+         :init
+         (defun my/use-eslint-from-node-modules ()
+           (let* ((root (locate-dominating-file
+                         (or (buffer-file-name) default-directory)
+                         "node_modules"))
+                  (eslint (and root
+                               (expand-file-name
+                                "node_modules/eslint/bin/eslint.js"
+                                root))))
+             (when (and eslint (file-executable-p eslint))
+               (setq-local flycheck-javascript-eslint-executable eslint))))
+         (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
          :config
          (setq js-chain-indent t
                ;; let flycheck handle these
@@ -1046,6 +1064,14 @@ A javascript refactoring library for emacs
      #+BEGIN_SRC emacs-lisp
        (use-package rjsx-mode
          :mode "components/.+\\.js$"
+         :init
+         (defun +javascript-jsx-file-p ()
+           "Detect React or preact imports early in the file."
+           (and buffer-file-name
+                (string= (file-name-extension buffer-file-name) "js")
+                (re-search-forward "\\(^\\s-*import +React\\|\\( from \\|require(\\)[\"']p?react\\)"
+                                   magic-mode-regexp-match-limit t)))
+         (add-to-list 'magic-mode-alist '(+javascript-jsx-file-p . rjsx-mode))
          :config
          (add-hook 'rjsx-mode-hook '(lambda ()
                                       (push 'javascript-jshint flycheck-disabled-checkers)))

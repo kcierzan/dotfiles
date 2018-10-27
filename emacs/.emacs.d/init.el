@@ -14,10 +14,10 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 
-(setq monospace-font "Inconsolata Nerd Font")
-(setq string-font "Inconsolata Nerd Font")
-(setq nerd-font "Inconsolata Nerd Font")
-(setq variable-pitch-font "Vollkorn")
+(setq monospace-font "SF Mono")
+(setq string-font "SF Mono")
+(setq nerd-font "SFMono Nerd Font")
+(setq variable-pitch-font "San Francisco Text")
 
 (setq package-enable-at-startup nil)
 (package-initialize)
