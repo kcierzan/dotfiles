@@ -3,22 +3,22 @@
     "result" : {
       "textSpacing" : 5,
       "subtext" : {
-        "size" : 12,
+        "size" : 13,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "FuraCode Nerd Font",
+        "font" : "SF Mono",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 22,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "FuraCode Nerd Font",
+        "font" : "SF Mono",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#51AEEEFF",
-        "font" : "Fira Sans",
+        "font" : "San Francisco Display",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "Fira Sans",
+        "font" : "San Francisco Display",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"

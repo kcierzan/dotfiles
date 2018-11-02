@@ -15,7 +15,6 @@
         (add-hook 'server-done-hook 'kill-buffer)
         (setq confirm-kill-emacs 'y-or-n-p)
     #+END_SRC
-
 * UI
     #+name: interface
     #+BEGIN_SRC emacs-lisp
@@ -293,6 +292,16 @@
     (setq iedit-toggle-key-default nil)
   #+END_SRC
 
+    Save files on loss of focus
+    #+name: basic
+    #+BEGIN_SRC emacs-lisp
+      (defun my/save-buffers ()
+        (interactive)
+        (save-some-buffers t))
+
+      (add-hook 'focus-out-hook 'my/save-buffers)
+    #+END_SRC
+
 * Eshell
 ** eshell
    #+name: basic
@@ -392,7 +401,7 @@
   (use-package writeroom-mode
     :commands (writeroom-mode)
     :config
-    (setq writeroom-width 0.75))
+    (setq writeroom-width 0.50))
   (use-package writegood-mode)
   (defun writing-mode ()
     (interactive)
@@ -470,7 +479,7 @@
                                                   try-complete-lisp-symbol)))
      #+END_SRC
 
-**** Eglot
+**** eglot
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package eglot
@@ -532,6 +541,14 @@
          (projectile-discover-projects-in-directory "~/git")
          (projectile-mode 1))
      #+END_SRC
+
+**** deadgrep
+Ripgrep interface for Emacs
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package deadgrep)
+#+END_SRC
+
 *** Editing
 **** smartparens
      Automatically match delimiters. Make it tough to unbalance parentheses in lispy modes.
@@ -652,7 +669,7 @@
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package magit
-         :commands (magit)
+         :commands (magit magit-blame)
          :pin melpa)
      #+END_SRC
 
@@ -888,7 +905,7 @@ Define some rules for handling pesky windows.
                      doom-themes-enable-italic t)
          :config
          (doom-themes-org-config)
-         (load-theme 'doom-vibrant t))
+         (load-theme 'doom-opera t))
      #+END_SRC
 
 **** solarized-emacs
@@ -1236,7 +1253,6 @@ A javascript refactoring library for emacs
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package psysh
-    :defer t
     :init
     (setq psysh-comint-buffer-process "~/.scripts/shell.php"))
 #+END_SRC
@@ -1478,13 +1494,20 @@ http requests in org babel
          :delight
          :pin melpa-stable
          :commands (helm-M-x helm-mini helm-imenu helm-resume helm-execute-persistent-action helm-select-action)
-         :init (setq helm-exit-idle-delay 0
-                     helm-split-window-inside-p nil
-                     helm-autoresize-min-height 30
-                     helm-autoresize-max-height 0
-                     helm-buffer-skip-remote-checking t
-                     helm-move-to-line-cycle-in-source t
-                     helm-echo-input-in-header-line nil)
+         :init
+         (setq helm-exit-idle-delay 0
+               helm-split-window-inside-p nil
+               helm-autoresize-min-height 30
+               helm-autoresize-max-height 0
+               helm-buffer-skip-remote-checking t
+               helm-move-to-line-cycle-in-source t
+               helm-echo-input-in-header-line nil
+               helm-M-x-fuzzy-match t
+               helm-buffers-fuzzy-matching t
+               helm-recentf-fuzzy-match t
+               helm-mode-fuzzy-match t
+               helm-file-cache-fuzzy-match t
+               helm-completion-in-region-fuzzy-match t)
          ;; (setq helm-google-suggest-use-curl-p t)
          :config
          (require 'helm-config)
@@ -1493,6 +1516,14 @@ http requests in org babel
          (setq-default helm-boring-buffer-regexp-list
                        (append '("TAGS" "\\*anaconda-mode\\*") helm-boring-buffer-regexp-list)))
      #+END_SRC
+
+**** helm-flx
+#+name: helm
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-flx
+    :config
+    (helm-flx-mode 1))
+#+END_SRC
 
 **** helm-ag
      helm frontend for the-silver-searcher
@@ -1644,7 +1675,7 @@ http requests in org babel
          "f" '(:ignore t :wk "Find")
          "g" '(:ignore t :wk "Git")
          "s" '(:ignore t :wk "Shell")
-         "p" '(:ignore t :wk "Projectile")
+         "p" '(:ignore t :wk "Project")
          "d" '(:ignore t :wk "Dired")
          "b" '(:ignore t :wk "Buffers")
          "e" '(:ignore t :wk "Eval")
@@ -1656,7 +1687,8 @@ http requests in org babel
          "]" '(:ignore t :wk "Next")
          "[" '(:ignore t :wk "Previous")
          "u" 'universal-argument
-         "q" 'evil-quit)
+         "q" 'evil-quit
+         "Q" 'kill-buffer-and-window)
        (buffer-leader "d" 'kill-this-buffer
          "s" 'evil-write
          "r" 'rename-buffer
@@ -1675,7 +1707,7 @@ http requests in org babel
          "t" 'helm-etags-select
          "O" 'helm-imenu-in-all-buffers
          "g" 'helm-do-ag
-         "G" 'helm-google-suggest
+         "G" 'deadgrep
          "L" 'helm-locate
          "f" 'helm-find-files
          "l" 'helm-swoop)
@@ -1696,6 +1728,7 @@ http requests in org babel
          "v" 'evil-window-vsplit
          "t" 'toggle-truncate-lines
          "w" 'switch-window
+         "n" 'nlinum-mode
          "a" 'text-scale-adjust
          "o" 'delete-other-windows
          "f" 'toggle-frame-fullscreen
