@@ -38,6 +38,7 @@
 
 ;; we configure org mode early - the rest of the config is loaded via org-babel
 (use-package org
+  :ensure org-plus-contrib
   :init
   (setq org-ellipsis "  ")
   (setq org-agenda-files (quote ("~/git/org")))
