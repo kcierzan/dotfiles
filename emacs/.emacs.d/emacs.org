@@ -11,7 +11,7 @@
   (global-auto-revert-mode)
   (require 'server)
   (unless (server-running-p)
-  (server-start))
+    (server-start))
   (add-hook 'server-done-hook 'kill-buffer)
   (setq confirm-kill-emacs 'y-or-n-p)
 #+END_SRC
@@ -64,7 +64,7 @@
     (setf custom-safe-themes t))
 
   ;; toggle split orientation
-  (defun kyle/toggle-window-split ()
+  (defun my/toggle-window-split ()
     (interactive)
     (if (= (count-windows) 2)
         (let* ((this-win-buffer (window-buffer))
@@ -299,64 +299,72 @@ Save files on loss of focus
       (add-hook 'focus-out-hook 'my/save-buffers)
 #+END_SRC
 
+Open the worklog on startup
+#+name: basic
+#+BEGIN_SRC emacs-lisp
+  (setq initial-buffer-choice "~/git/org/worklog.org")
+#+END_SRC
+
+Tramp has problems detecting the prompt on remote machines. Lets teach it what to look for.
+#+name: basic
+#+BEGIN_SRC emacs-lisp
+  ;; (setq tramp-shell-prompt-pattern "^[^$>\n]*[#$%>] *\\(\[[0-9;]*[a-zA-Z] *\\)*")
+#+END_SRC
 * Eshell
 ** eshell
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (use-package eshell
-       :init
-       (setq eshell-ls-initial-args "-h")
-       (setenv "PAGER" "cat")
-       (setq eshell-scroll-to-bottom-on-input t
-             eshell-error-if-no-glob t
-             eshell-hist-ignoredups t
-             eshell-save-history-on-exit t
-             eshell-prefer-lisp-functions nil
-             eshell-destroy-buffer-when-process-dies t)
-       (add-hook 'eshell-mode-hook '(lambda ()
-                                      (setq pcomplete-cycle-completions t)
-                                      (hl-line-mode -1)
-                                      (eshell/alias "ff" "find-file $1")
-                                      (eshell/alias "gd" "magit-diff-unstaged")
-                                      (eshell/alias "gds" "magit-diff-staged")
-                                      (eshell/alias "d" "dired $1")
-                                      (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-                                                    "/usr/local/bin/gls"
-                                                  "/bin/ls")))
-                                        (eshell/alias "la" (concat ls " -AlohG --color=always"))))))
-   #+END_SRC
+#+name: basic
+#+BEGIN_SRC emacs-lisp
+  (use-package eshell
+    :init
+    (setq eshell-ls-initial-args "-h")
+    (setenv "PAGER" "cat")
+    (setq eshell-scroll-to-bottom-on-input t
+          eshell-error-if-no-glob t
+          eshell-hist-ignoredups t
+          eshell-save-history-on-exit t
+          eshell-prefer-lisp-functions nil
+          eshell-destroy-buffer-when-process-dies t)
+    (add-hook 'eshell-mode-hook '(lambda ()
+                                   (setq pcomplete-cycle-completions t)
+                                   (hl-line-mode -1)
+                                   (eshell/alias "ff" "find-file $1")
+                                   (eshell/alias "gd" "magit-diff-unstaged")
+                                   (eshell/alias "gds" "magit-diff-staged")
+                                   (eshell/alias "d" "dired $1")
+                                   (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                                                 "/usr/local/bin/gls"
+                                               "/bin/ls")))
+                                     (eshell/alias "la" (concat ls " -AlohG --color=always"))))))
+#+END_SRC
 
 ** eshell-extras
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (use-package eshell-prompt-extras
-       :after esh-opt
-       :defer 3
-       :config
-       (autoload 'epe-theme-dakrone "eshell-prompt-extras")
-       (setq eshell-highlight-prompt nil
-             eshell-prompt-function 'epe-theme-dakrone))
-   #+END_SRC
-
+#+name: basic
+#+BEGIN_SRC emacs-lisp
+  (use-package eshell-prompt-extras
+    :after esh-opt
+    :defer 3
+    :config
+    (autoload 'epe-theme-dakrone "eshell-prompt-extras")
+    (setq eshell-highlight-prompt nil
+          eshell-prompt-function 'epe-theme-dakrone))
+#+END_SRC
 ** eshell-z
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (use-package eshell-z
-       :after eshell)
-   #+END_SRC
-
+#+name: basic
+#+BEGIN_SRC emacs-lisp
+  (use-package eshell-z
+    :after eshell)
+#+END_SRC
 ** eshell autocompletion
-   #+name: basic
-   #+BEGIN_SRC emacs-lisp
-     (use-package esh-autosuggest
-       :hook (eshell-mode . esh-autosuggest-mode))
-     ;; Autocomplete for git commands in shell and the git command from magit
-     (use-package pcmpl-git
-       :after pcomplete)
-     (use-package pcmpl-pip
-       :after pcomplete)
-   #+END_SRC
-
+#+name: basic
+#+BEGIN_SRC emacs-lisp
+  (use-package esh-autosuggest
+    :hook (eshell-mode . esh-autosuggest-mode))
+  ;; Autocomplete for git commands in shell and the git command from magit
+  (use-package pcmpl-git
+    :after pcomplete)
+  (use-package pcmpl-pip
+    :after pcomplete)
+#+END_SRC
 * Packages
 ** Applications
 *** hacker-typer
@@ -366,7 +374,6 @@ Save files on loss of focus
          :commands (hacker-typer)
          :config (setq hacker-typer-remove-comments t))
      #+END_SRC
-
 *** rest-client
 #+name: programming
      #+BEGIN_SRC emacs-lisp
@@ -379,7 +386,6 @@ Save files on loss of focus
       (outline-minor-mode)
       (setq-local outline-regexp "##+")))
      #+END_SRC
-
 *** company-restclient
 #+name: programming
      #+BEGIN_SRC emacs-lisp
@@ -391,7 +397,6 @@ Save files on loss of focus
                      '(lambda ()
                         (add-to-list 'company-backends 'company-restclient)))))
      #+END_SRC
-
 *** writing
 #+name: programming
 #+BEGIN_SRC emacs-lisp
@@ -408,56 +413,52 @@ Save files on loss of focus
     (setq truncate-lines nil)
     (setq global-hl-line-mode nil))
 #+END_SRC
-
 ** Programming
 *** Completion
 **** company
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-      (use-package company
-        :delight ""
-        :hook ((org-mode prog-mode restclient-mode) . company-mode)
-        :defer 2
-        :config
-        (setq company-minimum-prefix-length 2
-              company-idle-delay 0
-              company-dabbrev-downcase nil
-              company-tooltip-limit 10
-              company-dabbrev-ignore-case t
-              company-dabbrev-code-other-buffers t
-              company-tooltip-align-annotations t
-              company-require-match 'never
-              company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
-              company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
-              company-backends '(company-capf company-dabbrev company-yasnippet company-files)
-              company-transformers '(company-sort-by-occurrence))
-        (add-hook 'after-init-hook '(lambda ()
-                                      (define-key company-active-map (kbd "RET") 'company-complete-selection)
-                                      (define-key company-active-map (quote [return]) 'company-complete-selection))))
-     #+END_SRC
-
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :delight ""
+    :hook ((org-mode prog-mode restclient-mode) . company-mode)
+    :defer 2
+    :config
+    (setq company-minimum-prefix-length 2
+          company-idle-delay 0
+          company-dabbrev-downcase nil
+          company-tooltip-limit 10
+          company-dabbrev-ignore-case t
+          company-dabbrev-code-other-buffers t
+          company-tooltip-align-annotations t
+          company-require-match 'never
+          company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
+          company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
+          company-backends '(company-capf company-dabbrev company-yasnippet company-files)
+          company-transformers '(company-sort-by-occurrence))
+    (add-hook 'after-init-hook '(lambda ()
+                                  (define-key company-active-map (kbd "RET") 'company-complete-selection)
+                                  (define-key company-active-map (quote [return]) 'company-complete-selection))))
+#+END_SRC
 **** company-statistics
-     Completion by frecency
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-statistics
-         :after company
-         :hook (company-mode . company-statistics-mode)
-         :init (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
-         :config (company-statistics-mode 1))
-     #+END_SRC
-
+Completion by frecency
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package company-statistics
+    :after company
+    :hook (company-mode . company-statistics-mode)
+    :init (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
+    :config (company-statistics-mode 1))
+#+END_SRC
 **** company-quickhelp
-     Documentation popups
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-quickhelp
-         :pin melpa
-         :hook (company-mode . company-quickhelp-mode)
-         :init (setq company-quickhelp-delay 1)
-         :config (company-quickhelp-mode 1))
-     #+END_SRC
-
+Documentation popups
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package company-quickhelp
+    :pin melpa
+    :hook (company-mode . company-quickhelp-mode)
+    :init (setq company-quickhelp-delay 1)
+    :config (company-quickhelp-mode 1))
+#+END_SRC
 **** hippie-exp
      #+name: programming
      #+BEGIN_SRC emacs-lisp
@@ -480,7 +481,7 @@ Save files on loss of focus
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package eglot
-         :hook (python-mode . eglot-ensure)
+         :hook ((python-mode sh-mode) . eglot-ensure)
          :commands (eglot eglot-reconnect eglot-rename eglot-help-at-point eglot-events-buffer))
      #+END_SRC
 
@@ -634,22 +635,22 @@ Ripgrep interface for Emacs
 
 *** Shell
 **** exec-path-from-shell
-     Use $PATH as specified by the user's shell
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package exec-path-from-shell
-         :pin melpa
-         :config (when (memq window-system '(mac ns x))
-                   (exec-path-from-shell-initialize)))
-     #+END_SRC
+Use $PATH as specified by the user's shell
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :pin melpa
+    :config (when (memq window-system '(mac ns x))
+              (exec-path-from-shell-initialize)))
+#+END_SRC
 **** multi-term
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package multi-term
-         :commands (multi-term)
-         :pin melpa
-         :config (setq multi-term-program "/usr/local/bin/zsh"))
-     #+END_SRC
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package multi-term
+    :commands (multi-term)
+    :pin melpa
+    :config (setq multi-term-program "/usr/local/bin/zsh"))
+#+END_SRC
 *** Git
 **** git-gutter-fringe
      #+name: programming
@@ -1187,6 +1188,21 @@ make lispy play nice with evil
   (use-package lispyville
     :hook (lispy-mode . lispyville-mode))
 #+END_SRC
+**** slime
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package slime
+    :defer t
+    :config
+    (setq inferior-lisp-program "clisp")
+    (require 'slime-fuzzy))
+#+END_SRC
+**** highlight-quoted
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-quoted
+    :commands highlight-quoted-mode)
+#+END_SRC
 *** Markdown
 **** markdown-mode
      #+name: languages
@@ -1288,66 +1304,60 @@ Support for Xdebug
 
 *** Python
 **** python-lsp
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package lsp-python
-         :disabled t
-         :after lsp-mode)
-     #+END_SRC
-
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-python
+    :disabled t
+    :after lsp-mode)
+#+END_SRC
 **** lsp-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package lsp-mode
-         :disabled t
-         :delight ""
-         :hook (python-mode . lsp-mode))
-     #+END_SRC
-
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :disabled t
+    :delight ""
+    :hook (python-mode . lsp-mode))
+#+END_SRC
 **** company-lsp
-     This is unusably slow as of 06/21/18
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-lsp
-         :disabled t
-         :init (setq company-lsp-async t)
-         :hook (python-mode . (lambda ()
-                          (add-to-list 'company-backends 'company-lsp))))
-     #+END_SRC
-
+This is unusably slow as of 06/21/18
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package company-lsp
+    :disabled t
+    :init (setq company-lsp-async t)
+    :hook (python-mode . (lambda ()
+                     (add-to-list 'company-backends 'company-lsp))))
+#+END_SRC
 **** lsp-ui
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package lsp-ui
-         :disabled t
-         :config
-         :hook (lsp-mode . lsp-ui-mode))
-     #+END_SRC
-
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-ui
+    :disabled t
+    :config
+    :hook (lsp-mode . lsp-ui-mode))
+#+END_SRC
 **** anaconda-mode
-     Navigation, documentation, and linting for Python. I don't use this any more.
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package anaconda-mode
-         :disabled t
-         :delight ""
-         :hook ((python-mode . anaconda-mode)
-                (python-mode . anaconda-eldoc-mode)
-                (python-mode . (lambda ()
-                                 (add-to-list 'company-backends 'company-anaconda)))))
-     #+END_SRC
-
+Navigation, documentation, and linting for Python. I don't use this any more.
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package anaconda-mode
+    :disabled t
+    :delight ""
+    :hook ((python-mode . anaconda-mode)
+           (python-mode . anaconda-eldoc-mode)
+           (python-mode . (lambda ()
+                            (add-to-list 'company-backends 'company-anaconda)))))
+#+END_SRC
 **** company-anaconda
-     Completion for python
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-anaconda
-         :disabled t
-         :after company
-         :commands (company-anaconda)
-         :pin melpa)
-     #+END_SRC
-
+Completion for python
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package company-anaconda
+    :disabled t
+    :after company
+    :commands (company-anaconda)
+    :pin melpa)
+#+END_SRC
 **** elpy
 Python IDE mode
 #+name: languages
@@ -1356,57 +1366,51 @@ Python IDE mode
     :disabled t
     :config (elpy-enable))
 #+END_SRC
-
 **** pip-requirements
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-      (use-package pip-requirements
-        :mode "\\^requires-"
-        :pin melpa)
-     #+END_SRC
-
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package pip-requirements
+    :mode "\\^requires-"
+    :pin melpa)
+#+END_SRC
 **** pyvenv
-     Use pyenv environments
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-      (use-package pyvenv
-        :config
-        (defun pyvenv-autoload ()
-          (with-eval-after-load 'projectile
-            (lambda () (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".python-version")))
-                         (if (file-exists-p pfile)
-                             (pyvenv-workon (with-temp-buffer
-                                              (insert-file-contents pfile)
-                                              (nth 0 (split-string (buffer-string))))))))))
-        (add-hook 'python-mode 'pyenv-autoload))
-     #+END_SRC
-
+Use pyenv environments
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package pyvenv
+    :config
+    (defun pyvenv-autoload ()
+      (with-eval-after-load 'projectile
+        (lambda () (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".python-version")))
+                     (if (file-exists-p pfile)
+                         (pyvenv-workon (with-temp-buffer
+                                          (insert-file-contents pfile)
+                                          (nth 0 (split-string (buffer-string))))))))))
+    (add-hook 'python-mode 'pyenv-autoload))
+#+END_SRC
 **** evil-text-object-python
-     Adds  text-objects for python statements using the letter 'l'.
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-      (use-package evil-text-object-python
-        :pin melpa
-        :hook (python-mode . evil-text-object-python-add-bindings))
-     #+END_SRC
-
+Adds  text-objects for python statements using the letter 'l'.
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-text-object-python
+    :pin melpa
+    :hook (python-mode . evil-text-object-python-add-bindings))
+#+END_SRC
 **** yapfify
-     format python code
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package yapfify
-         :commands (yapfify-buffer yapfify-region)
-         :pin melpa)
-     #+END_SRC
-
+format python code
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package yapfify
+    :commands (yapfify-buffer yapfify-region)
+    :pin melpa)
+#+END_SRC
 **** nose
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package nose
-         :after python
-         :pin melpa)
-     #+END_SRC
-
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package nose
+    :after python
+    :pin melpa)
+#+END_SRC
 **** live-py-mode
      #+name: programming
      #+BEGIN_SRC emacs-lisp
@@ -1481,6 +1485,7 @@ automatically format python code
         :mode "\\.ya?ml$")
     #+END_SRC
 ** Helm
+I don't use helm any more. These packages are here in case counsel/ivy breaks.
 *** helm-descbinds
      #+name: helm
      #+BEGIN_SRC emacs-lisp
@@ -1620,6 +1625,7 @@ automatically format python code
       :config
       (require 'counsel-projectile)
       (setq counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
+      (setq counsel-rg-base-command "rg -S --no-heading --line-number --hidden --color never %s .")
       (counsel-mode 1))
 #+END_SRC
 *** counsel-projectile
@@ -1809,8 +1815,7 @@ Required by =counsel-M-X=
          "p" 'git-gutter:previous-hunk
          "n" 'git-gutter:next-hunk)
        (org-leader "c" 'org-capture
-         "a" 'org-agenda
-         "l" 'kyle/position-to-kill-ring)
+         "a" 'org-agenda)
        (window-leader "s" 'evil-window-split
          "v" 'evil-window-vsplit
          "t" 'toggle-truncate-lines
@@ -1893,11 +1898,12 @@ Required by =counsel-M-X=
 
        ;; window split orientation
        (general-def '(normal visual)
-         "C-w R" 'kyle/toggle-window-split)
+         "C-w R" 'my/toggle-window-split)
        (add-hook 'eshell-mode-hook '(lambda ()
                                       (general-define-key :keymaps 'eshell-mode-map
                                                           :states '(insert normal)
                                                           "C-SPC" 'completion-at-point
+                                                          "C-r" 'counsel-esh-history
                                                           ;; "C-r" 'helm-eshell-history
                                                           )))
        ;; completion
@@ -1919,15 +1925,14 @@ Required by =counsel-M-X=
 
 ** Packages
 *** paradox
-     Extends package management
-     #+name: packages
-     #+BEGIN_SRC emacs-lisp
-       (use-package paradox
-         :commands (list-packages paradox-list-packages package-list-packages)
-         :pin melpa
-         :config (paradox-enable))
-     #+END_SRC
-
+Extends package management
+#+name: packages
+#+BEGIN_SRC emacs-lisp
+  (use-package paradox
+    :commands (list-packages paradox-list-packages package-list-packages)
+    :pin melpa
+    :config (paradox-enable))
+#+END_SRC
 ** Evil
 *** evil
 #+name: evil
@@ -1955,7 +1960,6 @@ Required by =counsel-M-X=
   (use-package evil-anzu
     :after evil)
 #+END_SRC
-
 *** evil-collection
 Enable evil everywhere
 #+name: evil
@@ -1966,7 +1970,6 @@ Enable evil everywhere
          :custom (evil-collection-setup-minibuffer t)
          :config (evil-collection-init))
 #+END_SRC
-
 *** evil-commentary
 #+name: evil
 #+BEGIN_SRC emacs-lisp
@@ -1976,7 +1979,6 @@ Enable evil everywhere
          :after evil
          :hook (prog-mode . evil-commentary-mode))
 #+END_SRC
-
 *** evil-goggles
 Flash text highlighting when performing vim-motion operations
 #+name: evil
@@ -2000,7 +2002,6 @@ Enable basic evil motion in magit buffers
          :after (magit evil)
          :pin melpa)
 #+END_SRC
-
 *** evil-matchit
 Jump to opening/closing delimiters vim-style
 #+name: evil
@@ -2011,7 +2012,6 @@ Jump to opening/closing delimiters vim-style
          :config (global-evil-matchit-mode 1)
          :after evil)
 #+END_SRC
-
 *** evil-org
 Evil bindings for org mode
 #+name: evil
@@ -2036,7 +2036,6 @@ Play nice with smartparens
          :after (smartparens evil)
          :pin melpa)
 #+END_SRC
-
 *** evil-surround
 Surround text objects with delimiters
 #+name: evil
@@ -2056,7 +2055,6 @@ Surround text objects with delimiters
         :pin melpa
         :config (evil-multiedit-default-keybinds))
 #+END_SRC
-
 *** evil-visualstar
 Enable search-at-point from visual mode
 #+name: evil
@@ -2066,7 +2064,6 @@ Enable search-at-point from visual mode
         :pin melpa
         :config (global-evil-visualstar-mode))
 #+END_SRC
-
 *** evil-snipe
 #+name: evil
 #+BEGIN_SRC emacs-lisp
@@ -2076,7 +2073,6 @@ Enable search-at-point from visual mode
         :init (setq evil-snipe-smart-case t)
         :config (evil-snipe-override-mode 1))
 #+END_SRC
-
 ** Final
 Things to do after the rest of the config has loaded. This is can be tricky given the deferred loading going on with =use-package=.
 #+name: final
@@ -2089,7 +2085,6 @@ Things to do after the rest of the config has loaded. This is can be tricky give
      ;; (set-face-attribute 'org-property-value nil :family monospace-font)
      (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
 #+END_SRC
-
 * Files
 Anything thrown in =.emacs.local.d= will get loaded automatically.
 #+name: files
@@ -2100,10 +2095,8 @@ Anything thrown in =.emacs.local.d= will get loaded automatically.
       (mapcar (lambda (lisp-file)
                 (load-file lisp-file))
               (directory-files (expand-file-name path) t file-pattern)))))
-
 (my/load-elisp-directory "~/.emacs.local.d")
 #+END_SRC
-
 * Tangle
 Generate an emacs-lisp configuration file
 #+BEGIN_SRC emacs-lisp :tangle yes :noweb no-export :exports code
