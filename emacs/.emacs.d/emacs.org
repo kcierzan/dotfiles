@@ -1925,14 +1925,15 @@ Jump to opening/closing delimiters vim-style
 Evil bindings for org mode
 #+name: evil
 #+BEGIN_SRC emacs-lisp
-       (use-package evil-org
-         :delight
-         :hook
-         ((org-mode . evil-org-mode)
-          (evil-org-mode . (lambda ()
-                             (evil-org-set-key-theme))))
-         :pin melpa
-         :after (org evil))
+         (use-package evil-org
+           :delight
+           :hook
+           ((org-mode . evil-org-mode)
+            (evil-org-mode . (lambda ()
+                               (evil-org-set-key-theme)))
+            (evil-org-agenda-set-keys))
+           :pin melpa
+           :after (org evil))
 #+END_SRC
 *** evil-smartparens
 Play nice with smartparens
