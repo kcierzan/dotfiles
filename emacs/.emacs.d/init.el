@@ -50,6 +50,7 @@
         org-catch-invisible-edits t)
   (setq org-todo-keywords
         '((sequence "TODO" "IN PROGRESS" "|" "DONE" "CANCELLED")))
+  ;; For beorg setup, make todo.org a symbolic link to ~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/todo.org
   (setq org-capture-templates
         '(("t" "todo" entry (file "~/git/org/todo.org")
            "* TODO %?\n%U\n%a\n"
