@@ -3,8 +3,6 @@
 * Globals
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-  (setq initial-major-mode 'org-mode)
-  (setq password-cache-expiry nil)
   (semantic-mode)
   (recentf-mode 1)
   (savehist-mode)
@@ -13,18 +11,20 @@
   (unless (server-running-p)
     (server-start))
   (add-hook 'server-done-hook 'kill-buffer)
-  (setq confirm-kill-emacs 'y-or-n-p)
+  (setq initial-major-mode 'org-mode
+        password-cache-expiry nil
+        confirm-kill-emacs 'y-or-n-p)
 #+END_SRC
 * UI
 #+name: interface
 #+BEGIN_SRC emacs-lisp
-      (menu-bar-mode -1)
-      (tool-bar-mode -1)
-      (setq auto-revert-interval 1)
-      (scroll-bar-mode -1)
-      (show-paren-mode 1)
-      (blink-cursor-mode 1)
-      (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (setq auto-revert-interval 1)
+  (scroll-bar-mode -1)
+  (show-paren-mode 1)
+  (blink-cursor-mode 1)
+  (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
   ;; show filenames in the frame title bar
   (setq frame-title-format
         '("" invocation-name " " (:eval (if (buffer-file-name)
@@ -48,21 +48,17 @@
   (set-face-attribute 'fixed-pitch nil :font monospace-font :height 1.0)
   (set-face-attribute 'default  nil :font monospace-font)
   (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 180)
-
   (setq default-frame-alist
         '((top . 50) (left . 130)
           (width . 200) (height . 60)))
-
   (add-hook 'window-setup-hook (lambda ()
                                  (set-face-attribute 'default nil :height 140)
                                  (set-face-attribute 'header-line nil :height 190)))
-
   ;; don't warn about theme loading
   (use-package custom
     :ensure nil
     :config
     (setf custom-safe-themes t))
-
   ;; toggle split orientation
   (defun my/toggle-window-split ()
     (interactive)
@@ -88,7 +84,6 @@
             (set-window-buffer (next-window) next-win-buffer)
             (select-window first-win)
             (if this-win-2nd (other-window 1))))))
-
   ;; disable weird scoll bar on emacsclient frames
   (add-hook 'after-make-frame-functions '(lambda (frame)
                                            (modify-frame-parameters frame
@@ -115,7 +110,6 @@
 #+BEGIN_SRC emacs-lisp
   (setq dired-always-copies 'always
         dired-recursive-deletes 'top)
-
   (use-package dired
     :ensure nil
     :hook (dired-mode . dired-omit-mode)
@@ -130,30 +124,26 @@
   (use-package epa
     :ensure nil
     :init
-    (setq epg-gpg-program "gpg2")
-    (setq epg-gpg-home-directory "~/.gnupg")
+    (setq epg-gpg-program "gpg2"
+          epg-gpg-home-directory "~/.gnupg")
     :config
     (epa-file-enable))
 #+END_SRC
-
 Bump the garbage collection threshold for startup only
 #+name: basic
 #+BEGIN_SRC emacs-lisp
   (setq gc-cons-threshold (* 256 1024 1024)
     gc-cons-percentage 0.6)
-
   (add-hook 'emacs-startup-hook
             (lambda ()
               (setq gc-cons-threshold (* 20 1024 1024)
                     gc-cons-percentage 0.1)))
 #+END_SRC
-
 Sentences end with a single space
 #+name: basic
 #+BEGIN_SRC emacs-lisp
   (setq sentence-end-double-space nil)
 #+END_SRC
-
 Recent files
 #+name: basic
 #+BEGIN_SRC emacs-lisp
@@ -166,7 +156,6 @@ Recent files
           recentf-exclude
           (list "^/ssh:" "/TAGS$")))
 #+END_SRC
-
 Backups and lockfiles aren't useful. Instead, revert automatically on change to a file.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
@@ -176,80 +165,71 @@ Backups and lockfiles aren't useful. Instead, revert automatically on change to 
         global-auto-revert-non-file-buffers t
         auto-revert-verbose nil)
 #+END_SRC
-
 Don't ask me about large files.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
   (setq large-file-warning-threshold nil)
 #+END_SRC
-
 Who wants to type "yes"?
 #+name: basic
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
-
 global-eldoc is pretty annoying. Turn it on explicitly.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
   (global-eldoc-mode -1)
   (add-hook 'python-mode-hook 'eldoc-mode)
 #+END_SRC
-
 Until they make a space commander keyboard again...
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier 'alt)
+  (setq mac-command-modifier 'meta
+        mac-option-modifier 'alt)
 #+END_SRC
-
 Spaces.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-      (setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 #+END_SRC
-
 Emacs likes POSIX-compliant shells.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-      (setq explicit-shell-file-name "/usr/local/bin/zsh")
-      (setq shell-command-switch "-ic")
+  (setq explicit-shell-file-name "/usr/local/bin/zsh"
+        shell-command-switch "-ic")
 #+END_SRC
-
 A bunch of settings cribbed from doom-emacs
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-      (setq-default
-       bidi-display-reordering nil
-       cursor-in-non-selected-windows nil
-       display-line-numbers-width 3
-       frame-inhibit-implied-resize t
-       ;; remove continuation arrow on right fringe
-       fringe-indicator-alist (delq (assq 'continuation fringe-indicator-alist)
-                                    fringe-indicator-alist)
-       highlight-nonselected-windows nil
-       image-animate-loop t
-       indicate-buffer-boundaries nil
-       indicate-empty-lines nil
-       max-mini-window-height 0.3
-       mode-line-default-help-echo nil ; disable mode-line mouseovers
-       mouse-yank-at-point t
-       ibuffer-use-other-window t
-       resize-mini-windows 'grow-only
-       show-help-function nil
-       split-width-threshold 160
-       uniquify-buffer-name-style 'forward
-       use-dialog-box nil
-       visible-cursor nil
-       x-stretch-cursor nil
-       jit-lock-defer-time nil ; defer jit font locking slightly to improve performance
-       jit-lock-stealth-nice 0.1
-       jit-lock-stealth-time 0.2
-       jit-lock-stealth-verbose nil
-       pos-tip-internal-border-width 6 ; `pos-tip' defaults
-       pos-tip-border-width 1)
+  (setq-default bidi-display-reordering nil
+                cursor-in-non-selected-windows nil
+                display-line-numbers-width 3
+                frame-inhibit-implied-resize t
+                ;; remove continuation arrow on right fringe
+                fringe-indicator-alist (delq (assq 'continuation fringe-indicator-alist)
+                                             fringe-indicator-alist)
+                highlight-nonselected-windows nil
+                image-animate-loop t
+                indicate-buffer-boundaries nil
+                indicate-empty-lines nil
+                max-mini-window-height 0.3
+                mode-line-default-help-echo nil        ; disable mode-line mouseovers
+                mouse-yank-at-point t
+                ibuffer-use-other-window t
+                resize-mini-windows 'grow-only
+                show-help-function nil
+                split-width-threshold 160
+                uniquify-buffer-name-style 'forward
+                use-dialog-box nil
+                visible-cursor nil
+                x-stretch-cursor nil
+                jit-lock-defer-time nil ; defer jit font locking slightly to improve performance
+                jit-lock-stealth-nice 0.1
+                jit-lock-stealth-time 0.2
+                jit-lock-stealth-verbose nil
+                pos-tip-internal-border-width 6        ; `pos-tip' defaults
+                pos-tip-border-width 1)
 #+END_SRC
-
 Some sensible defaults for general text editing.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
@@ -278,37 +258,26 @@ Some sensible defaults for general text editing.
        '((tab-mark ?\t [?› ?\t])
          (newline-mark ?\n [?¬ ?\n])
          (space-mark ?\  [?·] [?.])))
-
       (if (fboundp 'fringe-mode) (fringe-mode '4))
       (tooltip-mode -1)
 #+END_SRC
-
 Iedit complains about being remapped. Stop that.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
     (setq iedit-toggle-key-default nil)
 #+END_SRC
-
 Save files on loss of focus
 #+name: basic
 #+BEGIN_SRC emacs-lisp
       (defun my/save-buffers ()
         (interactive)
         (save-some-buffers t))
-
       (add-hook 'focus-out-hook 'my/save-buffers)
 #+END_SRC
-
 Open the worklog on startup
 #+name: basic
 #+BEGIN_SRC emacs-lisp
   (setq initial-buffer-choice "~/git/org/worklog.org")
-#+END_SRC
-
-Tramp has problems detecting the prompt on remote machines. Lets teach it what to look for.
-#+name: basic
-#+BEGIN_SRC emacs-lisp
-  ;; (setq tramp-shell-prompt-pattern "^[^$>\n]*[#$%>] *\\(\[[0-9;]*[a-zA-Z] *\\)*")
 #+END_SRC
 * Eshell
 ** eshell
@@ -336,7 +305,6 @@ Tramp has problems detecting the prompt on remote machines. Lets teach it what t
                                                "/bin/ls")))
                                      (eshell/alias "la" (concat ls " -AlohG --color=always"))))))
 #+END_SRC
-
 ** eshell-extras
 #+name: basic
 #+BEGIN_SRC emacs-lisp
@@ -368,15 +336,15 @@ Tramp has problems detecting the prompt on remote machines. Lets teach it what t
 * Packages
 ** Applications
 *** hacker-typer
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package hacker-typer
-         :commands (hacker-typer)
-         :config (setq hacker-typer-remove-comments t))
-     #+END_SRC
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package hacker-typer
+    :commands (hacker-typer)
+    :config (setq hacker-typer-remove-comments t))
+#+END_SRC
 *** rest-client
 #+name: programming
-     #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package restclient
     :mode ("\\.rest" . restclient-mode)
     :hook (restclient-mode . restclient-outline-mode)
@@ -385,7 +353,7 @@ Tramp has problems detecting the prompt on remote machines. Lets teach it what t
     (defun restclient-outline-mode ()
       (outline-minor-mode)
       (setq-local outline-regexp "##+")))
-     #+END_SRC
+#+END_SRC
 *** company-restclient
 #+name: programming
      #+BEGIN_SRC emacs-lisp
@@ -410,8 +378,8 @@ Tramp has problems detecting the prompt on remote machines. Lets teach it what t
     (nlinum-mode 0)
     (writeroom-mode 1)
     (writegood-mode 1)
-    (setq truncate-lines nil)
-    (setq global-hl-line-mode nil))
+    (setq truncate-lines nil
+          global-hl-line-mode nil))
 #+END_SRC
 ** Programming
 *** Completion
@@ -460,94 +428,86 @@ Documentation popups
     :config (company-quickhelp-mode 1))
 #+END_SRC
 **** hippie-exp
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package hippie-exp
-         :config
-         (setq hippie-expand-try-functions-list '(yas-hippie-try-expand
-                                                  try-expand-dabbrev
-                                                  try-expand-dabbrev-all-buffers
-                                                  try-expand-dabbrev-from-kill
-                                                  try-complete-file-name-partially
-                                                  try-complete-file-name
-                                                  try-expand-all-abbrevs
-                                                  try-expand-list
-                                                  try-expand-line
-                                                  try-complete-lisp-symbol-partially
-                                                  try-complete-lisp-symbol)))
-     #+END_SRC
-
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package hippie-exp
+    :config
+    (setq hippie-expand-try-functions-list '(yas-hippie-try-expand
+                                             try-expand-dabbrev
+                                             try-expand-dabbrev-all-buffers
+                                             try-expand-dabbrev-from-kill
+                                             try-complete-file-name-partially
+                                             try-complete-file-name
+                                             try-expand-all-abbrevs
+                                             try-expand-list
+                                             try-expand-line
+                                             try-complete-lisp-symbol-partially
+                                             try-complete-lisp-symbol)))
+#+END_SRC
 **** eglot
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package eglot
-         :hook ((python-mode sh-mode) . eglot-ensure)
-         :commands (eglot eglot-reconnect eglot-rename eglot-help-at-point eglot-events-buffer))
-     #+END_SRC
-
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package eglot
+    :hook ((python-mode shell-script-mode) . eglot-ensure)
+    :commands (eglot eglot-reconnect eglot-rename eglot-help-at-point eglot-events-buffer))
+#+END_SRC
 *** Navigation
 **** ace-link
-     Navigate to links cvim-style
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package ace-link
-         :commands (ace-link ace-link-org)
-         :pin melpa
-         :config (ace-link-setup-default))
-     #+END_SRC
-
+Navigate to links cvim-style
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-link
+    :commands (ace-link ace-link-org)
+    :pin melpa
+    :config (ace-link-setup-default))
+#+END_SRC
 **** avy
-     Jump to text
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package avy
-         :pin melpa)
-     #+END_SRC
-
+Jump to text
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :pin melpa)
+#+END_SRC
 **** dumb-jump
-     Jump to definitions using rg, ag, grep
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package dumb-jump
-         :commands (dumb-jump-go dumb-jump-quick-look)
-         :pin melpa
-         :init (setq dumb-jump-force-searcher 'rg
-                     dumb-jump-selector 'helm))
-     #+END_SRC
-
+Jump to definitions using rg, ag, grep
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package dumb-jump
+    :commands (dumb-jump-go dumb-jump-quick-look)
+    :pin melpa
+    :init (setq dumb-jump-force-searcher 'rg
+                dumb-jump-selector 'helm))
+#+END_SRC
 **** imenu-list
-     "Tagbar" like buffer for imenu
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package imenu-list
-         :pin melpa
-         :commands (imenu-list)
-         :config (setq imenu-list-focus-after-activation t))
-     #+END_SRC
-
+"Tagbar" like buffer for imenu
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package imenu-list
+    :pin melpa
+    :commands (imenu-list)
+    :config (setq imenu-list-focus-after-activation t))
+#+END_SRC
 **** projectile
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
-       (use-package projectile
-         :init (setq projectile-enable-caching (not noninteractive)
-                     projectile-indexing-method 'alien
-                     projectile-globally-ignored-files '(".DS_STORE" "TAGS")
-                     projectile-globally-ignored-file-suffixes '(".elc" ".pyc")
-                     projectile-switch-project-action 'projectile-dired
-                     projectile-mode-line nil)
-         :config
-         (projectile-discover-projects-in-directory "~/git")
-         (projectile-mode 1))
-     #+END_SRC
-
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :init (setq projectile-enable-caching (not noninteractive)
+                projectile-indexing-method 'alien
+                projectile-globally-ignored-files '(".DS_STORE" "TAGS")
+                projectile-globally-ignored-file-suffixes '(".elc" ".pyc")
+                projectile-switch-project-action 'projectile-dired
+                projectile-mode-line nil)
+    :config
+    (projectile-discover-projects-in-directory "~/git")
+    (projectile-mode 1))
+#+END_SRC
 **** deadgrep
 Ripgrep interface for Emacs
 #+name: programming
 #+BEGIN_SRC emacs-lisp
-    (use-package deadgrep
-      :commands (deadgrep))
+  (use-package deadgrep
+    :commands (deadgrep))
 #+END_SRC
-
 *** Editing
 **** smartparens
      Automatically match delimiters. Make it tough to unbalance parentheses in lispy modes.
@@ -603,7 +563,6 @@ Ripgrep interface for Emacs
          :after yasnippet
          :defer 3)
      #+END_SRC
-
 *** Lint
 **** flycheck
      Check syntax asynchronously
@@ -619,7 +578,6 @@ Ripgrep interface for Emacs
          ;; git-gutter is in the left fringe
          (setq flycheck-indication-mode 'right-fringe))
      #+END_SRC
-
 **** flycheck-pos-tip
      Put linter messages into a popup
      #+name: programming
@@ -632,7 +590,6 @@ Ripgrep interface for Emacs
          :config (setq flycheck-pos-tip-timeout 10
                        flycheck-display-errors-delay 0.9))
      #+END_SRC
-
 *** Shell
 **** exec-path-from-shell
 Use $PATH as specified by the user's shell
@@ -662,7 +619,6 @@ Use $PATH as specified by the user's shell
          (global-git-gutter-mode)
          (setq-default fringes-outside-margins t))
      #+END_SRC
-
 **** magit
      king of git guis
      #+name: programming
@@ -671,14 +627,12 @@ Use $PATH as specified by the user's shell
          :commands (magit magit-blame)
          :pin melpa)
      #+END_SRC
-
 **** git-link
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package git-link
     :commands (git-link))
 #+END_SRC
-
 **** git-timemachine
 #+name: programming
 #+BEGIN_SRC emacs-lisp
@@ -691,7 +645,6 @@ Use $PATH as specified by the user's shell
             git-commit-summary-max-length 50
             git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)))
     (add-hook 'git-commit-mode-hook #'+vc|enforce-git-commit-conventions)
-
     (defun +vc|start-in-insert-state-maybe ()
       "Start git-commit-mode in insert state if in a blank commit message"
       (when (and (bound-and-true-p evil-mode)
@@ -699,7 +652,6 @@ Use $PATH as specified by the user's shell
         (evil-insert-state)))
     (add-hook 'git-commit-setup-hook #'+vc|start-in-insert-state-maybe))
 #+END_SRC
-
 **** dired-k
      Highlight directories
      #+name: programming
@@ -708,7 +660,6 @@ Use $PATH as specified by the user's shell
          :hook (dired-initial-position . dired-k)
          :pin melpa)
      #+END_SRC
-
 ** Interface
 *** highlight-numbers
 #+name: interface
@@ -716,6 +667,14 @@ Use $PATH as specified by the user's shell
   (use-package highlight-numbers
     :hook (prog-mode . highlight-numbers-mode)
     :pin melpa)
+#+END_SRC
+*** highlight-indent-guides
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-indent-guides
+    :hook (yaml-mode . highlight-indent-guides-mode)
+    :config
+    (setq highlight-indent-guides-character ?\│
+          highlight-indent-guides-method 'character))
 #+END_SRC
 *** all-the-icons
 #+name: interface
@@ -761,20 +720,20 @@ Define fringe element shapes
     :pin elpa)
 #+END_SRC
 *** pos-tip
-     The melpa version improves on the baked in pos-tip
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       (use-package pos-tip
-         ;; :disabled t
-         :pin melpa)
-     #+END_SRC
+The melpa version improves on the baked in pos-tip
+#+name: interface
+#+BEGIN_SRC emacs-lisp
+  (use-package pos-tip
+    ;; :disabled t
+    :pin melpa)
+#+END_SRC
 *** rainbow-delimiters
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       (use-package rainbow-delimiters
-         :pin melpa
-         :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-     #+END_SRC
+#+name: interface
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :pin melpa
+    :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+#+END_SRC
 *** switch-window
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -826,7 +785,6 @@ Define fringe element shapes
          :disabled t
          :pin melpa)
      #+END_SRC
-
 *** beacon
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -880,23 +838,16 @@ Define some rules for handling pesky windows.
      #+END_SRC
 ** Themes
 *** doom-themes
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       (use-package doom-themes
-         :pin melpa
-         :init (setq doom-themes-enable-bold t
-                     doom-themes-enable-italic t)
-         :config
-         (doom-themes-org-config)
-         (load-theme 'doom-one t))
-     #+END_SRC
-
-*** solarized-emacs
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       (use-package solarized-theme)
-     #+END_SRC
-
+#+name: interface
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+    :pin melpa
+    :init (setq doom-themes-enable-bold t
+                doom-themes-enable-italic t)
+    :config
+    (doom-themes-org-config)
+    (load-theme 'doom-one t))
+#+END_SRC
 *** moe-theme
      #+BEGIN_SRC emacs-lisp
        (use-package moe-theme
@@ -906,7 +857,6 @@ Define some rules for handling pesky windows.
          (moe-theme-set-color 'orange)
          (moe-dark))
      #+END_SRC
-
 *** base16-theme
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -914,7 +864,6 @@ Define some rules for handling pesky windows.
          :disabled t
          :config (load-theme 'base16-monokai t))
      #+END_SRC
-
 *** spaceline
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -934,7 +883,6 @@ Define some rules for handling pesky windows.
          ;;(set-face-attribute 'mode-line nil :background (face-attribute 'shadow :background) :inherit nil :family nerd-font)
          ;;(set-face-attribute 'spaceline-highlight-face nil :background (face-attribute 'org-code :foreground) :family nerd-font))
      #+END_SRC
-
 *** doom-modeline
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -946,7 +894,6 @@ Define some rules for handling pesky windows.
          :init (setq doom-modeline-height 36)
          :hook (after-init . doom-modeline-init))
      #+END_SRC
-
 *** eziam-theme
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -954,7 +901,6 @@ Define some rules for handling pesky windows.
        :disabled t
        :config (load-theme 'eziam-dark t))
      #+END_SRC
-
 *** solaire-mode
 #+name: interface
 #+BEGIN_SRC emacs-lisp
@@ -965,23 +911,20 @@ Define some rules for handling pesky windows.
     (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
     (solaire-mode-swap-bg))
 #+END_SRC
-
 ** Languages
 *** Dockerfile
     #+name: languages
     #+BEGIN_SRC emacs-lisp
       (use-package dockerfile-mode
         :pin melpa
-        :mode "/Dockerfile$")
-    #+END_SRC Elixir
-
+        :mode "Dockerfile$")
+        #+END_SRC
 **** Alchemist
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package alchemist
     :hook (elixir-mode . alchemist-mode))
 #+END_SRC
-
 **** elixir-mode
 #+name: languages
 #+BEGIN_SRC emacs-lisp
@@ -990,7 +933,6 @@ Define some rules for handling pesky windows.
     (add-hook 'elixir-mode-hook
               (lambda () (add-hook 'before-save-hook 'elixir-format nil t))))
 #+END_SRC
-
 **** credo
 linting and static analysis
 #+name: languages
@@ -1002,7 +944,6 @@ linting and static analysis
         '(flycheck-credo-setup))
       (add-hook 'elixir-mode-hook 'flycheck-mode))
 #+END_SRC
-
 *** Elm
 **** elm-mode
      #+name: languages
@@ -1013,7 +954,6 @@ linting and static analysis
                              (add-to-list 'company-backends 'company-elm)))
          :mode (("\\.elm$" . elm-mode)))
      #+END_SRC
-
 *** JavaScript
 **** js2-mode
      An improved javascript major mode
@@ -1047,7 +987,6 @@ linting and static analysis
                js2-highlight-level 3
                js2-highlight-external-variables t))
      #+END_SRC
-
 **** js2-refactor
 A javascript refactoring library for emacs
 #+name: languages
@@ -1055,7 +994,6 @@ A javascript refactoring library for emacs
   (use-package js2-refactor
     :hook (js2-mode . js2-refactor-mode))
 #+END_SRC
-
 **** rjsx-mode
      jsx support for js2-mode
      #+name: languages
@@ -1078,7 +1016,6 @@ A javascript refactoring library for emacs
            (if (= n 1) (rjsx-maybe-reparse)))
          (advice-add #'rjsx-electric-gt :before #'+javascript|reparse))
      #+END_SRC
-
 **** xref-js2
      find definition/references backend for js2-mode
      #+name: languages
@@ -1092,7 +1029,6 @@ A javascript refactoring library for emacs
          ;; TODO: move this into general config
          :config (define-key js2-mode-map (kbd "M-.") nil))
      #+END_SRC
-
 **** tern-mode
      #+name: languages
      #+BEGIN_SRC emacs-lisp
@@ -1101,7 +1037,6 @@ A javascript refactoring library for emacs
          :pin melpa
          :hook (js2-mode . tern-mode))
      #+END_SRC
-
 **** company-tern
      #+name: languages
      #+BEGIN_SRC emacs-lisp
@@ -1111,13 +1046,11 @@ A javascript refactoring library for emacs
          (js2-mode . (lambda ()
                        (add-to-list 'company-backends 'company-tern))))
      #+END_SRC
-
 **** indium
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package indium)
      #+END_SRC
-
 **** tide-mode
 #+name: languages
 #+BEGIN_SRC emacs-lisp
@@ -1134,7 +1067,6 @@ A javascript refactoring library for emacs
     (setq tide-completion-detailed t
           tide-always-show-documentation t))
 #+END_SRC
-
 **** prettier
 #+name: languages
 #+BEGIN_SRC emacs-lisp
@@ -1150,7 +1082,6 @@ A javascript refactoring library for emacs
                                  (enable-minor-mode
                                   '("\\.jsx?\\'" . prettier-js-mode)))))
 #+END_SRC
-
 *** JSON
     #+name: languages
     #+BEGIN_SRC emacs-lisp
@@ -1158,14 +1089,12 @@ A javascript refactoring library for emacs
         :pin melpa
         :mode "\\.json$")
     #+END_SRC
-
 *** LaTeX
 #+name: languages
 #+BEGIN_SRC emacs-lisp
     (use-package auctex
       :defer t)
 #+END_SRC
-
 *** Lisp
 **** lispy
 #+name: languages
@@ -1225,11 +1154,10 @@ make lispy play nice with evil
          :pin melpa
          :config
          ;; Hide bullets completely
-         (setq org-bullets-bullet-list '(" "))
+         ;; (setq org-bullets-bullet-list '(" "))
          :hook (org-mode . (lambda () (org-bullets-mode 1)))
          :after org)
      #+END_SRC
-
 **** ob-http
 http requests in org babel
 #+name: languages
@@ -1242,6 +1170,7 @@ http requests in org babel
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package php-extras
+         :disabled t
          :pin marmalade
          :config
          ;; company should set itself up
@@ -1256,37 +1185,35 @@ http requests in org babel
                                 (message "PHP eldoc updated!")))))
          :after php-mode)
      #+END_SRC
-
 **** php-mode
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package php-mode
          :hook (php-mode . (lambda ()
-                             (add-to-list 'company-backends 'company-ac-php-backend)
-                             (add-to-list 'company-backends 'php-extras-company)
+                             ;; (add-to-list 'company-backends 'company-ac-php-backend)
+                             ;; (add-to-list 'company-backends 'php-extras-company)
                              (ac-php-core-eldoc-setup)
                              (setq-local sp-max-pair-length 6)))
          :mode (("\\.php$" . php-mode)
                 ("\\.inc$"  . php-mode)))
      #+END_SRC
-
 **** company-php
      Completion for php
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package company-php
+         :disabled t
          :commands (company-ac-php-backend)
          :config (unless (executable-find "phpctags")
                    (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
      #+END_SRC
-
 **** ac-php
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package ac-php
-         :config (ac-php-core-eldoc-setup))
-     #+END_SRC
-
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package ac-php
+    :disabled t
+    :config (ac-php-core-eldoc-setup))
+#+END_SRC
 **** TODO PsySH
 #+name: languages
 #+BEGIN_SRC emacs-lisp
@@ -1294,14 +1221,12 @@ http requests in org babel
     :init
     (setq psysh-comint-buffer-process "~/.scripts/shell.php"))
 #+END_SRC
-
 **** geben
 Support for Xdebug
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package geben)
 #+END_SRC
-
 *** Python
 **** python-lsp
 #+name: languages
@@ -1416,7 +1341,6 @@ format python code
      #+BEGIN_SRC emacs-lisp
        (use-package live-py-mode)
      #+END_SRC
-
 **** blacken
 automatically format python code
 #+name: languages
@@ -1427,26 +1351,24 @@ automatically format python code
                   blacken-skip-string-normalization t)
       :hook (python-mode . blacken-mode))
 #+END_SRC
-
 *** Shell
 **** company-shell
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-shell
-         :pin melpa
-         :init (setq company-shell-delete-duplicates t)
-         :hook (sh-mode .  (lambda ()
-                       (add-to-list 'company-backends 'company-shell))))
-     #+END_SRC
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package company-shell
+    :pin melpa
+    :init (setq company-shell-delete-duplicates t)
+    :hook (sh-mode . (lambda ()
+                  (add-to-list 'company-backends 'company-shell))))
+#+END_SRC
 *** SQL
 **** sqlup-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-      (use-package sqlup-mode
-        :delight ""
-        :hook ((sql-mode sql-interactive-mode) . sqlup-mode) )
-     #+END_SRC
-
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package sqlup-mode
+    :delight ""
+    :hook ((sql-mode sql-interactive-mode) . sqlup-mode) )
+#+END_SRC
 *** Testing
 **** behave
 #+name: languages
@@ -1455,38 +1377,36 @@ automatically format python code
 #+END_SRC
 *** Web
 **** web-mode
-     Major mode for editing web templates
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package web-mode
-         :pin melpa
-         :mode (("\\.html?$" . web-mode)
-                ("\\.thtml$" . web-mode)
-                ("\\.phtml$" . web-mode)
-                ("\\.hbs$" . web-mode)))
-     #+END_SRC
-
+Major mode for editing web templates
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :pin melpa
+    :mode (("\\.html?$" . web-mode)
+           ("\\.thtml$" . web-mode)
+           ("\\.phtml$" . web-mode)
+           ("\\.hbs$" . web-mode)))
+#+END_SRC
 **** emmet-mode
-     Write markup more efficiently
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-      (use-package emmet-mode
-        :delight ""
-        :pin melpa
-        :hook (css-mode web-mode html-mode haml-mode rjsx-mode)
-        :config (setq emmet-move-cursor-between-quotes t))
-     #+END_SRC
-
+Write markup more efficiently
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package emmet-mode
+    :delight ""
+    :pin melpa
+    :hook (css-mode web-mode html-mode haml-mode rjsx-mode)
+    :config (setq emmet-move-cursor-between-quotes t))
+#+END_SRC
 *** YAML
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
-      (use-package yaml-mode
-        :pin melpa
-        :mode "\\.ya?ml$")
-    #+END_SRC
-** Helm
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :pin melpa
+    :mode "\\.ya?ml$")
+#+END_SRC
+*** Helm
 I don't use helm any more. These packages are here in case counsel/ivy breaks.
-*** helm-descbinds
+**** helm-descbinds
      #+name: helm
      #+BEGIN_SRC emacs-lisp
        (use-package helm-descbinds
@@ -1495,8 +1415,7 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
          :commands (helm-descbinds)
          :pin melpa)
      #+END_SRC
-
-*** helm
+**** helm
      Unified fuzzy search for almost everything
      #+name: helm
      #+BEGIN_SRC emacs-lisp
@@ -1527,8 +1446,7 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
          (setq-default helm-boring-buffer-regexp-list
                        (append '("TAGS" "\\*anaconda-mode\\*") helm-boring-buffer-regexp-list)))
      #+END_SRC
-
-*** helm-flx
+**** helm-flx
 #+name: helm
 #+BEGIN_SRC emacs-lisp
   (use-package helm-flx
@@ -1536,8 +1454,7 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
     :config
     (helm-flx-mode 1))
 #+END_SRC
-
-*** helm-ag
+**** helm-ag
      helm frontend for the-silver-searcher
      #+name: helm
      #+BEGIN_SRC emacs-lisp
@@ -1550,8 +1467,7 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
          :config (setq helm-ag-base-command "emacs-rg --vimgrep --no-heading --smart-case"
                        helm-ag-fuzzy-match t))
      #+END_SRC
-
-*** helm-projectile
+**** helm-projectile
      #+name: helm
      #+BEGIN_SRC emacs-lisp
        (use-package helm-projectile
@@ -1563,8 +1479,7 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
                     helm-projectile-find-file
                     helm-projectile-switch-project))
      #+END_SRC
-
-*** helm-swoop
+**** helm-swoop
      Search text linewise in a separate buffer
      #+name: helm
      #+BEGIN_SRC emacs-lisp
@@ -1582,8 +1497,7 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
          (setq helm-swoop-pre-input-function
                (lambda () "")))
      #+END_SRC
-
-*** helm-xref
+**** helm-xref
      Display xref results in helm
      #+name: helm
      #+BEGIN_SRC emacs-lisp
@@ -1594,7 +1508,6 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
          :pin melpa
          :init (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
      #+END_SRC
-
 ** Ivy
 *** ivy
 #+name ivy
@@ -1666,22 +1579,18 @@ Required by =counsel-M-X=
        ;; set up an override for binding space in all modes
        (setq general-override-states '(insert emacs hybrid normal visual motion operator replace))
        (general-override-mode)
-
        (general-define-key
         :keymaps 'override
         :states '(normal visual motion) "SPC" nil)
-
        ;; set up sequenced prefixes
        (general-create-definer global-leader
          :prefix "SPC"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer buffer-leader
          :prefix "SPC b"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer help-leader
          :prefix "SPC h"
          :keymaps 'override
@@ -1690,64 +1599,51 @@ Required by =counsel-M-X=
          :prefix "SPC f"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer projectile-leader
          :prefix "SPC p"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer git-leader
          :prefix "SPC g"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer insert-leader
          :prefix "SPC i"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer window-leader
          :prefix "SPC w"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer dir-leader
          :prefix "SPC d"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer shell-leader
          :prefix "SPC s"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer evil-leader
          :prefix "g"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer org-leader
          :prefix "SPC o"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer eval-leader
          :prefix "SPC e"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer next-leader
          :prefix "SPC ]"
          :keymaps 'override
          :states '(normal visual motion))
-
        (general-create-definer previous-leader
          :prefix "SPC ["
          :keymaps 'override
          :states '(normal visual motion))
-
        (evil-leader "" '(:ignore t :wk "Evil"))
-
        (global-leader "" '(nil :wk "Leader")
          "f" '(:ignore t :wk "Find")
          "g" '(:ignore t :wk "Git")
@@ -1844,18 +1740,15 @@ Required by =counsel-M-X=
        (shell-leader "e" 'eshell
          "s" 'shell
          "a" 'ansi-term)
-
        ;; HERESY: universal argument is bound to SPC-u. We need C-u for scrolling.
        (general-def universal-argument-map
          "u" 'universal-argument-more)
-
        ;; non-prefix motion state
        (general-mmap "gl" 'evil-avy-goto-line
          "gs" 'evil-avy-goto-char-2
          "gD" 'dumb-jump-go
-         "C-f" 'universal-argument
+         ;; "C-f" 'universal-argument
          "g C-]" 'xref-find-definitions)
-
        ;; non-prefix global
        (general-def
          ;; "M-x" 'helm-M-x
@@ -1877,25 +1770,21 @@ Required by =counsel-M-X=
          ;; "A-x" 'helm-M-x
          "A-x" 'counsel-M-x
          )
-
        ;; helm mappings
        ;; (general-def '(normal visual) helm-map
        ;;   "TAB" 'helm-execute-persistent-action
        ;;   "A-SPC" 'helm-toggle-visible-mark)
-
        ;; nosetests
        (general-def '(normal visual) python-mode-map
          "C-c a" 'nosetest-all
          "C-c m" 'nosetest-module
          "C-c s" 'nosetest-suite
          "C-c ." 'nosetest-one)
-
        ;; multiedit
        (general-def '(visual normal)
          "M-d" 'evil-multiedit-match-symbol-and-next)
        (general-def '(visual normal)
          "M-D" 'evil-multiedit-match-symbol-and-prev)
-
        ;; window split orientation
        (general-def '(normal visual)
          "C-w R" 'my/toggle-window-split)
@@ -1910,8 +1799,7 @@ Required by =counsel-M-X=
        (general-def 'insert
          "C-SPC" 'completion-at-point)
        (general-def 'insert
-         "C-TAB" 'hippie-expand)
-
+         "C-f" 'hippie-expand)
        ;; move around like you did in vim
        (general-def '(normal)
          :keymaps 'override
@@ -1922,7 +1810,6 @@ Required by =counsel-M-X=
          "C-n" 'evil-next-buffer
          "C-p" 'evil-prev-buffer))
    #+END_SRC
-
 ** Packages
 *** paradox
 Extends package management
@@ -1993,7 +1880,6 @@ Flash text highlighting when performing vim-motion operations
          (evil-goggles-mode)
          (evil-goggles-use-magit-faces))
 #+END_SRC
-
 *** evil-magit
 Enable basic evil motion in magit buffers
 #+name: evil
@@ -2025,7 +1911,6 @@ Evil bindings for org mode
          :pin melpa
          :after (org evil))
 #+END_SRC
-
 *** evil-smartparens
 Play nice with smartparens
 #+name: evil
@@ -2046,7 +1931,6 @@ Surround text objects with delimiters
          :commands (evil-surround-edit evil-Surround-edit evil-surround-region evil-Surround-region)
          :config (global-evil-surround-mode 1))
 #+END_SRC
-
 *** evil-multiedit
 #+name: evil
 #+BEGIN_SRC emacs-lisp
