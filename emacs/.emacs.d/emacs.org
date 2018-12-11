@@ -1164,27 +1164,33 @@ http requests in org babel
 #+BEGIN_SRC emacs-lisp
   (use-package ob-http)
 #+END_SRC
+**** ob-async
+adds an =:async= header tag to source blocks that allows for asynchronous execution
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package ob-async)
+#+END_SRC
 *** PHP
 **** php-extras
-     Completion for php
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package php-extras
-         :disabled t
-         :pin marmalade
-         :config
-         ;; company should set itself up
-         (unless (file-exists-p (concat php-extras-eldoc-functions-file ".el"))
-           (message "Generating PHP eldoc files")
-           (async-start `(lambda ()
-                           ,(async-inject-variables "\\`\\(load-path\\|php-extras-eldoc-functions-file\\)$")
-                           (require 'php-extras-generate-eldoc)
-                           (php-extras-generate-eldoc-1 t))
-                        (lambda (_)
-                          (load (concat (php-extras-eldoc-functions-file ".el"))
-                                (message "PHP eldoc updated!")))))
-         :after php-mode)
-     #+END_SRC
+Completion for php
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package php-extras
+    :disabled t
+    :pin marmalade
+    :config
+    ;; company should set itself up
+    (unless (file-exists-p (concat php-extras-eldoc-functions-file ".el"))
+      (message "Generating PHP eldoc files")
+      (async-start `(lambda ()
+                      ,(async-inject-variables "\\`\\(load-path\\|php-extras-eldoc-functions-file\\)$")
+                      (require 'php-extras-generate-eldoc)
+                      (php-extras-generate-eldoc-1 t))
+                   (lambda (_)
+                     (load (concat (php-extras-eldoc-functions-file ".el"))
+                           (message "PHP eldoc updated!")))))
+    :after php-mode)
+#+END_SRC
 **** php-mode
      #+name: languages
      #+BEGIN_SRC emacs-lisp
@@ -1192,21 +1198,21 @@ http requests in org babel
          :hook (php-mode . (lambda ()
                              ;; (add-to-list 'company-backends 'company-ac-php-backend)
                              ;; (add-to-list 'company-backends 'php-extras-company)
-                             (ac-php-core-eldoc-setup)
+                             ;; (ac-php-core-eldoc-setup)
                              (setq-local sp-max-pair-length 6)))
          :mode (("\\.php$" . php-mode)
                 ("\\.inc$"  . php-mode)))
      #+END_SRC
 **** company-php
-     Completion for php
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-php
-         :disabled t
-         :commands (company-ac-php-backend)
-         :config (unless (executable-find "phpctags")
-                   (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
-     #+END_SRC
+Completion for php
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package company-php
+    :disabled t
+    :commands (company-ac-php-backend)
+    :config (unless (executable-find "phpctags")
+              (warn "php-mode: phpctags isn't installed, auto-completion will be gimped")))
+#+END_SRC
 **** ac-php
 #+name: languages
 #+BEGIN_SRC emacs-lisp
@@ -1567,6 +1573,23 @@ Required by =counsel-M-X=
 #+BEGIN_SRC emacs-lisp
   (use-package counsel-etags
     :commands (counsel-etags-find-tag counsel-etags-list-tag counsel-etags-recent-tag counsel-etags-find-tag-at-point))
+#+END_SRC
+*** flx
+improved sorting for fuzzy searches
+#+name: ivy
+#+BEGIN_SRC emacs-lisp
+  (use-package flx-ido
+    :after (counsel-projectile ivy)
+    :config
+    (flx-ido-mode 1)
+    (setq ido-enable-flex-matching t)
+    (setq ivy-re-builders-alist
+          '((counsel-projectile-find-file . ivy--regex-fuzzy)
+            (counsel-find-file . ivy--regex-fuzzy)
+            (ivy-switch-buffer . ivy--regex-fuzzy)
+            (counsel-recentf . ivy--regex-fuzzy)
+            (counsel-projectile-switch-project . ivy--regex-fuzzy)
+            (t . ivy--regex-plus))))
 #+END_SRC
 ** Keys
    General provides some nice macros for dealing with evil keybindings
