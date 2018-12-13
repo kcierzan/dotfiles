@@ -18,77 +18,77 @@
 * UI
 #+name: interface
 #+BEGIN_SRC emacs-lisp
-    (menu-bar-mode -1)
-    (tool-bar-mode -1)
-    (setq auto-revert-interval 1)
-    (scroll-bar-mode -1)
-    (show-paren-mode 1)
-    (blink-cursor-mode 1)
-    (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
-    ;; show filenames in the frame title bar
-    (setq frame-title-format
-          '("" invocation-name " " (:eval (if (buffer-file-name)
-                                              (abbreviate-file-name (buffer-file-name))
-                                            "%b"))))
-    (setq-default left-fringe-width 5
-                  line-spacing 6
-                  ring-bell-function 'ignore
-                  idle-update-delay 0.5
-                  inhibit-startup-screen t
-                  inhibit-startup-message t
-                  inhibit-startup-echo-area-message user-login-name
-                  inhibit-default-init t
-                  initial-scratch-message nil
-                  hl-line-sticky-flag nil)
-    (set-frame-parameter nil 'internal-border-width 2)
-    ;; maybe enable ligatures on emacs-mac
-    (if (fboundp 'mac-auto-operator-composition-mode) (mac-auto-operator-composition-mode))
-    (add-hook 'prog-mode-hook 'hl-line-mode)
-    ;; the following font symbols are defined in `init.el'
-    (set-face-attribute 'fixed-pitch nil :font monospace-font :height 1.0)
-    (set-face-attribute 'default  nil :font monospace-font)
-    (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 180)
-    (setq default-frame-alist
-          '((top . 50) (left . 130)
-            (width . 200) (height . 60)))
-    (add-hook 'window-setup-hook (lambda ()
-                                   (set-face-attribute 'default nil :height 140)
-                                   (set-face-attribute 'header-line nil :height 190)))
-    ;; don't warn about theme loading
-    (use-package custom
-      :ensure nil
-      :config
-      (setf custom-safe-themes t))
-    ;; toggle split orientation
-    (defun my/toggle-window-split ()
-      (interactive)
-      (if (= (count-windows) 2)
-          (let* ((this-win-buffer (window-buffer))
-                 (next-win-buffer (window-buffer (next-window)))
-                 (this-win-edges (window-edges (selected-window)))
-                 (next-win-edges (window-edges (next-window)))
-                 (this-win-2nd (not (and (<= (car this-win-edges)
-                                             (car next-win-edges))
-                                         (<= (cadr this-win-edges)
-                                             (cadr next-win-edges)))))
-                 (splitter
-                  (if (= (car this-win-edges)
-                         (car (window-edges (next-window))))
-                      'split-window-horizontally
-                    'split-window-vertically)))
-            (delete-other-windows)
-            (let ((first-win (selected-window)))
-              (funcall splitter)
-              (if this-win-2nd (other-window 1))
-              (set-window-buffer (selected-window) this-win-buffer)
-              (set-window-buffer (next-window) next-win-buffer)
-              (select-window first-win)
-              (if this-win-2nd (other-window 1))))))
-    ;; disable weird scoll bar on emacsclient frames
-    (add-hook 'after-make-frame-functions '(lambda (frame)
-                                             (modify-frame-parameters frame
-                                                                      '((vertical-scroll-bars . nil)
-                                                                        (horizontal-scroll-bars . nil)))))
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (setq auto-revert-interval 1)
+  (scroll-bar-mode -1)
+  (show-paren-mode 1)
+  (blink-cursor-mode 1)
+  (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+  ;; show filenames in the frame title bar
+  (setq frame-title-format
+        '("" invocation-name " " (:eval (if (buffer-file-name)
+                                            (abbreviate-file-name (buffer-file-name))
+                                          "%b"))))
+  (setq-default left-fringe-width 5
+                line-spacing 6
+                ring-bell-function 'ignore
+                idle-update-delay 0.5
+                inhibit-startup-screen t
+                inhibit-startup-message t
+                inhibit-startup-echo-area-message user-login-name
+                inhibit-default-init t
+                initial-scratch-message nil
+                hl-line-sticky-flag nil)
+  (set-frame-parameter nil 'internal-border-width 2)
+  ;; maybe enable ligatures on emacs-mac
+  (if (fboundp 'mac-auto-operator-composition-mode) (mac-auto-operator-composition-mode))
+  (add-hook 'prog-mode-hook 'hl-line-mode)
+  ;; the following font symbols are defined in `init.el'
+  (set-face-attribute 'fixed-pitch nil :font monospace-font :height 1.0)
+  (set-face-attribute 'default  nil :font monospace-font)
+  (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 180)
+  (setq default-frame-alist
+        '((top . 50) (left . 130)
+          (width . 200) (height . 60)))
+  (add-hook 'window-setup-hook (lambda ()
+                                 (set-face-attribute 'default nil :height 140)
+                                 (set-face-attribute 'header-line nil :height 190)))
+  ;; don't warn about theme loading
+  (use-package custom
+    :ensure nil
+    :config
+    (setf custom-safe-themes t))
+  ;; toggle split orientation
+  (defun my/toggle-window-split ()
+    (interactive)
+    (if (= (count-windows) 2)
+        (let* ((this-win-buffer (window-buffer))
+               (next-win-buffer (window-buffer (next-window)))
+               (this-win-edges (window-edges (selected-window)))
+               (next-win-edges (window-edges (next-window)))
+               (this-win-2nd (not (and (<= (car this-win-edges)
+                                           (car next-win-edges))
+                                       (<= (cadr this-win-edges)
+                                           (cadr next-win-edges)))))
+               (splitter
+                (if (= (car this-win-edges)
+                       (car (window-edges (next-window))))
+                    'split-window-horizontally
+                  'split-window-vertically)))
+          (delete-other-windows)
+          (let ((first-win (selected-window)))
+            (funcall splitter)
+            (if this-win-2nd (other-window 1))
+            (set-window-buffer (selected-window) this-win-buffer)
+            (set-window-buffer (next-window) next-win-buffer)
+            (select-window first-win)
+            (if this-win-2nd (other-window 1))))))
+  ;; disable weird scoll bar on emacsclient frames
+  (add-hook 'after-make-frame-functions '(lambda (frame)
+                                           (modify-frame-parameters frame
+                                                                    '((vertical-scroll-bars . nil)
+                                                                      (horizontal-scroll-bars . nil)))))
       #+END_SRC
 * UTF-8
 #+name: basic
@@ -233,46 +233,45 @@ A bunch of settings cribbed from doom-emacs
 Some sensible defaults for general text editing.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-      (setq-default
-       delete-trailing-lines nil
-       fill-column 80
-       sentence-end-double-space nil
-       word-wrap t
-       hscroll-margin 1
-       hscroll-step 1
-       scroll-margin 0
-       mac-mouse-wheel-smooth-scroll nil
-       mouse-wheel-progressive-speed nil ; don't accelerate scrolling
-       scroll-preserve-screen-position t
-       require-final-newline t
-       tab-always-indent t
-       tab-width 4
-       tabify-regexp "^t* [ \t]+" ; for retab
-       truncate-lines t
-       truncate-partial-width-windows 50
-       whitespace-line-column fill-column
-       whitespace-style
-       '(face indentation tabs tab-mark spaces space-mark newline newline-mark
-              trailing lines-tail)
-       whitespace-display-mappings
-       '((tab-mark ?\t [?› ?\t])
-         (newline-mark ?\n [?¬ ?\n])
-         (space-mark ?\  [?·] [?.])))
-      (if (fboundp 'fringe-mode) (fringe-mode '4))
-      (tooltip-mode -1)
+  (setq-default delete-trailing-lines nil
+                fill-column 80
+                sentence-end-double-space nil
+                word-wrap t
+                hscroll-margin 1
+                hscroll-step 1
+                scroll-margin 0
+                mac-mouse-wheel-smooth-scroll nil
+                mouse-wheel-progressive-speed nil ; don't accelerate scrolling
+                scroll-preserve-screen-position t
+                require-final-newline t
+                tab-always-indent t
+                tab-width 4
+                tabify-regexp "^t* [ \t]+" ; for retab
+                truncate-lines t
+                truncate-partial-width-windows 50
+                whitespace-line-column fill-column
+                whitespace-style
+                '(face indentation tabs tab-mark spaces space-mark newline newline-mark
+                       trailing lines-tail)
+                whitespace-display-mappings
+                '((tab-mark ?\t [?› ?\t])
+                  (newline-mark ?\n [?¬ ?\n])
+                  (space-mark ?\  [?·] [?.])))
+  (if (fboundp 'fringe-mode) (fringe-mode '4))
+  (tooltip-mode -1)
 #+END_SRC
 Iedit complains about being remapped. Stop that.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-    (setq iedit-toggle-key-default nil)
+  (setq iedit-toggle-key-default nil)
 #+END_SRC
 Save files on loss of focus
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-      (defun my/save-buffers ()
-        (interactive)
-        (save-some-buffers t))
-      (add-hook 'focus-out-hook 'my/save-buffers)
+  (defun my/save-buffers ()
+    (interactive)
+    (save-some-buffers t))
+  (add-hook 'focus-out-hook 'my/save-buffers)
 #+END_SRC
 Open the worklog on startup
 #+name: basic
@@ -448,7 +447,7 @@ Documentation popups
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package eglot
-    :hook ((python-mode shell-script-mode) . eglot-ensure)
+    :hook ((python-mode shell-script-mode php-mode) . eglot-ensure)
     :commands (eglot eglot-reconnect eglot-rename eglot-help-at-point eglot-events-buffer))
 #+END_SRC
 *** Navigation
@@ -1134,22 +1133,22 @@ make lispy play nice with evil
 #+END_SRC
 *** Markdown
 **** markdown-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package markdown-mode
-         :pin melpa
-         :commands (markdown-mode gfm-mode)
-         :mode (("README\\.md\\'" . gfm-mode)
-                ("\\.md\\'" . markdown-mode)
-                ("\\.markdown\\'" . markdown-mode))
-         :init (setq markdown-command "multimarkdown"))
-     #+END_SRC
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :pin melpa
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+           ("\\.md\\'" . markdown-mode)
+           ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "multimarkdown"))
+#+END_SRC
 *** Org
 *N.B.*  Org-mode itself is configured and loaded in =init.el=
 **** org-bullets
-     Use UTF-8 symbols for org headings
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
+Use UTF-8 symbols for org headings
+#+name: languages
+#+BEGIN_SRC emacs-lisp
        (use-package org-bullets
          :pin melpa
          :config
@@ -1157,7 +1156,7 @@ make lispy play nice with evil
          ;; (setq org-bullets-bullet-list '(" "))
          :hook (org-mode . (lambda () (org-bullets-mode 1)))
          :after org)
-     #+END_SRC
+#+END_SRC
 **** ob-http
 http requests in org babel
 #+name: languages
@@ -1201,8 +1200,8 @@ Completion for php
     :after php-mode)
 #+END_SRC
 **** php-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
+#+name: languages
+#+BEGIN_SRC emacs-lisp
        (use-package php-mode
          :hook (php-mode . (lambda ()
                              ;; (add-to-list 'company-backends 'company-ac-php-backend)
@@ -1211,7 +1210,7 @@ Completion for php
                              (setq-local sp-max-pair-length 6)))
          :mode (("\\.php$" . php-mode)
                 ("\\.inc$"  . php-mode)))
-     #+END_SRC
+#+END_SRC
 **** company-php
 Completion for php
 #+name: languages
@@ -1352,10 +1351,10 @@ format python code
     :pin melpa)
 #+END_SRC
 **** live-py-mode
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
+#+name: programming
+#+BEGIN_SRC emacs-lisp
        (use-package live-py-mode)
-     #+END_SRC
+#+END_SRC
 **** blacken
 automatically format python code
 #+name: languages
@@ -1422,18 +1421,18 @@ Write markup more efficiently
 *** Helm
 I don't use helm any more. These packages are here in case counsel/ivy breaks.
 **** helm-descbinds
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
+#+name: helm
+#+BEGIN_SRC emacs-lisp
        (use-package helm-descbinds
          :disabled t
          :after helm
          :commands (helm-descbinds)
          :pin melpa)
-     #+END_SRC
+#+END_SRC
 **** helm
-     Unified fuzzy search for almost everything
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
+Unified fuzzy search for almost everything
+#+name: helm
+#+BEGIN_SRC emacs-lisp
        (use-package helm
          :disabled t
          :delight
@@ -1460,7 +1459,7 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
          (helm-autoresize-mode 1)
          (setq-default helm-boring-buffer-regexp-list
                        (append '("TAGS" "\\*anaconda-mode\\*") helm-boring-buffer-regexp-list)))
-     #+END_SRC
+#+END_SRC
 **** helm-flx
 #+name: helm
 #+BEGIN_SRC emacs-lisp
@@ -1470,9 +1469,9 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
     (helm-flx-mode 1))
 #+END_SRC
 **** helm-ag
-     helm frontend for the-silver-searcher
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
+helm frontend for the-silver-searcher
+#+name: helm
+#+BEGIN_SRC emacs-lisp
        (use-package helm-ag
          :disabled t
          :commands (helm-ag)
@@ -1481,10 +1480,10 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
          ;; references a wrapper script that removes the --ignore flag helm-projectile tries pass to rg
          :config (setq helm-ag-base-command "emacs-rg --vimgrep --no-heading --smart-case"
                        helm-ag-fuzzy-match t))
-     #+END_SRC
+#+END_SRC
 **** helm-projectile
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
+#+name: helm
+#+BEGIN_SRC emacs-lisp
        (use-package helm-projectile
          :disabled t
          :after (projectile)
@@ -1493,11 +1492,11 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
                     helm-projectile-find-dir
                     helm-projectile-find-file
                     helm-projectile-switch-project))
-     #+END_SRC
+#+END_SRC
 **** helm-swoop
-     Search text linewise in a separate buffer
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
+Search text linewise in a separate buffer
+#+name: helm
+#+BEGIN_SRC emacs-lisp
        (use-package helm-swoop
          :disabled t
          :commands (helm-swoop)
@@ -1511,18 +1510,18 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
          ;; disable default behavior of swooping-thing-at-point
          (setq helm-swoop-pre-input-function
                (lambda () "")))
-     #+END_SRC
+#+END_SRC
 **** helm-xref
-     Display xref results in helm
-     #+name: helm
-     #+BEGIN_SRC emacs-lisp
+Display xref results in helm
+#+name: helm
+#+BEGIN_SRC emacs-lisp
        (use-package helm-xref
          :disabled t
          :after xref
          :defer 4
          :pin melpa
          :init (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
-     #+END_SRC
+#+END_SRC
 ** Ivy
 *** ivy
 #+name ivy
@@ -1601,9 +1600,9 @@ improved sorting for fuzzy searches
             (t . ivy--regex-plus))))
 #+END_SRC
 ** Keys
-   General provides some nice macros for dealing with evil keybindings
-   #+name: keys
-   #+BEGIN_SRC emacs-lisp
+General provides some nice macros for dealing with evil keybindings
+#+name: keys
+#+BEGIN_SRC emacs-lisp
      (use-package general
        :pin melpa
        :config
@@ -1841,7 +1840,7 @@ improved sorting for fuzzy searches
          "A-l" 'evil-window-right
          "C-n" 'evil-next-buffer
          "C-p" 'evil-prev-buffer))
-   #+END_SRC
+#+END_SRC
 ** Packages
 *** paradox
 Extends package management
