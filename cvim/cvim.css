@@ -12,15 +12,15 @@ light background: #42444a
 */
 
 @font-face {
-  font-family: 'Hack Nerd Font';
-  src: url('../../../../../../../../Fonts/Hack Regular Nerd Font Complete.otf')  format('opentype');
+  font-family: 'FuraCode Nerd Font';
+  src: url('../../../../../../../../Fonts/Fura\ Code\ Retina\ Nerd\ Font\ Complete.otf') format('opentype');
 }
 
 #cVim-command-bar, #cVim-command-bar-mode, #cVim-command-bar-input, #cVim-command-bar-search-results,
 .cVim-completion-item, .cVim-completion-item .cVim-full, .cVim-completion-item .cVim-left,
 .cVim-completion-item .cVim-right {
-  font-family: Hack Nerd Font, Helvetica Neue, Neue, sans-serif, monospace, Arial;
-  font-weight: 400 !important;
+  font-family: FuraCode Nerd Font, Helvetica Neue, Neue, sans-serif, monospace, Arial;
+  font-weight: 500 !important;
   font-size: 10pt !important;
   font-smooth: always;
   -webkit-font-smoothing: subpixel-antialiased !important;
@@ -120,7 +120,7 @@ light background: #42444a
 
 #cVim-link-container, .cVim-link-hint,
 #cVim-hud, #cVim-status-bar {
-  font-family: San Franciso Display, Helvetica Neue, Neue, sans-serif, monospace, Arial;
+  font-family: FuraCode Nerd Font, Helvetica Neue, Neue, sans-serif, monospace, Arial;
   font-size: 10pt !important;
   -webkit-font-smoothing: antialiased !important;
 }
@@ -139,8 +139,8 @@ light background: #42444a
   background-color: #fb4934 !important;
   border-radius: 2px !important;
   padding: 2px !important;
-  font-size: 10pt !important;
-  font-weight: 600 !important;
+  font-size: 12pt !important;
+  font-weight: 800 !important;
   text-transform: uppercase !important;
   border: 1px solid #ffffff;
   display: inline-block !important;

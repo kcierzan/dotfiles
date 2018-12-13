@@ -135,10 +135,13 @@ for the current buffer's file name, and the line number at point."
                                (js . t)
                                (sql . t)
                                (emacs-lisp . t)
+                               (ditaa . t)
+                               (plantuml . t)
                                (http . t)
                                (org . t)
                                (ruby . t)))
-(setq org-confirm-babel-evaluate nil))
+(setq org-confirm-babel-evaluate nil
+      org-plantuml-jar-path (expand-file-name "/usr/local/bin/plantuml/plantuml.jar")))
 
 ;; evil-collection will handle evil compatibility
 (setq evil-want-integration t)
