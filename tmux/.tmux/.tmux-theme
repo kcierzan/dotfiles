@@ -1,10 +1,10 @@
 # Optimized for ANSI colors w/ "Violet" terminal theme
 
 # set to the terminal black color
-BACKGROUND_COLOR='#333842'
+BACKGROUND_COLOR='#073642'
 
 # set to the terminal background color
-ACTIVE_COLOR='#272c33'
+ACTIVE_COLOR='#002b36'
 
 set -g status-position bottom
 set -g status-justify "left"

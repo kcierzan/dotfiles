@@ -1,4 +1,7 @@
 ;;;; -*- lexical-binding: t; -*-
+(setq gc-cons-threshold (* 1024 1024 1024)
+      gc-cons-percentage 10)
+(add-hook 'focus-out-hook 'garbage-collect)
 (setq custom-file "~/.emacs.d/custom.el")
 
 ;; add a folder for unmanaged random files to the load path
@@ -14,10 +17,10 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 
-(setq monospace-font "FuraCode Nerd Font"
-      string-font "FuraCode Nerd Font"
-      nerd-font "FuraCode Nerd Font"
-      variable-pitch-font "Fira Sans")
+(setq monospace-font "Iosevka"
+      string-font "Iosevka Slab"
+      nerd-font "PragmataPro Nerd Font"
+      variable-pitch-font "ETBembo")
 
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -41,7 +44,7 @@
   :ensure org-plus-contrib
   :init
   (setq org-ellipsis "  ")
-  (setq org-agenda-files (quote ("~/git/org")))
+  (setq org-agenda-files '("~/git/org/todo.org" "~/git/org/worklog.org" "~/git/org/gcal.org"))
   (setq org-use-fast-todo-selection t)
   (setq org-directory "~/git/org")
   (setq org-src-fontify-natively t
@@ -52,22 +55,24 @@
         '((sequence "TODO" "IN PROGRESS" "|" "DONE" "CANCELLED")))
   ;; For beorg setup, make todo.org a symbolic link to ~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/todo.org
   (setq org-capture-templates
-        '(("t" "todo" entry (file "~/git/org/todo.org")
+        '(("t" "Todo" entry (file "~/git/org/todo.org")
            "* TODO %?\n%U\n%a\n"
            :clock-resume t)
-          ("r" "respond" entry (file "~/git/org/refile.org")
+          ("r" "Respond" entry (file "~/git/org/refile.org")
            "* NEXT Respond to $:from on $:subject\nSCHEDULED: %t\n%U\n%a\n"
            :clock-in t
            :clock-resume t
            :immediate-finish t)
-          ("n" "note" entry (file+datetree "~/git/org/notes.org")
+          ("n" "Note" entry (file+datetree "~/git/org/notes.org")
            "* %? :NOTE:\n%U\n%a\n"
            :clock-resume t)
-          ("l" "log" entry
+          ("l" "Log" entry
            (file+olp+datetree "~/git/org/worklog.org")
            "* TODO %^{Description} %^g\n\%?\n\nAdded: %U"
            :clock-in t
-           :clock-keep t)))
+           :clock-keep t)
+          ("e" "Event" entry (file "~/git/org/gcal.org")
+           "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")))
   (setq org-todo-keyword-faces
         '(("TODO" . org-warning)
           ("DOING" . "orange")))
@@ -94,7 +99,7 @@
     (add-hook 'org-mode-hook
               (lambda ()
                 (set (make-local-variable 'company-backends)
-                     '((company-abbrev company-files))))))
+                     '((company-yasnippet company-dabbrev company-files))))))
   (add-hook 'after-init-hook '(lambda ()
                                 (require 'org-indent)
                                 (set-face-attribute 'org-indent nil :inherit 'fixed-pitch)))
