@@ -1379,8 +1379,7 @@ automatically format python code
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package blacken
-    :init (setq blacken-line-length 88
-                blacken-allow-py36 t
+    :init (setq blacken-allow-py36 t
                 blacken-skip-string-normalization t)
     :hook (python-mode . blacken-mode))
 #+END_SRC
@@ -1544,7 +1543,7 @@ Display xref results in helm
 #+END_SRC
 ** Ivy
 *** ivy
-#+name ivy
+#+name: ivy
 #+BEGIN_SRC emacs-lisp
     (use-package ivy
       :commands
