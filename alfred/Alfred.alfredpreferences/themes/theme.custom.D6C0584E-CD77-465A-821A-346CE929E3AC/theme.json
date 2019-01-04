@@ -1,50 +1,50 @@
 {
   "alfredtheme" : {
     "result" : {
-      "textSpacing" : 10,
+      "textSpacing" : 5,
       "subtext" : {
-        "size" : 13,
-        "colorSelected" : "#2AA198FF",
-        "font" : "Iosevka",
-        "color" : "#586D75FF"
+        "size" : 12,
+        "colorSelected" : "#729522FF",
+        "font" : "BlexMono Nerd Font",
+        "color" : "#686860FF"
       },
       "shortcut" : {
-        "size" : 23,
+        "size" : 22,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Iosevka",
-        "color" : "#849900FF"
+        "font" : "IBM Plex Sans",
+        "color" : "#8D708DFF"
       },
-      "backgroundSelected" : "#004254FF",
+      "backgroundSelected" : "#303030FF",
       "text" : {
         "size" : 24,
-        "colorSelected" : "#D33582FF",
-        "font" : "Roboto",
-        "color" : "#829496FF"
+        "colorSelected" : "#6789A9FF",
+        "font" : "IBM Plex Sans",
+        "color" : "#C2C2B1FF"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 8,
+      "paddingVertical" : 9,
       "iconSize" : 40
     },
     "search" : {
-      "paddingVertical" : 0,
-      "background" : "#00252FFF",
+      "paddingVertical" : 5,
+      "background" : "#222222FF",
       "spacing" : 8,
       "text" : {
-        "size" : 64,
+        "size" : 59,
         "colorSelected" : "#000000FF",
-        "font" : "Roboto",
-        "color" : "#268AD1FF"
+        "font" : "IBM Plex Sans",
+        "color" : "#6789A9FF"
       },
       "backgroundSelected" : "#7AC7FFFF"
     },
     "window" : {
-      "color" : "#00252FFF",
+      "color" : "#222222FF",
       "paddingHorizontal" : 0,
-      "width" : 750,
+      "width" : 634,
       "borderPadding" : 0,
       "borderColor" : "#0000007F",
       "blur" : 15,
-      "roundness" : 5,
+      "roundness" : -53,
       "paddingVertical" : 9
     },
     "credit" : "Kyle Cierzan",
@@ -56,6 +56,6 @@
       "color" : "#358188FF",
       "thickness" : 2
     },
-    "name" : "Solarized Dark"
+    "name" : "Sourcerer"
   }
 }

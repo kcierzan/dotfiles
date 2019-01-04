@@ -1,46 +1,56 @@
 ;;;; -*- lexical-binding: t; -*-
-(setq gc-cons-threshold (* 1024 1024 1024)
-      gc-cons-percentage 10)
-(add-hook 'focus-out-hook 'garbage-collect)
+;; ██╗███╗   ██╗██╗████████╗███████╗██╗
+;; ██║████╗  ██║██║╚══██╔══╝██╔════╝██║
+;; ██║██╔██╗ ██║██║   ██║   █████╗  ██║
+;; ██║██║╚██╗██║██║   ██║   ██╔══╝  ██║
+;; ██║██║ ╚████║██║   ██║██╗███████╗███████╗
+;; ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝╚═╝╚══════╝╚══════╝
+
+ (eval-and-compile
+ (setq gc-cons-threshold (* 1024 1024 1024)
+       gc-cons-percentage 10)
+ (add-hook 'focus-out-hook 'garbage-collect))
+
+(eval-and-compile
+  (setq load-prefer-newer t
+        package-user-dir "~/.emacs.d/elpa"
+        package--init-file-ensured t
+        package-enable-at-startup nil))
+
+(unless (file-directory-p package-user-dir)
+  (make-directory package-user-dir t))
+
+(setq use-package-always-defer t
+      use-package-verbose t)
+
+(eval-and-compile
+  (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t))))
+
 (setq custom-file "~/.emacs.d/custom.el")
 
-;; add a folder for unmanaged random files to the load path
-(add-to-list 'load-path "~/.emacs.d/lisp")
-(let ((default-directory "~/.emacs.d/lisp"))
-  (normal-top-level-add-subdirs-to-load-path))
-
-(require 'package)
-
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-
-(setq monospace-font "Iosevka"
-      string-font "Iosevka Slab"
-      nerd-font "PragmataPro Nerd Font"
-      variable-pitch-font "ETBembo")
-
-(setq package-enable-at-startup nil)
-(package-initialize)
-
-;; install use-package if we haven't already
 (eval-and-compile
+  (require 'package)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+  (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+  (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+  (package-initialize)
   (unless (package-installed-p 'use-package)
-    (progn
-      (package-refresh-contents)
-      (package-install 'use-package)
-      (defvar use-package-verbose nil)
-      (require 'use-package)
-      (package-initialize))))
+    (package-refresh-contents)
+    (package-install 'use-package)
+    (require 'use-package)
+    (setq use-package-always-ensure t)))
 
-;; download everything and shut up
-(setq use-package-always-ensure t)
-(setq use-package-verbose nil)
+
+(setq monospace-font "BlexMono Nerd Font"
+      string-font "BlexMono Nerd Font"
+      nerd-font "BlexMono Nerd Font"
+      variable-pitch-font "ETBembo")
 
 ;; we configure org mode early - the rest of the config is loaded via org-babel
 (use-package org
+  :demand t
   :ensure org-plus-contrib
   :init
   (setq org-ellipsis "  ")
@@ -50,12 +60,16 @@
   (setq org-src-fontify-natively t
         org-src-tabs-act-natively t
         org-src-preserve-indentation nil
+        org-src-window-setup 'other-window
         org-catch-invisible-edits t)
   (setq org-todo-keywords
         '((sequence "TODO" "IN PROGRESS" "|" "DONE" "CANCELLED")))
   ;; For beorg setup, make todo.org a symbolic link to ~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/todo.org
   (setq org-capture-templates
         '(("t" "Todo" entry (file "~/git/org/todo.org")
+           "* TODO %^{Todo}\n%U\nDEADLINE: %^{Deadline}T\n%?"
+           :clock-resume t)
+          ("T" "Code TODO" entry (file "~/git/org/todo.org")
            "* TODO %?\n%U\n%a\n"
            :clock-resume t)
           ("r" "Respond" entry (file "~/git/org/refile.org")
@@ -94,7 +108,6 @@
   (setq org-refile-target-verify-function 'kyle/verify-refile-target)
   :mode ("\\.org$" . org-mode)
   :config
-  (require 'ox-confluence-en)
   (with-eval-after-load 'company
     (add-hook 'org-mode-hook
               (lambda ()
@@ -127,26 +140,19 @@
                                           'org-block-end-line
                                           'org-meta-line
                                           'org-document-info-keyword))))
-(defun kyle/position-to-kill-ring ()
-  "Copy to the kill ring a string in the format \"file-name:line-number\"
-for the current buffer's file name, and the line number at point."
-
-  (kill-new
-   (format "%s::%d" (buffer-file-name) (save-restriction
-                                         (widen) (line-number-at-pos)))))
-(org-babel-do-load-languages 'org-babel-load-languages
-                             '((shell . t)
-                               (python . t)
-                               (js . t)
-                               (sql . t)
-                               (emacs-lisp . t)
-                               (ditaa . t)
-                               (plantuml . t)
-                               (http . t)
-                               (org . t)
-                               (ruby . t)))
-(setq org-confirm-babel-evaluate nil
-      org-plantuml-jar-path (expand-file-name "/usr/local/bin/plantuml/plantuml.jar")))
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((shell . t)
+                                 (python . t)
+                                 (js . t)
+                                 (sql . t)
+                                 (emacs-lisp . t)
+                                 (ditaa . t)
+                                 (plantuml . t)
+                                 (http . t)
+                                 (org . t)
+                                 (ruby . t)))
+  (setq org-confirm-babel-evaluate nil
+        org-plantuml-jar-path (expand-file-name "/usr/local/bin/plantuml/plantuml.jar")))
 
 ;; evil-collection will handle evil compatibility
 (setq evil-want-integration t)
