@@ -1,10 +1,10 @@
 # Optimized for ANSI colors w/ "Violet" terminal theme
 
 # set to the terminal black color
-BACKGROUND_COLOR='#2a2a2a'
+BACKGROUND_COLOR='#333842'
 
 # set to the terminal background color
-ACTIVE_COLOR='#222222'
+ACTIVE_COLOR='#272c33'
 
 set -g status-position bottom
 set -g status-justify "left"
@@ -12,8 +12,8 @@ set -g status-style "bg=0"
 # Set this to the color of the background
 set -g window-style "bg=$BACKGROUND_COLOR"
 
-set -g status-left ""
-set -g status-left-length 10
+set -g status-left " #[fg=colour05]#S "
+set -g status-left-length 100
 
 set -g status-right " #[fg=colour03]%I:%M  %b %d #{?battery_percentage, ,}#{battery_status_fg}#{battery_percentage} "
 set -g status-right-style "bold"

@@ -336,6 +336,8 @@ Convenience function to grab file and line number at point
     (use-package auth-source-pass
       :demand t
       :config
+      (setenv "GPG_AGENT_INFO" nil)
+      (setenv "GPG_TTY" "$(tty)")
       (auth-source-pass-enable))
 #+END_SRC
 ** Programming
@@ -352,7 +354,7 @@ Convenience function to grab file and line number at point
           company-idle-delay 0
           company-dabbrev-downcase nil
           company-tooltip-limit 10
-          company-async-timeout 10
+          company-async-timeout 1
           company-dabbrev-ignore-case t
           company-dabbrev-code-other-buffers t
           company-tooltip-align-annotations t
@@ -417,7 +419,7 @@ Documentation popups
 #+END_SRC
 *** Navigation
 **** ace-link
-Navigate to links cvim-style
+Navigate to links cvim-style. This is would be used more if I could figure out a decent keybinding for it.
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package ace-link
@@ -426,7 +428,7 @@ Navigate to links cvim-style
     :config (ace-link-setup-default))
 #+END_SRC
 **** avy
-Jump to text
+Jump to groups of characters
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package avy
@@ -434,7 +436,7 @@ Jump to text
     :pin melpa)
 #+END_SRC
 **** dumb-jump
-Jump to definitions using rg, ag, grep
+Dumb jump attempts to naively jump to definitions using rg, ag, or grep, depending which executables are available.
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
@@ -465,6 +467,7 @@ Jump to definitions using rg, ag, grep
                  projectile-indexing-method 'alien
                  projectile-globally-ignored-files '(".DS_STORE" "TAGS")
                  projectile-globally-ignored-file-suffixes '(".elc" ".pyc")
+                 projectile-ingnored-projects '("~/")
                  projectile-switch-project-action 'projectile-dired
                  projectile-mode-line nil)
      :config
@@ -786,22 +789,22 @@ The melpa version improves on the baked in pos-tip
          (which-key-mode))
      #+END_SRC
 *** neotree
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       (use-package neotree
-         :commands (neotree-toggle)
-         :config
-         (defun neotree-resize-window (&rest _args)
-           "resize neotree window"
-           (interactive)
-           (neo-buffer--with-resizable-window
-            (let ((fit-window-to-buffer-horizontally t))
-              (fit-window-to-buffer))))
-         (add-hook 'neo-change-root-hook #'neotree-resize-window)
-         (add-hook 'neo-enter-hook #'neotree-resize-window)
-         :pin melpa
-         :init (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
-     #+END_SRC
+#+name: interface
+#+BEGIN_SRC emacs-lisp
+  (use-package neotree
+    :commands (neotree-toggle)
+    :config
+    (defun neotree-resize-window (&rest _args)
+      "resize neotree window"
+      (interactive)
+      (neo-buffer--with-resizable-window
+       (let ((fit-window-to-buffer-horizontally t))
+         (fit-window-to-buffer))))
+    (add-hook 'neo-change-root-hook #'neotree-resize-window)
+    (add-hook 'neo-enter-hook #'neotree-resize-window)
+    :pin melpa
+    :init (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+#+END_SRC
 *** highlight-indentation
      #+name: interface
      #+BEGIN_SRC emacs-lisp
@@ -858,23 +861,52 @@ Define some rules for handling pesky windows.
 #+name: interface
 #+BEGIN_SRC emacs-lisp
   (use-package shackle
+    :disabled t
     :demand t
     :config
     (setq shackle-default-alignment 'below)
-    (setq shackle-default-size 0.4)
-    (setq shackle-default-rule '(:other t))
+    (setq shackle-default-size 0.3)
     (setq shackle-rules
           '((compilation-mode :select nil :size 0.25)
             (messages-buffer-mode :select t :size 0.25)
             (calendar-mode :select t :size 0.25)
             (help-mode :select t :size 0.5)
             ("*Help*" :noselect t :size 0.3)
+            ("*Warnings*" :select t :size 0.3)
             ("*eshell*" :select t :popup t)
             ("*ansi-term*" :select t :popup t)
-            ;; (".?*Orc Src.*$" :select t :align 'below :size 0.5 :regexp t)
+            ("*Org Agenda*" :select t :popup t :align 'right :size 0.25)
+            ("*Agenda Commands*" :select t :popup t :align 'below :size 0.25)
             ("^\\*Org Src" :size 0.5 :regexp t)
             ("*Completions*" :noselect t :size 0.25)))
     (shackle-mode t))
+#+END_SRC
+*** window-purpose
+Dedicate buffers to windows based on their purpose
+#+name: interface
+#+BEGIN_SRC emacs-lisp
+  (use-package window-purpose
+    :demand t
+    :config
+    (add-to-list 'purpose-user-mode-purposes '(python-mode . main))
+    (add-to-list 'purpose-user-mode-purposes '(web-mode . main))
+    (add-to-list 'purpose-user-mode-purposes '(php-mode . main))
+    (add-to-list 'purpose-user-mode-purposes '(rjsx-mode . main))
+    (add-to-list 'purpose-user-mode-purposes '(js2-mode . main))
+    (add-to-list 'purpose-user-mode-purposes '(org-mode . main))
+    (add-to-list 'purpose-user-mode-purposes '(markdown-mode . main))
+    (add-to-list 'purpose-user-mode-purposes '(inferior-python-mode . bottom))
+    (add-to-list 'purpose-user-mode-purposes '(shell-mode . bottom))
+    (add-to-list 'purpose-user-mode-purposes '(eshell-mode . bottom))
+    (add-to-list 'purpose-user-mode-purposes '(compilation-mode . right))
+    (add-to-list 'purpose-user-mode-purposes '(dired-mode . right))
+    (add-to-list 'purpose-user-name-purposes '("*Messages*" . bottom))
+    (add-to-list 'purpose-user-name-purposes '("*eshell*" . bottom))
+    (add-to-list 'purpose-user-name-purposes '("*shell*" . bottom))
+    (add-to-list 'purpose-user-name-purposes '("*Warnings*" . bottom))
+    (purpose-compile-user-configuration)
+    (purpose-mode)
+    (purpose-x-kill-setup))
 #+END_SRC
 ** Themes
 *** doom-themes
@@ -1230,8 +1262,8 @@ Send growl alerts for org deadlines
     :after (auth-source-pass)
     :commands (org-gcal-fetch org-gcal-sync)
     :config
-    (setq org-gcal-client-id (auth-source-pass-get 'secret "emacs/org-gcal-client-id")
-          org-gcal-client-secret (auth-source-pass-get 'secret "emacs/org-gcal")
+    (setq org-gcal-client-id (auth-source-pass-get 'secret "org-gcal-client-id")
+          org-gcal-client-secret (auth-source-pass-get 'secret "org-gcal-secret")
           org-gcal-file-alist '(("kylec@aweber.com" . "~/git/org/gcal.org"))))
 #+END_SRC
 *** PHP
@@ -1245,13 +1277,6 @@ Send growl alerts for org deadlines
                         (setq-local sp-max-pair-length 6)))
     :mode (("\\.php$" . php-mode)
            ("\\.inc$"  . php-mode)))
-#+END_SRC
-**** TODO PsySH
-#+name: languages
-#+BEGIN_SRC emacs-lisp
-  (use-package psysh
-    :init
-    (setq psysh-comint-buffer-process "~/.scripts/shell.php"))
 #+END_SRC
 **** geben
 Support for Xdebug
@@ -1596,8 +1621,28 @@ Display xref results in helm
      counsel-projectile-find-file
      counsel-projectile-switch-project
      counsel-projectile-find-dir)
-    :after (counsel projectile))
+    :after (counsel projectile)
+    :config
+    (setq counsel-projectile-switch-project-action
+          '(1
+            ("o" counsel-projectile-switch-project-action "jump to a project buffer or file")
+            ("d" counsel-projectile-switch-project-action-find-dir "jump to a project directory")
+            ("D" counsel-projectile-switch-project-action-dired "open project in dired")
+            ("S" counsel-projectile-switch-project-action-save-all-buffers "save all project buffers")
+            ("k" counsel-projectile-switch-project-action-kill-buffers "kill all project buffers")
+            ("K" counsel-projectile-switch-project-action-remove-known-project "remove project from known projects")
+            ("c" counsel-projectile-switch-project-action-compile "run project compilation command")
+            ("C" counsel-projectile-switch-project-action-configure "run project configure command")
+            ("E" counsel-projectile-switch-project-action-edit-dir-locals "edit project dir-locals")
+            ("v" counsel-projectile-switch-project-action-vc "open project in magit")
+            ("r" counsel-projectile-switch-project-action-rg "search project with rg")
+            ("s" counsel-projectile-switch-project-action-run-shell "invoke shell from project root")
+            ("e" counsel-projectile-switch-project-action-run-eshell "invoke eshell from project root"))))
 #+END_SRC
+
+#+RESULTS: ivy
+: t
+
 *** smex
 Required by =counsel-M-X=
 #+name: ivy
@@ -1625,20 +1670,21 @@ Required by =counsel-M-X=
 improved sorting for fuzzy searches
 #+name: ivy
 #+BEGIN_SRC emacs-lisp
+  (use-package flx
+   :after (counsel-projectile ivy))
+
   (use-package flx-ido
-    :disabled t
+    ;; :disabled t
     :after (counsel-projectile ivy)
     :config
     (flx-ido-mode 1)
     (setq ido-enable-flex-matching t)
-    ;; (setq ivy-re-builders-alist
-    ;;       '((counsel-projectile-find-file . ivy--regex-fuzzy)
-    ;;         (counsel-find-file . ivy--regex-fuzzy)
-    ;;         (ivy-switcn-buffer . ivy--regex-fuzzy)
-    ;;         (counsel-recentf . ivy--regex-fuzzy)
-    ;;         (counsel-projectile-switch-project . ivy--regex-fuzzy)
-    ;;         (t . ivy--regex-plus))))
-  )
+    (setq ivy-re-builders-alist
+          '((counsel-ag . ivy--regex-plus)
+            (counsel-rg . ivy--regex-plus)
+            (swiper- . ivy--regex-plus)
+            (t . ivy--regex-fuzzy))
+          ivy-initial-inputs-alist nil))
 #+END_SRC
 *** ivy-rich
 Make ivy prettier
@@ -2034,15 +2080,15 @@ Jump to opening/closing delimiters vim-style
 Evil bindings for org mode
 #+name: evil
 #+BEGIN_SRC emacs-lisp
-         (use-package evil-org
-           :delight
-           :hook
-           ((org-mode . evil-org-mode)
-            (evil-org-mode . (lambda ()
-                               (evil-org-set-key-theme)))
-            (evil-org-agenda-set-keys))
-           :pin melpa
-           :after (org evil))
+  (use-package evil-org
+    :delight
+    :hook
+    ((org-mode . evil-org-mode)
+     (evil-org-mode . (lambda ()
+                        (evil-org-set-key-theme)))
+     (evil-org-agenda-set-keys))
+    :pin melpa
+    :after (org evil))
 #+END_SRC
 *** evil-smartparens
 Play nice with smartparens

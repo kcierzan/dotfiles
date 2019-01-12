@@ -46,7 +46,7 @@
 (setq monospace-font "BlexMono Nerd Font"
       string-font "BlexMono Nerd Font"
       nerd-font "BlexMono Nerd Font"
-      variable-pitch-font "ETBembo")
+      variable-pitch-font "IBM Plex Serif")
 
 ;; we configure org mode early - the rest of the config is loaded via org-babel
 (use-package org

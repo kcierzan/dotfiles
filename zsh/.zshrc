@@ -30,6 +30,9 @@ else
 
 fi
 
+GPG_TTY=$(tty)
+export GPG_TTY
+
 # load fasd
 fasd_cache="$HOME/.fasd-init-cache"
 if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
@@ -68,3 +71,5 @@ fi
 
 source ~/.zsh/aliases.zsh
 source ~/.zsh/extra.zsh
+source ~/.zsh/vi_cursor.zsh
+

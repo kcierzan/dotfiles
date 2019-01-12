@@ -41,9 +41,11 @@ set ttyfast
 set undodir=~/.undo
 set undofile
 set undolevels=100000
+set foldlevelstart=20
 
 " Enable blinking cursor
-set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+" set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
 " Enable system clipboard
 set clipboard=unnamed
 
@@ -112,7 +114,8 @@ command Nows :%s/\s\+$//
 call plug#begin('~/.local/share/nvim/plugged')
 
 " a colorscheme that plays nice with 16 color terminals
-Plug '~/git/termina'
+" Plug '~/git/termina'
+Plug 'kcierzan/termina'
 
 " vim-startify
 Plug 'mhinz/vim-startify'
@@ -268,7 +271,7 @@ Plug 'w0rp/ale'
 filetype off
 filetype plugin on
 let g:ale_linters = {
-      \ 'python': ['pylint', 'flake8', 'pyls', 'mypy'],
+      \ 'python': ['pyls'],
       \ 'javascript': ['eslint'],
       \ 'css': ['prettier'],
       \ 'php': ['phpcs'],
@@ -284,6 +287,7 @@ let g:ale_linter_aliases = {
       \ 'phtml': 'html',
       \ }
 let g:ale_fixers = {
+      \ 'python': ['black'],
       \ 'javascript': ['prettier', 'eslint'],
       \ 'css': ['prettier'],
       \ 'html': ['tidy'],
@@ -389,7 +393,7 @@ let g:airline_powerline_fonts = 1
 " let g:airline_left_alt_sep=''
 " let g:airline_right_alt_sep=''
 " let g:airline_symbols = {}
-let g:airline_theme='termina'
+let g:airline_theme='ayu_mirage'
 let g:airline#extensions#ale#enabled = 1
 let airline#extensions#ale#error_symbol = ' '
 let airline#extensions#ale#warning_symbol = ' '

@@ -34,3 +34,4 @@ scratch/
 
 # generated emacs config
 **/emacs.el
+**/*.elc

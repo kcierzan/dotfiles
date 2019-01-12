@@ -9,12 +9,12 @@
         "color" : "#686860FF"
       },
       "shortcut" : {
-        "size" : 22,
+        "size" : 26,
         "colorSelected" : "#FFFFFFFF",
         "font" : "IBM Plex Sans",
         "color" : "#8D708DFF"
       },
-      "backgroundSelected" : "#303030FF",
+      "backgroundSelected" : "#3C3C3CFF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#6789A9FF",
@@ -22,12 +22,12 @@
         "color" : "#C2C2B1FF"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 9,
+      "paddingVertical" : 13,
       "iconSize" : 40
     },
     "search" : {
-      "paddingVertical" : 5,
-      "background" : "#222222FF",
+      "paddingVertical" : 4,
+      "background" : "#282828FF",
       "spacing" : 8,
       "text" : {
         "size" : 59,
@@ -38,9 +38,9 @@
       "backgroundSelected" : "#7AC7FFFF"
     },
     "window" : {
-      "color" : "#222222FF",
+      "color" : "#282828FF",
       "paddingHorizontal" : 0,
-      "width" : 634,
+      "width" : 798,
       "borderPadding" : 0,
       "borderColor" : "#0000007F",
       "blur" : 15,

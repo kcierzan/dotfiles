@@ -226,7 +226,7 @@ termcol () {
 
 # Color less
 cl () {
-  pygmentize -g $1 | less -r
+  highlight -O ansi -l $1 | less -r
 }
 
 # display a directory tree in style
