@@ -42,6 +42,7 @@ set undodir=~/.undo
 set undofile
 set undolevels=100000
 set foldlevelstart=20
+set termguicolors
 
 " Enable blinking cursor
 " set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
@@ -116,6 +117,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 " a colorscheme that plays nice with 16 color terminals
 " Plug '~/git/termina'
 Plug 'kcierzan/termina'
+
+Plug 'joshdick/onedark.vim'
 
 " vim-startify
 Plug 'mhinz/vim-startify'
@@ -312,6 +315,9 @@ let g:ale_set_highlights = 0
 highlight ALEErrorSign ctermfg=1
 highlight ALEWarningSign ctermfg=3
 
+command! ALEDisableFixers       let g:ale_fix_on_save=0
+command! ALEEnableFixers        let g:ale_fix_on_save=1
+
 "vim-test
 Plug 'janko-m/vim-test'                    " Run tests
 Plug 'benmills/vimux'                      " Interact with tmux from vim
@@ -340,6 +346,7 @@ Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 let g:fzf_layout = { 'window': '-tabnew' }
 let g:fzf_buffers_jump = 1
+
 autocmd! FileType fzf
 autocmd FileType fzf set laststatus=0 noshowmode noruler
       \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
@@ -393,7 +400,7 @@ let g:airline_powerline_fonts = 1
 " let g:airline_left_alt_sep=''
 " let g:airline_right_alt_sep=''
 " let g:airline_symbols = {}
-let g:airline_theme='ayu_mirage'
+let g:airline_theme='onedark'
 let g:airline#extensions#ale#enabled = 1
 let airline#extensions#ale#error_symbol = ' '
 let airline#extensions#ale#warning_symbol = ' '
@@ -431,6 +438,11 @@ Plug 'mxw/vim-jsx'                         " syntax highlighting for jsx
 Plug 'vimwiki/vimwiki'                     " notes
 Plug 'blueyed/vim-diminactive'             " change the color of inactive panes
 Plug 'tmux-plugins/vim-tmux-focus-events'  " add focus events to vim
+
+" typescript and friends
+" Plug 'mhartington/nvim-typescript', { 'do': ':UpdateRemotePlugins', 'for': ['typescript', 'typescript.tsx']}
+" Plug 'leafgarland/typescript-vim', {'for': ['typescript', 'typescript.tsx']}
+" Plug 'ianks/vim-tsx', { 'for': 'typescript.tsx' }
 
 Plug 'wesQ3/vim-windowswap'
 let g:windowswap_map_keys = 0
@@ -803,7 +815,16 @@ call plug#end()
 
 syntax enable
 set background=dark
-colorscheme termina
+colorscheme onedark
+" don't let onedark mess with the background color
+hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
+" or the colorcolumn for diminactive
+hi  ColorColumn ctermfg=none ctermbg=0
+hi ALEErrorSign                   ctermfg=1 guifg='#e06c75'
+hi ALEWarningSign                 ctermfg=3 guifg='#e5c07b'
+hi ALEError                       ctermbg=0
+hi ALEWarning                     ctermbg=0
+
 
 call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
 nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>

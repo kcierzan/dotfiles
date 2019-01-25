@@ -169,9 +169,7 @@ ff() {
   out=($(fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
              --preview '[[ $(file --mime {}) =~ binary ]] &&
                   echo {} is a binary file ||
-                  (highlight -O ansi -l {} ||
-                  pygmentize -g {} ||
-                  cat {}) 2> /dev/null | head -2000'))
+                  preview {} 2> /dev/null | head -2000'))
   key=$(head -1 <<< "$out")
   file=$(head -2 <<< "$out" | tail -1)
   if [ -n "$file" ]; then
@@ -316,9 +314,7 @@ fr() {
              | fzf +m --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
                    --preview '[[ $(file --mime {}) =~ binary ]] &&
                    echo {} is a binary file ||
-                   (highlight -O ansi -l {} ||
-                   pygmentize -g {} ||
-                   cat {}) 2> /dev/null | head -2000'))
+                   preview {} 2> /dev/null | head -2000'))
   key=$(head -1 <<< "$out")
   file=$(head -2 <<< "$out" | tail -1)
   if [ -n "$file" ]; then
@@ -350,9 +346,7 @@ findfile() {
          | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
          --preview '[[ $(file --mime {}) =~ binary ]] &&
                   echo {} is a binary file ||
-                  (highlight -O ansi -l {} ||
-                  pygmentize -g {} ||
-                  cat {}) 2> /dev/null | head -2000'))
+                  preview {} 2> /dev/null | head -2000'))
 
   key=$(head -1 <<< "$out")
   file=$(head -2 <<< "$out" | tail -1)

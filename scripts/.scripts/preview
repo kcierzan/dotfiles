@@ -28,10 +28,10 @@ end
 usage unless file
 
 path = File.expand_path(file)
-unless File.readable? path
-  puts "File not found: #{file}"
-  exit 1
-end
+# unless File.readable? path
+#   puts "File not found: #{file}"
+#   exit 1
+# end
 
 if `file --mime "#{file}"` =~ /binary/
   puts "#{file} is a binary file"
