@@ -290,7 +290,7 @@ let g:ale_linter_aliases = {
       \ 'phtml': 'html',
       \ }
 let g:ale_fixers = {
-      \ 'python': ['black'],
+      \ 'python': ['yapf'],
       \ 'javascript': ['prettier', 'eslint'],
       \ 'css': ['prettier'],
       \ 'html': ['tidy'],
@@ -326,15 +326,15 @@ let g:test#strategy = 'vimux'
 let g:test#python#nose#options = '-x -v -s --with-coverage'
 
 "neosnippet
-Plug 'Shougo/neosnippet.vim'               " Snippet functionality
+" Plug 'Shougo/neosnippet.vim'               " Snippet functionality
 Plug 'honza/vim-snippets'                  " Snippet collection
-Plug 'Shougo/neosnippet-snippets'          " Snippet collection
-let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
-let g:AutoPairsMapCR = 0
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
+" Plug 'Shougo/neosnippet-snippets'          " Snippet collection
+" let g:neosnippet#enable_snipmate_compatibility = 1
+" let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
+" let g:AutoPairsMapCR = 0
+" imap <C-k> <Plug>(neosnippet_expand_or_jump)
+" smap <C-k> <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k> <Plug>(neosnippet_expand_target)
 
 "vim-expand-region
 Plug 'terryma/vim-expand-region'
@@ -391,20 +391,23 @@ Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 
-"vim-airline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-let g:airline_powerline_fonts = 1
-" let g:airline_left_sep=''
-" let g:airline_right_sep=''
-" let g:airline_left_alt_sep=''
-" let g:airline_right_alt_sep=''
-" let g:airline_symbols = {}
-let g:airline_theme='onedark'
-let g:airline#extensions#ale#enabled = 1
-let airline#extensions#ale#error_symbol = ' '
-let airline#extensions#ale#warning_symbol = ' '
-let g:airline#extensions#tabline#enabled = 1
+" vim-airline
+ Plug 'vim-airline/vim-airline'
+ Plug 'vim-airline/vim-airline-themes'
+ let g:airline_powerline_fonts = 1
+ let g:airline_left_sep=''
+ let g:airline_right_sep=''
+ let g:airline_left_alt_sep=''
+ let g:airline_right_alt_sep=''
+ let g:airline_symbols = {}
+ let g:airline_theme='onedark'
+ let g:airline#extensions#ale#enabled = 1
+ let airline#extensions#ale#error_symbol = ' '
+ let airline#extensions#ale#warning_symbol = ' '
+ let g:airline#extensions#tabline#enabled = 1
+"
+"eleline
+" Plug 'liuchengxu/eleline.vim'
 
 "misc plugins
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
@@ -465,27 +468,72 @@ Plug 'diepm/vim-rest-console'
 let g:vrc_include_response_header = 1
 
 " deoplete
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" let g:deoplete#enable_at_startup = 1
 
 " languageclient neovim
-Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-      \ 'do': 'bash install.sh',
-      \ }
-let g:LanguageClient_diagnosticsEnable = 0
-let g:LanguageClient_serverCommands = {
-      \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-      \ 'javascript': ['javascript-typescript-stdio'],
-      \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-      \ 'python': ['pyls'],
-      \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"       \ 'branch': 'next',
+"       \ 'do': 'bash install.sh',
+"       \ }
+" let g:LanguageClient_diagnosticsEnable = 0
+" let g:LanguageClient_serverCommands = {
+"       \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+"       \ 'javascript': ['javascript-typescript-stdio'],
+"       \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+"       \ 'python': ['pyls'],
+"       \ }
+
+" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
+
+" coc.nvim
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
+set cmdheight=2
+set updatetime=300
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+" don't give |ins-completion-menu| messages
+set shortmess+=c
+
+set signcolumn=yes
+
+inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+let g:coc_snippet_next = '<TAB>'
+let g:coc_snippet_prev = '<S-TAB>'
 
 " vim-rooter
 Plug 'airblade/vim-rooter'
@@ -494,9 +542,6 @@ let g:rooter_resolve_links = 1
 let g:rooter_silent_chdir = 1
 
 "-------------------------------- KEYBINDINGS -----------------------------------
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
 
 " Keep search results in the center of the screen
 nmap n nzz
@@ -559,10 +604,10 @@ nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <M-b> :TmuxNavigatePrevious<cr>
 
-imap <expr><TAB>
-      \ neosnippet#expandable_or_jumpable() ?
-      \    "\<Plug>(neosnippet_expand_or_jump)" :
-      \ 	  pumvisible() ? "\<C-n>" : "\<TAB>"
+" imap <expr><TAB>
+"       \ neosnippet#expandable_or_jumpable() ?
+"       \    "\<Plug>(neosnippet_expand_or_jump)" :
+"       \ 	  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " H and L move to start and end of lines
 nmap L <Nop>
@@ -799,17 +844,6 @@ let g:lmap.w[' '] = {'name': 'Diary',
       \ 'y': ['<leader>w<leader>y', 'make diary note for yesterday'],
       \}
 nnoremap <leader>wc :VimwikiToggleListItem<CR>
-
-" TODO: work on basic pdb functionality
-"------- Terminal-------------
-" nnoremap <leader>\r :call DebugInTerminal('pry')<CR>
-" nnoremap <leader>\p :call DebugInTerminal('python -m pdb')<CR>
-" nnoremap <leader>\n :call DebugInTerminal('node-debug')<CR>
-
-" function! DebugInTerminal(args)
-"   botright split
-"   execute 'terminal' a:args expand('%:p')
-" endfunction
 
 call plug#end()
 
