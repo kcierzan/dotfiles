@@ -13,7 +13,7 @@ set conceallevel=2
 set cursorline
 set expandtab
 set gdefault
-set nohidden
+set hidden
 set ignorecase
 set noerrorbells
 set nolazyredraw
@@ -77,6 +77,12 @@ au FocusLost,WinLeave * :silent! w
 autocmd BufNewFile,BufRead *.py
       \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix expandtab autoindent |
 
+autocmd BufNewFile,BufRead *.yaml
+      \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix expandtab autoindent |
+
+autocmd BufNewFile,BufRead *.yml
+      \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix expandtab autoindent |
+
 autocmd BufNewFile,BufRead *.md
       \ setlocal wrap tabstop=2 softtabstop=2 shiftwidth=2 textwidth=100 fileformat=unix expandtab smartindent |
 
@@ -115,8 +121,7 @@ command Nows :%s/\s\+$//
 call plug#begin('~/.local/share/nvim/plugged')
 
 " a colorscheme that plays nice with 16 color terminals
-" Plug '~/git/termina'
-Plug 'kcierzan/termina'
+" Plug 'kcierzan/termina'
 
 Plug 'joshdick/onedark.vim'
 
@@ -159,6 +164,8 @@ let g:indentLine_setColors = 1
 " rainbow_parentheses
 Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
+
+" TODO: set colors for onedark gui colorscheme
 let g:rainbow_conf = { 'ctermfgs': ['blue', 'cyan', 'magenta', 'red', 'yellow', 'green'] }
 
 " vim-gitgutter
@@ -166,7 +173,7 @@ Plug 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
 let g:gitgutter_max_signs = 5000
 
-function! NextHunkAllBuffers()
+function! s:NextHunkAllBuffers()
   let line = line('.')
   GitGutterNextHunk
   if line('.') != line
@@ -187,7 +194,7 @@ function! NextHunkAllBuffers()
   endwhile
 endfunction
 
-function! PrevHunkAllBuffers()
+function! s:PrevHunkAllBuffers()
   let line = line('.')
   GitGutterPrevHunk
   if line('.') != line
@@ -223,7 +230,6 @@ function! s:goyo_enter()
   nunmap <silent> <leader>
   IndentLinesDisable
   ALEDisable
-  set nonumber
 endfunction
 
 function! s:goyo_leave()
@@ -232,24 +238,16 @@ function! s:goyo_leave()
   set showcmd
   set showmode
   set cursorline
-  colorscheme termina
+  colorscheme onedark
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
-  IndentLinesEnable
   ALEEnable
-  set number
 endfunction
 
 augroup GoyoToggle
   autocmd! User GoyoEnter nested call <SID>goyo_enter()
   autocmd! User GoyoLeave nested call <SID>goyo_leave()
 augroup END
-
-" limelight
-Plug 'junegunn/limelight.vim'
-let g:limelight_conceal_ctermfg = 238
-let g:limelight_default_coefficient = 0.5
-let g:limelight_paragraph_span = 1
 
 " comfortable-motion
 Plug 'yuttie/comfortable-motion.vim'
@@ -262,6 +260,9 @@ let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 let g:sneak#s_next =1
 autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
+
+"vim-multiple-cursors
+Plug 'terryma/vim-multiple-cursors'
 
 " vim-tmux-navigator
 " Map alt + hjkl to navigation
@@ -290,19 +291,17 @@ let g:ale_linter_aliases = {
       \ 'phtml': 'html',
       \ }
 let g:ale_fixers = {
-      \ 'python': ['yapf'],
+      \ '*': ['trim_whitespace'],
+      \ 'python': ['yapf', 'black'],
       \ 'javascript': ['prettier', 'eslint'],
       \ 'css': ['prettier'],
       \ 'html': ['tidy'],
       \}
-let g:ale_fix_on_save = 1
 let g:ale_python_pylint_options = '--rcfile=~/.pylintrc'
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
-" let g:ale_python_flake8_executable = $HOME . '/.virtualenvs/neovim/bin/flake8'
 let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/neovim3/bin/vint'
-" let g:ale_python_pylint_executable = $HOME . '/.virtualenvs/neovim/bin/pylint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
 let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
 let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
@@ -325,16 +324,7 @@ let g:test#python#runner = 'nose'
 let g:test#strategy = 'vimux'
 let g:test#python#nose#options = '-x -v -s --with-coverage'
 
-"neosnippet
-" Plug 'Shougo/neosnippet.vim'               " Snippet functionality
 Plug 'honza/vim-snippets'                  " Snippet collection
-" Plug 'Shougo/neosnippet-snippets'          " Snippet collection
-" let g:neosnippet#enable_snipmate_compatibility = 1
-" let g:neosnippet#snippets_directory = '~/.local/share/nvim/plugged/vim-snippets/snippets'
-" let g:AutoPairsMapCR = 0
-" imap <C-k> <Plug>(neosnippet_expand_or_jump)
-" smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" xmap <C-k> <Plug>(neosnippet_expand_target)
 
 "vim-expand-region
 Plug 'terryma/vim-expand-region'
@@ -370,21 +360,6 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
       \ {'source': 'gfind '.(empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
       \  'sink': 'cd'}))
 
-"jedi-vim
-" Plug 'davidhalter/jedi-vim'
-" let g:jedi#auto_vim_configuration = 0
-" let g:jedi#use_splits_not_buffers = 1
-" " let g:jedi#goto_command = 'gd'
-" let g:jedi#goto_command = ''
-" let g:jedi#goto_assignments_command = ""
-" let g:jedi#goto_definitions_command = ""
-" let g:jedi#goto_usages_command = 'gn'
-" let g:jedi#completions_command = ""
-" " let g:jedi#rename_command = 'gr'
-" let g:jedi#rename_command = ''
-" let g:jedi#documentation_command = "gk"
-" let g:jedi#completions_enabled = 0
-
 "vim-markdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
@@ -401,19 +376,22 @@ let g:vim_markdown_frontmatter = 1
  let g:airline_right_alt_sep=''
  let g:airline_symbols = {}
  let g:airline_theme='onedark'
+ let g:airline_extensions = ['ale', 'coc', 'tabline']
  let g:airline#extensions#ale#enabled = 1
+ let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+ let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
  let airline#extensions#ale#error_symbol = ' '
  let airline#extensions#ale#warning_symbol = ' '
+ let airline#extensions#coc#error_symbol = ' '
+ let airline#extensions#coc#warning_symbol = ' '
  let g:airline#extensions#tabline#enabled = 1
-"
-"eleline
-" Plug 'liuchengxu/eleline.vim'
 
-"misc plugins
+
+Plug 'sheerun/vim-polyglot'                " lots of language packs
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
-
 let g:python_highlight_all = 1
 
+"misc plugins
 Plug 'Shougo/neomru.vim'                   " recent files
 Plug 'tpope/vim-vinegar'                   " make netrw better
 Plug 'tpope/vim-eunuch'                    " unix tools
@@ -428,7 +406,6 @@ Plug 'moll/vim-bbye'                       " delete and close buffers without cl
 Plug 'mkitt/tabline.vim'                   " better looking tabs
 Plug 'tpope/vim-fugitive'                  " git Wrapper
 Plug 'junegunn/gv.vim'                     " git commit browser
-Plug 'sheerun/vim-polyglot'                " lots of language packs
 Plug 'junegunn/vim-easy-align'             " align stuff
 Plug 'michaeljsmith/vim-indent-object'     " indentation objects
 Plug 'tpope/vim-abolish'                   " correct common misspellings
@@ -441,11 +418,6 @@ Plug 'mxw/vim-jsx'                         " syntax highlighting for jsx
 Plug 'vimwiki/vimwiki'                     " notes
 Plug 'blueyed/vim-diminactive'             " change the color of inactive panes
 Plug 'tmux-plugins/vim-tmux-focus-events'  " add focus events to vim
-
-" typescript and friends
-" Plug 'mhartington/nvim-typescript', { 'do': ':UpdateRemotePlugins', 'for': ['typescript', 'typescript.tsx']}
-" Plug 'leafgarland/typescript-vim', {'for': ['typescript', 'typescript.tsx']}
-" Plug 'ianks/vim-tsx', { 'for': 'typescript.tsx' }
 
 Plug 'wesQ3/vim-windowswap'
 let g:windowswap_map_keys = 0
@@ -466,33 +438,6 @@ let g:user_emmet_settings = {
 " vim-rest-console
 Plug 'diepm/vim-rest-console'
 let g:vrc_include_response_header = 1
-
-" deoplete
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" let g:deoplete#enable_at_startup = 1
-
-" languageclient neovim
-" Plug 'autozimu/LanguageClient-neovim', {
-"       \ 'branch': 'next',
-"       \ 'do': 'bash install.sh',
-"       \ }
-" let g:LanguageClient_diagnosticsEnable = 0
-" let g:LanguageClient_serverCommands = {
-"       \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-"       \ 'javascript': ['javascript-typescript-stdio'],
-"       \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-"       \ 'python': ['pyls'],
-"       \ }
-
-" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-" nnoremap <silent> gr :call LanguageClient#textDocument_rename()<CR>
 
 " coc.nvim
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
@@ -531,9 +476,13 @@ set shortmess+=c
 
 set signcolumn=yes
 
-inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+" accept completion with tab
+" inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
+
+" highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " vim-rooter
 Plug 'airblade/vim-rooter'
@@ -603,11 +552,6 @@ nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <M-b> :TmuxNavigatePrevious<cr>
-
-" imap <expr><TAB>
-"       \ neosnippet#expandable_or_jumpable() ?
-"       \    "\<Plug>(neosnippet_expand_or_jump)" :
-"       \ 	  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " H and L move to start and end of lines
 nmap L <Nop>
@@ -716,7 +660,7 @@ nnoremap <leader>so <C-w>o
 nnoremap <leader>se <C-w>=
 nnoremap <leader>sV <C-w>H
 nnoremap <leader>sS <C-w>J
-nnoremap <leader>sc :call WindowSwap#EasyWindowSwap
+nnoremap <leader>sc :call WindowSwap#EasyWindowSwap()<CR>
 
 "-------- Neovim -----------------
 let g:lmap.n = { 'name': 'Neovim',
@@ -738,13 +682,19 @@ nnoremap <Leader>nc :PlugClean<CR>
 "-------Code-------------------
 let g:lmap.c = {'name': 'Code',
       \ 't': ['TagbarToggle', 'toggle tagbar'],
-      \ 'm': ['LanguageClient_contextMenu', 'LSP menu'],
       \ 'r': ['!rm ctags && ctags', 'regenerate tags'],
-      \ 'T': ['!ctags', 'generate ctags']
+      \ 'T': ['!ctags', 'generate ctags'],
+      \ 'a': ['<Plug>(coc-codeaction)'],
+      \ 'f': ['<Plug>(coc-fix-current)'],
+      \ 'R': ['CocRestart', 'restart coc']
       \}
 nnoremap <leader>ct :TagbarToggle<CR>
-nnoremap <leader>cm :call LanguageClient_contextMenu()<CR>
+nnoremap <leader>ct :!ctags<CR>
 nnoremap <leader>cr :!rm tags && ctags<CR>
+nnoremap <leader>ca  <Plug>(coc-codeaction)
+vnoremap <leader>ca  <Plug>(coc-codeaction-selected)
+nnoremap <leader>cf  <Plug>(coc-fix-current)
+nnoremap <leader>cR  :CocRestart<CR>
 
 "-------Test-----------------
 let g:lmap.t = {'name': 'Test',
@@ -764,7 +714,6 @@ nnoremap <silent> <leader>tv :TestVisit<CR>
 let g:lmap.g = { 'name': 'Git',
       \ 's': ['Gstatus', 'git status'],
       \ 'c': ['Gcommit', 'git commit'],
-      \ 'd': ['Gvdiff', 'git diff'],
       \ 'b': ['Gblame', 'git blame'],
       \ 'P': ['Gpush', 'git push'],
       \ 'l': ['GV', 'git log'],
@@ -782,8 +731,8 @@ nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gn :GitGutterNextHunk<CR>
 nnoremap <silent> <leader>gN :GitGutterPrevHunk<CR>
 nnoremap <silent> <leader>gh :GitGutterStageHunk<CR>
-nnoremap <silent> <leader>g] :call NextHunkAllBuffers()<CR>
-nnoremap <silent> <leader>g[ :call PrevHunkAllBuffers()<CR>
+nnoremap <silent> <leader>g] :call <SID>NextHunkAllBuffers()<CR>
+nnoremap <silent> <leader>g[ :call <SID>PrevHunkAllBuffers()<CR>
 nnoremap <silent> <leader>gu :GitGutterUndoHunk<CR>
 nnoremap <silent> <leader>gp :GitGutterPreviewHunk<CR>
 nnoremap <silent> <leader>gd :Gvdiff<CR>
@@ -850,6 +799,7 @@ call plug#end()
 syntax enable
 set background=dark
 colorscheme onedark
+
 " don't let onedark mess with the background color
 hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
 " or the colorcolumn for diminactive
