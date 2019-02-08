@@ -25,7 +25,7 @@ JENKINS_SERVERS = {
 }
 
 GRAFANA_URI = 'http://grafana.colo.lair/api/search?query='
-DOCS_URI = 'http://docs.int.prd.csh/docs/'
+DOCS_URI = 'http://docs.aweber.io/'
 HIPCHAT_URI = ('https://api.hipchat.com/v2/{resource}?auth_token={token}'
                '&max-results=1000')
 

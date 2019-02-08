@@ -120,9 +120,6 @@ command Nows :%s/\s\+$//
 "-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
 
-" a colorscheme that plays nice with 16 color terminals
-" Plug 'kcierzan/termina'
-
 Plug 'joshdick/onedark.vim'
 
 " vim-startify
@@ -324,7 +321,8 @@ let g:test#python#runner = 'nose'
 let g:test#strategy = 'vimux'
 let g:test#python#nose#options = '-x -v -s --with-coverage'
 
-Plug 'honza/vim-snippets'                  " Snippet collection
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 "vim-expand-region
 Plug 'terryma/vim-expand-region'
@@ -461,6 +459,9 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
 
+imap <C-l> <Plug>(coc-snippets-expand)
+" vmap <C-j> <Plug>(coc-snippets-select)
+
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -471,6 +472,7 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
 " don't give |ins-completion-menu| messages
 set shortmess+=c
 
@@ -478,8 +480,8 @@ set signcolumn=yes
 
 " accept completion with tab
 " inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
-let g:coc_snippet_next = '<TAB>'
-let g:coc_snippet_prev = '<S-TAB>'
+" let g:coc_snippet_next = '<TAB>'
+" let g:coc_snippet_prev = '<S-TAB>'
 
 " highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -684,17 +686,22 @@ let g:lmap.c = {'name': 'Code',
       \ 't': ['TagbarToggle', 'toggle tagbar'],
       \ 'r': ['!rm ctags && ctags', 'regenerate tags'],
       \ 'T': ['!ctags', 'generate ctags'],
-      \ 'a': ['<Plug>(coc-codeaction)'],
-      \ 'f': ['<Plug>(coc-fix-current)'],
-      \ 'R': ['CocRestart', 'restart coc']
+      \ 'a': ['<Plug>(coc-codeaction)', 'code action'],
+      \ 'f': ['<Plug>(coc-fix-current)', 'fix current'],
+      \ 'F': ['<Plug>(coc-format-selected)', 'format selected'],
+      \ 'c': ['CocRestart', 'restart coc'],
+      \ 'R': ['CocRename', 'rename']
       \}
 nnoremap <leader>ct :TagbarToggle<CR>
-nnoremap <leader>ct :!ctags<CR>
+nnoremap <leader>cT :!ctags<CR>
 nnoremap <leader>cr :!rm tags && ctags<CR>
 nnoremap <leader>ca  <Plug>(coc-codeaction)
 vnoremap <leader>ca  <Plug>(coc-codeaction-selected)
 nnoremap <leader>cf  <Plug>(coc-fix-current)
-nnoremap <leader>cR  :CocRestart<CR>
+nnoremap <leader>cF  <Plug>(coc-format-selected)
+vnoremap <leader>cF  <Plug>(coc-format-selected)
+nnoremap <leader>cc  :CocRestart<CR>
+nnoremap <leader>cR  <Plug>(coc-rename)
 
 "-------Test-----------------
 let g:lmap.t = {'name': 'Test',

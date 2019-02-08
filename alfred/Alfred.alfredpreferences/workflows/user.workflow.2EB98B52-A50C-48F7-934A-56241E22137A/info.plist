@@ -19,19 +19,6 @@
 				<false/>
 			</dict>
 		</array>
-		<key>090264B5-B0A9-41D3-A61C-1DBA94FCD674</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>C083D3B6-1B89-42A6-B168-C7EC974725BA</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 		<key>131EB6B7-8EDB-48D4-8434-45716ABB4116</key>
 		<array>
 			<dict>
@@ -50,19 +37,6 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>0BC790F7-A15F-4621-B257-059701521BE6</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
-		<key>2DD26730-2A86-4CFD-B627-1294BD41B0AA</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>E9993EED-D81F-4D2E-891A-C35EEF226BAE</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -185,19 +159,6 @@
 				<false/>
 			</dict>
 		</array>
-		<key>8F916664-3BB9-4A51-B114-C6947BA6ECA4</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>E9993EED-D81F-4D2E-891A-C35EEF226BAE</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 		<key>9D10275C-845F-4313-A761-776B90E4EB6C</key>
 		<array>
 			<dict>
@@ -309,19 +270,6 @@
 				<false/>
 			</dict>
 		</array>
-		<key>BD1BEBAC-A399-46B2-8389-24CA386D386D</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>C083D3B6-1B89-42A6-B168-C7EC974725BA</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 		<key>C011CD44-05B7-472B-886F-926E3E32CEE0</key>
 		<array>
 			<dict>
@@ -340,6 +288,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>2060243A-FE7A-428F-BC1A-C1F021E8AEF2</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>C73EC178-79BC-4087-99E2-96299414A337</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E9993EED-D81F-4D2E-891A-C35EEF226BAE</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -586,6 +547,27 @@ open "$URL$QUERY"</string>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>keyword</key>
+				<string>docs</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Open Project Documentation</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>C73EC178-79BC-4087-99E2-96299414A337</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
 				<string>jira</string>
 				<key>subtext</key>
 				<string>Open Ticket in Jira</string>
@@ -668,53 +650,6 @@ open "$URL$QUERY"</string>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>B69C860C-C90A-467F-BCF1-54A1C27E605F</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>62</integer>
-				<key>keyword</key>
-				<string>d</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>...</string>
-				<key>script</key>
-				<string>./go.py docs "{query}"</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>Open Project Documentation</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>2DD26730-2A86-4CFD-B627-1294BD41B0AA</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -807,12 +742,12 @@ fi</string>
 				<string>import subprocess
 import requests
 
-url = 'http://docs.int.prd.csh/docs/{query}'
+url = 'http://docs.aweber.io/{query}'
 response = requests.head(url + '/production/')
 if response.status_code == 200:
    url += '/production'
 
-subprocess.call(["open", url])</string>
+subprocess.call(["/usr/bin/open", url])</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -824,53 +759,6 @@ subprocess.call(["open", url])</string>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
 			<string>E9993EED-D81F-4D2E-891A-C35EEF226BAE</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>62</integer>
-				<key>keyword</key>
-				<string>docs</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>...</string>
-				<key>script</key>
-				<string>./go.py docs "{query}"</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>Open Project Documentation</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>8F916664-3BB9-4A51-B114-C6947BA6ECA4</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -1410,59 +1298,12 @@ fi</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>alfredfiltersresults</key>
-				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>62</integer>
-				<key>keyword</key>
-				<string>hip</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>...</string>
-				<key>script</key>
-				<string>./go.py hipchat "{query}"</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>Search HipChat Room or User</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>BD1BEBAC-A399-46B2-8389-24CA386D386D</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
-				<integer>102</integer>
+				<integer>127</integer>
 				<key>script</key>
-				<string>open hipchat://aweber.hipchat.com/{query}</string>
+				<string>open https://recipient.aweberprod.com/subscriber/{query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1473,9 +1314,30 @@ fi</string>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>C083D3B6-1B89-42A6-B168-C7EC974725BA</string>
+			<string>2E890C0B-7A85-441A-9AA8-E5BC866F84F4</string>
 			<key>version</key>
 			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>keyword</key>
+				<string>r</string>
+				<key>subtext</key>
+				<string>Open Recipient with UUID</string>
+				<key>text</key>
+				<string>Recipient</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>A767CE5C-36B8-4E5C-AFBF-ECAD60EAA127</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -1530,47 +1392,23 @@ fi</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>alfredfiltersresults</key>
+				<key>concurrently</key>
 				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
 				<key>escaping</key>
-				<integer>62</integer>
-				<key>keyword</key>
-				<string>h</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>...</string>
+				<integer>127</integer>
 				<key>script</key>
-				<string>./go.py hipchat "{query}"</string>
+				<string>open https://recipient.aweberstage.com/subscriber/{query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>Search HipChat Room or User</string>
 				<key>type</key>
 				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
+			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>090264B5-B0A9-41D3-A61C-1DBA94FCD674</string>
+			<string>C29D95B3-0172-4DCD-B75A-AA3DADB3F8A3</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -1602,50 +1440,6 @@ fi</string>
 			<string>903C5D5B-1C31-4CCB-B110-80140DF7F099</string>
 			<key>version</key>
 			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>open https://recipient.aweberprod.com/subscriber/{query}</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>2E890C0B-7A85-441A-9AA8-E5BC866F84F4</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>keyword</key>
-				<string>r</string>
-				<key>subtext</key>
-				<string>Open Recipient with UUID</string>
-				<key>text</key>
-				<string>Recipient</string>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>A767CE5C-36B8-4E5C-AFBF-ECAD60EAA127</string>
-			<key>version</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -1693,29 +1487,6 @@ open "https://www.aweber.com/admin/account/login/$QUERY"</string>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
 			<string>0BC790F7-A15F-4621-B257-059701521BE6</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>open https://recipient.aweberstage.com/subscriber/{query}</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>C29D95B3-0172-4DCD-B75A-AA3DADB3F8A3</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -1992,13 +1763,6 @@ open "https://www.aweber.com/admin/account/login/$QUERY"</string>
 			<key>ypos</key>
 			<integer>1750</integer>
 		</dict>
-		<key>090264B5-B0A9-41D3-A61C-1DBA94FCD674</key>
-		<dict>
-			<key>xpos</key>
-			<integer>630</integer>
-			<key>ypos</key>
-			<integer>1170</integer>
-		</dict>
 		<key>0BC790F7-A15F-4621-B257-059701521BE6</key>
 		<dict>
 			<key>xpos</key>
@@ -2041,13 +1805,6 @@ open "https://www.aweber.com/admin/account/login/$QUERY"</string>
 			<key>ypos</key>
 			<integer>750</integer>
 		</dict>
-		<key>2DD26730-2A86-4CFD-B627-1294BD41B0AA</key>
-		<dict>
-			<key>xpos</key>
-			<integer>630</integer>
-			<key>ypos</key>
-			<integer>340</integer>
-		</dict>
 		<key>2E52E601-F0F3-4EBD-A567-20B7AD55E1E4</key>
 		<dict>
 			<key>xpos</key>
@@ -2058,9 +1815,9 @@ open "https://www.aweber.com/admin/account/login/$QUERY"</string>
 		<key>2E890C0B-7A85-441A-9AA8-E5BC866F84F4</key>
 		<dict>
 			<key>xpos</key>
-			<integer>870</integer>
+			<integer>860</integer>
 			<key>ypos</key>
-			<integer>1310</integer>
+			<integer>1060</integer>
 		</dict>
 		<key>351F9D6C-1117-44BB-9DE8-10E6882DC62D</key>
 		<dict>
@@ -2160,13 +1917,6 @@ open "https://www.aweber.com/admin/account/login/$QUERY"</string>
 			<key>ypos</key>
 			<integer>1630</integer>
 		</dict>
-		<key>8F916664-3BB9-4A51-B114-C6947BA6ECA4</key>
-		<dict>
-			<key>xpos</key>
-			<integer>630</integer>
-			<key>ypos</key>
-			<integer>470</integer>
-		</dict>
 		<key>903C5D5B-1C31-4CCB-B110-80140DF7F099</key>
 		<dict>
 			<key>xpos</key>
@@ -2198,9 +1948,9 @@ open "https://www.aweber.com/admin/account/login/$QUERY"</string>
 		<key>A767CE5C-36B8-4E5C-AFBF-ECAD60EAA127</key>
 		<dict>
 			<key>xpos</key>
-			<integer>630</integer>
+			<integer>620</integer>
 			<key>ypos</key>
-			<integer>1310</integer>
+			<integer>1060</integer>
 		</dict>
 		<key>A8D7CFFB-368B-479F-8D96-4F4D0C27BE1B</key>
 		<dict>
@@ -2251,13 +2001,6 @@ open "https://www.aweber.com/admin/account/login/$QUERY"</string>
 			<key>ypos</key>
 			<integer>1160</integer>
 		</dict>
-		<key>BD1BEBAC-A399-46B2-8389-24CA386D386D</key>
-		<dict>
-			<key>xpos</key>
-			<integer>630</integer>
-			<key>ypos</key>
-			<integer>1040</integer>
-		</dict>
 		<key>BEC3883B-26FD-4830-ACAA-CFAC1F75B8C9</key>
 		<dict>
 			<key>xpos</key>
@@ -2272,19 +2015,12 @@ open "https://www.aweber.com/admin/account/login/$QUERY"</string>
 			<key>ypos</key>
 			<integer>110</integer>
 		</dict>
-		<key>C083D3B6-1B89-42A6-B168-C7EC974725BA</key>
+		<key>C29D95B3-0172-4DCD-B75A-AA3DADB3F8A3</key>
 		<dict>
 			<key>xpos</key>
 			<integer>860</integer>
 			<key>ypos</key>
-			<integer>1100</integer>
-		</dict>
-		<key>C29D95B3-0172-4DCD-B75A-AA3DADB3F8A3</key>
-		<dict>
-			<key>xpos</key>
-			<integer>870</integer>
-			<key>ypos</key>
-			<integer>1430</integer>
+			<integer>1180</integer>
 		</dict>
 		<key>C2DEE2AB-CD1C-4745-947D-341DEB26BB21</key>
 		<dict>
@@ -2292,6 +2028,13 @@ open "https://www.aweber.com/admin/account/login/$QUERY"</string>
 			<integer>210</integer>
 			<key>ypos</key>
 			<integer>730</integer>
+		</dict>
+		<key>C73EC178-79BC-4087-99E2-96299414A337</key>
+		<dict>
+			<key>xpos</key>
+			<integer>620</integer>
+			<key>ypos</key>
+			<integer>220</integer>
 		</dict>
 		<key>DD93A4E9-CD7B-4ABA-A3E0-CF38501349A6</key>
 		<dict>

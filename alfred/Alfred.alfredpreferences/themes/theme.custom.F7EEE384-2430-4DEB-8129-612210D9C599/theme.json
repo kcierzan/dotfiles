@@ -5,20 +5,20 @@
       "subtext" : {
         "size" : 13,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "RobotoMono Nerd Font",
+        "font" : "SF Mono",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 22,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Roboto",
+        "font" : "SF Pro Display",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#51AEEEFF",
-        "font" : "Roboto",
+        "font" : "SF Pro Display",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "Roboto",
+        "font" : "SF Pro Display",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
