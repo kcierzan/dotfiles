@@ -5,20 +5,20 @@
       "subtext" : {
         "size" : 13,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "SF Mono",
+        "font" : "Input Mono Narrow",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 22,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "SF Pro Display",
+        "font" : "Input Sans Condensed",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#51AEEEFF",
-        "font" : "SF Pro Display",
+        "font" : "Input Sans Condensed",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "SF Pro Display",
+        "font" : "Input Sans Condensed",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
@@ -40,7 +40,7 @@
     "window" : {
       "color" : "#272B33FF",
       "paddingHorizontal" : 0,
-      "width" : 634,
+      "width" : 720,
       "borderPadding" : 0,
       "borderColor" : "#0000007F",
       "blur" : 15,

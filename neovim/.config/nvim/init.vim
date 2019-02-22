@@ -61,10 +61,11 @@ let g:python3_host_prog = $HOME . '/.pyenv/versions/neovim3/bin/python3'
 
 "-------------------------------- AUTOCOMMANDS --------------------------------
 " Disable annoying automatic comments
-autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn |
+autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn 
 
 " Trigger autoread when files change on disk
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif | set fillchars+=vert:\ 
+
 " Notification after file change
 autocmd FileChangedShellPost *
       \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
@@ -72,19 +73,6 @@ autocmd FileChangedShellPost *
 " Vim autosaves and reflects changes to files on disk
 au FocusGained,BufEnter * :silent! !
 au FocusLost,WinLeave * :silent! w
-
-"autocmds
-autocmd BufNewFile,BufRead *.py
-      \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix expandtab autoindent |
-
-autocmd BufNewFile,BufRead *.yaml
-      \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix expandtab autoindent |
-
-autocmd BufNewFile,BufRead *.yml
-      \ setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 fileformat=unix expandtab autoindent |
-
-autocmd BufNewFile,BufRead *.md
-      \ setlocal wrap tabstop=2 softtabstop=2 shiftwidth=2 textwidth=100 fileformat=unix expandtab smartindent |
 
 autocmd filetype crontab setlocal nobackup nowritebackup
 
@@ -122,7 +110,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'joshdick/onedark.vim'
 
-" vim-startify
 Plug 'mhinz/vim-startify'
 let g:ascii = [
       \ '    ███▄    █ ▓█████  ▒█████   ██▒   █▓ ██▓ ███▄ ▄███▓',
@@ -138,8 +125,10 @@ let g:ascii = [
       \]
 let g:scroll =
       \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"   ". v:val')
+
 let g:drip_header =
       \ map(g:ascii + g:scroll, '"   ".v:val')
+
 function! s:filter_header(lines) abort
   let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
   let centered_lines = map(copy(a:lines),
@@ -315,13 +304,14 @@ command! ALEDisableFixers       let g:ale_fix_on_save=0
 command! ALEEnableFixers        let g:ale_fix_on_save=1
 
 "vim-test
-Plug 'janko-m/vim-test'                    " Run tests
-Plug 'benmills/vimux'                      " Interact with tmux from vim
+Plug 'janko-m/vim-test'
+Plug 'benmills/vimux'
 let g:test#python#runner = 'nose'
 let g:test#strategy = 'vimux'
-let g:test#python#nose#options = '-x -v -s --with-coverage'
+let g:test#python#nose#options = '-xvs --with-coverage'
 
 Plug 'SirVer/ultisnips'
+let g:UltiSnipsExpandTrigger="<C-y>"
 Plug 'honza/vim-snippets'
 
 "vim-expand-region
@@ -341,8 +331,9 @@ autocmd FileType fzf set laststatus=0 noshowmode noruler
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
-      \   'rg --hidden --line-number --no-heading --color=always -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
-      \   (winwidth(0) > 175 ? fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'right:50%') : fzf#vim#with_preview('up:80%')))
+      \   'rg --smart-case --line-number --column --no-heading --color=always -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
+      \   (winwidth(0) > 175 ? fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'right:50%')
+      \                      : fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'up:80%')))
 
 command! -bang -nargs=* GGrep
       \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0,
@@ -365,25 +356,24 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 
 " vim-airline
- Plug 'vim-airline/vim-airline'
- Plug 'vim-airline/vim-airline-themes'
- let g:airline_powerline_fonts = 1
- let g:airline_left_sep=''
- let g:airline_right_sep=''
- let g:airline_left_alt_sep=''
- let g:airline_right_alt_sep=''
- let g:airline_symbols = {}
- let g:airline_theme='onedark'
- let g:airline_extensions = ['ale', 'coc', 'tabline']
- let g:airline#extensions#ale#enabled = 1
- let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
- let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
- let airline#extensions#ale#error_symbol = ' '
- let airline#extensions#ale#warning_symbol = ' '
- let airline#extensions#coc#error_symbol = ' '
- let airline#extensions#coc#warning_symbol = ' '
- let g:airline#extensions#tabline#enabled = 1
-
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+let g:airline_powerline_fonts = 1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_left_alt_sep=''
+let g:airline_right_alt_sep=''
+let g:airline_symbols = {}
+let g:airline_theme='onedark'
+let g:airline_extensions = ['ale', 'coc', 'tabline']
+let g:airline#extensions#ale#enabled = 1
+let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+let airline#extensions#ale#error_symbol = ' '
+let airline#extensions#ale#warning_symbol = ' '
+let airline#extensions#coc#error_symbol = ' '
+let airline#extensions#coc#warning_symbol = ' '
+let g:airline#extensions#tabline#enabled = 1
 
 Plug 'sheerun/vim-polyglot'                " lots of language packs
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
@@ -394,6 +384,7 @@ Plug 'Shougo/neomru.vim'                   " recent files
 Plug 'tpope/vim-vinegar'                   " make netrw better
 Plug 'tpope/vim-eunuch'                    " unix tools
 Plug 'tpope/vim-repeat'                    " use . to repeat some stuff
+Plug 'tpope/vim-sleuth'                    " detect indentation
 Plug 'jiangmiao/auto-pairs'                " automatic deliminters
 Plug 'adelarsq/vim-matchit'                " extend the % operator
 Plug 'tpope/vim-surround'                  " surround with brackets, quotes etc
@@ -441,6 +432,7 @@ let g:vrc_include_response_header = 1
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
 set cmdheight=2
 set updatetime=300
+
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -458,9 +450,6 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
-
-imap <C-l> <Plug>(coc-snippets-expand)
-" vmap <C-j> <Plug>(coc-snippets-select)
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -480,8 +469,8 @@ set signcolumn=yes
 
 " accept completion with tab
 " inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
-" let g:coc_snippet_next = '<TAB>'
-" let g:coc_snippet_prev = '<S-TAB>'
+let g:coc_snippet_next = '<C-j>'
+let g:coc_snippet_prev = '<C-k>'
 
 " highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -616,7 +605,7 @@ nnoremap <leader>il :Limelight<CR>
 nnoremap <leader>iL :Limelight!<CR>
 
 "---------Buffers ---------------
-let g:lmap.b = { 'name': 'Buffer',
+let g:lmap.b = { 'name': 'Buffers',
       \ 's': ['w', 'write buffer'],
       \ 'n': ['new', 'new buffer'],
       \ 'd': ['Bdelete', 'kill buffer'],
@@ -636,7 +625,7 @@ nnoremap <leader>br :edit!<CR>
 nnoremap <leader>bw :Nows<CR>
 
 "-----------Splits---------------
-let g:lmap.s = { 'name': 'Splits',
+let g:lmap.w = { 'name': 'Windows',
       \ 'v': ['vsp', 'vertical split'],
       \ 's': ['sp', 'horizontal split'],
       \ 'e': ['<C-w>e', 'equalize buffers'],
@@ -650,22 +639,23 @@ let g:lmap.s = { 'name': 'Splits',
       \ 'V': ['<C-w>H', 'to vertical splits'],
       \ 'S': ['<C-w>J', 'to horizontal splits'],
       \}
-nnoremap <leader>sv :vsp<CR>
-nnoremap <leader>ss :sp<CR>
-nnoremap <leader>se <C-w>e
-nnoremap <leader>sk 10<C-w>+
-nnoremap <leader>sj 10<C-w>-
-nnoremap <leader>sl 10<C-w>>
-nnoremap <leader>sh 10<C-w><
-nnoremap <leader>sr <C-w>r
-nnoremap <leader>so <C-w>o
-nnoremap <leader>se <C-w>=
-nnoremap <leader>sV <C-w>H
-nnoremap <leader>sS <C-w>J
-nnoremap <leader>sc :call WindowSwap#EasyWindowSwap()<CR>
+
+nnoremap <leader>wv :vsp<CR>
+nnoremap <leader>ws :sp<CR>
+nnoremap <leader>we <C-w>e
+nnoremap <leader>wk 10<C-w>+
+nnoremap <leader>wj 10<C-w>-
+nnoremap <leader>wl 10<C-w>>
+nnoremap <leader>wh 10<C-w><
+nnoremap <leader>wr <C-w>r
+nnoremap <leader>wo <C-w>o
+nnoremap <leader>we <C-w>=
+nnoremap <leader>wV <C-w>H
+nnoremap <leader>wS <C-w>J
+nnoremap <leader>wc :call WindowSwap#EasyWindowSwap()<CR>
 
 "-------- Neovim -----------------
-let g:lmap.n = { 'name': 'Neovim',
+let g:lmap.v = { 'name': 'Neovim',
       \ 'r': ['so ~/.config/nvim/init.vim', 'reload init.vim'],
       \ 'e': ['edit ~/.config/nvim/init.vim', 'edit init.vim'],
       \ 's': ['Startify', 'homepage'],
@@ -674,12 +664,12 @@ let g:lmap.n = { 'name': 'Neovim',
       \ 'i': ['PlugInstall', 'install plugins'],
       \ 'c': ['PlugClean', 'clean up plugins'],
       \}
-nnoremap <Leader>nr :so ~/.config/nvim/init.vim<CR>
-nnoremap <Leader>ne :edit ~/.config/nvim/init.vim<CR>
-nnoremap <Leader>ns :Startify<CR>
-nnoremap <Leader>nu :PlugUpdate<CR>
-nnoremap <Leader>ni :PlugInstall<CR>
-nnoremap <Leader>nc :PlugClean<CR>
+nnoremap <Leader>vr :so ~/.config/nvim/init.vim<CR>
+nnoremap <Leader>ve :edit ~/.config/nvim/init.vim<CR>
+nnoremap <Leader>vs :Startify<CR>
+nnoremap <Leader>vu :PlugUpdate<CR>
+nnoremap <Leader>vi :PlugInstall<CR>
+nnoremap <Leader>vc :PlugClean<CR>
 
 "-------Code-------------------
 let g:lmap.c = {'name': 'Code',
@@ -695,13 +685,13 @@ let g:lmap.c = {'name': 'Code',
 nnoremap <leader>ct :TagbarToggle<CR>
 nnoremap <leader>cT :!ctags<CR>
 nnoremap <leader>cr :!rm tags && ctags<CR>
-nnoremap <leader>ca  <Plug>(coc-codeaction)
-vnoremap <leader>ca  <Plug>(coc-codeaction-selected)
-nnoremap <leader>cf  <Plug>(coc-fix-current)
-nnoremap <leader>cF  <Plug>(coc-format-selected)
-vnoremap <leader>cF  <Plug>(coc-format-selected)
-nnoremap <leader>cc  :CocRestart<CR>
-nnoremap <leader>cR  <Plug>(coc-rename)
+nnoremap <leader>ca <Plug>(coc-codeaction)
+vnoremap <leader>ca <Plug>(coc-codeaction-selected)
+nnoremap <leader>cf <Plug>(coc-fix-current)
+nnoremap <leader>cF <Plug>(coc-format-selected)
+vnoremap <leader>cF <Plug>(coc-format-selected)
+nnoremap <leader>cc :CocRestart<CR>
+nnoremap <leader>cR <Plug>(coc-rename)
 
 "-------Test-----------------
 let g:lmap.t = {'name': 'Test',
@@ -782,24 +772,38 @@ nnoremap <silent> <leader>fp :GGrep<CR>
 nnoremap <silent> <leader>fj :Cd<CR>
 
 "--------VimWiki-------------
-let g:lmap.w = {'name': 'Notes',
-      \ 'w': ['<leader>ww', 'open index'],
-      \ 's': ['<leader>ws', 'select and open'],
-      \ 'd': ['<leader>wd', 'delete current file'],
-      \ 'r': ['<leader>wr', 'rename current file'],
-      \ 't': ['<leader>wt', 'tab index'],
-      \ 'i': ['<leader>wi', 'diary index'],
+let g:lmap.n = {'name': 'Notes',
+      \ 'i': ['<leader>ni', 'open index'],
+      \ 't': ['<leader>nt', 'tab index'],
+      \ 's': ['<leader>ns', 'select and open'],
+      \ 'd': ['<leader>nd', 'delete current file'],
+      \ 'r': ['<leader>nr', 'rename current file'],
       \ 'c': ['VimwikiToggleListItem', 'toggle todo'],
       \ 'h': ['Vimwiki2HTML', 'export to html'],
       \}
-let g:lmap.w[' '] = {'name': 'Diary',
-      \ 'i': ['<leader>w<leader>i', 'generate links'],
+let g:lmap.n['l'] = {'name': 'Log',
+      \ 'i': ['<leader>wi', 'diary index'],
+      \ 'l': ['<leader>w<leader>l', 'generate links'],
       \ 'w': ['<leader>w<leader>w', 'make note'],
       \ 't': ['<leader>w<leader>t', 'make note in new tab'],
       \ 'm': ['<leader>w<leader>m', 'make diary note for tomorrow'],
       \ 'y': ['<leader>w<leader>y', 'make diary note for yesterday'],
       \}
-nnoremap <leader>wc :VimwikiToggleListItem<CR>
+
+nmap <silent> <leader>ni <Plug>VimwikiIndex
+nmap <silent> <leader>nt <Plug>VimwikiTabIndex
+nmap <silent> <leader>ns <Plug>VimwikiUISelect
+nmap <silent> <leader>nd <Plug>VimwikiDeleteLink
+nmap <silent> <leader>nr <Plug>VimwikiRenameLink
+nmap <silent> <leader>nc <Plug>VimwikiToggleListItem
+nmap <silent> <leader>nh <Plug>Vimwiki2HTML
+
+nmap <silent> <leader>nli <Plug>VimwikiDiaryIndex
+nmap <silent> <leader>nll <Plug>VimwikiDiaryGenerateLinks
+nmap <silent> <leader>nlw <Plug>VimwikiMakeDiaryNote
+nmap <silent> <leader>nlt <Plug>VimwikiTabMakeDiaryNote
+nmap <silent> <leader>nlm <Plug>VimwikiMakeTomorrowDiaryNote
+nmap <silent> <leader>nly <Plug>VimwikiMakeYesterdayDiaryNote
 
 call plug#end()
 
@@ -815,7 +819,6 @@ hi ALEErrorSign                   ctermfg=1 guifg='#e06c75'
 hi ALEWarningSign                 ctermfg=3 guifg='#e5c07b'
 hi ALEError                       ctermbg=0
 hi ALEWarning                     ctermbg=0
-
 
 call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
 nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>

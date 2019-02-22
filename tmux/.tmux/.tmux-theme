@@ -15,7 +15,7 @@ set -g window-style "bg=$BACKGROUND_COLOR"
 set -g status-left " #[fg=colour05][#S] "
 set -g status-left-length 100
 
-set -g status-right " #[fg=colour03]%I:%M  %b %d #{?battery_percentage, ,}#{battery_status_fg}#{battery_percentage} "
+set -g status-right " #[fg=colour03]%I:%M %p  %b %d #{?battery_percentage, ,}#{battery_status_fg}#{battery_percentage} "
 set -g status-right-style "bold"
 set -g status-right-length 100
  
