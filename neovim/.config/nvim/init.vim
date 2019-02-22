@@ -594,15 +594,15 @@ let g:lmap.i = {'name': 'Interface',
       \ 'l': ['Limelight', 'highlight sections on'],
       \ 'L': ['Limelight!', 'highlight sections off'],
       \ }
-nnoremap <leader>i% :set invrelativenumber<CR>
-nnoremap <leader>i# :set invnumber<CR>
-nnoremap <leader>ih :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
-nnoremap <leader>ii :IndentLinesToggle<CR>
-nnoremap <leader>iu :UndotreeToggle<CR>
-nnoremap <leader>ic :nohlsearch<CR>
-nnoremap <leader>iz :Goyo<CR>
-nnoremap <leader>il :Limelight<CR>
-nnoremap <leader>iL :Limelight!<CR>
+nnoremap <silent> <leader>i% :set invrelativenumber<CR>
+nnoremap <silent> <leader>i# :set invnumber<CR>
+nnoremap <silent> <leader>ih :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
+nnoremap <silent> <leader>ii :IndentLinesToggle<CR>
+nnoremap <silent> <leader>iu :UndotreeToggle<CR>
+nnoremap <silent> <leader>ic :nohlsearch<CR>
+nnoremap <silent> <leader>iz :Goyo<CR>
+nnoremap <silent> <leader>il :Limelight<CR>
+nnoremap <silent> <leader>iL :Limelight!<CR>
 
 "---------Buffers ---------------
 let g:lmap.b = { 'name': 'Buffers',
@@ -615,14 +615,14 @@ let g:lmap.b = { 'name': 'Buffers',
       \ 'r': ['edit!', 'revert buffer'],
       \ 'w': ['Nows', 'whitespace cleanup'],
       \}
-nnoremap <leader>bs :w<CR>
-nnoremap <leader>bn :new<CR>
-nnoremap <Leader>bd :Bdelete<CR>
-nnoremap <Leader>bD :Bdelete!<CR>
-nnoremap <leader>bc :windo diffthis<CR>
-nnoremap <leader>bC :windo diffoff<CR>
-nnoremap <leader>br :edit!<CR>
-nnoremap <leader>bw :Nows<CR>
+nnoremap <silent> <leader>bs :w<CR>
+nnoremap <silent> <leader>bn :new<CR>
+nnoremap <silent> <Leader>bd :Bdelete<CR>
+nnoremap <silent> <Leader>bD :Bdelete!<CR>
+nnoremap <silent> <leader>bc :windo diffthis<CR>
+nnoremap <silent> <leader>bC :windo diffoff<CR>
+nnoremap <silent> <leader>br :edit!<CR>
+nnoremap <silent> <leader>bw :Nows<CR>
 
 "-----------Splits---------------
 let g:lmap.w = { 'name': 'Windows',
@@ -640,19 +640,19 @@ let g:lmap.w = { 'name': 'Windows',
       \ 'S': ['<C-w>J', 'to horizontal splits'],
       \}
 
-nnoremap <leader>wv :vsp<CR>
-nnoremap <leader>ws :sp<CR>
-nnoremap <leader>we <C-w>e
-nnoremap <leader>wk 10<C-w>+
-nnoremap <leader>wj 10<C-w>-
-nnoremap <leader>wl 10<C-w>>
-nnoremap <leader>wh 10<C-w><
-nnoremap <leader>wr <C-w>r
-nnoremap <leader>wo <C-w>o
-nnoremap <leader>we <C-w>=
-nnoremap <leader>wV <C-w>H
-nnoremap <leader>wS <C-w>J
-nnoremap <leader>wc :call WindowSwap#EasyWindowSwap()<CR>
+nnoremap <silent> <leader>wv :vsp<CR>
+nnoremap <silent> <leader>ws :sp<CR>
+nnoremap <silent> <leader>we <C-w>e
+nnoremap <silent> <leader>wk 10<C-w>+
+nnoremap <silent> <leader>wj 10<C-w>-
+nnoremap <silent> <leader>wl 10<C-w>>
+nnoremap <silent> <leader>wh 10<C-w><
+nnoremap <silent> <leader>wr <C-w>r
+nnoremap <silent> <leader>wo <C-w>o
+nnoremap <silent> <leader>we <C-w>=
+nnoremap <silent> <leader>wV <C-w>H
+nnoremap <silent> <leader>wS <C-w>J
+nnoremap <silent> <leader>wc :call WindowSwap#EasyWindowSwap()<CR>
 
 "-------- Neovim -----------------
 let g:lmap.v = { 'name': 'Neovim',
@@ -664,12 +664,12 @@ let g:lmap.v = { 'name': 'Neovim',
       \ 'i': ['PlugInstall', 'install plugins'],
       \ 'c': ['PlugClean', 'clean up plugins'],
       \}
-nnoremap <Leader>vr :so ~/.config/nvim/init.vim<CR>
-nnoremap <Leader>ve :edit ~/.config/nvim/init.vim<CR>
-nnoremap <Leader>vs :Startify<CR>
-nnoremap <Leader>vu :PlugUpdate<CR>
-nnoremap <Leader>vi :PlugInstall<CR>
-nnoremap <Leader>vc :PlugClean<CR>
+nnoremap <silent> <Leader>vr :so ~/.config/nvim/init.vim<CR>
+nnoremap <silent> <Leader>ve :edit ~/.config/nvim/init.vim<CR>
+nnoremap <silent> <Leader>vs :Startify<CR>
+nnoremap <silent> <Leader>vu :PlugUpdate<CR>
+nnoremap <silent> <Leader>vi :PlugInstall<CR>
+nnoremap <silent> <Leader>vc :PlugClean<CR>
 
 "-------Code-------------------
 let g:lmap.c = {'name': 'Code',
@@ -682,16 +682,16 @@ let g:lmap.c = {'name': 'Code',
       \ 'c': ['CocRestart', 'restart coc'],
       \ 'R': ['CocRename', 'rename']
       \}
-nnoremap <leader>ct :TagbarToggle<CR>
-nnoremap <leader>cT :!ctags<CR>
-nnoremap <leader>cr :!rm tags && ctags<CR>
-nnoremap <leader>ca <Plug>(coc-codeaction)
-vnoremap <leader>ca <Plug>(coc-codeaction-selected)
-nnoremap <leader>cf <Plug>(coc-fix-current)
-nnoremap <leader>cF <Plug>(coc-format-selected)
-vnoremap <leader>cF <Plug>(coc-format-selected)
-nnoremap <leader>cc :CocRestart<CR>
-nnoremap <leader>cR <Plug>(coc-rename)
+nnoremap <silent> <leader>ct :TagbarToggle<CR>
+nnoremap <silent> <leader>cT :!ctags<CR>
+nnoremap <silent> <leader>cr :!rm tags && ctags<CR>
+nnoremap <silent> <leader>ca <Plug>(coc-codeaction)
+vnoremap <silent> <leader>ca <Plug>(coc-codeaction-selected)
+nnoremap <silent> <leader>cf <Plug>(coc-fix-current)
+nnoremap <silent> <leader>cF <Plug>(coc-format-selected)
+vnoremap <silent> <leader>cF <Plug>(coc-format-selected)
+nnoremap <silent> <leader>cc :CocRestart<CR>
+nnoremap <silent> <leader>cR <Plug>(coc-rename)
 
 "-------Test-----------------
 let g:lmap.t = {'name': 'Test',
