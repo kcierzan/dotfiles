@@ -147,13 +147,6 @@ let g:indentLine_fileTypeExclude = ['text', 'sh', 'startify', 'man', 'help']
 let g:indentLine_bufTypeExclude = ['terminal']
 let g:indentLine_setColors = 1
 
-" rainbow_parentheses
-Plug 'luochen1990/rainbow'
-let g:rainbow_active = 1
-
-" TODO: set colors for onedark gui colorscheme
-let g:rainbow_conf = { 'ctermfgs': ['blue', 'cyan', 'magenta', 'red', 'yellow', 'green'] }
-
 " vim-gitgutter
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
@@ -244,7 +237,7 @@ let g:comfortable_motion_air_drag = 5.0
 Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
-let g:sneak#s_next =1
+let g:sneak#s_next = 1
 autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
 
 "vim-multiple-cursors
@@ -431,7 +424,7 @@ let g:vrc_include_response_header = 1
 " coc.nvim
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
 set cmdheight=2
-set updatetime=300
+set updatetime=400
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :

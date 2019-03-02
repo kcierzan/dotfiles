@@ -5,20 +5,20 @@
       "subtext" : {
         "size" : 13,
         "colorSelected" : "#8BBE5DFF",
-        "font" : "Input Mono Narrow",
+        "font" : "BlexMono Nerd Font",
         "color" : "#FFFFFF7E"
       },
       "shortcut" : {
         "size" : 22,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Input Sans Condensed",
+        "font" : "BlexMono Nerd Font",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#51AEEEFF",
-        "font" : "Input Sans Condensed",
+        "font" : "IBM Plex Serif",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
@@ -26,13 +26,13 @@
       "iconSize" : 40
     },
     "search" : {
-      "paddingVertical" : 3,
+      "paddingVertical" : 7,
       "background" : "#272B33FF",
       "spacing" : 8,
       "text" : {
         "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "Input Sans Condensed",
+        "font" : "IBM Plex Serif",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
