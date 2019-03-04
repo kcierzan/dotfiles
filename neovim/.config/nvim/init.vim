@@ -812,6 +812,8 @@ hi ALEErrorSign                   ctermfg=1 guifg='#e06c75'
 hi ALEWarningSign                 ctermfg=3 guifg='#e5c07b'
 hi ALEError                       ctermbg=0
 hi ALEWarning                     ctermbg=0
+hi Comment gui=italic
+hi Comment cterm=italic
 
 call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
 nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
