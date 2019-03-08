@@ -18,7 +18,7 @@
       "text" : {
         "size" : 24,
         "colorSelected" : "#51AEEEFF",
-        "font" : "IBM Plex Serif",
+        "font" : "IBM Plex Sans",
         "color" : "#FFFFFFCB"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "IBM Plex Serif",
+        "font" : "IBM Plex Sans",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
