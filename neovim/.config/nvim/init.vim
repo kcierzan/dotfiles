@@ -61,10 +61,10 @@ let g:python3_host_prog = $HOME . '/.pyenv/versions/neovim3/bin/python3'
 
 "-------------------------------- AUTOCOMMANDS --------------------------------
 " Disable annoying automatic comments
-autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn 
+autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn
 
 " Trigger autoread when files change on disk
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif | set fillchars+=vert:\ 
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif | set fillchars+=vert:\
 
 " Notification after file change
 autocmd FileChangedShellPost *
@@ -271,7 +271,7 @@ let g:ale_linter_aliases = {
       \ }
 let g:ale_fixers = {
       \ '*': ['trim_whitespace'],
-      \ 'python': ['yapf', 'black'],
+      \ 'python': ['black'],
       \ 'javascript': ['prettier', 'eslint'],
       \ 'css': ['prettier'],
       \ 'html': ['tidy'],
@@ -348,25 +348,66 @@ Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 
-" vim-airline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-let g:airline_powerline_fonts = 1
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_left_alt_sep=''
-let g:airline_right_alt_sep=''
-let g:airline_symbols = {}
-let g:airline_theme='onedark'
-let g:airline_extensions = ['ale', 'coc', 'tabline']
-let g:airline#extensions#ale#enabled = 1
-let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
-let airline#extensions#ale#error_symbol = ' '
-let airline#extensions#ale#warning_symbol = ' '
-let airline#extensions#coc#error_symbol = ' '
-let airline#extensions#coc#warning_symbol = ' '
-let g:airline#extensions#tabline#enabled = 1
+Plug 'itchyny/lightline.vim'
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'separator': {
+      \   'left': "\ue0b0",
+      \   'right': "\ue0b2"
+      \ },
+      \ 'subseparator': {
+      \   'left': "\ue0b1",
+      \   'right': "\ue0b3"
+      \ },
+      \ 'enable': {
+      \   'tabline': 0
+      \ },
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], ['filename', 'modified'], ['gitbranch'] ],
+      \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'], [ 'lineinfo' ], ['percent'] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head',
+      \ },
+      \ 'component_expand': {
+      \   'linter_warnings': 'LightlineLinterWarnings',
+      \   'linter_errors': 'LightlineLinterErrors',
+      \   'linter_ok': 'LightlineLinterOK'
+      \ },
+      \ 'component_type': {
+      \   'readonly': 'error',
+      \   'linter_warnings': 'warning',
+      \   'linter_errors': 'error'
+      \ },
+      \ }
+
+function! LightlineLinterWarnings() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '' : printf('  %d', all_non_errors)
+endfunction
+
+function! LightlineLinterErrors() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '' : printf(' %d', all_errors)
+endfunction
+
+function! LightlineLinterOK() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? ' ' : ''
+endfunction
+
+function! s:MaybeUpdateLightline()
+  if exists('#lightline')
+    call lightline#update()
+  end
+endfunction
+
 
 Plug 'sheerun/vim-polyglot'                " lots of language packs
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
@@ -799,6 +840,8 @@ nmap <silent> <leader>nlm <Plug>VimwikiMakeTomorrowDiaryNote
 nmap <silent> <leader>nly <Plug>VimwikiMakeYesterdayDiaryNote
 
 call plug#end()
+autocmd! User ALELint * call lightline#update()
+autocmd! BufWrite,BufEnter,WinEnter,BufWinEnter,FileType,ColorScheme,SessionLoadPost * call lightline#update()
 
 syntax enable
 set background=dark
