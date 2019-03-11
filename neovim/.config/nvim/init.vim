@@ -360,26 +360,31 @@ let g:lightline = {
       \   'right': "\ue0b3"
       \ },
       \ 'enable': {
-      \   'tabline': 0
+      \   'statusline': 1
       \ },
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], ['filename', 'modified'], ['gitbranch'] ],
+      \   'left': [ [ 'mode', 'paste' ], ['cwd', 'filename', 'modified'], ['gitbranch'] ],
       \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'], [ 'lineinfo' ], ['percent'] ]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head',
+      \   'cwd': 'LightlineCwd'
       \ },
       \ 'component_expand': {
       \   'linter_warnings': 'LightlineLinterWarnings',
       \   'linter_errors': 'LightlineLinterErrors',
-      \   'linter_ok': 'LightlineLinterOK'
+      \   'linter_ok': 'LightlineLinterOK',
       \ },
       \ 'component_type': {
       \   'readonly': 'error',
       \   'linter_warnings': 'warning',
-      \   'linter_errors': 'error'
-      \ },
+      \   'linter_errors': 'error',
       \ }
+      \}
+
+function! LightlineCwd()
+  return fnamemodify(getcwd(), ':t')
+endfunction
 
 function! LightlineLinterWarnings() abort
   let l:counts = ale#statusline#Count(bufnr(''))
@@ -841,7 +846,7 @@ nmap <silent> <leader>nly <Plug>VimwikiMakeYesterdayDiaryNote
 
 call plug#end()
 autocmd! User ALELint * call lightline#update()
-autocmd! BufWrite,BufEnter,WinEnter,BufWinEnter,FileType,ColorScheme,SessionLoadPost * call lightline#update()
+autocmd! BufWrite,TextChanged,TextChangedI,BufEnter,WinEnter,BufWinEnter,FileType,ColorScheme,SessionLoadPost * call lightline#update()
 
 syntax enable
 set background=dark
