@@ -109,6 +109,8 @@ command Nows :%s/\s\+$//
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'joshdick/onedark.vim'
+Plug 'morhetz/gruvbox'
+Plug 'patstockwell/vim-monokai-tasty'
 
 Plug 'mhinz/vim-startify'
 let g:ascii = [
@@ -194,8 +196,8 @@ function! s:PrevHunkAllBuffers()
   endwhile
 endfunction
 
-" goyo
-Plug 'junegunn/goyo.vim' " Remove distractions
+" Zen mode
+Plug 'junegunn/goyo.vim'
 let g:goyo_width = 100
 let g:goyo_linenr = 0
 
@@ -217,7 +219,7 @@ function! s:goyo_leave()
   set showcmd
   set showmode
   set cursorline
-  colorscheme onedark
+  colorscheme vim-monokai-tasty
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
   ALEEnable
@@ -342,15 +344,16 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
       \ {'source': 'gfind '.(empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
       \  'sink': 'cd'}))
 
+" Plug 'godlygeek/tabular'
+
 "vim-markdown
-Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
-      \ 'colorscheme': 'one',
+      \ 'colorscheme': 'monokai_tasty',
       \ 'separator': {
       \   'left': "\ue0b0",
       \   'right': "\ue0b2"
@@ -512,7 +515,7 @@ let g:coc_snippet_next = '<C-j>'
 let g:coc_snippet_prev = '<C-k>'
 
 " highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " vim-rooter
 Plug 'airblade/vim-rooter'
@@ -850,9 +853,10 @@ autocmd! BufWrite,TextChanged,TextChangedI,BufEnter,WinEnter,BufWinEnter,FileTyp
 
 syntax enable
 set background=dark
-colorscheme onedark
+let g:vim_monokai_tasty_italic = 1
+colorscheme vim-monokai-tasty
 
-" don't let onedark mess with the background color
+" Onedark
 hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
 " or the colorcolumn for diminactive
 hi  ColorColumn ctermfg=none ctermbg=0
@@ -862,6 +866,28 @@ hi ALEError                       ctermbg=0
 hi ALEWarning                     ctermbg=0
 hi Comment gui=italic
 hi Comment cterm=italic
+
+" Monokai Tasty
+hi SignColumn guibg='#212121'
+let g:terminal_color_1=  "#f82a71"
+let g:terminal_color_2 = "#a6e12d"
+let g:terminal_color_3 = "#fd971e"
+let g:terminal_color_4 = "#ae80fe"
+let g:terminal_color_5 = "#f82a71"
+let g:terminal_color_6 = "#66d8ee"
+let g:terminal_color_7 = "#cfcfc1"
+let g:terminal_color_8 = "#74705d"
+let g:terminal_color_9=  "#d32461"
+let g:terminal_color_10 = "#a6e12d"
+let g:terminal_color_11 = "#fd971e"
+let g:terminal_color_12 = "#ae80fe"
+let g:terminal_color_13=  "#d32461"
+let g:terminal_color_14 = "#5cc4d8"
+let g:terminal_color_15 = "#cfcfc1"
+
+hi SignColumn guibg='#252525'
+hi ColorColumn guifg=none guibg='#2d2d2d'
+hi Cursorline guifg=none guibg='#2d2d2d'
 
 call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
 nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>

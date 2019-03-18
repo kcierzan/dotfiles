@@ -33,7 +33,7 @@ fi
 GPG_TTY=$(tty)
 export GPG_TTY
 
-# load fasd
+# load fasd from cache
 fasd_cache="$HOME/.fasd-init-cache"
 if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
   fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install >| "$fasd_cache"
@@ -73,3 +73,7 @@ source ~/.zsh/aliases.zsh
 source ~/.zsh/extra.zsh
 source ~/.zsh/vi_cursor.zsh
 
+# start X on linux
+if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]] && [ $OSTYPE == "linux-gnu" ]; then
+    exec startx
+fi
