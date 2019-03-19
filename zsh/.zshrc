@@ -19,19 +19,17 @@ else
     if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
         source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
     fi
+    # launch or attach to tmux if in iTerm
     if [[ -z "$TMUX" && $TERM_PROGRAM == "iTerm.app" ]] ;then
-        ID="`tmux ls | grep -vm1 attached | cut -d: -f1`" # get the id of a deattached session
-        if [[ -z "$ID" ]] ;then # if not available create a new one
+        ID="`tmux ls | grep -vm1 attached | cut -d: -f1`"
+        if [[ -z "$ID" ]] ;then
             tmux new-session
         else
-            tmux attach-session -t "$ID" # if available attach to it
+            tmux attach-session -t "$ID"
         fi
     fi
 
 fi
-
-GPG_TTY=$(tty)
-export GPG_TTY
 
 # load fasd from cache
 fasd_cache="$HOME/.fasd-init-cache"
@@ -73,7 +71,7 @@ source ~/.zsh/aliases.zsh
 source ~/.zsh/extra.zsh
 source ~/.zsh/vi_cursor.zsh
 
-# start X on linux
-if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]] && [ $OSTYPE == "linux-gnu" ]; then
+# start X
+if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]] && [ $OSTYPE = "linux-gnu" ]; then
     exec startx
 fi
