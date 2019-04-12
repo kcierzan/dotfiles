@@ -4,25 +4,25 @@
       "textSpacing" : 5,
       "subtext" : {
         "size" : 13,
-        "colorSelected" : "#8BBE5DFF",
-        "font" : "BlexMono Nerd Font",
-        "color" : "#FFFFFF7E"
+        "colorSelected" : "#EBBD7DFF",
+        "font" : "Iosevka Nerd Font",
+        "color" : "#FFFFFF2F"
       },
       "shortcut" : {
         "size" : 22,
-        "colorSelected" : "#FFFFFFFF",
-        "font" : "BlexMono Nerd Font",
+        "colorSelected" : "#99C27CFF",
+        "font" : "Iosevka Nerd Font",
         "color" : "#C678D6FF"
       },
       "backgroundSelected" : "#3A414CFF",
       "text" : {
         "size" : 24,
-        "colorSelected" : "#51AEEEFF",
-        "font" : "IBM Plex Sans",
-        "color" : "#FFFFFFCB"
+        "colorSelected" : "#99C27CFF",
+        "font" : "Roboto",
+        "color" : "#FFFFFF32"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 9,
+      "paddingVertical" : 7,
       "iconSize" : 40
     },
     "search" : {
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 53,
         "colorSelected" : "#000000FF",
-        "font" : "IBM Plex Sans",
+        "font" : "Roboto",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
@@ -53,7 +53,7 @@
       "thickness" : 0
     },
     "scrollbar" : {
-      "color" : "#358188FF",
+      "color" : "#99C27CFF",
       "thickness" : 2
     },
     "name" : "One Dark"

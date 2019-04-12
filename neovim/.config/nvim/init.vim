@@ -45,8 +45,8 @@ set foldlevelstart=20
 set termguicolors
 
 " Enable blinking cursor
-" set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
+" set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor
 " Enable system clipboard
 set clipboard=unnamed
 
@@ -64,7 +64,7 @@ let g:python3_host_prog = $HOME . '/.pyenv/versions/neovim3/bin/python3'
 autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn
 
 " Trigger autoread when files change on disk
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif | set fillchars+=vert:\
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif | set fillchars+=vert:\│
 
 " Notification after file change
 autocmd FileChangedShellPost *
@@ -111,6 +111,10 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'patstockwell/vim-monokai-tasty'
+Plug 'kcierzan/termina'
+Plug 'lifepillar/vim-solarized8'
+Plug 'ayu-theme/ayu-vim'
+let ayucolor='mirage'
 
 Plug 'mhinz/vim-startify'
 let g:ascii = [
@@ -219,7 +223,7 @@ function! s:goyo_leave()
   set showcmd
   set showmode
   set cursorline
-  colorscheme vim-monokai-tasty
+  colorscheme onedark
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
   ALEEnable
@@ -259,7 +263,7 @@ let g:ale_linters = {
       \ 'python': ['pyls'],
       \ 'javascript': ['eslint'],
       \ 'css': ['prettier'],
-      \ 'php': ['phpcs'],
+      \ 'php': ['php'],
       \ 'bash': ['shellcheck'],
       \ 'html': ['tidy'],
       \ 'vim': ['vint'],
@@ -353,7 +357,7 @@ let g:vim_markdown_frontmatter = 1
 
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
-      \ 'colorscheme': 'monokai_tasty',
+      \ 'colorscheme': 'onedark',
       \ 'separator': {
       \   'left': "\ue0b0",
       \   'right': "\ue0b2"
@@ -420,6 +424,7 @@ endfunction
 Plug 'sheerun/vim-polyglot'                " lots of language packs
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
 let g:python_highlight_all = 1
+
 
 "misc plugins
 Plug 'Shougo/neomru.vim'                   " recent files
@@ -716,7 +721,7 @@ nnoremap <silent> <Leader>vc :PlugClean<CR>
 "-------Code-------------------
 let g:lmap.c = {'name': 'Code',
       \ 't': ['TagbarToggle', 'toggle tagbar'],
-      \ 'r': ['!rm ctags && ctags', 'regenerate tags'],
+      \ 'r': ['!rm tags && ctags', 'regenerate tags'],
       \ 'T': ['!ctags', 'generate ctags'],
       \ 'a': ['<Plug>(coc-codeaction)', 'code action'],
       \ 'f': ['<Plug>(coc-fix-current)', 'fix current'],
@@ -853,8 +858,7 @@ autocmd! BufWrite,TextChanged,TextChangedI,BufEnter,WinEnter,BufWinEnter,FileTyp
 
 syntax enable
 set background=dark
-let g:vim_monokai_tasty_italic = 1
-colorscheme vim-monokai-tasty
+colorscheme onedark
 
 " Onedark
 hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
@@ -864,30 +868,54 @@ hi ALEErrorSign                   ctermfg=1 guifg='#e06c75'
 hi ALEWarningSign                 ctermfg=3 guifg='#e5c07b'
 hi ALEError                       ctermbg=0
 hi ALEWarning                     ctermbg=0
-hi Comment gui=italic
+hi VertSplit guifg = '#272c33'
 hi Comment cterm=italic
 
-" Monokai Tasty
-hi SignColumn guibg='#212121'
-let g:terminal_color_1=  "#f82a71"
-let g:terminal_color_2 = "#a6e12d"
-let g:terminal_color_3 = "#fd971e"
-let g:terminal_color_4 = "#ae80fe"
-let g:terminal_color_5 = "#f82a71"
-let g:terminal_color_6 = "#66d8ee"
-let g:terminal_color_7 = "#cfcfc1"
-let g:terminal_color_8 = "#74705d"
-let g:terminal_color_9=  "#d32461"
-let g:terminal_color_10 = "#a6e12d"
-let g:terminal_color_11 = "#fd971e"
-let g:terminal_color_12 = "#ae80fe"
-let g:terminal_color_13=  "#d32461"
-let g:terminal_color_14 = "#5cc4d8"
-let g:terminal_color_15 = "#cfcfc1"
+"Solarized Light
+" hi SignColumn guibg = '#fdf6e3'
+" hi VertSplit guibg = '#fdf6e3' guifg = '#fdf6e3'
+" hi GitGutterAdd guibg = '#fdf6e3' guifg = '#859900'
+" hi GitGutterChange guibg = '#fdf6e3' guifg = '#b58900'
+" hi GitGutterDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
+" hi GitGutterDelete guibg = '#fdf6e3' guifg = '#cb4b16'
+" hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
+" hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
 
-hi SignColumn guibg='#252525'
-hi ColorColumn guifg=none guibg='#2d2d2d'
-hi Cursorline guifg=none guibg='#2d2d2d'
+"Solarized Dark
+" hi SignColumn guibg = '#002b36'
+" hi VertSplit guibg = '#002b36' guifg = '#002b36'
+" hi GitGutterAdd guibg = '#002b36' guifg = '#859900'
+" hi GitGutterChange guibg = '#002b36' guifg = '#b58900'
+" hi GitGutterDeleteLine guibg = '#002b36' guifg = '#cb4b16'
+" hi GitGutterDelete guibg = '#002b36' guifg = '#cb4b16'
+" hi GitGutterChangeDeleteLine guibg = '#002b36' guifg = '#cb4b16'
+" hi GitGutterChangeDeleteLine guibg = '#002b36' guifg = '#cb4b16'
+
+" Monokai Tasty
+" let g:vim_monokai_tasty_italic = 1
+" hi SignColumn guibg='#212121'
+" let g:terminal_color_1=  "#f82a71"
+" let g:terminal_color_2 = "#a6e12d"
+" let g:terminal_color_3 = "#fd971e"
+" let g:terminal_color_4 = "#ae80fe"
+" let g:terminal_color_5 = "#f82a71"
+" let g:terminal_color_6 = "#66d8ee"
+" let g:terminal_color_7 = "#cfcfc1"
+" let g:terminal_color_8 = "#74705d"
+" let g:terminal_color_9=  "#d32461"
+" let g:terminal_color_10 = "#a6e12d"
+" let g:terminal_color_11 = "#fd971e"
+" let g:terminal_color_12 = "#ae80fe"
+" let g:terminal_color_13=  "#d32461"
+" let g:terminal_color_14 = "#5cc4d8"
+" let g:terminal_color_15 = "#cfcfc1"
+" hi SignColumn guibg='#252525'
+" hi ColorColumn guifg=none guibg='#2d2d2d'
+" hi Cursorline guifg=none guibg='#2d2d2d'
+"
+" Ayu Mirage
+" hi SignColumn guifg=none guibg='#212632'
+" hi  ColorColumn guifg=none guibg='#272f3d'
 
 call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
 nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>

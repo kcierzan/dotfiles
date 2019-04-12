@@ -7,9 +7,12 @@
 ;; ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝╚═╝╚══════╝╚══════╝
 
  (eval-and-compile
- (setq gc-cons-threshold (* 1024 1024 1024)
-       gc-cons-percentage 10)
- (add-hook 'focus-out-hook 'garbage-collect))
+
+
+
+   (setq gc-cons-threshold (* 1024 1024 1024)
+         gc-cons-percentage 10)
+   (add-hook 'focus-out-hook 'garbage-collect))
 
 (eval-and-compile
   (setq load-prefer-newer t
@@ -43,10 +46,10 @@
     (setq use-package-always-ensure t)))
 
 
-(setq monospace-font "BlexMono Nerd Font"
-      string-font "BlexMono Nerd Font"
-      nerd-font "BlexMono Nerd Font"
-      variable-pitch-font "IBM Plex Serif")
+(setq monospace-font "Iosevka Nerd Font"
+      string-font "Iosevka Slab"
+      nerd-font "Iosevka Nerd Font"
+      variable-pitch-font "Roboto")
 
 ;; we configure org mode early - the rest of the config is loaded via org-babel
 (use-package org

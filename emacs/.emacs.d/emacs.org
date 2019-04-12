@@ -913,13 +913,14 @@ Dedicate buffers to windows based on their purpose
 #+name: interface
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
+    ;; :disabled t
     :demand t
     :pin melpa
     :init (setq doom-themes-enable-bold t
                 doom-themes-enable-italic t)
     :config
     (doom-themes-org-config)
-    (load-theme 'doom-sourcerer t))
+    (load-theme 'doom-tomorrow-night t))
 #+END_SRC
 *** moe-theme
 #+BEGIN_SRC emacs-lisp
@@ -978,6 +979,15 @@ Dedicate buffers to windows based on their purpose
     :config
     (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
     (solaire-mode-swap-bg))
+#+END_SRC
+*** kaolin-themes
+#+name: interface
+#+BEGIN_SRC emacs-lisp
+  (use-package kaolin-themes
+    :disabled t
+    :demand t
+    :config
+    (load-theme 'kaolin-breeze t))
 #+END_SRC
 ** Languages
 *** Dockerfile
@@ -1274,6 +1284,7 @@ Send growl alerts for org deadlines
     :hook (php-mode . (lambda ()
                         (make-local-variable 'company-backends)
                         (setq-local company-backends '(company-dabbrev company-yasnippet company-files))
+                        (setq-local flycheck-disabled-checkers '(php-phpcs))
                         (setq-local sp-max-pair-length 6)))
     :mode (("\\.php$" . php-mode)
            ("\\.inc$"  . php-mode)))
@@ -1671,10 +1682,11 @@ improved sorting for fuzzy searches
 #+name: ivy
 #+BEGIN_SRC emacs-lisp
   (use-package flx
-   :after (counsel-projectile ivy))
+    :demand t
+    :after (counsel-projectile ivy))
 
   (use-package flx-ido
-    ;; :disabled t
+    :disabled t
     :after (counsel-projectile ivy)
     :config
     (flx-ido-mode 1)
@@ -1682,7 +1694,9 @@ improved sorting for fuzzy searches
     (setq ivy-re-builders-alist
           '((counsel-ag . ivy--regex-plus)
             (counsel-rg . ivy--regex-plus)
-            (swiper- . ivy--regex-plus)
+            (counsel-projectile-find-file . ivy--regex-plus)
+            (counsel-projectile-switch-project . ivy--regex-plus)
+            (swiper . ivy--regex-plus)
             (t . ivy--regex-fuzzy))
           ivy-initial-inputs-alist nil))
 #+END_SRC

@@ -17,25 +17,21 @@ pkgs=(
  "universal-ctags --HEAD"
  ansiweather
  bash
+ bat
  boxes
  ccat
- chunkwm
  coreutils
- cowsay
  curl
  ddate
- exa
  fasd
  ffms2
  figlet
  findutils
- fish
  fontforge
  fortune
  fzf
  gawk
  gcc
- ghc
  git
  gmime
  gnu-sed
@@ -45,26 +41,19 @@ pkgs=(
  gpg-agent
  gpgme
  grc
- grep
+ ggrep
  gzip
- highlight
  htop
  httpie
  hub
  jq
  less
- markdown
- mopidy
- mopidy-spotify
  mpc
  mpd
- mvtools
- ncmpcpp
  neovim
  ngrep
  node
  nvm
- postgresql
  pv
  pyenv
  pyenv-virtualenv
@@ -73,7 +62,6 @@ pkgs=(
  ranger
  rbenv
  readline
- reattach-to-user-namespace
  ripgrep
  rsync
  ruby
@@ -81,9 +69,7 @@ pkgs=(
  ssh-copy-id
  stow
  tcpdump
- the_silver_searcher
  tmux
- watson
  weechat
  xz
  youtube-dl

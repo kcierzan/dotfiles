@@ -1,4 +1,4 @@
-export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin:$HOME/.composer/vendor/bin"
+export PATH="$HOME/.pyenv/bin:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin:$HOME/.composer/vendor/bin"
 
 export LESS_TERMCAP_mb=$(printf "\e[1;34m")
 export LESS_TERMCAP_md=$(printf "\e[1;34m")
@@ -18,7 +18,7 @@ export FZF_DEFAULT_OPTS='
 --color=hl:3,hl+:13,prompt:6,spinner:5,pointer:4,marker:4,info:6'
 
 # Theme for bat executable and preview script
-export BAT_THEME='OneHalfDark'
+export BAT_THEME='TwoDark'
 
 export KEYTIMEOUT=1
 
