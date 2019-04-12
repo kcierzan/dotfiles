@@ -36,6 +36,9 @@ GRTAGS
 #vscode projects
 **/.vscode
 
+# coc-nvim
+**/.vim
+
 #vscode nose files
 .noseids
 

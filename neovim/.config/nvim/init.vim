@@ -371,11 +371,14 @@ let g:lightline = {
       \ },
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ], ['cwd', 'filename', 'modified'], ['gitbranch'] ],
-      \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'], [ 'lineinfo' ], ['percent'] ]
+      \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'], ['coc'], ['filetype'], [ 'lineinfo' ], ['percent'] ]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head',
-      \   'cwd': 'LightlineCwd'
+      \   'cwd': 'LightlineCwd',
+      \   'coc': 'coc#status',
+      \   'filetype': 'IconFiletype',
+      \   'filename': 'LightLineFilename',
       \ },
       \ 'component_expand': {
       \   'linter_warnings': 'LightlineLinterWarnings',
@@ -388,6 +391,14 @@ let g:lightline = {
       \   'linter_errors': 'error',
       \ }
       \}
+
+function! IconFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! IconFileformat()
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
 
 function! LightlineCwd()
   return fnamemodify(getcwd(), ':t')
@@ -414,6 +425,10 @@ function! LightlineLinterOK() abort
   return l:counts.total == 0 ? ' ' : ''
 endfunction
 
+function LightLineFilename()
+  return expand('%')
+endfunction
+
 function! s:MaybeUpdateLightline()
   if exists('#lightline')
     call lightline#update()
@@ -425,10 +440,18 @@ Plug 'sheerun/vim-polyglot'                " lots of language packs
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
 let g:python_highlight_all = 1
 
+Plug 'scrooloose/nerdtree'
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+Plug 'ryanoasis/vim-devicons'
+let g:webdevicons_enable_nerdtree = 1
+let g:webdevicons_enable_startify = 1
 
 "misc plugins
 Plug 'Shougo/neomru.vim'                   " recent files
-Plug 'tpope/vim-vinegar'                   " make netrw better
+" Plug 'tpope/vim-vinegar'                   " make netrw better
 Plug 'tpope/vim-eunuch'                    " unix tools
 Plug 'tpope/vim-repeat'                    " use . to repeat some stuff
 Plug 'tpope/vim-sleuth'                    " detect indentation
@@ -477,6 +500,7 @@ let g:vrc_include_response_header = 1
 
 " coc.nvim
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
+let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-snippets', 'coc-emmet', 'coc-css', 'coc-tsserver', 'coc-html']
 set cmdheight=2
 set updatetime=400
 
@@ -640,6 +664,7 @@ let g:lmap.i = {'name': 'Interface',
       \ 'z': ['Goyo', 'zen mode'],
       \ 'l': ['Limelight', 'highlight sections on'],
       \ 'L': ['Limelight!', 'highlight sections off'],
+      \ 't': ['NERDTreeToggle', 'open file browser'],
       \ }
 nnoremap <silent> <leader>i% :set invrelativenumber<CR>
 nnoremap <silent> <leader>i# :set invnumber<CR>
@@ -650,6 +675,7 @@ nnoremap <silent> <leader>ic :nohlsearch<CR>
 nnoremap <silent> <leader>iz :Goyo<CR>
 nnoremap <silent> <leader>il :Limelight<CR>
 nnoremap <silent> <leader>iL :Limelight!<CR>
+nnoremap <silent> <leader>it :NERDTreeToggle<CR>
 
 "---------Buffers ---------------
 let g:lmap.b = { 'name': 'Buffers',
@@ -853,7 +879,13 @@ nmap <silent> <leader>nlm <Plug>VimwikiMakeTomorrowDiaryNote
 nmap <silent> <leader>nly <Plug>VimwikiMakeYesterdayDiaryNote
 
 call plug#end()
-autocmd! User ALELint * call lightline#update()
+augroup LightLineOnALE
+  autocmd!
+  autocmd User ALEFixPre   call lightline#update()
+  autocmd User ALEFixPost  call lightline#update()
+  autocmd User ALELintPre  call lightline#update()
+  autocmd User ALELintPost call lightline#update()
+augroup end
 autocmd! BufWrite,TextChanged,TextChangedI,BufEnter,WinEnter,BufWinEnter,FileType,ColorScheme,SessionLoadPost * call lightline#update()
 
 syntax enable
