@@ -47,7 +47,8 @@ set termguicolors
 " Enable blinking cursor
 " set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor
-" Enable system clipboard
+
+" Use system clipboard on macOS
 set clipboard=unnamed
 
 " Set :grep to use ripgrep
@@ -107,16 +108,75 @@ command Nows :%s/\s\+$//
 
 "-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
-
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'patstockwell/vim-monokai-tasty'
 Plug 'kcierzan/termina'
 Plug 'lifepillar/vim-solarized8'
 Plug 'ayu-theme/ayu-vim'
-let ayucolor='mirage'
-
 Plug 'mhinz/vim-startify'
+Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/goyo.vim'
+Plug 'yuttie/comfortable-motion.vim'
+Plug 'justinmk/vim-sneak'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'w0rp/ale'
+Plug 'janko-m/vim-test'
+Plug 'benmills/vimux'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'terryma/vim-expand-region'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'itchyny/lightline.vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'ryanoasis/vim-devicons'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sleuth'
+Plug 'jiangmiao/auto-pairs'
+Plug 'adelarsq/vim-matchit'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'wellle/targets.vim'
+Plug 'mbbill/undotree'
+Plug 'moll/vim-bbye'
+Plug 'mkitt/tabline.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'tpope/vim-abolish'
+Plug 'AndrewRadev/sideways.vim'
+Plug 'majutsushi/tagbar'
+Plug 'vim-python/python-syntax'
+Plug 'haya14busa/vim-keeppad'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'vimwiki/vimwiki'
+Plug 'blueyed/vim-diminactive'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tpope/vim-rhubarb'
+Plug 'wesQ3/vim-windowswap'
+Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'mattn/emmet-vim'
+Plug 'diepm/vim-rest-console'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
+Plug 'airblade/vim-rooter'
+Plug 'hecal3/vim-leader-guide'
+call plug#end()
+
+"-------------------------------- PLUGIN CONFIG -----------------------------------
+" ayu-theme
+let ayucolor='mirage'
+" hi SignColumn guifg=none guibg='#212632'
+" hi  ColorColumn guifg=none guibg='#272f3d'
+
+" startify
 let g:ascii = [
       \ '    ███▄    █ ▓█████  ▒█████   ██▒   █▓ ██▓ ███▄ ▄███▓',
       \ '    ██ ▀█   █ ▓█   ▀ ▒██▒  ██▒▓██░   █▒▓██▒▓██▒▀█▀ ██▒',
@@ -144,7 +204,6 @@ endfunction
 let g:startify_custom_header = s:filter_header(g:drip_header)
 
 " indentLine
-Plug 'Yggdroot/indentLine'
 let g:indentLine_enabled = 0
 let g:indentLine_char = '│'
 let g:indentLine_first_char = '│'
@@ -154,7 +213,6 @@ let g:indentLine_bufTypeExclude = ['terminal']
 let g:indentLine_setColors = 1
 
 " vim-gitgutter
-Plug 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
 let g:gitgutter_max_signs = 5000
 
@@ -200,8 +258,7 @@ function! s:PrevHunkAllBuffers()
   endwhile
 endfunction
 
-" Zen mode
-Plug 'junegunn/goyo.vim'
+" goyo
 let g:goyo_width = 100
 let g:goyo_linenr = 0
 
@@ -235,28 +292,21 @@ augroup GoyoToggle
 augroup END
 
 " comfortable-motion
-Plug 'yuttie/comfortable-motion.vim'
 let g:comfortable_motion_friction = 15.0
 let g:comfortable_motion_air_drag = 5.0
 
 " vim-sneak
-Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 let g:sneak#s_next = 1
 autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
 
-"vim-multiple-cursors
-Plug 'terryma/vim-multiple-cursors'
-
 " vim-tmux-navigator
 " Map alt + hjkl to navigation
-"TODO: why doesn't this work on linux?
+" TODO: why doesn't this work on linux?
 let g:tmux_navigator_no_mappings = 1
-Plug 'christoomey/vim-tmux-navigator'
 
 " ALE
-Plug 'w0rp/ale'
 filetype off
 filetype plugin on
 let g:ale_linters = {
@@ -294,7 +344,7 @@ let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['✖ %d', '⚠ %d', '']
 let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_text_changed = 'always'
 let g:ale_set_highlights = 0
 highlight ALEErrorSign ctermfg=1
 highlight ALEWarningSign ctermfg=3
@@ -302,25 +352,18 @@ highlight ALEWarningSign ctermfg=3
 command! ALEDisableFixers       let g:ale_fix_on_save=0
 command! ALEEnableFixers        let g:ale_fix_on_save=1
 
-"vim-test
-Plug 'janko-m/vim-test'
-Plug 'benmills/vimux'
+" vim-test
 let g:test#python#runner = 'nose'
 let g:test#strategy = 'vimux'
 let g:test#python#nose#options = '-xvs --with-coverage'
 
-Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<C-y>"
-Plug 'honza/vim-snippets'
 
-"vim-expand-region
-Plug 'terryma/vim-expand-region'
+" vim-expand-region
 vmap e <Plug>(expand_region_expand)
 vmap E <Plug>(expand_region_shrink)
 
-"fzf.vim
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
+" fzf.vim
 let g:fzf_layout = { 'window': '-tabnew' }
 let g:fzf_buffers_jump = 1
 
@@ -348,14 +391,11 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
       \ {'source': 'gfind '.(empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
       \  'sink': 'cd'}))
 
-" Plug 'godlygeek/tabular'
-
 "vim-markdown
-Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 
-Plug 'itchyny/lightline.vim'
+" lightline
 let g:lightline = {
       \ 'colorscheme': 'onedark',
       \ 'separator': {
@@ -370,13 +410,13 @@ let g:lightline = {
       \   'statusline': 1
       \ },
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], ['cwd', 'filename', 'modified'], ['gitbranch'] ],
-      \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok'], ['coc'], ['filetype'], [ 'lineinfo' ], ['percent'] ]
+      \   'left': [ [ 'mode', 'paste' ], ['filename', 'modified'], ['gitbranch'] ],
+      \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok' ], ['cwd', 'filetype' ], [ 'lineinfo', 'percent'], ['coc'] ]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head',
       \   'cwd': 'LightlineCwd',
-      \   'coc': 'coc#status',
+      \   'coc': 'CocCollapse',
       \   'filetype': 'IconFiletype',
       \   'filename': 'LightLineFilename',
       \ },
@@ -391,6 +431,10 @@ let g:lightline = {
       \   'linter_errors': 'error',
       \ }
       \}
+
+function! CocCollapse()
+  return winwidth(0) > 100 ? coc#status() : ''
+endfunction
 
 function! IconFiletype()
   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
@@ -435,59 +479,37 @@ function! s:MaybeUpdateLightline()
   end
 endfunction
 
+augroup LightLineOnALE
+  autocmd!
+  autocmd User ALEFixPre   call lightline#update()
+  autocmd User ALEFixPost  call lightline#update()
+  autocmd User ALELintPre  call lightline#update()
+  autocmd User ALELintPost call lightline#update()
+augroup end
+autocmd! BufWrite,TextChanged,TextChangedI,BufEnter,WinEnter,BufWinEnter,FileType,ColorScheme,SessionLoadPost * call lightline#update()
 
-Plug 'sheerun/vim-polyglot'                " lots of language packs
+" Polyglot
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
 let g:python_highlight_all = 1
 
-Plug 'scrooloose/nerdtree'
+" NERDTree
+let g:NERDTreeShowHidden = 1
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-Plug 'ryanoasis/vim-devicons'
+" vim-devicons
 let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_enable_startify = 1
 
-"misc plugins
-Plug 'Shougo/neomru.vim'                   " recent files
-" Plug 'tpope/vim-vinegar'                   " make netrw better
-Plug 'tpope/vim-eunuch'                    " unix tools
-Plug 'tpope/vim-repeat'                    " use . to repeat some stuff
-Plug 'tpope/vim-sleuth'                    " detect indentation
-Plug 'jiangmiao/auto-pairs'                " automatic deliminters
-Plug 'adelarsq/vim-matchit'                " extend the % operator
-Plug 'tpope/vim-surround'                  " surround with brackets, quotes etc
-Plug 'tpope/vim-commentary'                " comment for great success
-Plug 'wellle/targets.vim'                  " provide additional text objects
-Plug 'mbbill/undotree'                     " undo Tree
-Plug 'moll/vim-bbye'                       " delete and close buffers without closing windows
-Plug 'mkitt/tabline.vim'                   " better looking tabs
-Plug 'tpope/vim-fugitive'                  " git Wrapper
-Plug 'junegunn/gv.vim'                     " git commit browser
-Plug 'junegunn/vim-easy-align'             " align stuff
-Plug 'michaeljsmith/vim-indent-object'     " indentation objects
-Plug 'tpope/vim-abolish'                   " correct common misspellings
-Plug 'AndrewRadev/sideways.vim'            " move stuff sideways
-Plug 'majutsushi/tagbar'                   " show some tags
-Plug 'vim-python/python-syntax',           { 'for': ['python'] } " Make python look a little better
-Plug 'haya14busa/vim-keeppad'              " keep padding when line nums go away
-Plug 'pangloss/vim-javascript'             " syntax highlighting for javascript
-Plug 'mxw/vim-jsx'                         " syntax highlighting for jsx
-Plug 'vimwiki/vimwiki'                     " notes
-Plug 'blueyed/vim-diminactive'             " change the color of inactive panes
-Plug 'tmux-plugins/vim-tmux-focus-events'  " add focus events to vim
-
-Plug 'wesQ3/vim-windowswap'
+" windowswap
 let g:windowswap_map_keys = 0
 
-Plug 'tpope/vim-rhubarb'
+" fugitive
 let g:github_enterprise_urls = ['https://github.aweber.io']
+let g:fugitive_gitlab_domaines = ['https://gitlab.aweber.io', 'gitlab.aweber.io']
 
-Plug 'shumphrey/fugitive-gitlab.vim'
-let g:fugitive_gitlab_domaines = ['https://gitlab.aweber.io']
-
-Plug 'mattn/emmet-vim'
+" emmet-vim
 let g:user_emmet_settings = {
       \ 'javascript.jsx': {
       \   'extends': 'jsx',
@@ -495,11 +517,9 @@ let g:user_emmet_settings = {
       \}
 
 " vim-rest-console
-Plug 'diepm/vim-rest-console'
 let g:vrc_include_response_header = 1
 
 " coc.nvim
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
 let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-snippets', 'coc-emmet', 'coc-css', 'coc-tsserver', 'coc-html']
 set cmdheight=2
 set updatetime=400
@@ -544,10 +564,9 @@ let g:coc_snippet_next = '<C-j>'
 let g:coc_snippet_prev = '<C-k>'
 
 " highlight symbol under cursor on CursorHold
-" autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " vim-rooter
-Plug 'airblade/vim-rooter'
 let g:rooter_use_lcd = 1
 let g:rooter_resolve_links = 1
 let g:rooter_silent_chdir = 1
@@ -640,8 +659,7 @@ nmap <C-H> <Nop>
 nnoremap <C-L> :bnext<CR>
 nnoremap <C-H> :bprev<CR>
 
-" -----Top Level Commands -------
-Plug 'hecal3/vim-leader-guide'
+"-------------------------------- LEADER GUIDE -----------------------------------
 let g:lmap = {}
 let g:lmap.f = { 'name': 'Find' }
 let g:lmap.t = { 'name': 'Test' }
@@ -653,7 +671,7 @@ nnoremap <Leader>q :q<CR>
 " Force close window
 nnoremap <Leader>Q :q!<CR>
 
-"---------Interface-------------
+" Leader Guide - Interface
 let g:lmap.i = {'name': 'Interface',
       \ '%': ['set invrelativenumber', 'relative lines'],
       \ '#': ['set invnumber', 'toggle line numbers'],
@@ -677,7 +695,7 @@ nnoremap <silent> <leader>il :Limelight<CR>
 nnoremap <silent> <leader>iL :Limelight!<CR>
 nnoremap <silent> <leader>it :NERDTreeToggle<CR>
 
-"---------Buffers ---------------
+" Leader Guide - Buffers
 let g:lmap.b = { 'name': 'Buffers',
       \ 's': ['w', 'write buffer'],
       \ 'n': ['new', 'new buffer'],
@@ -697,7 +715,7 @@ nnoremap <silent> <leader>bC :windo diffoff<CR>
 nnoremap <silent> <leader>br :edit!<CR>
 nnoremap <silent> <leader>bw :Nows<CR>
 
-"-----------Splits---------------
+" Leader Guide - Windows
 let g:lmap.w = { 'name': 'Windows',
       \ 'v': ['vsp', 'vertical split'],
       \ 's': ['sp', 'horizontal split'],
@@ -727,7 +745,7 @@ nnoremap <silent> <leader>wV <C-w>H
 nnoremap <silent> <leader>wS <C-w>J
 nnoremap <silent> <leader>wc :call WindowSwap#EasyWindowSwap()<CR>
 
-"-------- Neovim -----------------
+" Leader Guide - Neovim
 let g:lmap.v = { 'name': 'Neovim',
       \ 'r': ['so ~/.config/nvim/init.vim', 'reload init.vim'],
       \ 'e': ['edit ~/.config/nvim/init.vim', 'edit init.vim'],
@@ -744,7 +762,7 @@ nnoremap <silent> <Leader>vu :PlugUpdate<CR>
 nnoremap <silent> <Leader>vi :PlugInstall<CR>
 nnoremap <silent> <Leader>vc :PlugClean<CR>
 
-"-------Code-------------------
+" Leader Guide - Code
 let g:lmap.c = {'name': 'Code',
       \ 't': ['TagbarToggle', 'toggle tagbar'],
       \ 'r': ['!rm tags && ctags', 'regenerate tags'],
@@ -766,7 +784,7 @@ vnoremap <silent> <leader>cF <Plug>(coc-format-selected)
 nnoremap <silent> <leader>cc :CocRestart<CR>
 nnoremap <silent> <leader>cR <Plug>(coc-rename)
 
-"-------Test-----------------
+" Leader Guide - Testing
 let g:lmap.t = {'name': 'Test',
       \ 'n': ['TestNearest', 'test nearest'],
       \ 'f': ['TestFile', 'test file'],
@@ -780,7 +798,7 @@ nnoremap <silent> <leader>ts :TestSuite<CR>
 nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 
-"------------Git--------------
+" Leader Guide - Git
 let g:lmap.g = { 'name': 'Git',
       \ 's': ['Gstatus', 'git status'],
       \ 'c': ['Gcommit', 'git commit'],
@@ -808,9 +826,10 @@ nnoremap <silent> <leader>gp :GitGutterPreviewHunk<CR>
 nnoremap <silent> <leader>gd :Gvdiff<CR>
 nnoremap <silent> <leader>gl :GV<CR>
 nnoremap <silent> <leader>go :Gbrowse<CR>
+vnoremap <silent> <leader>go :Gbrowse<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
 
-"--------FZF-----------
+" Leader Guide - FZF
 let g:lmap.f = { 'name': 'Find',
       \ 'f': ['GFiles', 'git files'],
       \ 'h': ['HHistory', 'file history'],
@@ -844,7 +863,7 @@ nnoremap <silent> <leader>fe :Commands<CR>
 nnoremap <silent> <leader>fp :GGrep<CR>
 nnoremap <silent> <leader>fj :Cd<CR>
 
-"--------VimWiki-------------
+" Leader Guide - Notes
 let g:lmap.n = {'name': 'Notes',
       \ 'i': ['<leader>ni', 'open index'],
       \ 't': ['<leader>nt', 'tab index'],
@@ -878,15 +897,11 @@ nmap <silent> <leader>nlt <Plug>VimwikiTabMakeDiaryNote
 nmap <silent> <leader>nlm <Plug>VimwikiMakeTomorrowDiaryNote
 nmap <silent> <leader>nly <Plug>VimwikiMakeYesterdayDiaryNote
 
-call plug#end()
-augroup LightLineOnALE
-  autocmd!
-  autocmd User ALEFixPre   call lightline#update()
-  autocmd User ALEFixPost  call lightline#update()
-  autocmd User ALELintPre  call lightline#update()
-  autocmd User ALELintPost call lightline#update()
-augroup end
-autocmd! BufWrite,TextChanged,TextChangedI,BufEnter,WinEnter,BufWinEnter,FileType,ColorScheme,SessionLoadPost * call lightline#update()
+call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
+nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
+vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
+
+"-------------------------------- COLORSCHEMES -----------------------------------
 
 syntax enable
 set background=dark
@@ -902,6 +917,7 @@ hi ALEError                       ctermbg=0
 hi ALEWarning                     ctermbg=0
 hi VertSplit guifg = '#272c33'
 hi Comment cterm=italic
+hi CocHighlightText guibg = '#404754'
 
 "Solarized Light
 " hi SignColumn guibg = '#fdf6e3'
@@ -944,11 +960,3 @@ hi Comment cterm=italic
 " hi SignColumn guibg='#252525'
 " hi ColorColumn guifg=none guibg='#2d2d2d'
 " hi Cursorline guifg=none guibg='#2d2d2d'
-"
-" Ayu Mirage
-" hi SignColumn guifg=none guibg='#212632'
-" hi  ColorColumn guifg=none guibg='#272f3d'
-
-call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
-nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
-vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
