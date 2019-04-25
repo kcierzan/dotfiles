@@ -328,7 +328,7 @@ let g:ale_linter_aliases = {
 let g:ale_fixers = {
       \ '*': ['trim_whitespace'],
       \ 'python': ['black'],
-      \ 'javascript': ['prettier', 'eslint'],
+      \ 'javascript': ['prettier'],
       \ 'css': ['prettier'],
       \ 'html': ['tidy'],
       \}
@@ -641,11 +641,11 @@ xmap L <Nop>
 xmap H <Nop>
 omap L <Nop>
 omap H <Nop>
-nnoremap L $
+nnoremap L g_
 nnoremap H ^
-xnoremap L $
+xnoremap L g_
 xnoremap H ^
-onoremap L $
+onoremap L g_
 onoremap H ^
 
 " unbind Q for another binding
