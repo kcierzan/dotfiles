@@ -458,11 +458,12 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
+    :demand t
     :commands
-    (counsel-projectile-rg
-     counsel-projectile-find-file
-     counsel-projectile-switch-project
-     counsel-projectile-find-dir)
+    (projectile-ag
+     projectile-find-file
+     projectile-switch-project
+     projectile-find-dir)
      :init (setq projectile-enable-caching (not noninteractive)
                  projectile-indexing-method 'alien
                  projectile-globally-ignored-files '(".DS_STORE" "TAGS")
@@ -532,6 +533,14 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
          :defer 5)
      #+END_SRC
 *** Lint
+**** flymake
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package flymake
+    :pin elpa
+    :demand t
+    :hook (prog-mode . flymake-mode))
+#+END_SRC
 **** flycheck
      Check syntax asynchronously
      #+name: programming
@@ -913,14 +922,14 @@ Dedicate buffers to windows based on their purpose
 #+name: interface
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
-    ;; :disabled t
     :demand t
     :pin melpa
     :init (setq doom-themes-enable-bold t
                 doom-themes-enable-italic t)
     :config
     (doom-themes-org-config)
-    (load-theme 'doom-tomorrow-night t))
+    (load-theme 'doom-one t))
+
 #+END_SRC
 *** moe-theme
 #+BEGIN_SRC emacs-lisp
@@ -984,10 +993,9 @@ Dedicate buffers to windows based on their purpose
 #+name: interface
 #+BEGIN_SRC emacs-lisp
   (use-package kaolin-themes
-    :disabled t
+    ;; :disabled t
     :demand t
-    :config
-    (load-theme 'kaolin-breeze t))
+    :config)
 #+END_SRC
 ** Languages
 *** Dockerfile
@@ -1268,6 +1276,7 @@ Send growl alerts for org deadlines
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package org-gcal
+    :disabled t
     :defer 5
     :after (auth-source-pass)
     :commands (org-gcal-fetch org-gcal-sync)
@@ -1402,6 +1411,7 @@ format python code
 #+BEGIN_SRC emacs-lisp
   (use-package nose
     :after python
+    :hook (python-mode . nose-mode)
     :pin melpa)
 #+END_SRC
 **** live-py-mode
@@ -1415,9 +1425,7 @@ automatically format python code
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package blacken
-    :init (setq blacken-allow-py36 t
-                blacken-skip-string-normalization t)
-    :hook (python-mode . blacken-mode))
+    :init (setq blacken-allow-py36 t))
 #+END_SRC
 *** Shell
 **** company-shell
@@ -1479,7 +1487,6 @@ I don't use helm any more. These packages are here in case counsel/ivy breaks.
 #+name: helm
 #+BEGIN_SRC emacs-lisp
        (use-package helm-descbinds
-         :disabled t
          :after helm
          :commands (helm-descbinds)
          :pin melpa)
@@ -1489,8 +1496,8 @@ Unified fuzzy search for almost everything
 #+name: helm
 #+BEGIN_SRC emacs-lisp
        (use-package helm
-         :disabled t
          :delight
+         :demand t
          :pin melpa-stable
          :commands (helm-M-x helm-mini helm-imenu helm-resume helm-execute-persistent-action helm-select-action)
          :init
@@ -1519,7 +1526,6 @@ Unified fuzzy search for almost everything
 #+name: helm
 #+BEGIN_SRC emacs-lisp
   (use-package helm-flx
-    :disabled t
     :config
     (helm-flx-mode 1))
 #+END_SRC
@@ -1528,7 +1534,6 @@ helm frontend for the-silver-searcher
 #+name: helm
 #+BEGIN_SRC emacs-lisp
        (use-package helm-ag
-         :disabled t
          :commands (helm-ag)
          :pin melpa
          :after helm
@@ -1540,8 +1545,8 @@ helm frontend for the-silver-searcher
 #+name: helm
 #+BEGIN_SRC emacs-lisp
        (use-package helm-projectile
-         :disabled t
-         :after (projectile)
+         :demand t
+         :after (helm projectile)
          :commands (helm-projectile-ag
                     helm-projectile-recentf
                     helm-projectile-find-dir
@@ -1553,7 +1558,7 @@ Search text linewise in a separate buffer
 #+name: helm
 #+BEGIN_SRC emacs-lisp
        (use-package helm-swoop
-         :disabled t
+         :demand t
          :commands (helm-swoop)
          :pin melpa
          :after helm
@@ -1571,7 +1576,6 @@ Display xref results in helm
 #+name: helm
 #+BEGIN_SRC emacs-lisp
        (use-package helm-xref
-         :disabled t
          :after xref
          :defer 4
          :pin melpa
@@ -1582,6 +1586,7 @@ Display xref results in helm
 #+name: ivy
 #+BEGIN_SRC emacs-lisp
     (use-package ivy
+      :disabled t
       :commands
       (ivy-switch-buffer
        counsel-projectile-rg
@@ -1617,6 +1622,7 @@ Display xref results in helm
 #+name: ivy
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
+      :disabled t
       :after ivy
       :config
       (setq counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
@@ -1627,6 +1633,7 @@ Display xref results in helm
 #+name: ivy
 #+BEGIN_SRC emacs-lisp
   (use-package counsel-projectile
+    :disabled t
     :commands
     (counsel-projectile-rg
      counsel-projectile-find-file
@@ -1669,12 +1676,14 @@ Required by =counsel-M-X=
 #+name: ivy
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
+    :disabled t
     :commands (swiper swiper-all))
 #+END_SRC
 *** counsel-etags
 #+name: ivy
 #+BEGIN_SRC emacs-lisp
   (use-package counsel-etags
+    :disabled t
     :commands (counsel-etags-find-tag counsel-etags-list-tag counsel-etags-recent-tag counsel-etags-find-tag-at-point))
 #+END_SRC
 *** flx
@@ -1682,6 +1691,7 @@ improved sorting for fuzzy searches
 #+name: ivy
 #+BEGIN_SRC emacs-lisp
   (use-package flx
+    :disabled t
     :demand t
     :after (counsel-projectile ivy))
 
@@ -1705,6 +1715,7 @@ Make ivy prettier
 #+name: ivy
 #+BEGIN_SRC emacs-lisp
   (use-package ivy-rich
+    :disabled t
     :after ivy
     :commands (switch-buffer ivy-switch-buffer)
     :custom
@@ -1851,44 +1862,44 @@ General provides some nice macros for dealing with evil keybindings
       "s" 'evil-write
       "r" 'rename-buffer
       "n" 'evil-buffer-new
-      "b" 'ivy-switch-buffer)
+      "b" 'helm-mini)
     (dir-leader "d" 'dired)
     (help-leader
-      ;; "w" 'helm-man-woman
+      "w" 'helm-man-woman
       "f" 'describe-function
       "k" 'describe-key
-      "w" 'woman
+      ;; "w" 'woman
       "v" 'describe-variable
       "p" 'describe-package
       "a" 'describe-face
       "m" 'describe-mode)
     (find-leader
-      ;; "r" 'helm-recentf
-      ;; "o" 'helm-semantic-or-imenu
-      ;; "t" 'helm-etags-select
-      ;; "O" 'helm-imenu-in-all-buffers
-      ;; "g" 'helm-do-ag
-      ;; "L" 'helm-locate
-      ;; "f" 'helm-find-files
-      ;; "l" 'helm-swoop
-      "r" 'counsel-recentf
-      "t" 'counsel-etags-list-tag
-      "o" 'counsel-imenu
-      "g" 'counsel-rg
-      "L" 'counsel-locate
-      "f" 'counsel-find-file
-      "l" 'swiper)
+      "r" 'helm-recentf
+      "o" 'helm-semantic-or-imenu
+      "t" 'helm-etags-select
+      "O" 'helm-imenu-in-all-buffers
+      "g" 'helm-ag
+      "L" 'helm-locate
+      "f" 'helm-find-files
+      "l" 'helm-swoop)
+      ;; "r" 'counsel-recentf
+      ;; "t" 'counsel-etags-list-tag
+      ;; "o" 'counsel-imenu
+      ;; "g" 'counsel-rg
+      ;; "L" 'counsel-locate
+      ;; "f" 'counsel-find-file
+      ;; "l" 'swiper)
     (projectile-leader
-      ;; "g" 'helm-projectile-ag
-      ;; "r" 'helm-projectile-recentf
-      ;; "d" 'helm-projectile-find-dir
-      ;; "f" 'helm-projectile-find-file
-      ;; "s" 'helm-projectile-switch-project
-      "g" 'counsel-projectile-rg
-      "d" 'counsel-projectile-find-dir
-      "f" 'counsel-projectile-find-file
-      "s" 'counsel-projectile-switch-project
-      "o" 'projectile-find-tag)
+      "g" 'helm-projectile-ag
+      "r" 'helm-projectile-recentf
+      "d" 'helm-projectile-find-dir
+      "f" 'helm-projectile-find-file
+      "s" 'helm-projectile-switch-project)
+      ;; "g" 'counsel-projectile-rg
+      ;; "d" 'counsel-projectile-find-dir
+      ;; "f" 'counsel-projectile-find-file
+      ;; "s" 'counsel-projectile-switch-project
+      ;; "o" 'projectile-find-tag)
     (git-leader "g" 'magit
       "b" 'magit-blame
       "p" 'git-gutter:previous-hunk
@@ -1938,29 +1949,29 @@ General provides some nice macros for dealing with evil keybindings
      :states '(normal visual motion) "s" 'evil-avy-goto-char-2)
     ;; non-prefix global
     (general-def
-      ;; "M-x" 'helm-M-x
-      ;; "M-y" 'helm-show-kill-ring
-      ;; "C-x b" 'helm-mini
-      ;; "C-x C-b" 'helm-buffers-list
-      ;; "C-x C-f" 'helm-find-files
-      ;; "C-x C-r" 'helm-recent
-      ;; "C-x c o" 'helm-occur
-      ;; "C-M-n" 'helm-next-source
-      ;; "C-M-p" 'helm-previous-source
-      ;; "C-h b" 'helm-descbinds
-      ;; "C-;" 'helm-M-x
-      ;; "A-x" 'helm-M-x
-      "M-x" 'counsel-M-x
-      "M-y" 'counsel-yank-pop
-      "M-v" 'evil-paste-after
-      "C-u" 'evil-scroll-up
-      "M-m" 'suspend-frame
-      "C-;" 'counsel-M-x
-      "A-x" 'counsel-M-x)
+      "M-x" 'helm-M-x
+      "M-y" 'helm-show-kill-ring
+      "C-x b" 'helm-mini
+      "C-x C-b" 'helm-buffers-list
+      "C-x C-f" 'helm-find-files
+      "C-x C-r" 'helm-recent
+      "C-x c o" 'helm-occur
+      "C-M-n" 'helm-next-source
+      "C-M-p" 'helm-previous-source
+      "C-h b" 'helm-descbinds
+      "C-;" 'helm-M-x
+      "A-x" 'helm-M-x)
+      ;; "M-x" 'counsel-M-x
+      ;; "M-y" 'counsel-yank-pop
+      ;; "M-v" 'evil-paste-after
+      ;; "C-u" 'evil-scroll-up
+      ;; "M-m" 'suspend-frame
+      ;; "C-;" 'counsel-M-x
+      ;; "A-x" 'counsel-M-x)
     ;; helm mappings
-    ;; (general-def '(normal visual) helm-map
-    ;;   "TAB" 'helm-execute-persistent-action
-    ;;   "A-SPC" 'helm-toggle-visible-mark)
+    (general-def '(normal visual) helm-map
+      "TAB" 'helm-execute-persistent-action
+      "C-SPC" 'helm-toggle-visible-mark)
     ;; nosetests
     (general-def '(normal visual) python-mode-map
       "C-c a" 'nosetest-all
@@ -1968,8 +1979,8 @@ General provides some nice macros for dealing with evil keybindings
       "C-c s" 'nosetest-suite
       "C-c ." 'nosetest-one)
     ;; shell mode
-    (general-def '(normal insert) shell-mode-map
-    "C-r" 'counsel-shell-history)
+    ;; (general-def '(normal insert) shell-mode-map
+    ;; "C-r" 'counsel-shell-history)
     ;; multiedit
     (general-def '(visual normal)
       "M-d" 'evil-multiedit-match-symbol-and-next)
@@ -1982,8 +1993,8 @@ General provides some nice macros for dealing with evil keybindings
                                    (general-define-key :keymaps 'eshell-mode-map
                                                        :states '(insert normal)
                                                        "C-SPC" 'completion-at-point
-                                                       "C-r" 'counsel-esh-history
-                                                       ;; "C-r" 'helm-eshell-history
+                                                       ;; "C-r" 'counsel-esh-history
+                                                       "C-r" 'helm-eshell-history
                                                        )))
     ;; completion
     (general-def 'insert

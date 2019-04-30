@@ -7,9 +7,6 @@
 ;; ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝╚═╝╚══════╝╚══════╝
 
  (eval-and-compile
-
-
-
    (setq gc-cons-threshold (* 1024 1024 1024)
          gc-cons-percentage 10)
    (add-hook 'focus-out-hook 'garbage-collect))
@@ -27,7 +24,8 @@
       use-package-verbose t)
 
 (eval-and-compile
-  (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t))))
+  (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t)))
+  (setq load-path (append (directory-files package-user-dir t "^flymake" t) load-path)))
 
 (setq custom-file "~/.emacs.d/custom.el")
 
