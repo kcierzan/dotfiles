@@ -2,9 +2,9 @@
 
 # Onedark
 # set to the terminal black color
-BACKGROUND_COLOR='#2c323d'
+# BACKGROUND_COLOR='#2c323d'
 # set to the terminal background color
-ACTIVE_COLOR='#282c34'
+# ACTIVE_COLOR='#282c34'
 
 #Gruvbox
 # BACKGROUND_COLOR='#373737'
@@ -19,8 +19,8 @@ ACTIVE_COLOR='#282c34'
 # ACTIVE_COLOR='#1c2932'
 #
 # Solarized Light
-# ACTIVE_COLOR='#fdf6e3'
-# BACKGROUND_COLOR='#eee8d5'
+ACTIVE_COLOR='#fdf6e3'
+BACKGROUND_COLOR='#eee8d5'
 
 # Solarized Dark
 # ACTIVE_COLOR='#002b36'

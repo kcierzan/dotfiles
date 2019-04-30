@@ -18,7 +18,7 @@ export FZF_DEFAULT_OPTS='
 --color=hl:3,hl+:13,prompt:6,spinner:5,pointer:4,marker:4,info:6'
 
 # Theme for bat executable and preview script
-export BAT_THEME='TwoDark'
+export BAT_THEME='SolarizedLight'
 
 export KEYTIMEOUT=1
 

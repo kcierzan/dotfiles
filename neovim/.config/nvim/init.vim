@@ -280,7 +280,7 @@ function! s:goyo_leave()
   set showcmd
   set showmode
   set cursorline
-  colorscheme onedark
+  colorscheme solarized8
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
   ALEEnable
@@ -397,7 +397,7 @@ let g:vim_markdown_frontmatter = 1
 
 " lightline
 let g:lightline = {
-      \ 'colorscheme': 'onedark',
+      \ 'colorscheme': 'solarized',
       \ 'separator': {
       \   'left': "\ue0b0",
       \   'right': "\ue0b2"
@@ -904,33 +904,36 @@ vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
 "-------------------------------- COLORSCHEMES -----------------------------------
 
 syntax enable
-set background=dark
-colorscheme onedark
+set background=light
+colorscheme solarized8
 
 " Onedark
-hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
-" or the colorcolumn for diminactive
-hi  ColorColumn ctermfg=none ctermbg=0
-hi ALEErrorSign                   ctermfg=1 guifg='#e06c75'
-hi ALEWarningSign                 ctermfg=3 guifg='#e5c07b'
-hi ALEError                       ctermbg=0
-hi ALEWarning                     ctermbg=0
-hi VertSplit guifg = '#272c33'
-hi Comment cterm=italic
-hi CocHighlightText guibg = '#404754'
+" hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
+" " or the colorcolumn for diminactive
+" hi  ColorColumn ctermfg=none ctermbg=0
+" hi ALEErrorSign                   ctermfg=1 guifg='#e06c75'
+" hi ALEWarningSign                 ctermfg=3 guifg='#e5c07b'
+" hi ALEError                       ctermbg=0
+" hi ALEWarning                     ctermbg=0
+" hi VertSplit guifg = '#272c33'
+" hi Comment cterm=italic
+" hi CocHighlightText guibg = '#404754'
 
 "Solarized Light
-" hi SignColumn guibg = '#fdf6e3'
-" hi VertSplit guibg = '#fdf6e3' guifg = '#fdf6e3'
-" hi GitGutterAdd guibg = '#fdf6e3' guifg = '#859900'
-" hi GitGutterChange guibg = '#fdf6e3' guifg = '#b58900'
-" hi GitGutterDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
-" hi GitGutterDelete guibg = '#fdf6e3' guifg = '#cb4b16'
-" hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
-" hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
+hi SignColumn guibg = '#fdf6e3'
+hi Normal guibg=none guifg=none
+hi LineNr guibg = '#fdf6e3'
+hi VertSplit guibg = '#fdf6e3' guifg = '#fdf6e3'
+hi GitGutterAdd guibg = '#fdf6e3' guifg = '#859900'
+hi GitGutterChange guibg = '#fdf6e3' guifg = '#b58900'
+hi GitGutterDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
+hi GitGutterDelete guibg = '#fdf6e3' guifg = '#cb4b16'
+hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
+hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
 
 "Solarized Dark
 " hi SignColumn guibg = '#002b36'
+" hi LineNr guibg = '#002b36'
 " hi VertSplit guibg = '#002b36' guifg = '#002b36'
 " hi GitGutterAdd guibg = '#002b36' guifg = '#859900'
 " hi GitGutterChange guibg = '#002b36' guifg = '#b58900'
