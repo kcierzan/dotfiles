@@ -113,6 +113,7 @@ Plug 'morhetz/gruvbox'
 Plug 'patstockwell/vim-monokai-tasty'
 Plug 'kcierzan/termina'
 Plug 'lifepillar/vim-solarized8'
+Plug 'liuchengxu/space-vim-theme'
 Plug 'ayu-theme/ayu-vim'
 Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
@@ -397,7 +398,7 @@ let g:vim_markdown_frontmatter = 1
 
 " lightline
 let g:lightline = {
-      \ 'colorscheme': 'solarized',
+      \ 'colorscheme': 'darcula',
       \ 'separator': {
       \   'left': "\ue0b0",
       \   'right': "\ue0b2"
@@ -904,8 +905,12 @@ vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
 "-------------------------------- COLORSCHEMES -----------------------------------
 
 syntax enable
-set background=light
-colorscheme solarized8
+set background=dark
+colorscheme space_vim_theme
+
+" Space-vim-theme
+hi Normal guibg=none guifg=none
+hi ColorColumn guifg=none guibg='#313337'
 
 " Onedark
 " hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
@@ -920,19 +925,20 @@ colorscheme solarized8
 " hi CocHighlightText guibg = '#404754'
 
 "Solarized Light
-hi SignColumn guibg = '#fdf6e3'
-hi Normal guibg=none guifg=none
-hi LineNr guibg = '#fdf6e3'
-hi VertSplit guibg = '#fdf6e3' guifg = '#fdf6e3'
-hi GitGutterAdd guibg = '#fdf6e3' guifg = '#859900'
-hi GitGutterChange guibg = '#fdf6e3' guifg = '#b58900'
-hi GitGutterDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
-hi GitGutterDelete guibg = '#fdf6e3' guifg = '#cb4b16'
-hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
-hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
+" hi SignColumn guibg = '#fdf6e3'
+" hi Normal guibg=none guifg=none
+" hi LineNr guibg = '#fdf6e3'
+" hi VertSplit guibg = '#fdf6e3' guifg = '#fdf6e3'
+" hi GitGutterAdd guibg = '#fdf6e3' guifg = '#859900'
+" hi GitGutterChange guibg = '#fdf6e3' guifg = '#b58900'
+" hi GitGutterDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
+" hi GitGutterDelete guibg = '#fdf6e3' guifg = '#cb4b16'
+" hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
+" hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
 
 "Solarized Dark
 " hi SignColumn guibg = '#002b36'
+" hi Normal guibg=none guifg=none
 " hi LineNr guibg = '#002b36'
 " hi VertSplit guibg = '#002b36' guifg = '#002b36'
 " hi GitGutterAdd guibg = '#002b36' guifg = '#859900'

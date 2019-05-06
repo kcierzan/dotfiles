@@ -5,20 +5,20 @@
       "subtext" : {
         "size" : 13,
         "colorSelected" : "#2AA198FF",
-        "font" : "Iosevka",
+        "font" : "BlexMono Nerd Font",
         "color" : "#586D75FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Iosevka",
+        "font" : "IBM Plex Sans",
         "color" : "#849900FF"
       },
       "backgroundSelected" : "#004254FF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#D33582FF",
-        "font" : "Roboto",
+        "font" : "IBM Plex Sans",
         "color" : "#829496FF"
       },
       "iconPaddingHorizontal" : 4,
@@ -26,13 +26,13 @@
       "iconSize" : 40
     },
     "search" : {
-      "paddingVertical" : 0,
+      "paddingVertical" : 8,
       "background" : "#00252FFF",
       "spacing" : 8,
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Roboto",
+        "font" : "IBM Plex Sans",
         "color" : "#268AD1FF"
       },
       "backgroundSelected" : "#7AC7FFFF"

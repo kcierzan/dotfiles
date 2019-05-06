@@ -1,4 +1,4 @@
-# Optimized for ANSI colors w/ "Violet" terminal theme
+# Optimized for ANSI colors
 
 # Onedark
 # set to the terminal black color
@@ -19,12 +19,16 @@
 # ACTIVE_COLOR='#1c2932'
 #
 # Solarized Light
-ACTIVE_COLOR='#fdf6e3'
-BACKGROUND_COLOR='#eee8d5'
+# ACTIVE_COLOR='#fdf6e3'
+# BACKGROUND_COLOR='#eee8d5'
 
 # Solarized Dark
 # ACTIVE_COLOR='#002b36'
 # BACKGROUND_COLOR='#073642'
+
+# Spacevim
+ACTIVE_COLOR='#282a2e'
+BACKGROUND_COLOR='#313337'
 
 # Ayu Mirage
 # BACKGROUND_COLOR='#272f3d'

@@ -48,11 +48,6 @@ command -v sha1sum > /dev/null || alias sha1sum="shasum"
 # URL-encode strings
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print(ul.quote_plus(sys.argv[1]))"'
 
-# Disable Spotlight
-alias spotoff="sudo mdutil -a -i off"
-# Enable Spotlight
-alias spoton="sudo mdutil -a -i on"
-
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
 # find . -name .gitattributes | map dirname
@@ -213,8 +208,8 @@ flog() {
       --header "Press CTRL-S to toggle sort" \
       --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
                  xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
-      --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
-              xargs -I % sh -c 'nvim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
+      --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs git rev-parse |
+               xargs -I % sh -c 'nvim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
 }
 
 # show terminal colors
@@ -237,10 +232,6 @@ timeshell() {
   for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
 }
 
-pf() {
-  fd && ff
-}
-
 hdi() {
   howdoi $* -c -n 3
 }
@@ -255,7 +246,7 @@ redraw-prompt() {
 zle -N redraw-prompt
 
 # browse files in a new pane
-range() {
+browse() {
   tmux split-window -c "#{pane_current_path}" "ranger"
 }
 
