@@ -911,6 +911,8 @@ colorscheme space_vim_theme
 " Space-vim-theme
 hi Normal guibg=none guifg=none
 hi ColorColumn guifg=none guibg='#313337'
+hi SignColumn guibg='#282a2e'
+hi VertSplit guifg = '#282a2e' guibg='#282a2e'
 
 " Onedark
 " hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
