@@ -156,14 +156,13 @@ def change_iterm_profile(theme):
     call_with_zsh(command)
 
 
-def call_with_zsh(command):
-    subprocess.call([os.getenv('SHELL'), '-i', '-c', command])
-
-
 def reload_tmux():
     command = 'tmux source-file ~/.tmux.conf'
     call_with_zsh(command)
 
+
+def call_with_zsh(command):
+    subprocess.call([os.getenv('SHELL'), '-i', '-c', command])
 
 def main():
     parser = argparse.ArgumentParser(description="Switch to a theme")
