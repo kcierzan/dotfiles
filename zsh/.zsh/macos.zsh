@@ -68,3 +68,17 @@ etags() {
         /usr/local/bin/ctags -eR
     fi
 }
+
+iterm-emit() {
+    local template="\e]${1}\007"
+    shift
+
+    if [[ -n "$TMUX" || "$TERM" = tmux* ]]; then
+        template="\ePtmux;\e${template}\e\\"
+    fi
+    printf "$template" "$@"
+}
+
+iterm-profile() {
+    iterm-emit '1337;SetProfile=%s' "$1"
+}
