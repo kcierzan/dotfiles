@@ -175,8 +175,9 @@ def call_with_zsh(command):
 
 def main():
     parser = argparse.ArgumentParser(description="Switch to a theme")
-    parser.add_argument("theme", type=str, nargs=1, metavar="THEME", choices=DATA.keys(), help="theme name")
-    parser.add_argument("--list-themes", action="store_true")
+    g = parser.add_mutually_exclusive_group()
+    g.add_argument("--list-themes", action="store_true")
+    g.add_argument("theme", type=str, nargs='?', metavar="THEME", choices=DATA.keys(), help="theme name")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -185,8 +186,8 @@ def main():
             print(theme)
         return
 
-    theme_data = DATA[args.theme[0]]
-    theme = args.theme[0]
+    theme_data = DATA[args.theme]
+    theme = args.theme
     if args.dry_run:
         for template, output in TEMPLATE_OUTPUT_MAP.items():
             template_file = DOTS_DIR + 'static/' + template
