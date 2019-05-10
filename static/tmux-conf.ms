@@ -173,7 +173,7 @@ set -g status-justify "left"
 #set -g status-style "bg=0"
 set -g status-style "bg=8"
 # Set this to the color of the background
-set -g window-style "bg=#2c323d"
+set -g window-style "bg={{tmux-background}}"
 
 set -g status-left " #[fg=colour05][#S] "
 set -g status-left-length 100
@@ -190,7 +190,7 @@ set -g window-status-format " #{?#{==:#{window_name},zsh},#{b:pane_current_path}
 set -g window-status-current-format " #{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-separator ""
 
-set -g pane-active-border-style "fg=#2c323d bg=#2c323d"
-set -g pane-border-style "fg=#2c323d bg=#2c323d"
+set -g pane-active-border-style "fg={{tmux-background}} bg={{tmux-background}}"
+set -g pane-border-style "fg={{tmux-background}} bg={{tmux-background}}"
 
-set -g window-active-style "bg=#282c34"
+set -g window-active-style "bg={{tmux-active}}"

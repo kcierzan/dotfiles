@@ -281,7 +281,7 @@ function! s:goyo_leave()
   set showcmd
   set showmode
   set cursorline
-  colorscheme onedark
+  colorscheme {{colorscheme}}
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
   ALEEnable
@@ -398,7 +398,7 @@ let g:vim_markdown_frontmatter = 1
 
 " lightline
 let g:lightline = {
-      \ 'colorscheme': 'onedark',
+      \ 'colorscheme': '{{lightline}}',
       \ 'separator': {
       \   'left': "\ue0b0",
       \   'right': "\ue0b2"
@@ -905,17 +905,7 @@ vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
 "-------------------------------- COLORSCHEMES -----------------------------------
 
 syntax enable
-set background=dark
-colorscheme onedark
+set background={{shade}}
+colorscheme {{colorscheme}}
 
-
-hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
-hi  ColorColumn ctermfg=none ctermbg=0
-hi ALEErrorSign                   ctermfg=1 guifg='#e06c75'
-hi ALEWarningSign                 ctermfg=3 guifg='#e5c07b'
-hi ALEError                       ctermbg=0
-hi ALEWarning                     ctermbg=0
-hi VertSplit guifg = '#272c33'
-hi Comment cterm=italic
-hi CocHighlightText guibg = '#404754'
-
+{{vim-overrides}}
