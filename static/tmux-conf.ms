@@ -162,6 +162,7 @@ set -g @plugin 'tmux-plugins/tmux-yank'
 # copy important text with Y
 unbind Y
 set -g @fingers-key Y
+set -g @fingers-skip-health-check '1'
 set -g @plugin 'Morantron/tmux-fingers'
 
 run '~/.tmux/plugins/tpm/tpm'
@@ -170,8 +171,7 @@ run '~/.tmux/plugins/tpm/tpm'
 
 set -g status-position bottom
 set -g status-justify "left"
-#set -g status-style "bg=0"
-set -g status-style "bg=8"
+set -g status-style "bg={{tmux-active}}"
 # Set this to the color of the background
 set -g window-style "bg={{tmux-background}}"
 
@@ -182,10 +182,8 @@ set -g status-right " #[fg=colour03]%I:%M %p  %b %d #{?battery_percentage, ,}#{b
 set -g status-right-style "bold"
 set -g status-right-length 100
 
-# set -g window-status-current-style "bold fg=4 bg=0"
-set -g window-status-current-style "bold fg=4 bg=8"
-# set -g window-status-style "fg=8 bg=0"
-set -g window-status-style "fg=8 bg=8"
+set -g window-status-current-style "bold fg=colour04 bg={{tmux-active}}"
+set -g window-status-style "fg=colour08 bg={{tmux-active}}"
 set -g window-status-format " #{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-current-format " #{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-separator ""

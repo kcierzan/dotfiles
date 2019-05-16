@@ -151,8 +151,9 @@ def render_to_stdout(template_path, output_path, data):
         print(rendered)
 
 
+# TODO: make this environment aware
 def change_iterm_profile(theme):
-    command = 'iterm-profile {}'.format(theme)
+    command = f'iterm-profile {theme}'
     call_with_zsh(command)
 
 
@@ -161,11 +162,12 @@ def reload_tmux():
     call_with_zsh(command)
 
 
+# TODO: make this environment aware
 def load_alfred_theme(theme):
     command = [
         'osascript', 
         '-e',
-        'tell application "Alfred 3" to set theme "{}"'.format(theme)
+        f'tell application "Alfred 3" to set theme "{theme}"'
     ]
     subprocess.Popen(command)
 
@@ -193,9 +195,9 @@ def main():
             template_file = DOTS_DIR + 'static/' + template
             output_file = DOTS_DIR + output
             print("****************************************")
-            print("*****************  {}  **************".format(output_file))
+            print(f"*****************  {output_file}  **************")
             render_to_stdout(template_file, output_file, theme_data)
-        print('iTerm profile changed to "{}"'.format(theme))
+        print(f'iTerm profile changed to "{theme}"')
     else:
         for template, output in TEMPLATE_OUTPUT_MAP.items():
             template_file = DOTS_DIR + 'static/' + template
