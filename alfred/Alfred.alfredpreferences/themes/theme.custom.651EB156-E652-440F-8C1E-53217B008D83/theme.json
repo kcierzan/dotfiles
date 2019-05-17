@@ -1,44 +1,44 @@
 {
   "alfredtheme" : {
     "result" : {
-      "textSpacing" : 5,
+      "textSpacing" : 10,
       "subtext" : {
-        "size" : 14,
-        "colorSelected" : "#5AF68DFF",
-        "font" : "InputMonoNarrow Nerd Font",
-        "color" : "#7575757E"
+        "size" : 13,
+        "colorSelected" : "#2AA198FF",
+        "font" : "BlexMono Nerd Font",
+        "color" : "#586D75FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "Input Sans Narrow",
-        "color" : "#99ECFDFF"
+        "font" : "IBM Plex Sans",
+        "color" : "#849900FF"
       },
-      "backgroundSelected" : "#383C4EFF",
+      "backgroundSelected" : "#004254FF",
       "text" : {
         "size" : 24,
-        "colorSelected" : "#FF91D0FF",
-        "font" : "Input Sans Narrow",
-        "color" : "#8A8A8ACB"
+        "colorSelected" : "#D33582FF",
+        "font" : "IBM Plex Sans",
+        "color" : "#829496FF"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 9,
+      "paddingVertical" : 8,
       "iconSize" : 40
     },
     "search" : {
-      "paddingVertical" : 0,
-      "background" : "#272936FF",
+      "paddingVertical" : 8,
+      "background" : "#00252FFF",
       "spacing" : 8,
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "Input Sans Narrow",
-        "color" : "#F8F9F4FF"
+        "font" : "IBM Plex Sans",
+        "color" : "#268AD1FF"
       },
       "backgroundSelected" : "#7AC7FFFF"
     },
     "window" : {
-      "color" : "#272936FF",
+      "color" : "#00252FFF",
       "paddingHorizontal" : 0,
       "width" : 750,
       "borderPadding" : 0,
@@ -56,6 +56,6 @@
       "color" : "#358188FF",
       "thickness" : 2
     },
-    "name" : "dracula"
+    "name" : "solarized-light"
   }
 }

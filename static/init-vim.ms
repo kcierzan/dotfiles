@@ -109,6 +109,7 @@ command Nows :%s/\s\+$//
 "-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'joshdick/onedark.vim'
+Plug 'dracula/vim'
 Plug 'morhetz/gruvbox'
 Plug 'patstockwell/vim-monokai-tasty'
 Plug 'kcierzan/termina'

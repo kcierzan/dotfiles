@@ -5,24 +5,24 @@
       "subtext" : {
         "size" : 14,
         "colorSelected" : "#2D9474FF",
-        "font" : "OperatorMono Nerd Font",
+        "font" : "RobotoMono Nerd Font",
         "color" : "#586D75FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "OperatorMono Nerd Font",
+        "font" : "RobotoMono Nerd Font",
         "color" : "#CD537AFF"
       },
       "backgroundSelected" : "#282D34FF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#BB6DC3FF",
-        "font" : "OperatorMono Nerd Font",
+        "font" : "Roboto",
         "color" : "#989999FF"
       },
       "iconPaddingHorizontal" : 4,
-      "paddingVertical" : 10,
+      "paddingVertical" : 7,
       "iconSize" : 40
     },
     "search" : {
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "OperatorMono Nerd Font",
+        "font" : "Roboto",
         "color" : "#EDAD0DFF"
       },
       "backgroundSelected" : "#7AC7FFFF"
