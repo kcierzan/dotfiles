@@ -927,9 +927,7 @@ Dedicate buffers to windows based on their purpose
     :init (setq doom-themes-enable-bold t
                 doom-themes-enable-italic t)
     :config
-    (doom-themes-org-config)
-    (load-theme 'doom-one t))
-
+    (doom-themes-org-config))
 #+END_SRC
 *** moe-theme
 #+BEGIN_SRC emacs-lisp
@@ -995,7 +993,8 @@ Dedicate buffers to windows based on their purpose
   (use-package kaolin-themes
     ;; :disabled t
     :demand t
-    :config)
+    :config
+    (load-theme 'kaolin-bubblegum t))
 #+END_SRC
 ** Languages
 *** Dockerfile

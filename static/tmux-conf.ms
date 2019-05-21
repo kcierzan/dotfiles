@@ -29,7 +29,6 @@ setw -g aggressive-resize off
 set -sg escape-time 0
 
 # Enable cursor shape changing for neovim in tmux
-# set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 set-window-option -g automatic-rename off
@@ -172,7 +171,6 @@ run '~/.tmux/plugins/tpm/tpm'
 set -g status-position bottom
 set -g status-justify "left"
 set -g status-style "bg={{tmux-active}}"
-# Set this to the color of the background
 set -g window-style "bg={{tmux-background}}"
 
 set -g status-left " #[fg=colour05][#S] "
