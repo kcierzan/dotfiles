@@ -428,3 +428,18 @@ envf() {
 stag() {
     git log $(git describe --tags --abbrev=0)..HEAD --oneline
 }
+
+f8i() {
+    pip install flake8 \
+      flake8-print \
+      flake8-fixme \
+      flake8-mutable \
+      flake8-mypy \
+      pep8-naming \
+      flake8-import-order \
+      flake8-bandit \
+      flake8-comprehensions \
+      flake8-eradicate \
+      flake8-mock \
+      cohesion
+}

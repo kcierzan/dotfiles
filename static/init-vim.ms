@@ -124,6 +124,7 @@ Plug 'yuttie/comfortable-motion.vim'
 Plug 'justinmk/vim-sneak'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'christoomey/vim-tmux-navigator'
+let g:ale_completion_enabled = 0
 Plug 'w0rp/ale'
 Plug 'janko-m/vim-test'
 Plug 'benmills/vimux'
@@ -312,7 +313,7 @@ let g:tmux_navigator_no_mappings = 1
 filetype off
 filetype plugin on
 let g:ale_linters = {
-      \ 'python': ['pyls'],
+      \ 'python': ['flake8', 'mypy'],
       \ 'javascript': ['eslint'],
       \ 'css': ['prettier'],
       \ 'php': ['php'],
@@ -334,9 +335,7 @@ let g:ale_fixers = {
       \ 'css': ['prettier'],
       \ 'html': ['tidy'],
       \}
-let g:ale_python_pylint_options = '--rcfile=~/.pylintrc'
-let g:ale_python_pylint_use_global = 1
-let g:ale_python_flake8_use_global = 1
+let g:ale_python_flake8_options = "--import-order-style=google"
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/neovim3/bin/vint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
