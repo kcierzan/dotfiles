@@ -107,7 +107,6 @@ command J :call JSONify()
 command Nows :%s/\s\+$//
 
 "-------------------------------- PLUGINS -----------------------------------
-
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'joshdick/onedark.vim'
 Plug 'dracula/vim'
@@ -337,9 +336,6 @@ let g:ale_fixers = {
       \ 'html': ['tidy'],
       \}
 let g:ale_python_flake8_options = "--import-order-style=google"
-" let g:ale_python_pylint_options = '--rcfile=~/.pylintrc'
-" let g:ale_python_pylint_use_global = 1
-" let g:ale_python_flake8_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/neovim3/bin/vint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
