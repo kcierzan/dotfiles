@@ -335,7 +335,7 @@ let g:ale_fixers = {
       \ 'css': ['prettier'],
       \ 'html': ['tidy'],
       \}
-let g:ale_python_flake8_options = "--import-order-style=google"
+" let g:ale_python_flake8_options = "--import-order-style=google"
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/neovim3/bin/vint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'

@@ -2,4 +2,11 @@
 set -euo pipefail
 
 newargs="$(echo "$@" | sed 's/\-\-ignore .* //')"
-rg --hidden --follow --no-ignore --glob "!.git/*" -g "!*.pyc" -g "!node_modules/*" -g "!tags" -g "!TAGS" -g "!*.xml" -g "!coverage.py" $newargs 2>/dev/null
+rg --hidden --follow \
+   --glob "!.git/*" \
+   -g "!*.pyc" \
+   -g "!node_modules/*" \
+   -g "!tags" \
+   -g "!TAGS" \
+   -g "!*.xml" \
+   -g "!coverage.py" $newargs 2>/dev/null

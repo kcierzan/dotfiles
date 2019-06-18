@@ -54,7 +54,7 @@ brewup() {
 ctags() {
     version=$(pyenv version | cut -d ' ' -f 1)
     if [ $version != system ]; then
-        /usr/local/bin/ctags && /usr/local/bin/ctags --append tags -R $(pyenv prefix)
+        /usr/local/bin/ctags -R && /usr/local/bin/ctags --append tags -R $(pyenv prefix)
     else
         /usr/local/bin/ctags -R
     fi
@@ -63,7 +63,7 @@ ctags() {
 etags() {
     version=$(pyenv version | cut -d ' ' -f 1)
     if [ $version != system ]; then
-        /usr/local/bin/ctags -e && /usr/local/bin/ctags -e --append tags -R $(pyenv prefix)
+        /usr/local/bin/ctags -eR && /usr/local/bin/ctags -e --append tags -R $(pyenv prefix)
     else
         /usr/local/bin/ctags -eR
     fi

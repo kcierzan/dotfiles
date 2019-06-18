@@ -347,7 +347,7 @@ Convenience function to grab file and line number at point
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :delight ""
-    :hook ((org-mode prog-mode restclient-mode) . company-mode)
+    :hook ((org-mode prog-mode restclient-mode yaml-mode dockerfile-mode) . company-mode)
     :defer 2
     :config
     (setq company-minimum-prefix-length 2
@@ -362,7 +362,7 @@ Convenience function to grab file and line number at point
           company-require-match 'never
           company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
           company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
-          company-backends '(company-capf company-dabbrev company-yasnippet company-files)
+          company-backends '(company-capf company-etags company-yasnippet company-dabbrev company-dabbrev-code company-files)
           company-transformers '(company-sort-by-occurrence))
     (add-hook 'after-init-hook '(lambda ()
                                   (define-key company-active-map (kbd "RET") 'company-complete-selection)
@@ -380,6 +380,12 @@ Completion by frecency
     :hook (company-mode . company-statistics-mode)
     :init (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
     :config (company-statistics-mode 1))
+#+END_SRC
+**** company-box
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
 #+END_SRC
 **** company-quickhelp
 Documentation popups
@@ -414,6 +420,7 @@ Documentation popups
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package eglot
+    :disabled t
     :hook ((python-mode) . eglot-ensure)
     :commands (eglot-ensure eglot eglot-reconnect eglot-rename eglot-help-at-point eglot-events-buffer))
 #+END_SRC
@@ -927,7 +934,8 @@ Dedicate buffers to windows based on their purpose
     :init (setq doom-themes-enable-bold t
                 doom-themes-enable-italic t)
     :config
-    (doom-themes-org-config))
+    (doom-themes-org-config)
+    (load-theme 'doom-one t))
 #+END_SRC
 *** moe-theme
 #+BEGIN_SRC emacs-lisp
@@ -991,10 +999,9 @@ Dedicate buffers to windows based on their purpose
 #+name: interface
 #+BEGIN_SRC emacs-lisp
   (use-package kaolin-themes
-    ;; :disabled t
     :demand t
-    :config
-    (load-theme 'kaolin-bubblegum t))
+    :config)
+    ;; (load-theme 'kaolin-temple t))
 #+END_SRC
 ** Languages
 *** Dockerfile
@@ -1304,36 +1311,35 @@ Support for Xdebug
   (use-package geben)
 #+END_SRC
 *** Python
-**** python-lsp
-#+name: languages
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-python
-    :disabled t
-    :after lsp-mode)
-#+END_SRC
 **** lsp-mode
 #+name: languages
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :disabled t
-    :delight ""
-    :hook (python-mode . lsp-mode))
+    (use-package lsp-mode
+      :delight ""
+      :init (setq lsp-auto-guess-root t
+                  lsp-keep-workspace-alive nil
+                  lsp-enable-xref t
+                  lsp-prefer-flymake nil
+                  lsp-auto-configure t
+                  lsp-response-timeout 3)
+      :hook ((python-mode . lsp-mode)
+             (js2-mode . lsp-mode)
+             (php-mode . lsp-mode)))
 #+END_SRC
 **** company-lsp
-This is unusably slow as of 06/21/18
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package company-lsp
-    :disabled t
     :init (setq company-lsp-async t)
-    :hook (python-mode . (lambda ()
-                     (add-to-list 'company-backends 'company-lsp))))
+    :hook ((python-mode . (lambda ()
+                            (add-to-list 'company-backends 'company-lsp)))
+           (js2-mode . (lambda ()
+                         (add-to-list 'company-backends 'company-lsp)))))
 #+END_SRC
 **** lsp-ui
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-ui
-    :disabled t
     :config
     :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
@@ -1923,7 +1929,7 @@ General provides some nice macros for dealing with evil keybindings
       "l" 'eval-last-sexp)
     (next-leader "]" 'text-scale-increase
       "d" 'git-gutter:next-hunk
-      "e" 'next-error
+      "e" 'flymake-goto-next-error
       "s" 'evil-next-flyspell-error)
     (previous-leader "[" 'text-scale-decrease
       "d" 'git-gutter:previous-hunk
@@ -1945,7 +1951,10 @@ General provides some nice macros for dealing with evil keybindings
       "g C-]" 'xref-find-definitions)
     (general-define-key
      :keymaps 'override
-     :states '(normal visual motion) "s" 'evil-avy-goto-char-2)
+     :states '(normal visual motion)
+     "s" 'evil-avy-goto-char-2
+     "L" 'evil-last-non-blank
+     "H" 'evil-first-non-blank)
     ;; non-prefix global
     (general-def
       "M-x" 'helm-M-x

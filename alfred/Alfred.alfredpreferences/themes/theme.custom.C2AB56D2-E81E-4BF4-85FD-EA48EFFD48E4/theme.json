@@ -5,20 +5,20 @@
       "subtext" : {
         "size" : 13,
         "colorSelected" : "#2AA198FF",
-        "font" : "BlexMono Nerd Font",
+        "font" : "SF Mono",
         "color" : "#586D75FF"
       },
       "shortcut" : {
         "size" : 23,
         "colorSelected" : "#FFFFFFFF",
-        "font" : "IBM Plex Sans",
+        "font" : "SF Mono",
         "color" : "#849900FF"
       },
       "backgroundSelected" : "#004254FF",
       "text" : {
         "size" : 24,
         "colorSelected" : "#D33582FF",
-        "font" : "IBM Plex Sans",
+        "font" : "San Francisco Display",
         "color" : "#829496FF"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "IBM Plex Sans",
+        "font" : "San Francisco Display",
         "color" : "#268AD1FF"
       },
       "backgroundSelected" : "#7AC7FFFF"

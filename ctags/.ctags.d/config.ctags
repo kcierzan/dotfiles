@@ -9,3 +9,11 @@
 --exclude=templates/*
 --exclude=static/*
 --exclude=platform/*
+--exclude=*.html
+--exclude=*.yaml
+--exclude=*.yml
+--exclude=*.css
+--exclude=*.json
+--exclude=.mypy_cache/*
+--exclude=TAGS
+--exclude=tags

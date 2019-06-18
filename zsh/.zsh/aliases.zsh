@@ -180,25 +180,25 @@ ff() {
   fi
 }
 
-fd() {
-    local out dir key
-    IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v,ctrl-e +m)"
-    key=$(head -1 <<< "$out")
-    dir=$(head -2 <<< "$out" | tail -1)
-    if [ -d "$dir" ]; then
-        if [ "$key" = ctrl-o ]; then
-            open "$dir"
-        elif [ "$key" = ctrl-v ]; then
-            cd "$dir" && code "$dir"
-        elif [ "$key" = ctrl-e ]; then
-            $EDITOR "$dir"
-        elif [ "$key" = ctrl-x ]; then
-            rm -ir "$dir"
-        else
-            cd "$dir"
-        fi
-    fi
-}
+# fd() {
+#     local out dir key
+#     IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v,ctrl-e +m)"
+#     key=$(head -1 <<< "$out")
+#     dir=$(head -2 <<< "$out" | tail -1)
+#     if [ -d "$dir" ]; then
+#         if [ "$key" = ctrl-o ]; then
+#             open "$dir"
+#         elif [ "$key" = ctrl-v ]; then
+#             cd "$dir" && code "$dir"
+#         elif [ "$key" = ctrl-e ]; then
+#             $EDITOR "$dir"
+#         elif [ "$key" = ctrl-x ]; then
+#             rm -ir "$dir"
+#         else
+#             cd "$dir"
+#         fi
+#     fi
+# }
 
 # fuzzy search through git log
 flog() {
@@ -435,7 +435,6 @@ f8i() {
       flake8-fixme \
       flake8-mutable \
       flake8-mypy \
-      pep8-naming \
       flake8-import-order \
       flake8-bandit \
       flake8-comprehensions \
