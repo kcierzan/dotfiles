@@ -49,7 +49,7 @@ set termguicolors
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor
 
 " Use system clipboard on macOS
-set clipboard=unnamed
+set clipboard=unnamed,unnamedplus
 
 " Set :grep to use ripgrep
 if executable('rg')
