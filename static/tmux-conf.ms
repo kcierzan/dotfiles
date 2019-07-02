@@ -156,15 +156,14 @@ bind R source-file ~/.tmux.conf
 
 #------------- PLUGINS ---------------------
 set -g @plugin 'tmux-plugins/tmux-battery'
-set -g @plugin 'tmux-plugins/tmux-yank'
 
 # copy important text with Y
 unbind Y
 set -g @fingers-key Y
 set -g @fingers-skip-health-check '1'
+set -g @fingers-copy-command 'pbcopy'
 set -g @plugin 'Morantron/tmux-fingers'
-
-run '~/.tmux/plugins/tpm/tpm'
+set -g @plugin 'tmux-plugins/tmux-yank'
 
 #------------ THEME -----------------------
 
@@ -176,7 +175,7 @@ set -g window-style "bg={{tmux-background}}"
 set -g status-left " #[fg=colour05][#S] "
 set -g status-left-length 100
 
-set -g status-right " #[fg=colour03]%I:%M %p  %b %d #{?battery_percentage, ,}#{battery_status_fg}#{battery_percentage} "
+set -g status-right " #[fg=colour03]%I:%M %p  %b %d [#{battery_status_fg}#{battery_percentage}#[fg=colour=03]] "
 set -g status-right-style "bold"
 set -g status-right-length 100
 
@@ -190,3 +189,5 @@ set -g pane-active-border-style "fg={{tmux-background}} bg={{tmux-background}}"
 set -g pane-border-style "fg={{tmux-background}} bg={{tmux-background}}"
 
 set -g window-active-style "bg={{tmux-active}}"
+
+run '~/.tmux/plugins/tpm/tpm'
