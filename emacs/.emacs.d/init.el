@@ -44,9 +44,9 @@
     (setq use-package-always-ensure t)))
 
 
-(setq monospace-font "mononoki Nerd Font"
-      string-font "mononoki Nerd Font"
-      nerd-font "mononoki Nerd Font"
+(setq monospace-font "SF Mono"
+      string-font "SF Mono"
+      nerd-font "RobotoMono Nerd Font"
       variable-pitch-font "San Francisco Display")
 
 ;; we configure org mode early - the rest of the config is loaded via org-babel

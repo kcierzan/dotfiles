@@ -60,7 +60,7 @@
         '((top . 50) (left . 130)
           (width . 200) (height . 60)))
   (add-hook 'window-setup-hook (lambda ()
-                                 (set-face-attribute 'default nil :height 140)
+                                 (set-face-attribute 'default nil :height 150)
                                  (set-face-attribute 'header-line nil :height 190)))
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -1011,6 +1011,8 @@ Dedicate buffers to windows based on their purpose
         :pin melpa
         :mode "Dockerfile$")
         #+END_SRC
+
+*** Elixir
 **** Alchemist
 #+name: languages
 #+BEGIN_SRC emacs-lisp
@@ -1133,6 +1135,7 @@ A javascript refactoring library for emacs
      #+name: languages
      #+BEGIN_SRC emacs-lisp
        (use-package company-tern
+         :disabled t
          :after (company tern)
          :hook
          (js2-mode . (lambda ()
@@ -1314,23 +1317,26 @@ Support for Xdebug
 **** lsp-mode
 #+name: languages
 #+BEGIN_SRC emacs-lisp
-    (use-package lsp-mode
-      :delight ""
-      :init (setq lsp-auto-guess-root t
-                  lsp-keep-workspace-alive nil
-                  lsp-enable-xref t
-                  lsp-prefer-flymake nil
-                  lsp-auto-configure t
-                  lsp-response-timeout 3)
-      :hook ((python-mode . lsp-mode)
-             (js2-mode . lsp-mode)
-             (php-mode . lsp-mode)))
+  (use-package lsp-mode
+    :delight ""
+    :commands lsp
+    :init (setq lsp-auto-guess-root t
+                lsp-keep-workspace-alive nil
+                lsp-enable-xref t
+                lsp-prefer-flymake nil
+                lsp-auto-configure t
+                lsp-response-timeout 3)
+    :hook ((python-mode . lsp)
+           (js2-mode . lsp)
+           (php-mode . lsp)))
 #+END_SRC
 **** company-lsp
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package company-lsp
-    :init (setq company-lsp-async t)
+    :init (setq company-lsp-async t
+                company-lsp-cache-candidates 'auto
+                company-lsp-enable-snippet t)
     :hook ((python-mode . (lambda ()
                             (add-to-list 'company-backends 'company-lsp)))
            (js2-mode . (lambda ()
@@ -1880,7 +1886,7 @@ General provides some nice macros for dealing with evil keybindings
       "m" 'describe-mode)
     (find-leader
       "r" 'helm-recentf
-      "o" 'helm-semantic-or-imenu
+      "o" 'helm-imenu
       "t" 'helm-etags-select
       "O" 'helm-imenu-in-all-buffers
       "g" 'helm-ag
@@ -1954,7 +1960,9 @@ General provides some nice macros for dealing with evil keybindings
      :states '(normal visual motion)
      "s" 'evil-avy-goto-char-2
      "L" 'evil-last-non-blank
-     "H" 'evil-first-non-blank)
+     "H" 'evil-first-non-blank
+     "ge" 'flycheck-next-error
+     "gE" 'flycheck-previous-error)
     ;; non-prefix global
     (general-def
       "M-x" 'helm-M-x
@@ -1967,13 +1975,13 @@ General provides some nice macros for dealing with evil keybindings
       "C-M-n" 'helm-next-source
       "C-M-p" 'helm-previous-source
       "C-h b" 'helm-descbinds
+      "M-v" 'evil-paste-after
+      "M-m" 'suspend-frame
       "C-;" 'helm-M-x
       "A-x" 'helm-M-x)
       ;; "M-x" 'counsel-M-x
       ;; "M-y" 'counsel-yank-pop
-      ;; "M-v" 'evil-paste-after
       ;; "C-u" 'evil-scroll-up
-      ;; "M-m" 'suspend-frame
       ;; "C-;" 'counsel-M-x
       ;; "A-x" 'counsel-M-x)
     ;; helm mappings
