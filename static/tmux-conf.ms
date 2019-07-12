@@ -39,7 +39,7 @@ set -g allow-rename off
 
 # Set custom terminfo for italics and 256 colors
 # This also enables truecolor
-set -g default-terminal "xterm-256color"
+set -g default-terminal "tmux-256color"
 set -ga terminal-overrides ",*256col*:Tc"
 
 # Faster key repitition
@@ -158,11 +158,8 @@ bind R source-file ~/.tmux.conf
 set -g @plugin 'tmux-plugins/tmux-battery'
 
 # copy important text with Y
-unbind Y
-set -g @fingers-key Y
-set -g @fingers-skip-health-check '1'
 set -g @fingers-copy-command 'pbcopy'
-set -g @plugin 'Morantron/tmux-fingers'
+set -g @plugin 'tmux-plugins/tmux-copycat'
 set -g @plugin 'tmux-plugins/tmux-yank'
 
 #------------ THEME -----------------------

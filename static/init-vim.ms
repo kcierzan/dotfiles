@@ -112,7 +112,6 @@ Plug 'joshdick/onedark.vim'
 Plug 'dracula/vim'
 Plug 'morhetz/gruvbox'
 Plug 'patstockwell/vim-monokai-tasty'
-Plug 'kcierzan/termina'
 Plug 'lifepillar/vim-solarized8'
 Plug 'liuchengxu/space-vim-theme'
 Plug 'ayu-theme/ayu-vim'
@@ -398,21 +397,21 @@ let g:vim_markdown_frontmatter = 1
 
 " lightline
 let g:lightline = {
-      \ 'colorscheme': '{{lightline}}',
+      \ 'colorscheme': 'termina',
       \ 'separator': {
-      \   'left': "\ue0b0",
-      \   'right': "\ue0b2"
+      \   'left': "",
+      \   'right': ""
       \ },
       \ 'subseparator': {
-      \   'left': "\ue0b1",
-      \   'right': "\ue0b3"
+      \   'left': "|",
+      \   'right': "|"
       \ },
       \ 'enable': {
       \   'statusline': 1
       \ },
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], ['filename', 'modified'], ['gitbranch'] ],
-      \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok' ], ['cwd', 'filetype' ], [ 'lineinfo', 'percent'], ['coc'] ]
+      \   'left': [ [ 'mode', 'paste' ], ['gitbranch'], ['filename', 'modified'], ],
+      \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok' ], ['cwd', 'filetype' ], ['coc'] ]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head',
