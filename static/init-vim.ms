@@ -48,7 +48,7 @@ set termguicolors
 " set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor
 
-" Use system clipboard on macOS
+" Use system clipboard on macOS and both clipboards on linux
 set clipboard=unnamed,unnamedplus
 
 " Set :grep to use ripgrep
@@ -403,18 +403,18 @@ let g:lightline = {
       \   'right': ""
       \ },
       \ 'subseparator': {
-      \   'left': "|",
-      \   'right': "|"
+      \   'left': "",
+      \   'right': ""
       \ },
       \ 'enable': {
       \   'statusline': 1
       \ },
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], ['gitbranch'], ['filename', 'modified'], ],
-      \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok' ], ['cwd', 'filetype' ], ['coc'] ]
+      \   'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'filename', 'modified', ], ],
+      \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok' ], ['cwd', 'filetype' ], ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'fugitive#head',
+      \   'gitbranch': 'LightlineBranch',
       \   'cwd': 'LightlineCwd',
       \   'coc': 'CocCollapse',
       \   'filetype': 'IconFiletype',
@@ -429,6 +429,19 @@ let g:lightline = {
       \   'readonly': 'error',
       \   'linter_warnings': 'warning',
       \   'linter_errors': 'error',
+      \ },
+      \'mode_map': {
+      \   'n' : '',
+      \   'i' : 'פֿ',
+      \   'R' : 'ﯩ',
+      \   'v' : '﯎',
+      \   'V' : '﯎',
+      \   "\<C-v>": '﯎',
+      \   'c' : 'ﲵ',
+      \   's' : 'סּ',
+      \   'S' : 'סּ',
+      \   "\<C-s>": 'סּ',
+      \   't': 'ﲵ',
       \ }
       \}
 
@@ -445,7 +458,11 @@ function! IconFileformat()
 endfunction
 
 function! LightlineCwd()
-  return fnamemodify(getcwd(), ':t')
+  return '  ' . fnamemodify(getcwd(), ':t')
+endfunction
+
+function! LightlineBranch()
+  return ' ' . fugitive#head() . '   ' . join(GitGutterGetHunkSummary())
 endfunction
 
 function! LightlineLinterWarnings() abort
@@ -470,7 +487,7 @@ function! LightlineLinterOK() abort
 endfunction
 
 function LightLineFilename()
-  return expand('%')
+  return '  ' . expand('%')
 endfunction
 
 function! s:MaybeUpdateLightline()
