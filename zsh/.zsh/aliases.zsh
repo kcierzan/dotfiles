@@ -180,6 +180,27 @@ ff() {
   fi
 }
 
+fa() {
+  IFS=$'\n'
+  out=($(fd -H -a --type f . / | fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-x,ctrl-v --preview-window=up:80% \
+                                 --preview '[[ $(file --mime {}) =~ binary ]] &&
+                                  echo {} is a binary file ||
+                                  preview {} 2> /dev/null | head -2000'))
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+    if [ "$key" = ctrl-o ]; then
+      open "$file"
+    elif [ "$key" = ctrl-x ]; then
+        rm -i "$file"
+    elif [ "$key" = ctrl-v ]; then
+        code "$file"
+    else
+        $EDITOR "$file"
+    fi
+  fi
+}
+
 # fd() {
 #     local out dir key
 #     IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v,ctrl-e +m)"
