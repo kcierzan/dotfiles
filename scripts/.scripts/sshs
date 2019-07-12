@@ -20,15 +20,15 @@ servers=(`search "$QUERY"`)
 
 if [ $servers ]; then
   if [ -z "$FZF_OPTS" ]; then
-    ssh ${servers[0]};
+    TERM="xterm-256color" ssh ${servers[0]};
   else
-    tmux send-keys -t $TMUX_PANE "ssh ${servers[0]}" C-m;
+    tmux send-keys -t $TMUX_PANE "TERM='xterm-256color' ssh ${servers[0]}" C-m;
     counter=1;
     for server in "${servers[@]}";
     do
       if [ $counter -gt 1 ]; then
         tmux split-window;
-        tmux send-keys -t "$counter" "ssh $server" C-m;
+        tmux send-keys -t "$counter" "TERM='xterm-256color' ssh $server" C-m;
         tmux select-layout even-vertical;
       fi;
       counter=$((counter + 1));
