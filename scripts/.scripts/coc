@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+VIRTUALENV="$(pyenv version | cut -d ' ' -f 1 )"
+
+mkdir -p .vim
+
+cat > .vim/coc-settings.json<<EOF
+{
+  "python.pythonPath": "/Users/$(whoami)/.pyenv/versions/${VIRTUALENV}/bin/python"
+}
+EOF

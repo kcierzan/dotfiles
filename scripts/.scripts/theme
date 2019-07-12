@@ -1,4 +1,4 @@
-#!/Users/kylec/.pyenv/versions/global-python3/bin/python
+#!/usr/bin/env python
 import argparse
 import os
 import subprocess
@@ -12,6 +12,7 @@ TEMPLATE_OUTPUT_MAP = {
     "zshenv.ms": "zsh/.zshenv",
     "tmux-conf.ms": "tmux/.tmux.conf",
     "zpreztorc.ms": "zsh/.zpreztorc",
+    "lightline-termina.ms": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/termina.vim"
 }
 
 # TODO: extract these to partials
@@ -100,7 +101,7 @@ DATA = {
         "vim-overrides": ONEDARK_OVERRIDES,
         "tmux-background": "#2c323d",
         "tmux-active": "#282c34",
-        "lightline": "onedark",
+        "foreground": "#b9bfc9",
         "bat-theme": "TwoDark",
         "autosuggestions": "238",
     },
@@ -110,7 +111,7 @@ DATA = {
         "vim-overrides": SPACEMACS_OVERRIDES,
         "tmux-active": "#282a2e",
         "tmux-background": "#313337",
-        # TODO: change lightline for spacemacs
+        # TODO: change to foreground
         "lightline": "darcula",
         "bat-theme": "TwoDark",
         "autosuggestions": "238",
@@ -121,6 +122,7 @@ DATA = {
         "vim-overrides": SOLARIZED_DARK_OVERRIDES,
         "tmux-background": "#073642",
         "tmux-active": "#002b36",
+        # TODO: change to foreground
         "lightline": "solarized",
         "bat-theme": "SolarizedDark",
         "autosuggestions": "238",
@@ -131,6 +133,7 @@ DATA = {
         "vim-overrides": SOLARIZED_LIGHT_OVERRIDES,
         "tmux-background": "#eee8d5",
         "tmux-active": "#fdf6e3",
+        # TODO: change to foreground
         "lightline": "solarized",
         "bat-theme": "SolarizedLight",
         "autosuggestions": "251",
@@ -141,6 +144,7 @@ DATA = {
         "vim-overrides": MONOKAI_OVERRIDES,
         "tmux-background": "#2d2d2d",
         "tmux-active": "#252525",
+        # TODO: change to foreground
         "lightline": "monokai_tasty",
         "bat-theme": "Monokai Extended Origin",
         "autosuggestions": "238",
@@ -151,6 +155,7 @@ DATA = {
         "vim-overrides": DRACULA_OVERRIDES,
         "tmux-background": "#333842",
         "tmux-active": "#272c33",
+        # TODO: change to foreground
         "lightline": "darcula",
         "bat-theme": "Dracula",
         "autosuggestions": "238",

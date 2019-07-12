@@ -71,7 +71,7 @@ source ~/.zsh/aliases.zsh
 source ~/.zsh/extra.zsh
 source ~/.zsh/vi_cursor.zsh
 
-# start X
-if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]] && [ $OSTYPE = "linux-gnu" ]; then
-    exec startx
+if [[ $OSTYPE = 'linux-gnu' ]]; then
+    source /usr/share/fzf/key-bindings.zsh
+    source /usr/share/fzf/completion.zsh
 fi
