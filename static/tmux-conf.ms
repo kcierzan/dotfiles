@@ -169,7 +169,7 @@ set -g status-justify "left"
 set -g status-style "bg={{tmux-active}}"
 set -g window-style "bg={{tmux-background}}"
 
-set -g status-left " #[fg=colour05][#S] "
+set -g status-left "#[fg=colour03]  #[fg=colour05]#S "
 set -g status-left-length 100
 
 set -g status-right " #[fg=colour03]%I:%M %p  %b %d [#{battery_status_fg}#{battery_percentage}#[fg=colour=03]] "

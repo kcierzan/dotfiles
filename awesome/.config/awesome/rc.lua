@@ -53,6 +53,13 @@ beautiful.wallpaper = "/home/antares/.config/awesome/themes/nice-beach.jpg"
 -- Gaps that are useless
 beautiful.useless_gap = 5
 
+-- Rounded corners
+client.connect_signal("manage", function (c)
+   c.shape = function (cr,w,h)
+      gears.shape.rounded_rect(cr,w,h,6)
+   end
+end)
+
 -- This is used later as the default terminal and editor to run.
 terminal = "st"
 editor = os.getenv("EDITOR") or "nano"

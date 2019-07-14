@@ -1,0 +1,35 @@
+! color scheme
+#include </home/antares/.xcolors/solarized.xcolors>
+
+! fonts
+urxvt*font: xft:RobotoMono Nerd Font:size=9:antialias=true
+urxvt*boldFont:
+urxvt*italicFont:
+urxvt*bolditalicFont:
+
+! interface
+urxvt*scrollBar: false
+urxvt*transparent: false
+urxvt*internalBorder: 10
+! urxvt*borderColor: #1c1c1c
+urxvt*borderLess: false
+
+! bindings
+urxvt*meta8: false
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+
+! Xft
+Xft.dpi: 96
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintslight
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+! extensions
+urxvt.perl-ext-common: font-size
+
+! not sure if needed
+XTerm*metaSendsEscape: true
