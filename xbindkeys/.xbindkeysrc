@@ -1,4 +1,4 @@
 # Display rofi combi
-"rofi -show combi"
+"rofi-blur"
   m:0x40 + c:65
   Mod4 + space
