@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+scrot -d0 /tmp/desktop.jpg && convert /tmp/desktop.jpg -blur 0x4 /tmp/blurred.jpg
+
+feh -F /tmp/blurred.jpg & export POD=$!
+rofi -show combi & export ROFI=$!
+
+wait $ROFI
+kill $POD
