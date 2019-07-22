@@ -34,6 +34,7 @@ fi
 setxkbmap -option 'caps:ctrl_modifier' && xcape -e 'Caps_Lock=Escape'
 setxkbmap -option 'altwin:swap_alt_win'
 xbindkeys
+start-jack
 xbanish&
 compton&
 exec awesome
