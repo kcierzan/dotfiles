@@ -7,7 +7,7 @@ local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
 -- Widget and layout library
-local wibox = require("wibox")
+-- local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
@@ -43,12 +43,13 @@ do
 end
 -- }}}
 
+local home_dir = os.getenv("HOME")
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.init(home_dir .. "/.config/awesome/themes/onedark.lua")
 
 -- Set a nice wallpaper
-beautiful.wallpaper = "/home/antares/.config/awesome/themes/nice-beach.jpg"
+beautiful.wallpaper = home_dir .. "/Pictures/wallpapers/wallhaven-565851.jpg"
 
 -- Gaps that are useless
 beautiful.useless_gap = 5
@@ -62,7 +63,7 @@ end)
 
 -- This is used later as the default terminal and editor to run.
 terminal = "st"
-editor = os.getenv("EDITOR") or "nano"
+editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -76,17 +77,17 @@ modkey = "Mod4"
 awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
+    awful.layout.suit.spiral,
+    awful.layout.suit.max,
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
+    -- awful.layout.suit.tile.top,
     -- awful.layout.suit.fair,
     -- awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
-    -- awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.corner.nw,
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.magnifier,
+    -- awful.layout.suit.corner.nw,
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
@@ -120,7 +121,7 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+-- mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -209,26 +210,26 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    -- s.mywibox = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
-    s.mywibox:setup {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            mylauncher,
-            s.mytaglist,
-            s.mypromptbox,
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
-            wibox.widget.systray(),
-            mytextclock,
-            s.mylayoutbox,
-        },
-    }
+    -- s.mywibox:setup {
+    --     layout = wibox.layout.align.horizontal,
+    --     { -- Left widgets
+    --         layout = wibox.layout.fixed.horizontal,
+    --         mylauncher,
+    --         s.mytaglist,
+    --         s.mypromptbox,
+    --     },
+    --     s.mytasklist, -- Middle widget
+    --     { -- Right widgets
+    --         layout = wibox.layout.fixed.horizontal,
+    --         mykeyboardlayout,
+    --         wibox.widget.systray(),
+    --         mytextclock,
+    --         s.mylayoutbox,
+    --     },
+    -- }
 end)
 -- }}}
 
@@ -483,7 +484,7 @@ awful.rules.rules = {
           "Gpick",
           "Kruler",
           "MessageWin",  -- kalarm.
-          "Sxiv",
+          -- "Sxiv",
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
           "Wpa_gui",
           "veromix",
