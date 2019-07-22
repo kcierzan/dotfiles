@@ -8,11 +8,11 @@ import chevron
 DOTS_DIR = os.path.expanduser('~') + '/git/.dotfiles/'
 
 TEMPLATE_OUTPUT_MAP = {
-    "init-vim.ms": "neovim/.config/nvim/init.vim",
-    "zshenv.ms": "zsh/.zshenv",
-    "tmux-conf.ms": "tmux/.tmux.conf",
-    "zpreztorc.ms": "zsh/.zpreztorc",
-    "lightline-termina.ms": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/termina.vim"
+    "init-vim.mustache": "neovim/.config/nvim/init.vim",
+    "zshenv.mustache": "zsh/.zshenv",
+    "tmux-conf.mustache": "tmux/.tmux.conf",
+    "zpreztorc.mustache": "zsh/.zpreztorc",
+    "lightline-termina.mustache": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/termina.vim"
 }
 
 # TODO: extract these to partials
