@@ -43,12 +43,13 @@ set undofile
 set undolevels=100000
 set foldlevelstart=20
 set termguicolors
+set showtabline=0
 
 " Enable blinking cursor
 " set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor
 
-" Use system clipboard on macOS
+" Use system clipboard on macOS and both clipboards on linux
 set clipboard=unnamed,unnamedplus
 
 " Set :grep to use ripgrep
@@ -95,16 +96,16 @@ augroup SwitchPanes
 augroup END
 
 "-------------------------------- EX COMMANDS --------------------------------
-function! JSONify()
+function! FormatJson()
   %!python -m json.tool
   set syntax=json
 endfunction
 
 "json pretty print
-command J :call JSONify()
+command Tojson :call FormatJson()
 
 " Remove trailing whitespace
-command Nows :%s/\s\+$//
+command Trimws :%s/\s\+$//
 
 "-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
@@ -121,9 +122,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/goyo.vim'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'justinmk/vim-sneak'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'christoomey/vim-tmux-navigator'
-let g:ale_completion_enabled = 0
 Plug 'w0rp/ale'
 Plug 'janko-m/vim-test'
 Plug 'benmills/vimux'
@@ -146,15 +145,12 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'wellle/targets.vim'
 Plug 'mbbill/undotree'
-Plug 'moll/vim-bbye'
-Plug 'mkitt/tabline.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'tpope/vim-abolish'
 Plug 'AndrewRadev/sideways.vim'
-Plug 'majutsushi/tagbar'
 Plug 'vim-python/python-syntax'
 Plug 'haya14busa/vim-keeppad'
 Plug 'pangloss/vim-javascript'
@@ -163,20 +159,15 @@ Plug 'vimwiki/vimwiki'
 Plug 'blueyed/vim-diminactive'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-rhubarb'
-Plug 'wesQ3/vim-windowswap'
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'mattn/emmet-vim'
-Plug 'diepm/vim-rest-console'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
 Plug 'airblade/vim-rooter'
-Plug 'hecal3/vim-leader-guide'
 call plug#end()
 
 "-------------------------------- PLUGIN CONFIG -----------------------------------
 " ayu-theme
 let ayucolor='mirage'
-" hi SignColumn guifg=none guibg='#212632'
-" hi  ColorColumn guifg=none guibg='#272f3d'
 
 " startify
 let g:ascii = [
@@ -309,6 +300,7 @@ autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
 let g:tmux_navigator_no_mappings = 1
 
 " ALE
+let g:ale_completion_enabled = 0
 filetype off
 filetype plugin on
 let g:ale_linters = {
@@ -676,31 +668,14 @@ nmap <C-H> <Nop>
 nnoremap <C-L> :bnext<CR>
 nnoremap <C-H> :bprev<CR>
 
-"-------------------------------- LEADER GUIDE -----------------------------------
-let g:lmap = {}
-let g:lmap.f = { 'name': 'Find' }
-let g:lmap.t = { 'name': 'Test' }
 " Set leader key
 let mapleader = "\<Space>"
 tnoremap <Esc> <C-\><C-n>
 
 nnoremap <Leader>q :q<CR>
-" Force close window
 nnoremap <Leader>Q :q!<CR>
 
-" Leader Guide - Interface
-let g:lmap.i = {'name': 'Interface',
-      \ '%': ['set invrelativenumber', 'relative lines'],
-      \ '#': ['set invnumber', 'toggle line numbers'],
-      \ 'h': ['set invcursorline', 'toggle cursorline'],
-      \ 'i': ['IndentLinesToggle', 'toggle indent lines'],
-      \ 'u': ['UndotreeToggle', 'toggle undo tree'],
-      \ 'c': ['nohlsearch', 'clear search highlight'],
-      \ 'z': ['Goyo', 'zen mode'],
-      \ 'l': ['Limelight', 'highlight sections on'],
-      \ 'L': ['Limelight!', 'highlight sections off'],
-      \ 't': ['NERDTreeToggle', 'open file browser'],
-      \ }
+" ------------ interface ----------------
 nnoremap <silent> <leader>i% :set invrelativenumber<CR>
 nnoremap <silent> <leader>i# :set invnumber<CR>
 nnoremap <silent> <leader>ih :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
@@ -712,42 +687,17 @@ nnoremap <silent> <leader>il :Limelight<CR>
 nnoremap <silent> <leader>iL :Limelight!<CR>
 nnoremap <silent> <leader>it :NERDTreeToggle<CR>
 
-" Leader Guide - Buffers
-let g:lmap.b = { 'name': 'Buffers',
-      \ 's': ['w', 'write buffer'],
-      \ 'n': ['new', 'new buffer'],
-      \ 'd': ['Bdelete', 'kill buffer'],
-      \ 'D': ['Bdelete!', 'force kill buffer'],
-      \ 'c': ['windo diffthis', 'show diff'],
-      \ 'C': ['windo diffoff', 'hide diff'],
-      \ 'r': ['edit!', 'revert buffer'],
-      \ 'w': ['Nows', 'whitespace cleanup'],
-      \}
+" ------------ buffers ------------------
 nnoremap <silent> <leader>bs :w<CR>
 nnoremap <silent> <leader>bn :new<CR>
-nnoremap <silent> <Leader>bd :Bdelete<CR>
-nnoremap <silent> <Leader>bD :Bdelete!<CR>
+nnoremap <silent> <Leader>bd :bd<CR>
+nnoremap <silent> <Leader>bD :bd!<CR>
 nnoremap <silent> <leader>bc :windo diffthis<CR>
 nnoremap <silent> <leader>bC :windo diffoff<CR>
 nnoremap <silent> <leader>br :edit!<CR>
 nnoremap <silent> <leader>bw :Nows<CR>
 
-" Leader Guide - Windows
-let g:lmap.w = { 'name': 'Windows',
-      \ 'v': ['vsp', 'vertical split'],
-      \ 's': ['sp', 'horizontal split'],
-      \ 'e': ['<C-w>e', 'equalize buffers'],
-      \ 'k': ['10<C-w>+', 'increase buffer height'],
-      \ 'j': ['10<C-w>-', 'decrease buffer height'],
-      \ 'l': ['10<C-w>>', 'increase width right'],
-      \ 'h': ['10<C-w><', 'increase width left'],
-      \ 'r': ['<C-w>r', 'swap buffers'],
-      \ 'o': ['<C-w>o', 'close other panes'],
-      \ 'c': ['call WindowSwap#EasyWindowSwap', 'swap buffer with...'],
-      \ 'V': ['<C-w>H', 'to vertical splits'],
-      \ 'S': ['<C-w>J', 'to horizontal splits'],
-      \}
-
+" ------------- windows ------------------
 nnoremap <silent> <leader>wv :vsp<CR>
 nnoremap <silent> <leader>ws :sp<CR>
 nnoremap <silent> <leader>we <C-w>e
@@ -762,16 +712,7 @@ nnoremap <silent> <leader>wV <C-w>H
 nnoremap <silent> <leader>wS <C-w>J
 nnoremap <silent> <leader>wc :call WindowSwap#EasyWindowSwap()<CR>
 
-" Leader Guide - Neovim
-let g:lmap.v = { 'name': 'Neovim',
-      \ 'r': ['so ~/.config/nvim/init.vim', 'reload init.vim'],
-      \ 'e': ['edit ~/.config/nvim/init.vim', 'edit init.vim'],
-      \ 's': ['Startify', 'homepage'],
-      \ 'u': ['PlugUpdate', 'update plugins'],
-      \ 'U': ['PlugUpgrade', 'update vim-plug'],
-      \ 'i': ['PlugInstall', 'install plugins'],
-      \ 'c': ['PlugClean', 'clean up plugins'],
-      \}
+" ------------- nvim --------------------------
 nnoremap <silent> <Leader>vr :so ~/.config/nvim/init.vim<CR>
 nnoremap <silent> <Leader>ve :edit ~/.config/nvim/init.vim<CR>
 nnoremap <silent> <Leader>vs :Startify<CR>
@@ -779,18 +720,7 @@ nnoremap <silent> <Leader>vu :PlugUpdate<CR>
 nnoremap <silent> <Leader>vi :PlugInstall<CR>
 nnoremap <silent> <Leader>vc :PlugClean<CR>
 
-" Leader Guide - Code
-let g:lmap.c = {'name': 'Code',
-      \ 't': ['TagbarToggle', 'toggle tagbar'],
-      \ 'r': ['!rm tags && ctags', 'regenerate tags'],
-      \ 'T': ['!ctags', 'generate ctags'],
-      \ 'a': ['<Plug>(coc-codeaction)', 'code action'],
-      \ 'f': ['<Plug>(coc-fix-current)', 'fix current'],
-      \ 'F': ['<Plug>(coc-format-selected)', 'format selected'],
-      \ 'c': ['CocRestart', 'restart coc'],
-      \ 'R': ['CocRename', 'rename']
-      \}
-nnoremap <silent> <leader>ct :TagbarToggle<CR>
+" ------------ code ---------------------------
 nnoremap <silent> <leader>cT :!ctags<CR>
 nnoremap <silent> <leader>cr :!rm tags && ctags<CR>
 nnoremap <silent> <leader>ca <Plug>(coc-codeaction)
@@ -801,36 +731,14 @@ vnoremap <silent> <leader>cF <Plug>(coc-format-selected)
 nnoremap <silent> <leader>cc :CocRestart<CR>
 nnoremap <silent> <leader>cR <Plug>(coc-rename)
 
-" Leader Guide - Testing
-let g:lmap.t = {'name': 'Test',
-      \ 'n': ['TestNearest', 'test nearest'],
-      \ 'f': ['TestFile', 'test file'],
-      \ 's': ['TestSuite', 'test suite'],
-      \ 'l': ['TestLast', 'test last'],
-      \ 'v': ['TestVisit', 'test visit'],
-      \}
+" ------------ testing -----------------------
 nnoremap <silent> <leader>tn :TestNearest<CR>
 nnoremap <silent> <leader>tf :TestFile<CR>
 nnoremap <silent> <leader>ts :TestSuite<CR>
 nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 
-" Leader Guide - Git
-let g:lmap.g = { 'name': 'Git',
-      \ 's': ['Gstatus', 'git status'],
-      \ 'c': ['Gcommit', 'git commit'],
-      \ 'b': ['Gblame', 'git blame'],
-      \ 'P': ['Gpush', 'git push'],
-      \ 'l': ['GV', 'git log'],
-      \ 'n': ['GitGutterNextHunk', 'next hunk'],
-      \ 'N': ['GitGutterPrevHunk', 'previous hunk'],
-      \ '[': ['PrevHunkAllBuffers', 'previous hunk all buffers'],
-      \ ']': ['NextHunkAllBuffers', 'next hunk all buffers'],
-      \ 'h': ['GitGutterStageHunk', 'stage hunk'],
-      \ 'u': ['GitGutterUndoHunk', 'undo hunk'],
-      \ 'p': ['GitGutterPreviewHunk', 'preview hunk'],
-      \ 'o': ['Gbrowse', 'open file in browser'],
-      \}
+" ------------- git ------------------------
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gn :GitGutterNextHunk<CR>
@@ -846,24 +754,7 @@ nnoremap <silent> <leader>go :Gbrowse<CR>
 vnoremap <silent> <leader>go :Gbrowse<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
 
-" Leader Guide - FZF
-let g:lmap.f = { 'name': 'Find',
-      \ 'f': ['GFiles', 'git files'],
-      \ 'h': ['HHistory', 'file history'],
-      \ 'a': ['Files', 'all files'],
-      \ 'c': ['Colors', 'colorschemes'],
-      \ 'i': ['Helptags', 'information'],
-      \ 'b': ['Buffers', 'buffers'],
-      \ 'l': ['Blines', 'buffer lines'],
-      \ 'L': ['Lines', 'all open buffer lines'],
-      \ 'g': ['Rg', 'ripgrep'],
-      \ 't': ['Filetypes', 'filetypes'],
-      \ 'O': ['Tags', 'tags'],
-      \ 'o': ['BTags', 'buffer tags'],
-      \ 'e': ['Commands', 'commands'],
-      \ 'p': ['GGrep', 'git grep'],
-      \ 'j': ['Cd', 'projects'],
-      \}
+" ------------ FZF -------------------------
 nnoremap <silent> <leader>ff :GFiles<CR>
 nnoremap <silent> <leader>fa :Files<CR>
 nnoremap <silent> <leader>fi :Helptags<CR>
@@ -880,25 +771,7 @@ nnoremap <silent> <leader>fe :Commands<CR>
 nnoremap <silent> <leader>fp :GGrep<CR>
 nnoremap <silent> <leader>fj :Cd<CR>
 
-" Leader Guide - Notes
-let g:lmap.n = {'name': 'Notes',
-      \ 'i': ['<leader>ni', 'open index'],
-      \ 't': ['<leader>nt', 'tab index'],
-      \ 's': ['<leader>ns', 'select and open'],
-      \ 'd': ['<leader>nd', 'delete current file'],
-      \ 'r': ['<leader>nr', 'rename current file'],
-      \ 'c': ['VimwikiToggleListItem', 'toggle todo'],
-      \ 'h': ['Vimwiki2HTML', 'export to html'],
-      \}
-let g:lmap.n['l'] = {'name': 'Log',
-      \ 'i': ['<leader>wi', 'diary index'],
-      \ 'l': ['<leader>w<leader>l', 'generate links'],
-      \ 'w': ['<leader>w<leader>w', 'make note'],
-      \ 't': ['<leader>w<leader>t', 'make note in new tab'],
-      \ 'm': ['<leader>w<leader>m', 'make diary note for tomorrow'],
-      \ 'y': ['<leader>w<leader>y', 'make diary note for yesterday'],
-      \}
-
+" ----------- VimWiki ---------------------
 nmap <silent> <leader>ni <Plug>VimwikiIndex
 nmap <silent> <leader>nt <Plug>VimwikiTabIndex
 nmap <silent> <leader>ns <Plug>VimwikiUISelect
@@ -913,10 +786,6 @@ nmap <silent> <leader>nlw <Plug>VimwikiMakeDiaryNote
 nmap <silent> <leader>nlt <Plug>VimwikiTabMakeDiaryNote
 nmap <silent> <leader>nlm <Plug>VimwikiMakeTomorrowDiaryNote
 nmap <silent> <leader>nly <Plug>VimwikiMakeYesterdayDiaryNote
-
-call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
-nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
-vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
 
 "-------------------------------- COLORSCHEMES -----------------------------------
 
