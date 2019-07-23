@@ -1,7 +1,16 @@
 #!/bin/bash
 
+# jack configuration for Focusrite SaffirePro24 DSP
 jack_control start
+
+# use the firewire backend
 jack_control ds firewire
+
+# set a sample rate of 44.1kHz
 jack_control dps rate 44100
+
+# set a buffer size of 256
 jack_control dps period 256
+
+# consider bumping this to 3 if the device is properly supported by ffado
 jack_control dps nperiods 2

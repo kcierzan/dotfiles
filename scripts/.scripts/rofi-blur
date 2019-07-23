@@ -1,9 +1,15 @@
 #!/usr/bin/env sh
 
+# take a screenshot and blur it with imagemagick
 scrot -d0 /tmp/desktop.jpg && convert /tmp/desktop.jpg -blur 0x4 /tmp/blurred.jpg
 
+# set the background and keep track of the feh pid
+# TODO: figure out how to hide this feh window in the rofi results
 feh -F /tmp/blurred.jpg & export POD=$!
+
 rofi -show combi & export ROFI=$!
 
 wait $ROFI
+
+# kill the feh background when rofi finishes
 kill $POD
