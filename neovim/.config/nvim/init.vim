@@ -758,20 +758,5 @@ nmap <silent> <leader>nlt <Plug>VimwikiTabMakeDiaryNote
 nmap <silent> <leader>nlm <Plug>VimwikiMakeTomorrowDiaryNote
 nmap <silent> <leader>nly <Plug>VimwikiMakeYesterdayDiaryNote
 
-"-------------------------------- COLORSCHEMES -----------------------------------
-
-syntax enable
-set background=dark
-colorscheme onedark
-
-
-hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
-hi  ColorColumn ctermfg=none ctermbg=0
-hi ALEErrorSign                   ctermfg=1 guifg='#e06c75'
-hi ALEWarningSign                 ctermfg=3 guifg='#e5c07b'
-hi ALEError                       ctermbg=0
-hi ALEWarning                     ctermbg=0
-hi VertSplit guifg = '#272c33'
-hi Comment cterm=italic
-hi CocHighlightText guibg = '#404754'
-
+" source the generated colorscheme
+source $HOME/.config/nvim/colorscheme.vim
