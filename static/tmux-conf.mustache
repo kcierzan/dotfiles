@@ -175,14 +175,14 @@ set -g window-style "bg={{tmux-background}}"
 set -g status-left "#[fg=colour03]  #[fg=colour05]#S "
 set -g status-left-length 100
 
-set -g status-right " #[fg=colour03]%I:%M %p  %b %d [#{battery_status_fg}#{battery_percentage}#[fg=colour=03]] "
+set -g status-right "#[fg=colour03]%I:%M %p  %b %d [#{battery_status_fg}#{battery_percentage}#[fg=colour=03]] "
 set -g status-right-style "bold"
 set -g status-right-length 100
 
 set -g window-status-current-style "bold fg=colour04 bg={{tmux-active}}"
 set -g window-status-style "fg=colour08 bg={{tmux-active}}"
-set -g window-status-format " #{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
-set -g window-status-current-format " #{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
+set -g window-status-format "#{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
+set -g window-status-current-format "#{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-separator ""
 
 set -g pane-active-border-style "fg={{tmux-background}} bg={{tmux-background}}"
