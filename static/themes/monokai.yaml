@@ -1,0 +1,27 @@
+shade: "dark"
+active_bg: "#2d2d2d"
+inactive_bg: "#252525"
+bat_theme: "Monokai Extended Origin"
+autosuggestions: "238"
+vim_colorscheme: "vim-monokai-tasty"
+vim_overrides: |+
+  let g:vim_monokai_tasty_italic = 1
+  hi SignColumn guibg='#212121'
+  let g:terminal_color_1=  '#f82a71'
+  let g:terminal_color_2 = '#a6e12d'
+  let g:terminal_color_3 = '#fd971e'
+  let g:terminal_color_4 = '#ae80fe'
+  let g:terminal_color_5 = '#f82a71'
+  let g:terminal_color_6 = '#66d8ee'
+  let g:terminal_color_7 = '#cfcfc1'
+  let g:terminal_color_8 = '#74705d'
+  let g:terminal_color_9=  '#d32461'
+  let g:terminal_color_10 = '#a6e12d'
+  let g:terminal_color_11 = '#fd971e'
+  let g:terminal_color_12 = '#ae80fe'
+  let g:terminal_color_13=  '#d32461'
+  let g:terminal_color_14 = '#5cc4d8'
+  let g:terminal_color_15 = '#cfcfc1'
+  hi SignColumn guibg='#252525'
+  hi ColorColumn guifg=none guibg='#2d2d2d'
+  hi Cursorline guifg=none guibg='#2d2d2d'

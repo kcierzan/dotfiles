@@ -150,18 +150,18 @@ ff() {
     preview {} 2> /dev/null | head -2000'))
     key=$(head -1 <<< "$out")
     file=$(head -2 <<< "$out" | tail -1)
-    if [ -n "$file" ]; then
-      if [ "$key" = ctrl-o ]; then
-        open "$file"
-      elif [ "$key" = ctrl-x ]; then
-        rm -i "$file"
-      elif [ "$key" = ctrl-v ]; then
-        code "$file"
-      else
-        $EDITOR "$file"
-      fi
+  if [ -n "$file" ]; then
+    if [ "$key" = ctrl-o ]; then
+      open "$file"
+    elif [ "$key" = ctrl-x ]; then
+      rm -i "$file"
+    elif [ "$key" = ctrl-v ]; then
+      code "$file"
+    else
+      $EDITOR "$file"
     fi
-  }
+  fi
+}
 
 fa() {
   IFS=$'\n'
@@ -172,17 +172,17 @@ fa() {
     preview {} 2> /dev/null | head -2000'))
     key=$(head -1 <<< "$out")
     file=$(head -2 <<< "$out" | tail -1)
-    if [ -n "$file" ]; then
-      if [ "$key" = ctrl-o ]; then
-        open "$file"
-      elif [ "$key" = ctrl-x ]; then
-        rm -i "$file"
-      elif [ "$key" = ctrl-v ]; then
-        code "$file"
-      else
-        $EDITOR "$file"
-      fi
+  if [ -n "$file" ]; then
+    if [ "$key" = ctrl-o ]; then
+      open "$file"
+    elif [ "$key" = ctrl-x ]; then
+      rm -i "$file"
+    elif [ "$key" = ctrl-v ]; then
+      code "$file"
+    else
+      $EDITOR "$file"
     fi
+  fi
 }
 
 # fuzzy search through git log
@@ -195,7 +195,7 @@ flog() {
     xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
     --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs git rev-parse |
     xargs -I % sh -c 'nvim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
-  }
+}
 
 # show terminal colors
 termcol () {
@@ -246,11 +246,11 @@ bindkey '^N' sshs
 fb() {
   local branches branch
   branches=$(git branch --all | grep -v HEAD) &&
-    branch=$(echo "$branches" |
-    fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-    git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-      zle && { zle reset-prompt; zle -R }
-    }
+  branch=$(echo "$branches" |
+  fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+    zle && { zle reset-prompt; zle -R }
+}
   zle -N fb
   bindkey '^b' fb
 
@@ -279,7 +279,6 @@ recentdir() {
   fi
   zle redraw-prompt
 }
-
 zle -N recentdir
 bindkey '^J' recentdir
 
@@ -414,7 +413,7 @@ envf() {
   gsed 's/^export\s//i' "$envfile" >> .env
 }
 
-stag() {
+untagged() {
   git log $(git describe --tags --abbrev=0)..HEAD --oneline
 }
 
@@ -423,11 +422,8 @@ f8i() {
     flake8-print \
     flake8-fixme \
     flake8-mutable \
-    flake8-mypy \
     flake8-import-order \
     flake8-bandit \
     flake8-comprehensions \
-    flake8-eradicate \
     flake8-mock \
-    cohesion
 }

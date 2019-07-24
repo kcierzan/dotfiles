@@ -5,162 +5,20 @@ import subprocess
 import sys
 
 import chevron
+import yaml
 
-DOTS_DIR = os.path.expanduser('~') + '/git/.dotfiles/'
-
+DOTS_DIR = os.path.expanduser("~") + "/git/.dotfiles/"
+THEME_DIR = DOTS_DIR + "/static/themes/"
+# TODO: add xcolors/xresources
+# TODO: add rofi
+# TODO: add awesome
+# TODO: add vifm
 TEMPLATE_OUTPUT_MAP = {
     "vim.mustache": "neovim/.config/nvim/colorscheme.vim",
     "env.mustache": "zsh/.zsh/zshcolors",
     "tmux.mustache": "tmux/.tmux-colors.conf",
     "prezto.mustache": "zsh/.zprezto-colors.zsh",
-    "lightline.mustache": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/termina.vim"
-}
-
-# TODO: extract these to partials
-ONEDARK_OVERRIDES = """
-hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
-hi  ColorColumn ctermfg=none ctermbg=0
-hi ALEErrorSign                   ctermfg=1 guifg='#e06c75'
-hi ALEWarningSign                 ctermfg=3 guifg='#e5c07b'
-hi ALEError                       ctermbg=0
-hi ALEWarning                     ctermbg=0
-hi VertSplit guifg = '#272c33'
-hi Comment cterm=italic
-hi CocHighlightText guibg = '#404754'
-"""
-
-DRACULA_OVERRIDES = """
-hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
-hi ColorColumn ctermfg=none ctermbg=0 guibg='#333842'
-hi SignColumn guibg='#272c33'
-hi Cursorline guifg=none guibg='#333842'
-hi VertSplit guibg = '#272c33' guifg = '#272c33'
-hi Cursor guibg='#ff92d0' guifg='#272c33'
-"""
-
-SPACEMACS_OVERRIDES = """
-hi Normal guibg=none guifg=none
-hi ColorColumn guifg=none guibg='#313337'
-hi SignColumn guibg='#282a2e'
-hi VertSplit guifg = '#282a2e' guibg='#282a2e'
-"""
-
-SOLARIZED_LIGHT_OVERRIDES = """
-hi SignColumn guibg = '#fdf6e3'
-hi Normal guibg=none guifg=none
-hi LineNr guibg = '#fdf6e3'
-hi VertSplit guibg = '#fdf6e3' guifg = '#fdf6e3'
-hi GitGutterAdd guibg = '#fdf6e3' guifg = '#859900'
-hi GitGutterChange guibg = '#fdf6e3' guifg = '#b58900'
-hi GitGutterDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
-hi GitGutterDelete guibg = '#fdf6e3' guifg = '#cb4b16'
-hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
-hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
-"""
-
-SOLARIZED_DARK_OVERRIDES = """
-hi SignColumn guibg = '#002b36'
-hi Normal guibg=none guifg=none
-hi LineNr guibg = '#002b36'
-hi VertSplit guibg = '#002b36' guifg = '#002b36'
-hi GitGutterAdd guibg = '#002b36' guifg = '#859900'
-hi GitGutterChange guibg = '#002b36' guifg = '#b58900'
-hi GitGutterDeleteLine guibg = '#002b36' guifg = '#cb4b16'
-hi GitGutterDelete guibg = '#002b36' guifg = '#cb4b16'
-hi GitGutterChangeDeleteLine guibg = '#002b36' guifg = '#cb4b16'
-hi GitGutterChangeDeleteLine guibg = '#002b36' guifg = '#cb4b16'
-"""
-
-MONOKAI_OVERRIDES = """
-let g:vim_monokai_tasty_italic = 1
-hi SignColumn guibg='#212121'
-let g:terminal_color_1=  '#f82a71'
-let g:terminal_color_2 = '#a6e12d'
-let g:terminal_color_3 = '#fd971e'
-let g:terminal_color_4 = '#ae80fe'
-let g:terminal_color_5 = '#f82a71'
-let g:terminal_color_6 = '#66d8ee'
-let g:terminal_color_7 = '#cfcfc1'
-let g:terminal_color_8 = '#74705d'
-let g:terminal_color_9=  '#d32461'
-let g:terminal_color_10 = '#a6e12d'
-let g:terminal_color_11 = '#fd971e'
-let g:terminal_color_12 = '#ae80fe'
-let g:terminal_color_13=  '#d32461'
-let g:terminal_color_14 = '#5cc4d8'
-let g:terminal_color_15 = '#cfcfc1'
-hi SignColumn guibg='#252525'
-hi ColorColumn guifg=none guibg='#2d2d2d'
-hi Cursorline guifg=none guibg='#2d2d2d'
-"""
-
-# TODO: extract this to a yaml file
-DATA = {
-    "onedark": {
-        "colorscheme": "onedark",
-        "shade": "dark",
-        "vim-overrides": ONEDARK_OVERRIDES,
-        "tmux-background": "#2c323d",
-        "tmux-active": "#282c34",
-        "foreground": "#b9bfc9",
-        "bat-theme": "TwoDark",
-        "autosuggestions": "238",
-    },
-    "spacemacs": {
-        "colorscheme": "space_vim_theme",
-        "shade": "dark",
-        "vim-overrides": SPACEMACS_OVERRIDES,
-        "tmux-active": "#282a2e",
-        "tmux-background": "#313337",
-        # TODO: change to foreground
-        "lightline": "darcula",
-        "bat-theme": "TwoDark",
-        "autosuggestions": "238",
-    },
-    "solarized-dark": {
-        "colorscheme": "solarized8",
-        "shade": "dark",
-        "vim-overrides": SOLARIZED_DARK_OVERRIDES,
-        "tmux-background": "#073642",
-        "tmux-active": "#002b36",
-        # TODO: change to foreground
-        "lightline": "solarized",
-        "bat-theme": "SolarizedDark",
-        "autosuggestions": "238",
-    },
-    "solarized-light": {
-        "colorscheme": "solarized8",
-        "shade": "light",
-        "vim-overrides": SOLARIZED_LIGHT_OVERRIDES,
-        "tmux-background": "#eee8d5",
-        "tmux-active": "#fdf6e3",
-        # TODO: change to foreground
-        "lightline": "solarized",
-        "bat-theme": "SolarizedLight",
-        "autosuggestions": "251",
-    },
-    "monokai": {
-        "colorscheme": "vim-monokai-tasty",
-        "shade": "dark",
-        "vim-overrides": MONOKAI_OVERRIDES,
-        "tmux-background": "#2d2d2d",
-        "tmux-active": "#252525",
-        # TODO: change to foreground
-        "lightline": "monokai_tasty",
-        "bat-theme": "Monokai Extended Origin",
-        "autosuggestions": "238",
-    },
-    "dracula": {
-        "colorscheme": "dracula",
-        "shade": "dark",
-        "vim-overrides": DRACULA_OVERRIDES,
-        "tmux-background": "#333842",
-        "tmux-active": "#272c33",
-        # TODO: change to foreground
-        "lightline": "darcula",
-        "bat-theme": "Dracula",
-        "autosuggestions": "238",
-    },
+    # "lightline.mustache": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/termina.vim"
 }
 
 
@@ -179,45 +37,54 @@ def render_to_stdout(template_path, output_path, data):
 
 
 def change_iterm_profile(theme):
-    command = f'iterm-profile {theme}'
-    call_with_zsh(command)
+    command = f"iterm-profile {theme}"
+    call_with_shell(command)
 
 
 def reload_tmux():
-    command = 'tmux source-file ~/.tmux.conf'
-    call_with_zsh(command)
+    command = "tmux source-file ~/.tmux.conf"
+    call_with_shell(command)
 
 
 def load_alfred_theme(theme):
-    command = [
-        'osascript',
-        '-e',
-        f'tell application "Alfred 3" to set theme "{theme}"'
-    ]
+    command = ["osascript", "-e", f'tell application "Alfred 3" to set theme "{theme}"']
     subprocess.Popen(command)
 
 
-def call_with_zsh(command):
-    subprocess.call([os.getenv('SHELL'), '-i', '-c', command])
+def call_with_shell(command):
+    subprocess.call([os.getenv("SHELL"), "-i", "-c", command])
+
+
+def load_theme_yaml(theme):
+    with open(f"{THEME_DIR + theme}.yaml", "r") as f:
+        try:
+            return yaml.safe_load(f)
+        except yaml.YAMLError as e:
+            print(f"Theme failed to load: {THEME_DIR + theme}")
+            print(e)
+
 
 def main():
+    themes = [theme.split(".")[0] for theme in os.listdir(THEME_DIR)]
     parser = argparse.ArgumentParser(description="Switch to a theme")
     g = parser.add_mutually_exclusive_group()
     g.add_argument("--list-themes", action="store_true")
-    g.add_argument("theme", type=str, nargs='?', metavar="THEME", choices=DATA.keys(), help="theme name")
+    g.add_argument(
+        "theme", type=str, nargs="?", metavar="THEME", choices=themes, help="theme name"
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
     if args.list_themes:
-        for theme in DATA.keys():
+        for theme in themes:
             print(theme)
         return
 
-    theme_data = DATA[args.theme]
+    theme_data = load_theme_yaml(args.theme)
     theme = args.theme
     if args.dry_run:
         for template, output in TEMPLATE_OUTPUT_MAP.items():
-            template_file = DOTS_DIR + 'static/' + template
+            template_file = DOTS_DIR + "static" + "/" + template
             output_file = DOTS_DIR + output
             print("****************************************")
             print(f"*****************  {output_file}  **************")
@@ -225,7 +92,7 @@ def main():
         print(f'iTerm profile changed to "{theme}"')
     else:
         for template, output in TEMPLATE_OUTPUT_MAP.items():
-            template_file = DOTS_DIR + 'static' + '/' + template
+            template_file = DOTS_DIR + "static" + "/" + template
             output_file = DOTS_DIR + output
             render_file(template_file, output_file, theme_data)
         if sys.platform == "darwin":
@@ -234,5 +101,5 @@ def main():
         reload_tmux()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

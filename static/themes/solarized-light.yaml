@@ -1,0 +1,17 @@
+shade: "light"
+active_bg: "#EEE8D5"
+inactive_bg: "#FDF6E3"
+bat_theme: "SolarizedLight"
+autosuggestions: "251"
+vim_colorscheme: "solarized8"
+vim_overrides: |+
+  hi SignColumn guibg = '#fdf6e3'
+  hi Normal guibg=none guifg=none
+  hi LineNr guibg = '#fdf6e3'
+  hi VertSplit guibg = '#fdf6e3' guifg = '#fdf6e3'
+  hi GitGutterAdd guibg = '#fdf6e3' guifg = '#859900'
+  hi GitGutterChange guibg = '#fdf6e3' guifg = '#b58900'
+  hi GitGutterDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
+  hi GitGutterDelete guibg = '#fdf6e3' guifg = '#cb4b16'
+  hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'
+  hi GitGutterChangeDeleteLine guibg = '#fdf6e3' guifg = '#cb4b16'

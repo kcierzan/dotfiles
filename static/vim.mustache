@@ -16,7 +16,7 @@ function! s:goyo_leave()
   set showcmd
   set showmode
   set cursorline
-  colorscheme {{colorscheme}}
+  colorscheme {{vim_colorscheme}}
   nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
   ALEEnable
@@ -28,6 +28,6 @@ augroup GoyoToggle
 augroup END
 
 set background={{shade}}
-colorscheme {{colorscheme}}
+colorscheme {{vim_colorscheme}}
 
-{{vim-overrides}}
+{{vim_overrides}}
