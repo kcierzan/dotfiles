@@ -1,56 +1,27 @@
-#
 # Executes commands at login pre-zshrc.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
 
-#
+
 # Browser
-#
-
 if [[ "$OSTYPE" == darwin* ]]; then
   export BROWSER='open'
 fi
 
-#
 # Editors
-#
-
 export EDITOR='nvim'
 export ALTERNATE_EDITOR=''
 export VISUAL='nvim'
 export PAGER='less'
 
-#
 # Language
-#
-
 if [[ -z "$LANG" ]]; then
   export LANG='en_US.UTF-8'
 fi
 
-#
 # Paths
-#
-
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
 
-# Set the list of directories that cd searches.
-# cdpath=(
-#   $cdpath
-# )
-
-# Set the list of directories that Zsh searches for programs.
-# path=(
-#   /usr/local/{bin,sbin}
-#   $path
-# )
-
-#
 # Less
-#
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
@@ -63,7 +34,7 @@ if (( $#commands[(i)lesspipe(|.sh)] )); then
   export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
 fi
 
-# start X
+# start X on linux
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]] && [ $OSTYPE = "linux-gnu" ]; then
     exec startx
 fi

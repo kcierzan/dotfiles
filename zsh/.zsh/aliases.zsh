@@ -36,22 +36,8 @@ alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET
 
 alias https="http --default-scheme=https "
 
-# Canonical hex dump; some systems have this symlinked
-command -v hd > /dev/null || alias hd="hexdump -C"
-
-# OS X has no `md5sum`, so use `md5` as a fallback
-command -v md5sum > /dev/null || alias md5sum="md5"
-
-# OS X has no `sha1sum`, so use `shasum` as a fallback
-command -v sha1sum > /dev/null || alias sha1sum="shasum"
-
 # URL-encode strings
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print(ul.quote_plus(sys.argv[1]))"'
-
-# Intuitive map function
-# For example, to list all directories that contain a certain file:
-  # find . -name .gitattributes | map dirname
-  alias map="xargs -n1"
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
@@ -154,49 +140,50 @@ codepoint() {
 #   - CTRL-o     open with `open` command
 #   - CTRL-v     open with vsocde
 #   - CTRL-x     prompt for deletion
-  #   - ENTER      edit with neovim
-  ff() {
-    local out file key
-    IFS=$'\n'
-    out=($(fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
-      --preview '[[ $(file --mime {}) =~ binary ]] &&
-      echo {} is a binary file ||
-      preview {} 2> /dev/null | head -2000'))
-          key=$(head -1 <<< "$out")
-          file=$(head -2 <<< "$out" | tail -1)
-          if [ -n "$file" ]; then
-            if [ "$key" = ctrl-o ]; then
-              open "$file"
-            elif [ "$key" = ctrl-x ]; then
-              rm -i "$file"
-            elif [ "$key" = ctrl-v ]; then
-              code "$file"
-            else
-              $EDITOR "$file"
-            fi
-          fi
-        }
+#   - ENTER      edit with neovim
+ff() {
+  local out file key
+  IFS=$'\n'
+  out=($(fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
+    --preview '[[ $(file --mime {}) =~ binary ]] &&
+    echo {} is a binary file ||
+    preview {} 2> /dev/null | head -2000'))
+    key=$(head -1 <<< "$out")
+    file=$(head -2 <<< "$out" | tail -1)
+    if [ -n "$file" ]; then
+      if [ "$key" = ctrl-o ]; then
+        open "$file"
+      elif [ "$key" = ctrl-x ]; then
+        rm -i "$file"
+      elif [ "$key" = ctrl-v ]; then
+        code "$file"
+      else
+        $EDITOR "$file"
+      fi
+    fi
+  }
 
-      fa() {
-        IFS=$'\n'
-        out=($(fd -H -a --type f . / | fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-x,ctrl-v --preview-window=up:80% \
-          --preview '[[ $(file --mime {}) =~ binary ]] &&
-          echo {} is a binary file ||
-          preview {} 2> /dev/null | head -2000'))
-                  key=$(head -1 <<< "$out")
-                  file=$(head -2 <<< "$out" | tail -1)
-                  if [ -n "$file" ]; then
-                    if [ "$key" = ctrl-o ]; then
-                      open "$file"
-                    elif [ "$key" = ctrl-x ]; then
-                      rm -i "$file"
-                    elif [ "$key" = ctrl-v ]; then
-                      code "$file"
-                    else
-                      $EDITOR "$file"
-                    fi
-                  fi
-                }
+fa() {
+  IFS=$'\n'
+  out=($(fd -H -a --type f . / | fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-x,ctrl-v \
+    --preview-window=up:80% \
+    --preview '[[ $(file --mime {}) =~ binary ]] &&
+    echo {} is a binary file ||
+    preview {} 2> /dev/null | head -2000'))
+    key=$(head -1 <<< "$out")
+    file=$(head -2 <<< "$out" | tail -1)
+    if [ -n "$file" ]; then
+      if [ "$key" = ctrl-o ]; then
+        open "$file"
+      elif [ "$key" = ctrl-x ]; then
+        rm -i "$file"
+      elif [ "$key" = ctrl-v ]; then
+        code "$file"
+      else
+        $EDITOR "$file"
+      fi
+    fi
+}
 
 # fuzzy search through git log
 flog() {
@@ -213,7 +200,7 @@ flog() {
 # show terminal colors
 termcol () {
   for code ({000..255}) print -P -- "$code: %F{$code}Isn't this a fun color?%f"
-  }
+}
 
 # Color less
 cl () {
@@ -235,11 +222,11 @@ hdi() {
 }
 
 redraw-prompt() {
-local precmd
-for precmd in $precmd_functions; do
-  $precmd
-done
-zle reset-prompt
+  local precmd
+  for precmd in $precmd_functions; do
+    $precmd
+  done
+  zle reset-prompt
 }
 zle -N redraw-prompt
 
@@ -272,26 +259,27 @@ fb() {
 #   - CTRL-v    cd and open with vscode
 #   - CTRL-x    prompt for recursive deletion
   #   - ENTER     cd
-  recentdir() {
-    local out dir key
-    IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v,ctrl-e +m)"
-    key=$(head -1 <<< "$out")
-    dir=$(head -2 <<< "$out" | tail -1)
-    if [ -d "$dir" ]; then
-      if [ "$key" = ctrl-o ]; then
-        open "$dir"
-      elif [ "$key" = ctrl-v ]; then
-        cd "$dir" && code "$dir"
-      elif [ "$key" = ctrl-e ]; then
-        cd "$dir" && $EDITOR "$dir"
-      elif [ "$key" = ctrl-x ]; then
-        rm -ir "$dir"
-      else
-        cd "$dir"
-      fi
+recentdir() {
+  local out dir key
+  IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v,ctrl-e +m)"
+  key=$(head -1 <<< "$out")
+  dir=$(head -2 <<< "$out" | tail -1)
+  if [ -d "$dir" ]; then
+    if [ "$key" = ctrl-o ]; then
+      open "$dir"
+    elif [ "$key" = ctrl-v ]; then
+      cd "$dir" && code "$dir"
+    elif [ "$key" = ctrl-e ]; then
+      cd "$dir" && $EDITOR "$dir"
+    elif [ "$key" = ctrl-x ]; then
+      rm -ir "$dir"
+    else
+      cd "$dir"
     fi
-    zle redraw-prompt
-  }
+  fi
+  zle redraw-prompt
+}
+
 zle -N recentdir
 bindkey '^J' recentdir
 
@@ -304,55 +292,55 @@ fr() {
     --preview '[[ $(file --mime {}) =~ binary ]] &&
     echo {} is a binary file ||
     preview {} 2> /dev/null | head -2000'))
-      key=$(head -1 <<< "$out")
-      file=$(head -2 <<< "$out" | tail -1)
-      if [ -n "$file" ]; then
-        if [ "$key" = ctrl-o ]; then
-          open "$file"
-        elif [ "$key" = ctrl-x ]; then
-          rm -i "$file"
-        elif [ "$key" = ctrl-v ]; then
-          code "$file"
-        else
-          $EDITOR "$file"
-        fi
-      fi
-      zle redraw-prompt
-    }
-  zle -N fr
-  bindkey '^h' fr
-
-  findfile() {
-    local out file key
-    IFS=$'\n'
-    out=($(rg ${1:-.} --files --no-ignore --hidden --follow \
-      -g "!.git/*" \
-      -g "!*.pyc" \
-      -g "!node-modules/*" \
-      -g "!tags" \
-      -g "!TAGS" \
-      2> /dev/null \
-      | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
-      --preview '[[ $(file --mime {}) =~ binary ]] &&
-      echo {} is a binary file ||
-      preview {} 2> /dev/null | head -2000'))
-
     key=$(head -1 <<< "$out")
     file=$(head -2 <<< "$out" | tail -1)
-
-    if [ -n "$file" ]; then
-      if [ "$key" = ctrl-o ]; then
-        open "$file"
-      elif [ "$key" = ctrl-x ]; then
-        rm -i "$file"
-      elif [ "$key" = ctrl-v ]; then
-        code "$file"
-      else
-        $EDITOR "$file"
-      fi
+  if [ -n "$file" ]; then
+    if [ "$key" = ctrl-o ]; then
+      open "$file"
+    elif [ "$key" = ctrl-x ]; then
+      rm -i "$file"
+    elif [ "$key" = ctrl-v ]; then
+      code "$file"
+    else
+      $EDITOR "$file"
     fi
-    zle redraw-prompt
-  }
+  fi
+  zle redraw-prompt
+}
+zle -N fr
+bindkey '^h' fr
+
+findfile() {
+  local out file key
+  IFS=$'\n'
+  out=($(rg ${1:-.} --files --no-ignore --hidden --follow \
+  -g "!.git/*" \
+  -g "!*.pyc" \
+  -g "!node-modules/*" \
+  -g "!tags" \
+  -g "!TAGS" \
+  2> /dev/null \
+  | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
+  --preview '[[ $(file --mime {}) =~ binary ]] &&
+  echo {} is a binary file ||
+  preview {} 2> /dev/null | head -2000'))
+
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+
+  if [ -n "$file" ]; then
+    if [ "$key" = ctrl-o ]; then
+      open "$file"
+    elif [ "$key" = ctrl-x ]; then
+      rm -i "$file"
+    elif [ "$key" = ctrl-v ]; then
+      code "$file"
+    else
+      $EDITOR "$file"
+    fi
+  fi
+  zle redraw-prompt
+}
 zle -N findfile
 bindkey '^f' findfile
 
@@ -360,8 +348,7 @@ bindkey '^f' findfile
 fkill() {
   pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
-  if [ "x$pid" != "x" ]
-  then
+  if [ "x$pid" != "x" ]; then
     kill -${1:-9} $pid
   fi
   zle redraw-prompt
@@ -383,30 +370,29 @@ fzg() {
       2> /dev/null \
       | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
       | gawk -F : '{print "+"$2" "$1 }'))
-        elif [[ $EDITOR = 'code' ]]; then
-          linefile=($(rg -n --hidden \
-            -g "!.pyc" \
-            -g "!.git/*" \
-            -g "!node-modules/*" \
-            -g "!env/*" \
-            -g "!TAGS" \
-            -g "!*.dmp" \
-            . \
-            2> /dev/null \
-            | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
-            | gawk -F : '{print "-g "$1":"$2 }'))
-                    fi
+  elif [[ $EDITOR = 'code' ]]; then
+    linefile=($(rg -n --hidden \
+      -g "!.pyc" \
+      -g "!.git/*" \
+      -g "!node-modules/*" \
+      -g "!env/*" \
+      -g "!TAGS" \
+      -g "!*.dmp" \
+      . \
+      2> /dev/null \
+      | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
+      | gawk -F : '{print "-g "$1":"$2 }'))
+  fi
 
-                    if [[ -n $linefile && ! $EDITOR =~ .*emacs ]]; then
-                      echo $linefile | xargs $EDITOR
-                    elif [[ -n $linefile ]]; then
-                      $EDITOR $linefile
-                    fi
-
-                    zle redraw-prompt
-                  }
-                zle -N fzg
-                bindkey '^G' fzg
+  if [[ -n $linefile && ! $EDITOR =~ .*emacs ]]; then
+    echo $linefile | xargs $EDITOR
+  elif [[ -n $linefile ]]; then
+    $EDITOR $linefile
+  fi
+  zle redraw-prompt
+}
+zle -N fzg
+bindkey '^G' fzg
 
 # set up some macOS specific aliases
 if [[ $OSTYPE == 'darwin'* ]]; then
@@ -444,4 +430,4 @@ f8i() {
     flake8-eradicate \
     flake8-mock \
     cohesion
-  }
+}

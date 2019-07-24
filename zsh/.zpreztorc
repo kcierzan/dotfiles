@@ -28,10 +28,8 @@ zstyle ':prezto:*:*' color 'yes'
 # The order matters.
 zstyle ':prezto:load' pmodule \
   'environment' \
-  'terminal' \
   'editor' \
   'history' \
-  'directory' \
   'utility' \
   'completion' \
   'git' \

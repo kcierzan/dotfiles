@@ -9,9 +9,6 @@ if [[ $TERM == "dumb" ]]; then
     unsetopt zle
     unsetopt prompt_cr
     unsetopt prompt_subst
-    # unfunction precmd
-    # unfunction preexec
-    # PS1="\w \n ❯ "
     PS1="%(?..[%?])%~ ❯ "
 else
 
@@ -69,7 +66,10 @@ fi
 
 source ~/.zsh/aliases.zsh
 source ~/.zsh/extra.zsh
-source ~/.zsh/vi_cursor.zsh
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  source ~/.zsh/vi_cursor.zsh
+fi
 
 if [[ $OSTYPE = 'linux-gnu' ]]; then
     source /usr/share/fzf/key-bindings.zsh

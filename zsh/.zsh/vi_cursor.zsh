@@ -2,7 +2,6 @@ function print_dcs {
   print -n -- "\EP$1;\E$2\E\\"
 }
 
-
 function zle-keymap-select zle-line-init
   {
     # change cursor shape in iTerm2
