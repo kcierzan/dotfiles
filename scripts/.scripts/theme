@@ -2,17 +2,18 @@
 import argparse
 import os
 import subprocess
+import sys
 
 import chevron
 
 DOTS_DIR = os.path.expanduser('~') + '/git/.dotfiles/'
 
 TEMPLATE_OUTPUT_MAP = {
-    "init-vim.mustache": "neovim/.config/nvim/init.vim",
-    "zshenv.mustache": "zsh/.zshenv",
-    "tmux-conf.mustache": "tmux/.tmux.conf",
-    "zpreztorc.mustache": "zsh/.zpreztorc",
-    "lightline-termina.mustache": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/termina.vim"
+    "vim.mustache": "neovim/.config/nvim/colorscheme.vim",
+    "env.mustache": "zsh/.zsh/zshcolors",
+    "tmux.mustache": "tmux/.tmux-colors.conf",
+    "prezto.mustache": "zsh/.zprezto-colors.zsh",
+    "lightline.mustache": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/termina.vim"
 }
 
 # TODO: extract these to partials
@@ -177,7 +178,6 @@ def render_to_stdout(template_path, output_path, data):
         print(rendered)
 
 
-# TODO: make this macOS only
 def change_iterm_profile(theme):
     command = f'iterm-profile {theme}'
     call_with_zsh(command)
@@ -188,7 +188,6 @@ def reload_tmux():
     call_with_zsh(command)
 
 
-# TODO: make this macOS only
 def load_alfred_theme(theme):
     command = [
         'osascript',
@@ -226,12 +225,13 @@ def main():
         print(f'iTerm profile changed to "{theme}"')
     else:
         for template, output in TEMPLATE_OUTPUT_MAP.items():
-            template_file = DOTS_DIR + 'static/' + template
+            template_file = DOTS_DIR + 'static' + '/' + template
             output_file = DOTS_DIR + output
             render_file(template_file, output_file, theme_data)
-        change_iterm_profile(theme)
+        if sys.platform == "darwin":
+            change_iterm_profile(theme)
+            load_alfred_theme(theme)
         reload_tmux()
-        load_alfred_theme(theme)
 
 
 if __name__ == '__main__':

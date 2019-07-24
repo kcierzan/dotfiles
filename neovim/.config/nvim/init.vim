@@ -255,35 +255,6 @@ endfunction
 let g:goyo_width = 100
 let g:goyo_linenr = 0
 
-function! s:goyo_enter()
-  silent !tmux set status off
-  silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
-  set noshowcmd
-  set noshowmode
-  set nocursorline
-  vunmap <silent> <leader>
-  nunmap <silent> <leader>
-  IndentLinesDisable
-  ALEDisable
-endfunction
-
-function! s:goyo_leave()
-  silent !tmux set status on
-  silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
-  set showcmd
-  set showmode
-  set cursorline
-  colorscheme onedark
-  nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
-  vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
-  ALEEnable
-endfunction
-
-augroup GoyoToggle
-  autocmd! User GoyoEnter nested call <SID>goyo_enter()
-  autocmd! User GoyoLeave nested call <SID>goyo_leave()
-augroup END
-
 " comfortable-motion
 let g:comfortable_motion_friction = 15.0
 let g:comfortable_motion_air_drag = 5.0

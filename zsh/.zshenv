@@ -17,9 +17,6 @@ export FZF_DEFAULT_OPTS='
 --color=fg:#839496,bg:-1,fg+:2,bg+:-1,header:3
 --color=hl:3,hl+:13,prompt:6,spinner:5,pointer:4,marker:4,info:6'
 
-# Theme for bat executable and preview script
-export BAT_THEME='TwoDark'
-
 export KEYTIMEOUT=1
 
 export CLICOLOR=1
@@ -92,3 +89,5 @@ add-zsh-hook chpwd _pyenv_lazy_load
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
+
+source "$HOME/.zsh/zshcolors"
