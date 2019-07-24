@@ -13,6 +13,8 @@ THEME_DIR = DOTS_DIR + "/static/themes/"
 # TODO: add rofi
 # TODO: add awesome
 # TODO: add vifm
+# TODO: fix search highlight color
+# TODO: add lightline/termina colors
 TEMPLATE_OUTPUT_MAP = {
     "vim.mustache": "neovim/.config/nvim/colorscheme.vim",
     "env.mustache": "zsh/.zsh/zshcolors",
@@ -36,6 +38,7 @@ def render_to_stdout(template_path, output_path, data):
         print(rendered)
 
 
+# TODO: do this in python
 def change_iterm_profile(theme):
     command = f"iterm-profile {theme}"
     call_with_shell(command)
@@ -62,6 +65,14 @@ def load_theme_yaml(theme):
         except yaml.YAMLError as e:
             print(f"Theme failed to load: {THEME_DIR + theme}")
             print(e)
+
+
+def reload_xresources():
+    call_with_shell('xrdb merge ' + os.expanduser("~") + "/.xresources")
+
+
+def restart_awesome():
+    pass
 
 
 def main():

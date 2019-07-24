@@ -2,7 +2,7 @@ set -g status-position bottom
 set -g status-justify "left"
 set -g status-style "bg={{active_bg}}"
 set -g window-style "bg={{inactive_bg}}"
-set -g mode-style "bg={{inactive_bg}}"
+set -g mode-style "bg=colour239"
 
 set -g status-left "#[fg=colour03]  #[fg=colour05]#S "
 set -g status-left-length 100
@@ -17,8 +17,8 @@ set -g window-status-format "#{?#{==:#{window_name},zsh},#{b:pane_current_path},
 set -g window-status-current-format "#{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-separator ""
 
-set -g pane-active-border-style "fg={{inactive_bg}} bg={{active_bg}}"
-set -g pane-border-style "fg={{inactive_bg}} bg={{inactive_bg}}"
+set -g pane-active-border-style "fg={{active_bg}} bg={{active_bg}}"
+set -g pane-border-style "fg={{active_bg}} bg={{active_bg}}"
 
 set -g window-active-style "bg={{active_bg}}"
 
