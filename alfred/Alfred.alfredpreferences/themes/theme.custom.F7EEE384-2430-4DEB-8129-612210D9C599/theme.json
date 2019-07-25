@@ -3,7 +3,7 @@
     "result" : {
       "textSpacing" : 5,
       "subtext" : {
-        "size" : 12,
+        "size" : 14,
         "colorSelected" : "#EBBD7DFF",
         "font" : "SF Mono",
         "color" : "#FFFFFF2F"
@@ -18,7 +18,7 @@
       "text" : {
         "size" : 24,
         "colorSelected" : "#99C27CFF",
-        "font" : "San Francisco Display",
+        "font" : "SF Pro Display",
         "color" : "#FFFFFF32"
       },
       "iconPaddingHorizontal" : 4,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 64,
         "colorSelected" : "#000000FF",
-        "font" : "San Francisco Display",
+        "font" : "SF Pro Display",
         "color" : "#51AEEEFF"
       },
       "backgroundSelected" : "#7AC7FFFF"

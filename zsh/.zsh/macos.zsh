@@ -6,9 +6,9 @@ alias awk='gawk'
 alias tar='gtar'
 alias gzip='/usr/local/bin/gzip'
 
-alias bbounce="brew services restart"
-alias bstop="brew services stop"
-alias bstart="brew services start"
+alias b='brew'
+alias k='kubectl'
+alias kx='kubectx'
 
 # iTerm2 visor occasionally doesn't like C-l
 # Clean up LaunchServices to remove duplicates in the “Open With” menu

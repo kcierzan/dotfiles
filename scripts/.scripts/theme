@@ -38,7 +38,6 @@ def render_to_stdout(template_path, output_path, data):
         print(rendered)
 
 
-# TODO: do this in python
 def change_iterm_profile(theme):
     command = f"iterm-profile {theme}"
     call_with_shell(command)
@@ -68,7 +67,7 @@ def load_theme_yaml(theme):
 
 
 def reload_xresources():
-    call_with_shell('xrdb merge ' + os.expanduser("~") + "/.xresources")
+    call_with_shell("xrdb merge " + os.expanduser("~") + "/.xresources")
 
 
 def restart_awesome():
