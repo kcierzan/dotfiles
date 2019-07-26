@@ -49,10 +49,7 @@ local home_dir = os.getenv("HOME")
 beautiful.init(home_dir .. "/.config/awesome/themes/onedark.lua")
 
 -- Set a nice wallpaper
-beautiful.wallpaper = home_dir .. "/Pictures/wallpapers/wallhaven-565851.jpg"
-
--- Gaps that are useless
-beautiful.useless_gap = 5
+beautiful.wallpaper = home_dir .. "/Pictures/wallpapers/wallhaven-636340.jpg"
 
 -- Rounded corners
 client.connect_signal("manage", function (c)
