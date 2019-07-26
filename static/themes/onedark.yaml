@@ -1,6 +1,8 @@
 shade: "dark"
 active_bg: "#282C34"
 inactive_bg: "#2C323D"
+highlight_bg: "#505868"
+highlight_fg: "#46D9FF"
 bat_theme: "TwoDark"
 autosuggestions: "238"
 vim_colorscheme: "onedark"
@@ -14,3 +16,4 @@ vim_overrides: |+
   hi VertSplit guifg = '#272c33'
   hi Comment cterm=italic
   hi CocHighlightText guibg = '#404754'
+  hi Search guifg = '#46d9ff' guibg = '#505868' gui=underline

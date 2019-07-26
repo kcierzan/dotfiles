@@ -39,4 +39,5 @@ hi ALEWarning                     ctermbg=0
 hi VertSplit guifg = '#272c33'
 hi Comment cterm=italic
 hi CocHighlightText guibg = '#404754'
+hi Search guifg = '#46d9ff' guibg = '#505868' gui=underline
 

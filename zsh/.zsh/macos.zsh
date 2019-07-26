@@ -9,6 +9,8 @@ alias gzip='/usr/local/bin/gzip'
 alias b='brew'
 alias k='kubectl'
 alias kx='kubectx'
+alias pst='pbpaste'
+alias cpy='pbcopy'
 
 # iTerm2 visor occasionally doesn't like C-l
 # Clean up LaunchServices to remove duplicates in the “Open With” menu
