@@ -11,7 +11,7 @@ Xft.antialias: 1
 Xft.rgba: rgb
 
 !st
-st.font: Office Code Pro D-11
+st.font: SF Mono-11
 
 ! not sure if needed
 XTerm*metaSendsEscape: true

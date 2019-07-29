@@ -1,0 +1,13 @@
+#!/bin/sh 
+while read file
+do 
+  fullpath="$(pwd)/$file"
+  case "$1" in
+    "w" )
+      cp "$file" ~/.config/wall.png &&
+      feh --bg-scale "$HOME/.config/wall.png" &&
+      notify-send "$HOME/.config/wall.png" "Wallpaper changed";;
+  esac
+done
+
+

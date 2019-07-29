@@ -1,4 +1,9 @@
 ! █▓▒░ onedark
+
+! st cursor color
+*.color258: #d19a66
+
+! st fg and bg
 *.color257: #abb2bf
 *.color256: #282c34
 
@@ -33,9 +38,6 @@
 ! white
 *.color7: #abb2bf    
 *.color15: #ffffff     
-
-! cursor
-*.color258: #ffffff
 
 ! sxiv colors
 Sxiv.foreground: #abb2bf
