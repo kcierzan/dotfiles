@@ -3,7 +3,7 @@
   "diagnostic.warningSign": "⚠ ",
   "diagnostic.infoSign": " ",
   "diagnostic.hintSign": "",
-  "python.jediEnabled": true,
+  "python.jediEnabled": false,
   "python.linting.enabled": false,
   "python.venvPath": "~/.pyenv",
   "python.workspaceSymbols.tagFilePath": "${workspaceFolder}/tags"

@@ -421,7 +421,7 @@ function! IconFileformat()
 endfunction
 
 function! LightlineCwd()
-  return '  ' . fnamemodify(getcwd(), ':t')
+  return ' ' . fnamemodify(getcwd(), ':t')
 endfunction
 
 function! LightlineBranch()
@@ -450,7 +450,7 @@ function! LightlineLinterOK() abort
 endfunction
 
 function LightLineFilename()
-  return '  ' . expand('%')
+  return ' ' . expand('%')
 endfunction
 
 function! s:MaybeUpdateLightline()
