@@ -11,21 +11,10 @@ if [[ $TERM == "dumb" ]]; then
     unsetopt prompt_subst
     PS1="%(?..[%?])%~ ❯ "
 else
-
-# source prezto
-    if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-        source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-    fi
-    # launch or attach to tmux if in iTerm
-    if [[ -z "$TMUX" && $TERM_PROGRAM == "iTerm.app" ]] ;then
-        ID="`tmux ls | grep -vm1 attached | cut -d: -f1`"
-        if [[ -z "$ID" ]] ;then
-            tmux new-session
-        else
-            tmux attach-session -t "$ID"
-        fi
-    fi
-
+  # source prezto if its installed
+  if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+      source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+  fi
 fi
 
 # load fasd from cache
@@ -72,6 +61,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 if [[ "$OSTYPE" = 'linux-gnu' ]]; then
-    source /usr/share/fzf/key-bindings.zsh
-    source /usr/share/fzf/completion.zsh
+  source /usr/share/fzf/key-bindings.zsh
+  source /usr/share/fzf/completion.zsh
 fi

@@ -136,33 +136,7 @@ codepoint() {
   fi;
 }
 
-# Recursive filename search and edit
-#   - CTRL-o     open with `open` command
-#   - CTRL-v     open with vsocde
-#   - CTRL-x     prompt for deletion
-#   - ENTER      edit with neovim
-ff() {
-  local out file key
-  IFS=$'\n'
-  out=($(fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
-    --preview '[[ $(file --mime {}) =~ binary ]] &&
-    echo {} is a binary file ||
-    preview {} 2> /dev/null | head -2000'))
-    key=$(head -1 <<< "$out")
-    file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-    if [ "$key" = ctrl-o ]; then
-      open "$file"
-    elif [ "$key" = ctrl-x ]; then
-      rm -i "$file"
-    elif [ "$key" = ctrl-v ]; then
-      code "$file"
-    else
-      $EDITOR "$file"
-    fi
-  fi
-}
-
+# Search every file on the filesystem by name
 fa() {
   IFS=$'\n'
   out=($(fd -H -a --type f . / | fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-x,ctrl-v \
@@ -202,16 +176,6 @@ termcol () {
   for code ({000..255}) print -P -- "$code: %F{$code}Isn't this a fun color?%f"
 }
 
-# Color less
-cl () {
-  highlight -O ansi -l $1 | less -r
-}
-
-# display a directory tree in style
-tre () {
-  exa --group-directories-first --all -T -L $1
-}
-
 # benchmark of zsh startup
 timeshell() {
   for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
@@ -220,188 +184,6 @@ timeshell() {
 hdi() {
   howdoi $* -c -n 3
 }
-
-redraw-prompt() {
-  local precmd
-  for precmd in $precmd_functions; do
-    $precmd
-  done
-  zle reset-prompt
-}
-zle -N redraw-prompt
-
-# browse files in a new pane
-browse() {
-  tmux split-window -c "#{pane_current_path}" "ranger"
-}
-
-# fuzzy sshs into known hosts
-sshs() {
-  ~/.scripts/sshs -m
-}
-zle -N sshs
-bindkey '^N' sshs
-
-# fuzzy checkout a git branch
-fb() {
-  local branches branch
-  branches=$(git branch --all | grep -v HEAD) &&
-  branch=$(echo "$branches" |
-  fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-    zle && { zle reset-prompt; zle -R }
-}
-  zle -N fb
-  bindkey '^b' fb
-
-# Recent directory search and edit
-#   - CTRL-o    open with `open` command
-#   - CTRL-v    cd and open with vscode
-#   - CTRL-x    prompt for recursive deletion
-  #   - ENTER     cd
-recentdir() {
-  local out dir key
-  IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v,ctrl-e +m)"
-  key=$(head -1 <<< "$out")
-  dir=$(head -2 <<< "$out" | tail -1)
-  if [ -d "$dir" ]; then
-    if [ "$key" = ctrl-o ]; then
-      open "$dir"
-    elif [ "$key" = ctrl-v ]; then
-      cd "$dir" && code "$dir"
-    elif [ "$key" = ctrl-e ]; then
-      cd "$dir" && $EDITOR "$dir"
-    elif [ "$key" = ctrl-x ]; then
-      rm -ir "$dir"
-    else
-      cd "$dir"
-    fi
-  fi
-  zle redraw-prompt
-}
-zle -N recentdir
-bindkey '^J' recentdir
-
-# Edit a frecent file
-fr() {
-  local file out key
-  IFS=$'\n'
-  out=($(sed '1d' ~/.cache/neomru/file \
-    | fzf +m --exit-0  --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
-    --preview '[[ $(file --mime {}) =~ binary ]] &&
-    echo {} is a binary file ||
-    preview {} 2> /dev/null | head -2000'))
-    key=$(head -1 <<< "$out")
-    file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-    if [ "$key" = ctrl-o ]; then
-      open "$file"
-    elif [ "$key" = ctrl-x ]; then
-      rm -i "$file"
-    elif [ "$key" = ctrl-v ]; then
-      code "$file"
-    else
-      $EDITOR "$file"
-    fi
-  fi
-  zle redraw-prompt
-}
-zle -N fr
-bindkey '^h' fr
-
-findfile() {
-  local out file key
-  IFS=$'\n'
-  out=($(rg ${1:-.} --files --no-ignore --hidden --follow \
-  -g "!.git/*" \
-  -g "!*.pyc" \
-  -g "!node-modules/*" \
-  -g "!tags" \
-  -g "!TAGS" \
-  2> /dev/null \
-  | fzf +m --exit-0 --expect=ctrl-o,ctrl-x,ctrl-v --preview-window=up:80% \
-  --preview '[[ $(file --mime {}) =~ binary ]] &&
-  echo {} is a binary file ||
-  preview {} 2> /dev/null | head -2000'))
-
-  key=$(head -1 <<< "$out")
-  file=$(head -2 <<< "$out" | tail -1)
-
-  if [ -n "$file" ]; then
-    if [ "$key" = ctrl-o ]; then
-      open "$file"
-    elif [ "$key" = ctrl-x ]; then
-      rm -i "$file"
-    elif [ "$key" = ctrl-v ]; then
-      code "$file"
-    else
-      $EDITOR "$file"
-    fi
-  fi
-  zle redraw-prompt
-}
-zle -N findfile
-bindkey '^f' findfile
-
-# fzf based process killer
-fkill() {
-  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-
-  if [ "x$pid" != "x" ]; then
-    kill -${1:-9} $pid
-  fi
-  zle redraw-prompt
-}
-zle -N fkill
-bindkey '^p' fkill
-
-fzg() {
-  local linefile
-  if [[ $EDITOR = 'nvim' || $EDITOR =~ .*emacs ]]; then
-    linefile=($(rg -n --hidden \
-      -g "!.pyc" \
-      -g "!.git/*" \
-      -g "!node-modules/*" \
-      -g "!env/*" \
-      -g "!TAGS" \
-      -g "!*.dmp" \
-      . \
-      2> /dev/null \
-      | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
-      | gawk -F : '{print "+"$2" "$1 }'))
-  elif [[ $EDITOR = 'code' ]]; then
-    linefile=($(rg -n --hidden \
-      -g "!.pyc" \
-      -g "!.git/*" \
-      -g "!node-modules/*" \
-      -g "!env/*" \
-      -g "!TAGS" \
-      -g "!*.dmp" \
-      . \
-      2> /dev/null \
-      | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
-      | gawk -F : '{print "-g "$1":"$2 }'))
-  fi
-
-  if [[ -n $linefile && ! $EDITOR =~ .*emacs ]]; then
-    echo $linefile | xargs $EDITOR
-  elif [[ -n $linefile ]]; then
-    $EDITOR $linefile
-  fi
-  zle redraw-prompt
-}
-zle -N fzg
-bindkey '^G' fzg
-
-# set up some macOS specific aliases
-if [[ $OSTYPE == 'darwin'* ]]; then
-  source ~/.zsh/macos.zsh
-fi
-
-# set up linux aliases
-if [[ $OSTYPE == 'linux-gnu' ]]; then
-  source ~/.zsh/linux.zsh
-fi
 
 envf() {
   local envfile
@@ -417,7 +199,7 @@ untagged() {
   git log $(git describe --tags --abbrev=0)..HEAD --oneline
 }
 
-f8i() {
+flake8-plugins() {
   pip install flake8 \
     flake8-print \
     flake8-fixme \
@@ -427,3 +209,81 @@ f8i() {
     flake8-comprehensions \
     flake8-mock \
 }
+
+redraw-prompt() {
+  local precmd
+  for precmd in $precmd_functions; do
+    $precmd
+  done
+  zle reset-prompt
+}
+zle -N redraw-prompt
+
+# browse files in a new pane
+file-manager() {
+  tmux new-window -c "#{pane_current_path}" "vifm"
+}
+zle -N file-manager
+bindkey '^O' file-manager
+
+# fuzzy sshs into known hosts
+fuzzy-ssh() {
+  ~/.scripts/fuzzy-sshs -m
+}
+zle -N fuzzy-ssh
+bindkey '^N' fuzzy-ssh
+
+# fuzzy checkout a git branch
+fuzzy-branches() {
+  . ~/.scripts/fuzzy-branches
+  zle redraw-prompt
+}
+zle -N fuzzy-branches
+bindkey '^b' fuzzy-branches
+
+recent-dirs() {
+  . ~/.scripts/recent-dirs
+  zle redraw-prompt
+}
+zle -N recent-dirs
+bindkey '^J' recent-dirs
+
+# Edit a frecent file
+recent-files() {
+  ~/.scripts/recent-files
+  zle redraw-prompt
+}
+zle -N recent-files
+bindkey '^h' recent-files
+
+findfile() {
+  ~/.scripts/find-file
+  zle redraw-prompt
+}
+zle -N findfile
+bindkey '^f' findfile
+
+# fzf based process killer
+fuzzy-kill() {
+  ~/.scripts/fuzzy-kill
+  zle redraw-prompt
+}
+zle -N fuzzy-kill
+bindkey '^p' fuzzy-kill
+
+fuzzy-grep() {
+  ~/.scripts/fuzzy-grep
+  zle redraw-prompt
+}
+zle -N fuzzy-grep
+bindkey '^G' fuzzy-grep
+
+# set up some macOS specific aliases
+if [[ $OSTYPE == 'darwin'* ]]; then
+  source ~/.zsh/macos.zsh
+fi
+
+# set up linux aliases
+if [[ $OSTYPE == 'linux-gnu' ]]; then
+  source ~/.zsh/linux.zsh
+fi

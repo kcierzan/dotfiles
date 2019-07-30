@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+IFS=$'\n'
+if [[ $EDITOR = 'nvim' || $EDITOR =~ .*emacs ]]; then
+  linefile=($(rg -n --hidden \
+    -g "!.pyc" \
+    -g "!.git/*" \
+    -g "!node-modules/*" \
+    -g "!env/*" \
+    -g "!TAGS" \
+    -g "!*.dmp" \
+    . \
+    2> /dev/null \
+    | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
+    | gawk -F : '{print "+"$2" "$1 }'))
+elif [[ $EDITOR = 'code' ]]; then
+      linefile=($(rg -n --hidden \
+        -g "!.pyc" \
+        -g "!.git/*" \
+        -g "!node-modules/*" \
+        -g "!env/*" \
+        -g "!TAGS" \
+        -g "!*.dmp" \
+        . \
+        2> /dev/null \
+        | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
+        | gawk -F : '{print "-g "$1":"$2 }'))
+fi
+
+if [[ -n $linefile && ! $EDITOR =~ .*emacs ]]; then
+  echo $linefile | xargs $EDITOR
+elif [[ -n $linefile ]]; then
+  $EDITOR $linefile
+fi

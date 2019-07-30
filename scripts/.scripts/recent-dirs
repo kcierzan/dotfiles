@@ -1,6 +1,4 @@
-#!/bin/bash
-
-local out dir key
+#!/usr/bin/env sh
 IFS=$'\n' out="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort --expect=ctrl-o,ctrl-x,ctrl-v,ctrl-e +m)"
 key=$(head -1 <<< "$out")
 dir=$(head -2 <<< "$out" | tail -1)
@@ -17,6 +15,3 @@ if [ -d "$dir" ]; then
         cd "$dir"
     fi
 fi
-unset out
-unset key
-unset dir
