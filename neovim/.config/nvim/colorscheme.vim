@@ -4,8 +4,6 @@ function! s:goyo_enter()
   set noshowcmd
   set noshowmode
   set nocursorline
-  vunmap <silent> <leader>
-  nunmap <silent> <leader>
   IndentLinesDisable
   ALEDisable
 endfunction
@@ -17,8 +15,6 @@ function! s:goyo_leave()
   set showmode
   set cursorline
   colorscheme onedark
-  nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
-  vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
   ALEEnable
 endfunction
 

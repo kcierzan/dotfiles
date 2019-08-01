@@ -181,10 +181,6 @@ timeshell() {
   for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
 }
 
-hdi() {
-  howdoi $* -c -n 3
-}
-
 envf() {
   local envfile
   envfile="$1"
@@ -228,7 +224,7 @@ bindkey '^O' file-manager
 
 # fuzzy sshs into known hosts
 fuzzy-ssh() {
-  ~/.scripts/fuzzy-sshs -m
+  ~/.scripts/fuzzy-ssh -m
 }
 zle -N fuzzy-ssh
 bindkey '^N' fuzzy-ssh
