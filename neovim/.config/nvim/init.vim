@@ -163,6 +163,7 @@ Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
 Plug 'airblade/vim-rooter'
+Plug 'chrisbra/Colorizer'
 call plug#end()
 
 "-------------------------------- PLUGIN CONFIG -----------------------------------
@@ -649,12 +650,12 @@ nnoremap <Leader>Q :q!<CR>
 " ------------ interface ----------------
 nnoremap <silent> <leader>i% :set invrelativenumber<CR>
 nnoremap <silent> <leader>i# :set invnumber<CR>
-nnoremap <silent> <leader>ih :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
+nnoremap <silent> <leader>il :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
 nnoremap <silent> <leader>ii :IndentLinesToggle<CR>
 nnoremap <silent> <leader>iu :UndotreeToggle<CR>
 nnoremap <silent> <leader>ic :nohlsearch<CR>
 nnoremap <silent> <leader>iz :Goyo<CR>
-nnoremap <silent> <leader>il :Limelight<CR>
+nnoremap <silent> <leader>ih :ColorHighlight<CR>
 nnoremap <silent> <leader>iL :Limelight!<CR>
 nnoremap <silent> <leader>it :NERDTreeToggle<CR>
 

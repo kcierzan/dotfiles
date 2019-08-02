@@ -8,7 +8,7 @@ import chevron
 import yaml
 
 DOTS_DIR = os.path.expanduser("~") + "/git/.dotfiles/"
-THEME_DIR = DOTS_DIR + "/static/themes/"
+THEME_DIR = DOTS_DIR + "/templates/themes/"
 # TODO: add xcolors/xresources
 # TODO: add rofi
 # TODO: add awesome
@@ -94,7 +94,7 @@ def main():
     theme = args.theme
     if args.dry_run:
         for template, output in TEMPLATE_OUTPUT_MAP.items():
-            template_file = DOTS_DIR + "static" + "/" + template
+            template_file = DOTS_DIR + "templates" + "/" + template
             output_file = DOTS_DIR + output
             print("****************************************")
             print(f"*****************  {output_file}  **************")
@@ -102,12 +102,17 @@ def main():
         print(f'iTerm profile changed to "{theme}"')
     else:
         for template, output in TEMPLATE_OUTPUT_MAP.items():
-            template_file = DOTS_DIR + "static" + "/" + template
+            template_file = DOTS_DIR + "templates" + "/" + template
             output_file = DOTS_DIR + output
             render_file(template_file, output_file, theme_data)
         if sys.platform == "darwin":
             change_iterm_profile(theme)
             load_alfred_theme(theme)
+        if sys.platform == "linux":
+            render_file(
+                DOTS_DIR + "templates" + "/" + "xcolors.mustache", "xcolors/.xcolors"
+            )
+            reload_xresources()
         reload_tmux()
 
 

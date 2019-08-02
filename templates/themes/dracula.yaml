@@ -1,0 +1,21 @@
+#        __                      __
+#   ____/ /________ ________  __/ /___ _
+#  / __  / ___/ __ `/ ___/ / / / / __ `/
+# / /_/ / /  / /_/ / /__/ /_/ / / /_/ /
+# \__,_/_/   \__,_/\___/\__,_/_/\__,_/
+
+shade: "dark"
+dark_bg: "#272936"
+light_bg: "#2e3140"
+tmux_mode_bg: "#505868"
+tmux_mode_fg: "#c9a8fa"
+bat_theme: "Dracula"
+autosuggestions: "238"
+vim_colorscheme: "dracula"
+vim_overrides: |+
+  hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
+  hi SignColumn ctermfg=none ctermbg=none guibg=none guifg=none
+  hi ColorColumn ctermfg=none ctermbg=0 guibg='#2e3140'
+  hi Cursorline guifg=none guibg='#2e3140'
+  hi VertSplit guibg = '#272936' guifg = '#272936'
+  hi Cursor guibg='#ff92d0' guifg='#272936'

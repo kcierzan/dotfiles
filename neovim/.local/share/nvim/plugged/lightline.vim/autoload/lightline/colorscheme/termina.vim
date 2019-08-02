@@ -35,9 +35,9 @@ if lightline#colorscheme#background() ==# 'light'
 else
   " Dark variant
   let s:bg     = [ '#2c323d', 235 ]
-  let s:gray1  = [ '#5c6370', 241 ]
+  let s:gray1  = [ '#505868', 241 ]
   let s:gray2  = [ '#2c323d', 235 ]
-  let s:gray3  = [ '#3e4452', 240 ]
+  let s:gray3  = [ '#505868', 240 ]
 
   let s:p.normal.left     = [ [ s:green, s:bg, 'bold' ], [ s:fg, s:bg ] ]
   let s:p.normal.middle   = [ [ s:fg, s:gray2 ] ]
@@ -56,9 +56,5 @@ let s:p.normal.warning = [ [ s:yellow, s:bg ] ]
 let s:p.insert.right   = [ [ s:blue, s:bg, 'bold' ], [ s:fg, s:bg ] ]
 let s:p.replace.right  = [ [ s:red1, s:bg, 'bold' ], [ s:fg, s:bg ] ]
 let s:p.visual.right   = [ [ s:purple, s:bg, 'bold' ], [ s:fg, s:bg ] ]
-let s:p.tabline.left   = [ [ s:fg, s:gray3 ] ]
-let s:p.tabline.tabsel = [ [ s:bg, s:purple, 'bold' ] ]
-let s:p.tabline.middle = [ [ s:gray3, s:gray2 ] ]
-let s:p.tabline.right  = copy(s:p.normal.right)
 
 let g:lightline#colorscheme#termina#palette = lightline#colorscheme#flatten(s:p)

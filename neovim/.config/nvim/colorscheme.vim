@@ -4,6 +4,8 @@ function! s:goyo_enter()
   set noshowcmd
   set noshowmode
   set nocursorline
+  vunmap <silent> <leader>
+  nunmap <silent> <leader>
   IndentLinesDisable
   ALEDisable
 endfunction
@@ -15,6 +17,8 @@ function! s:goyo_leave()
   set showmode
   set cursorline
   colorscheme onedark
+  nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
+  vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
   ALEEnable
 endfunction
 
@@ -27,13 +31,11 @@ set background=dark
 colorscheme onedark
 
 hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
-hi  ColorColumn ctermfg=none ctermbg=0
-hi ALEErrorSign                   ctermfg=1 guifg='#e06c75'
-hi ALEWarningSign                 ctermfg=3 guifg='#e5c07b'
-hi ALEError                       ctermbg=0
-hi ALEWarning                     ctermbg=0
+hi ColorColumn ctermfg=none ctermbg=0
+hi ALEErrorSign                    guifg='#e06c75'
+hi ALEWarningSign                  guifg='#e5c07b'
 hi VertSplit guifg = '#272c33'
-hi Comment cterm=italic
+hi Comment gui=italic
 hi CocHighlightText guibg = '#404754'
 hi Search guifg = '#46d9ff' guibg = '#505868' gui=underline
 

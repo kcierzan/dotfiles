@@ -1,5 +1,5 @@
 ! color scheme
-#include </home/antares/.xcolors/onedark.xcolors>
+#include ".xcolors"
 
 ! Xft
 Xft.dpi: 96

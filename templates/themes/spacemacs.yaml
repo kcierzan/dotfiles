@@ -1,6 +1,6 @@
 shade: "dark"
-active_bg: "#282A2E"
-inactive_bg: "#313337"
+dark_bg: "#282A2E"
+light_bg: "#313337"
 bat_theme: "TwoDark"
 autosuggestions: "238"
 vim_colorscheme: "spacemacs_vim_theme"

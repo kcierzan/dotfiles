@@ -1,8 +1,8 @@
 set -g status-position bottom
 set -g status-justify "left"
-set -g status-style "bg={{active_bg}}"
-set -g window-style "bg={{inactive_bg}}"
-set -g mode-style "bg={{highlight_bg}} fg={{highlight_fg}}"
+set -g status-style "bg={{dark_bg}}"
+set -g window-style "bg={{light_bg}}"
+set -g mode-style "bg={{lightest_bg}} fg={{tmux_mode_fg}}"
 
 set -g status-left "#[fg=colour03]  #[fg=colour05]#S "
 set -g status-left-length 100
@@ -11,15 +11,15 @@ set -g status-right "#[fg=colour03]%I:%M %p  %b %d [#{battery_status_fg}#{batter
 set -g status-right-style "bold"
 set -g status-right-length 100
 
-set -g window-status-current-style "bold fg=colour04 bg={{active_bg}}"
-set -g window-status-style "fg=colour08 bg={{active_bg}}"
+set -g window-status-current-style "bold fg=colour04 bg={{dark_bg}}"
+set -g window-status-style "fg=colour08 bg={{dark_bg}}"
 set -g window-status-format "#{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-current-format "#{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-separator ""
 
-set -g pane-active-border-style "fg={{active_bg}} bg={{active_bg}}"
-set -g pane-border-style "fg={{active_bg}} bg={{active_bg}}"
+set -g pane-active-border-style "fg={{dark_bg}} bg={{dark_bg}}"
+set -g pane-border-style "fg={{dark_bg}} bg={{dark_bg}}"
 
-set -g window-active-style "bg={{active_bg}}"
+set -g window-active-style "bg={{dark_bg}}"
 
 run '~/.tmux/plugins/tpm/tpm'

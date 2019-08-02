@@ -1,6 +1,6 @@
 shade: "dark"
-active_bg: "#073642"
-inactive_bg: "#002b36"
+dark_bg: "#073642"
+light_bg: "#002b36"
 bat_theme: "SolarizedDark"
 autosuggestions: "238"
 vim_colorscheme: "solarized8"
