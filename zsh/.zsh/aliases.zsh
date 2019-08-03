@@ -34,7 +34,7 @@ alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
-alias https="http --default-scheme=https "
+alias https="http --default-scheme=https"
 
 # URL-encode strings
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print(ul.quote_plus(sys.argv[1]))"'

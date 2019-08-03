@@ -23,7 +23,7 @@
 	spacing: 0;
 	background-color: transparent;
 
-	font: "SF Mono 11";
+	font: "SF Mono 22";
 }
 
 window {
@@ -57,12 +57,12 @@ textbox-prompt-colon {
 	str: "❯";
 	margin: -3px 1ch 0 0;
 	text-color: @blue04;
-	font: "SF Mono 24";
+	font: "SF Mono 38";
 }
 
 entry {
 	text-color: @white07;
-	font: "SF Mono 24";
+	font: "SF Mono 38";
 }
 
 case-indicator {
