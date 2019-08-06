@@ -103,3 +103,4 @@ bindkey -M viins "$key_info[Control]X$key_info[Control]E" edit-command-line
 bindkey -M viins "." expand-dot-to-parent-directory-path
 bindkey -M viins "$key_info[Control]X$key_info[Control]S" prepend-sudo
 bindkey -M viins "$key_info[Control]E" vi-add-eol
+bindkey -M viins "$key_info[BackTab]" reverse-menu-complete
