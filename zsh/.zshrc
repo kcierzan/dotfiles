@@ -10,11 +10,6 @@ if [[ $TERM == "dumb" ]]; then
     unsetopt prompt_cr
     unsetopt prompt_subst
     PS1="%(?..[%?])%~ ❯ "
-else
-  # source prezto if its installed
-  if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-      source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-  fi
 fi
 
 # load fasd from cache
@@ -64,3 +59,26 @@ if [[ "$OSTYPE" = 'linux-gnu' ]]; then
   source /usr/share/fzf/key-bindings.zsh
   source /usr/share/fzf/completion.zsh
 fi
+
+source ~/.zsh/prefs.zsh
+
+[ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
+
+if [[ ! -d ~/.zplugin ]]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+fi
+
+
+### Added by Zplugin's installer
+source "$HOME/.zplugin/bin/zplugin.zsh"
+autoload -Uz _zplugin
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
+### End of Zplugin's installer chunk
+
+zplugin light romkatv/powerlevel10k
+zplugin ice silent wait
+zplugin light zdharma/fast-syntax-highlighting
+zplugin ice silent wait svn
+zplugin snippet PZT::modules/completion
+zplugin ice silent wait atload'_zsh_autosuggest_start'
+zplugin light zsh-users/zsh-autosuggestions
