@@ -1,12 +1,13 @@
 export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin:$HOME/.composer/vendor/bin"
 
-export LESS_TERMCAP_mb=$(printf "\e[1;34m")
-export LESS_TERMCAP_md=$(printf "\e[1;34m")
-export LESS_TERMCAP_me=$(printf "\e[0m")
-export LESS_TERMCAP_so=$(printf "\e[1;47;33m")
-export LESS_TERMCAP_se=$(printf "\e[0m")
-export LESS_TERMCAP_us=$(printf "\e[1;32m")
-export LESS_TERMCAP_ue=$(printf "\e[0m")
+export LESS='-F -g -i -M -R -S -w -X -z-4'
+export LESS_TERMCAP_mb=$'\E[01;31m'      # Begins blinking.
+export LESS_TERMCAP_md=$'\E[01;31m'      # Begins bold.
+export LESS_TERMCAP_me=$'\E[0m'          # Ends mode.
+export LESS_TERMCAP_se=$'\E[0m'          # Ends standout-mode.
+export LESS_TERMCAP_so=$'\E[00;47;30m'   # Begins standout-mode.
+export LESS_TERMCAP_ue=$'\E[0m'          # Ends underline.
+export LESS_TERMCAP_us=$'\E[01;32m'      # Begins underline.
 export PAGER="${commands[less]:-$PAGER}"
 
 export FZF_COMPLETION_TRIGGER='**'
