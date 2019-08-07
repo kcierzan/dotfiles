@@ -51,10 +51,6 @@ fi
 source ~/.zsh/aliases.zsh
 source ~/.zsh/extra.zsh
 
-if [[ "$OSTYPE" == darwin* ]]; then
-  source ~/.zsh/vi_cursor.zsh
-fi
-
 if [[ "$OSTYPE" = 'linux-gnu' ]]; then
   source /usr/share/fzf/key-bindings.zsh
   source /usr/share/fzf/completion.zsh
