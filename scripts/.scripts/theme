@@ -13,13 +13,12 @@ THEME_DIR = DOTS_DIR + "/templates/themes/"
 # TODO: add rofi
 # TODO: add awesome
 # TODO: add vifm
-# TODO: fix search highlight color
 # TODO: add lightline/termina colors
+# TODO: fix suggestion highlighting
 TEMPLATE_OUTPUT_MAP = {
     "vim.mustache": "neovim/.config/nvim/colorscheme.vim",
     "env.mustache": "zsh/.zsh/zshcolors",
     "tmux.mustache": "tmux/.tmux-colors.conf",
-    "prezto.mustache": "zsh/.zprezto-colors.zsh",
     # "lightline.mustache": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/termina.vim"
 }
 
