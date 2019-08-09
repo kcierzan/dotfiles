@@ -7,74 +7,131 @@ import sys
 import chevron
 import yaml
 
-DOTS_DIR = os.path.expanduser("~") + "/git/.dotfiles/"
-THEME_DIR = DOTS_DIR + "/templates/themes/"
-# TODO: add xcolors/xresources
-# TODO: add rofi
-# TODO: add awesome
-# TODO: add vifm
-# TODO: add lightline/termina colors
-# TODO: fix suggestion highlighting
-TEMPLATE_OUTPUT_MAP = {
-    "vim.mustache": "neovim/.config/nvim/colorscheme.vim",
-    "env.mustache": "zsh/.zsh/zshcolors",
-    "tmux.mustache": "tmux/.tmux-colors.conf",
-    # "lightline.mustache": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/termina.vim"
-}
+ENABLED_APPS = ["neovim", "zsh", "tmux"]
 
 
-def render_file(template_path, output_path, data):
-    with open(template_path, "r") as temp:
-        rendered = chevron.render(**{"template": temp, "data": data})
-    with open(output_path, "w") as output:
-        output.write(rendered)
-        output.close()
+class Renderer:
+    apps = {
+        "neovim": {
+            "template": "vim.mustache",
+            "output_file": "colorscheme.vim",
+            "output_path": "neovim/.config/nvim/",
+        },
+        "zsh": {
+            "template": "env.mustache",
+            "output_file": "zshcolors",
+            "output_path": "zsh/.zsh/",
+        },
+        "tmux": {
+            "template": "tmux.mustache",
+            "output_file": ".tmux-colors.conf",
+            "output_path": "tmux/",
+        },
+        "lightline": {
+            "template": "lightline.mustache",
+            "output_file": "termina.vim",
+            "output_path": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/",
+        },
+        "xorg": {
+            "template": "xcolors.mustache",
+            "output_file": ".xresources",
+            "output_path": "xorg/",
+        },
+        "rofi": {
+            "template": "rofi.mustache",
+            "output_file": "theme.rasi",
+            "output_path": "rofi/.config/rofi/themes/",
+        },
+        "vifm": {
+            "template": "vifm.mustache",
+            "output_file": "vifm-colors",
+            "output_path": "vifm/.config/vifm/",
+        },
+    }
+
+    def __init__(self):
+        self.dots_dir = os.path.expanduser("~") + "/git/.dotfiles/"
+        self.theme_dir = self.dots_dir + "/templates/themes/"
+        self.themes = [theme.split(".")[0] for theme in os.listdir(self.theme_dir)]
+
+    def print_themes(self):
+        for theme in self.themes:
+            print(theme)
+
+    def render_themed_files(self, theme, dry_run=True):
+        theme_data = self.load_theme(theme)
+        for app, data in self.apps.items():
+            template = self.dots_dir + "templates" + "/" + data["template"]
+            output = self.dots_dir + data["output_path"] + data["output_file"]
+            if app in ENABLED_APPS:
+                if dry_run:
+                    print(f"*********************** Rendering to '{output}'  ***************************")
+                    self.render_to_stdout(template, output, theme_data)
+                else:
+                    self.render_file(template, output, theme_data)
+
+    @staticmethod
+    def render_file(template_path, output_path, data):
+        with open(template_path, "r") as temp:
+            rendered = chevron.render(**{"template": temp, "data": data})
+        with open(output_path, "w") as output:
+            output.write(rendered)
+            output.close()
+
+    @staticmethod
+    def render_to_stdout(template_path, output_path, data):
+        with open(template_path, "r") as temp:
+            rendered = chevron.render(**{"template": temp, "data": data})
+            print(rendered)
+
+    def load_theme(self, theme):
+        with open(f"{self.theme_dir + theme}.yaml", "r") as f:
+            try:
+                return yaml.safe_load(f)
+            except yaml.YAMLError as e:
+                print(f"Theme failed to load: {self.theme_dir + theme}")
+                print(e)
 
 
-def render_to_stdout(template_path, output_path, data):
-    with open(template_path, "r") as temp:
-        rendered = chevron.render(**{"template": temp, "data": data})
-        print(rendered)
+class Shell:
+    def __init__(self):
+        self.platform = sys.platform
+
+    def load_theme(self, theme):
+        if self.platform == "darwin":
+            self.change_iterm_profile(theme)
+            self.load_alfred_theme(theme)
+        if self.platform == "linux":
+            self.reload_xresources()
+        self.reload_tmux()
+
+    def change_iterm_profile(self, theme):
+        command = f"iterm-profile {theme}"
+        self.call_with_shell(command)
+
+    def reload_tmux(self):
+        command = "tmux source-file ~/.tmux.conf"
+        self.call_with_shell(command)
+
+    def load_alfred_theme(self, theme):
+        command = [
+            "osascript",
+            "-e",
+            f'tell application "Alfred 3" to set theme "{theme}"',
+        ]
+        subprocess.Popen(command)
+
+    def call_with_shell(self, command):
+        subprocess.call([os.getenv("SHELL"), "-i", "-c", command])
+
+    def restart_awesome():
+        raise NotImplementedError()
+
+    def reload_xresources():
+        call_with_shell("xrdb merge " + os.expanduser("~") + "/.xresources")
 
 
-def change_iterm_profile(theme):
-    command = f"iterm-profile {theme}"
-    call_with_shell(command)
-
-
-def reload_tmux():
-    command = "tmux source-file ~/.tmux.conf"
-    call_with_shell(command)
-
-
-def load_alfred_theme(theme):
-    command = ["osascript", "-e", f'tell application "Alfred 3" to set theme "{theme}"']
-    subprocess.Popen(command)
-
-
-def call_with_shell(command):
-    subprocess.call([os.getenv("SHELL"), "-i", "-c", command])
-
-
-def load_theme_yaml(theme):
-    with open(f"{THEME_DIR + theme}.yaml", "r") as f:
-        try:
-            return yaml.safe_load(f)
-        except yaml.YAMLError as e:
-            print(f"Theme failed to load: {THEME_DIR + theme}")
-            print(e)
-
-
-def reload_xresources():
-    call_with_shell("xrdb merge " + os.expanduser("~") + "/.xresources")
-
-
-def restart_awesome():
-    pass
-
-
-def main():
-    themes = [theme.split(".")[0] for theme in os.listdir(THEME_DIR)]
+def parse_arguments(themes):
     parser = argparse.ArgumentParser(description="Switch to a theme")
     g = parser.add_mutually_exclusive_group()
     g.add_argument("--list-themes", action="store_true")
@@ -82,37 +139,21 @@ def main():
         "theme", type=str, nargs="?", metavar="THEME", choices=themes, help="theme name"
     )
     parser.add_argument("--dry-run", action="store_true")
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main():
+    renderer = Renderer()
+    shell = Shell()
+    args = parse_arguments(renderer.themes)
 
     if args.list_themes:
-        for theme in themes:
-            print(theme)
+        renderer.print_themes()
         return
 
-    theme_data = load_theme_yaml(args.theme)
-    theme = args.theme
-    if args.dry_run:
-        for template, output in TEMPLATE_OUTPUT_MAP.items():
-            template_file = DOTS_DIR + "templates" + "/" + template
-            output_file = DOTS_DIR + output
-            print("****************************************")
-            print(f"*****************  {output_file}  **************")
-            render_to_stdout(template_file, output_file, theme_data)
-        print(f'iTerm profile changed to "{theme}"')
-    else:
-        for template, output in TEMPLATE_OUTPUT_MAP.items():
-            template_file = DOTS_DIR + "templates" + "/" + template
-            output_file = DOTS_DIR + output
-            render_file(template_file, output_file, theme_data)
-        if sys.platform == "darwin":
-            change_iterm_profile(theme)
-            load_alfred_theme(theme)
-        if sys.platform == "linux":
-            render_file(
-                DOTS_DIR + "templates" + "/" + "xcolors.mustache", "xcolors/.xcolors"
-            )
-            reload_xresources()
-        reload_tmux()
+    renderer.render_themed_files(args.theme, dry_run=args.dry_run)
+    if not args.dry_run:
+        shell.load_theme(args.theme)
 
 
 if __name__ == "__main__":

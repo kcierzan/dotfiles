@@ -9,7 +9,7 @@ out=($(rg ${1:-.} --files --no-ignore --hidden --follow \
     -g "!tags" \
     -g "!TAGS" \
     2> /dev/null \
-    | fzf +m --exit-0 --expect=ctrl-o,ctrl-x
+    | fzf +m --exit-0 --expect=ctrl-o,ctrl-x \
     --preview-window=up:80% \
     --preview '[[ $(file --mime {}) =~ binary ]] &&
         echo {} is a binary file ||
