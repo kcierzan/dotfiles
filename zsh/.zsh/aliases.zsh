@@ -136,41 +136,6 @@ codepoint() {
   fi;
 }
 
-# Search every file on the filesystem by name
-fa() {
-  IFS=$'\n'
-  out=($(fd -H -a --type f . / | fzf --exit-0 --expect=ctrl-o,ctrl-x,ctrl-x,ctrl-v \
-    --preview-window=up:80% \
-    --preview '[[ $(file --mime {}) =~ binary ]] &&
-    echo {} is a binary file ||
-    preview {} 2> /dev/null | head -2000'))
-    key=$(head -1 <<< "$out")
-    file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-    if [ "$key" = ctrl-o ]; then
-      open "$file"
-    elif [ "$key" = ctrl-x ]; then
-      rm -i "$file"
-    elif [ "$key" = ctrl-v ]; then
-      code "$file"
-    else
-      $EDITOR "$file"
-    fi
-  fi
-}
-
-# fuzzy search through git log
-flog() {
-  git log --graph --color=always \
-    --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-    fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-    --header "Press CTRL-S to toggle sort" \
-    --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
-    xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
-    --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs git rev-parse |
-    xargs -I % sh -c 'nvim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
-}
-
 # show terminal colors
 termcol () {
   for code ({000..255}) print -P -- "$code: %F{$code}Isn't this a fun color?%f"
@@ -203,7 +168,7 @@ flake8-plugins() {
     flake8-import-order \
     flake8-bandit \
     flake8-comprehensions \
-    flake8-mock \
+    flake8-mock
 }
 
 redraw-prompt() {
