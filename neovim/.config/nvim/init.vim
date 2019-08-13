@@ -337,7 +337,7 @@ autocmd FileType fzf set laststatus=0 noshowmode noruler
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
-      \   'rg --smart-case --line-number --column --no-heading --color=always -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
+      \   'rg --smart-case --line-number --column --no-heading --hidden --color=always -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
       \   (winwidth(0) > 175 ? fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'right:50%')
       \                      : fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'up:80%')))
 
