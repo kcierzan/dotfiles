@@ -40,6 +40,10 @@ alias spotoff="sudo mdutil -a -i off"
 # Enable Spotlight
 alias spoton="sudo mdutil -a -i on"
 
+# Use the ls_extended script
+alias le="ls_extended_macos"
+alias la="ls_extended_macos -lah"
+
 # Change working directory to the top-most Finder window location
 cdf() { # short for `cdfinder`
     cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
