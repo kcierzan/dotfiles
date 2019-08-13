@@ -488,7 +488,7 @@ let g:windowswap_map_keys = 0
 
 " fugitive
 let g:github_enterprise_urls = ['https://github.aweber.io']
-let g:fugitive_gitlab_domaines = ['https://gitlab.aweber.io', 'gitlab.aweber.io']
+let g:fugitive_gitlab_domains = ['https://gitlab.aweber.io', 'git@gitlab.aweber.io']
 
 " emmet-vim
 let g:user_emmet_settings = {
