@@ -6,5 +6,15 @@
   "python.jediEnabled": false,
   "python.linting.enabled": false,
   "python.venvPath": "~/.pyenv",
-  "python.workspaceSymbols.tagFilePath": "${workspaceFolder}/tags"
+  "python.workspaceSymbols.tagFilePath": "${workspaceFolder}/tags",
+  "languageserver": {
+    "intelephense": {
+      "command": "npx",
+      "args": ["intelephense", "--stdio"],
+      "filetypes": ["php"],
+      "initializationOptions": {
+        "storagePath": "/tmp/intelephense"
+      }
+    }
+  }
 }
