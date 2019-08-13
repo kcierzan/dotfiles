@@ -7,42 +7,49 @@ import sys
 import chevron
 import yaml
 
-ENABLED_APPS = ["neovim", "zsh", "tmux"]
+ENABLED_APPS = ["neovim", "zsh", "tmux", "rofi", "xorg"]
 
 
 class Renderer:
     apps = {
         "neovim": {
+            "os_types": ["linux", "darwin"],
             "template": "vim.mustache",
             "output_file": "colorscheme.vim",
             "output_path": "neovim/.config/nvim/",
         },
         "zsh": {
+            "os_types": ["linux", "darwin"],
             "template": "env.mustache",
             "output_file": "zshcolors",
             "output_path": "zsh/.zsh/",
         },
         "tmux": {
+            "os_types": ["linux", "darwin"],
             "template": "tmux.mustache",
             "output_file": ".tmux-colors.conf",
             "output_path": "tmux/",
         },
         "lightline": {
+            "os_types": ["linux", "darwin"],
             "template": "lightline.mustache",
             "output_file": "termina.vim",
             "output_path": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/",
         },
         "xorg": {
+            "os_type": ["linux"],
             "template": "xcolors.mustache",
             "output_file": ".xresources",
             "output_path": "xorg/",
         },
         "rofi": {
+            "os_types": ["linux"],
             "template": "rofi.mustache",
             "output_file": "theme.rasi",
             "output_path": "rofi/.config/rofi/themes/",
         },
         "vifm": {
+            "os_types": ["darwin", "linux"],
             "template": "vifm.mustache",
             "output_file": "vifm-colors",
             "output_path": "vifm/.config/vifm/",
@@ -59,16 +66,19 @@ class Renderer:
             print(theme)
 
     def render_themed_files(self, theme, dry_run=True):
-        theme_data = self.load_theme(theme)
+        theme_data = self.load_theme_data(theme)
         for app, data in self.apps.items():
             template = self.dots_dir + "templates" + "/" + data["template"]
             output = self.dots_dir + data["output_path"] + data["output_file"]
             if app in ENABLED_APPS:
                 if dry_run:
-                    print(f"*********************** Rendering to '{output}'  ***************************")
+                    print(
+                        f"*********************** Rendering to '{output}'  ***************************"
+                    )
                     self.render_to_stdout(template, output, theme_data)
                 else:
-                    self.render_file(template, output, theme_data)
+                    if sys.platform in data['os_types']:
+                        self.render_file(template, output, theme_data)
 
     @staticmethod
     def render_file(template_path, output_path, data):
@@ -84,7 +94,7 @@ class Renderer:
             rendered = chevron.render(**{"template": temp, "data": data})
             print(rendered)
 
-    def load_theme(self, theme):
+    def load_theme_data(self, theme):
         with open(f"{self.theme_dir + theme}.yaml", "r") as f:
             try:
                 return yaml.safe_load(f)
