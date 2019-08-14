@@ -11,4 +11,3 @@ hi CocHighlightText guibg='#404754'
 hi Search guifg='#46d9ff' guibg='#505868' gui=underline
 hi Pmenu guibg='#2C323D'
 hi PmenuSel guibg='#c678dd'
-

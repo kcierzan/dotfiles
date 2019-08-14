@@ -9,7 +9,6 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias -- -="cd -"
-alias la='ls -lah'
 
 alias g="git"
 alias gs="git status"

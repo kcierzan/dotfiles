@@ -31,10 +31,26 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
+# turn off the cheesy graphics card led
+nvidia-led no-animation 0
+
+# set capslock to control if held, escape if tapped
 setxkbmap -option 'caps:ctrl_modifier' && xcape -e 'Caps_Lock=Escape'
+
+# use macos style layout :\
 setxkbmap -option 'altwin:swap_alt_win'
+
+# bind rofi combi mode to super + space
 xbindkeys
+
+# configure the firewire interface and start jack
 start-jack
+
+# make the mouse disappear on keystrokes
 xbanish&
+
+# start the compositor
 compton&
+
+# start the wm
 exec awesome
