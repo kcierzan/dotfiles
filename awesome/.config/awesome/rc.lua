@@ -74,18 +74,6 @@ awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.spiral,
     awful.layout.suit.max,
-    -- awful.layout.suit.tile.left,
-    -- awful.layout.suit.tile.bottom,
-    -- awful.layout.suit.tile.top,
-    -- awful.layout.suit.fair,
-    -- awful.layout.suit.fair.horizontal,
-    -- awful.layout.suit.spiral.dwindle,
-    -- awful.layout.suit.max.fullscreen,
-    -- awful.layout.suit.magnifier,
-    -- awful.layout.suit.corner.nw,
-    -- awful.layout.suit.corner.ne,
-    -- awful.layout.suit.corner.sw,
-    -- awful.layout.suit.corner.se,
 }
 -- }}}
 
@@ -238,20 +226,6 @@ globalkeys = gears.table.join(
               {description = "swap with the next client left", group = "client"}),
     awful.key({modkey, "Shift"}, "l", function () awful.client.swap.bydirection("right") end,
               {description = "swap with the next client right", group = "client"}),
-    -- awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
-    --           {description = "focus the next screen", group = "screen"}),
-    -- awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
-    --           {description = "focus the previous screen", group = "screen"}),
-    -- awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
-    --           {description = "jump to urgent client", group = "client"}),
-    -- awful.key({ modkey,           }, "Tab",
-    --     function ()
-    --         awful.client.focus.history.previous()
-    --         if client.focus then
-    --             client.focus:raise()
-    --         end
-    --     end,
-    --     {description = "go back", group = "client"}),
     awful.key({ modkey,  }, "Tab",
        function ()
           awful.client.focus.byidx(1)

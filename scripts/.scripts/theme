@@ -37,7 +37,7 @@ class Renderer:
             "output_path": "neovim/.local/share/nvim/plugged/lightline.vim/autoload/lightline/colorscheme/",
         },
         "xorg": {
-            "os_type": ["linux"],
+            "os_types": ["linux"],
             "template": "xcolors.mustache",
             "output_file": ".xresources",
             "output_path": "xorg/",
