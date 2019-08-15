@@ -4,14 +4,17 @@
 
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
+local xrdb = xresources.get_current_theme()
 local dpi = xresources.apply_dpi
 
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
-local theme = {}
+local theme = dofile(themes_path.."default/theme.lua")
 
-theme.font          = "SF Mono 8"
+-- local theme = {}
+
+theme.font          = "monospace 8"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
@@ -27,7 +30,7 @@ theme.fg_minimize   = "#ffffff"
 theme.useless_gap   = dpi(15)
 theme.border_width  = dpi(2)
 theme.border_normal = "#000000"
-theme.border_focus  = "#61afef04"
+theme.border_focus  = "#61afef"
 theme.border_marked = "#98c379"
 
 -- There are other variable sets

@@ -331,6 +331,14 @@ vmap E <Plug>(expand_region_shrink)
 let g:fzf_layout = { 'window': '-tabnew' }
 let g:fzf_buffers_jump = 1
 
+" set the find executable name by os
+if has('macunix') == 1
+  let s:findcmd = 'gfind'
+else
+  let s:findcmd = 'find'
+endif
+
+
 autocmd! FileType fzf
 autocmd FileType fzf set laststatus=0 noshowmode noruler
       \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
@@ -352,7 +360,7 @@ command! -bang -nargs=* GFiles
       \ call fzf#vim#files(<q-args>, (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
 
 command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
-      \ {'source': 'gfind '.(empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
+      \ {'source': s:findcmd . ' '. (empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
       \  'sink': 'cd'}))
 
 "vim-markdown

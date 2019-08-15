@@ -6,6 +6,7 @@ pcall(require, "luarocks.loader")
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
+local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
@@ -154,7 +155,11 @@ local function set_wallpaper(s)
         if type(wallpaper) == "function" then
             wallpaper = wallpaper(s)
         end
-        gears.wallpaper.maximized(wallpaper, s, true)
+        -- Method 1: Built in wallpaper function
+        -- gears.wallpaper.maximized(wallpaper, s, true)
+
+        -- Method 2: Set the last wallpaper set with feh
+        awful.spawn.with_shell(os.getenv("HOME") .. "/.fehbg")
     end
 end
 
@@ -170,6 +175,9 @@ awful.screen.connect_for_each_screen(function(s)
 
 end)
 -- }}}
+
+-- add a layout bar
+require("bars/default")
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
@@ -233,7 +241,7 @@ globalkeys = gears.table.join(
           {description = "Cycle clients", group = "client"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
+    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal.." sh -c 'tmux new-session; zsh'") end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
