@@ -7,7 +7,7 @@ import sys
 import chevron
 import yaml
 
-ENABLED_APPS = ["neovim", "zsh", "tmux", "rofi", "xorg"]
+ENABLED_APPS = ["neovim", "zsh", "tmux", "rofi", "xorg", "statusline"]
 
 
 class Renderer:
@@ -16,6 +16,12 @@ class Renderer:
             "os_types": ["linux", "darwin"],
             "template": "vim.mustache",
             "output_file": "colorscheme.vim",
+            "output_path": "neovim/.config/nvim/",
+        },
+        "statusline": {
+            "os_types": ["linux", "darwin"],
+            "template": "statusline.mustache",
+            "output_file": "statusline.vim",
             "output_path": "neovim/.config/nvim/",
         },
         "zsh": {

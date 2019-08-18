@@ -3,11 +3,11 @@
 #  / __ \/ __ \/ _ \/ __  / __ `/ ___/ //_/
 # / /_/ / / / /  __/ /_/ / /_/ / /  / ,<
 # \____/_/ /_/\___/\__,_/\__,_/_/  /_/|_|
-
 shade:             "dark"
 foreground:        "#B2BED1"
 dark_bg:           "#282C34"
 light_bg:          "#2C323D"
+lighter_bg:        "#393f4a"
 lightest_bg:       "#505868"
 tmux_mode_fg:      "#46D9FF"
 bat_theme:         "TwoDark"

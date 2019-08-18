@@ -132,7 +132,6 @@ Plug 'terryma/vim-expand-region'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'plasticboy/vim-markdown'
-Plug 'itchyny/lightline.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'ryanoasis/vim-devicons'
@@ -367,115 +366,6 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 
-" lightline
-let g:lightline = {
-      \ 'colorscheme': 'termina',
-      \ 'separator': {
-      \   'left': "",
-      \   'right': ""
-      \ },
-      \ 'subseparator': {
-      \   'left': "",
-      \   'right': ""
-      \ },
-      \ 'enable': {
-      \   'statusline': 1
-      \ },
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'filename', 'modified', ], ],
-      \   'right': [ ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok' ], ['cwd', 'filetype' ], ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'LightlineBranch',
-      \   'cwd': 'LightlineCwd',
-      \   'coc': 'CocCollapse',
-      \   'filetype': 'IconFiletype',
-      \   'filename': 'LightLineFilename',
-      \ },
-      \ 'component_expand': {
-      \   'linter_warnings': 'LightlineLinterWarnings',
-      \   'linter_errors': 'LightlineLinterErrors',
-      \   'linter_ok': 'LightlineLinterOK',
-      \ },
-      \ 'component_type': {
-      \   'readonly': 'error',
-      \   'linter_warnings': 'warning',
-      \   'linter_errors': 'error',
-      \ },
-      \'mode_map': {
-      \   'n' : '',
-      \   'i' : 'פֿ',
-      \   'R' : 'ﯩ',
-      \   'v' : '﯎',
-      \   'V' : '﯎',
-      \   "\<C-v>": '﯎',
-      \   'c' : 'ﲵ',
-      \   's' : 'סּ',
-      \   'S' : 'סּ',
-      \   "\<C-s>": 'סּ',
-      \   't': 'ﲵ',
-      \ }
-      \}
-
-function! CocCollapse()
-  return winwidth(0) > 100 ? coc#status() : ''
-endfunction
-
-function! IconFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-endfunction
-
-function! IconFileformat()
-  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
-endfunction
-
-function! LightlineCwd()
-  return ' ' . fnamemodify(getcwd(), ':t')
-endfunction
-
-function! LightlineBranch()
-  return ' ' . fugitive#head() . '   ' . join(GitGutterGetHunkSummary())
-endfunction
-
-function! LightlineLinterWarnings() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
-  return l:counts.total == 0 ? '' : printf('  %d', all_non_errors)
-endfunction
-
-function! LightlineLinterErrors() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
-  return l:counts.total == 0 ? '' : printf(' %d', all_errors)
-endfunction
-
-function! LightlineLinterOK() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
-  return l:counts.total == 0 ? ' ' : ''
-endfunction
-
-function LightLineFilename()
-  return ' ' . expand('%')
-endfunction
-
-function! s:MaybeUpdateLightline()
-  if exists('#lightline')
-    call lightline#update()
-  end
-endfunction
-
-augroup LightLineOnALE
-  autocmd!
-  autocmd User ALEFixPre   call lightline#update()
-  autocmd User ALEFixPost  call lightline#update()
-  autocmd User ALELintPre  call lightline#update()
-  autocmd User ALELintPost call lightline#update()
-augroup end
-autocmd! BufWrite,TextChanged,TextChangedI,BufEnter,WinEnter,BufWinEnter,FileType,ColorScheme,SessionLoadPost * call lightline#update()
 
 " Polyglot
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
@@ -769,3 +659,6 @@ nmap <silent> <leader>nly <Plug>VimwikiMakeYesterdayDiaryNote
 
 " source the generated colorscheme
 source $HOME/.config/nvim/colorscheme.vim
+
+" set up the statusline
+source $HOME/.config/nvim/statusline.vim
