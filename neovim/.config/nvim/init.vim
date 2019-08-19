@@ -267,7 +267,6 @@ autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
 
 " vim-tmux-navigator
 " Map alt + hjkl to navigation
-" TODO: why doesn't this work on linux?
 let g:tmux_navigator_no_mappings = 1
 
 " ALE

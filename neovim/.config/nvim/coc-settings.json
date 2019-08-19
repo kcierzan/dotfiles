@@ -1,10 +1,11 @@
 {
+  "diagnostic.displayByAle": true,
   "diagnostic.errorSign": "✖ ",
   "diagnostic.warningSign": "⚠ ",
   "diagnostic.infoSign": " ",
   "diagnostic.hintSign": "",
   "python.jediEnabled": false,
-  "python.linting.enabled": false,
+  "python.linting.enabled": true,
   "python.venvPath": "~/.pyenv",
   "python.workspaceSymbols.tagFilePath": "${workspaceFolder}/tags",
   "languageserver": {

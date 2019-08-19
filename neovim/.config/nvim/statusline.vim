@@ -21,9 +21,9 @@ function! RedrawModeColors(mode)
   " Normal mode
   if a:mode == 'n'
     hi MyStatuslineAccent guifg=#505868
-    hi MyStatuslineAccentBody guifg=#98be65 guibg=#505868
+    hi MyStatuslineAccentBody  guibg=#505868 guifg=#51afef
     hi MyStatuslineAccentLabel guifg=#98be65 guibg=#505868
-    hi MyStatuslineFilename guifg=#51afef guibg=#393f4a
+    hi MyStatuslineFilename  guibg=#393f4a
     hi MyStatuslineSeparator guifg=#393f4a
     hi MyStatuslineModified guifg=#393f4a
     hi MyStatuslineFiletype guifg=#393f4a
@@ -36,24 +36,18 @@ function! RedrawModeColors(mode)
 
   " Insert mode
   elseif a:mode == 'i'
-    hi MyStatuslineAccentBody guifg=#ff6c6b
+    hi MyStatuslineAccentBody guifg=#98be65
   " Replace mode
   elseif a:mode == 'R'
-    hi MyStatuslineAccent ctermfg=8
-    hi MyStatuslineFilename ctermfg=3
-    hi MyStatuslineAccentBody ctermbg=8
+    hi MyStatuslineAccentBody guifg=#ff6c6b
   " Visual mode
   elseif a:mode == 'v' || a:mode == 'V' || a:mode == '^V'
-    hi MyStatuslineAccentBody guifg=#ecbe7b
+    hi MyStatuslineAccentBody guifg=#c678dd
   " Command mode
   elseif a:mode == 'c'
-    hi MyStatuslineAccent ctermfg=8
-    hi MyStatuslineFilename ctermfg=6
-    hi MyStatuslineAccentBody ctermbg=8
+    hi MyStatuslineAccentBody guifg=#46d9ff
   " Terminal mode
   elseif a:mode == 't'
-    hi MyStatuslineAccent ctermfg=8
-    hi MyStatuslineFilename ctermfg=1
     hi MyStatuslineAccentBody ctermbg=8
   endif
   " Return empty string so as not to display anything in the statusline
@@ -78,18 +72,25 @@ function! SetFiletype(filetype)
   endif
 endfunction
 
-function! LSDiagnostic()
-  let info = get(b:, 'coc_diagnostic_info', {})
+function! ALECounts()
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:errors = l:counts.error + l:counts.style_error
+  let l:warnings = l:counts.total - l:errors
+  let l:status = ''
 
-  if get(info, 'error', 0)
-    return "   "
+  if l:errors > 0
+    let l:status = l:status . '  ' . l:errors
+  endif
+  if l:warnings > 0
+    let l:status = l:status . '  ' . l:warnings
   endif
 
-  if get(info, 'warning', 0)
-    return info['warning'] . "   "
+  if l:errors == 0 && l:warnings == 0
+    let l:status = '  '
   endif
 
-  return "  " 
+  return l:status
+
 endfunction
 
 function! Delta()
@@ -121,7 +122,7 @@ set statusline+=%#MyStatuslineModified#
 set statusline+=%=
 set statusline+=%#MyStatuslineAccent#
 set statusline+=%#MyStatuslineAccentLabel#LS\ 
-set statusline+=%#MyStatuslineLangServer#%{LSDiagnostic()}
+set statusline+=%#MyStatuslineLangServer#%{ALECounts()}
 set statusline+=%#MyStatuslineLineCol#\ 
 
 " Current directory

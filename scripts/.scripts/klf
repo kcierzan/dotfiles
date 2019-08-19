@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+kubectl get pods | awk '{print $1}' | rg "$@" | xargs kubectl logs -f
