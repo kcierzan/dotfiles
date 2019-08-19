@@ -79,22 +79,21 @@ function! ALECounts()
   let l:status = ''
 
   if l:errors > 0
-    let l:status = l:status . '  ' . l:errors
+    let l:status = l:status . "  " . l:errors
   endif
   if l:warnings > 0
-    let l:status = l:status . '  ' . l:warnings
+    " if l:errors > 0
+    "   let l:status = l:status . " "
+    " endif
+    let l:status = l:status .  "  " . l:warnings
   endif
 
   if l:errors == 0 && l:warnings == 0
-    let l:status = '  '
+    let l:status = "  "
   endif
 
   return l:status
 
-endfunction
-
-function! Delta()
-  return "%#MyStatuslineAccentBody#%#MyStatuslineAccentBody# "
 endfunction
 
 " Statusbar items
