@@ -58,7 +58,7 @@ function! SetModifiedSymbol(modified)
     if a:modified == 1
     hi MyStatuslineModifiedBody guibg=#393f4a guifg=#ff6c6b
     else
-    hi MyStatuslineModifiedBody guibg=#393f4a guifg=#46d9ff
+    hi MyStatuslineModifiedBody guibg=#393f4a guifg=#98be65
     endif
     return "\u25CF"
 endfunction
@@ -82,9 +82,6 @@ function! ALECounts()
     let l:status = l:status . "  " . l:errors
   endif
   if l:warnings > 0
-    " if l:errors > 0
-    "   let l:status = l:status . " "
-    " endif
     let l:status = l:status .  "  " . l:warnings
   endif
 
