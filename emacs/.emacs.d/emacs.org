@@ -55,13 +55,13 @@
   ;; the following font symbols are defined in `init.el'
   (set-face-attribute 'fixed-pitch nil :font monospace-font :height 1.0)
   (set-face-attribute 'default  nil :font monospace-font)
-  (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 180)
+  (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 120)
   (setq default-frame-alist
         '((top . 50) (left . 130)
           (width . 200) (height . 60)))
   (add-hook 'window-setup-hook (lambda ()
-                                 (set-face-attribute 'default nil :height 150)
-                                 (set-face-attribute 'header-line nil :height 190)))
+                                 (set-face-attribute 'default nil :height 100)
+                                 (set-face-attribute 'header-line nil :height 120)))
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   ;; don't warn about theme loading
@@ -276,7 +276,7 @@ Save files on loss of focus
 Open the worklog on startup
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-  (setq initial-buffer-choice "~/git/org/worklog.org")
+  (setq initial-buffer-choice "~/Sync/org/worklog.org")
 #+END_SRC
 Convenience function to grab file and line number at point
 #+name: basic
@@ -975,7 +975,7 @@ Dedicate buffers to windows based on their purpose
   (use-package doom-modeline
     :demand t
     :requires (shrink-path eldoc-eval)
-    :init (setq doom-modeline-height 40)
+    :init (setq doom-modeline-height 60)
     :hook (after-init . doom-modeline-init))
 #+END_SRC
 *** eziam-theme
@@ -1004,14 +1004,19 @@ Dedicate buffers to windows based on their purpose
     ;; (load-theme 'kaolin-temple t))
 #+END_SRC
 ** Languages
-*** Dockerfile
+*** Docker
+**** Dockerfile
     #+name: languages
     #+BEGIN_SRC emacs-lisp
       (use-package dockerfile-mode
         :pin melpa
         :mode "Dockerfile$")
         #+END_SRC
-
+**** docker-compose
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package docker-compose-mode)
+#+END_SRC
 *** Elixir
 **** Alchemist
 #+name: languages
@@ -1227,6 +1232,12 @@ make lispy play nice with evil
   (use-package highlight-quoted
     :commands highlight-quoted-mode)
 #+END_SRC
+*** Lua
+**** lua-mode
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package lua-mode)
+#+END_SRC
 *** Markdown
 **** markdown-mode
 #+name: languages
@@ -1292,7 +1303,7 @@ Send growl alerts for org deadlines
     :config
     (setq org-gcal-client-id (auth-source-pass-get 'secret "org-gcal-client-id")
           org-gcal-client-secret (auth-source-pass-get 'secret "org-gcal-secret")
-          org-gcal-file-alist '(("kylec@aweber.com" . "~/git/org/gcal.org"))))
+          org-gcal-file-alist '(("kylec@aweber.com" . "~/Sync/org/gcal.org"))))
 #+END_SRC
 *** PHP
 **** php-mode

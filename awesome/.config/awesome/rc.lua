@@ -1,4 +1,4 @@
--- If LuaRocks is installed, make sure that packages installed through it are
+-- if LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
 
@@ -197,6 +197,11 @@ globalkeys = gears.table.join(
               {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
+    awful.key({ modkey, "Shift", }, "v",
+       function()
+         awful.spawn.with_shell("clipmenu")
+       end,
+       {description = "open clipboard manager", group = "user"}),
 
     awful.key({ modkey,           }, "j",
         function ()

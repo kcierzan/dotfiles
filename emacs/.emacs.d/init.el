@@ -47,7 +47,7 @@
 (setq monospace-font "SF Mono"
       string-font "SF Mono"
       nerd-font "RobotoMono Nerd Font"
-      variable-pitch-font "San Francisco Display")
+      variable-pitch-font "SF Pro Display")
 
 ;; we configure org mode early - the rest of the config is loaded via org-babel
 (use-package org
@@ -55,9 +55,9 @@
   :ensure org-plus-contrib
   :init
   (setq org-ellipsis "  ")
-  (setq org-agenda-files '("~/git/org/todo.org" "~/git/org/worklog.org" "~/git/org/gcal.org"))
+  (setq org-agenda-files '("~/Sync/org/todo.org" "~/Sync/org/worklog.org" "~/Sync/org/gcal.org"))
   (setq org-use-fast-todo-selection t)
-  (setq org-directory "~/git/org")
+  (setq org-directory "~/Sync/org")
   (setq org-src-fontify-natively t
         org-src-tabs-act-natively t
         org-src-preserve-indentation nil
@@ -67,26 +67,26 @@
         '((sequence "TODO" "IN PROGRESS" "|" "DONE" "CANCELLED")))
   ;; For beorg setup, make todo.org a symbolic link to ~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/todo.org
   (setq org-capture-templates
-        '(("t" "Todo" entry (file "~/git/org/todo.org")
+        '(("t" "Todo" entry (file "~/Sync/org/todo.org")
            "* TODO %^{Todo}\n%U\nDEADLINE: %^{Deadline}T\n%?"
            :clock-resume t)
-          ("T" "Code TODO" entry (file "~/git/org/todo.org")
+          ("T" "Code TODO" entry (file "~/Sync/org/todo.org")
            "* TODO %?\n%U\n%a\n"
            :clock-resume t)
-          ("r" "Respond" entry (file "~/git/org/refile.org")
+          ("r" "Respond" entry (file "~/Sync/org/refile.org")
            "* NEXT Respond to $:from on $:subject\nSCHEDULED: %t\n%U\n%a\n"
            :clock-in t
            :clock-resume t
            :immediate-finish t)
-          ("n" "Note" entry (file+datetree "~/git/org/notes.org")
+          ("n" "Note" entry (file+datetree "~/Sync/org/notes.org")
            "* %? :NOTE:\n%U\n%a\n"
            :clock-resume t)
           ("l" "Log" entry
-           (file+olp+datetree "~/git/org/worklog.org")
+           (file+olp+datetree "~/Sync/org/worklog.org")
            "* TODO %^{Description} %^g\n\%?\n\nAdded: %U"
            :clock-in t
            :clock-keep t)
-          ("e" "Event" entry (file "~/git/org/gcal.org")
+          ("e" "Event" entry (file "~/Sync/org/gcal.org")
            "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")))
   (setq org-todo-keyword-faces
         '(("TODO" . org-warning)
