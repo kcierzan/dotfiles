@@ -34,11 +34,8 @@ fi
 # turn off the cheesy graphics card led
 nvidia-led no-animation 0
 
-# set capslock to control if held, escape if tapped
-setxkbmap -option 'caps:ctrl_modifier' && xcape -e 'Caps_Lock=Escape'
-
-# use macos style layout :\
-setxkbmap -option 'altwin:swap_alt_win'
+# run keybinding script
+setkeys
 
 # bind rofi combi mode to super + space
 xbindkeys

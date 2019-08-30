@@ -29,6 +29,8 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
+export CM_LAUNCHER=rofi
+
 # lazy load pyenv... yeah...
 if [[ -d ~/.pyenv ]] && ! (( $+functions[zsh_setup_pyenv] )); then # only once!
   if ! (( $+PYENV_ROOT )); then
