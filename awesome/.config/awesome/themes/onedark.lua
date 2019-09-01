@@ -10,28 +10,67 @@ local dpi = xresources.apply_dpi
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
+-- start with the default theme and override
 local theme = dofile(themes_path.."default/theme.lua")
-
--- local theme = {}
 
 theme.font          = "monospace 8"
 
-theme.bg_normal     = "#222222"
+-- Colors
+theme.xbackground = xrdb.background or "#282C34"
+theme.xforeground = xrdb.foreground or "#ABB2BF"
+theme.xcolor0     = xrdb.color0     or "#282C34"
+theme.xcolor1     = xrdb.color1     or "#E06C75"
+theme.xcolor2     = xrdb.color2     or "#98C379"
+theme.xcolor3     = xrdb.color3     or "#D19A66"
+theme.xcolor4     = xrdb.color4     or "#61afef"
+theme.xcolor5     = xrdb.color5     or "#c678dd"
+theme.xcolor6     = xrdb.color6     or "#56b6c2"
+theme.xcolor7     = xrdb.color7     or "#abb2bf"
+theme.xcolor8     = xrdb.color8     or "#5c6370"
+theme.xcolor9     = xrdb.color9     or "#be5046"
+theme.xcolor10    = xrdb.color10    or "#98c379"
+theme.xcolor11    = xrdb.color11    or "#D19A66"
+theme.xcolor12    = xrdb.color12    or "#61afef"
+theme.xcolor13    = xrdb.color13    or "#c678dd"
+theme.xcolor14    = xrdb.color14    or "#56b6c2"
+theme.xcolor15    = xrdb.color15    or "#ffffff"
+
+theme.bg_normal     = theme.xcolor0
+theme.bg_lighter    = "#393f4a"
 theme.bg_focus      = "#535d6c"
-theme.bg_urgent     = "#ff0000"
+theme.bg_urgent     = theme.xcolor9
 theme.bg_minimize   = "#444444"
-theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.fg_normal     = theme.xforeground
+theme.fg_focus      = theme.xcolor15
+theme.fg_urgent     = theme.xcolor15
+theme.fg_minimize   = theme.xcolor15
 
-theme.useless_gap   = dpi(15)
+-- Borders
 theme.border_width  = dpi(2)
 theme.border_normal = "#000000"
-theme.border_focus  = "#61afef"
-theme.border_marked = "#98c379"
+theme.border_focus  = theme.xcolor4
+theme.border_marked = theme.xcolor3
+
+-- Gaps
+theme.useless_gap = dpi(15)
+-- This is used to determine how far from the edge bars should be
+theme.screen_margin = dpi(3)
+
+-- Exit screen
+theme.exit_screen_bg = theme.xcolor0 .. "DA"
+theme.exit_screen_fg = theme.xcolor7
+theme.exit_screen_icon_size = dpi(180)
+
+-- Wibar
+theme.wibar_position = "top"
+theme.wibar_ontop = true
+theme.wibar_height = dpi(25)
+theme.wibar_fg = theme.xcolor7
+theme.wibar_bg = theme.xcolor0
+theme.wibar_border_width = dpi(0)
+theme.wibar_border_radius = dpi(0)
+theme.bg_systray    = theme.bg_normal
 
 -- There are other variable sets
 -- overriding the default one when
@@ -127,7 +166,7 @@ theme.awesome_icon = theme_assets.awesome_icon(
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = nil
+-- theme.icon_theme = nil
 
 return theme
 

@@ -2,22 +2,23 @@
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
 
--- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
 local wibox = require("wibox")
--- Theme handling library
 local beautiful = require("beautiful")
--- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
+local helpers = require("helpers")
 
--- {{{ Error handling
+local xresources = require("beautiful.xresources")
+-- make dpi global
+dpi = xresources.apply_dpi
+
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
@@ -40,27 +41,27 @@ do
         in_error = false
     end)
 end
--- }}}
 
 local home_dir = os.getenv("HOME")
+local theme_dir = home_dir .. "/.config/awesome/themes/"
+local theme_collection = {
+   "onedark",
+}
+local theme_name = theme_collection[1]
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(home_dir .. "/.config/awesome/themes/onedark.lua")
-
--- Set a nice wallpaper
-beautiful.wallpaper = home_dir .. "/Pictures/wallpapers/wallhaven-636340.jpg"
+beautiful.init(theme_dir .. theme_name .. ".lua")
 
 -- Rounded corners
 client.connect_signal("manage", function (c)
-   c.shape = function (cr,w,h)
-      gears.shape.rounded_rect(cr,w,h,6)
-   end
+                         c.shape = helpers.rrect(dpi(6))
 end)
 
 -- This is used later as the default terminal and editor to run.
 terminal = "st"
 editor = os.getenv("EDITOR") or "nvim"
-editor_cmd = terminal .. " -e " .. editor
+editor_cmd = 'launch-emacs'
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -103,50 +104,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
 
--- {{{ Wibar
--- Create a textclock widget
--- mytextclock = wibox.widget.textclock()
-
--- Create a wibox for each screen and add it
--- local taglist_buttons = gears.table.join(
---                     awful.button({ }, 1, function(t) t:view_only() end),
---                     awful.button({ modkey }, 1, function(t)
---                                               if client.focus then
---                                                   client.focus:move_to_tag(t)
---                                               end
---                                           end),
---                     awful.button({ }, 3, awful.tag.viewtoggle),
---                     awful.button({ modkey }, 3, function(t)
---                                               if client.focus then
---                                                   client.focus:toggle_tag(t)
---                                               end
---                                           end),
---                     awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
---                     awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
---                 )
-
--- local tasklist_buttons = gears.table.join(
---                      awful.button({ }, 1, function (c)
---                                               if c == client.focus then
---                                                   c.minimized = true
---                                               else
---                                                   c:emit_signal(
---                                                       "request::activate",
---                                                       "tasklist",
---                                                       {raise = true}
---                                                   )
---                                               end
---                                           end),
---                      awful.button({ }, 3, function()
---                                               awful.menu.client_list({ theme = { width = 250 } })
---                                           end),
---                      awful.button({ }, 4, function ()
---                                               awful.client.focus.byidx(1)
---                                           end),
---                      awful.button({ }, 5, function ()
---                                               awful.client.focus.byidx(-1)
---                                           end))
-
 local function set_wallpaper(s)
     -- Wallpaper
     if beautiful.wallpaper then
@@ -179,6 +136,9 @@ end)
 -- add a layout bar
 require("bars/default")
 
+-- exit screen
+local exit_screen = require("system.exit")
+
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
@@ -195,8 +155,8 @@ globalkeys = gears.table.join(
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
-              {description = "go back", group = "tag"}),
+    -- awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
+    --           {description = "go back", group = "tag"}),
     awful.key({ modkey, "Shift", }, "v",
        function()
          awful.spawn.with_shell("clipmenu")
@@ -298,7 +258,11 @@ globalkeys = gears.table.join(
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+       {description = "show the menubar", group = "launcher"}),
+
+    awful.key({ modkey }, "Escape", function() exit_screen_show() end,
+    {description = "show the exist screen", group = "awesome"})
+
 )
 
 clientkeys = gears.table.join(
