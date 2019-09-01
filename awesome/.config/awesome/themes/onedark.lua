@@ -72,6 +72,18 @@ theme.wibar_border_width = dpi(0)
 theme.wibar_border_radius = dpi(0)
 theme.bg_systray    = theme.bg_normal
 
+-- Taglist
+theme.taglist_text_font = "Typicons 11"
+theme.taglist_text_empty = " "
+theme.taglist_text_occupied = " "
+theme.taglist_text_focused = " "
+theme.taglist_text_urgent = "󠅷 "
+
+theme.taglist_text_color_empty    = theme.bg_lighter
+theme.taglist_text_color_occupied  = theme.xcolor7
+theme.taglist_text_color_focused  = theme.xcolor2
+theme.taglist_text_color_urgent   = theme.xcolor3
+
 -- There are other variable sets
 -- overriding the default one when
 -- defined, the sets are:
