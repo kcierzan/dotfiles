@@ -4,6 +4,9 @@
 #  _ / /_(__  ) / / / /  / /__
 # (_)___/____/_/ /_/_/   \___/
 
+# vi style editing
+bindkey -v
+
 # avoid fancy prompt stuff when in emacs
 if [[ $TERM == "dumb" ]]; then
     unsetopt zle

@@ -7,9 +7,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 # Editors
-export EDITOR='nvim'
+export EDITOR='launch-emacs'
 export ALTERNATE_EDITOR=''
-export VISUAL='nvim'
+export VISUAL='launch-emacs'
 export PAGER='less'
 
 # Language

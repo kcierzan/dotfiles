@@ -45,7 +45,7 @@ class Renderer:
         "xorg": {
             "os_types": ["linux"],
             "template": "xcolors.mustache",
-            "output_file": ".xresources",
+            "output_file": ".xcolors",
             "output_path": "xorg/",
         },
         "rofi": {
@@ -92,7 +92,6 @@ class Renderer:
             rendered = chevron.render(**{"template": temp, "data": data})
         with open(output_path, "w") as output:
             output.write(rendered)
-            output.close()
 
     @staticmethod
     def render_to_stdout(template_path, output_path, data):
