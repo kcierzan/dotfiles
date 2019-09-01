@@ -120,11 +120,11 @@
   (add-hook 'org-mode-hook '(lambda ()
                               (variable-pitch-mode 1)
                               (setq line-spacing 1)
-                              (company-mode 0)
+                              (company-mode 1)
                               (setq truncate-lines nil)
                               (set-face-attribute 'org-link nil :underline t)
                               (mapc (lambda (face)
-                                      (set-face-attribute face nil :family monospace-font :height 0.85))
+                                      (set-face-attribute face nil :family monospace-font))
                                     (list 'org-code
                                           'org-warning
                                           'org-special-keyword

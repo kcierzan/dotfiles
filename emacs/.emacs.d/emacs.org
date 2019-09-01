@@ -55,13 +55,13 @@
   ;; the following font symbols are defined in `init.el'
   (set-face-attribute 'fixed-pitch nil :font monospace-font :height 1.0)
   (set-face-attribute 'default  nil :font monospace-font)
-  (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 120)
+  (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 130)
   (setq default-frame-alist
         '((top . 50) (left . 130)
           (width . 200) (height . 60)))
   (add-hook 'window-setup-hook (lambda ()
-                                 (set-face-attribute 'default nil :height 100)
-                                 (set-face-attribute 'header-line nil :height 120)))
+                                 (set-face-attribute 'default nil :height 130)
+                                 (set-face-attribute 'header-line nil :height 160)))
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   ;; don't warn about theme loading
@@ -195,8 +195,11 @@ Spaces.
 Emacs likes POSIX-compliant shells.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-  (setq explicit-shell-file-name "/usr/local/bin/zsh"
-        shell-command-switch "-ic")
+  (if (memq window-system '(mac ns))
+      (setq explicit-shell-file-name "/usr/local/bin/zsh"
+            shell-command-switch "-ic")
+    (setq explicit-shell-file-name "/usr/bin/zsh"
+          shell-command-switch "-ic"))
 #+END_SRC
 A bunch of settings cribbed from doom-emacs
 #+name: basic
@@ -227,7 +230,7 @@ A bunch of settings cribbed from doom-emacs
                 jit-lock-stealth-nice 0.1
                 jit-lock-stealth-time 0.2
                 jit-lock-stealth-verbose nil
-                pos-tip-internal-border-width 6        ; `pos-tip' defaults
+                pos-tip-internal-border-width 6 ; `pos-tip' defaults
                 pos-tip-border-width 1)
 #+END_SRC
 Some sensible defaults for general text editing.
@@ -281,7 +284,7 @@ Open the worklog on startup
 Convenience function to grab file and line number at point
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-  (defun kyle/position-to-kill-ring ()
+  (defun my/position-to-kill-ring ()
     "Copy to the kill ring a string in the format \"file-name:line-number\"
   for the current buffer's file name, and the line number at point."
     (kill-new
@@ -309,9 +312,9 @@ Convenience function to grab file and line number at point
   (use-package company-restclient
     :after (restclient company)
     :config
-  ((add-hook 'restclient-mode-hook
-                '(lambda ()
-                   (add-to-list 'company-backends 'company-restclient)))))
+    ((add-hook 'restclient-mode-hook
+               '(lambda ()
+                  (add-to-list 'company-backends 'company-restclient)))))
 #+END_SRC
 *** writing
 #+name: programming
@@ -368,8 +371,7 @@ Convenience function to grab file and line number at point
                                   (define-key company-active-map (kbd "RET") 'company-complete-selection)
                                   (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
                                   (define-key company-active-map (quote [return]) 'company-complete-selection)))
-                                  (company-tng-configure-default)
-)
+    (company-tng-configure-default))
 #+END_SRC
 **** company-statistics
 Completion by frecency
@@ -447,6 +449,7 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
+    :demand t
     :commands (dumb-jump-go dumb-jump-quick-look)
     :pin melpa
     :init (setq dumb-jump-force-searcher 'rg
@@ -581,7 +584,7 @@ Use $PATH as specified by the user's shell. This package is essentially required
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :defer 2
-    :config (when (memq window-system '(mac ns x))
+    :config (when (memq window-system '(mac ns))
               (exec-path-from-shell-initialize)))
 #+END_SRC
 **** multi-term
@@ -590,7 +593,10 @@ Use $PATH as specified by the user's shell. This package is essentially required
   (use-package multi-term
     :commands (multi-term)
     :pin melpa
-    :config (setq multi-term-program "/usr/local/bin/zsh"))
+    :config
+    (if (memq window-system '(mac ns))
+        (setq multi-term-program "/usr/local/bin/zsh")
+      (setq multi-term-program "/usr/bin/zsh")))
 #+END_SRC
 **** eshell
 ***** eshell
@@ -662,6 +668,19 @@ The undisputed king of git UIs
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :commands (magit magit-blame)
+    :config
+    (defun my/enforce-git-commit-conventions ()
+      "Write good commits"
+      (setq fill-column 72
+            git-commit-summary-max-length 50
+            git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)))
+    (defun my/start-commit-in-insert-state-maybe ()
+      "Start git-commit-mode in insert state if in a blank commit message"
+      (when (and (bound-and-true-p evil-mode)
+                 (bobp) (eolp))
+        (evil-insert-state)))
+    (add-hook 'git-commit-setup-hook #'my/start-commit-in-insert-state-maybe)
+    (add-hook 'git-commit-mode-hook #'my/enforce-git-commit-conventions)
     :pin melpa)
 #+END_SRC
 **** git-link
@@ -674,21 +693,9 @@ The undisputed king of git UIs
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package git-timemachine
-    :defer 3
+    :commands (git-timemachine)
     :config
-    (setq git-timemachine-show-minibuffer-details t)
-    (defun +vc|enforce-git-commit-conventions ()
-      "Write good commits"
-      (setq fill-column 72
-            git-commit-summary-max-length 50
-            git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)))
-    (add-hook 'git-commit-mode-hook #'+vc|enforce-git-commit-conventions)
-    (defun +vc|start-in-insert-state-maybe ()
-      "Start git-commit-mode in insert state if in a blank commit message"
-      (when (and (bound-and-true-p evil-mode)
-                 (bobp) (eolp))
-        (evil-insert-state)))
-    (add-hook 'git-commit-setup-hook #'+vc|start-in-insert-state-maybe))
+    (setq git-timemachine-show-minibuffer-details t))
 #+END_SRC
 **** dired-k
      Highlight directories
@@ -719,8 +726,8 @@ The undisputed king of git UIs
 *** all-the-icons
 #+name: interface
 #+BEGIN_SRC emacs-lisp
-       (use-package all-the-icons
-         :pin melpa)
+  (use-package all-the-icons
+    :pin melpa)
 #+END_SRC
 *** fringe-helper
 Define fringe element shapes
@@ -788,7 +795,7 @@ The melpa version improves on the baked in pos-tip
      #+BEGIN_SRC emacs-lisp
        (use-package vi-tilde-fringe
          :delight
-         :commands (vi-tilde-fringe-mode)
+         :defer 5
          :hook (prog-mode . vi-tilde-fringe-mode)
          :pin melpa)
      #+END_SRC
@@ -851,6 +858,7 @@ The melpa version improves on the baked in pos-tip
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package delight
+         :disabled t
          :after spaceline
          :config
          (delight 'abbrev-mode nil "abbrev")
@@ -975,15 +983,10 @@ Dedicate buffers to windows based on their purpose
   (use-package doom-modeline
     :demand t
     :requires (shrink-path eldoc-eval)
-    :init (setq doom-modeline-height 60)
+    :init
+    (setq doom-modeline-height 50)
+    (set-face-attribute 'mode-line nil :height 140)
     :hook (after-init . doom-modeline-init))
-#+END_SRC
-*** eziam-theme
-#+name: interface
-#+BEGIN_SRC emacs-lisp
-  (use-package eziam-theme
-  :disabled t
-  :config (load-theme 'eziam-dark t))
 #+END_SRC
 *** solaire-mode
 #+name: interface
@@ -1015,7 +1018,8 @@ Dedicate buffers to windows based on their purpose
 **** docker-compose
 #+name: languages
 #+BEGIN_SRC emacs-lisp
-  (use-package docker-compose-mode)
+  (use-package docker-compose-mode
+    :mode "^docker-compose")
 #+END_SRC
 *** Elixir
 **** Alchemist
@@ -1128,24 +1132,6 @@ A javascript refactoring library for emacs
          ;; TODO: move this into general config
          :config (define-key js2-mode-map (kbd "M-.") nil))
      #+END_SRC
-**** tern-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package tern
-         :delight ""
-         :pin melpa
-         :hook (js2-mode . tern-mode))
-     #+END_SRC
-**** company-tern
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package company-tern
-         :disabled t
-         :after (company tern)
-         :hook
-         (js2-mode . (lambda ()
-                       (add-to-list 'company-backends 'company-tern))))
-     #+END_SRC
 **** indium
      #+name: languages
      #+BEGIN_SRC emacs-lisp
@@ -1192,8 +1178,8 @@ A javascript refactoring library for emacs
 *** LaTeX
 #+name: languages
 #+BEGIN_SRC emacs-lisp
-    (use-package auctex
-      :defer t)
+  (use-package auctex
+    :defer 5)
 #+END_SRC
 *** Lisp
 **** lispy
@@ -1322,7 +1308,8 @@ Send growl alerts for org deadlines
 Support for Xdebug
 #+name: languages
 #+BEGIN_SRC emacs-lisp
-  (use-package geben)
+  (use-package geben
+    :commands (geben))
 #+END_SRC
 *** Python
 **** lsp-mode
@@ -1359,36 +1346,6 @@ Support for Xdebug
   (use-package lsp-ui
     :config
     :hook (lsp-mode . lsp-ui-mode))
-#+END_SRC
-**** anaconda-mode
-Navigation, documentation, and linting for Python. I don't use this any more.
-#+name: languages
-#+BEGIN_SRC emacs-lisp
-  (use-package anaconda-mode
-    :disabled t
-    :delight ""
-    :hook ((python-mode . anaconda-mode)
-           (python-mode . anaconda-eldoc-mode)
-           (python-mode . (lambda ()
-                            (add-to-list 'company-backends 'company-anaconda)))))
-#+END_SRC
-**** company-anaconda
-Completion for python
-#+name: languages
-#+BEGIN_SRC emacs-lisp
-  (use-package company-anaconda
-    :disabled t
-    :after company
-    :commands (company-anaconda)
-    :pin melpa)
-#+END_SRC
-**** elpy
-Python IDE mode
-#+name: languages
-#+BEGIN_SRC emacs-lisp
-  (use-package elpy
-    :disabled t
-    :config (elpy-enable))
 #+END_SRC
 **** pip-requirements
 #+name: languages
@@ -1504,45 +1461,44 @@ Write markup more efficiently
     :mode "\\.ya?ml$")
 #+END_SRC
 *** Helm
-I don't use helm any more. These packages are here in case counsel/ivy breaks.
 **** helm-descbinds
 #+name: helm
 #+BEGIN_SRC emacs-lisp
-       (use-package helm-descbinds
-         :after helm
-         :commands (helm-descbinds)
-         :pin melpa)
+  (use-package helm-descbinds
+    :after helm
+    :commands (helm-descbinds)
+    :pin melpa)
 #+END_SRC
 **** helm
 Unified fuzzy search for almost everything
 #+name: helm
 #+BEGIN_SRC emacs-lisp
-       (use-package helm
-         :delight
-         :demand t
-         :pin melpa-stable
-         :commands (helm-M-x helm-mini helm-imenu helm-resume helm-execute-persistent-action helm-select-action)
-         :init
-         (setq helm-exit-idle-delay 0
-               helm-split-window-inside-p nil
-               helm-autoresize-min-height 30
-               helm-autoresize-max-height 0
-               helm-buffer-skip-remote-checking t
-               helm-move-to-line-cycle-in-source t
-               helm-echo-input-in-header-line nil
-               helm-M-x-fuzzy-match t
-               helm-buffers-fuzzy-matching t
-               helm-recentf-fuzzy-match t
-               helm-mode-fuzzy-match t
-               helm-file-cache-fuzzy-match t
-               helm-completion-in-region-fuzzy-match t)
-         ;; (setq helm-google-suggest-use-curl-p t)
-         :config
-         (require 'helm-config)
-         (helm-mode 1)
-         (helm-autoresize-mode 1)
-         (setq-default helm-boring-buffer-regexp-list
-                       (append '("TAGS" "\\*anaconda-mode\\*") helm-boring-buffer-regexp-list)))
+  (use-package helm
+    :delight
+    :demand t
+    :pin melpa-stable
+    :commands (helm-M-x helm-mini helm-imenu helm-resume helm-execute-persistent-action helm-select-action)
+    :init
+    (setq helm-exit-idle-delay 0
+          helm-split-window-inside-p nil
+          helm-autoresize-min-height 30
+          helm-autoresize-max-height 0
+          helm-buffer-skip-remote-checking t
+          helm-move-to-line-cycle-in-source t
+          helm-echo-input-in-header-line nil
+          helm-M-x-fuzzy-match t
+          helm-buffers-fuzzy-matching t
+          helm-recentf-fuzzy-match t
+          helm-mode-fuzzy-match t
+          helm-file-cache-fuzzy-match t
+          helm-completion-in-region-fuzzy-match t)
+    ;; (setq helm-google-suggest-use-curl-p t)
+    :config
+    (require 'helm-config)
+    (helm-mode 1)
+    (helm-autoresize-mode 1)
+    (setq-default helm-boring-buffer-regexp-list
+                  (append '("TAGS" "\\*anaconda-mode\\*") helm-boring-buffer-regexp-list)))
 #+END_SRC
 **** helm-flx
 #+name: helm
@@ -1555,90 +1511,90 @@ Unified fuzzy search for almost everything
 helm frontend for the-silver-searcher
 #+name: helm
 #+BEGIN_SRC emacs-lisp
-       (use-package helm-ag
-         :commands (helm-ag)
-         :pin melpa
-         :after helm
-         ;; references a wrapper script that removes the --ignore flag helm-projectile tries pass to rg
-         :config (setq helm-ag-base-command "emacs-rg --vimgrep --no-heading --smart-case"
-                       helm-ag-fuzzy-match t))
+  (use-package helm-ag
+    :commands (helm-ag)
+    :pin melpa
+    :after helm
+    ;; references a wrapper script that removes the --ignore flag helm-projectile tries pass to rg
+    :config (setq helm-ag-base-command "emacs-rg --vimgrep --no-heading --smart-case"
+                  helm-ag-fuzzy-match t))
 #+END_SRC
 **** helm-projectile
 #+name: helm
 #+BEGIN_SRC emacs-lisp
-       (use-package helm-projectile
-         :demand t
-         :after (helm projectile)
-         :commands (helm-projectile-ag
-                    helm-projectile-recentf
-                    helm-projectile-find-dir
-                    helm-projectile-find-file
-                    helm-projectile-switch-project))
+  (use-package helm-projectile
+    :demand t
+    :after (helm projectile)
+    :commands (helm-projectile-ag
+               helm-projectile-recentf
+               helm-projectile-find-dir
+               helm-projectile-find-file
+               helm-projectile-switch-project))
 #+END_SRC
 **** helm-swoop
 Search text linewise in a separate buffer
 #+name: helm
 #+BEGIN_SRC emacs-lisp
-       (use-package helm-swoop
-         :demand t
-         :commands (helm-swoop)
-         :pin melpa
-         :after helm
-         :config
-         (setq helm-swoop-speed-or-color 1
-               helm-swoop-use-fuzzy-match 1)
-         (setq-default helm-swoop-split-direction 'split-window-vertically)
-         (setq-default helm-swoop-split-with-multiple-windows t)
-         ;; disable default behavior of swooping-thing-at-point
-         (setq helm-swoop-pre-input-function
-               (lambda () "")))
+  (use-package helm-swoop
+    :demand t
+    :commands (helm-swoop)
+    :pin melpa
+    :after helm
+    :config
+    (setq helm-swoop-speed-or-color 1
+          helm-swoop-use-fuzzy-match 1)
+    (setq-default helm-swoop-split-direction 'split-window-vertically)
+    (setq-default helm-swoop-split-with-multiple-windows t)
+    ;; disable default behavior of swooping-thing-at-point
+    (setq helm-swoop-pre-input-function
+          (lambda () "")))
 #+END_SRC
 **** helm-xref
 Display xref results in helm
 #+name: helm
 #+BEGIN_SRC emacs-lisp
-       (use-package helm-xref
-         :after xref
-         :defer 4
-         :pin melpa
-         :init (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
+  (use-package helm-xref
+    :after xref
+    :defer 4
+    :pin melpa
+    :init (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
 #+END_SRC
 ** Ivy
 *** ivy
 #+name: ivy
 #+BEGIN_SRC emacs-lisp
-    (use-package ivy
-      :disabled t
-      :commands
-      (ivy-switch-buffer
-       counsel-projectile-rg
-       counsel-M-x
-       counsel-describe-variable
-       counsel-describe-function
-       counsel-recentf
-       counsel-imenu
-       counsel-rg
-       counsel-projectile-find-file
-       counsel-projectile-switch-project
-       counsel-projectile-find-file
-       counsel-etags-list-tag
-       counsel-yank-pop)
-      :config
-      (setq ivy-height 12
-            ivy-do-complete-in-region nil
-            ivy-wrap t
-            ivy-fixed-height-minibuffer t
-            projectile-completion-system 'ivy
-            smex-completion-method 'ivy
-            ;; Don't use ^ as initial input
-            ivy-initial-inputs-alist nil
-            ;; highlight til EOL
-            ivy-format-function #'ivy-format-function-line
-            ;; Disable magic slash on non-match
-            ivy-magic-slash-non-match-action nil
-            magit-completing-read-function #'ivy-completing-read)
-      (ivy-mode 1)
-  (add-to-list 'ivy-ignore-buffers "TAGS"))
+  (use-package ivy
+    :disabled t
+    :commands
+    (ivy-switch-buffer
+     counsel-projectile-rg
+     counsel-M-x
+     counsel-describe-variable
+     counsel-describe-function
+     counsel-recentf
+     counsel-imenu
+     counsel-rg
+     counsel-projectile-find-file
+     counsel-projectile-switch-project
+     counsel-projectile-find-file
+     counsel-etags-list-tag
+     counsel-yank-pop)
+    :config
+    (setq ivy-height 12
+          ivy-do-complete-in-region nil
+          ivy-wrap t
+          ivy-fixed-height-minibuffer t
+          projectile-completion-system 'ivy
+          smex-completion-method 'ivy
+          ;; Don't use ^ as initial input
+          ivy-initial-inputs-alist nil
+          ;; highlight til EOL
+          ivy-format-function #'ivy-format-function-line
+          ;; Disable magic slash on non-match
+          ivy-magic-slash-non-match-action nil
+          magit-completing-read-function #'ivy-completing-read)
+    (ivy-mode 1)
+    (add-to-list 'ivy-ignore-buffers "TAGS"))
 #+END_SRC
 *** counsel
 #+name: ivy
@@ -1679,10 +1635,6 @@ Display xref results in helm
             ("s" counsel-projectile-switch-project-action-run-shell "invoke shell from project root")
             ("e" counsel-projectile-switch-project-action-run-eshell "invoke eshell from project root"))))
 #+END_SRC
-
-#+RESULTS: ivy
-: t
-
 *** smex
 Required by =counsel-M-X=
 #+name: ivy
@@ -2053,7 +2005,7 @@ Extends package management
 #+name: evil
 #+BEGIN_SRC emacs-lisp
   (use-package evil
-    :defer 0.3
+    ;; :defer 0.3
     :init
     (setq evil-want-C-u-scroll t)
     :config
@@ -2064,18 +2016,13 @@ Extends package management
     (defun +evil-window-follow (&rest _) (evil-window-down 1))
     (defun +evil-window-vfollow (&rest _) (evil-window-right 1))
     (advice-add #'evil-window-split :after #'+evil-window-follow)
-    (advice-add #'evil-window-vsplit :after #'+evil-window-vfollow)
-    ;; 's' is pretty useless in evil-mode - now it starts avy
-    ;; (with-eval-after-load 'avy
-    ;;   (define-key evil-motion-state-map "s" 'evil-avy-goto-char-2)
-    ;;   (define-key evil-normal-state-map "s" 'evil-avy-goto-char-2))
-    )
+    (advice-add #'evil-window-vsplit :after #'+evil-window-vfollow))
 #+END_SRC
 *** evil-anzu
 #+name: evil
 #+BEGIN_SRC emacs-lisp
   (use-package evil-anzu
-    :after evil)
+    :defer 5)
 #+END_SRC
 *** evil-collection
 Enable evil everywhere
@@ -2146,48 +2093,48 @@ Evil bindings for org mode
 Play nice with smartparens
 #+name: evil
 #+BEGIN_SRC emacs-lisp
-       (use-package evil-smartparens
-         :delight
-         :hook (smartparens-enabled . evil-smartparens-mode)
-         :after (smartparens evil)
-         :pin melpa)
+  (use-package evil-smartparens
+    :delight
+    :hook (smartparens-enabled . evil-smartparens-mode)
+    :after (smartparens evil)
+    :pin melpa)
 #+END_SRC
 *** evil-surround
 Surround text objects with delimiters
 #+name: evil
 #+BEGIN_SRC emacs-lisp
-       (use-package evil-surround
-         :after evil
-         :pin melpa
-         :commands (evil-surround-edit evil-Surround-edit evil-surround-region evil-Surround-region)
-         :config (global-evil-surround-mode 1))
+  (use-package evil-surround
+    :after evil
+    :pin melpa
+    :commands (evil-surround-edit evil-Surround-edit evil-surround-region evil-Surround-region)
+    :config (global-evil-surround-mode 1))
 #+END_SRC
 *** evil-multiedit
 #+name: evil
 #+BEGIN_SRC emacs-lisp
-      (use-package evil-multiedit
-        :commands (evil-multiedit-match-symbol-and-next evil-multiedit-match-symbol-and-prev)
-        :pin melpa
-        :config (evil-multiedit-default-keybinds))
+  (use-package evil-multiedit
+    :commands (evil-multiedit-match-symbol-and-next evil-multiedit-match-symbol-and-prev)
+    :pin melpa
+    :config (evil-multiedit-default-keybinds))
 #+END_SRC
 *** evil-visualstar
 Enable search-at-point from visual mode
 #+name: evil
 #+BEGIN_SRC emacs-lisp
-      (use-package evil-visualstar
-        :defer 5
-        :pin melpa
-        :config (global-evil-visualstar-mode))
+  (use-package evil-visualstar
+    :defer 5
+    :pin melpa
+    :config (global-evil-visualstar-mode))
 #+END_SRC
 *** evil-snipe
 #+name: evil
 #+BEGIN_SRC emacs-lisp
-      (use-package evil-snipe
-        :after evil
-        :pin melpa
-        :commands (evil-snipe-t evil-snipe-T evil-snipe-F evil-snipe-f)
-        :init (setq evil-snipe-smart-case t)
-        :config (evil-snipe-override-mode 1))
+  (use-package evil-snipe
+    :after evil
+    :pin melpa
+    :commands (evil-snipe-t evil-snipe-T evil-snipe-F evil-snipe-f)
+    :init (setq evil-snipe-smart-case t)
+    :config (evil-snipe-override-mode 1))
 #+END_SRC
 ** Final
 Things to do after the rest of the config has loaded. This is can be tricky given the deferred loading going on with =use-package=.
