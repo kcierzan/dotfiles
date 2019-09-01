@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# set capslock to control if held, escape if tapped
+setxkbmap -option 'caps:ctrl_modifier' && xcape -e 'Caps_Lock=Escape'
+
+# use macos style layout :\
+setxkbmap -option 'altwin:swap_alt_win'
+
