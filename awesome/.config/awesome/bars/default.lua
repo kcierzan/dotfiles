@@ -26,8 +26,8 @@ whoami.font = wibar_text_font
 
 
 -- Create clocks
-local clock = wibox.widget.textclock(helpers.colorize_text("%H:%M %P", beautiful.xcolor3))
-local calendar = wibox.widget.textclock(helpers.colorize_text("%A, %B %e %Y", beautiful.xcolor5))
+local clock = wibox.widget.textclock(helpers.colorize_text("%l:%M %P", beautiful.xcolor3))
+local calendar = wibox.widget.textclock(helpers.colorize_text("%A, %B %d %Y", beautiful.xcolor5))
 clock.font = wibar_text_font
 calendar.font = wibar_text_font
 
