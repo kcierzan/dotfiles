@@ -100,6 +100,19 @@
                                                                     '((vertical-scroll-bars . nil)
                                                                       (horizontal-scroll-bars . nil)))))
       #+END_SRC
+* Dired
+#+name: basic
+#+BEGIN_SRC emacs-lisp
+  (setq dired-always-copies 'always
+        dired-recursive-deletes 'top)
+  (use-package dired
+    :ensure nil
+    :hook (dired-mode . dired-omit-mode)
+    :config
+    (require 'dired-x)
+    (setq dired-omit-files
+          (concat dired-omit-files "\\pyc$\\|^.git$")))
+#+END_SRC
 * UTF-8
 #+name: basic
 #+BEGIN_SRC emacs-lisp
@@ -114,19 +127,6 @@
   (define-coding-system-alias 'UTF-8 'utf-8)
   (define-coding-system-alias 'utf8 'utf-8)
   (define-coding-system-alias 'UTF8 'utf-8)
-#+END_SRC
-* Dired
-#+name: basic
-#+BEGIN_SRC emacs-lisp
-  (setq dired-always-copies 'always
-        dired-recursive-deletes 'top)
-  (use-package dired
-    :ensure nil
-    :hook (dired-mode . dired-omit-mode)
-    :config
-    (require 'dired-x)
-    (setq dired-omit-files
-          (concat dired-omit-files "\\pyc$\\|^.git$")))
 #+END_SRC
 * Misc
 #+name: basic
@@ -184,8 +184,8 @@ global-eldoc is pretty annoying. Turn it on explicitly.
 Until they make a space commander keyboard again...
 #+name: basic
 #+BEGIN_SRC emacs-lisp
-  (setq mac-command-modifier 'meta
-        mac-option-modifier 'alt)
+  (setq mac-command-modifier 'super
+        mac-option-modifier 'meta)
 #+END_SRC
 Spaces.
 #+name: basic
@@ -196,10 +196,9 @@ Emacs likes POSIX-compliant shells.
 #+name: basic
 #+BEGIN_SRC emacs-lisp
   (if (memq window-system '(mac ns))
-      (setq explicit-shell-file-name "/usr/local/bin/zsh"
-            shell-command-switch "-ic")
-    (setq explicit-shell-file-name "/usr/bin/zsh"
-          shell-command-switch "-ic"))
+      (setq explicit-shell-file-name "/usr/local/bin/zsh")
+    (setq explicit-shell-file-name "/usr/bin/zsh"))
+  (setq shell-command-switch "-ic")
 #+END_SRC
 A bunch of settings cribbed from doom-emacs
 #+name: basic
@@ -355,17 +354,17 @@ Convenience function to grab file and line number at point
     :config
     (setq company-minimum-prefix-length 2
           company-idle-delay 0
-          company-dabbrev-downcase nil
+          company-dabbrev-downcase t
           company-tooltip-limit 10
           company-async-timeout 1
-          company-dabbrev-ignore-case t
+          company-dabbrev-ignore-case 'keep-prefix
           company-dabbrev-code-other-buffers t
           company-tooltip-align-annotations t
           company-tooltip-minimum-width 50
           company-require-match 'never
           company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode gud-mode)
           company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
-          company-backends '(company-capf company-etags company-yasnippet company-dabbrev company-dabbrev-code company-files)
+          company-backends '(company-capf company-etags company-yasnippet company-dabbrev-code company-dabbrev company-files)
           company-transformers '(company-sort-by-occurrence))
     (add-hook 'after-init-hook '(lambda ()
                                   (define-key company-active-map (kbd "RET") 'company-complete-selection)
@@ -1222,7 +1221,11 @@ make lispy play nice with evil
 **** lua-mode
 #+name: languages
 #+BEGIN_SRC emacs-lisp
-  (use-package lua-mode)
+  (use-package lua-mode
+    :hook
+    (lua-mode . (lambda ()
+                  (make-local-variable 'company-backends)
+                  (setq-local company-backends '(company-dabbrev-code company-yasnippet company-files)))))
 #+END_SRC
 *** Markdown
 **** markdown-mode
@@ -1298,7 +1301,7 @@ Send growl alerts for org deadlines
   (use-package php-mode
     :hook (php-mode . (lambda ()
                         (make-local-variable 'company-backends)
-                        (setq-local company-backends '(company-dabbrev company-yasnippet company-files))
+                        (setq-local company-backends '(company-dabbrev-code company-yasnippet company-files))
                         (setq-local flycheck-disabled-checkers '(php-phpcs))
                         (setq-local sp-max-pair-length 6)))
     :mode (("\\.php$" . php-mode)
@@ -1337,6 +1340,8 @@ Support for Xdebug
                 company-lsp-enable-snippet t)
     :hook ((python-mode . (lambda ()
                             (add-to-list 'company-backends 'company-lsp)))
+           (php-mode . (lambda ()
+                         (add-to-list 'company-backends 'company-lsp)))
            (js2-mode . (lambda ()
                          (add-to-list 'company-backends 'company-lsp)))))
 #+END_SRC

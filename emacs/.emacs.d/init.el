@@ -6,6 +6,8 @@
 ;; ██║██║ ╚████║██║   ██║██╗███████╗███████╗
 ;; ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝╚═╝╚══════╝╚══════╝
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
  (eval-and-compile
    (setq gc-cons-threshold (* 1024 1024 1024)
          gc-cons-percentage 10)
@@ -152,6 +154,7 @@
                                  (http . t)
                                  (org . t)
                                  (ruby . t)))
+  ;; TODO: Set this path for linux
   (setq org-confirm-babel-evaluate nil
         org-plantuml-jar-path (expand-file-name "/usr/local/bin/plantuml/plantuml.jar")))
 
