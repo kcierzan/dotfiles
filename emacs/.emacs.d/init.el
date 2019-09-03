@@ -27,6 +27,7 @@
 
 (eval-and-compile
   (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t)))
+  (setq load-path (append (directory-files package-user-dir t "^org-" t) load-path))
   (setq load-path (append (directory-files package-user-dir t "^flymake" t) load-path)))
 
 (setq custom-file "~/.emacs.d/custom.el")

@@ -941,8 +941,7 @@ Dedicate buffers to windows based on their purpose
     :init (setq doom-themes-enable-bold t
                 doom-themes-enable-italic t)
     :config
-    (doom-themes-org-config)
-    (load-theme 'doom-one t))
+    (doom-themes-org-config))
 #+END_SRC
 *** moe-theme
 #+BEGIN_SRC emacs-lisp
@@ -2145,13 +2144,14 @@ Enable search-at-point from visual mode
 Things to do after the rest of the config has loaded. This is can be tricky given the deferred loading going on with =use-package=.
 #+name: final
 #+BEGIN_SRC emacs-lisp
-     (load custom-file)
-     (set-face-attribute 'font-lock-string-face nil :family string-font)
-     ;; (set-face-attribute 'org-verbatim nil :family monospace-font)
-     (set-face-attribute 'variable-pitch nil :family variable-pitch-font)
-     ;; (set-face-attribute 'org-special-keyword nil :family monospace-font)
-     ;; (set-face-attribute 'org-property-value nil :family monospace-font)
-     (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
+  (load-theme 'doom-one t)
+  (load custom-file)
+  (set-face-attribute 'font-lock-string-face nil :family string-font)
+  ;; (set-face-attribute 'org-verbatim nil :family monospace-font)
+  (set-face-attribute 'variable-pitch nil :family variable-pitch-font)
+  ;; (set-face-attribute 'org-special-keyword nil :family monospace-font)
+  ;; (set-face-attribute 'org-property-value nil :family monospace-font)
+  (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
 #+END_SRC
 * Files
 Anything thrown in =.emacs.local.d= will get loaded automatically.
