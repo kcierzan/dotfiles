@@ -54,49 +54,49 @@ end
 
 -- Create a wibox for each screen and add it
 awful.screen.connect_for_each_screen(function(s)
+      -- Create taglist buttons
+      local tag_buttons = gears.table.join(
+         awful.button({ }, 1, function(t)
+               t:view_only()
+         end),
+         awful.button({ modkey }, 1, function(t)
+               if client.focus then
+                  client.focus:move_to_tag(t)
+               end
+         end),
+         awful.button({ }, 3, function(t)
+               if client.focus then
+                  client.focus:move_to_tag(t)
+               end
+         end),
+         awful.button({ modkey }, 3, function(t)
+               if client.focus then
+                  client.focus:toggle_tag(t)
+               end
+         end),
+         awful.button({ }, 4, function(t) awful.tag.viewprev(t.screen) end),
+         awful.button({ }, 5, function(t) awful.tag.viewnext(t.screen) end)
+      )
       -- Create taglist
-      s.taglist = awful.widget.taglist {
+      s.mytaglist = awful.widget.taglist {
          screen = s,
-         filter = awful.widget.taglist.filter_all,
+         filter = awful.widget.taglist.filter.all,
          layout = wibox.layout.fixed.horizontal,
          widget_template = {
             widget = wibox.widget.textbox,
-            create_callback = function(self, tag, _, _)
+            create_callback = function(self, tag, __, _)
                self.align = "center"
                self.valign = "center"
                self.forced_width = dpi(25)
                self.font = beautiful.taglist_text_font
-
                update_taglist(self, tag)
             end,
-            update_callback = function(self, tag, _, _)
+            update_callback = function(self, tag, __, _)
                update_taglist(self, tag)
             end,
          },
-         buttons = gears.table.join(
-            awful.button({ }, 1, function(t)
-                  t:view_only()
-            end),
-            awful.button({ modkey }, 1, function(t)
-                  if client.focus then
-                     client.focus:move_to_tag(t)
-                  end
-            end),
-            awful.button({ }, 3, function(t)
-                  if client.focus then
-                     client.focus:move_to_tag(t)
-                  end
-            end),
-            awful.button({ modkey }, 3, function(t)
-                  if client.focus then
-                     client.focus:toggle_tag(t)
-                  end
-            end),
-            awful.button({ }, 4, function(t) awful.tag.viewprev(t.screen) end),
-            awful.button({ }, 5, function(t) awful.tag.viewnext(t.screen) end)
-         )
+         buttons = tag_buttons
       }
-
 
       s.layoutbox = awful.widget.layoutbox(s)
 
@@ -105,6 +105,7 @@ awful.screen.connect_for_each_screen(function(s)
       s.mybar = awful.wibar({
             screen = s,
             position = "top",
+            ontop = false,
             opacity = 0.8,
             height = dpi(25),
             bg = beautiful.bg_normal,
@@ -118,16 +119,16 @@ awful.screen.connect_for_each_screen(function(s)
             whoami,
             layout = wibox.layout.fixed.horizontal,
          },
-         nil,
+         s.mytaglist,
          {
             calendar,
-            helpers.pad(1),
             clock,
-            helpers.pad(1),
             s.layoutbox,
+            spacing = dpi(10),
             layout = wibox.layout.fixed.horizontal,
          },
          expand = "none",
          layout = wibox.layout.align.horizontal,
       }
+
 end)

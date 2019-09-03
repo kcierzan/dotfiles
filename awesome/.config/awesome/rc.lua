@@ -104,6 +104,9 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
 
+-- add a layout bar
+require("bars/default")
+
 local function set_wallpaper(s)
     -- Wallpaper
     if beautiful.wallpaper then
@@ -133,8 +136,6 @@ awful.screen.connect_for_each_screen(function(s)
 end)
 -- }}}
 
--- add a layout bar
-require("bars/default")
 
 -- exit screen
 local exit_screen = require("system.exit")

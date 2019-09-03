@@ -11,7 +11,8 @@ local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
 -- start with the default theme and override
-local theme = dofile(themes_path.."default/theme.lua")
+-- local theme = dofile(themes_path.."default/theme.lua")
+local theme = {}
 
 theme.font          = "monospace 8"
 
@@ -76,11 +77,11 @@ theme.bg_systray    = theme.bg_normal
 theme.taglist_text_font = "Typicons 11"
 theme.taglist_text_empty = " "
 theme.taglist_text_occupied = " "
-theme.taglist_text_focused = " "
+theme.taglist_text_focused = " "
 theme.taglist_text_urgent = "󠅷 "
 
 theme.taglist_text_color_empty    = theme.bg_lighter
-theme.taglist_text_color_occupied  = theme.xcolor7
+theme.taglist_text_color_occupied  = theme.xcolor8
 theme.taglist_text_color_focused  = theme.xcolor2
 theme.taglist_text_color_urgent   = theme.xcolor3
 
@@ -96,15 +97,6 @@ theme.taglist_text_color_urgent   = theme.xcolor3
 -- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
-
--- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.fg_normal
-)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-    taglist_square_size, theme.fg_normal
-)
 
 -- Variables set for theming notifications:
 -- notification_font
