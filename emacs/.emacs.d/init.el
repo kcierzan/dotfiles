@@ -47,10 +47,9 @@
     (setq use-package-always-ensure t)))
 
 
-(setq monospace-font "SF Mono"
-      string-font "SF Mono"
-      nerd-font "RobotoMono Nerd Font"
-      variable-pitch-font "SF Pro Display")
+(setq monospace-font "Iosevka"
+      string-font "Iosevka Slab"
+      variable-pitch-font "DIN")
 
 ;; we configure org mode early - the rest of the config is loaded via org-babel
 (use-package org

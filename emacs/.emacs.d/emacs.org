@@ -55,13 +55,13 @@
   ;; the following font symbols are defined in `init.el'
   (set-face-attribute 'fixed-pitch nil :font monospace-font :height 1.0)
   (set-face-attribute 'default  nil :font monospace-font)
-  (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 130)
+  (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 180)
   (setq default-frame-alist
         '((top . 50) (left . 130)
           (width . 200) (height . 60)))
   (add-hook 'window-setup-hook (lambda ()
-                                 (set-face-attribute 'default nil :height 130)
-                                 (set-face-attribute 'header-line nil :height 160)))
+                                 (set-face-attribute 'default nil :height 140)
+                                 (set-face-attribute 'header-line nil :height 180)))
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   ;; don't warn about theme loading
@@ -253,7 +253,7 @@ Some sensible defaults for general text editing.
                 truncate-partial-width-windows 50
                 whitespace-line-column fill-column
                 whitespace-style
-                '(face indentation tabs tab-mark spaces space-mark newline newline-mark
+                '(face indentation tabs tab-mark spaces space-mark newline something-mark
                        trailing lines-tail)
                 whitespace-display-mappings
                 '((tab-mark ?\t [?› ?\t])
@@ -348,7 +348,6 @@ Convenience function to grab file and line number at point
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :delight ""
     :hook ((org-mode prog-mode restclient-mode yaml-mode dockerfile-mode) . company-mode)
     :defer 2
     :config
@@ -377,7 +376,7 @@ Completion by frecency
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package company-statistics
-    :after company
+;;    :after company
     :hook (company-mode . company-statistics-mode)
     :init (setq company-statistics-file "~/.emacs.d/company-stats-cache.el")
     :config (company-statistics-mode 1))
@@ -386,7 +385,39 @@ Completion by frecency
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package company-box
-    :hook (company-mode . company-box-mode))
+    :after (all-the-icons)
+    :init (setq company-box-show-single-candidate t)
+    :hook (company-mode . company-box-mode)
+    :config
+    (setq company-box-icons-all-the-icons
+                `((Unknown . ,(all-the-icons-material "find_in_page" :height 0.9 :v-adjust -0.2))
+                  (Text . ,(all-the-icons-faicon "text-width" :height 0.85 :v-adjust -0.05))
+                  (Method . ,(all-the-icons-faicon "cube" :height 0.85 :v-adjust -0.05 :face 'all-the-icons-purple))
+                  (Function . ,(all-the-icons-faicon "cube" :height 0.85 :v-adjust -0.05 :face 'all-the-icons-purple))
+                  (Constructor . ,(all-the-icons-faicon "cube" :height 0.85 :v-adjust -0.05 :face 'all-the-icons-purple))
+                  (Field . ,(all-the-icons-octicon "tag" :height 0.85 :v-adjust 0 :face 'all-the-icons-lblue))
+                  (Variable . ,(all-the-icons-octicon "tag" :height 0.85 :v-adjust 0 :face 'all-the-icons-lblue))
+                  (Class . ,(all-the-icons-material "settings_input_component" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-orange))
+                  (Interface . ,(all-the-icons-material "share" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                  (Module . ,(all-the-icons-material "view_module" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                  (Property . ,(all-the-icons-faicon "wrench" :height 0.85 :v-adjust -0.05))
+                  (Unit . ,(all-the-icons-material "settings_system_daydream" :height 0.9 :v-adjust -0.2))
+                  (Value . ,(all-the-icons-material "format_align_right" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                  (Enum . ,(all-the-icons-material "storage" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-orange))
+                  (Keyword . ,(all-the-icons-material "filter_center_focus" :height 0.9 :v-adjust -0.2))
+                  (Snippet . ,(all-the-icons-material "format_align_center" :height 0.9 :v-adjust -0.2))
+                  (Color . ,(all-the-icons-material "palette" :height 0.9 :v-adjust -0.2))
+                  (File . ,(all-the-icons-faicon "file-o" :height 0.9 :v-adjust -0.05))
+                  (Reference . ,(all-the-icons-material "collections_bookmark" :height 0.9 :v-adjust -0.2))
+                  (Folder . ,(all-the-icons-faicon "folder-open" :height 0.9 :v-adjust -0.05))
+                  (EnumMember . ,(all-the-icons-material "format_align_right" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                  (Constant . ,(all-the-icons-faicon "square-o" :height 0.9 :v-adjust -0.05))
+                  (Struct . ,(all-the-icons-material "settings_input_component" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-orange))
+                  (Event . ,(all-the-icons-faicon "bolt" :height 0.85 :v-adjust -0.05 :face 'all-the-icons-orange))
+                  (Operator . ,(all-the-icons-material "control_point" :height 0.9 :v-adjust -0.2))
+                  (TypeParameter . ,(all-the-icons-faicon "arrows" :height 0.85 :v-adjust -0.05))
+                  (Template . ,(all-the-icons-material "format_align_center" :height 0.9 :v-adjust -0.2)))
+                company-box-icons-alist 'company-box-icons-all-the-icons))
 #+END_SRC
 **** company-quickhelp
 Documentation popups
@@ -440,7 +471,7 @@ Jump to groups of characters
 #+name: programming
 #+BEGIN_SRC emacs-lisp
   (use-package avy
-    :commands (evil-avy-goto-char-2 avy-goto-char-2)
+    :commands (evil-avy-goto-char-2 avy-goto-char-2 avy-goto-char-timer evil-avy-goto-char-timer)
     :pin melpa)
 #+END_SRC
 **** dumb-jump
@@ -490,23 +521,22 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
      #+name: programming
      #+BEGIN_SRC emacs-lisp
        (use-package smartparens
-         :delight
-         (smartparens-strict-mode "()")
-         (smartparens-mode)
          :hook (prog-mode . smartparens-mode)
-         :config
-         (require 'smartparens-config)
+         :init
          (setq sp-autowrap-region nil
                sp-highlight-pair-overlay nil
                sp-autoskip-on-backward-movement nil
                sp-show-pair-delay 0.2
-               sp-max-pair-length 3))
+               sp-max-pair-length 3)
+         :config
+         (require 'smartparens-config)
+         (smartparens-strict-mode "()")
+         (smartparens-mode))
      #+END_SRC
 **** undo-tree
      #+name: programming
      #+BEGIN_SRC emacs-lisp
-      (use-package undo-tree
-        :delight)
+      (use-package undo-tree)
      #+END_SRC
 **** wgrep
      #+name: programming
@@ -521,7 +551,6 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
      #+BEGIN_SRC emacs-lisp
        (use-package ws-butler
          :defer 3
-         :delight
          :hook ((text-mode prog-mode) . ws-butler-mode)
          :config
          (setq ws-butler-keep-whitespace-before-point nil))
@@ -571,11 +600,47 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
        (use-package flycheck-pos-tip
          :pin melpa
          :when (= emacs-major-version 25)
-         :after flycheck
+         ;; :after flycheck
          :hook (flycheck-mode . flycheck-pos-tip-mode)
          :config (setq flycheck-pos-tip-timeout 10
                        flycheck-display-errors-delay 0.9))
      #+END_SRC
+**** lsp-mode
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :commands lsp
+    :init (setq lsp-auto-guess-root t
+                lsp-keep-workspace-alive nil
+                lsp-enable-xref t
+                lsp-prefer-flymake nil
+                lsp-auto-configure t
+                lsp-response-timeout 3)
+    :hook ((python-mode . lsp)
+           (js2-mode . lsp)
+           (php-mode . lsp)))
+#+END_SRC
+**** company-lsp
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package company-lsp
+    :init (setq company-lsp-async t
+                company-lsp-cache-candidates 'auto
+                company-lsp-enable-snippet t)
+    :hook ((python-mode . (lambda ()
+                            (add-to-list 'company-backends 'company-lsp)))
+           (php-mode . (lambda ()
+                         (add-to-list 'company-backends 'company-lsp)))
+           (js2-mode . (lambda ()
+                         (add-to-list 'company-backends 'company-lsp)))))
+#+END_SRC
+**** lsp-ui
+#+name: programming
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-ui
+    :config
+    :hook (lsp-mode . lsp-ui-mode))
+#+END_SRC
 *** Shell
 **** exec-path-from-shell
 Use $PATH as specified by the user's shell. This package is essentially required on macOS.
@@ -656,7 +721,6 @@ Use $PATH as specified by the user's shell. This package is essentially required
 #+BEGIN_SRC emacs-lisp
   (use-package git-gutter-fringe
     :defer 3
-    :delight ""
     :config
     (global-git-gutter-mode)
     (setq-default fringes-outside-margins t))
@@ -726,6 +790,7 @@ The undisputed king of git UIs
 #+name: interface
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons
+    :demand t
     :pin melpa)
 #+END_SRC
 *** fringe-helper
@@ -793,7 +858,6 @@ The melpa version improves on the baked in pos-tip
      #+name: interface
      #+BEGIN_SRC emacs-lisp
        (use-package vi-tilde-fringe
-         :delight
          :defer 5
          :hook (prog-mode . vi-tilde-fringe-mode)
          :pin melpa)
@@ -804,7 +868,6 @@ The melpa version improves on the baked in pos-tip
      #+BEGIN_SRC emacs-lisp
        (use-package which-key
          :defer 3
-         :delight
          :pin melpa
          :config
          (which-key-setup-side-window-right-bottom)
@@ -839,7 +902,6 @@ The melpa version improves on the baked in pos-tip
      #+BEGIN_SRC emacs-lisp
        (use-package beacon
          :defer 5
-         :delight
          :init (setq beacon-blink-duration 0.17)
          :config (beacon-mode 1))
      #+END_SRC
@@ -876,7 +938,6 @@ The melpa version improves on the baked in pos-tip
      #+BEGIN_SRC emacs-lisp
        (use-package color-identifiers-mode
          :disabled t
-         :delight ""
          :hook (after-init . global-color-identifiers-mode))
      #+END_SRC
 *** IN PROGRESS shackle
@@ -909,7 +970,7 @@ Dedicate buffers to windows based on their purpose
 #+name: interface
 #+BEGIN_SRC emacs-lisp
   (use-package window-purpose
-    :demand t
+    :disabled t
     :config
     (add-to-list 'purpose-user-mode-purposes '(python-mode . main))
     (add-to-list 'purpose-user-mode-purposes '(web-mode . main))
@@ -943,34 +1004,6 @@ Dedicate buffers to windows based on their purpose
     :config
     (doom-themes-org-config))
 #+END_SRC
-*** moe-theme
-#+BEGIN_SRC emacs-lisp
-  (use-package moe-theme
-    :disabled t
-    :init (setq moe-theme-highlight-buffer-id nil)
-    :config
-    (moe-theme-set-color 'orange)
-    (moe-dark))
-#+END_SRC
-*** spaceline
-     #+name: interface
-     #+BEGIN_SRC emacs-lisp
-       (use-package spaceline
-         :disabled t
-         :init
-         (setq-default powerline-height 24)
-         (setq powerline-default-separator 'wave
-               spaceline-minor-modes-separator " | ")
-         :config
-         (spaceline-helm-mode 1)
-         (setq spaceline-evil-state-p nil)
-         (spaceline-spacemacs-theme))
-         ;;(set-face-attribute 'powerline-active1 nil :background nil :foreground nil :inherit 'highlight :family nerd-font)
-         ;;(set-face-attribute 'powerline-active2 nil :background (face-attribute 'fringe :foreground) :inherit nil)
-         ;;(set-face-attribute 'powerline-inactive2 nil :background (face-attribute 'fringe :foreground) :inherit nil :family nerd-font)
-         ;;(set-face-attribute 'mode-line nil :background (face-attribute 'shadow :background) :inherit nil :family nerd-font)
-         ;;(set-face-attribute 'spaceline-highlight-face nil :background (face-attribute 'org-code :foreground) :family nerd-font))
-     #+END_SRC
 *** doom-modeline
 #+name: interface
 #+BEGIN_SRC emacs-lisp
@@ -982,27 +1015,18 @@ Dedicate buffers to windows based on their purpose
     :demand t
     :requires (shrink-path eldoc-eval)
     :init
-    (setq doom-modeline-height 50)
+    ;; hack - this should be display/dpi aware
+    (if (memq window-system '(mac ns))
+        (setq doom-modeline-height 50)
+      (setq doom-modeline-height 90))
     (set-face-attribute 'mode-line nil :height 140)
     :hook (after-init . doom-modeline-init))
-#+END_SRC
-*** solaire-mode
-#+name: interface
-#+BEGIN_SRC emacs-lisp
-  (use-package solaire-mode
-    :disabled t
-    :hook ((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-    :config
-    (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
-    (solaire-mode-swap-bg))
 #+END_SRC
 *** kaolin-themes
 #+name: interface
 #+BEGIN_SRC emacs-lisp
   (use-package kaolin-themes
-    :demand t
-    :config)
-    ;; (load-theme 'kaolin-temple t))
+    :demand t)
 #+END_SRC
 ** Languages
 *** Docker
@@ -1102,20 +1126,20 @@ A javascript refactoring library for emacs
        (use-package rjsx-mode
          :mode "components/.+\\.js$"
          :init
-         (defun +javascript-jsx-file-p ()
+         (defun my/javascript-jsx-file-p ()
            "Detect React or preact imports early in the file."
            (and buffer-file-name
                 (string= (file-name-extension buffer-file-name) "js")
                 (re-search-forward "\\(^\\s-*import +React\\|\\( from \\|require(\\)[\"']p?react\\)"
                                    magic-mode-regexp-match-limit t)))
-         (add-to-list 'magic-mode-alist '(+javascript-jsx-file-p . rjsx-mode))
+         (add-to-list 'magic-mode-alist '(my/javascript-jsx-file-p . rjsx-mode))
          :config
          (add-hook 'rjsx-mode-hook '(lambda ()
                                       (push 'javascript-jshint flycheck-disabled-checkers)))
          ;; typing fast can mess up the autoclosing tags, force reparsing to catch up
-         (defun +javascript|reparse (n)
+         (defun my/javascript|reparse (n)
            (if (= n 1) (rjsx-maybe-reparse)))
-         (advice-add #'rjsx-electric-gt :before #'+javascript|reparse))
+         (advice-add #'rjsx-electric-gt :before #'my/javascript|reparse))
      #+END_SRC
 **** xref-js2
      find definition/references backend for js2-mode
@@ -1131,22 +1155,23 @@ A javascript refactoring library for emacs
          :config (define-key js2-mode-map (kbd "M-.") nil))
      #+END_SRC
 **** indium
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
-       (use-package indium)
-     #+END_SRC
-**** tide-mode
+#+name: languages
+#+BEGIN_SRC emacs-lisp
+  (use-package indium)
+#+END_SRC
+**** TODO tide-mode
+Shouldn't this be looking for some typescript packages instead of simply node?
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package tide
     :defer t
     :init
-    (defun +javascript|init-tide ()
+    (defun my/javascript-init-tide ()
       "Enable `tide-mode' if node is available"
       (if (executable-find "node")
           (tide-setup)
         (message "Couldn't find `node', aborting tide server")))
-    (add-hook 'js2-mode #'+javascript|init-tide)
+    (add-hook 'js2-mode #'my/javascript-init-tide)
     :config
     (setq tide-completion-detailed t
           tide-always-show-documentation t))
@@ -1157,13 +1182,13 @@ A javascript refactoring library for emacs
   (use-package prettier-js
     :hook (js2-mode . prettier-js-mode)
     :config
-    (defun enable-minor-mode (my-pair)
+    (defun my/maybe-enable-minor-mode (my-pair)
       "Enable minor mode if filename matches the regexp"
       (if (buffer-file-name)
           (if (string-match (car my-pair) buffer-file-name)
               (funcall (cdr my-pair)))))
     (add-hook 'web-mode-hook #'(lambda ()
-                                 (enable-minor-mode
+                                 (my/maybe-enable-minor-mode
                                   '("\\.jsx?\\'" . prettier-js-mode)))))
 #+END_SRC
 *** JSON
@@ -1249,8 +1274,8 @@ Use UTF-8 symbols for org headings
     :config
     ;; Hide bullets completely
     ;; (setq org-bullets-bullet-list '(" "))
-    :hook (org-mode . (lambda () (org-bullets-mode 1)))
-    :after org)
+    ;; :after (org)
+    :hook (org-mode . (lambda () (org-bullets-mode 1))))
 #+END_SRC
 **** ob-http
 http requests in org babel
@@ -1266,8 +1291,8 @@ adds an =:async= header tag to source blocks that allows for asynchronous execut
   (use-package ob-async
     :commands (org-ctrl-c-ctrl-c))
 #+END_SRC
-**** org-alert
-Send growl alerts for org deadlines
+**** TODO org-alert
+Send growl alerts for org deadlines. I'm not sure growl even works any more...
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package org-alert
@@ -1280,7 +1305,8 @@ Send growl alerts for org deadlines
           alert-persist-idle-time 300)
     (org-alert-enable))
 #+END_SRC
-**** org-gcal
+**** TODO org-gcal
+This is probably more trouble than it is worth...
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package org-gcal
@@ -1314,43 +1340,6 @@ Support for Xdebug
     :commands (geben))
 #+END_SRC
 *** Python
-**** lsp-mode
-#+name: languages
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :delight ""
-    :commands lsp
-    :init (setq lsp-auto-guess-root t
-                lsp-keep-workspace-alive nil
-                lsp-enable-xref t
-                lsp-prefer-flymake nil
-                lsp-auto-configure t
-                lsp-response-timeout 3)
-    :hook ((python-mode . lsp)
-           (js2-mode . lsp)
-           (php-mode . lsp)))
-#+END_SRC
-**** company-lsp
-#+name: languages
-#+BEGIN_SRC emacs-lisp
-  (use-package company-lsp
-    :init (setq company-lsp-async t
-                company-lsp-cache-candidates 'auto
-                company-lsp-enable-snippet t)
-    :hook ((python-mode . (lambda ()
-                            (add-to-list 'company-backends 'company-lsp)))
-           (php-mode . (lambda ()
-                         (add-to-list 'company-backends 'company-lsp)))
-           (js2-mode . (lambda ()
-                         (add-to-list 'company-backends 'company-lsp)))))
-#+END_SRC
-**** lsp-ui
-#+name: languages
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-ui
-    :config
-    :hook (lsp-mode . lsp-ui-mode))
-#+END_SRC
 **** pip-requirements
 #+name: languages
 #+BEGIN_SRC emacs-lisp
@@ -1364,14 +1353,14 @@ Use pyenv environments
 #+BEGIN_SRC emacs-lisp
   (use-package pyvenv
     :config
-    (defun pyvenv-autoload ()
+    (defun my/pyvenv-autoload ()
       (with-eval-after-load 'projectile
         (lambda () (let* ((pdir (projectile-project-root)) (pfile (concat pdir ".python-version")))
                      (if (file-exists-p pfile)
                          (pyvenv-workon (with-temp-buffer
                                           (insert-file-contents pfile)
                                           (nth 0 (split-string (buffer-string))))))))))
-    (add-hook 'python-mode 'pyenv-autoload))
+    (add-hook 'python-mode 'my/pyenv-autoload))
 #+END_SRC
 **** evil-text-object-python
 Adds  text-objects for python statements using the letter 'l'.
@@ -1426,7 +1415,6 @@ automatically format python code
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package sqlup-mode
-    :delight ""
     :hook ((sql-mode sql-interactive-mode) . sqlup-mode) )
 #+END_SRC
 *** Testing
@@ -1452,7 +1440,7 @@ Write markup more efficiently
 #+name: languages
 #+BEGIN_SRC emacs-lisp
   (use-package emmet-mode
-    :delight ""
+
     :pin melpa
     :hook (css-mode web-mode html-mode haml-mode rjsx-mode)
     :config (setq emmet-move-cursor-between-quotes t))
@@ -1478,7 +1466,6 @@ Unified fuzzy search for almost everything
 #+name: helm
 #+BEGIN_SRC emacs-lisp
   (use-package helm
-    :delight
     :demand t
     :pin melpa-stable
     :commands (helm-M-x helm-mini helm-imenu helm-resume helm-execute-persistent-action helm-select-action)
@@ -1508,8 +1495,9 @@ Unified fuzzy search for almost everything
 #+name: helm
 #+BEGIN_SRC emacs-lisp
   (use-package helm-flx
-    :config
-    (helm-flx-mode 1))
+    :commands (helm-flx-mode)
+    :hook (helm-mode . (lambda ()
+                          (helm-flx-mode t))))
 #+END_SRC
 **** helm-ag
 helm frontend for the-silver-searcher
@@ -1848,6 +1836,7 @@ General provides some nice macros for dealing with evil keybindings
       "k" 'describe-key
       ;; "w" 'woman
       "v" 'describe-variable
+      "b" 'helm-descbinds
       "p" 'describe-package
       "a" 'describe-face
       "m" 'describe-mode)
@@ -1919,13 +1908,13 @@ General provides some nice macros for dealing with evil keybindings
     (general-mmap "gl" 'evil-avy-goto-line
       "gs" 'evil-avy-goto-char-2
       "gD" 'dumb-jump-go
-      "s" 'evil-avy-goto-char-2
+      "s" 'evil-avy-goto-char-timer
       ;; "C-f" 'universal-argument
       "g C-]" 'xref-find-definitions)
     (general-define-key
      :keymaps 'override
      :states '(normal visual motion)
-     "s" 'evil-avy-goto-char-2
+     "s" 'evil-avy-goto-char-timer
      "L" 'evil-last-non-blank
      "H" 'evil-first-non-blank
      "ge" 'flycheck-next-error
@@ -1941,7 +1930,7 @@ General provides some nice macros for dealing with evil keybindings
       "C-x c o" 'helm-occur
       "C-M-n" 'helm-next-source
       "C-M-p" 'helm-previous-source
-      "C-h b" 'helm-descbinds
+      ;; "C-h b" 'helm-descbinds
       "M-v" 'evil-paste-after
       "M-m" 'suspend-frame
       "C-;" 'helm-M-x
@@ -2009,24 +1998,25 @@ Extends package management
 #+name: evil
 #+BEGIN_SRC emacs-lisp
   (use-package evil
-    ;; :defer 0.3
-    :init
-    (setq evil-want-C-u-scroll t)
+    :defer 0.3
+    :init (setq evil-want-C-u-scroll t)
     :config
     (evil-mode 1)
     (evil-declare-change-repeat 'company-complete)
     (evil-declare-change-repeat 'company-complete-selection)
     (evil-declare-change-repeat 'company-complete-common)
-    (defun +evil-window-follow (&rest _) (evil-window-down 1))
-    (defun +evil-window-vfollow (&rest _) (evil-window-right 1))
-    (advice-add #'evil-window-split :after #'+evil-window-follow)
-    (advice-add #'evil-window-vsplit :after #'+evil-window-vfollow))
+    (defun my/evil-window-follow (&rest _) (evil-window-down 1))
+    (defun my/evil-window-vfollow (&rest _) (evil-window-right 1))
+    (advice-add #'evil-window-split :after #'my/evil-window-follow)
+    (advice-add #'evil-window-vsplit :after #'my/evil-window-vfollow))
 #+END_SRC
 *** evil-anzu
 #+name: evil
 #+BEGIN_SRC emacs-lisp
   (use-package evil-anzu
-    :defer 5)
+    :defer 5
+    :config
+    (global-anzu-mode t))
 #+END_SRC
 *** evil-collection
 Enable evil everywhere
@@ -2043,17 +2033,14 @@ Enable evil everywhere
 #+name: evil
 #+BEGIN_SRC emacs-lisp
        (use-package evil-commentary
-         :delight
          :pin melpa
-         :after evil
-         :hook (prog-mode . evil-commentary-mode))
+         :commands (evil-commentary))
 #+END_SRC
 *** evil-goggles
 Flash text highlighting when performing vim-motion operations
 #+name: evil
 #+BEGIN_SRC emacs-lisp
        (use-package evil-goggles
-         :delight
          :after evil
          :defer 5
          :init (setq evil-goggles-duration 0.1)
@@ -2084,7 +2071,6 @@ Evil bindings for org mode
 #+name: evil
 #+BEGIN_SRC emacs-lisp
   (use-package evil-org
-    :delight
     :hook
     ((org-mode . evil-org-mode)
      (evil-org-mode . (lambda ()
@@ -2098,7 +2084,6 @@ Play nice with smartparens
 #+name: evil
 #+BEGIN_SRC emacs-lisp
   (use-package evil-smartparens
-    :delight
     :hook (smartparens-enabled . evil-smartparens-mode)
     :after (smartparens evil)
     :pin melpa)
