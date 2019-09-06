@@ -49,7 +49,6 @@ local theme_collection = {
 }
 local theme_name = theme_collection[1]
 
--- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(theme_dir .. theme_name .. ".lua")
 
@@ -71,6 +70,7 @@ awful.layout.layouts = {
     awful.layout.suit.max,
 }
 
+-- TODO: get rid of these until we improve the concept here
 -- Create a launcher widget and a main menu
 myawesomemenu = {
    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
@@ -92,7 +92,7 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
 -- add a layout bar
-require("bars/default")
+require("bars.default")
 
 -- exit screen
 require("system.exit")
