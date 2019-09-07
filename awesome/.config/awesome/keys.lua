@@ -2,6 +2,7 @@ local awful = require("awful")
 local gears = require("gears")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local light = require("system.light")
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -12,9 +13,8 @@ modkey = "Mod4"
 
 -- Mouse bindings
 root.buttons(gears.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+                awful.button({ }, 3, function () mymainmenu:toggle() end)
+
 ))
 
 -- Key bindings
@@ -121,7 +121,14 @@ globalkeys = gears.table.join(
 
     -- Exit screen
     awful.key({ modkey }, "Escape", function() exit_screen_show() end,
-    {description = "show the exist screen", group = "awesome"})
+    {description = "show the exist screen", group = "awesome"}),
+
+    -- screen brightness
+    awful.key({ modkey, }, "=", function() light.change_brightness("+") end,
+       {description = "increase screen brightness", group = "awesome"}),
+
+    awful.key({ modkey, }, "-", function() light.change_brightness("-") end,
+       {description = "decrease screen brightness", group = "awesome"})
 
 )
 
@@ -235,3 +242,5 @@ clientbuttons = gears.table.join(
 
 -- Set keys
 root.keys(globalkeys)
+
+return keys
