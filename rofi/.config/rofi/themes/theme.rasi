@@ -23,7 +23,7 @@
 	spacing: 0;
 	background-color: transparent;
 
-	font: "SF Mono 22";
+	font: "DIN 22";
 }
 
 window {
@@ -51,7 +51,6 @@ inputbar {
 prompt {
 	enabled: true;
 	text-color: @blue04;
-	font: "SF Mono 38";
 }
 
 textbox-prompt-colon {
@@ -59,12 +58,12 @@ textbox-prompt-colon {
 	str: "❯";
 	margin: -8px 1ch 0 1ch;
 	text-color: @blue04;
-	font: "SF Mono 38";
+	font: "DIN 60";
 }
 
 entry {
 	text-color: @white07;
-	font: "SF Mono 38";
+	font: "DIN 60";
 }
 
 case-indicator {

@@ -37,9 +37,6 @@ nvidia-led no-animation 0
 # run keybinding script
 setkeys
 
-# TODO: move this to awesomewm config
-xbindkeys
-
 # configure the firewire interface and start jack
 start-jack
 
