@@ -324,7 +324,7 @@ Convenience function to grab file and line number at point
 **** company
 #+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package company
-    :hook ((org-mode prog-mode restclient-mode yaml-mode dockerfile-mode) . company-mode)
+    :hook ((prog-mode restclient-mode yaml-mode dockerfile-mode) . company-mode)
     :defer 2
     :config
     (setq company-minimum-prefix-length 2
@@ -707,7 +707,7 @@ The undisputed king of git UIs
 #+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package git-timemachine
     :commands (git-timemachine)
-    :config
+    :init
     (setq git-timemachine-show-minibuffer-details t))
 #+END_SRC
 **** dired-k
@@ -729,9 +729,9 @@ The undisputed king of git UIs
 *** highlight-indent-guides
 #+BEGIN_SRC emacs-lisp
   (use-package highlight-indent-guides
-    :defer 3
+    :commands (highlight-indent-guides-mode)
     :hook (yaml-mode . highlight-indent-guides-mode)
-    :config
+    :init
     (setq highlight-indent-guides-character ?\│
           highlight-indent-guides-method 'character))
 #+END_SRC
@@ -775,7 +775,7 @@ Define fringe element shapes
 #+BEGIN_SRC emacs-lisp
   (use-package nlinum
     :defer 5
-    :config
+    :init
     (setq nlinum-highlight-current-line t)
     ;; :hook (prog-mode . nlinum-mode)
     :pin elpa)
@@ -894,7 +894,7 @@ Define some rules for handling pesky windows.
 #+name: interface
 #+BEGIN_SRC emacs-lisp
   (use-package shackle
-    :disabled t
+    ;; :disabled t
     :demand t
     :config
     (setq shackle-default-alignment 'below)
@@ -1196,13 +1196,16 @@ make lispy play nice with evil
 **** org-bullets
 Use UTF-8 symbols for org headings
 #+BEGIN_SRC emacs-lisp :noweb-ref languages
-  (use-package org-bullets
-    :pin melpa
-    :config
-    ;; Hide bullets completely
-    ;; (setq org-bullets-bullet-list '(" "))
-    ;; :after (org)
-    :hook (org-mode . (lambda () (org-bullets-mode 1))))
+    (use-package org-bullets
+      :pin melpa
+      :init
+      ;; this should improve performance considerably
+      (setq inhibit-font-compacting-caches t)
+      :config
+      ;; Hide bullets completely
+      ;; (setq org-bullets-bullet-list '(" "))
+      ;; :after (org)
+      :hook (org-mode . (lambda () (org-bullets-mode 1))))
 #+END_SRC
 **** ob-http
 http requests in org babel
@@ -2035,15 +2038,11 @@ Enable search-at-point from visual mode
 #+END_SRC
 ** Final
 Things to do after the rest of the config has loaded. This is can be tricky given the deferred loading going on with =use-package=.
-#+name: final
-#+BEGIN_SRC emacs-lisp
-  (load-theme 'doom-nord t)
+#+BEGIN_SRC emacs-lisp :noweb-ref final
+  (load-theme 'doom-one t)
   (load custom-file)
   (set-face-attribute 'font-lock-string-face nil :family string-font)
-  ;; (set-face-attribute 'org-verbatim nil :family monospace-font)
   (set-face-attribute 'variable-pitch nil :family variable-pitch-font)
-  ;; (set-face-attribute 'org-special-keyword nil :family monospace-font)
-  ;; (set-face-attribute 'org-property-value nil :family monospace-font)
   (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
 #+END_SRC
 * Files

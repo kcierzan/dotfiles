@@ -50,7 +50,7 @@
 
 (setq monospace-font "Iosevka"
       string-font "Iosevka Slab"
-      variable-pitch-font "DIN")
+      variable-pitch-font "DINPro")
 
 ;; we configure org mode early - the rest of the config is loaded via org-babel
 (use-package org
@@ -125,6 +125,7 @@
                               (setq line-spacing 1)
                               (setq truncate-lines nil)
                               (set-face-attribute 'org-link nil :underline t)
+                              (org-indent-mode -1)
                               (mapc (lambda (face)
                                       (set-face-attribute face nil :family monospace-font))
                                     (list 'org-code
