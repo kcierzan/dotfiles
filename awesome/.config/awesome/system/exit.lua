@@ -36,6 +36,15 @@ local create_button = function(symbol, hover_color, text, command)
       widget = wibox.widget.textbox()
    }
 
+   local button_text = wibox.widget {
+      font = "sans 18",
+      text = text,
+      visible = false,
+      forced_height = dpi(80),
+      align = "center",
+      widget = wibox.widget.textbox()
+   }
+
    local button = wibox.widget {
       {
          nil,
@@ -53,6 +62,18 @@ local create_button = function(symbol, hover_color, text, command)
       widget = wibox.container.background
    }
 
+   local wrapper = wibox.widget {
+      {
+         nil,
+         button,
+         button_text,
+         expand = "none",
+         layout = wibox.layout.align.vertical
+      },
+      widget = wibox.container.background
+   }
+
+
    -- Bind left click to run the command
    button:buttons(gears.table.join(
                      awful.button({ }, 1, function()
@@ -61,19 +82,22 @@ local create_button = function(symbol, hover_color, text, command)
    ))
 
    -- Change color on hover
-   button:connect_signal("mouse::enter", function()
+   wrapper:connect_signal("mouse::enter", function()
                             icon.markup = helpers.colorize_text(icon.text, hover_color)
+                            button_text.markup = helpers.colorize_text(button_text.text, hover_color)
+                            button_text.visible = true
                             button.border_color = hover_color
    end)
-   button:connect_signal("mouse::leave", function()
+   wrapper:connect_signal("mouse::leave", function()
                             icon.markup = helpers.colorize_text(icon.text, beautiful.xforeground)
+                            button_text.visible = false
                             button.border_color = button_bg
    end)
 
    -- Change the cursor on hover
    helpers.add_hover_cursor(button, "hand1")
 
-   return button
+   return wrapper
 end
 
 -- Create the buttons
