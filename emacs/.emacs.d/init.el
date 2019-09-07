@@ -6,6 +6,7 @@
 ;; ██║██║ ╚████║██║   ██║██╗███████╗███████╗
 ;; ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝╚═╝╚══════╝╚══════╝
 
+;; This could be fixed in emacs 26.3
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
  (eval-and-compile
@@ -122,7 +123,6 @@
   (add-hook 'org-mode-hook '(lambda ()
                               (variable-pitch-mode 1)
                               (setq line-spacing 1)
-                              (company-mode 1)
                               (setq truncate-lines nil)
                               (set-face-attribute 'org-link nil :underline t)
                               (mapc (lambda (face)

@@ -9,8 +9,7 @@
 ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝
 #+END_EXAMPLE
 * Globals
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (semantic-mode)
   (recentf-mode 1)
   (savehist-mode)
@@ -24,8 +23,7 @@
         confirm-kill-emacs 'y-or-n-p)
 #+END_SRC
 * UI
-#+name: interface
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref interface
   (menu-bar-mode -1)
   (tool-bar-mode -1)
   (setq auto-revert-interval 1)
@@ -55,12 +53,13 @@
   ;; the following font symbols are defined in `init.el'
   (set-face-attribute 'fixed-pitch nil :font monospace-font :height 1.0)
   (set-face-attribute 'default  nil :font monospace-font)
-  (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height 180)
+  (set-face-attribute 'variable-pitch nil :font variable-pitch-font :height (if (< (display-pixel-width) 3000) 140 110))
   (setq default-frame-alist
         '((top . 50) (left . 130)
           (width . 200) (height . 60)))
   (add-hook 'window-setup-hook (lambda ()
-                                 (set-face-attribute 'default nil :height 140)
+                                 (set-face-attribute 'default nil :height (if (< (display-pixel-width) 3000) 140 110))
+                                 (set-face-attribute 'mode-line nil :height 130)
                                  (set-face-attribute 'header-line nil :height 180)))
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -101,8 +100,7 @@
                                                                       (horizontal-scroll-bars . nil)))))
       #+END_SRC
 * Dired
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (setq dired-always-copies 'always
         dired-recursive-deletes 'top)
   (use-package dired
@@ -114,8 +112,7 @@
           (concat dired-omit-files "\\pyc$\\|^.git$")))
 #+END_SRC
 * UTF-8
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (when (fboundp 'set-charset-priority)
     (set-charset-priority 'unicode))
   (prefer-coding-system 'utf-8-unix)
@@ -129,8 +126,7 @@
   (define-coding-system-alias 'UTF8 'utf-8)
 #+END_SRC
 * Misc
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (use-package epa
     :ensure nil
     :init
@@ -140,13 +136,11 @@
     (epa-file-enable))
 #+END_SRC
 Sentences end with a single space
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (setq sentence-end-double-space nil)
 #+END_SRC
 Recent files
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (use-package recentf
     :pin melpa
     :config
@@ -157,8 +151,7 @@ Recent files
           (list "^/ssh:" "/TAGS$")))
 #+END_SRC
 Backups and lockfiles aren't useful. Instead, revert automatically on change to a file.
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (setq create-lockfiles nil
         make-backup-files nil
         auto-save-default nil
@@ -166,44 +159,37 @@ Backups and lockfiles aren't useful. Instead, revert automatically on change to 
         auto-revert-verbose nil)
 #+END_SRC
 Don't ask me about large files.
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (setq large-file-warning-threshold nil)
 #+END_SRC
 Who wants to type "yes"?
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 global-eldoc is pretty annoying. Turn it on explicitly.
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (global-eldoc-mode -1)
   (add-hook 'python-mode-hook 'eldoc-mode)
 #+END_SRC
 Until they make a space commander keyboard again...
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (setq mac-command-modifier 'super
         mac-option-modifier 'meta)
 #+END_SRC
 Spaces.
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
 (setq-default indent-tabs-mode nil)
 #+END_SRC
 Emacs likes POSIX-compliant shells.
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (if (memq window-system '(mac ns))
       (setq explicit-shell-file-name "/usr/local/bin/zsh")
     (setq explicit-shell-file-name "/usr/bin/zsh"))
   (setq shell-command-switch "-ic")
 #+END_SRC
 A bunch of settings cribbed from doom-emacs
-#+name: basic
-#+BEGIN_SRC emacs-lisp
-  (setq-default bidi-display-reordering nil
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
+  (setq-default bidi-display-reordering 'left-to-right
                 cursor-in-non-selected-windows nil
                 display-line-numbers-width 3
                 frame-inhibit-implied-resize t
@@ -233,8 +219,7 @@ A bunch of settings cribbed from doom-emacs
                 pos-tip-border-width 1)
 #+END_SRC
 Some sensible defaults for general text editing.
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (setq-default delete-trailing-lines nil
                 fill-column 80
                 sentence-end-double-space nil
@@ -263,26 +248,22 @@ Some sensible defaults for general text editing.
   (tooltip-mode -1)
 #+END_SRC
 Iedit complains about being remapped. Stop that.
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (setq iedit-toggle-key-default nil)
 #+END_SRC
 Save files on loss of focus
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (defun my/save-buffers ()
     (interactive)
     (save-some-buffers t))
   (add-hook 'focus-out-hook 'my/save-buffers)
 #+END_SRC
 Open the worklog on startup
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (setq initial-buffer-choice "~/Sync/org/worklog.org")
 #+END_SRC
 Convenience function to grab file and line number at point
-#+name: basic
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref basic
   (defun my/position-to-kill-ring ()
     "Copy to the kill ring a string in the format \"file-name:line-number\"
   for the current buffer's file name, and the line number at point."
@@ -294,8 +275,7 @@ Convenience function to grab file and line number at point
 * Packages
 ** Applications
 *** rest-client
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package restclient
     :mode ("\\.rest" . restclient-mode)
     :hook (restclient-mode . restclient-outline-mode)
@@ -306,8 +286,7 @@ Convenience function to grab file and line number at point
       (setq-local outline-regexp "##+")))
 #+END_SRC
 *** company-restclient
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package company-restclient
     :after (restclient company)
     :config
@@ -316,8 +295,7 @@ Convenience function to grab file and line number at point
                   (add-to-list 'company-backends 'company-restclient)))))
 #+END_SRC
 *** writing
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package writeroom-mode
     :commands (writeroom-mode)
     :config
@@ -333,8 +311,7 @@ Convenience function to grab file and line number at point
           global-hl-line-mode nil))
 #+END_SRC
 *** auth-source-pass
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
     (use-package auth-source-pass
       :demand t
       :config
@@ -345,8 +322,7 @@ Convenience function to grab file and line number at point
 ** Programming
 *** Completion
 **** company
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package company
     :hook ((org-mode prog-mode restclient-mode yaml-mode dockerfile-mode) . company-mode)
     :defer 2
@@ -373,8 +349,7 @@ Convenience function to grab file and line number at point
 #+END_SRC
 **** company-statistics
 Completion by frecency
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package company-statistics
 ;;    :after company
     :hook (company-mode . company-statistics-mode)
@@ -382,8 +357,7 @@ Completion by frecency
     :config (company-statistics-mode 1))
 #+END_SRC
 **** company-box
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package company-box
     :after (all-the-icons)
     :init (setq company-box-show-single-candidate t)
@@ -421,8 +395,7 @@ Completion by frecency
 #+END_SRC
 **** company-quickhelp
 Documentation popups
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package company-quickhelp
     :pin melpa
     :hook (company-mode . company-quickhelp-mode)
@@ -430,8 +403,7 @@ Documentation popups
     :config (company-quickhelp-mode 1))
 #+END_SRC
 **** hippie-exp
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package hippie-exp
     :commands (hippie-expand)
     :config
@@ -449,8 +421,7 @@ Documentation popups
                                              try-complete-lisp-symbol)))
 #+END_SRC
 **** eglot
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package eglot
     :disabled t
     :hook ((python-mode) . eglot-ensure)
@@ -459,8 +430,7 @@ Documentation popups
 *** Navigation
 **** ace-link
 Navigate to links cvim-style. This is would be used more if I could figure out a decent keybinding for it.
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package ace-link
     :commands (ace-link ace-link-org)
     :pin melpa
@@ -468,16 +438,14 @@ Navigate to links cvim-style. This is would be used more if I could figure out a
 #+END_SRC
 **** avy
 Jump to groups of characters
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package avy
     :commands (evil-avy-goto-char-2 avy-goto-char-2 avy-goto-char-timer evil-avy-goto-char-timer)
     :pin melpa)
 #+END_SRC
 **** dumb-jump
 Dumb jump attempts to naively jump to definitions using rg, ag, or grep, depending which executables are available.
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package dumb-jump
     :demand t
     :commands (dumb-jump-go dumb-jump-quick-look)
@@ -487,16 +455,14 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
 #+END_SRC
 **** imenu-list
 "Tagbar" like buffer for imenu
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package imenu-list
     :pin melpa
     :commands (imenu-list imenu)
     :config (setq imenu-list-focus-after-activation t))
 #+END_SRC
 **** projectile
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package projectile
     :demand t
     :commands
@@ -534,21 +500,18 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
          (smartparens-mode))
      #+END_SRC
 **** undo-tree
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref programming
       (use-package undo-tree)
      #+END_SRC
 **** wgrep
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref programming
       (use-package wgrep
         :pin melpa
         :commands (wgrep-change-to-wgrep-mode))
      #+END_SRC
 **** ws-butler
      intelligently trim unnecessary whitespace
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref programming
        (use-package ws-butler
          :defer 3
          :hook ((text-mode prog-mode) . ws-butler-mode)
@@ -556,24 +519,21 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
          (setq ws-butler-keep-whitespace-before-point nil))
      #+END_SRC
 **** yasnippet
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package yasnippet
     :defer 5
     :config (yas-global-mode 1)
     :hook ((prog-mode) . yas-minor-mode))
 #+END_SRC
 **** yasnippet-snippets
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref programming
        (use-package yasnippet-snippets
          :after yasnippet
          :defer 5)
      #+END_SRC
 *** Lint
 **** flymake
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package flymake
     :pin elpa
     :demand t
@@ -581,8 +541,7 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
 #+END_SRC
 **** flycheck
      Check syntax asynchronously
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref programming
        (use-package flycheck
          :pin melpa
          :hook ((rst-mode . (lambda () (setq-local flycheck-disabled-checkers '(rst rst-sphinx))))
@@ -595,8 +554,7 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
      #+END_SRC
 **** flycheck-pos-tip
      Put linter messages into a popup
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref programming
        (use-package flycheck-pos-tip
          :pin melpa
          :when (= emacs-major-version 25)
@@ -621,8 +579,7 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
            (php-mode . lsp)))
 #+END_SRC
 **** company-lsp
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package company-lsp
     :init (setq company-lsp-async t
                 company-lsp-cache-candidates 'auto
@@ -635,8 +592,7 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
                          (add-to-list 'company-backends 'company-lsp)))))
 #+END_SRC
 **** lsp-ui
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package lsp-ui
     :config
     :hook (lsp-mode . lsp-ui-mode))
@@ -644,16 +600,14 @@ Dumb jump attempts to naively jump to definitions using rg, ag, or grep, dependi
 *** Shell
 **** exec-path-from-shell
 Use $PATH as specified by the user's shell. This package is essentially required on macOS.
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package exec-path-from-shell
     :defer 2
     :config (when (memq window-system '(mac ns))
               (exec-path-from-shell-initialize)))
 #+END_SRC
 **** multi-term
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package multi-term
     :commands (multi-term)
     :pin melpa
@@ -717,8 +671,7 @@ Use $PATH as specified by the user's shell. This package is essentially required
 #+END_SRC
 *** Git
 **** git-gutter-fringe
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package git-gutter-fringe
     :defer 3
     :config
@@ -727,8 +680,7 @@ Use $PATH as specified by the user's shell. This package is essentially required
 #+END_SRC
 **** magit
 The undisputed king of git UIs
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package magit
     :commands (magit magit-blame)
     :config
@@ -747,14 +699,12 @@ The undisputed king of git UIs
     :pin melpa)
 #+END_SRC
 **** git-link
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package git-link
     :commands (git-link))
 #+END_SRC
 **** git-timemachine
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package git-timemachine
     :commands (git-timemachine)
     :config
@@ -762,8 +712,7 @@ The undisputed king of git UIs
 #+END_SRC
 **** dired-k
      Highlight directories
-     #+name: programming
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref programming
        (use-package dired-k
          :hook (dired-initial-position . dired-k)
          :pin melpa)
@@ -1019,7 +968,7 @@ Dedicate buffers to windows based on their purpose
     (if (memq window-system '(mac ns))
         (setq doom-modeline-height 50)
       (setq doom-modeline-height 90))
-    (set-face-attribute 'mode-line nil :height 140)
+    :config
     :hook (after-init . doom-modeline-init))
 #+END_SRC
 *** kaolin-themes
@@ -1031,28 +980,24 @@ Dedicate buffers to windows based on their purpose
 ** Languages
 *** Docker
 **** Dockerfile
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp :noweb-ref languages
       (use-package dockerfile-mode
         :pin melpa
         :mode "Dockerfile$")
         #+END_SRC
 **** docker-compose
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package docker-compose-mode
     :mode "^docker-compose")
 #+END_SRC
 *** Elixir
 **** Alchemist
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package alchemist
     :hook (elixir-mode . alchemist-mode))
 #+END_SRC
 **** elixir-mode
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package elixir-mode
     :config
     (add-hook 'elixir-mode-hook
@@ -1060,8 +1005,7 @@ Dedicate buffers to windows based on their purpose
 #+END_SRC
 **** credo
 linting and static analysis
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
     (use-package flycheck-credo
       :config
       (setq flycheck-elixir-credo-strict t)
@@ -1071,8 +1015,7 @@ linting and static analysis
 #+END_SRC
 *** Elm
 **** elm-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref languages
        (use-package elm-mode
          :pin melpa
          :hook (elm-mode . (lambda ()
@@ -1082,8 +1025,7 @@ linting and static analysis
 *** JavaScript
 **** js2-mode
      An improved javascript major mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref languages
        (use-package js2-mode
          :pin melpa
          :mode "\\.js$"
@@ -1114,15 +1056,13 @@ linting and static analysis
      #+END_SRC
 **** js2-refactor
 A javascript refactoring library for emacs
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package js2-refactor
     :hook (js2-mode . js2-refactor-mode))
 #+END_SRC
 **** rjsx-mode
      jsx support for js2-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref languages
        (use-package rjsx-mode
          :mode "components/.+\\.js$"
          :init
@@ -1143,8 +1083,7 @@ A javascript refactoring library for emacs
      #+END_SRC
 **** xref-js2
      find definition/references backend for js2-mode
-     #+name: languages
-     #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp :noweb-ref languages
        (use-package xref-js2
          :after js2-mode
          :pin melpa
@@ -1155,14 +1094,12 @@ A javascript refactoring library for emacs
          :config (define-key js2-mode-map (kbd "M-.") nil))
      #+END_SRC
 **** indium
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package indium)
 #+END_SRC
 **** TODO tide-mode
 Shouldn't this be looking for some typescript packages instead of simply node?
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package tide
     :defer t
     :init
@@ -1177,8 +1114,7 @@ Shouldn't this be looking for some typescript packages instead of simply node?
           tide-always-show-documentation t))
 #+END_SRC
 **** prettier
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package prettier-js
     :hook (js2-mode . prettier-js-mode)
     :config
@@ -1192,22 +1128,19 @@ Shouldn't this be looking for some typescript packages instead of simply node?
                                   '("\\.jsx?\\'" . prettier-js-mode)))))
 #+END_SRC
 *** JSON
-    #+name: languages
-    #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp :noweb-ref languages
     (use-package json-mode
         :pin melpa
         :mode "\\.json$")
     #+END_SRC
 *** LaTeX
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package auctex
     :defer 5)
 #+END_SRC
 *** Lisp
 **** lispy
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package lispy
     :hook ((common-lisp-mode . lispy-mode)
            (emacs-lisp-mode . lispy-mode)
@@ -1221,14 +1154,12 @@ Shouldn't this be looking for some typescript packages instead of simply node?
 #+END_SRC
 **** lispyville
 make lispy play nice with evil
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package lispyville
     :hook (lispy-mode . lispyville-mode))
 #+END_SRC
 **** slime
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package slime
     :defer t
     :config
@@ -1236,15 +1167,13 @@ make lispy play nice with evil
     (require 'slime-fuzzy))
 #+END_SRC
 **** highlight-quoted
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package highlight-quoted
     :commands highlight-quoted-mode)
 #+END_SRC
 *** Lua
 **** lua-mode
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package lua-mode
     :hook
     (lua-mode . (lambda ()
@@ -1253,8 +1182,7 @@ make lispy play nice with evil
 #+END_SRC
 *** Markdown
 **** markdown-mode
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package markdown-mode
     :pin melpa
     :commands (markdown-mode gfm-mode)
@@ -1267,8 +1195,7 @@ make lispy play nice with evil
 *N.B.*  Org-mode itself is configured and loaded in =init.el=
 **** org-bullets
 Use UTF-8 symbols for org headings
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package org-bullets
     :pin melpa
     :config
@@ -1279,22 +1206,19 @@ Use UTF-8 symbols for org headings
 #+END_SRC
 **** ob-http
 http requests in org babel
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package ob-http
     :commands (org-ctrl-c-ctrl-c))
 #+END_SRC
 **** ob-async
 adds an =:async= header tag to source blocks that allows for asynchronous execution
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package ob-async
     :commands (org-ctrl-c-ctrl-c))
 #+END_SRC
 **** TODO org-alert
 Send growl alerts for org deadlines. I'm not sure growl even works any more...
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package org-alert
     :defer 5
     :after org-gcal
@@ -1307,8 +1231,7 @@ Send growl alerts for org deadlines. I'm not sure growl even works any more...
 #+END_SRC
 **** TODO org-gcal
 This is probably more trouble than it is worth...
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package org-gcal
     :disabled t
     :defer 5
@@ -1321,8 +1244,7 @@ This is probably more trouble than it is worth...
 #+END_SRC
 *** PHP
 **** php-mode
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package php-mode
     :hook (php-mode . (lambda ()
                         (make-local-variable 'company-backends)
@@ -1334,23 +1256,20 @@ This is probably more trouble than it is worth...
 #+END_SRC
 **** geben
 Support for Xdebug
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package geben
     :commands (geben))
 #+END_SRC
 *** Python
 **** pip-requirements
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package pip-requirements
     :mode "\\^requires-"
     :pin melpa)
 #+END_SRC
 **** pyvenv
 Use pyenv environments
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package pyvenv
     :config
     (defun my/pyvenv-autoload ()
@@ -1364,45 +1283,39 @@ Use pyenv environments
 #+END_SRC
 **** evil-text-object-python
 Adds  text-objects for python statements using the letter 'l'.
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package evil-text-object-python
     :pin melpa
     :hook (python-mode . evil-text-object-python-add-bindings))
 #+END_SRC
 **** yapfify
 format python code
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package yapfify
     :commands (yapfify-buffer yapfify-region)
     :pin melpa)
 #+END_SRC
 **** nose
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package nose
     :after python
     :hook (python-mode . nose-mode)
     :pin melpa)
 #+END_SRC
 **** live-py-mode
-#+name: programming
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref programming
   (use-package live-py-mode
     :commands (live-py-mode))
 #+END_SRC
 **** blacken
 automatically format python code
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package blacken
     :init (setq blacken-allow-py36 t))
 #+END_SRC
 *** Shell
 **** company-shell
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package company-shell
     :disabled t
     :pin melpa
@@ -1412,22 +1325,19 @@ automatically format python code
 #+END_SRC
 *** SQL
 **** sqlup-mode
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package sqlup-mode
     :hook ((sql-mode sql-interactive-mode) . sqlup-mode) )
 #+END_SRC
 *** Testing
 **** behave
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package feature-mode)
 #+END_SRC
 *** Web
 **** web-mode
 Major mode for editing web templates
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package web-mode
     :pin melpa
     :mode (("\\.html?$" . web-mode)
@@ -1437,8 +1347,7 @@ Major mode for editing web templates
 #+END_SRC
 **** emmet-mode
 Write markup more efficiently
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package emmet-mode
 
     :pin melpa
@@ -1446,8 +1355,7 @@ Write markup more efficiently
     :config (setq emmet-move-cursor-between-quotes t))
 #+END_SRC
 *** YAML
-#+name: languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :noweb-ref languages
   (use-package yaml-mode
     :pin melpa
     :mode "\\.ya?ml$")
@@ -1845,7 +1753,7 @@ General provides some nice macros for dealing with evil keybindings
       "o" 'helm-imenu
       "t" 'helm-etags-select
       "O" 'helm-imenu-in-all-buffers
-      "g" 'helm-ag
+      "g" 'helm-do-ag
       "L" 'helm-locate
       "f" 'helm-find-files
       "l" 'helm-swoop)
@@ -2129,7 +2037,7 @@ Enable search-at-point from visual mode
 Things to do after the rest of the config has loaded. This is can be tricky given the deferred loading going on with =use-package=.
 #+name: final
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'doom-one t)
+  (load-theme 'doom-nord t)
   (load custom-file)
   (set-face-attribute 'font-lock-string-face nil :family string-font)
   ;; (set-face-attribute 'org-verbatim nil :family monospace-font)

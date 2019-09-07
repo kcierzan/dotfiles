@@ -6,7 +6,7 @@
   (interactive "FOpen file as root: ")
   (when (file-writable-p file)
     (user-error "File is user writable, aborting sudo"))
-  (find-file (if (file-remote-p)
+  (find-file (if (file-remote-p file)
                  (concat "/" (file-remote-p file 'method) ":" (file-remote-p file 'user) "@" (file-remote-p file 'host) "|sudo:root@" (file-remote-p file 'host) ":" (file-remote-p file 'localname))
                (concat "/sudo:root@localhost:" file))))
 
