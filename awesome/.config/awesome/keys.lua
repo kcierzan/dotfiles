@@ -134,7 +134,10 @@ globalkeys = gears.table.join(
        {description = "increase screen temperature", group = "awesome"}),
 
     awful.key({ modkey, "Shift" }, "-", function() light.change_temperature("-") end,
-       {description = "decrease screen temperature", group = "awesome"})
+       {description = "decrease screen temperature", group = "awesome"}),
+
+    awful.key({ modkey, }, "\\", function() light.toggle_redshift() end,
+       {description = "toggle redshift", group = "awesome"})
 )
 
 clientkeys = gears.table.join(
