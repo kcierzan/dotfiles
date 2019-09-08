@@ -123,13 +123,18 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "Escape", function() exit_screen_show() end,
     {description = "show the exist screen", group = "awesome"}),
 
-    -- screen brightness
+    -- screen brightness and temperature
     awful.key({ modkey, }, "=", function() light.change_brightness("+") end,
        {description = "increase screen brightness", group = "awesome"}),
 
     awful.key({ modkey, }, "-", function() light.change_brightness("-") end,
-       {description = "decrease screen brightness", group = "awesome"})
+       {description = "decrease screen brightness", group = "awesome"}),
 
+    awful.key({ modkey, "Shift" }, "=", function() light.change_temperature("+") end,
+       {description = "increase screen temperature", group = "awesome"}),
+
+    awful.key({ modkey, "Shift" }, "-", function() light.change_temperature("-") end,
+       {description = "decrease screen temperature", group = "awesome"})
 )
 
 clientkeys = gears.table.join(
