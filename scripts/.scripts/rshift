@@ -1,0 +1,9 @@
+#!/usr/bin/sh
+
+REDSHIFT=$(ps aux | grep redshift | grep -v grep | awk '{print $2}')
+
+if [ -n "$REDSHIFT" ]; then
+    pkill redshift
+else
+    redshift
+fi
