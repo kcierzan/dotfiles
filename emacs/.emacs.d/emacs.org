@@ -1197,16 +1197,14 @@ make lispy play nice with evil
 **** org-bullets
 Use UTF-8 symbols for org headings
 #+BEGIN_SRC emacs-lisp :noweb-ref languages
-    (use-package org-bullets
-      :pin melpa
-      :init
-      ;; this should improve performance considerably
-      (setq inhibit-font-compacting-caches t)
-      :config
-      ;; Hide bullets completely
-      ;; (setq org-bullets-bullet-list '(" "))
-      ;; :after (org)
-      :hook (org-mode . (lambda () (org-bullets-mode 1))))
+  (use-package org-bullets
+    :pin melpa
+    :init
+    ;; this should improve performance
+    (setq inhibit-font-compacting-caches t)
+    ;; Hide bullets completely
+    (setq org-bullets-bullet-list '(" "))
+    :hook (org-mode . (lambda () (org-bullets-mode 1))))
 #+END_SRC
 **** ob-http
 http requests in org babel
