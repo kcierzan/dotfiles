@@ -9,18 +9,12 @@
 (setq org-directory "~/Sync/org/")
 
 ;; add a worklog org capture template
-(after! 'org (add-to-list 'org-capture-templates
-             '("l" "Worklog" entry
-               (file+olp+datetree "~/Sync/org/worklog.org")
-               "* TODO %^{Description} %^g\n\%?\n\nAdded: %U"
-               :clock-in t
-               :clock-keep t)))
-
-;; disable evil snipe mode
-(after! 'evil-snipe-mode (evil-snipe-mode -1))
-
-;; map s to the king of motion commands
-(map! :nv "s" 'evil-avy-goto-char-timer)
+(after! org (add-to-list 'org-capture-templates
+                         '("l" "Worklog" entry
+                           (file+olp+datetree "~/Sync/org/worklog.org")
+                           "* TODO %^{Description} %^g\n\%?\n\nAdded: %U"
+                           :clock-in t
+                           :clock-keep t)))
 
 ;; maybe enable ligatures on emacs-mac
 (if (fboundp 'mac-auto-operator-composition-mode)
