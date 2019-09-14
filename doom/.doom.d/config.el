@@ -1,9 +1,9 @@
 ;;; .doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; set fonts
-(setq doom-font (font-spec :family "Iosevka" :size 14)
-      doom-variable-pitch-font (font-spec :family "DINPro" :size 14)
-      doom-serif-font (font-spec :family "Bitter" :size 14))
+(setq doom-font (font-spec :family "Iosevka" :size 12.0)
+      doom-variable-pitch-font (font-spec :family "DINPro" :size 12.0)
+      doom-serif-font (font-spec :family "Bitter" :size 12.0))
 
 ;; set the org directory
 (setq org-directory "~/Sync/org/")
