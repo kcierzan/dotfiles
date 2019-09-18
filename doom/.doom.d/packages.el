@@ -8,3 +8,6 @@
 
 (package! sqlup-mode)
 (package! counsel-etags)
+(package! ob-http)
+(package! posframe)
+(package! ob-browser)

@@ -1,12 +1,16 @@
 ;;; .doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; set fonts
-(setq doom-font (font-spec :family "Iosevka" :size 12.0)
-      doom-variable-pitch-font (font-spec :family "DINPro" :size 12.0)
-      doom-serif-font (font-spec :family "Bitter" :size 12.0))
+(setq doom-font (font-spec :family "Iosevka" :size 14.0)
+      doom-variable-pitch-font (font-spec :family "DINPro" :size 14.0)
+      doom-serif-font (font-spec :family "Bitter" :size 14.0))
 
 ;; set the org directory
 (setq org-directory "~/Sync/org/")
+
+;; set some nice eshell aliases
+(set-eshell-alias!
+ "la" "ls_extended_macos -lah")
 
 ;; add a worklog org capture template
 (after! org (add-to-list 'org-capture-templates
