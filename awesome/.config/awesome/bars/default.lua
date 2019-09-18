@@ -4,7 +4,8 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local helpers = require("helpers")
 
-local wibar_text_font = "sans bold 12"
+local wibar_text_font = beautfiul.wibar_font
+
 -- user icon
 local user = wibox.widget.textbox()
 user.valign = "center"

@@ -64,14 +64,15 @@ theme.exit_screen_fg = theme.xcolor7
 theme.exit_screen_icon_size = dpi(180)
 
 -- Wibar
-theme.wibar_position = "top"
-theme.wibar_ontop = true
-theme.wibar_height = dpi(25)
-theme.wibar_fg = theme.xcolor7
-theme.wibar_bg = theme.xcolor0
-theme.wibar_border_width = dpi(0)
-theme.wibar_border_radius = dpi(0)
-theme.bg_systray    = theme.bg_normal
+theme.wibar_position       = "top"
+theme.wibar_ontop          = true
+theme.wibar_height         = dpi(25)
+theme.wibar_fg             = theme.xcolor7
+theme.wibar_bg             = theme.xcolor0
+theme.wibar_border_width   = dpi(0)
+theme.wibar_border_radius  = dpi(0)
+theme.bg_systray           = theme.bg_normal
+theme.wibar_font           = "sans bold 12"
 
 -- Taglist
 theme.taglist_text_font = "Typicons 11"

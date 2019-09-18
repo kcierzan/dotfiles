@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+latlon=$(http GET http://ip-api.com/json/$(http GET ifconfig.me) | jq -r '[.lat, .lon] | join(",")')
+
+if [ -z "$latlon" ]; then
+    # Fall back to Philadelphia if latlon is unavailable
+    latlon="39.93,-75.18"
+fi
+
+weather=$(http GET "https://api.darksky.net/forecast/${DARKSKY_API_KEY}/${latlon}?exclude=minutely,daily")
+
+if [ ! -z "$weather" ]; then
+    icon=$(echo "$weather" | jq -r '.currently.icon')
+    temp=$(echo "$weather" | jq -r '.currently.temperature')
+    summary=$(echo "$weather" | jq -r '.hourly.summary')
+else
+    echo "..."
+    exit 1
+fi
+
+echo "$icon":"$temp":"$summary"

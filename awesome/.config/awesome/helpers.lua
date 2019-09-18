@@ -32,6 +32,12 @@ helpers.pad = function(padding)
    return pad
 end
 
+-- how does a language get by without this?
+helpers.round = function(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
 -- Add a hover cursor to a widget by changing the cursor on
 -- mouse::enter and mouse::leave
 -- You can find the names of the available cursors by opening any
