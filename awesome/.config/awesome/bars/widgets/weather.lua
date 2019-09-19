@@ -18,22 +18,20 @@ local partly_cloudy_night_icon = ""
 
 
 local weather_temperature = wibox.widget {
-  -- text = "  ",
   valign = "center",
-  font = "sans bold 12",
+  font = beautiful.wibar_font,
   widget = wibox.widget.textbox
 }
 
 local weather_description = wibox.widget {
-  -- text = "Loading weather...",
   valign = "center",
-  font = "sans bold 12",
+  font = beautiful.wibar_font,
   widget = wibox.widget.textbox
 }
 
 local weather_icon = wibox.widget {
   valign = "center",
-  font = "icomoon 16",
+  font = beautiful.wibar_icomoon_font,
   widget = wibox.widget.textbox
 }
 
@@ -76,7 +74,7 @@ awesome.connect_signal("signals::weather", function(temperature, summary, icon_c
                          elseif icon_code == "partly-cloudy-day" then
                            icon = partly_cloudy_day_icon
                            color = beautiful.xcolor3
-                         elseif icon_code == "partly-cloud-night" then
+                         elseif icon_code == "partly-cloudy-night" then
                            icon = partly_cloudy_night_icon
                            color = beautiful.xcolor7
                          elseif icon_code == "cloudy" then
@@ -89,7 +87,7 @@ awesome.connect_signal("signals::weather", function(temperature, summary, icon_c
 
                          weather_icon.markup = helpers.colorize_text(icon, color)
                          weather_description.markup = summary
-                         weather_temperature.markup = helpers.colorize_text(temp .. weather_unit, color)
+                         weather_temperature.markup = helpers.colorize_text(temp .. weather_unit, beautiful.xcolor6)
 end)
 
 return weather

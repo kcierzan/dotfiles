@@ -5,8 +5,7 @@
 --      icon_code (string)
 local awful = require("awful")
 
--- update every 15 minutes
--- local update_interval = 900
+-- update every 10 minutes
 local update_interval = 600
 
 -- call the `weather` shell script periodically
