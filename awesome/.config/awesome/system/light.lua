@@ -5,22 +5,20 @@ local helpers = require("helpers")
 
 local light = {}
 
--- TODO: "text" property is going away as of awesome 4.4
 local popup = {
    timeout = 1.5,
-   font = "sans 14",
-   margin = dpi(12),
-   bg = beautiful.bg_lighter,
-   fg = beautiful.fg_normal,
-   position = "top_right",
-   shape = helpers.rrect(dpi(8))
+   font = beautiful.notification_font,
+   margin = beautiful.notification_margin,
+   bg = beautiful.notification_bg,
+   fg = beautiful.notification_fg,
+   position = beautiful.notification_position,
+   shape = beautiful.notification_shape
 }
 -- operation should be one of "+" or "-"
 light.change_brightness = function(operation)
    awful.spawn.easy_async_with_shell("light.py " .. operation .. " brightness", function(stdout)
                                         local percentage = math.floor(tonumber(stdout) * 100)
                                         local notification = popup
-                                        -- local percentage = stdout
                                         notification.title = "Screen brightness changed to " .. percentage .. "%"
                                         naughty.notify(notification)
    end)

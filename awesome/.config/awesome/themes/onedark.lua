@@ -6,6 +6,7 @@ local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local xrdb = xresources.get_current_theme()
 local dpi = xresources.apply_dpi
+local helpers = require("helpers")
 
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
@@ -87,6 +88,14 @@ theme.taglist_text_color_empty    = theme.bg_lighter
 theme.taglist_text_color_occupied  = theme.xcolor8
 theme.taglist_text_color_focused  = theme.xcolor2
 theme.taglist_text_color_urgent   = theme.xcolor3
+
+-- Notifications
+theme.notification_font = "sans 14"
+theme.notification_margin = dpi(14)
+theme.notification_bg = theme.bg_lighter
+theme.notification_fg = theme.fg_normal
+theme.notification_shape = helpers.rrect(dpi(8))
+theme.notification_position = "top_right"
 
 -- There are other variable sets
 -- overriding the default one when

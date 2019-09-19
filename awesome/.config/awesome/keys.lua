@@ -96,7 +96,7 @@ globalkeys = gears.table.join(
     -- This should replace the xbindkeys implementation
     awful.key({ modkey,           }, "space",
        function()
-          awful.spawn.easy_async_with_shell("rofi -show combi -display-combi ''")
+          awful.spawn.with_shell("rofi -show combi -display-combi ''")
        end,
        {description = "show rofi", group = "launcher"}),
     -- TODO: map this to a better keybinding that doesn't conflict as easily
