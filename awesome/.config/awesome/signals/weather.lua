@@ -1,7 +1,13 @@
+-- Provides:
+-- signals::weather
+--      temperature (integer)
+--      summary (string)
+--      icon_code (string)
 local awful = require("awful")
 
 -- update every 15 minutes
-local update_interval = 900
+-- local update_interval = 900
+local update_interval = 600
 
 -- call the `weather` shell script periodically
 awful.widget.watch("weather", update_interval, function(widget, stdout)

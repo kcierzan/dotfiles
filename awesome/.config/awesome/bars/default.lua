@@ -3,8 +3,9 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 local wibox = require("wibox")
 local helpers = require("helpers")
+local weather = require("system.weather")
 
-local wibar_text_font = beautfiul.wibar_font
+local wibar_text_font = beautiful.wibar_font
 
 -- user icon
 local user = wibox.widget.textbox()
@@ -25,12 +26,13 @@ awful.spawn.easy_async_with_shell(
 end)
 whoami.font = wibar_text_font
 
-
--- Create clocks
+-- clocks
 local clock = wibox.widget.textclock(helpers.colorize_text("%l:%M %P", beautiful.xcolor3))
 local calendar = wibox.widget.textclock(helpers.colorize_text("%A, %B %d %Y", beautiful.xcolor5))
 clock.font = wibar_text_font
 calendar.font = wibar_text_font
+
+-- weather
 
 -- Helper function that updates a taglist item
 local update_taglist = function (item, tag, _)
@@ -122,6 +124,7 @@ awful.screen.connect_for_each_screen(function(s)
          },
          s.mytaglist,
          {
+            weather,
             calendar,
             clock,
             s.layoutbox,

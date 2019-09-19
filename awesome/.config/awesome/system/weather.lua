@@ -4,34 +4,36 @@ local helpers = require("helpers")
 
 local weather_unit = "°F"
 
-local default_icon = ""
-local clear_day_icon = ""
-local clear_night_icon = ""
-local rain_icon = ""
-local snow_icon = ""
-local sleet_icon = ""
-local wind_icon = ""
-local fog_icon = ""
-local cloudy_icon = ""
-local partly_cloudy_day_icon = ""
-local partly_cloudy_night_icon = ""
+local default_icon = ""
+local clear_day_icon = ""
+local clear_night_icon = ""
+local rain_icon = ""
+local snow_icon = ""
+local sleet_icon = ""
+local wind_icon = ""
+local fog_icon = ""
+local cloudy_icon = ""
+local partly_cloudy_day_icon = ""
+local partly_cloudy_night_icon = ""
 
 
 local weather_temperature = wibox.widget {
-  text = "  ",
+  -- text = "  ",
   valign = "center",
+  font = "sans bold 12",
   widget = wibox.widget.textbox
 }
 
 local weather_description = wibox.widget {
-  text = "Loading weather...",
+  -- text = "Loading weather...",
   valign = "center",
+  font = "sans bold 12",
   widget = wibox.widget.textbox
 }
 
 local weather_icon = wibox.widget {
   valign = "center",
-  font = "icomoon 45",
+  font = "icomoon 16",
   widget = wibox.widget.textbox
 }
 
@@ -48,36 +50,36 @@ awesome.connect_signal("signals::weather", function(temperature, summary, icon_c
                          local color
 
                          -- round and strip the the .0 from the temperature
-                         local temp = string.match(tostring(helpers.round(temperature)), "-?[0-9]+")
+                         local temp = string.match(tostring(helpers.round(tonumber(temperature))), "-?[0-9]+")
 
-                         if string.find(icon_code, "clear-day") then
+                         if icon_code == "clear-day" then
                            icon = clear_day_icon
                            color = beautiful.xcolor3
-                         elseif string.find(icon_code, "clear-night") then
+                         elseif icon_code == "clear-night" then
                            icon = clear_night_icon
                            color = beautiful.xcolor4
-                         elseif string.find(icon_code, "rain") then
+                         elseif icon_code == "rain" then
                            icon = rain_icon
                            color = beautiful.xcolor4
-                         elseif string.find(icon_code, "snow") then
+                         elseif icon_code == "snow" then
                            icon = snow_icon
                            color = beautiful.xcolor7
-                         elseif string.find(icon_code, "sleet") then
+                         elseif icon_code == "sleet" then
                            icon = sleet_icon
                            color = beautiful.xcolor7
-                         elseif string.find(icon_code, "wind") then
+                         elseif icon_code == "wind" then
                            icon = wind_icon
                            color = beautiful.xcolor7
-                         elseif string.find(icon_code, "fog") then
+                         elseif icon_code == "fog" then
                            icon = fog_icon
                            color = beautiful.xcolor7
-                         elseif string.find(icon_code, "partly-cloudy-day") then
+                         elseif icon_code == "partly-cloudy-day" then
                            icon = partly_cloudy_day_icon
                            color = beautiful.xcolor3
-                         elseif string.find(icon_code, "partly-cloud-night") then
+                         elseif icon_code == "partly-cloud-night" then
                            icon = partly_cloudy_night_icon
                            color = beautiful.xcolor7
-                         elseif string.find(icon_code, "cloudy") then
+                         elseif icon_code == "cloudy" then
                            icon = cloudy_icon
                            color = beautiful.xcolor7
                          else
@@ -86,7 +88,7 @@ awesome.connect_signal("signals::weather", function(temperature, summary, icon_c
                          end
 
                          weather_icon.markup = helpers.colorize_text(icon, color)
-                         weather_description.markup = description
+                         weather_description.markup = summary
                          weather_temperature.markup = helpers.colorize_text(temp .. weather_unit, color)
 end)
 
