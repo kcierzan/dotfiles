@@ -1,7 +1,7 @@
 ;;; .doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; set fonts
-(setq doom-font (font-spec :family "Iosevka" :size 14.0)
+(setq doom-font (font-spec :family "Iosevka" :size 12.0)
       doom-variable-pitch-font (font-spec :family "DINPro" :size 14.0)
       doom-serif-font (font-spec :family "Bitter" :size 14.0))
 
@@ -14,7 +14,7 @@
 
 ;; add a worklog org capture template
 (after! org (add-to-list 'org-capture-templates
-                         '("l" "Worklog" entry
+                         '("l" "Worklog entry" entry
                            (file+olp+datetree "~/Sync/org/worklog.org")
                            "* TODO %^{Description} %^g\n\%?\n\nAdded: %U"
                            :clock-in t

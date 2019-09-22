@@ -59,13 +59,60 @@ globalkeys = gears.table.join(
               {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
-    awful.key({modkey, "Shift"}, "j", function () awful.client.swap.bydirection("down") end,
-              {description = "swap with the next client down", group = "client"}),
-    awful.key({modkey, "Shift"}, "k", function () awful.client.swap.bydirection("up") end,
-              {description = "swap with the next client up", group = "client"}),
-    awful.key({modkey, "Shift"}, "h", function () awful.client.swap.bydirection("left") end,
+    awful.key({modkey, "Shift"}, "j", function ()
+            local screen = awful.screen.focused()
+            local layout = awful.layout.get(screen)
+            if layout == awful.layout.suit.floating then
+                local f = awful.placement.scale
+                    + awful.placement.bottom
+                    + awful.placement.maximize_horizontally
+                f(client.focus, {margins=40, honor_workarea=true, honor_padding=true, to_percent = 0.5})
+            else
+                awful.client.swap.bydirection("down")
+            end
+                                      end,
+        {description = "swap with the next client down", group = "client"}),
+    awful.key({modkey, "Shift"}, "k",
+        function ()
+            local screen = awful.screen.focused()
+            local layout = awful.layout.get(screen)
+            if layout == awful.layout.suit.floating then
+                local f = awful.placement.scale
+                    + awful.placement.top
+                    + awful.placement.maximize_horizontally
+                f(client.focus, {margins=40, honor_workarea=true, honor_padding=true, to_percent = 0.5})
+            else
+                awful.client.swap.bydirection("up")
+            end
+        end,
+        {description = "swap with the next client up", group = "client"}),
+    awful.key({modkey, "Shift"}, "h",
+        function ()
+            local screen = awful.screen.focused()
+            local layout = awful.layout.get(screen)
+            if layout == awful.layout.suit.floating then
+                local f = awful.placement.scale
+                    + awful.placement.left
+                    + awful.placement.maximize_vertically
+                f(client.focus, {margins=40, honor_workarea=true, honor_padding=true, to_percent = 0.5})
+            else
+                awful.client.swap.bydirection("left")
+            end
+        end,
               {description = "swap with the next client left", group = "client"}),
-    awful.key({modkey, "Shift"}, "l", function () awful.client.swap.bydirection("right") end,
+    awful.key({modkey, "Shift"}, "l",
+        function ()
+            local screen = awful.screen.focused()
+            local layout = awful.layout.get(screen)
+            if layout == awful.layout.suit.floating then
+                local f = awful.placement.scale
+                    + awful.placement.right
+                    + awful.placement.maximize_vertically
+                f(client.focus, {margins=40, honor_workarea=true, honor_padding=true, to_percent = 0.5})
+            else
+                awful.client.swap.bydirection("right")
+            end
+        end,
               {description = "swap with the next client right", group = "client"}),
     awful.key({ modkey,  }, "Tab",
        function ()

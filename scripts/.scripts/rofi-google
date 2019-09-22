@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+echo "" | rofi -dmenu | xargs -I{} xdg-open "https://www.google.com/search?q={}"

@@ -95,3 +95,5 @@ fi
 
 # source colorscheme-related envvars
 source "$HOME/.zsh/zshcolors"
+
+source ~/.zsh/extra.zsh

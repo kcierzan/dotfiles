@@ -78,7 +78,7 @@ theme.wibar_font           = "sans bold 12"
 theme.wibar_icomoon_font   = "icomoon 16"
 
 -- Taglist
-theme.taglist_text_font = "Typicons 11"
+theme.taglist_text_font = "Typicons bold 16"
 theme.taglist_text_empty = " "
 theme.taglist_text_occupied = " "
 theme.taglist_text_focused = " "

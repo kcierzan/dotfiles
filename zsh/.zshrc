@@ -52,7 +52,6 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 source ~/.zsh/aliases.zsh
-source ~/.zsh/extra.zsh
 
 if [[ "$OSTYPE" = 'linux-gnu' ]]; then
   source /usr/share/fzf/key-bindings.zsh
