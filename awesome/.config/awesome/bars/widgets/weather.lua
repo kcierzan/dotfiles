@@ -37,8 +37,8 @@ local weather_icon = wibox.widget {
 
 local weather = wibox.widget {
   weather_icon,
-  weather_description,
   weather_temperature,
+  weather_description,
   spacing = dpi(8),
   layout = wibox.layout.fixed.horizontal
 }
@@ -87,7 +87,7 @@ awesome.connect_signal("signals::weather", function(temperature, summary, icon_c
 
                          weather_icon.markup = helpers.colorize_text(icon, color)
                          weather_description.markup = summary
-                         weather_temperature.markup = helpers.colorize_text(temp .. weather_unit, beautiful.xcolor6)
+                         weather_temperature.markup = helpers.colorize_text(temp .. weather_unit, color)
 end)
 
 return weather

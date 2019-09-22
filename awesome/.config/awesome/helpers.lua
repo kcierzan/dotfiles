@@ -38,6 +38,15 @@ helpers.round = function(num, numDecimalPlaces)
   return math.floor(num * mult + 0.5) / mult
 end
 
+  -- split a string by colons
+helpers.split = function(input, delimiter)
+  local lines = {}
+  for line in input:gmatch("[^" .. delimiter .. "]+") do
+    table.insert(lines, line)
+  end
+  return lines
+end
+
 -- Add a hover cursor to a widget by changing the cursor on
 -- mouse::enter and mouse::leave
 -- You can find the names of the available cursors by opening any

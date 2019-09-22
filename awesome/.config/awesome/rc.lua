@@ -102,6 +102,9 @@ require("system.exit")
 -- keybindings
 require("keys")
 
+-- Set rules for clients
+require("rules")
+
 -- Wallpaper
 local function set_wallpaper(s)
     if beautiful.wallpaper then
@@ -130,8 +133,6 @@ awful.screen.connect_for_each_screen(function(s)
 
 end)
 
-    -- Set rules for clients
-require("rules")
 
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)
