@@ -38,7 +38,7 @@ pyenv-virtualenv-init() {
 if [ -s "/usr/local/opt/nvm/nvm.sh" ] && [ ! "$(whence -w __init_nvm)" = function ]; then
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-  declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack')
+  declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack' 'jest')
   function __init_nvm() {
     for i in "${__node_commands[@]}"; do unalias $i; done
     . /usr/local/opt/nvm/nvm.sh
