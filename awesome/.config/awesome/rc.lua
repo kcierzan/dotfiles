@@ -19,8 +19,6 @@ local xresources = require("beautiful.xresources")
 -- make dpi global
 dpi = xresources.apply_dpi
 
-require("signals")
-
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
@@ -44,12 +42,16 @@ do
     end)
 end
 
+-- add signals from periodically run scripts
+require("signals")
+
 local home_dir = os.getenv("HOME")
 local theme_dir = home_dir .. "/.config/awesome/themes/"
 local theme_collection = {
    "onedark",
 }
 
+-- current theme
 local theme_name = theme_collection[1]
 
 -- Themes define colours, icons, font and wallpapers.
