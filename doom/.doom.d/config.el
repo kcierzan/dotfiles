@@ -1,12 +1,15 @@
 ;;; .doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; set fonts
-(setq doom-font (font-spec :family "Iosevka" :size 12.0)
+(setq doom-font (font-spec :family "Victor Mono" :size 14.0 :weight 'semi-bold)
       doom-variable-pitch-font (font-spec :family "DINPro" :size 14.0)
       doom-serif-font (font-spec :family "Bitter" :size 14.0))
 
 ;; set the org directory
-(setq org-directory "~/Sync/org/")
+(setq org-directory "~/Documents/org/")
+
+;; automatically update buffers if the files have changed on disk
+(global-auto-revert-mode)
 
 ;; set some nice eshell aliases
 (set-eshell-alias!
@@ -15,12 +18,12 @@
 ;; add a worklog org capture template
 (after! org (add-to-list 'org-capture-templates
                          '("l" "Worklog entry" entry
-                           (file+olp+datetree "~/Sync/org/worklog.org")
+                           (file+olp+datetree "~/Documents/org/worklog.org")
                            "* TODO %^{Description} %^g\n\%?\n\nAdded: %U"
                            :clock-in t
                            :clock-keep t)))
 
-;; maybe enable ligatures on emacs-mac
+;; enable ligatures if using emacs-mac
 (if (fboundp 'mac-auto-operator-composition-mode)
     (mac-auto-operator-composition-mode))
 
@@ -40,3 +43,10 @@
              counsel-etags-list-tag
              counsel-etags-recent-tag
              counsel-etags-find-tag-at-point))
+
+(use-package prettier-js
+  :hook(js2-mode . prettier-js-mode))
+
+(add-hook 'doom-load-theme-hook (lambda ()
+                               (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
+                               (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)))

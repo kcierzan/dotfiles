@@ -11,3 +11,4 @@
 (package! ob-http)
 (package! posframe)
 (package! ob-browser)
+(package! prettier-js)
