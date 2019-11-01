@@ -7,10 +7,10 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 # Editors
-export EDITOR='launch-emacs'
+export EDITOR='nvim'
 export ALTERNATE_EDITOR=''
-export VISUAL='launch-emacs'
-export PAGER='less'
+export VISUAL='nvim'
+export PAGER='bat'
 
 # Language
 if [[ -z "$LANG" ]]; then
