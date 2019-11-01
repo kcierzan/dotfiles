@@ -11,9 +11,7 @@ set -g status-right "#[fg={{lighter_bg}}]#[fg={{xcolors_03}} bg={{lighter_bg}
 set -g status-right-style "bold"
 set -g status-right-length 100
 
-# set -g window-status-format "#{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-format "#[fg={{lighter_bg}} bg={{dark_bg}}]#[fg={{xcolors_08}} bg={{lighter_bg}}]#{b:pane_current_path}#[fg={{lighter_bg}} bg={{dark_bg}}] "
-# set -g window-status-current-format "#{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,} "
 set -g window-status-current-format "#[fg={{lighter_bg}} bg={{dark_bg}}]#[fg={{xcolors_04}} bg={{lighter_bg}}]#{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,}#[fg={{lighter_bg}} bg={{dark_bg}}] "
 set -g window-status-separator ""
 
