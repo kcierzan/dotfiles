@@ -25,7 +25,7 @@ local weather_temperature = wibox.widget {
 
 local weather_description = wibox.widget {
   valign = "center",
-  font = beautiful.wibar_font,
+  font = beautiful.wibar_italic_font,
   widget = wibox.widget.textbox
 }
 

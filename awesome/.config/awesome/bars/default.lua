@@ -11,6 +11,8 @@ local user = require("bars.widgets.user")
 local wifi = require("bars.widgets.wifi")
 local traffic = require("bars.widgets.traffic")
 
+local widget_spacing = dpi(20)
+
 local update_taglist = function (item, tag, _)
   if tag.selected then
     item.markup = helpers.colorize_text(
@@ -103,17 +105,17 @@ awful.screen.connect_for_each_screen(function(s)
             user,
             wifi,
             traffic,
-            spacing = dpi(8),
+            spacing = widget_spacing,
             layout = wibox.layout.fixed.horizontal,
          },
          s.mytaglist,
          {
             weather,
-            helpers.pad(1),
             time,
             s.layoutbox,
-            spacing = dpi(8),
+            spacing = widget_spacing,
             layout = wibox.layout.fixed.horizontal,
+            expand = "none"
          },
          expand = "none",
          layout = wibox.layout.align.horizontal,

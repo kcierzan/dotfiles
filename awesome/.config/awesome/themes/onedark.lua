@@ -68,14 +68,15 @@ theme.exit_screen_icon_size = dpi(180)
 theme.wibar_position       = "top"
 theme.wibar_ontop          = false
 theme.wibar_height         = dpi(25)
-theme.wibar_opacity        = 0.8
+theme.wibar_opacity        = 0.9
 theme.wibar_fg             = theme.xcolor7
 theme.wibar_bg             = theme.xcolor0
 theme.wibar_border_width   = dpi(0)
 theme.wibar_border_radius  = dpi(0)
 theme.bg_systray           = theme.bg_normal
-theme.wibar_font           = "sans bold 12"
-theme.wibar_icomoon_font   = "icomoon 16"
+theme.wibar_font           = "mono bold 10"
+theme.wibar_italic_font    = "mono bold italic 10"
+theme.wibar_icomoon_font   = "icomoon 10"
 
 -- Taglist
 theme.taglist_text_font = "Typicons bold 16"

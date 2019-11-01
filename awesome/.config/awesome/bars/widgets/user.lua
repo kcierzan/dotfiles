@@ -30,8 +30,7 @@ awful.spawn.easy_async_with_shell(
    "whoami",
    function(stdout)
       output = stdout:gsub("%s+", "")
-      padded = helpers.pad_text_end(output, 1)
-      whoami.markup = helpers.colorize_text(padded, user_color)
+      whoami.markup = helpers.colorize_text(output, user_color)
 end)
 
 return user

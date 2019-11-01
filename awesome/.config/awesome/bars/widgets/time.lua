@@ -35,6 +35,7 @@ local wrapper = wibox.widget {
   calendar,
   helpers.pad(2),
   time_icon,
+  -- helpers.pad(1),
   time,
   layout = wibox.layout.fixed.horizontal
 }
