@@ -100,7 +100,7 @@ class Renderer:
             print(rendered)
 
     def load_theme_data(self, theme):
-        with open(f"{self.theme_dir + theme}.yaml", "r") as f:
+        with open(f"{self.theme_dir}{theme}.yaml", "r") as f:
             try:
                 return yaml.safe_load(f)
             except yaml.YAMLError as e:
