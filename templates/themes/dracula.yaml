@@ -28,6 +28,8 @@
 shade:           "dark"
 dark_bg:         "#272936"
 light_bg:        "#2e3140"
+# TODO: fix me
+lighter_bg:      "#2e3140"
 lightest_bg:     "#676767"
 tmux_mode_bg:    "#505868"
 tmux_mode_fg:    "#c9a8fa"

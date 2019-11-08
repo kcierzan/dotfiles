@@ -4,15 +4,15 @@ set -g status-style "bg={{dark_bg}}"
 set -g window-style "bg={{light_bg}}"
 set -g mode-style "bg={{lightest_bg}} fg={{tmux_mode_fg}}"
 
-set -g status-left "#[fg={{lightest_bg}}]#[fg=colour03 bg={{lightest_bg}}] #[fg=colour05 bg={{lighter_bg}}] #S#[fg={{lighter_bg}} bg={{dark_bg}}] "
+set -g status-left "#[fg={{lightest_bg}}]#[fg=colour03 bg={{lightest_bg}}]﬿ #[fg=colour05 bg={{lighter_bg}}] #S#[fg={{lighter_bg}} bg={{dark_bg}}] "
 set -g status-left-length 100
 
 set -g status-right "#[fg={{lighter_bg}}]#[fg={{xcolors_03}} bg={{lighter_bg}}]%I:%M %p#[fg={{lighter_bg}} bg={{dark_bg}}] #[fg={{lighter_bg}}]#[fg={{xcolors_02}} bg={{lighter_bg}}]%b %d#[fg={{lighter_bg}} bg={{dark_bg}}] #{battery_status_fg}#{battery_percentage} "
 set -g status-right-style "bold"
 set -g status-right-length 100
 
-set -g window-status-format "#[fg={{lighter_bg}} bg={{dark_bg}}]#[fg={{xcolors_08}} bg={{lighter_bg}}]#{b:pane_current_path}#[fg={{lighter_bg}} bg={{dark_bg}}] "
-set -g window-status-current-format "#[fg={{lighter_bg}} bg={{dark_bg}}]#[fg={{xcolors_04}} bg={{lighter_bg}}]#{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,}#[fg={{lighter_bg}} bg={{dark_bg}}] "
+set -g window-status-format "#[bg=colour00]#[fg={{lighter_bg}} bg={{dark_bg}}]#[fg={{xcolors_08}} bg={{lighter_bg}}]#{b:pane_current_path}#[fg={{lighter_bg}} bg={{dark_bg}}] "
+set -g window-status-current-format "#[bg=colour00]#[fg={{lighter_bg}} bg={{dark_bg}}]#[fg={{xcolors_04}} bg={{lighter_bg}}]#{?#{==:#{window_name},zsh},#{b:pane_current_path},#W}#{?window_zoomed_flag,.Z,}#[fg={{lighter_bg}} bg={{dark_bg}}] "
 set -g window-status-separator ""
 
 set -g pane-active-border-style "fg={{dark_bg}} bg={{dark_bg}}"
