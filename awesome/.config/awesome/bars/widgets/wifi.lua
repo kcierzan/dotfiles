@@ -43,7 +43,12 @@ local wifi = wibox.widget {
 }
 
 awesome.connect_signal("signals::wifi", function(name, strength)
-                         strength_bar.value = tonumber(strength)
+                         if tonumber(strength) ~= nil then
+                            strength_bar.value = tonumber(strength)
+                         else
+                           strength_bar.value = 0
+                         end
+
                          network_name.text = name
 end)
 
