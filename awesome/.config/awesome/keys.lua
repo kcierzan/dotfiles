@@ -2,6 +2,8 @@ local awful = require("awful")
 local gears = require("gears")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local light = require("system.light")
+local naughty = require("naughty")
+local inspect = require("inspect")
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -16,27 +18,30 @@ root.buttons(gears.table.join(
 
 ))
 
-local bind_keys = function(...)
+local bind_keys = function(globalkeys, ...)
     local binds = {}
-    for i, keymap in ipairs(arg) do
+    for _, keymap in ipairs({...}) do
         for key, bindings in pairs(keymap) do
-            for i, binding in ipairs(bindings) do
-                table.insert(binds, create_map(
-                                binding["description"],
-                                binding["group"],
-                                key,
-                                binding["func"],
-                                binding["modkeys"]
-                ))
+            for _, binding in ipairs(bindings) do
+                binds = gears.table.join(
+                    binds,
+                    awful.key(
+                        binding.modkeys,
+                        key,
+                        binding.func,
+                        {
+                            description = binding.description,
+                            group = binding.group
+                        }
+                    )
+                )
             end
         end
     end
+    binds = gears.table.join(binds, globalkeys)
     root.keys(binds)
 end
 
-local create_map = function(desc, group, func, key, modkeys)
-    return awful.key(modkeys, key, func, {description=desc, group=group})
-end
 
 local zoom = function(direction)
     local screen = awful.screen.focused()
@@ -106,6 +111,14 @@ local globals = {
                 awful.spawn.with_shell("rofi -show combi -display-combi ''")
             end,
             modkeys = { modkey }
+        },
+        {
+            description = "toggle layout",
+            group = "awesome",
+            func = function()
+                awful.layout.inc(-1)
+            end,
+            modkeys = { modkey, "Control" }
         }
     },
     Left = {
@@ -154,6 +167,22 @@ local globals = {
             modkeys = { modkey }
         }
     },
+    n = {
+        {
+            description = "unminimize client",
+            group = "client",
+            func = function()
+                local c = awful.client.restore()
+                if c then
+                    c:emit_signal(
+                        "request:activate",
+                        "key.unminimize",
+                        {raise = true})
+                end
+            end,
+            modkeys = { modkey, "Control" }
+        }
+    }
 }
 
 globals["="] = {
@@ -161,7 +190,7 @@ globals["="] = {
         description = "increase screen brightness",
         group = "awesome",
         func = function()
-            light.change.brightness("+")
+            light.change_brightness("+")
         end,
         modkeys = { modkey }
     },
@@ -180,7 +209,7 @@ globals["-"] = {
         description = "decrase screen brightness",
         group = "awesome",
         func = function()
-            light.change.brightness("-")
+            light.change_brightness("-")
         end,
         modkeys = { modkey }
     },
@@ -188,7 +217,7 @@ globals["-"] = {
         description = "decrease screen temperature",
         group = "awesome",
         func = function()
-            light.change.temperature("-")
+            light.change_temperature("-")
         end,
         modkeys = { modkey, "Shift" }
     }
@@ -205,45 +234,98 @@ globals["\\"] = {
     }
 }
 
+globals["0"] = {
+    {
+        description = "toggle floating",
+        group = "awesome",
+        func = function()
+            if awful.layout.getname() == "floating" then
+                awful.layout.set(awful.layout.suit.tile)
+                bind_keys({})
+                bind_keys(globalkeys, globals, tiling)
+                naughty.notify({title = "Now we are tiling"})
+            else
+                awful.layout.set(awful.layout.suit.floating)
+                bind_keys({})
+                bind_keys(globalkeys, globals, floating)
+                naughty.notify({title = "Now we are floating"})
+            end
+        end,
+        modkeys = { modkey }
+    }
+}
+
 local floating = {
     j = {
+        {
+            description = "focus client (down)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("down")
+            end,
+            modkeys = { modkey }
+        },
         {
             description = "warp to bottom",
             group = "client",
             func = function()
                 zoom("bottom")
             end,
-            modkeys = { modkey }
+            modkeys = { modkey, "Shift" }
         }
     },
     k = {
+        {
+            description = "focus client (up)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("up")
+            end,
+            modkeys = { modkey }
+        },
         {
             description = "warp to top",
             group = "client",
             func = function()
                 zoom("top")
             end,
-            modkeys = { modkey }
+            modkeys = { modkey, "Shift" }
         }
     },
     h = {
+        {
+            description = "focus client (left)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("left")
+            end,
+            modkeys = { modkey }
+        },
         {
             description = "warp to left",
             group = "client",
             func = function()
                 zoom("left")
             end,
-            modkeys = { modkey }
+            modkeys = { modkey, "Shift" }
         }
     },
     l = {
+        {
+            description = "focus client (right)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("right")
+            end,
+            modkeys = { modkey }
+        },
         {
             description = "warp to right",
             group = "client",
             func = function()
                 zoom("right")
             end,
-            modkeys = { modkey }
+            modkeys = { modkey, "Shift" }
         }
     }
 }
@@ -383,26 +465,7 @@ tiling["["] = {
     }
 }
 
--- Key bindings
-globalkeys = gears.table.join(
-    -- This should replace the xbindkeys implementation
-    -- TODO: map this to a better keybinding that doesn't conflict as easily
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
-              {description = "select previous", group = "layout"}),
-
-    awful.key({ modkey, "Control" }, "n",
-              function ()
-                  local c = awful.client.restore()
-                  -- Focus restored client
-                  if c then
-                    c:emit_signal(
-                        "request::activate", "key.unminimize", {raise = true}
-                    )
-                  end
-              end,
-              {description = "restore minimized", group = "client"})
-)
-
+local globalkeys = {}
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
@@ -453,5 +516,5 @@ for i = 1, 9 do
     )
 end
 
--- Set keys
-root.keys(globalkeys)
+bind_keys(globalkeys, globals, floating)
+-- root.keys(globalkeys)
