@@ -43,7 +43,13 @@ clientkeys = gears.table.join(
             c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
         end ,
-        {description = "(un)maximize horizontally", group = "client"})
+        {description = "(un)maximize horizontally", group = "client"}),
+    awful.key({ modkey }, "u",
+        function (c)
+            c.width = c.screen.geometry.width * 4/5
+            c.height = c.screen.geometry.height * 4/5
+        end,
+        {description = "resize a floater", group = "client"})
 )
 
 clientbuttons = gears.table.join(

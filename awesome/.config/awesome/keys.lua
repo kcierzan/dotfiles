@@ -42,10 +42,8 @@ local bind_keys = function(globalkeys, ...)
     root.keys(binds)
 end
 
-
 local zoom = function(direction)
     local screen = awful.screen.focused()
-    local layout = awful.layout.get(screen)
 
     if direction == "top" then
         dir_func = awful.placement.top
@@ -65,8 +63,219 @@ local zoom = function(direction)
 
     local f = awful.placement.scale + dir_func + max_func
     -- TODO: adjust these values to work better...
+    -- TODO: the percent value should be parameterized
     f(client.focus, {margins=40, honor_workarea=true, honor_padding=true, to_percent = 0.5})
 end
+
+floating_keys = {
+    j = {
+        {
+            description = "focus client (down)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("down")
+            end,
+            modkeys = { modkey }
+        },
+        {
+            description = "warp to bottom",
+            group = "client",
+            func = function()
+                zoom("bottom")
+            end,
+            modkeys = { modkey, "Shift" }
+        }
+    },
+    k = {
+        {
+            description = "focus client (up)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("up")
+            end,
+            modkeys = { modkey }
+        },
+        {
+            description = "warp to top",
+            group = "client",
+            func = function()
+                zoom("top")
+            end,
+            modkeys = { modkey, "Shift" }
+        }
+    },
+    h = {
+        {
+            description = "focus client (left)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("left")
+            end,
+            modkeys = { modkey }
+        },
+        {
+            description = "warp to left",
+            group = "client",
+            func = function()
+                zoom("left")
+            end,
+            modkeys = { modkey, "Shift" }
+        }
+    },
+    l = {
+        {
+            description = "focus client (right)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("right")
+            end,
+            modkeys = { modkey }
+        },
+        {
+            description = "warp to right",
+            group = "client",
+            func = function()
+                zoom("right")
+            end,
+            modkeys = { modkey, "Shift" }
+        }
+    }
+}
+
+tiling_keys = {
+    j = {
+        {
+            description = "focus client (down)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("down")
+            end,
+            modkeys = { modkey }
+        },
+        {
+            description = "swap client (down)",
+            group = "client",
+            funct = function()
+                awful.client.swap.bydirection("down")
+            end,
+            modkeys = { modkey, "Shift" }
+        }
+
+    },
+    k = {
+        {
+            description = "focus client (up)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("up")
+            end,
+            modkeys = { modkey }
+        },
+        {
+            description = "swap client (up)",
+            group = "client",
+            func = function()
+                awful.client.swap.bydirection("up")
+            end,
+            modkeys = { modkey, "Shift" }
+        }
+    },
+    h = {
+        {
+            description = "focus client (left)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("left")
+            end,
+            modkeys = { modkey }
+        },
+        {
+            description = "swap client (left)",
+            group = "client",
+            func = function()
+                awful.client.swap.bydirection("left")
+            end,
+            modkeys = { modkey, "Shift" }
+        },
+        {
+            description = "decrease the number of columns",
+            group = "layout",
+            funct = function()
+                awful.tag.incncol( -1, nil, true)
+            end,
+            modkeys = { modkey, "Control" }
+        }
+    },
+    l = {
+        {
+            description = "focus client (right)",
+            group = "client",
+            func = function()
+                awful.client.focus.bydirection("right")
+            end,
+            modkeys = { modkey }
+        },
+        {
+            description = "swap client (right)",
+            group = "client",
+            func = function()
+                awful.client.swap.bydirection("right")
+            end,
+            modkeys = { modkey, "Shift" }
+        },
+        {
+            description = "increase the number of columns",
+            group = "layout",
+            funct = function()
+                awful.tag.incncol( 1, nil, true)
+            end,
+            modkeys = { modkey, "Control" }
+        }
+    },
+    p = {
+        {
+            description = "increase number of master clients",
+            group = "client",
+            func = function()
+                awful.tag.incnmaster( 1, nil, true)
+            end,
+            modkeys = { modkey, "Shift" }
+        }
+    },
+    n = {
+        {
+            description = "decrease number of master clients",
+            group = "client",
+            func = function()
+                awful.tag.incnmaster(-1, nil, true)
+            end,
+            modkeys = { modkey, "Shift" }
+
+        }
+    }
+}
+
+tiling_keys["]"] = {
+    {
+        description = "increase master width factor",
+        group = "client",
+        func = function()
+            awful.tag.incmwface(0.05)
+        end,
+        modkeys = { modkey, "Shift" }
+    }
+}
+
+tiling_keys["["] = {
+    {
+        description = "decrease master width factor",
+        group = "client",
+        func = function()
+            awful.tag.incmwface(-0.05)
+        end,
+        modkeys = { modkey, "Shift" }
+    }
+}
 
 local globals = {
     s = {
@@ -241,227 +450,15 @@ globals["0"] = {
         func = function()
             if awful.layout.getname() == "floating" then
                 awful.layout.set(awful.layout.suit.tile)
-                bind_keys({})
-                bind_keys(globalkeys, globals, tiling)
+                bind_keys(globalkeys, globals, tiling_keys)
                 naughty.notify({title = "Now we are tiling"})
             else
                 awful.layout.set(awful.layout.suit.floating)
-                bind_keys({})
-                bind_keys(globalkeys, globals, floating)
+                bind_keys(globalkeys, globals, floating_keys)
                 naughty.notify({title = "Now we are floating"})
             end
         end,
         modkeys = { modkey }
-    }
-}
-
-local floating = {
-    j = {
-        {
-            description = "focus client (down)",
-            group = "client",
-            func = function()
-                awful.client.focus.bydirection("down")
-            end,
-            modkeys = { modkey }
-        },
-        {
-            description = "warp to bottom",
-            group = "client",
-            func = function()
-                zoom("bottom")
-            end,
-            modkeys = { modkey, "Shift" }
-        }
-    },
-    k = {
-        {
-            description = "focus client (up)",
-            group = "client",
-            func = function()
-                awful.client.focus.bydirection("up")
-            end,
-            modkeys = { modkey }
-        },
-        {
-            description = "warp to top",
-            group = "client",
-            func = function()
-                zoom("top")
-            end,
-            modkeys = { modkey, "Shift" }
-        }
-    },
-    h = {
-        {
-            description = "focus client (left)",
-            group = "client",
-            func = function()
-                awful.client.focus.bydirection("left")
-            end,
-            modkeys = { modkey }
-        },
-        {
-            description = "warp to left",
-            group = "client",
-            func = function()
-                zoom("left")
-            end,
-            modkeys = { modkey, "Shift" }
-        }
-    },
-    l = {
-        {
-            description = "focus client (right)",
-            group = "client",
-            func = function()
-                awful.client.focus.bydirection("right")
-            end,
-            modkeys = { modkey }
-        },
-        {
-            description = "warp to right",
-            group = "client",
-            func = function()
-                zoom("right")
-            end,
-            modkeys = { modkey, "Shift" }
-        }
-    }
-}
-
-local tiling = {
-    j = {
-        {
-            description = "focus client (down)",
-            group = "client",
-            func = function()
-                awful.client.focus.bydirection("down")
-            end,
-            modkeys = { modkey }
-        },
-        {
-            description = "swap client (down)",
-            group = "client",
-            funct = function()
-                awful.client.swap.bydirection("down")
-            end,
-            modkeys = { modkey, "Shift" }
-        }
-
-    },
-    k = {
-        {
-            description = "focus client (up)",
-            group = "client",
-            func = function()
-                awful.client.focus.bydirection("up")
-            end,
-            modkeys = { modkey }
-        },
-        {
-            description = "swap client (up)",
-            group = "client",
-            func = function()
-                awful.client.swap.bydirection("up")
-            end,
-            modkeys = { modkey, "Shift" }
-        }
-    },
-    h = {
-        {
-            description = "focus client (left)",
-            group = "client",
-            func = function()
-                awful.client.focus.bydirection("left")
-            end,
-            modkeys = { modkey }
-        },
-        {
-            description = "swap client (left)",
-            group = "client",
-            func = function()
-                awful.client.swap.bydirection("left")
-            end,
-            modkeys = { modkey, "Shift" }
-        },
-        {
-            description = "decrease the number of columns",
-            group = "layout",
-            funct = function()
-                awful.tag.incncol( -1, nil, true)
-            end,
-            modkeys = { modkey, "Control" }
-        }
-    },
-    l = {
-        {
-            description = "focus client (right)",
-            group = "client",
-            func = function()
-                awful.client.focus.bydirection("right")
-            end,
-            modkeys = { modkey }
-        },
-        {
-            description = "swap client (right)",
-            group = "client",
-            func = function()
-                awful.client.swap.bydirection("right")
-            end,
-            modkeys = { modkey, "Shift" }
-        },
-        {
-            description = "increase the number of columns",
-            group = "layout",
-            funct = function()
-                awful.tag.incncol( 1, nil, true)
-            end,
-            modkeys = { modkey, "Control" }
-        }
-    },
-    p = {
-        {
-            description = "increase number of master clients",
-            group = "client",
-            func = function()
-                awful.tag.incnmaster( 1, nil, true)
-            end,
-            modkeys = { modkey, "Shift" }
-        }
-    },
-    n = {
-        {
-            description = "decrease number of master clients",
-            group = "client",
-            func = function()
-                awful.tag.incnmaster(-1, nil, true)
-            end,
-            modkeys = { modkey, "Shift" }
-
-        }
-    }
-}
-
-tiling["]"] = {
-    {
-        description = "increase master width factor",
-        group = "client",
-        func = function()
-            awful.tag.incmwface(0.05)
-        end,
-        modkeys = { modkey, "Shift" }
-    }
-}
-
-tiling["["] = {
-    {
-        description = "decrease master width factor",
-        group = "client",
-        func = function()
-            awful.tag.incmwface(-0.05)
-        end,
-        modkeys = { modkey, "Shift" }
     }
 }
 
@@ -516,5 +513,5 @@ for i = 1, 9 do
     )
 end
 
-bind_keys(globalkeys, globals, floating)
+bind_keys(globalkeys, globals, floating_keys)
 -- root.keys(globalkeys)
