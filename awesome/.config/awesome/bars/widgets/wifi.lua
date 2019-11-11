@@ -12,7 +12,7 @@ local icon = wibox.widget {
 
 local network_name = wibox.widget {
   valign = "center",
-  font = beautiful.wibar_italic_font,
+  font = beautiful.wibar_font,
   widget = wibox.widget.textbox
 }
 
