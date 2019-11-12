@@ -68,6 +68,18 @@ local zoom = function(direction)
     f(client.focus, {margins=40, honor_workarea=true, honor_padding=true, to_percent = 0.5})
 end
 
+local nudge = function(c, direction)
+    if direction == "left" then
+        c.x = c.x - c.screen.geometry.width / 32
+    elseif direction == "right" then
+        c.x = c.x + c.screen.geometry.width / 32
+    elseif direction == "up" then
+        c.y = c.y - c.screen.geometry.height / 32
+    elseif direction == "down" then
+        c.y = c.y + c.screen.geometry.height / 32
+    end
+end
+
 floating_keys = {
     j = {
         {
@@ -156,7 +168,7 @@ tiling_keys = {
         {
             description = "swap client (down)",
             group = "client",
-            funct = function()
+            func = function()
                 awful.client.swap.bydirection("down")
             end,
             modkeys = { modkey, "Shift" }
@@ -201,7 +213,7 @@ tiling_keys = {
         {
             description = "decrease the number of columns",
             group = "layout",
-            funct = function()
+            func = function()
                 awful.tag.incncol( -1, nil, true)
             end,
             modkeys = { modkey, "Control" }
@@ -227,7 +239,7 @@ tiling_keys = {
         {
             description = "increase the number of columns",
             group = "layout",
-            funct = function()
+            func = function()
                 awful.tag.incncol( 1, nil, true)
             end,
             modkeys = { modkey, "Control" }
@@ -261,7 +273,7 @@ tiling_keys["]"] = {
         description = "increase master width factor",
         group = "client",
         func = function()
-            awful.tag.incmwface(0.05)
+            awful.tag.incmwfact(0.05)
         end,
         modkeys = { modkey, "Shift" }
     }
@@ -272,7 +284,7 @@ tiling_keys["["] = {
         description = "decrease master width factor",
         group = "client",
         func = function()
-            awful.tag.incmwface(-0.05)
+            awful.tag.incmwfact(-0.05)
         end,
         modkeys = { modkey, "Shift" }
     }
@@ -557,7 +569,7 @@ clientkeys = gears.table.join(
             c:raise()
         end ,
         {description = "(un)maximize horizontally", group = "client"}),
-    awful.key({ modkey }, "u",
+    awful.key({ modkey, "Shift" }, "u",
         function (c)
             if c.width == c.screen.geometry.width * 2/5 then
                 c.width = c.screen.geometry.width * 4/5
@@ -574,11 +586,31 @@ clientkeys = gears.table.join(
             end
         end,
         {description = "resize a floating client", group = "client"}),
-    awful.key({ modkey, "Shift" }, "u",
+    awful.key({ modkey }, "u",
         function (c)
             awful.placement.centered(c)
         end,
-        {description = "center a floating client", group = "client"})
+        {description = "center a floating client", group = "client"}),
+    awful.key({ modkey, "Control" }, "h",
+        function (c)
+           nudge(c, "left")
+        end,
+        {description = "nudge a floating client left", group = "client"}),
+    awful.key({ modkey, "Control" }, "j",
+        function (c)
+           nudge(c, "down")
+        end,
+        {description = "nudge a floating client down", group = "client"}),
+    awful.key({ modkey, "Control" }, "k",
+        function (c)
+           nudge(c, "up")
+        end,
+        {description = "nudge a floating client up", group = "client"}),
+    awful.key({ modkey, "Control" }, "l",
+        function (c)
+           nudge(c, "right")
+        end,
+        {description = "nudge a floating client right", group = "client"})
 )
 
 clientbuttons = gears.table.join(
