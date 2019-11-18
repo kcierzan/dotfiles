@@ -10,7 +10,7 @@ fi
 export EDITOR='nvim'
 export ALTERNATE_EDITOR=''
 export VISUAL='nvim'
-export PAGER='bat'
+export PAGER='bat -p'
 
 # Language
 if [[ -z "$LANG" ]]; then
