@@ -107,8 +107,68 @@ command Tojson :call FormatJson()
 " Remove trailing whitespace
 command Trimws :%s/\s\+$//
 
+" Format file with prettier
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
 "-------------------------------- PLUGINS -----------------------------------
-source $HOME/.config/nvim/plugins.vim
+call plug#begin('~/.local/share/nvim/plugged')
+Plug 'joshdick/onedark.vim'
+Plug 'dracula/vim'
+Plug 'morhetz/gruvbox'
+Plug 'patstockwell/vim-monokai-tasty'
+Plug 'lifepillar/vim-solarized8'
+Plug 'liuchengxu/space-vim-theme'
+Plug 'ayu-theme/ayu-vim'
+Plug 'mhinz/vim-startify'
+Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/goyo.vim'
+Plug 'yuttie/comfortable-motion.vim'
+Plug 'justinmk/vim-sneak'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'w0rp/ale'
+Plug 'janko-m/vim-test'
+Plug 'benmills/vimux'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'terryma/vim-expand-region'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'sheerun/vim-polyglot'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'ryanoasis/vim-devicons'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sleuth'
+Plug 'jiangmiao/auto-pairs'
+Plug 'adelarsq/vim-matchit'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'wellle/targets.vim'
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'tpope/vim-abolish'
+Plug 'AndrewRadev/sideways.vim'
+Plug 'vim-python/python-syntax'
+Plug 'haya14busa/vim-keeppad'
+Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'vimwiki/vimwiki'
+Plug 'blueyed/vim-diminactive'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tpope/vim-rhubarb'
+Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'mattn/emmet-vim'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
+Plug 'airblade/vim-rooter'
+Plug 'chrisbra/Colorizer'
+Plug 'metakirby5/codi.vim'
+Plug 'sunaku/vim-shortcut'
+call plug#end()
 
 " ayu-theme
 let ayucolor='mirage'
@@ -214,7 +274,7 @@ let g:tmux_navigator_no_mappings = 1
 " ALE
 let g:ale_completion_enabled = 0
 filetype off
-filetype plugin on
+filetype plugin indent on
 let g:ale_linters = {
       \ 'python': ['flake8', 'mypy'],
       \ 'javascript': ['eslint'],
@@ -250,6 +310,7 @@ let g:ale_statusline_format = ['✖ %d', '⚠ %d', '']
 let g:ale_warn_about_trailing_whitespace = 1
 let g:ale_lint_on_text_changed = 'always'
 let g:ale_set_highlights = 0
+let g:ale_fix_on_save = 1
 highlight ALEErrorSign ctermfg=1
 highlight ALEWarningSign ctermfg=3
 
@@ -391,9 +452,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 let g:rooter_use_lcd = 1
 let g:rooter_resolve_links = 1
 let g:rooter_silent_chdir = 1
-
-" set up keybindings
-source $HOME/.config/nvim/keys.vim
 
 " source the generated colorscheme
 source $HOME/.config/nvim/colorscheme.vim
