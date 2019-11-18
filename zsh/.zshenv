@@ -14,7 +14,7 @@ export FZF_COMPLETION_TRIGGER='**'
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" -g "!*.pyc" --iglob "!tags" 2> /dev/null'
 
-export FZF_DEFAULT_OPTS='--color=fg:#839496,bg:-1,fg+:4,bg+:-1,header:3,hl:-1,hl+:3,prompt:4,spinner:5,pointer:5,marker:4,info:5'
+export FZF_DEFAULT_OPTS='--color=fg:#839496,bg:-1,fg+:4,bg+:-1,header:3,hl:-1,hl+:3,prompt:4,spinner:5,pointer:5,marker:4,info:4'
 
 export KEYTIMEOUT=1
 

@@ -22,7 +22,6 @@ Shortcut align text
       \ nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
 
-" Move stuff left and right
 Shortcut move text object left
       \ nmap gsh :SidewaysLeft<CR>
 Shortcut move text object right
@@ -30,9 +29,14 @@ Shortcut move text object right
 
 Shortcut jump to tag in new window
       \ nnoremap gT g<C-]>
-" Jump to tag
+
 Shortcut jump to tag
       \ nnoremap gt g<C-]>
+
+Shortcut expand visual region
+      \ xmap K <Plug>(expand_region_expand)
+Shortcut shrink visual region
+      \ xmap J <Plug>(expand_region_shrink)
 
 function! GoToOpenFold(direction)
   let start = line('.')
@@ -48,8 +52,8 @@ function! GoToOpenFold(direction)
   call cursor(start, 0)
 endfunction
 
-nmap ]z :call GoToOpenFold("next")
-nmap [z :call GoToOpenFold("prev")
+nmap ]z :call GoToOpenFold("next")<CR>
+nmap [z :call GoToOpenFold("prev")<CR>
 
 " Jump to next error message
 Shortcut jump to next error message
@@ -278,17 +282,17 @@ Shortcut change project
       \ nnoremap <silent> <Space>fj :Cd<CR>
 
 " ----------- VimWiki ---------------------
-nmap <silent> <leader>ni <Plug>VimwikiIndex
-nmap <silent> <leader>nt <Plug>VimwikiTabIndex
-nmap <silent> <leader>ns <Plug>VimwikiUISelect
-nmap <silent> <leader>nd <Plug>VimwikiDeleteLink
-nmap <silent> <leader>nr <Plug>VimwikiRenameLink
-nmap <silent> <leader>nc <Plug>VimwikiToggleListItem
-nmap <silent> <leader>nh <Plug>Vimwiki2HTML
+nmap <silent> <Space>ni <Plug>VimwikiIndex
+nmap <silent> <Space>nt <Plug>VimwikiTabIndex
+nmap <silent> <Space>ns <Plug>VimwikiUISelect
+nmap <silent> <Space>nd <Plug>VimwikiDeleteLink
+nmap <silent> <Space>nr <Plug>VimwikiRenameLink
+nmap <silent> <Space>nc <Plug>VimwikiToggleListItem
+nmap <silent> <Space>nh <Plug>Vimwiki2HTML
 
-nmap <silent> <leader>nli <Plug>VimwikiDiaryIndex
-nmap <silent> <leader>nll <Plug>VimwikiDiaryGenerateLinks
-nmap <silent> <leader>nlw <Plug>VimwikiMakeDiaryNote
-nmap <silent> <leader>nlt <Plug>VimwikiTabMakeDiaryNote
-nmap <silent> <leader>nlm <Plug>VimwikiMakeTomorrowDiaryNote
-nmap <silent> <leader>nly <Plug>VimwikiMakeYesterdayDiaryNote
+nmap <silent> <Space>nli <Plug>VimwikiDiaryIndex
+nmap <silent> <Space>nll <Plug>VimwikiDiaryGenerateLinks
+nmap <silent> <Space>nlw <Plug>VimwikiMakeDiaryNote
+nmap <silent> <Space>nlt <Plug>VimwikiTabMakeDiaryNote
+nmap <silent> <Space>nlm <Plug>VimwikiMakeTomorrowDiaryNote
+nmap <silent> <Space>nly <Plug>VimwikiMakeYesterdayDiaryNote

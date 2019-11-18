@@ -31,8 +31,10 @@ function! RedrawModeColors(mode)
 
     hi MyStatuslineLineCol guifg=#393f4a
     hi MyStatuslineLineColBody guibg=#393f4a
-    hi MyStatuslineLangServer guibg=#393f4a
     hi MyStatuslineLineCwd guifg=#46d9ff guibg=#393f4a
+    hi MyStatuslineLangServerWarning guibg=#393f4a guifg=#ecbe7b
+    hi MyStatuslineLangServerOk guibg=#393f4a guifg=#98be65
+    hi MyStatuslineLangServerError guibg=#393f4a guifg=#ff6c6b
 
   " Insert mode
   elseif a:mode == 'i'
@@ -64,7 +66,7 @@ function! SetModifiedSymbol(modified)
 endfunction
 
 
-function! SetFiletype(filetype) 
+function! SetFiletype(filetype)
   if a:filetype == ''
       return '-'
   else
@@ -72,25 +74,47 @@ function! SetFiletype(filetype)
   endif
 endfunction
 
-function! ALECounts()
+function! ALEWarnings()
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:errors = l:counts.error + l:counts.style_error
+  let l:warnings = l:counts.total - l:errors
+  let l:status = ''
+
+  if l:warnings > 0
+    let l:status = "  " . l:warnings
+  endif
+
+  return l:status
+endfunction
+
+function! ALEErrors()
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:errors = l:counts.error + l:counts.style_error
   let l:warnings = l:counts.total - l:errors
   let l:status = ''
 
   if l:errors > 0
-    let l:status = l:status . "  " . l:errors
+    let l:status = "  " . l:errors
   endif
+
   if l:warnings > 0
-    let l:status = l:status .  "  " . l:warnings
+    let l:status = l:status . " "
   endif
+
+  return l:status
+endfunction
+
+function! ALEOk()
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:errors = l:counts.error + l:counts.style_error
+  let l:warnings = l:counts.total - l:errors
+  let l:status = ''
 
   if l:errors == 0 && l:warnings == 0
     let l:status = "  "
   endif
 
   return l:status
-
 endfunction
 
 " Statusbar items
@@ -118,7 +142,9 @@ set statusline+=%#MyStatuslineModified#
 set statusline+=%=
 set statusline+=%#MyStatuslineAccent#
 set statusline+=%#MyStatuslineAccentLabel#LS\ 
-set statusline+=%#MyStatuslineLangServer#%{ALECounts()}
+set statusline+=%#MyStatuslineLangServerError#%{ALEErrors()}
+set statusline+=%#MyStatuslineLangServerWarning#%{ALEWarnings()}
+set statusline+=%#MyStatuslineLangServerOk#%{ALEOk()}
 set statusline+=%#MyStatuslineLineCol#\ 
 
 " Current directory

@@ -168,6 +168,8 @@ Plug 'airblade/vim-rooter'
 Plug 'chrisbra/Colorizer'
 Plug 'metakirby5/codi.vim'
 Plug 'sunaku/vim-shortcut'
+Plug 'lervag/vimtex'
+Plug 'terryma/vim-multiple-cursors'
 call plug#end()
 
 " ayu-theme
