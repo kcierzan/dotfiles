@@ -101,11 +101,8 @@ require("bars.default")
 -- exit screen
 require("system.exit")
 
--- keybindings
+-- bindings for mouse and keyboard
 require("keys")
-
--- Set rules for clients
-require("rules")
 
 -- Wallpaper
 local function set_wallpaper(s)
