@@ -136,7 +136,14 @@ set statusline+=%#MyStatuslineSeparator#\
 " " Modified status
 set statusline+=%#MyStatuslineModified#
 set statusline+=%#MyStatuslineModifiedBody#%{SetModifiedSymbol(&modified)}
-set statusline+=%#MyStatuslineModified#
+set statusline+=%#MyStatuslineModified#\ 
+
+" Git branch
+set statusline+=%#MyStatuslineAccent#
+set statusline+=%#MyStatuslineAccentLabel#שׂ\ 
+set statusline+=%#MyStatuslineLineColBody#\ 
+set statusline+=%#MyStatuslineLineColBody#%{FugitiveHead()}
+set statusline+=%#MyStatuslineLineCol#
 " " Right side items
 " " =======================
 set statusline+=%=

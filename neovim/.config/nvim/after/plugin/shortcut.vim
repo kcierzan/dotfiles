@@ -268,8 +268,8 @@ Shortcut search in files
       \ nnoremap <silent> <Space>fg :Rg<CR>
 Shortcut set filetype
       \ nnoremap <silent> <Space>ft :Filetypes<CR>
-Shortcut set colorscheme
-      \ nnoremap <silent> <Space>fc :Colors<CR>
+Shortcut search commits
+      \ nnoremap <silent> <Space>fc :Commits<CR>
 Shortcut search project tags
       \ nnoremap <silent> <Space>fO :Tags<CR>
 Shortcut search buffer tags
@@ -280,6 +280,8 @@ Shortcut git grep
       \ nnoremap <silent> <Space>fp :GGrep<CR>
 Shortcut change project
       \ nnoremap <silent> <Space>fj :Cd<CR>
+Shortcut search snippets
+      \ nnoremap <silent> <Space>fs :Snippets<CR>
 
 " ----------- VimWiki ---------------------
 nmap <silent> <Space>ni <Plug>VimwikiIndex
