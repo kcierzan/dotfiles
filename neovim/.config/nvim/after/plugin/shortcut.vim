@@ -132,6 +132,8 @@ Shortcut toggle file browser
       \ nnoremap <silent> <Space>it :NERDTreeToggle<CR>
 
 " ------------ buffers ------------------
+Shortcut edit a file with sudo
+      \ nnoremap <silent> <Space>be :SudoEdit<CR>
 Shortcut save buffer
       \ nnoremap <silent> <Space>bs :w<CR>
 Shortcut new buffer
