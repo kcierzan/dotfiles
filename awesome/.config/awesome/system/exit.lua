@@ -150,7 +150,7 @@ exit_screen:buttons(gears.table.join(
                        end),
                        -- right click hides screen
                        awful.button({ }, 3, function()
-                             exit_screen_hide()
+                             kxit_screen_hide()
                        end)
 ))
 

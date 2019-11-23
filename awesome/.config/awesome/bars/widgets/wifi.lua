@@ -1,7 +1,21 @@
+local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local gears = require("gears")
 local helpers = require("helpers")
+
+local down = wibox.widget {
+  widget = wibox.widget.textbox
+}
+
+local up = wibox.widget {
+  widget = wibox.widget.textbox
+}
+
+awesome.connect_signal("signals::traffic", function(download, upload)
+                         down.text = "Down: " .. download
+                         up.text = "Up: " .. upload
+end)
 
 local icon = wibox.widget {
   valign = "center",
@@ -11,7 +25,6 @@ local icon = wibox.widget {
 }
 
 local network_name = wibox.widget {
-  valign = "center",
   font = beautiful.wibar_font,
   widget = wibox.widget.textbox
 }
@@ -19,14 +32,9 @@ local network_name = wibox.widget {
 local strength_bar = wibox.widget{
     max_value     = 100,
     value         = 50,
-    forced_height = dpi(10),
-    margins       = {
-        top = dpi(8),
-        bottom = dpi(8),
-    },
-    forced_width  = dpi(80),
-    shape         = gears.shape.rounded_bar,
-    bar_shape     = gears.shape.rounded_bar,
+    forced_height = 5,
+    -- shape         = helpers.rrect(4),
+    -- bar_shape     = helpers.rrect(4),
     color         = beautiful.xcolor2,
     background_color = beautiful.bg_lighter,
     border_width  = 0,
@@ -34,13 +42,76 @@ local strength_bar = wibox.widget{
     widget        = wibox.widget.progressbar,
 }
 
-local wifi = wibox.widget {
-  icon,
-  network_name,
-  strength_bar,
-  spacing = dpi(8),
-  layout = wibox.layout.fixed.horizontal
+local wifi_button = wibox.widget {
+  {
+    nil,
+    icon,
+    layout = wibox.layout.align.horizontal
+  },
+  -- bg = beautiful.fg_normal,
+  widget = wibox.container.background
 }
+
+local naughty = require("naughty")
+
+wifi_button:buttons(gears.table.join(
+    awful.button({}, 1, function()
+      wifi_menu_toggle()
+    end)
+  ))
+
+  local wifi_menu = wibox {
+    visible = false,
+    bottom = true,
+    opacity = 0.9,
+    height = dpi(75),
+    width = dpi(175),
+    x = 18,
+    y = 45,
+    bg = beautiful.bg_normal,
+    shape = function(cr, width, height)
+      gears.shape.infobubble(cr, dpi(175), dpi(75))
+    end
+    -- type = "dock"
+  }
+
+
+  local wifi_screen_grabber
+
+  function hide_wifi_menu()
+    wifi_menu.visible = false
+  end
+
+  function wifi_menu_toggle()
+    if wifi_menu.visible then
+      hide_wifi_menu()
+    else
+      wifi_menu.visible = true
+    end
+  end
+
+
+  wifi_menu:setup {
+    {
+      {
+        network_name,
+        strength_bar,
+        {
+          up,
+          down,
+          spacing = dpi(10),
+          layout = wibox.layout.fixed.horizontal
+        },
+        spacing = dpi(10),
+        layout = wibox.layout.align.vertical,
+        expand = "none"
+      },
+      widget = wibox.container.margin,
+      margins = 20
+    },
+    layout = wibox.layout.fixed.horizontal
+  }
+
 
 awesome.connect_signal("signals::wifi", function(name, strength)
                          if tonumber(strength) ~= nil then
@@ -52,4 +123,4 @@ awesome.connect_signal("signals::wifi", function(name, strength)
                          network_name.text = name
 end)
 
-return wifi
+return wifi_button
