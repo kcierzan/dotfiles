@@ -7,9 +7,7 @@ local helpers = require("helpers")
 -- Add widgets
 local weather = require("bars.widgets.weather")
 local time = require("bars.widgets.time")
--- local user = require("bars.widgets.user")
 local wifi = require("bars.widgets.wifi")
--- local traffic = require("bars.widgets.traffic")
 local host = require("bars.widgets.host")
 
 local widget_spacing = dpi(20)
