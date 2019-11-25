@@ -1,6 +1,7 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local helpers = require("helpers")
+local naughty = require("naughty")
 
 local weather_unit = "°F"
 
@@ -15,33 +16,6 @@ local fog_icon = ""
 local cloudy_icon = ""
 local partly_cloudy_day_icon = ""
 local partly_cloudy_night_icon = ""
-
-
-local weather_temperature = wibox.widget {
-  valign = "center",
-  font = beautiful.wibar_font,
-  widget = wibox.widget.textbox
-}
-
-local weather_description = wibox.widget {
-  valign = "center",
-  font = beautiful.wibar_font,
-  widget = wibox.widget.textbox
-}
-
-local weather_icon = wibox.widget {
-  valign = "center",
-  font = beautiful.wibar_icomoon_font,
-  widget = wibox.widget.textbox
-}
-
-local weather = wibox.widget {
-  weather_icon,
-  weather_temperature,
-  weather_description,
-  spacing = dpi(8),
-  layout = wibox.layout.fixed.horizontal
-}
 
 function day_by_offset(offset)
   local days_of_week = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
@@ -58,6 +32,102 @@ function day_by_offset(offset)
   return days_of_week[today + offset]
 end
 
+function icon_code_to_char(icon_code)
+  local icon
+  local color
+  if icon_code == "clear-day" then
+    icon = clear_day_icon
+    color = beautiful.xcolor3
+  elseif icon_code == "clear-night" then
+    icon = clear_night_icon
+    color = beautiful.xcolor4
+  elseif icon_code == "rain" then
+    icon = rain_icon
+    color = beautiful.xcolor4
+  elseif icon_code == "snow" then
+    icon = snow_icon
+    color = beautiful.xcolor7
+  elseif icon_code == "sleet" then
+    icon = sleet_icon
+    color = beautiful.xcolor7
+  elseif icon_code == "wind" then
+    icon = wind_icon
+    color = beautiful.xcolor7
+  elseif icon_code == "fog" then
+    icon = fog_icon
+    color = beautiful.xcolor7
+  elseif icon_code == "partly-cloudy-day" then
+    icon = partly_cloudy_day_icon
+    color = beautiful.xcolor3
+  elseif icon_code == "partly-cloudy-night" then
+    icon = partly_cloudy_night_icon
+    color = beautiful.xcolor7
+  elseif icon_code == "cloudy" then
+    icon = cloudy_icon
+    color = beautiful.xcolor7
+  else
+    icon = default_icon
+    color = beautiful.xcolor1
+  end
+
+  return helpers.colorize_text(icon, color)
+end
+
+function render_temperature(temperature)
+  local color
+  -- round and strip the the .0 from the temperature
+  local temp = string.match(
+    tostring(helpers.round(tonumber(temperature))),
+    "-?[0-9]+")
+
+  if temp < 40 then
+    color = beautiful.xcolor4
+  elseif temp < 60 then
+    color = beautiful.xcolor7
+  elseif temp < 80 then
+    color = beautiful.xcolor3
+  elseif temp < 100 then
+    color = beautiful.xcolor5
+  else
+    color = beautiful.xcolor1
+  end
+
+  return helpers.colorize_text(temp .. weather_unit, color)
+end
+
+
+local current_temperature = wibox.widget {
+  valign = "center",
+  font = beautiful.wibar_font,
+  widget = wibox.widget.textbox
+}
+
+local current_summary = wibox.widget {
+  valign = "center",
+  font = beautiful.wibar_font,
+  widget = wibox.widget.textbox
+}
+
+local current_icon = wibox.widget {
+  valign = "center",
+  font = beautiful.wibar_icomoon_font,
+  widget = wibox.widget.textbox
+}
+
+local current_weather = wibox.widget {
+  current_icon,
+  current_temperature,
+  current_summary,
+  spacing = dpi(8),
+  layout = wibox.layout.fixed.horizontal
+}
+
+current_weather:buttons(gears.table.join(
+    awful.button({}, 1, function()
+      forecast_menu.visible = not forecast_menu.visible
+    end)
+  ))
+
 forecast_menu = wibox {
   visible = false,
   ontop = true,
@@ -72,42 +142,45 @@ forecast_menu = wibox {
   end
 }
 
-local current = {}
-local today_icon = wibox.widget.textbox()
-local today_summary = wibox.widget.textbox()
-local today_day = wibox.widget.textbox()
-local today_high = wibox.widget.textbox()
-local today_low = wibox.widget.textbox()
-local tomorrow_icon = wibox.widget.textbox()
+local today_icon       = wibox.widget.textbox()
+local today_summary    = wibox.widget.textbox()
+local today_day        = wibox.widget.textbox()
+local today_high       = wibox.widget.textbox()
+local today_low        = wibox.widget.textbox()
+local tomorrow_icon    = wibox.widget.textbox()
 local tomorrow_summary = wibox.widget.textbox()
-local tomorrow_day = wibox.widget.textbox()
-local tomorrow_high = wibox.widget.textbox()
-local tomorrow_low = wibox.widget.textbox()
-local day3_icon = wibox.widget.textbox()
-local day3_summary = wibox.widget.textbox()
-local day3_day = wibox.widget.textbox()
-local day3_high = wibox.widget.textbox()
-local day3_low = wibox.widget.textbox()
-local day4_icon = wibox.widget.textbox()
-local day4_summary = wibox.widget.textbox()
-local day4_day = wibox.widget.textbox()
-local day4_high = wibox.widget.textbox()
-local day4_low = wibox.widget.textbox()
-local day5_icon = wibox.widget.textbox()
-local day5_summary = wibox.widget.textbox()
-local day5_day = wibox.widget.textbox()
-local day5_high = wibox.widget.textbox()
-local day5_low = wibox.widget.textbox()
-local day6_icon = wibox.widget.textbox()
-local day6_summary = wibox.widget.textbox()
-local day6_day = wibox.widget.textbox()
-local day6_high = wibox.widget.textbox()
-local day6_low = wibox.widget.textbox()
-local day7_icon = wibox.widget.textbox()
-local day7_summary = wibox.widget.textbox()
-local day7_day = wibox.widget.textbox()
-local day7_high = wibox.widget.textbox()
-local day7_low = wibox.widget.textbox()
+local tomorrow_day     = wibox.widget.textbox()
+local tomorrow_high    = wibox.widget.textbox()
+local tomorrow_low     = wibox.widget.textbox()
+local day2_icon        = wibox.widget.textbox()
+local day2_summary     = wibox.widget.textbox()
+local day2_day         = wibox.widget.textbox()
+local day2_high        = wibox.widget.textbox()
+local day3_icon        = wibox.widget.textbox()
+local day3_summary     = wibox.widget.textbox()
+local day3_day         = wibox.widget.textbox()
+local day3_high        = wibox.widget.textbox()
+local day3_low         = wibox.widget.textbox()
+local day4_icon        = wibox.widget.textbox()
+local day4_summary     = wibox.widget.textbox()
+local day4_day         = wibox.widget.textbox()
+local day4_high        = wibox.widget.textbox()
+local day4_low         = wibox.widget.textbox()
+local day5_icon        = wibox.widget.textbox()
+local day5_summary     = wibox.widget.textbox()
+local day5_day         = wibox.widget.textbox()
+local day5_high        = wibox.widget.textbox()
+local day5_low         = wibox.widget.textbox()
+local day6_icon        = wibox.widget.textbox()
+local day6_summary     = wibox.widget.textbox()
+local day6_day         = wibox.widget.textbox()
+local day6_high        = wibox.widget.textbox()
+local day6_low         = wibox.widget.textbox()
+local day7_icon        = wibox.widget.textbox()
+local day7_summary     = wibox.widget.textbox()
+local day7_day         = wibox.widget.textbox()
+local day7_high        = wibox.widget.textbox()
+local day7_low         = wibox.widget.textbox()
 
 local days = {
   wibox.widget {
@@ -193,99 +266,67 @@ forecast_menu:setup {
   expand = "none"
 }
 
-function icon_code_to_char(icon_code)
-  local icon
-  local color
-  if icon_code == "clear-day" then
-    icon = clear_day_icon
-    color = beautiful.xcolor3
-  elseif icon_code == "clear-night" then
-    icon = clear_night_icon
-    color = beautiful.xcolor4
-  elseif icon_code == "rain" then
-    icon = rain_icon
-    color = beautiful.xcolor4
-  elseif icon_code == "snow" then
-    icon = snow_icon
-    color = beautiful.xcolor7
-  elseif icon_code == "sleet" then
-    icon = sleet_icon
-    color = beautiful.xcolor7
-  elseif icon_code == "wind" then
-    icon = wind_icon
-    color = beautiful.xcolor7
-  elseif icon_code == "fog" then
-    icon = fog_icon
-    color = beautiful.xcolor7
-  elseif icon_code == "partly-cloudy-day" then
-    icon = partly_cloudy_day_icon
-    color = beautiful.xcolor3
-  elseif icon_code == "partly-cloudy-night" then
-    icon = partly_cloudy_night_icon
-    color = beautiful.xcolor7
-  elseif icon_code == "cloudy" then
-    icon = cloudy_icon
-    color = beautiful.xcolor7
-  else
-    icon = default_icon
-    color = beautiful.xcolor1
-  end
+-- all widgets are updated every 10 minutes
+awesome.connect_signal("signals::weather", function(data)
+                        if data.error then
+                          naughty.notify({title = "Error", text = "Fetch weather failed"})
+                          return
+                        end
+                         -- update current weather widget
+                         current_icon.markup = icon_code_to_char(data.current_icon)
+                         current_summary.markup = data.current_summary
+                         current_temperature.markup = render_temperature(data.current_temp)
 
-  return helpers.colorize_text(icon, color)
-end
+                         -- update today
+                        today_icon.markup = icon_code_to_char(data.today_icon)
+                        today_day.markup = day_by_offset(0)
+                        today_summary.markup = data.today_summary
+                        today_high.markup = render_temperature(data.today_high)
+                        today_low.markup = render_temperature(data.today_low)
 
-awesome.connect_signal("signals::weather", function(temperature, summary, icon_code)
-                         local icon
-                         local color
-                         local data = {}
+                        -- update tomorrow
+                        tomorrow_icon.markup = icon_code_to_char(data.tomorrow_icon)
+                        tomorrow_day.markup = day_by_offset(1)
+                        tomorrow_summary.markup = data.tomorrow_summary
+                        tomorrow_high.markup = render_temperature(data.tomorrow_high)
+                        tomorrow_low.markup = render_temperature(data.tomorrow_low)
 
-                         -- round and strip the the .0 from the temperature
-                         local temp = string.match(tostring(helpers.round(tonumber(temperature))), "-?[0-9]+")
+                        day2_icon.markup = icon_code_to_char(data.day2_icon)
+                        day2_day.markup = day_by_offset(2)
+                        day2_summary.markup = data.day2_summary
+                        day2_high.markup = render_temperature(data.day2_high)
+                        day2_low.markup = render_temperature(data.day2_low)
 
-                         -- Update current weather widget
-                         weater_icon.markup = icon_code_to_char(data.current_icon)
+                        day3_icon.markup = icon_code_to_char(data.day3_icon)
+                        day3_day.markup = day_by_offset(3)
+                        day3_summary.markup = data.day3_summary
+                        day3_high.markup = render_temperature(data.day3_high)
+                        day3_low.markup = render_temperature(data.day3_low)
 
-                         -- This has to update every day in the forecast
-                         -- iterate over the forcast table
+                        day4_icon.markup = icon_code_to_char(data.day4_icon)
+                        day4_day.markup = day_by_offset(4)
+                        day4_summary.markup = data.day4_summary
+                        day4_high.markup = render_temperature(data.day4_high)
+                        day4_low.markup = render_temperature(data.day4_low)
 
-                         if icon_code == "clear-day" then
-                           icon = clear_day_icon
-                           color = beautiful.xcolor3
-                         elseif icon_code == "clear-night" then
-                           icon = clear_night_icon
-                           color = beautiful.xcolor4
-                         elseif icon_code == "rain" then
-                           icon = rain_icon
-                           color = beautiful.xcolor4
-                         elseif icon_code == "snow" then
-                           icon = snow_icon
-                           color = beautiful.xcolor7
-                         elseif icon_code == "sleet" then
-                           icon = sleet_icon
-                           color = beautiful.xcolor7
-                         elseif icon_code == "wind" then
-                           icon = wind_icon
-                           color = beautiful.xcolor7
-                         elseif icon_code == "fog" then
-                           icon = fog_icon
-                           color = beautiful.xcolor7
-                         elseif icon_code == "partly-cloudy-day" then
-                           icon = partly_cloudy_day_icon
-                           color = beautiful.xcolor3
-                         elseif icon_code == "partly-cloudy-night" then
-                           icon = partly_cloudy_night_icon
-                           color = beautiful.xcolor7
-                         elseif icon_code == "cloudy" then
-                           icon = cloudy_icon
-                           color = beautiful.xcolor7
-                         else
-                           icon = default_icon
-                           color = beautiful.xcolor1
-                         end
+                        day5_icon.markup = icon_code_to_char(data.day5_icon)
+                        day5_day.markup = day_by_offset(5)
+                        day5_summary.markup = data.day5_summary
+                        day5_high.markup = render_temperature(data.day5_high)
+                        day5_low.markup = render_temperature(data.day5_low)
 
-                         weather_icon.markup = helpers.colorize_text(icon, color)
-                         weather_description.markup = summary
-                         weather_temperature.markup = helpers.colorize_text(temp .. weather_unit, color)
+                        day6_icon.markup = icon_code_to_char(data.day6_icon)
+                        day6_day.markup = day_by_offset(6)
+                        day6_summary.markup = data.day6_summary
+                        day6_high.markup = render_temperature(data.day6_high)
+                        day6_low.markup = render_temperature(data.day6_low)
+
+                        day7_icon.markup = icon_code_to_char(data.day7_icon)
+                        day7_day.markup = day_by_offset(7)
+                        day7_summary.markup = data.day7_summary
+                        day7_high.markup = render_temperature(data.day7_high)
+                        day7_low.markup = render_temperature(data.day7_low)
+
 end)
 
-return weather
+return current_weather

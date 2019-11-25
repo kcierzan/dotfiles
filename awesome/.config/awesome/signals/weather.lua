@@ -12,52 +12,48 @@ local update_interval = 600
 -- call the `weather` shell script periodically
 awful.widget.watch("weather", update_interval, function(widget, stdout)
                      local lines = helpers.split(stdout, ":")
-
-                     -- TODO: make this an object with everything for the forecast
                      local data = {
-                       current_icon    = lines[1],
-                       current_temp    = lines[2],
-                       current_summary = lines[3],
-                       icon_0      = lines[4],
-                       summary_0   = lines[5],
-                       temp_low_0  = lines[6],
-                       temp_high_0 = lines[7],
-                       icon_1      = lines[8],
-                       summary_1   = lines[9],
-                       temp_low_1  = lines[10],
-                       temp_high_1 = lines[11],
-                       icon_2      = lines[12],
-                       summary_2   = lines[13],
-                       temp_low_2  = lines[14],
-                       temp_high_2 = lines[15],
-                       icon_3      = lines[16],
-                       summary_3   = lines[17],
-                       temp_low_3  = lines[18],
-                       temp_high_3 = lines[19],
-                       icon_4      = lines[20],
-                       summary_4   = lines[21],
-                       temp_low_4  = lines[22],
-                       temp_high_4 = lines[23],
-                       icon_5      = lines[24],
-                       summary_5   = lines[25],
-                       temp_low_5  = lines[26],
-                       temp_high_5 = lines[27],
-                       icon_6      = lines[28],
-                       summary_6   = lines[29],
-                       temp_low_6  = lines[30],
-                       temp_high_6 = lines[31],
-                       icon_7      = lines[32],
-                       summary_7   = lines[33],
-                       temp_low_7  = lines[34],
-                       temp_high_7 = lines[35]
+                       current_icon     = lines[1],
+                       current_temp     = lines[2],
+                       current_summary  = lines[3],
+                       today_icon       = lines[4],
+                       today_summary    = lines[5],
+                       today_low        = lines[6],
+                       today_high       = lines[7],
+                       tomorrow_icon    = lines[8],
+                       tomorrow_summary = lines[9],
+                       tomorrow_low     = lines[10],
+                       tomorrow_high    = lines[11],
+                       day2_icon        = lines[12],
+                       day2_summary     = lines[13],
+                       day2_low         = lines[14],
+                       day2_high        = lines[15],
+                       day3_icon        = lines[16],
+                       day3_summary     = lines[17],
+                       day3_low         = lines[18],
+                       day3_high        = lines[19],
+                       day4_icon        = lines[20],
+                       day4_summary     = lines[21],
+                       day4_low         = lines[22],
+                       day4_high        = lines[23],
+                       day5_icon        = lines[24],
+                       day5_summary     = lines[25],
+                       day5_low         = lines[26],
+                       day5_high        = lines[27],
+                       day6_icon        = lines[28],
+                       day6_summary     = lines[29],
+                       day6_low         = lines[30],
+                       day6_high        = lines[31],
+                       day7_icon        = lines[32],
+                       day7_summary     = lines[33],
+                       day7_low         = lines[34],
+                       day7_high        = lines[35]
                      }
-                     local icon_code    = lines[1]
-                     local temperature  = lines[2]
-                     local summary      = lines[3]
 
                      if icon_code == "..." then
-                       awesome.emit_signal("signals::weather", 999, "Weather unavailable", "")
+                       data.error = "ERROR"
+                       awesome.emit_signal("signals::weather", data)
                      else
-                       awesome.emit_signal("signals::weather", temperature, summary, icon_code)
+                       awesome.emit_signal("signals::weather", data)
                      end
 end)
