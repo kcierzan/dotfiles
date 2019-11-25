@@ -4,19 +4,16 @@ local beautiful = require("beautiful")
 local gears = require("gears")
 local helpers = require("helpers")
 
-local down = wibox.widget {
-  widget = wibox.widget.textbox
-}
-
-local up = wibox.widget {
-  widget = wibox.widget.textbox
-}
+-- Network traffic widget
+local down = wibox.widget.textbox()
+local up = wibox.widget.textbox()
 
 awesome.connect_signal("signals::traffic", function(download, upload)
   down.text = "Down: " .. download
   up.text = "Up: " .. upload
 end)
 
+-- Wibar wifi icon
 local icon = wibox.widget {
   valign = "center",
   font = beautiful.wibar_icomoon_font,
@@ -24,11 +21,13 @@ local icon = wibox.widget {
   widget = wibox.widget.textbox
 }
 
+-- Current wifi network name
 local network_name = wibox.widget {
   font = beautiful.wibar_font,
   widget = wibox.widget.textbox
 }
 
+-- Current wifi signal strength
 local strength_bar = wibox.widget {
   max_value     = 100,
   value         = 50,
@@ -42,22 +41,27 @@ local strength_bar = wibox.widget {
   widget        = wibox.widget.progressbar,
 }
 
-local wifi_button = wibox.widget {
-  {
-    icon,
-    layout = wibox.layout.align.horizontal
-  },
-  widget = wibox.container.background
-}
+awesome.connect_signal(
+  "signals::wifi",
+  function(name, strength)
+    if tonumber(strength) ~= nil then
+      strength_bar.value = tonumber(strength)
+    else
+      strength_bar.value = 0
+    end
 
-wifi_button:buttons(gears.table.join(
+    network_name.text = name
+  end)
+
+-- Click the wifi icon in the wibar to toggle extended wifi info
+icon:buttons(gears.table.join(
     awful.button({}, 1, function()
       wifi_menu.visible = not wifi_menu.visible
     end)
   ))
 
--- TODO: extract this to a generic popup wibox
-local wifi_menu = wibox {
+-- Create the wrapper infobubble widget
+wifi_menu = wibox {
   visible = false,
   ontop = true,
   opacity = beautiful.wibar_opacity,
@@ -71,7 +75,7 @@ local wifi_menu = wibox {
   end
 }
 
--- Build the popup wibox
+-- Build the infobubble wibox
 wifi_menu:setup {
   {
     {
@@ -93,18 +97,5 @@ wifi_menu:setup {
   layout = wibox.layout.fixed.horizontal
 }
 
-
-awesome.connect_signal(
-  "signals::wifi",
-  function(name, strength)
-    if tonumber(strength) ~= nil then
-      strength_bar.value = tonumber(strength)
-    else
-      strength_bar.value = 0
-    end
-
-    network_name.text = name
-  end)
-
 -- Expose the icon for the wibar
-return wifi_button
+return icon
