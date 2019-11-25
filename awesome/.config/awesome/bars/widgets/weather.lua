@@ -2,6 +2,8 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local helpers = require("helpers")
 local naughty = require("naughty")
+local gears = require("gears")
+local awful = require("awful")
 
 local weather_unit = "°F"
 
@@ -80,13 +82,13 @@ function render_temperature(temperature)
     tostring(helpers.round(tonumber(temperature))),
     "-?[0-9]+")
 
-  if temp < 40 then
+  if tonumber(temp) < 40 then
     color = beautiful.xcolor4
-  elseif temp < 60 then
+  elseif tonumber(temp) < 60 then
     color = beautiful.xcolor7
-  elseif temp < 80 then
+  elseif tonumber(temp) < 80 then
     color = beautiful.xcolor3
-  elseif temp < 100 then
+  elseif tonumber(temp) < 100 then
     color = beautiful.xcolor5
   else
     color = beautiful.xcolor1
@@ -132,138 +134,237 @@ forecast_menu = wibox {
   visible = false,
   ontop = true,
   opacity = beautiful.wibar_opacity,
-  height = dpi(75),
-  width = dpi(175),
-  x = 500,
+  height = dpi(440),
+  width = dpi(425),
+  x = 2575,
   y = 45,
   bg = beautiful.bg_normal,
   shape = function(cr, width, height)
-    gears.shape.infobubble(cr, dpi(175), dpi(75))
+    gears.shape.infobubble(cr, dpi(425), dpi(440))
   end
 }
 
-local today_icon       = wibox.widget.textbox()
-local today_summary    = wibox.widget.textbox()
-local today_day        = wibox.widget.textbox()
-local today_high       = wibox.widget.textbox()
-local today_low        = wibox.widget.textbox()
-local tomorrow_icon    = wibox.widget.textbox()
-local tomorrow_summary = wibox.widget.textbox()
-local tomorrow_day     = wibox.widget.textbox()
-local tomorrow_high    = wibox.widget.textbox()
-local tomorrow_low     = wibox.widget.textbox()
-local day2_icon        = wibox.widget.textbox()
-local day2_summary     = wibox.widget.textbox()
-local day2_day         = wibox.widget.textbox()
-local day2_high        = wibox.widget.textbox()
-local day3_icon        = wibox.widget.textbox()
-local day3_summary     = wibox.widget.textbox()
-local day3_day         = wibox.widget.textbox()
-local day3_high        = wibox.widget.textbox()
-local day3_low         = wibox.widget.textbox()
-local day4_icon        = wibox.widget.textbox()
-local day4_summary     = wibox.widget.textbox()
-local day4_day         = wibox.widget.textbox()
-local day4_high        = wibox.widget.textbox()
-local day4_low         = wibox.widget.textbox()
-local day5_icon        = wibox.widget.textbox()
-local day5_summary     = wibox.widget.textbox()
-local day5_day         = wibox.widget.textbox()
-local day5_high        = wibox.widget.textbox()
-local day5_low         = wibox.widget.textbox()
-local day6_icon        = wibox.widget.textbox()
-local day6_summary     = wibox.widget.textbox()
-local day6_day         = wibox.widget.textbox()
-local day6_high        = wibox.widget.textbox()
-local day6_low         = wibox.widget.textbox()
-local day7_icon        = wibox.widget.textbox()
-local day7_summary     = wibox.widget.textbox()
-local day7_day         = wibox.widget.textbox()
-local day7_high        = wibox.widget.textbox()
-local day7_low         = wibox.widget.textbox()
+local today_icon       = wibox.widget {font = "icomoon 28", widget = wibox.widget.textbox}
+local tomorrow_icon    = wibox.widget {font = "icomoon 28", widget = wibox.widget.textbox}
+local day2_icon        = wibox.widget {font = "icomoon 28", widget = wibox.widget.textbox}
+local day3_icon        = wibox.widget {font = "icomoon 28", widget = wibox.widget.textbox}
+local day4_icon        = wibox.widget {font = "icomoon 28", widget = wibox.widget.textbox}
+local day5_icon        = wibox.widget {font = "icomoon 28", widget = wibox.widget.textbox}
+local day6_icon        = wibox.widget {font = "icomoon 28", widget = wibox.widget.textbox}
+local day7_icon        = wibox.widget {font = "icomoon 28", widget = wibox.widget.textbox}
+
+local today_summary    = wibox.widget {font = "mono 8", widget = wibox.widget.textbox}
+local tomorrow_summary = wibox.widget {font = "mono 8", widget = wibox.widget.textbox}
+local day2_summary     = wibox.widget {font = "mono 8", widget = wibox.widget.textbox}
+local day3_summary     = wibox.widget {font = "mono 8", widget = wibox.widget.textbox}
+local day4_summary     = wibox.widget {font = "mono 8", widget = wibox.widget.textbox}
+local day5_summary     = wibox.widget {font = "mono 8", widget = wibox.widget.textbox}
+local day6_summary     = wibox.widget {font = "mono 8", widget = wibox.widget.textbox}
+local day7_summary     = wibox.widget {font = "mono 8", widget = wibox.widget.textbox}
+
+local today_day        = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local today_high       = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local today_low        = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local tomorrow_day     = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local tomorrow_high    = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local tomorrow_low     = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day2_day         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day2_high        = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day2_low         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day3_day         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day3_high        = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day3_low         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day4_day         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day4_high        = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day4_low         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day5_day         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day5_high        = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day5_low         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day6_day         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day6_high        = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day6_low         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day7_day         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day7_high        = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
+local day7_low         = wibox.widget {font = beautiful.wibar_font, widget = wibox.widget.textbox}
 
 local days = {
   wibox.widget {
-    today_day,
     today_icon,
-    today_summary,
-    today_high,
-    today_low,
+    {
+        today_high,
+        today_low,
+        spacing = dpi(6),
+        layout = wibox.layout.fixed.vertical
+    },
+    {
+      today_day,
+      today_summary,
+      layout = wibox.layout.fixed.vertical,
+      spacing = dpi(6)
+    },
+    spacing = dpi(16),
     layout = wibox.layout.fixed.horizontal,
+    expand = "none",
     widget = wibox.container.background
   },
 
   wibox.widget {
-    tomorrow_day,
     tomorrow_icon,
-    tomorrow_summary,
-    tomorrow_high,
-    tomorrow_low,
+    {
+        tomorrow_high,
+        tomorrow_low,
+        spacing = dpi(6),
+        layout = wibox.layout.fixed.vertical
+    },
+    {
+      tomorrow_day,
+      tomorrow_summary,
+      layout = wibox.layout.fixed.vertical,
+      spacing = dpi(6)
+    },
+    spacing = dpi(16),
     layout = wibox.layout.fixed.horizontal,
+    expand = "none",
     widget = wibox.container.background
   },
 
   wibox.widget {
-    day3_day,
+    day2_icon,
+    {
+        day2_high,
+        day2_low,
+        spacing = dpi(6),
+        layout = wibox.layout.fixed.vertical
+    },
+    {
+      day2_day,
+      day2_summary,
+      layout = wibox.layout.fixed.vertical,
+      spacing = dpi(6)
+    },
+    spacing = dpi(16),
+    layout = wibox.layout.fixed.horizontal,
+    expand = "none",
+    widget = wibox.container.background
+  },
+
+  wibox.widget {
     day3_icon,
-    day3_summary,
-    day3_high,
-    day3_low,
+    {
+        day3_high,
+        day3_low,
+        spacing = dpi(6),
+        layout = wibox.layout.fixed.vertical
+    },
+    {
+      day3_day,
+      day3_summary,
+      layout = wibox.layout.fixed.vertical,
+      spacing = dpi(6)
+    },
+    spacing = dpi(16),
     layout = wibox.layout.fixed.horizontal,
+    expand = "none",
     widget = wibox.container.background
   },
 
   wibox.widget {
-    day4_day,
     day4_icon,
-    day4_summary,
-    day4_high,
-    day4_low,
+    {
+        day4_high,
+        day4_low,
+        spacing = dpi(6),
+        layout = wibox.layout.fixed.vertical
+    },
+    {
+      day4_day,
+      day4_summary,
+      layout = wibox.layout.fixed.vertical,
+      spacing = dpi(6)
+    },
+    spacing = dpi(16),
     layout = wibox.layout.fixed.horizontal,
+    expand = "none",
     widget = wibox.container.background
   },
 
   wibox.widget {
-    day5_day,
     day5_icon,
-    day5_summary,
-    day5_high,
-    day5_low,
+    {
+        day5_high,
+        day5_low,
+        spacing = dpi(6),
+        layout = wibox.layout.fixed.vertical
+    },
+    {
+      day5_day,
+      day5_summary,
+      layout = wibox.layout.fixed.vertical,
+      spacing = dpi(6)
+    },
+    spacing = dpi(16),
     layout = wibox.layout.fixed.horizontal,
+    expand = "none",
     widget = wibox.container.background
   },
 
   wibox.widget {
-    day6_day,
     day6_icon,
-    day6_summary,
-    day6_high,
-    day6_low,
+    {
+        day6_high,
+        day6_low,
+        spacing = dpi(6),
+        layout = wibox.layout.fixed.vertical
+    },
+    {
+      day6_day,
+      day6_summary,
+      layout = wibox.layout.fixed.vertical,
+      spacing = dpi(6)
+    },
+    spacing = dpi(16),
     layout = wibox.layout.fixed.horizontal,
+    expand = "none",
     widget = wibox.container.background
   },
 
   wibox.widget {
-    day7_day,
     day7_icon,
-    day7_summary,
-    day7_high,
-    day7_low,
+    {
+        day7_high,
+        day7_low,
+        spacing = dpi(6),
+        layout = wibox.layout.fixed.vertical
+    },
+    {
+      day7_day,
+      day7_summary,
+      layout = wibox.layout.fixed.vertical,
+      spacing = dpi(6)
+    },
+    spacing = dpi(16),
     layout = wibox.layout.fixed.horizontal,
+    expand = "none",
     widget = wibox.container.background
   }
 }
 
 forecast_menu:setup {
-  days[1],
-  days[2],
-  days[3],
-  days[4],
-  days[5],
-  days[6],
-  days[7],
-  layout = wibox.layout.align.vertical,
-  expand = "none"
+  {
+    days[1],
+    days[2],
+    days[3],
+    days[4],
+    days[5],
+    days[6],
+    days[7],
+    days[8],
+    layout = wibox.layout.fixed.vertical,
+    expand = "none",
+    spacing = dpi(12)
+  },
+  widget = wibox.container.margin,
+  margins = 40
 }
 
 -- all widgets are updated every 10 minutes
@@ -279,14 +380,14 @@ awesome.connect_signal("signals::weather", function(data)
 
                          -- update today
                         today_icon.markup = icon_code_to_char(data.today_icon)
-                        today_day.markup = day_by_offset(0)
+                        today_day.markup = "Today"
                         today_summary.markup = data.today_summary
                         today_high.markup = render_temperature(data.today_high)
                         today_low.markup = render_temperature(data.today_low)
 
                         -- update tomorrow
                         tomorrow_icon.markup = icon_code_to_char(data.tomorrow_icon)
-                        tomorrow_day.markup = day_by_offset(1)
+                        tomorrow_day.markup = "Tomorrow"
                         tomorrow_summary.markup = data.tomorrow_summary
                         tomorrow_high.markup = render_temperature(data.tomorrow_high)
                         tomorrow_low.markup = render_temperature(data.tomorrow_low)
