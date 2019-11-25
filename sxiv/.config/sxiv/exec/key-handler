@@ -1,11 +1,15 @@
-#!/bin/sh 
+#!/bin/sh
 while read file
-do 
+do
   fullpath="$(pwd)/$file"
   case "$1" in
+    # change the wallpaper
     "w" )
       cp "$file" ~/.config/wall.png &&
+      sudo cp "$file" /usr/share/pixmaps/wall.png &&
+      sudo chown lightdm:lightdm /usr/share/pixmaps/wall.png
       feh --bg-scale "$HOME/.config/wall.png" &&
+      # requires libnotify
       notify-send "$HOME/.config/wall.png" "Wallpaper changed";;
   esac
 done

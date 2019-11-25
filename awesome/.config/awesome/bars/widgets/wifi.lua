@@ -1,8 +1,19 @@
+local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local gears = require("gears")
 local helpers = require("helpers")
 
+-- Network traffic widget
+local down = wibox.widget.textbox()
+local up = wibox.widget.textbox()
+
+awesome.connect_signal("signals::traffic", function(download, upload)
+  down.text = "Down: " .. download
+  up.text = "Up: " .. upload
+end)
+
+-- Wibar wifi icon
 local icon = wibox.widget {
   valign = "center",
   font = beautiful.wibar_icomoon_font,
@@ -10,46 +21,81 @@ local icon = wibox.widget {
   widget = wibox.widget.textbox
 }
 
+-- Current wifi network name
 local network_name = wibox.widget {
-  valign = "center",
   font = beautiful.wibar_font,
   widget = wibox.widget.textbox
 }
 
-local strength_bar = wibox.widget{
-    max_value     = 100,
-    value         = 50,
-    forced_height = dpi(10),
-    margins       = {
-        top = dpi(8),
-        bottom = dpi(8),
-    },
-    forced_width  = dpi(80),
-    shape         = gears.shape.rounded_bar,
-    bar_shape     = gears.shape.rounded_bar,
-    color         = beautiful.xcolor2,
-    background_color = beautiful.bg_lighter,
-    border_width  = 0,
-    border_color  = beautiful.xcolor3,
-    widget        = wibox.widget.progressbar,
+-- Current wifi signal strength
+local strength_bar = wibox.widget {
+  max_value     = 100,
+  value         = 50,
+  forced_height = 5,
+  shape         = helpers.rrect(4),
+  bar_shape     = helpers.rrect(4),
+  color         = beautiful.xcolor2,
+  background_color = beautiful.bg_lighter,
+  border_width  = 0,
+  border_color  = beautiful.xcolor3,
+  widget        = wibox.widget.progressbar,
 }
 
-local wifi = wibox.widget {
-  icon,
-  network_name,
-  strength_bar,
-  spacing = dpi(8),
+awesome.connect_signal(
+  "signals::wifi",
+  function(name, strength)
+    if tonumber(strength) ~= nil then
+      strength_bar.value = tonumber(strength)
+    else
+      strength_bar.value = 0
+    end
+
+    network_name.text = name
+  end)
+
+-- Click the wifi icon in the wibar to toggle extended wifi info
+icon:buttons(gears.table.join(
+    awful.button({}, 1, function()
+      wifi_menu.visible = not wifi_menu.visible
+    end)
+  ))
+
+-- Create the wrapper infobubble widget
+wifi_menu = wibox {
+  visible = false,
+  ontop = true,
+  opacity = beautiful.wibar_opacity,
+  height = dpi(75),
+  width = dpi(175),
+  x = 18,
+  y = 45,
+  bg = beautiful.bg_normal,
+  shape = function(cr, width, height)
+    gears.shape.infobubble(cr, dpi(175), dpi(75))
+  end
+}
+
+-- Build the infobubble wibox
+wifi_menu:setup {
+  {
+    {
+      network_name,
+      strength_bar,
+      {
+        up,
+        down,
+        spacing = dpi(10),
+        layout = wibox.layout.fixed.horizontal
+      },
+      spacing = dpi(10),
+      layout = wibox.layout.align.vertical,
+      expand = "none"
+    },
+    widget = wibox.container.margin,
+    margins = 20
+  },
   layout = wibox.layout.fixed.horizontal
 }
 
-awesome.connect_signal("signals::wifi", function(name, strength)
-                         if tonumber(strength) ~= nil then
-                            strength_bar.value = tonumber(strength)
-                         else
-                           strength_bar.value = 0
-                         end
-
-                         network_name.text = name
-end)
-
-return wifi
+-- Expose the icon for the wibar
+return icon

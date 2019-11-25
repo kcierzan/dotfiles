@@ -7,9 +7,8 @@ local helpers = require("helpers")
 -- Add widgets
 local weather = require("bars.widgets.weather")
 local time = require("bars.widgets.time")
-local user = require("bars.widgets.user")
 local wifi = require("bars.widgets.wifi")
-local traffic = require("bars.widgets.traffic")
+local host = require("bars.widgets.host")
 
 local widget_spacing = dpi(20)
 
@@ -102,9 +101,9 @@ awful.screen.connect_for_each_screen(function(s)
 
       s.mybar:setup {
          {
-            user,
+           host,
             wifi,
-            traffic,
+            -- traffic,
             spacing = widget_spacing,
             layout = wibox.layout.fixed.horizontal,
          },
