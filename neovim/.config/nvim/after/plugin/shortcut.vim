@@ -7,12 +7,11 @@ Shortcut show shortcut menu and run chosen shortcut
 Shortcut fallback to shortcut menu on partial entry
       \ noremap <silent> <Leader> :Shortcuts<Return>
 
-nmap n nzz
-nmap N Nzz
-nmap * *zz
-nmap # #zz
-nmap g* g*zz
-nmap g# g#zz
+" resolve confilicts easier
+nnoremap grl :diffget
+nnoremap grh :diffput
+vnoremap grl :diffget
+vnoremap grh :diffput
 
 " Select all text
 noremap vA ggVG
