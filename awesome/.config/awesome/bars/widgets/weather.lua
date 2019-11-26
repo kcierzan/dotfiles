@@ -219,14 +219,7 @@ awesome.connect_signal("signals::weather", function(day_data)
   -- hopefully this rerenders the whole widget over again
   forecast_menu:setup {
     {
-      rendered_days[1],
-      rendered_days[2],
-      rendered_days[3],
-      rendered_days[4],
-      rendered_days[5],
-      rendered_days[6],
-      rendered_days[7],
-      rendered_days[8],
+      table.unpack(rendered_days),
       layout = wibox.layout.fixed.vertical,
       expand = "none",
       spacing = dpi(12)
