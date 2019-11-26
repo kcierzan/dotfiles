@@ -1,9 +1,3 @@
--- Provides:
--- signals::weather
---      temperature (integer)
---      summary (string)
---      icon_code (string)
-
 local awful = require("awful")
 local helpers = require("helpers")
 local gears = require("gears")
@@ -32,10 +26,13 @@ function update_forecast()
     .. darksky_api_key
     .. "/"
     .. coords
-    .. "?=exclude=minutely")["body"]
+    .. "?exclude=minutely")["body"]
 
   if not body then
-    naughty.notify({title = "Fetch weather failed", text = "stopping weather callback"})
+    naughty.notify({
+      title = "Fetch weather failed",
+      text = "Stopping weather updates"
+    })
     return false
   end
 
