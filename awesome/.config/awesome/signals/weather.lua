@@ -18,20 +18,20 @@ local update_interval = 600
 function update_forecast()
   local days = {}
   local ip = helpers.https.get("https://ifconfig.me")["body"]
-  local latlon_res = helpers.https.get("http://ip-api.com/json/" .. ip)["body"]
+  local location = helpers.https.get("http://ip-api.com/json/" .. ip)["body"]
 
-  if not (latlon_res) then
+  if not location then
     -- fallback to Philadelphia
-    local latlon = "39.93,-75.18"
+    local coords = "39.93,-75.18"
   else
-    local latlon = latlon_res["lat"] .. "," .. latlon_res["lon"]
+    local coords = location["lat"] .. "," .. location["lon"]
   end
 
   local body = helpers.https.get(
     "https://api.darksky.net/forecast/"
     .. darksky_api_key
     .. "/"
-    .. latlon
+    .. coords
     .. "?=exclude=minutely")["body"]
 
   if not body then
