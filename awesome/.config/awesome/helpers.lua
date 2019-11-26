@@ -1,5 +1,13 @@
+local ltn12 = require("ltn12")
+
 local gears = require("gears")
 local wibox = require("wibox")
+-- install socket
+local socket = require("socket.http")
+-- install luasec and point it to openssl
+local https = require("ssl.https")
+-- install rxi-json-lua
+local json = require("rxi-json-lua")
 
 local helpers = {}
 
@@ -69,6 +77,25 @@ function helpers.add_hover_cursor(w, hover_cursor)
             w.cursor = original_cursor
         end
     end)
+end
+
+helpers.https = {}
+
+helpers.https.get = function(url)
+  body = {}
+  _, code, headers, status = https.request {
+    url = url,
+    headers = {
+      ["Accept"] = "application/json"
+    },
+    sink = ltn12.sink.table(body)
+  }
+  return {
+    code = code,
+    headers = headers,
+    status = status,
+    body = json.decode(table.concat(body))
+  }
 end
 
 return helpers
