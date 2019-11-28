@@ -1,0 +1,36 @@
+- hosts: all
+  tasks:
+    - name: Install libraries with homebrew
+      homebrew: name={{ item }} state=present
+      with_items:
+        - bat
+        - coreutils
+        - curl
+        - docker
+        - fasd
+        - fd
+        - figlet
+        - findutils
+        - fortune
+        - fzf
+        - gawk
+        - gawk
+        - gcc
+        - gnu-sed
+        - gnu-tar
+        - htop
+        - httpie
+        - luarocks
+        - markdown
+        - neovim
+        - nvm
+        - pyenv
+        - pyenv-virtualenv
+        - ripgrep
+        - ruby
+        - speedtest-cli
+        - stow
+        - tmux
+        - universal-ctags
+        - vifm
+        - zplug
