@@ -29,7 +29,7 @@
 window {
 	transparency: "real";
 	fullscreen: true;
-	background-color: #282C34DA; /*background + C0 (75% opacity)*/
+	background-color: #282C34D8; /*background + C0 (75% opacity)*/
 }
 
 mainbox {
@@ -88,7 +88,7 @@ listview {
 
 element {
 	padding: 5px;
-	highlight: bold underline;
+	highlight: bold;
 }
 
 element normal {

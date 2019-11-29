@@ -140,7 +140,7 @@ forecast_menu = wibox {
   opacity = beautiful.wibar_opacity,
   height = dpi(440),
   width = dpi(425),
-  x = 2575,
+  x = 2750,
   y = 45,
   bg = beautiful.bg_normal,
   shape = function(cr, width, height)
@@ -190,7 +190,7 @@ awesome.connect_signal("signals::weather", function(day_data)
       elseif i == 3 then
         day_name.markup = "Tomorrow"
       else
-        day_name.markup = day_by_offset(i - 2)
+        day_name.markup = day_by_offset(i - 1)
       end
 
       table.insert(rendered_days, wibox.widget {
@@ -219,7 +219,14 @@ awesome.connect_signal("signals::weather", function(day_data)
   -- hopefully this rerenders the whole widget over again
   forecast_menu:setup {
     {
-      table.unpack(rendered_days),
+      rendered_days[1],
+      rendered_days[2],
+      rendered_days[3],
+      rendered_days[4],
+      rendered_days[5],
+      rendered_days[6],
+      rendered_days[7],
+      rendered_days[8],
       layout = wibox.layout.fixed.vertical,
       expand = "none",
       spacing = dpi(12)
