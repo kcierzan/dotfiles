@@ -29,7 +29,7 @@
 window {
 	transparency: "real";
 	fullscreen: true;
-	background-color: #282C34D8; /*background + C0 (75% opacity)*/
+	background-color: #282C34D8;
 }
 
 mainbox {

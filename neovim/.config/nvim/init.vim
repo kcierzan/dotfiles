@@ -50,7 +50,8 @@ set showtabline=0
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor
 
 " Use system clipboard on macOS and both clipboards on linux
-set clipboard=unnamed,unnamedplus
+set clipboard=unnamed
+set clipboard+=unnamedplus
 
 " Set :grep to use ripgrep
 if executable('rg')

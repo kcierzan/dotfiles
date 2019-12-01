@@ -37,7 +37,7 @@ local create_button = function(symbol, hover_color, text, command)
    }
 
    local button_text = wibox.widget {
-      font = "sans 18",
+      font = "sans bold 18",
       text = text,
       visible = false,
       forced_height = dpi(80),
