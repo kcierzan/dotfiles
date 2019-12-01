@@ -6,14 +6,14 @@ local inspect = require("inspect")
 
 local darksky_api_key = os.getenv("DARKSKY_API_KEY")
 
--- update every 10 minutes
-local update_interval = 120
+-- update every 5 minutes
+local update_interval = 300
 
 -- call the `weather` shell script periodically
 function update_forecast()
   local days = {}
-  local ip = helpers.http.get("https://ifconfig.me", true)["body"][1]
-  local location = helpers.http.get("http://ip-api.com/json/" .. ip)["body"]
+  local ip_address = helpers.http.get("https://ifconfig.me", true)["body"][1]
+  local location = helpers.http.get("http://ip-api.com/json/" .. ip_address)["body"]
   location = helpers.decode(location)
 
   if not location then

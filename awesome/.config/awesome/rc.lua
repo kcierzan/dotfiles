@@ -16,6 +16,7 @@ require("awful.hotkeys_popup.keys")
 local helpers = require("helpers")
 
 local xresources = require("beautiful.xresources")
+
 -- make dpi global
 dpi = xresources.apply_dpi
 

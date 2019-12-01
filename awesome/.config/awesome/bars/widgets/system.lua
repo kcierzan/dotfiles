@@ -4,11 +4,12 @@ local gears = require("gears")
 local helpers = require("helpers")
 local wibox = require("wibox")
 
-local user = require("bars.widgets.user")
-local host = require("bars.widgets.host")
 local distro = require("bars.widgets.distro")
+local host = require("bars.widgets.host")
 local last_update = require("bars.widgets.last_update")
 local pacman_updates = require("bars.widgets.pacman_updates")
+local user = require("bars.widgets.user")
+local ip = require("bars.widgets.ip")
 
 local system_icon = ""
 local popup_width = dpi(380)
@@ -51,15 +52,19 @@ system_menu:setup {
   {
     {
       distro,
-      host,
       user,
+      {
+        host,
+        ip,
+        spacing = dpi(10),
+        layout = wibox.layout.fixed.horizontal
+      },
       spacing = dpi(2),
       expand = "none",
       layout = wibox.layout.align.vertical
     },
     last_update,
     pacman_updates,
-    expand = "none",
     layout = wibox.layout.fixed.vertical,
     spacing = beautiful.wibar_popup.spacing
   },
