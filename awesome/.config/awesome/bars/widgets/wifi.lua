@@ -50,7 +50,7 @@ awesome.connect_signal(
       strength_bar.value = 0
     end
 
-    network_name.text = name
+    network_name.markup = helpers.colorize_text(name, beautiful.xcolor2)
   end)
 
 -- Click the wifi icon in the wibar to toggle extended wifi info
@@ -60,41 +60,46 @@ icon:buttons(gears.table.join(
     end)
   ))
 
+local popup_width = dpi(180)
+local popup_height = dpi(115)
 -- Create the wrapper infobubble widget
 wifi_menu = wibox {
   visible = false,
   ontop = true,
   opacity = beautiful.wibar_opacity,
-  height = dpi(75),
-  width = dpi(175),
-  x = 18,
-  y = 45,
+  width = popup_width,
+  height = popup_height,
+  x = dpi(2112),
+  y = beautiful.wibar_popup.y_pos,
   bg = beautiful.bg_normal,
   shape = function(cr, width, height)
-    gears.shape.infobubble(cr, dpi(175), dpi(75))
+    -- width, height, radius, arrow size, arrow position
+    gears.shape.infobubble(
+      cr,
+      popup_width,
+      popup_height,
+      beautiful.wibar_popup.radius,
+      beautiful.wibar_popup.arrow_size,
+      dpi(130))
   end
 }
 
 -- Build the infobubble wibox
 wifi_menu:setup {
   {
+    network_name,
+    strength_bar,
     {
-      network_name,
-      strength_bar,
-      {
-        up,
-        down,
-        spacing = dpi(10),
-        layout = wibox.layout.fixed.horizontal
-      },
-      spacing = dpi(10),
+      up,
+      down,
       layout = wibox.layout.align.vertical,
-      expand = "none"
     },
-    widget = wibox.container.margin,
-    margins = 20
+    spacing = beautiful.wibar_popup.spacing,
+    layout = wibox.layout.fixed.vertical,
+    expand = "none"
   },
-  layout = wibox.layout.fixed.horizontal
+  widget = wibox.container.margin,
+  margins = beautiful.wibar_popup.margins
 }
 
 -- Expose the icon for the wibar

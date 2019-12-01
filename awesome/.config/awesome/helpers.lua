@@ -22,6 +22,10 @@ helpers.colorize_text = function(txt, fg)
    return "<span foreground='" .. fg .."'>" .. txt .. "</span>"
 end
 
+helpers.bold_text = function(txt)
+  return "<b>" .. txt .. "</b>"
+end
+
 
 helpers.pad_text_end = function(txt, padding)
    spaces = ""

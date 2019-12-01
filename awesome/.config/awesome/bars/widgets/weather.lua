@@ -27,14 +27,12 @@ function day_by_offset(offset)
   -- this will be a 1 based index
   local offset = offset - 1
   -- get the current day of the week (int)
-  local today = os.date("*t").wday
 
-  if today + offset > 7 then
-    today = (today + offset) % 8
-    return days_of_week[today + 1]
+  if os.date("*t").wday + offset > 7 then
+    return days_of_week[((os.date("*t").wday + offset) % 8) + 1]
   end
 
-  return days_of_week[today + offset]
+  return days_of_week[os.date("*t").wday + offset]
 end
 
 function icon_code_to_char(icon_code)
@@ -134,17 +132,24 @@ current_weather:buttons(gears.table.join(
     end)
   ))
 
+local popup_height = dpi(425)
+local popup_width = dpi(425)
 forecast_menu = wibox {
   visible = false,
   ontop = true,
   opacity = beautiful.wibar_opacity,
-  height = dpi(440),
-  width = dpi(425),
-  x = 2750,
-  y = 45,
+  height = popup_height,
+  width = popup_width,
+  x = dpi(1700),
+  y = beautiful.wibar_popup.y_pos,
   bg = beautiful.bg_normal,
   shape = function(cr, width, height)
-    gears.shape.infobubble(cr, dpi(425), dpi(440))
+    -- width, height, radius, arrow size, arrow position
+    gears.shape.infobubble(
+      cr,
+      popup_width,
+      popup_height,
+      beautiful.wibar_popup.radius)
   end
 }
 
@@ -216,7 +221,6 @@ awesome.connect_signal("signals::weather", function(day_data)
     end
   end
 
-  -- hopefully this rerenders the whole widget over again
   forecast_menu:setup {
     {
       rendered_days[1],
@@ -229,10 +233,10 @@ awesome.connect_signal("signals::weather", function(day_data)
       rendered_days[8],
       layout = wibox.layout.fixed.vertical,
       expand = "none",
-      spacing = dpi(12)
+      spacing = beautiful.wibar_popup.spacing
     },
     widget = wibox.container.margin,
-    margins = 40
+    margins = beautiful.wibar_popup.margins
   }
 end)
 

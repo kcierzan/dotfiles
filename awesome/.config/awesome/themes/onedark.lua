@@ -78,6 +78,14 @@ theme.wibar_font           = "mono bold 10"
 theme.wibar_italic_font    = "mono bold italic 10"
 theme.wibar_icomoon_font   = "icomoon 10"
 
+theme.wibar_popup = {}
+-- Wibar popup menus
+theme.wibar_popup.radius   = dpi(4)
+theme.wibar_popup.margins  = dpi(20)
+theme.wibar_popup.y_pos    = dpi(28)
+theme.wibar_popup.arrow_size = dpi(10)
+theme.wibar_popup.spacing = dpi(10)
+
 -- Taglist
 theme.taglist_text_font = "Typicons bold 16"
 theme.taglist_text_empty = " "

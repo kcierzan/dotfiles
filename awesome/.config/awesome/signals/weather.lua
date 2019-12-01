@@ -7,7 +7,7 @@ local inspect = require("inspect")
 local darksky_api_key = os.getenv("DARKSKY_API_KEY")
 
 -- update every 10 minutes
-local update_interval = 600
+local update_interval = 120
 
 -- call the `weather` shell script periodically
 function update_forecast()
@@ -31,7 +31,8 @@ function update_forecast()
   if not body then
     naughty.notify({
       title = "Fetch weather failed",
-      text = "Stopping weather updates"
+      text = "Stopping weather updates",
+      timeout = 0
     })
     return false
   end

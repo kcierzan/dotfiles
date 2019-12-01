@@ -15,8 +15,7 @@ modkey = "Mod4"
 
 -- Mouse bindings
 root.buttons(gears.table.join(
-                awful.button({ }, 3, function () mymainmenu:toggle() end)
-
+        awful.button({ }, 3, function () mymainmenu:toggle() end)
 ))
 
 local bind_keys = function(globalkeys, ...)
@@ -65,7 +64,7 @@ local zoom = function(direction)
     local f = awful.placement.scale + dir_func + max_func
     -- TODO: adjust these values to work better...
     -- TODO: the percent value should be parameterized
-    f(client.focus, {margins=40, honor_workarea=true, honor_padding=true, to_percent = 0.5})
+    f(client.focus, {margins=40, honor_workarea=true, honor_padding=true, to_percent=0.5})
 end
 
 local nudge = function(c, direction)
@@ -463,11 +462,11 @@ globals["0"] = {
         func = function()
             if awful.layout.getname() == "floating" then
                 awful.layout.set(awful.layout.suit.tile)
-                bind_keys(globalkeys, globals, tiling_keys)
+                bind_keys(bind_number_keys(), globals, tiling_keys)
                 naughty.notify({title = "Now we are tiling"})
             else
                 awful.layout.set(awful.layout.suit.floating)
-                bind_keys(globalkeys, globals, floating_keys)
+                bind_keys(bind_number_keys(), globals, floating_keys)
                 naughty.notify({title = "Now we are floating"})
             end
         end,
@@ -475,56 +474,59 @@ globals["0"] = {
     }
 }
 
-local globalkeys = {}
+function bind_number_keys()
+    local globalkeys = {}
+    for i = 1, 9 do
+        globalkeys = gears.table.join(globalkeys,
+            -- View tag only.
+            awful.key({ modkey }, "#" .. i + 9,
+                function ()
+                    local screen = awful.screen.focused()
+                    local tag = screen.tags[i]
+                    if tag then
+                        tag:view_only()
+                    end
+                end,
+                {description = "view tag #"..i, group = "tag"}),
+            -- Toggle tag display.
+            awful.key({ modkey, "Control" }, "#" .. i + 9,
+                function ()
+                    local screen = awful.screen.focused()
+                    local tag = screen.tags[i]
+                    if tag then
+                        awful.tag.viewtoggle(tag)
+                    end
+                end,
+                {description = "toggle tag #" .. i, group = "tag"}),
+            -- Move client to tag.
+            awful.key({ modkey, "Shift" }, "#" .. i + 9,
+                function ()
+                    if client.focus then
+                        local tag = client.focus.screen.tags[i]
+                        if tag then
+                            client.focus:move_to_tag(tag)
+                        end
+                    end
+                end,
+                {description = "move focused client to tag #"..i, group = "tag"}),
+            -- Toggle tag on focused client.
+            awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
+                function ()
+                    if client.focus then
+                        local tag = client.focus.screen.tags[i]
+                        if tag then
+                            client.focus:toggle_tag(tag)
+                        end
+                    end
+                end,
+                {description = "toggle focused client on tag #" .. i, group = "tag"})
+            )
+    end
+    return globalkeys
+end
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
-    globalkeys = gears.table.join(globalkeys,
-        -- View tag only.
-        awful.key({ modkey }, "#" .. i + 9,
-                  function ()
-                        local screen = awful.screen.focused()
-                        local tag = screen.tags[i]
-                        if tag then
-                           tag:view_only()
-                        end
-                  end,
-                  {description = "view tag #"..i, group = "tag"}),
-        -- Toggle tag display.
-        awful.key({ modkey, "Control" }, "#" .. i + 9,
-                  function ()
-                      local screen = awful.screen.focused()
-                      local tag = screen.tags[i]
-                      if tag then
-                         awful.tag.viewtoggle(tag)
-                      end
-                  end,
-                  {description = "toggle tag #" .. i, group = "tag"}),
-        -- Move client to tag.
-        awful.key({ modkey, "Shift" }, "#" .. i + 9,
-                  function ()
-                      if client.focus then
-                          local tag = client.focus.screen.tags[i]
-                          if tag then
-                              client.focus:move_to_tag(tag)
-                          end
-                     end
-                  end,
-                  {description = "move focused client to tag #"..i, group = "tag"}),
-        -- Toggle tag on focused client.
-        awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
-                  function ()
-                      if client.focus then
-                          local tag = client.focus.screen.tags[i]
-                          if tag then
-                              client.focus:toggle_tag(tag)
-                          end
-                      end
-                  end,
-                  {description = "toggle focused client on tag #" .. i, group = "tag"})
-    )
-end
 
 -- Set client keybindings
 clientkeys = gears.table.join(
@@ -686,4 +688,4 @@ awful.rules.rules = {
     --   properties = { screen = 1, tag = "2" } },
 }
 
-bind_keys(globalkeys, globals, floating_keys)
+bind_keys(bind_number_keys(), globals, floating_keys)

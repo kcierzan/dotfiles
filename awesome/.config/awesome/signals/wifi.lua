@@ -6,7 +6,6 @@
 local awful = require("awful")
 local helpers = require("helpers")
 
--- update every 15 minutes
 local update_interval = 30
 
 awful.widget.watch("wifi", update_interval, function(widget, stdout)
