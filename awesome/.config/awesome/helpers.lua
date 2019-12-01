@@ -1,5 +1,5 @@
 local ltn12 = require("ltn12")
-
+local beautiful = require("beautiful")
 local gears = require("gears")
 local wibox = require("wibox")
 -- install socket
@@ -115,6 +115,26 @@ end
 
 helpers.decode = function(body_table)
   return json.decode(table.concat(body_table))
+end
+
+helpers.widget = {}
+
+helpers.widget.progress = function()
+  return wibox.widget {
+    {
+      id = "bar",
+      max_value = 100,
+      forced_height = 0.5,
+      forced_width = dpi(100),
+      border_width = 0,
+      shape = helpers.rrect(4),
+      bar_shape = helpers.rrect(4),
+      background_color = beautiful.bg_lighter,
+      widget = wibox.widget.progressbar
+    },
+    widget = wibox.container.margin,
+    margins = dpi(2)
+  }
 end
 
 return helpers
