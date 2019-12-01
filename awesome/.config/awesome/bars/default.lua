@@ -10,8 +10,9 @@ local time = require("bars.widgets.time")
 local date = require("bars.widgets.date")
 local wifi = require("bars.widgets.wifi")
 local system = require("bars.widgets.system")
-
-local widget_spacing = dpi(20)
+local cpu = require("bars.widgets.cpu")
+local ram = require("bars.widgets.ram")
+local hdd = require("bars.widgets.hdd")
 
 local update_taglist = function (item, tag, _)
   if tag.selected then
@@ -103,8 +104,13 @@ awful.screen.connect_for_each_screen(function(s)
       s.mybar:setup {
          {
             system,
-            spacing = widget_spacing,
-            expand = "none",
+            {
+              cpu,
+              ram,
+              layout = wibox.layout.fixed.vertical
+            },
+            hdd,
+            spacing = beautiful.wibar_widget_spacing,
             layout = wibox.layout.fixed.horizontal,
          },
          s.mytaglist,
@@ -114,7 +120,7 @@ awful.screen.connect_for_each_screen(function(s)
             date,
             wifi,
             s.layoutbox,
-            spacing = widget_spacing,
+            spacing = beautiful.wibar_widget_spacing,
             layout = wibox.layout.fixed.horizontal,
             expand = "none"
          },

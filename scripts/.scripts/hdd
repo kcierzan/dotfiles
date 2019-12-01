@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+root=$(df | awk '/ \/$/{print $5}')
+media=$(df | awk '/ \/mnt\/media$/{print $5}')
+
+echo "$root:$media"

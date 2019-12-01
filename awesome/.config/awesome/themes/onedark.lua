@@ -76,7 +76,8 @@ theme.wibar_border_radius  = dpi(0)
 theme.bg_systray           = theme.bg_normal
 theme.wibar_font           = "mono bold 10"
 theme.wibar_italic_font    = "mono bold italic 10"
-theme.wibar_icomoon_font   = "icomoon 10"
+theme.wibar_icomoon_font   = "icomoon 14"
+theme.wibar_widget_spacing = dpi(20)
 
 theme.wibar_popup = {}
 -- Wibar popup menus

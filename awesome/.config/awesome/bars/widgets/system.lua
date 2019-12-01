@@ -17,7 +17,7 @@ local popup_height = dpi(200)
 
 local system_button = wibox.widget {
   markup = " " .. helpers.colorize_text(system_icon, beautiful.xcolor4),
-  font = "mono 12",
+  font = "mono 16",
   widget = wibox.widget.textbox
 }
 
