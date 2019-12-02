@@ -49,7 +49,7 @@ inputbar {
 }
 
 prompt {
-	enabled: true;
+	enabled: false;
 	text-color: @blue04;
 }
 

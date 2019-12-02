@@ -329,7 +329,7 @@ local globals = {
             description = "rofi combi",
             group = "launcher",
             func = function()
-                awful.spawn.with_shell("rofi -show combi -display-combi ''")
+                awful.spawn.with_shell("rofi -show combi -display-combi '' -display-drun ''")
             end,
             modkeys = { modkey }
         },
