@@ -2,7 +2,6 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local helpers = require("helpers")
 
-local info_font = "mono 8"
 local pacman_log_date_pattern = "(%d%d%d%d)-(%d%d)-(%d%d)T(%d%d):(%d%d):(%d%d)(-%d%d%d%d)"
 
 local days_since = function(time)
@@ -31,7 +30,6 @@ local days_since = function(time)
 end
 
 local last_update = wibox.widget {
-  font = info_font,
   widget = wibox.widget.textbox
 }
 
