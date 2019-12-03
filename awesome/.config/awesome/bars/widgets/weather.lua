@@ -98,7 +98,7 @@ function render_temperature(temperature)
   return helpers.colorize_text(temp .. weather_unit, color)
 end
 
-local rendered_days = {}
+rendered_days = {}
 
 local current_temperature = wibox.widget {
   valign = "center",
@@ -195,6 +195,7 @@ awesome.connect_signal("signals::weather", function(day_data)
       elseif i == 3 then
         day_name.markup = "Tomorrow"
       else
+        -- 1 would return the current day
         day_name.markup = day_by_offset(i - 1)
       end
 

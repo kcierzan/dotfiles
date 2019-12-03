@@ -8,10 +8,10 @@ Shortcut fallback to shortcut menu on partial entry
       \ noremap <silent> <Leader> :Shortcuts<Return>
 
 " resolve confilicts easier
-nnoremap grl :diffget
-nnoremap grh :diffput
-vnoremap grl :diffget
-vnoremap grh :diffput
+nnoremap grl :diffget<CR>
+nnoremap grh :diffput<CR>
+vnoremap grl :diffget<CR>
+vnoremap grh :diffput<CR>
 
 " Select all text
 noremap vA ggVG

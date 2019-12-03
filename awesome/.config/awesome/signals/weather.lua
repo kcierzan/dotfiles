@@ -55,4 +55,5 @@ function update_forecast()
   awesome.emit_signal("signals::weather", days)
   return true
 end
+
 gears.timer.start_new(update_interval, update_forecast)
