@@ -4,15 +4,16 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local helpers = require("helpers")
 
+local path = "themes.onedark.widgets."
 -- Add widgets
-local weather = require("bars.widgets.weather")
-local time = require("bars.widgets.time")
-local date = require("bars.widgets.date")
-local wifi = require("bars.widgets.wifi")
-local system = require("bars.widgets.system")
-local cpu = require("bars.widgets.cpu")
-local ram = require("bars.widgets.ram")
-local hdd = require("bars.widgets.hdd")
+local weather = require(path .."weather")
+local time = require(path .. "time")
+local date = require(path .. "date")
+local wifi = require(path .. "wifi")
+local system = require(path .. "system")
+local cpu = require(path .. "cpu")
+local ram = require(path .. "ram")
+local hdd = require(path .. "hdd")
 
 local update_taglist = function (item, tag, _)
   if tag.selected then

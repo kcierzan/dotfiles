@@ -54,11 +54,13 @@ awesome.connect_signal(
   end)
 
 -- Click the wifi icon in the wibar to toggle extended wifi info
-icon:buttons(gears.table.join(
-    awful.button({}, 1, function()
-      wifi_menu.visible = not wifi_menu.visible
-    end)
-  ))
+icon:connect_signal("mouse::enter", function()
+  wifi_menu.visible = true
+end)
+
+icon:connect_signal("mouse::leave", function()
+  wifi_menu.visible = false
+end)
 
 local popup_width = dpi(180)
 local popup_height = dpi(115)

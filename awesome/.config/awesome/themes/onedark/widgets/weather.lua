@@ -22,20 +22,20 @@ local cloudy_icon = ""
 local partly_cloudy_day_icon = ""
 local partly_cloudy_night_icon = ""
 
-function day_by_offset(offset)
+local day_by_offset = function(offset)
   local days_of_week = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
   -- this will be a 1 based index
-  local offset = offset - 1
+  local off = offset - 1
   -- get the current day of the week (int)
 
-  if os.date("*t").wday + offset > 7 then
-    return days_of_week[((os.date("*t").wday + offset) % 8) + 1]
+  if os.date("*t").wday + off > 7 then
+    return days_of_week[((os.date("*t").wday + off) % 8) + 1]
   end
 
   return days_of_week[os.date("*t").wday + offset]
 end
 
-function icon_code_to_char(icon_code)
+local icon_code_to_char = function(icon_code)
   local icon
   local color
   if icon_code == "clear-day" then
@@ -76,7 +76,7 @@ function icon_code_to_char(icon_code)
   return helpers.colorize_text(icon, color)
 end
 
-function render_temperature(temperature)
+local render_temperature = function(temperature)
   local color
   -- round and strip the the .0 from the temperature
   local temp = string.match(
@@ -98,7 +98,7 @@ function render_temperature(temperature)
   return helpers.colorize_text(temp .. weather_unit, color)
 end
 
-rendered_days = {}
+local rendered_days = {}
 
 local current_temperature = wibox.widget {
   valign = "center",
@@ -126,11 +126,13 @@ local current_weather = wibox.widget {
   layout = wibox.layout.fixed.horizontal
 }
 
-current_weather:buttons(gears.table.join(
-    awful.button({}, 1, function()
-      forecast_menu.visible = not forecast_menu.visible
-    end)
-  ))
+current_weather:connect_signal("mouse::enter", function()
+  forecast_menu.visible = true
+end)
+
+current_weather.connect_signal("mouse::leave", function()
+  forecast_menu.visible = false
+end)
 
 local popup_height = dpi(425)
 local popup_width = dpi(425)
