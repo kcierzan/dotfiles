@@ -21,11 +21,13 @@ local system_button = wibox.widget {
   widget = wibox.widget.textbox
 }
 
-system_button:buttons(gears.table.join(
-    awful.button({}, 1, function()
-      system_menu.visible = not system_menu.visible
-    end)
-  ))
+system_button.connect_signal("mouse::enter", function()
+  system_menu.visble = true
+end)
+
+system_button.connect_signal("mouse::leave", function()
+  system_menu.visble = false
+end)
 
 -- TODO: standardize this popup creation somewhere...
 system_menu = wibox {
