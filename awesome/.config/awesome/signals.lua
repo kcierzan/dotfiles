@@ -4,14 +4,14 @@ local gears = require("gears")
 local naughty = require("naughty")
 local inspect = require("inspect")
 
-local cpu_update_interval = 1
-local ram_update_interval = 1
-local hdd_update_interval = 5
-local wifi_update_interval = 60
-local traffic_update_interval = 1
-local weather_update_interval = 300
-local last_update_update_interval = 300
+local cpu_update_interval            = 1
+local ram_update_interval            = 1
+local traffic_update_interval        = 1
+local hdd_update_interval            = 5
+local wifi_update_interval           = 60
 local number_updates_update_interval = 60
+local weather_update_interval        = 300
+local last_update_update_interval    = 300
 
 local darksky_api_key = os.getenv("DARKSKY_API_KEY")
 
