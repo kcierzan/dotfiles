@@ -9,12 +9,14 @@ local light = {}
 
 -- styling of the popup is theme based...
 -- every theme must define a light widget
-local popup = require("themes." .. theme_name .. ".widgets.backlight")
+local popup = require(widget_dir .. "backlight")
 
 local pop_bar = function(bar_value)
-   meter.value = bar_value
+   -- every backlight widget should define the global 'backlight_meter'
+   backlight_meter.value = bar_value
    local percent = tostring(bar_value)
-   percentage.markup = helpers.colorize_text(percent .. "%", beautiful.bg_lighter)
+   -- every backlight widget should define the global 'backlight_percentage'
+   backlight_percentage.markup = helpers.colorize_text(percent .. "%", beautiful.bg_lighter)
    popup.visible = true
    gears.timer.new({
          timeout = 1,
