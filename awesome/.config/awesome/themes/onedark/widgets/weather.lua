@@ -22,7 +22,7 @@ local cloudy_icon = ""
 local partly_cloudy_day_icon = ""
 local partly_cloudy_night_icon = ""
 
-local day_by_offset = function(offset)
+day_by_offset = function(offset)
   local days_of_week = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
   -- this will be a 1 based index
   local off = offset - 1
@@ -32,7 +32,7 @@ local day_by_offset = function(offset)
     return days_of_week[((os.date("*t").wday + off) % 8) + 1]
   end
 
-  return days_of_week[os.date("*t").wday + offset]
+  return days_of_week[os.date("*t").wday + off]
 end
 
 local icon_code_to_char = function(icon_code)
@@ -118,21 +118,13 @@ local current_icon = wibox.widget {
   widget = wibox.widget.textbox
 }
 
-local current_weather = wibox.widget {
+current_weather = wibox.widget {
   current_icon,
   current_temperature,
   current_summary,
   spacing = dpi(8),
   layout = wibox.layout.fixed.horizontal
 }
-
-current_weather:connect_signal("mouse::enter", function()
-  forecast_menu.visible = true
-end)
-
-current_weather.connect_signal("mouse::leave", function()
-  forecast_menu.visible = false
-end)
 
 local popup_height = dpi(425)
 local popup_width = dpi(425)
@@ -154,6 +146,15 @@ forecast_menu = wibox {
       beautiful.wibar_popup.radius)
   end
 }
+
+current_weather:connect_signal("mouse::enter", function()
+  forecast_menu.visible = true
+end)
+
+current_weather:connect_signal("mouse::leave", function()
+  forecast_menu.visible = false
+end)
+
 
 -- all widgets are updated every 10 minutes
 awesome.connect_signal("signals::weather", function(day_data)
