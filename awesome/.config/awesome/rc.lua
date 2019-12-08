@@ -57,6 +57,8 @@ local theme_collection = {
 -- current theme
 theme_name = theme_collection[1]
 
+widget_dir = "themes." .. theme_name .. ".widgets."
+
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(theme_dir .. theme_name .. "/theme.lua")
 
