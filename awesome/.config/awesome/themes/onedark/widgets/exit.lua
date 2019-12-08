@@ -5,7 +5,9 @@ local helpers = require("helpers")
 local button_size = dpi(120)
 local button_bg = beautiful.bg_lighter
 
-local create_button = function(symbol, hover_color, text, command)
+local exit_button = {}
+
+exit_button.create_button = function(symbol, hover_color, text, command)
    local icon = wibox.widget {
       forced_height = button_size,
       forced_width = button_size,
@@ -70,3 +72,5 @@ local create_button = function(symbol, hover_color, text, command)
 
    return wrapper
 end
+
+return exit_button

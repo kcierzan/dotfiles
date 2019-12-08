@@ -1,3 +1,4 @@
+local awful = require("awful")
 local beautiful = require("beautiful")
 local gears = require("gears")
 local helpers = require("helpers")
@@ -23,7 +24,7 @@ local bulb = wibox.widget {
    widget = wibox.widget.textbox
 }
 
-local meter = wibox.widget {
+backlight_meter = wibox.widget {
    max_value = 100,
    border_width = 0,
    shape = helpers.rrect(dpi(8)),
@@ -32,7 +33,7 @@ local meter = wibox.widget {
    widget = wibox.widget.progressbar
 }
 
-local percentage = wibox.widget {
+backlight_percentage = wibox.widget {
    widget = wibox.widget.textbox,
    font = "mono bold 32",
    valign = "center"
@@ -40,8 +41,8 @@ local percentage = wibox.widget {
 
 local bar = wibox.widget {
    {
-      meter,
-      percentage,
+      backlight_meter,
+      backlight_percentage,
       layout = wibox.layout.stack,
       horizontal_offset = dpi(10)
    },
