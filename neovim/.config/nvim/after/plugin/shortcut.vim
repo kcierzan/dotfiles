@@ -285,17 +285,26 @@ Shortcut search snippets
       \ nnoremap <silent> <Space>fs :Snippets<CR>
 
 " ----------- VimWiki ---------------------
-nmap <silent> <Space>ni <Plug>VimwikiIndex
-nmap <silent> <Space>nt <Plug>VimwikiTabIndex
-nmap <silent> <Space>ns <Plug>VimwikiUISelect
-nmap <silent> <Space>nd <Plug>VimwikiDeleteLink
-nmap <silent> <Space>nr <Plug>VimwikiRenameLink
-nmap <silent> <Space>nc <Plug>VimwikiToggleListItem
-nmap <silent> <Space>nh <Plug>Vimwiki2HTML
+Shortcut open current vimwiki
+      \ nmap <silent> <Space>ni <Plug>VimwikiIndex
+Shortcut select vimwiki
+      \ nmap <silent> <Space>ns <Plug>VimwikiUISelect
+Shortcut delete vimwiki link
+      \ nmap <silent> <Space>nd <Plug>VimwikiDeleteLink
+Shortcut rename vimwiki link
+      \ nmap <silent> <Space>nr <Plug>VimwikiRenameLink
+Shortcut toggle vimwiki list item
+      \ nmap <silent> <Space>nc <Plug>VimwikiToggleListItem
+Shortcut export vimiwiki to html
+      \ nmap <silent> <Space>nh <Plug>Vimwiki2HTML
 
-nmap <silent> <Space>nli <Plug>VimwikiDiaryIndex
-nmap <silent> <Space>nll <Plug>VimwikiDiaryGenerateLinks
-nmap <silent> <Space>nlw <Plug>VimwikiMakeDiaryNote
-nmap <silent> <Space>nlt <Plug>VimwikiTabMakeDiaryNote
-nmap <silent> <Space>nlm <Plug>VimwikiMakeTomorrowDiaryNote
-nmap <silent> <Space>nly <Plug>VimwikiMakeYesterdayDiaryNote
+Shortcut open vimwiki diary index
+      \ nmap <silent> <Space>nli <Plug>VimwikiDiaryIndex
+Shortcut generate vimwiki diary links
+      \ nmap <silent> <Space>nll <Plug>VimwikiDiaryGenerateLinks
+Shortcut create new vimwiki diary note
+      \ nmap <silent> <Space>nlw <Plug>VimwikiMakeDiaryNote
+Shortcut create vimiwiki diary for tomorrow
+      \ nmap <silent> <Space>nlm <Plug>VimwikiMakeTomorrowDiaryNote
+Shortcut create vimwiki diary for yesterday
+      \ nmap <silent> <Space>nly <Plug>VimwikiMakeYesterdayDiaryNote

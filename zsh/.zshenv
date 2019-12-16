@@ -29,62 +29,25 @@ export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 export CM_LAUNCHER=rofi
 
-# lazy load pyenv... yeah...
-if [[ -d ~/.pyenv ]] && ! (( $+functions[zsh_setup_pyenv] )); then # only once!
-  if ! (( $+PYENV_ROOT )); then
-    export PYENV_ROOT="$HOME/.pyenv"
-  fi
 
-  # Setup pyenv completions always.
-  # (it is useful to have from the beginning, and using it via zsh_setup_pyenv
-  # triggers a job control bug in Zsh).
-  source $PYENV_ROOT/completions/pyenv.zsh
-
-  zsh_setup_pyenv() {
-    # Manual pyenv init, without "source", which triggers a bug in zsh.
-    # Adding shims to $PATH etc has been already also.
-    # eval "$(command pyenv init - --no-rehash | grep -v '^source')"
-    export PYENV_SHELL=zsh
-    pyenv() {
-      local command
-      command="$1"
-      if [ "$#" -gt 0 ]; then
-        shift
-      fi
-
-      case "$command" in
-        activate|deactivate|rehash|shell|virtualenvwrapper|virtualenvwrapper_lazy)
-          eval "`pyenv "sh-$command" "$@"`";;
-        *)
-          command pyenv "$command" "$@";;
-      esac
-    }
-    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-    unfunction zsh_setup_pyenv
-  }
-  pyenv() {
-    if [[ -n ${commands[pyenv]} ]]; then
-      zsh_setup_pyenv
-      pyenv "$@"
-    fi
-  }
+# Try to find pyenv, if it's not on the path
+export PYENV_ROOT="${PYENV_ROOT:=${HOME}/.pyenv}"
+if ! type pyenv > /dev/null && [ -f "${PYENV_ROOT}/bin/pyenv" ]; then
+    export PATH="${PYENV_ROOT}/bin:${PATH}"
 fi
 
-# Setup pyenv (with completion for zsh).
-# It gets done also in ~/.profile, but that does not cover completion and
-# ~/.profile is not sourced for real virtual consoles (VTs).
-autoload -U add-zsh-hook
-_pyenv_lazy_load() {
-  if (( $+functions[zsh_setup_pyenv] )); then
-    if [[ -f $PWD/.python-version ]]; then
-      zsh_setup_pyenv
-    else
-      return
-    fi
-  fi
-  add-zsh-hook -d chpwd _pyenv_lazy_load
-}
-add-zsh-hook chpwd _pyenv_lazy_load
+# Lazy load pyenv
+if type pyenv > /dev/null; then
+    export PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
+    function pyenv() {
+        unset -f pyenv
+        eval "$(command pyenv init -)"
+        if [[ -n "${ZSH_PYENV_LAZY_VIRTUALENV}" ]]; then
+            eval "$(command pyenv virtualenv-init -)"
+        fi
+        pyenv $@
+    }
+fi
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
