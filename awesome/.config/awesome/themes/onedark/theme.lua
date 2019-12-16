@@ -51,8 +51,8 @@ theme.fg_minimize   = theme.xcolor15
 -- Borders
 theme.border_width  = dpi(2)
 theme.border_normal = "#000000"
-theme.border_focus  = theme.xcolor4
-theme.border_marked = theme.xcolor3
+theme.border_focus  = theme.xcolor3
+theme.border_marked = theme.xcolor5
 
 -- Gaps
 theme.useless_gap = dpi(15)

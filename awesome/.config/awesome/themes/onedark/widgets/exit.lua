@@ -2,6 +2,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local helpers = require("helpers")
 
+local icon_font = "icomoon 45"
 local button_size = dpi(120)
 local button_bg = beautiful.bg_lighter
 

@@ -3,6 +3,7 @@ local beautiful = require("beautiful")
 local gears = require("gears")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local light = require("system.backlight")
+local exit = require("system.exit")
 local naughty = require("naughty")
 
 -- Default modkey.

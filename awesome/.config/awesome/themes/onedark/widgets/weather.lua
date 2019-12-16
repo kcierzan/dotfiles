@@ -29,7 +29,7 @@ day_by_offset = function(offset)
   -- get the current day of the week (int)
 
   if os.date("*t").wday + off > 7 then
-    return days_of_week[((os.date("*t").wday + off) % 8) + 1]
+    return days_of_week[((os.date("*t").wday + off) % 7)]
   end
 
   return days_of_week[os.date("*t").wday + off]
@@ -98,7 +98,6 @@ local render_temperature = function(temperature)
   return helpers.colorize_text(temp .. weather_unit, color)
 end
 
-local rendered_days = {}
 
 local current_temperature = wibox.widget {
   valign = "center",
@@ -158,6 +157,7 @@ end)
 
 -- all widgets are updated every 10 minutes
 awesome.connect_signal("signals::weather", function(day_data)
+  local rendered_days = {}
   for i, day in ipairs(day_data) do
     -- update the current info
     if i == 1 then

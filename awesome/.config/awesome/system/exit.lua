@@ -5,7 +5,6 @@ local beautiful = require("beautiful")
 local helpers = require("helpers")
 local gears = require("gears")
 
-local icon_font = "icomoon 45"
 local poweroff_text_icon = ""
 local reboot_text_icon = ""
 local suspend_text_icon = ""
@@ -41,7 +40,9 @@ local exit_screen_hide = function()
    exit_screen.visible = false
 end
 
-local exit_screen_show = function()
+local exit = {}
+
+exit.exit_screen_show = function()
    exit_screen_grabber = awful.keygrabber.run(function(_, key, event)
          -- Ignore case
          key = key:lower()
@@ -95,3 +96,5 @@ exit_screen:setup {
    expand = "none",
    layout = wibox.layout.align.vertical
 }
+
+return exit

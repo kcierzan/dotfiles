@@ -61,6 +61,16 @@ end)
 function update_forecast()
   local days = {}
   local ip_address = helpers.http.get("https://ifconfig.me", true)["body"][1]
+
+  if not ip_address then
+    naughty.notify({
+      title = "Fetch ip for weather failed",
+      text = "Stopping weather updates",
+      timeout = 0
+    })
+    return false
+  end
+
   local location = helpers.http.get("http://ip-api.com/json/" .. ip_address)["body"]
   location = helpers.decode(location)
 
