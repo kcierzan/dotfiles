@@ -1,5 +1,8 @@
 ! █▓▒░ onedark
 
+*.foreground: #abb2bf
+*.background: #282c34
+
 ! st cursor color
 *.color258: #d19a66
 

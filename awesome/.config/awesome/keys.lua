@@ -2,9 +2,9 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local gears = require("gears")
 local hotkeys_popup = require("awful.hotkeys_popup")
-local light = require("system.light")
+local light = require("system.backlight")
+local exit = require("system.exit")
 local naughty = require("naughty")
-local inspect = require("inspect")
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -373,7 +373,7 @@ local globals = {
             description = "show the exit screen",
             group = "awesome",
             func = function()
-                exit_screen_show()
+                exit.exit_screen_show()
             end,
             modkeys = { modkey }
         }

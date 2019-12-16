@@ -49,7 +49,7 @@ start-jack
 xbanish&
 
 # start the compositor
-compton&
+picom&
 
 # start the wm
 exec awesome

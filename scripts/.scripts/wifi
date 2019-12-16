@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
 name=$(nmcli device | grep 'wifi' | awk '{print $4}')
-strength=$(nmcli dev wifi list | grep "$name" | awk '{print $7}' | sed -n 2p )
+strength=$(nmcli dev wifi list | grep '*' | sed -n 1p | awk '{print $7}')
 
 echo "$name:$strength"

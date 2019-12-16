@@ -4,12 +4,12 @@ local gears = require("gears")
 local helpers = require("helpers")
 local wibox = require("wibox")
 
-local distro = require("bars.widgets.distro")
-local host = require("bars.widgets.host")
-local last_update = require("bars.widgets.last_update")
-local pacman_updates = require("bars.widgets.pacman_updates")
-local user = require("bars.widgets.user")
-local ip = require("bars.widgets.ip")
+local distro = require(widget_dir .. "distro")
+local host = require(widget_dir .. "host")
+local last_update = require(widget_dir .. "last_update")
+local pacman_updates = require(widget_dir .. "pacman_updates")
+local user = require(widget_dir .. "user")
+local ip = require(widget_dir .. "ip")
 
 local system_icon = ""
 local popup_width = dpi(380)
@@ -18,22 +18,17 @@ local popup_height = dpi(200)
 local system_button = wibox.widget {
   markup = " " .. helpers.colorize_text(system_icon, beautiful.xcolor4),
   font = "mono 16",
+  valign = "center",
   widget = wibox.widget.textbox
 }
-
-system_button:buttons(gears.table.join(
-    awful.button({}, 1, function()
-      system_menu.visible = not system_menu.visible
-    end)
-  ))
 
 -- TODO: standardize this popup creation somewhere...
 system_menu = wibox {
   visible = false,
   ontop = true,
   opacity = beautiful.wibar_opacity,
-  height = popup_height,
-  width = popup_width,
+  height = dpi(200),
+  width = dpi(380),
   x = 15,
   y = beautiful.wibar_popup.y_pos,
   bg = beautiful.bg_normal,
@@ -47,6 +42,16 @@ system_menu = wibox {
       dpi(3))
   end
 }
+
+  local naughty = require("naughty")
+
+system_button:connect_signal("mouse::enter", function()
+  system_menu.visible = true
+end)
+
+system_button:connect_signal("mouse::leave", function()
+  system_menu.visible = false
+end)
 
 system_menu:setup {
   {

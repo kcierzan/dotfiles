@@ -46,17 +46,21 @@ end
 -- add signals from periodically run scripts
 require("signals")
 
-local home_dir = os.getenv("HOME")
+home_dir = os.getenv("HOME")
+
 local theme_dir = home_dir .. "/.config/awesome/themes/"
+
 local theme_collection = {
    "onedark",
 }
 
 -- current theme
-local theme_name = theme_collection[1]
+theme_name = theme_collection[1]
+
+widget_dir = "themes." .. theme_name .. ".widgets."
 
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(theme_dir .. theme_name .. ".lua")
+beautiful.init(theme_dir .. theme_name .. "/theme.lua")
 
 -- Rounded corners
 client.connect_signal("manage", function (c)
@@ -96,8 +100,8 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
--- add a layout bar
-require("bars.default")
+-- add a the wibar bar(s) for the theme
+require("themes." .. theme_name .. ".bar")
 
 -- exit screen
 require("system.exit")
