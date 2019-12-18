@@ -1,6 +1,8 @@
-local wibox = require("wibox")
+local awful = require("awful")
 local beautiful = require("beautiful")
+local gears = require("gears")
 local helpers = require("helpers")
+local wibox = require("wibox")
 
 local icon_font = "icomoon 45"
 local button_size = dpi(120)
@@ -55,6 +57,13 @@ exit_button.create_button = function(symbol, hover_color, text, command)
       },
       widget = wibox.container.background
    }
+
+   -- left click executes the command
+   wrapper:buttons(gears.table.join(
+         awful.button({  }, 1, function()
+            command()
+         end)
+      ))
 
    wrapper:connect_signal("mouse::enter", function()
                             icon.markup = helpers.colorize_text(icon.text, hover_color)
