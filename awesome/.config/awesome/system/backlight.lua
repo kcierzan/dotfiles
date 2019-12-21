@@ -9,41 +9,27 @@ local light = {}
 
 -- styling of the popup is theme based...
 -- every theme must define a light widget
-local popup = require(widget_dir .. "backlight")
-
-local pop_bar = function(bar_value)
-   -- every backlight widget should define the global 'backlight_meter'
-   backlight_meter.value = bar_value
-   local percent = tostring(bar_value)
-   -- every backlight widget should define the global 'backlight_percentage'
-   backlight_percentage.markup = helpers.colorize_text(percent .. "%", beautiful.bg_lighter)
-   popup.visible = true
-   gears.timer.new({
-         timeout = 1,
-         autostart = true,
-         single_shot = true,
-         callback = function() popup.visible = false end
-      })
-end
+local backlight = require(widget_dir .. "backlight")
+local redshift = require(widget_dir .. "redshift")
 
 -- operation should be one of "+" or "-"
+-- TODO: prevent light change if redshift is active
 light.change_brightness = function(operation)
    awful.spawn.easy_async_with_shell(
       "light.py " .. operation .. " brightness",
       function(stdout)
          local percentage = math.floor(tonumber(stdout) * 100)
-         pop_bar(percentage)
+         backlight.flash_brightness(percentage)
       end)
 end
 
 -- operation should be one of "+" or "-"
+-- TODO: prevent temperature change if redshift is active
 light.change_temperature = function(operation)
    awful.spawn.easy_async_with_shell(
       "light.py " .. operation .. " temperature",
       function(stdout)
-         local notification = popup
-         notification.title = "Screen temperature changed to " .. stdout:gsub("%s+", "") .. "K"
-         naughty.notify(notification)
+         redshift.flash_temperature(stdout:gsub("%s+", ""))
       end)
 end
 
@@ -54,11 +40,9 @@ light.toggle_redshift = function()
       function(stdout)
          local notification = popup
          if stdout:gsub("%s+", "") ~= "" then
-            notification.title = "Redshift stopped"
-            naughty.notify(notification)
+            redshift.flash_status("on")
          else
-            notification.title = "Redshift started"
-            naughty.notify(notification)
+            redshift.flash_status("off")
          end
       end)
 end

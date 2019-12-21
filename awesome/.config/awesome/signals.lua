@@ -58,7 +58,7 @@ awful.widget.watch("lastupdate", last_update_update_interval, function(widget, s
 end)
 
 -- weather
-function update_forecast()
+local update_forecast = function()
   local days = {}
   local ip_address = helpers.http.get("https://ifconfig.me", true)["body"][1]
 

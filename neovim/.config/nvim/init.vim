@@ -289,11 +289,13 @@ let g:ale_linters = {
       \ 'yaml': ['yamllint'],
       \ 'jsx': ['eslint']
       \ }
+
 let g:ale_linter_aliases = {
       \ 'jsx': 'javascript',
       \ 'thtml': 'html',
       \ 'phtml': 'html',
       \ }
+
 let g:ale_fixers = {
       \ '*': ['trim_whitespace'],
       \ 'python': ['black'],
