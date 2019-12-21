@@ -3,7 +3,7 @@ local beautiful = require("beautiful")
 local wibox = require("wibox")
 local helpers = require("helpers")
 
-local popup_lib = require(widget_dir .. "popup")
+local popup_lib = require_widget("popup")
 local redshift = {}
 
 redshift.status_popup = popup_lib.create_popup()

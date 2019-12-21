@@ -4,12 +4,12 @@ local gears = require("gears")
 local helpers = require("helpers")
 local wibox = require("wibox")
 
-local distro = require(widget_dir .. "distro")
-local host = require(widget_dir .. "host")
-local last_update = require(widget_dir .. "last_update")
-local pacman_updates = require(widget_dir .. "pacman_updates")
-local user = require(widget_dir .. "user")
-local ip = require(widget_dir .. "ip")
+local distro = require_widget("distro")
+local host = require_widget("host")
+local last_update = require_widget("last_update")
+local pacman_updates = require_widget("pacman_updates")
+local user = require_widget("user")
+local ip = require_widget("ip")
 
 local system_icon = ""
 local popup_width = dpi(380)

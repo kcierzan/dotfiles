@@ -9,8 +9,8 @@ local light = {}
 
 -- styling of the popup is theme based...
 -- every theme must define a light widget
-local backlight = require(widget_dir .. "backlight")
-local redshift = require(widget_dir .. "redshift")
+local backlight = require_widget("backlight")
+local redshift = require_widget("redshift")
 
 -- operation should be one of "+" or "-"
 -- TODO: prevent light change if redshift is active

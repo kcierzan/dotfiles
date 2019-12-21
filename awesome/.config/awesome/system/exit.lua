@@ -21,7 +21,7 @@ local suspend_command = function()
    awful.spawn.with_shell("sudo systemctl suspend")
 end
 
-local exit_widget = require(widget_dir .. "exit")
+local exit_widget = require_widget("exit")
 -- Create the buttons
 local poweroff = exit_widget.create_button(poweroff_text_icon, beautiful.xcolor1, "Power", poweroff_command)
 local reboot = exit_widget.create_button(reboot_text_icon, beautiful.xcolor2, "Reboot", reboot_command)

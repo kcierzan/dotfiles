@@ -7,7 +7,7 @@ local wibox = require("wibox")
 local height = dpi(100)
 local width = dpi(600)
 
-local popup_lib = require(widget_dir .. "popup")
+local popup_lib = require_widget("popup")
 local backlight = {}
 
 backlight.popup = popup_lib.create_popup()
