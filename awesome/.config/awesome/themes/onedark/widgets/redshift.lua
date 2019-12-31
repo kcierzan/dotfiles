@@ -1,4 +1,5 @@
 local awful = require("awful")
+local gears = require("gears")
 local beautiful = require("beautiful")
 local wibox = require("wibox")
 local helpers = require("helpers")
@@ -89,7 +90,7 @@ redshift.flash_temperature = function(temp)
          timeout = 1,
          autostart = true,
          single_shot = true,
-         callback = function() popup.visible = false end
+         callback = function() redshift.temp_popup.visible = false end
       })
 end
 

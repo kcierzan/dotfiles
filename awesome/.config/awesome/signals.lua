@@ -60,7 +60,7 @@ end)
 -- weather
 local update_forecast = function()
   local days = {}
-  local ip_address = helpers.http.get("https://ifconfig.me", true)["body"][1]
+  local ip_address = helpers.http.get("https://ifconfig.me", true, true)["body"][1]
 
   if not ip_address then
     naughty.notify({
@@ -71,7 +71,7 @@ local update_forecast = function()
     return false
   end
 
-  local location = helpers.http.get("http://ip-api.com/json/" .. ip_address)["body"]
+  local location = helpers.http.get("http://ip-api.com/json/" .. ip_address, false, true)["body"]
   location = helpers.decode(location)
 
   if not location then
@@ -83,10 +83,10 @@ local update_forecast = function()
 
   local url = "https://api.darksky.net/forecast/" .. darksky_api_key .. "/" .. coords .. "?exclude=minutely"
 
-  local body = helpers.http.get(url, true)["body"]
+  local body = helpers.http.get(url, true, true)["body"]
   body = helpers.decode(body)
 
-  if not body then
+  if not body or next(body) == nil then
     naughty.notify({
       title = "Fetch weather failed",
       text = "Stopping weather updates",
@@ -117,6 +117,7 @@ end
 gears.timer.start_new(weather_update_interval, update_forecast)
 
 -- number pacman updates
+-- TODO: fix this success check
 local success = true
 local get_updates = function()
   awful.spawn.easy_async_with_shell(

@@ -2,6 +2,7 @@ local ltn12 = require("ltn12")
 local beautiful = require("beautiful")
 local gears = require("gears")
 local wibox = require("wibox")
+local naughty = require("naughty")
 -- install socket
 local http = require("socket.http")
 -- install luasec and point it to openssl
@@ -83,13 +84,18 @@ function helpers.add_hover_cursor(w, hover_cursor)
     end)
 end
 
+helpers.sleep = function(seconds)
+  os.execute("sleep " .. tonumber(seconds))
+end
+
 helpers.http = {}
 
-helpers.http.get = function(url, ssl)
+helpers.http.get = function(url, ssl, retries)
   local headers = {
     ["Accept"] = "application/json"
   }
   local body = {}
+  local attempts = 0
   if ssl then
     _, code, headers, status = https.request {
       url = url,
@@ -102,6 +108,29 @@ helpers.http.get = function(url, ssl)
       headers = headers,
       sink = ltn12.sink.table(body)
     }
+  end
+
+  while retries and tonumber(code) >= 500 and attempts < 6 do
+    helpers.sleep(3)
+    naughty.notify({
+        title = "Fetch: " .. url .. " failed with code: " .. code,
+        text = "Body: " .. table.concat(body, " "),
+        timeout = 0
+      })
+    if ssl then
+      _, code, headers, status = https.request {
+        url = url,
+        headers = headers,
+        sink = ltn12.sink.table(body)
+      }
+    else
+      _, code, headers, status = http.request {
+        url = url,
+        headers = headers,
+        sink = ltn12.sink.table(body)
+      }
+    end
+    attempts = attempts + 1
   end
 
   return {

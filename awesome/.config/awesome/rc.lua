@@ -59,7 +59,7 @@ theme_name = theme_collection[1]
 
 -- helper function for importing themed widgets
 function require_widget(widget)
-   return require "themes." .. theme_name .. ".widgets."
+   return require("themes." .. theme_name .. ".widgets." .. widget)
 end
 
 widget_dir = "themes." .. theme_name .. ".widgets."

@@ -15,8 +15,8 @@ awful.placement.center_horizontal(popup)
 backlight.bulb = popup_lib.create_bulb(beautiful.xcolor3)
 
 backlight.flash_brightness = function(brightness)
-   local meter = popup_lib.create_meter(brightness .. "", brightness, 100, beautiful.xcolor3)
-   popup:setup {
+   local meter = popup_lib.create_meter(brightness, brightness .. "%", 100, beautiful.xcolor3)
+   backlight.popup:setup {
       {
          backlight.bulb,
          meter,
@@ -26,6 +26,8 @@ backlight.flash_brightness = function(brightness)
       widget = wibox.container.margin,
       margins = dpi(8)
    }
+
+   awful.placement.center_horizontal(backlight.popup)
 
    backlight.popup.visible = true
    gears.timer.new({
