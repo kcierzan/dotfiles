@@ -13,7 +13,6 @@ local backlight = require_widget("backlight")
 local redshift = require_widget("redshift")
 
 -- operation should be one of "+" or "-"
--- TODO: prevent light change if redshift is active
 light.change_brightness = function(operation)
    awful.spawn.easy_async_with_shell(
       "light.py " .. operation .. " brightness",
@@ -24,7 +23,6 @@ light.change_brightness = function(operation)
 end
 
 -- operation should be one of "+" or "-"
--- TODO: prevent temperature change if redshift is active
 light.change_temperature = function(operation)
    awful.spawn.easy_async_with_shell(
       "light.py " .. operation .. " temperature",
@@ -40,9 +38,9 @@ light.toggle_redshift = function()
       function(stdout)
          local notification = popup
          if stdout:gsub("%s+", "") ~= "" then
-            redshift.flash_status("on")
-         else
             redshift.flash_status("off")
+         else
+            redshift.flash_status("on")
          end
       end)
 end

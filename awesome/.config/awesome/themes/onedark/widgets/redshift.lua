@@ -29,8 +29,8 @@ redshift.status_popup:setup {
 
 redshift.flash_status = function(status)
    if status == "on" then
-      setup()
       redshift.status_popup.visible = true
+      redshift.status_bulb.markup = helpers.colorize_text("", beautiful.xcolor1)
       redshift.status_message.markup = helpers.colorize_text("Redshift started", beautiful.xcolor1)
       gears.timer.new({
             timeout = 1,
@@ -39,7 +39,6 @@ redshift.flash_status = function(status)
             callback = function() redshift.status_popup.visible = false end
          })
    elseif status == "off" then
-      setup()
       redshift.status_popup.visible = true
       redshift.status_bulb.markup = helpers.colorize_text("", beautiful.xcolor4)
       redshift.status_message.markup = helpers.colorize_text("Redshift stopped", beautiful.xcolor4)
