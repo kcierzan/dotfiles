@@ -50,7 +50,6 @@ light.max_temp = light.presets[#light.presets]["temp"]
 light.min_temp = light.presets[1]["temp"]
 
 -- assume initial values are full brightness, gamma, etc
--- TODO: set a realistic value for the initial display
 light.display = "HDMI-0"
 light.gamma = {1.0, 1.0, 1.0}
 light.brightness = 1.0
@@ -61,7 +60,6 @@ light.is_redshift_on = function()
   awful.spawn.easy_async_with_shell(
      "ps aux | grep redshift | grep -v grep",
       function(stdout)
-        naughty = require("naughty")
          if stdout:gsub("%s+", "") ~= "" then
             light.redshift_on = true
           else
@@ -71,31 +69,10 @@ light.is_redshift_on = function()
   )
 end
 
-light.get_current_display = function()
-   awful.spawn.easy_async_with_shell(
-      "xrandr | grep -w connected | cut -f1 -d ' '",
-      function(stdout)
-         light.display = stdout:gsub("%s+", "")
-      end
-   )
-end
-
-light.get_current_brightness = function()
-   awful.spawn.easy_async_with_shell(
-      "xrandr --verbose | " ..
-      "grep -w " .. light.display .. " -A8 | " ..
-      "grep Brightness | " ..
-      "cut -f2 -d ' '",
-      function(stdout)
-         light.brightness = tonumber(stdout)
-      end
-   )
-end
-
 local function parse_xrandr_gamma(gammas)
   local inverted_gammas = {}
   for _, gamma in ipairs(gammas) do
-    if tonumber(gamma) == 0.0 then
+    if tonumber(gamma) == 0 then
       table.insert(inverted_gammas, 0.0)
     else
       table.insert(inverted_gammas, helpers.round( 1 / tonumber(gamma), 1))
@@ -121,10 +98,34 @@ light.get_current_gamma = function()
    )
 end
 
+
+light.get_initial_display_state = function()
+   awful.spawn.easy_async_with_shell(
+      "xrandr | grep -w connected | cut -f1 -d ' '",
+      function(stdout)
+         light.display = stdout:gsub("%s+", "")
+          light.get_current_gamma()
+          light.get_current_brightness()
+      end
+   )
+end
+
+light.get_current_brightness = function()
+   awful.spawn.easy_async_with_shell(
+      "xrandr --verbose | " ..
+      "grep -w " .. light.display .. " -A8 | " ..
+      "grep Brightness | " ..
+      "cut -f2 -d ' '",
+      function(stdout)
+         light.brightness = tonumber(stdout)
+      end
+   )
+end
+
 light.get_current_temp = function()
    for i, preset in ipairs(light.presets) do
       if tablex.compare(preset["gamma"], light.gamma, function(a, b) return a == b end) then
-            return preset["temp"]
+        return preset["temp"]
       end
    end
 end
@@ -158,9 +159,9 @@ light.change_brightness = function(operation)
 end
 
 -- operation should be one of "+" or "-"
-light.change_temp = function(operation)
+light.change_temperature = function(operation)
    if light.redshift_on then
-      awful.spawn.with_shell("rshift 2>&1 /dev/null")
+      awful.spawn.with_shell("rshift")
       redshift.flash_status("off")
    end
 
@@ -169,11 +170,11 @@ light.change_temp = function(operation)
       if tablex.compare(preset["gamma"], light.gamma, function(a, b) return a == b end) then
 
             -- We are already at the max or min temperature, don't call xrandr
-         if i >= #light.presets then
-            redshift:flash_temperature(light.max_temp)
+         if operation == "+" and i + 1 >= #light.presets then
+            redshift.flash_temperature(light.max_temp)
             return
-         elseif i <= 1 then
-            redshift:flash_temperature(light.min_temp)
+         elseif operation == "-" and i - 1 <= 1 then
+            redshift.flash_temperature(light.min_temp)
             return
          end
 
@@ -189,9 +190,9 @@ light.change_temp = function(operation)
       end
    end
    local cmd = "redshift -P -O " .. new_temp .. " -b " .. light.brightness .. ":" .. light.brightness
-   awful.spawn.easy_async_with_shell(cmd, function(stdout)
-      redshift:flash_temperature(stdout:gsub("%s+", ""))
-   end)
+   awful.spawn.with_shell(cmd)
+   light.get_current_gamma()
+   redshift.flash_temperature(new_temp)
 end
 
 light.toggle_redshift = function()
@@ -199,17 +200,14 @@ light.toggle_redshift = function()
        function(stdout)
          if stdout:gsub("%s+", "") == "off" then
            light.redshift_on = false
-            redshift.flash_status("off")
+           redshift.flash_status("off")
           else
            light.redshift_on = true
-            redshift.flash_status("on")
+           redshift.flash_status("on")
           end
         end)
 end
 
-light.get_current_display()
-light.get_current_gamma()
-light.get_current_temp()
-light.get_current_brightness()
+light.get_initial_display_state()
 
 return light

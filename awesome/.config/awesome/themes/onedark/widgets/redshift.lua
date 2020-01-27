@@ -3,6 +3,8 @@ local gears = require("gears")
 local beautiful = require("beautiful")
 local wibox = require("wibox")
 local helpers = require("helpers")
+local naughty = require("naughty")
+local ins = require("inspect")
 
 local popup_lib = require_widget("popup")
 local redshift = {}
@@ -54,7 +56,7 @@ end
 redshift.flash_temperature = function(temp)
    local color
    local value
-   local temps = {'1500', '2000', '2500', '3500', '4000', '5000', '6000', '6500'}
+   local temps = {1500, 2000, 2500, 3500, 4000, 5000, 6000, 6500}
 
    for i, temperature in ipairs(temps) do
       if temp == temperature then
