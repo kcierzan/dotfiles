@@ -4,6 +4,7 @@ REDSHIFT=$(ps aux | grep redshift | grep -v grep | awk '{print $2}')
 
 if [ -n "$REDSHIFT" ]; then
     pkill redshift
+    echo -n 'off'
 else
-    redshift
+    redshift > /dev/null 2>&1 &
 fi

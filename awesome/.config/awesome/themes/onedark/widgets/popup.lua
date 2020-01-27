@@ -4,7 +4,7 @@ local helpers = require("helpers")
 local wibox = require("wibox")
 
 local height = dpi(100)
-local width = dpi(600)
+local width = dpi(500)
 
 local popup = {}
 
@@ -22,7 +22,7 @@ end
 popup.create_bulb = function(color)
    return wibox.widget {
       valign = "centered",
-      font = "icomoon 48",
+      font = "icomoon 36",
       markup = helpers.colorize_text("", color),
       widget = wibox.widget.textbox
    }
