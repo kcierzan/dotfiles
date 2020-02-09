@@ -1,7 +1,7 @@
 ;;; .doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; set fonts
-(setq doom-font (font-spec :family "Victor Mono" :size 14.0 :weight 'semi-bold)
+(setq doom-font (font-spec :family "Jetbrains Mono" :size 14.0 :weight 'semi-bold)
       doom-variable-pitch-font (font-spec :family "DINPro" :size 14.0)
       doom-serif-font (font-spec :family "Bitter" :size 14.0))
 
@@ -50,3 +50,14 @@
 (add-hook 'doom-load-theme-hook (lambda ()
                                (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
                                (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)))
+
+;; force 's' to trigger the evil-avy timer
+(map! :n "s" #'evil-avy-goto-char-2)
+
+(after! evil-snipe
+  (evil-snipe-mode -1)
+  (map! :n "s" #'evil-avy-goto-char-2))
+
+(setq doom-modeline-height 45)
+
+(load-theme 'doom-snazzy t)
