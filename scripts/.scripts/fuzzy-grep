@@ -10,7 +10,7 @@ if [[ $EDITOR = 'nvim' || $EDITOR =~ .*emacs ]]; then
     -g "!*.dmp" \
     . \
     2> /dev/null \
-    | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
+    | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview.sh {}' \
     | gawk -F : '{print "+"$2" "$1 }'))
 elif [[ $EDITOR = 'code' ]]; then
       linefile=($(rg -n --hidden \
@@ -22,7 +22,7 @@ elif [[ $EDITOR = 'code' ]]; then
         -g "!*.dmp" \
         . \
         2> /dev/null \
-        | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview {}' \
+        | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview.sh {}' \
         | gawk -F : '{print "-g "$1":"$2 }'))
 fi
 
