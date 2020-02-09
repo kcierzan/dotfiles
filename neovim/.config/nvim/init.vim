@@ -154,7 +154,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'tpope/vim-abolish'
 Plug 'AndrewRadev/sideways.vim'
-Plug 'vim-python/python-syntax'
+Plug 'kh3phr3n/python-syntax'
 Plug 'haya14busa/vim-keeppad'
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
@@ -171,6 +171,7 @@ Plug 'metakirby5/codi.vim'
 Plug 'sunaku/vim-shortcut'
 Plug 'lervag/vimtex'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'Shougo/neomru.vim'
 call plug#end()
 
 " ayu-theme
@@ -352,7 +353,7 @@ autocmd FileType fzf set laststatus=0 noshowmode noruler
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
-      \   'rg --smart-case --line-number --column --no-heading --hidden --color=always -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
+      \   'rg --smart-case --line-number --column --no-heading --hidden --color=never -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
       \   (winwidth(0) > 175 ? fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'right:50%')
       \                      : fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'up:80%')))
 
@@ -447,8 +448,8 @@ set signcolumn=yes
 
 " accept completion with tab
 " inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
-let g:coc_snippet_next = '<C-j>'
-let g:coc_snippet_prev = '<C-k>'
+let g:coc_snippet_next = '<TAB>'
+let g:coc_snippet_prev = '<S-TAB>'
 
 " highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
