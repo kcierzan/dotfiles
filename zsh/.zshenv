@@ -16,6 +16,8 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 
 export FZF_DEFAULT_OPTS='--color=fg:#839496,bg:-1,fg+:4,bg+:-1,header:3,hl:-1,hl+:3,prompt:4,spinner:5,pointer:5,marker:4,info:4'
 
+export FZF_PREVIEW_COMMAND='bat --style=numbers --color=always {}'
+
 export KEYTIMEOUT=1
 
 export CLICOLOR=1
