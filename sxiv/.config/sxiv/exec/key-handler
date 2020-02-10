@@ -10,7 +10,7 @@ do
       sudo chown lightdm:lightdm /usr/share/pixmaps/wall.png
       feh --bg-scale "$HOME/.config/wall.png" &&
       # requires libnotify
-      notify-send "$HOME/.config/wall.png" "Wallpaper changed";;
+      notify-send "Wallpaper changed";;
   esac
 done
 

@@ -144,11 +144,8 @@ end
 local function set_window_mode_bindings ()
     if awful.layout.getname() == "floating" then
         bind_keys(generate_tag_bindings(), global_bindings, floating_bindings)
-        -- TODO: this should be made obvious another way
-        naughty.notify({title = "Now we are floating"})
     else
         bind_keys(generate_tag_bindings(), global_bindings, tiling_bindings)
-        naughty.notify({title = "Now we are tiling"})
     end
 end
 
@@ -216,16 +213,13 @@ tiling_bindings = {
 tiling_bindings["]"] = { { description = "increase master width factor", group = "client", func = function() awful.tag.incmwfact(0.05) end, modkeys = { modkey, "Shift" } } }
 tiling_bindings["["] = { { description = "decrease master width factor", group = "client", func = function() awful.tag.incmwfact(-0.05) end, modkeys = { modkey, "Shift" } } }
 
-
-
-
 global_bindings = {
     s = { { description = "show help", group = "awesome", func = hotkeys_popup.show_help                           , modkeys = { modkey } } },
     v = { { description = "open clipboard manager", group = "user"    , func = function() awful.spawn.with_shell("clipmenu") end , modkeys = { modkey      , "Shift" } } }   ,
     r = { { description = "reload awesome"        , group = "awesome" , func = awesome.restart                                   , modkeys = { modkey      , "Control" } } } ,
     q = { { description = "quit awesome"          , group = "awesome" , func = awesome.quit                                      , modkeys = { modkey      , "Shift" } } }   ,
     space = { { description = "rofi combi"            , group = "launcher", func = show_rofi                                         , modkeys = { modkey } }  ,
-               { description = "toggle layout"         , group = "awesome" , func = function() switch_window_mode() end , modkeys = { modkey      , "Control" } } } ,
+              { description = "toggle layout"         , group = "awesome" , func = function() switch_window_mode() end , modkeys = { modkey      , "Control" } } } ,
     Left = { { description = "view previous"         , group = "tag"     , func = function() switch_tag("previous") end             , modkeys = { modkey } } },
     Right = { { description = "view next"             , group = "tag"     , func = function() switch_tag("next") end                 , modkeys = { modkey } } },
     Return = { { description = "open a tmux terminal"  , group = "launcher", func = open_tmux_terminal                                , modkeys = { modkey } } },

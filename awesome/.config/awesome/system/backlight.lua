@@ -135,7 +135,7 @@ light.change_brightness = function(operation)
    -- we have to disable redshift to make manual temperature changes
    if light.redshift_on then
       awful.spawn.with_shell("rshift")
-      redshift.flash_status("off")
+      light.redshift_on = false
    end
 
    local new = 1.0
@@ -162,7 +162,7 @@ end
 light.change_temperature = function(operation)
    if light.redshift_on then
       awful.spawn.with_shell("rshift")
-      redshift.flash_status("off")
+      light.redshift_on = false
    end
 
    local new_temp = 6500
