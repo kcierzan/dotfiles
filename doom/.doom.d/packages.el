@@ -12,3 +12,4 @@
 (package! posframe)
 (package! ob-browser)
 (package! prettier-js)
+(package! lsp-ivy)

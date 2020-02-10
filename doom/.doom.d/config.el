@@ -1,9 +1,13 @@
 ;;; .doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; set fonts
-(setq doom-font (font-spec :family "Jetbrains Mono" :size 14.0 :weight 'semi-bold)
+(if (memq window-system '(mac ns))
+    (setq doom-font (font-spec :family "JetBrains Mono" :size 14.0 :weight 'semi-bold)
       doom-variable-pitch-font (font-spec :family "DINPro" :size 14.0)
       doom-serif-font (font-spec :family "Bitter" :size 14.0))
+  (setq doom-font (font-spec :family "JetBrains Mono" :size 10.0 :weight 'semi-bold)
+      doom-variable-pitch-font (font-spec :family "DINPro" :size 12.0)
+      doom-serif-font (font-spec :family "Bitter" :size 12.0)))
 
 ;; set the org directory
 (setq org-directory "~/Documents/org/")
@@ -58,6 +62,8 @@
   (evil-snipe-mode -1)
   (map! :n "s" #'evil-avy-goto-char-2))
 
-(setq doom-modeline-height 45)
+(if (memq window-system '(mac ns))
+    (setq doom-modeline-height 45)
+  (setq doom-modeline-height 65))
 
 (load-theme 'doom-snazzy t)
