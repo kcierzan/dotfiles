@@ -63,7 +63,21 @@
   (map! :n "s" #'evil-avy-goto-char-2))
 
 (if (memq window-system '(mac ns))
-    (setq doom-modeline-height 45)
+    (setq doom-modeline-height 40)
   (setq doom-modeline-height 65))
 
-(load-theme 'doom-snazzy t)
+(load-theme 'doom-gruvbox t)
+
+(after! browse-at-remote (add-to-list 'browse-at-remote-remote-type-domains  '("gitlab.aweber.io" . "gitlab")))
+
+;; search all files
+(after! (:any ivy swiper counsel counsel-projectile projectile)
+  (setq counsel-rg-base-command "rg  --with-filename --no-heading --line-number --color never --hidden --follow --glob \"!.git/*\" -g \"!*.pyc\" --iglob \"!tags\" 2> /dev/null %s"))
+
+;; move the cursor to the recently created window split
+(defun my/evil-window-follow (&rest _) (evil-window-down 1))
+(defun my/evil-window-vfollow (&rest _) (evil-window-right 1))
+(advice-add #'evil-window-split :after #'my/evil-window-follow)
+(advice-add #'evil-window-vsplit :after #'my/evil-window-vfollow)
+
+(setq fancy-splash-image "~/Sync/fish-header.png")
