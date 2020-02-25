@@ -58,6 +58,9 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 
 zmodload zsh/terminfo
 typeset -gA key_info
+
+typeset -aU path  # Remove duplicate entries in $PATH
+
 key_info=(
   'Control'         '\C-'
   'ControlLeft'     '\e[1;5D \e[5D \e\e[D \eOd'
