@@ -5,7 +5,7 @@ IFS=$'\n'
 out=($(rg ${1:-.} --files --no-ignore --hidden --follow \
     -g "!.git/*" \
     -g "!*.pyc" \
-    -g "!node-modules/*" \
+    -g "!node_modules/*" \
     -g "!tags" \
     -g "!TAGS" \
     2> /dev/null \

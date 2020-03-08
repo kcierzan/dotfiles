@@ -2,7 +2,7 @@ let mapleader = "\<Space>"
 tnoremap <Esc> <C-\><C-n>
 
 Shortcut show shortcut menu and run chosen shortcut
-      \ noremap <silent> <Leader><Leader> :Shortcuts<Return>
+      \ noremap <silent> <Leader>: :Shortcuts<Return>
 
 Shortcut fallback to shortcut menu on partial entry
       \ noremap <silent> <Leader> :Shortcuts<Return>
@@ -253,6 +253,9 @@ Shortcut git commit
 " ------------ FZF -------------------------
 Shortcut find files under source control
       \ nnoremap <silent> <Space>ff :GFiles<CR>
+
+Shortcut find files under source control
+      \ nnoremap <silent> <Space><Space> :GFiles<CR>
 Shortcut find all files
       \ nnoremap <silent> <Space>fa :Files<CR>
 Shortcut search help files
