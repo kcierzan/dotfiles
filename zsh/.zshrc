@@ -1,11 +1,15 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 #                __
 #    ____  _____/ /_  __________
 #   /_  / / ___/ __ \/ ___/ ___/
 #  _ / /_(__  ) / / / /  / /__
 # (_)___/____/_/ /_/_/   \___/
-
-# vi style editing
-bindkey -v
 
 # avoid fancy prompt stuff when in emacs
 if [[ $TERM == "dumb" ]]; then
@@ -69,6 +73,7 @@ fi
 
 ### Added by Zplugin's installer
 source "$HOME/.zplugin/bin/zplugin.zsh"
+source "$HOME/.zsh/vi_cursor.zsh"
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 ### End of Zplugin's installer chunk

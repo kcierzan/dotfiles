@@ -41,8 +41,11 @@ alias spotoff="sudo mdutil -a -i off"
 alias spoton="sudo mdutil -a -i on"
 
 # Use the ls_extended script
-alias le="ls_extended_macos"
-alias la="ls_extended_macos -lah"
+# alias le="ls_extended_macos"
+# alias la="ls_extended_macos -lah"
+alias le="lsd"
+alias la="lsd -lah"
+alias lt="lsd -a --tree"
 
 # Change working directory to the top-most Finder window location
 cdf() { # short for `cdfinder`

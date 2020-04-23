@@ -11,7 +11,7 @@ function zle-keymap-select zle-line-init
         # RPROMPT="$(prompt_geometry_colorize $GEOMETRY_VI_MODE_COLOR_NORMAL $GEOMETRY_VI_MODE_SYMBOL_NORMAL)"
         ;;
       viins|main)
-        set_cursor_shape 1 # underline cursor
+        set_cursor_shape 2 # underline cursor
         # RPROMPT="$(prompt_geometry_colorize $GEOMETRY_VI_MODE_COLOR_INSERT $GEOMETRY_VI_MODE_SYMBOL_INSERT)"
         ;;
     esac

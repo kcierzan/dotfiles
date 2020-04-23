@@ -1,4 +1,4 @@
-export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin:$HOME/.composer/vendor/bin:/Library/TeX/Distributions/Programs/texbin"
+export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:$JAVA_HOME:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin:$HOME/.composer/vendor/bin:/Library/Tex/Distributions/Programs/textbin"
 
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 export LESS_TERMCAP_mb=$'\E[01;31m'      # Begins blinking.
