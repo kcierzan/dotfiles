@@ -45,9 +45,8 @@ set foldlevelstart=20
 set termguicolors
 set showtabline=0
 
-" Enable blinking cursor
-" set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
-set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor
+" Enable blinking underline cursor
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
 
 " Use system clipboard on macOS and both clipboards on linux
 set clipboard=unnamed
@@ -95,6 +94,9 @@ augroup SwitchPanes
   autocmd WinEnter * set cursorline
   autocmd WinLeave * set nocursorline
 augroup END
+
+" set the cursor back when we exit nvim
+au VimLeave * set guicursor=a:hor20-Cursor/lCursor
 
 "-------------------------------- EX COMMANDS --------------------------------
 function! FormatJson()
