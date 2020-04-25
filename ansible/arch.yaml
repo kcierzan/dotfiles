@@ -1,0 +1,304 @@
+---
+- hosts: all
+  vars:
+    home: /home/rasmos
+    src_home: /home/rasmos/git
+  tasks:
+    - name: Full system upgrade
+      pacman:
+        update_cache: yes
+        upgrade: yes
+    - name: Create the aur-builder user
+      user:
+        name: aur-builder
+        group: wheel
+      lineinfile:
+        path: /etc/sudoers.d/11-install-aur-builder
+        line: 'aur-builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+        create: yes
+        validate: 'visudo -cf %s'
+    - name: Install aur-helper ansible module
+      git:
+        repo: https://github.com/kewlfft/ansible-aur.git
+        dest: "{{ home }}/.ansible/plugins/modules/aur"
+    - name: Install yay
+      aur: name=yay use=makepkg skip_installed=true
+      become: yes
+      become_user: aur-builder
+    - name: Install packages with yay
+      aur:
+        use: yay
+        name:
+          - 1password-cli
+          - alsa-plugins
+          - alsa-utils
+          - asciiquarium
+          - autoconf
+          - automake
+          - awesome
+          - b43-firmware  # support for ASUS Z97 WiFi card
+          - bash
+          - bat
+          - bc
+          - binutils
+          - bison
+          - bklk-git
+          - blueman
+          - bluez
+          - bluez-utils
+          - bmon
+          - borg
+          - boxes
+          - broadcom-wl-dkms  # support for ASUS Z97 WiFi card
+          - bzip2
+          - cadence
+          - calibre
+          - ccp4m
+          - clipmenu
+          - clipnotify
+          - cool-retro-term
+          - coreutils
+          - cower
+          - cronie
+          - cryptsetup
+          - device-mapper
+          - dhcp
+          - dhcpcd
+          - diffutils
+          - docker
+          - docker-compose
+          - e2fsprogs
+          - emacs
+          - expac
+          - fakeroot
+          - fasd
+          - fd
+          - feh
+          - figlet
+          - figlet-fonts
+          - file
+          - filesystem
+          - findutils
+          - firefox
+          - flex
+          - font-victor-mono
+          - fortune-mod
+          - fzf
+          - gawk
+          - gcc
+          - gcc-libs
+          - gettext
+          - git
+          - glibc
+          - glxinfo
+          - grep
+          - groff
+          - grub
+          - gucharmap
+          - gzip
+          - htop
+          - httpie
+          - imagemagick
+          - inetutils
+          - iproute2
+          - iputils
+          - isync
+          - iw
+          - jack2
+          - jfsutils
+          - john-mpi
+          - jq
+          - less
+          - libffado
+          - libnotify
+          - libtool
+          - libva-utils
+          - licenses
+          - lightdm
+          - lightdm-gtk-greeter
+          - linux
+          - logrotate
+          - ls_extended
+          - luarocks
+          - lvm2
+          - m4
+          - make
+          - makemkv
+          - man-db
+          - man-pages
+          - mdadm
+          - mlocate
+          - mongodb-bin-4.0
+          - mosh-git
+          - mpv
+          - nano
+          - ncmpcpp-git
+          - nemo
+          - neofetch
+          - neomutt
+          - neovim
+          - netctl
+          - networkmanager
+          - nodejs
+          - npm
+          - nvidia
+          - nvidia-led
+          - nvidia-settings
+          - openssh
+          - os-prober
+          - otfcc
+          - pacman
+          - paper-icon-theme-git
+          - parted
+          - patch
+          - pciutils
+          - pcmciautils
+          - perl
+          - picom
+          - pkgconf
+          - poppler
+          - procps-ng
+          - psmisc
+          - pyenv
+          - pyenv-virtualenv
+          - python-pip
+          - qjackctl
+          - ranger
+          - realtime-privileges
+          - redshift
+          - refind-efi
+          - reiserfsprogs
+          - renoise3-demo
+          - ripgrep
+          - rofi
+          - ruby
+          - s-nail
+          - scientifica-bdf
+          - scrot
+          - sed
+          - shadow
+          - speedtest-cli
+          - stow
+          - sudo
+          - sxiv
+          - syncthing
+          - sysfsutils
+          - systemd
+          - systemd-sysvcompat
+          - tar
+          - texinfo
+          - thunar
+          - tmatrix-git
+          - tmux
+          - toilet
+          - ttf-cascadia-code
+          - ttf-croscore
+          - ttf-iosevka-git
+          - ttf-iosevka-slab
+          - ttf-jetbrains-mono
+          - ttf-roboto
+          - ttf-roboto-mono
+          - ttf-roboto-slab
+          - ttfautohint
+          - tumbler
+          - unifi
+          - unimatrix-git
+          - unzip
+          - usbutils
+          - util-linux
+          - vapoursynth
+          - vi
+          - vifm
+          - w3m
+          - which
+          - wmctrl
+          - wpa_supplicant
+          - xbanish
+          - xbindkeys
+          - xcape
+          - xclip
+          - xf86-video-vesa
+          - xfconf
+          - xfsprogs
+          - xinit-xsession
+          - xorg-docs
+          - xorg-fonts-100dpi
+          - xorg-fonts-75dpi
+          - xorg-luit
+          - xorg-server-devel
+          - xorg-server-xdmx
+          - xorg-server-xephyr
+          - xorg-server-xnest
+          - xorg-server-xvfb
+          - xorg-server-xwayland
+          - xorg-sessreg
+          - xorg-smproxy
+          - xorg-x11perf
+          - xorg-xbacklight
+          - xorg-xcmsdb
+          - xorg-xcursorgen
+          - xorg-xdpyinfo
+          - xorg-xdriinfo
+          - xorg-xev
+          - xorg-xgamma
+          - xorg-xhost
+          - xorg-xinit
+          - xorg-xinput
+          - xorg-xkbevd
+          - xorg-xkbutils
+          - xorg-xkill
+          - xorg-xlsatoms
+          - xorg-xlsclients
+          - xorg-xpr
+          - xorg-xprop
+          - xorg-xrandr
+          - xorg-xrefresh
+          - xorg-xset
+          - xorg-xsetroot
+          - xorg-xvinfo
+          - xorg-xwd
+          - xorg-xwininfo
+          - xorg-xwud
+          - yajl
+          - youtube-dl
+          - zathura
+          - zathura-pdf-mupdf
+          - zsh
+    # TODO: set up ssh key for gitlab
+    # TODO: install icomoon font
+    # TODO: set up syncthing
+    # TODO: set up initial wallpaper (fehbg)
+    # TODO: set up gtk theme
+    # TODO: set up fontconfig
+    - name: Clone dotfiles
+      git:
+        repo: https://gitlab.com/kcierzan/dotfiles.git
+        dest: "{{ home }}/.dotfiles"
+    - name: Symlink dotfiles
+      shell:
+        chdir: "{{ home }}/.dotfiles"
+        cmd: "stow {{ item }}"
+      with_items:
+        - awesome
+        - bat
+        - ctags
+        - doom
+        - ncmpcpp
+        - neovim
+        - picom
+        - redshift
+        - rofi
+        - scripts
+        - sxiv
+        - tmux
+        - vifm
+        - xorg
+        - zsh
+    - name: Clone doom emacs
+      git:
+        repo: https://github.com/hlissner/doom-emacs
+        dest: "{{ home }}/.emacs.d"
+    - name: Install doom emacs
+      shell:
+        chdir: "{{ home }}/.emacs.d/bin"
+        cmd: doom install
