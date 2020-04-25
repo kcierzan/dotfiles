@@ -3,7 +3,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local helpers = require("helpers")
 
-local system_icon = ""
+local system_icon = " "
 
 local distro_name = wibox.widget {
   font = beautiful.wibar_font,

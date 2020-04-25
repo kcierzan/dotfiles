@@ -11,7 +11,7 @@ local pacman_updates = require_widget("pacman_updates")
 local user = require_widget("user")
 local ip = require_widget("ip")
 
-local system_icon = ""
+local system_icon = " "
 local popup_width = dpi(380)
 local popup_height = dpi(200)
 
