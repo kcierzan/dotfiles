@@ -12,6 +12,7 @@ local wifi_update_interval           = 60
 local number_updates_update_interval = 60
 local weather_update_interval        = 300
 local last_update_update_interval    = 300
+local bluetooth_update_interval      = 5
 
 local darksky_api_key = os.getenv("DARKSKY_API_KEY")
 
@@ -139,3 +140,23 @@ local get_updates = function()
 end
 
 gears.timer.start_new(number_updates_update_interval, get_updates)
+
+local get_paired_devices = function()
+  awful.spawn.easy_async_with_shell(
+    "bluetoothctl paired-devices | cut -d' ' -f 3-",
+    function(stdout)
+      local devices = stdout:gsub("%s", "")
+      if not devices then
+        naughty.notify({
+            title = "bluetooth check failed",
+            text = "stopping bluetooth check"
+          })
+        return
+      end
+      awesome.emit_signal("signals::bluetooth_devices", devices)
+    end
+    )
+  return success
+end
+
+gears.timer.start_new(bluetooth_update_interval, get_paired_devices)
