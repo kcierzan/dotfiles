@@ -59,7 +59,7 @@ if executable('rg')
 endif
 
 " Virtualenv for python-dependent plugins
-let g:python3_host_prog = $HOME . '/.pyenv/versions/neovim3/bin/python3'
+let g:python3_host_prog = $HOME . '/.pyenv/versions/main/bin/python3'
 
 "-------------------------------- AUTOCOMMANDS --------------------------------
 " Disable annoying automatic comments
@@ -308,7 +308,7 @@ let g:ale_fixers = {
       \}
 " let g:ale_python_flake8_options = "--import-order-style=google"
 let g:ale_javascript_eslint_use_global = 1
-let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/neovim3/bin/vint'
+let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/main/bin/vint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
 let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
 let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'

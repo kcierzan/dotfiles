@@ -1,3 +1,6 @@
+# Fire up direnv
+eval "$(direnv hook zsh)"
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -66,22 +69,24 @@ source ~/.zsh/prefs.zsh
 
 [ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
 
-if [[ ! -d ~/.zplugin ]]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+if [[ ! -d ~/.zinit ]]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
 
+# Fire up jenv
+eval "$(jenv init -)"
 
 ### Added by Zplugin's installer
-source "$HOME/.zplugin/bin/zplugin.zsh"
 source "$HOME/.zsh/vi_cursor.zsh"
-autoload -Uz _zplugin
-(( ${+_comps} )) && _comps[zplugin]=_zplugin
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz zinit
+(( ${+_comps} )) && _comps[zinit]=zinit
 ### End of Zplugin's installer chunk
 
-zplugin light romkatv/powerlevel10k
-zplugin ice silent wait
-zplugin light zdharma/fast-syntax-highlighting
-zplugin ice silent wait svn
-zplugin snippet PZT::modules/completion
-zplugin ice silent wait atload'_zsh_autosuggest_start'
-zplugin light zsh-users/zsh-autosuggestions
+zinit light romkatv/powerlevel10k
+zinit ice silent wait
+zinit light zdharma/fast-syntax-highlighting
+zinit ice silent wait svn
+zinit snippet PZT::modules/completion
+zinit ice silent wait atload'_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions

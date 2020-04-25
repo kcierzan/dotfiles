@@ -48,6 +48,7 @@ pkgs=(
  hub
  jq
  less
+ lsd
  mpc
  mpd
  neovim

@@ -1,4 +1,4 @@
-export PATH="$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin:$HOME/.composer/vendor/bin:/Library/TeX/Distributions/Programs/texbin"
+export PATH="$HOME/.jenv/bin:$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin:$HOME/.composer/vendor/bin:/Library/TeX/Distributions/Programs/texbin"
 
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 export LESS_TERMCAP_mb=$'\E[01;31m'      # Begins blinking.
@@ -31,6 +31,8 @@ export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 export CM_LAUNCHER=rofi
 
+export HV_SRC_PART="git"
+export HV_SRC="$HOME/$HV_SRC_PART"
 
 # Try to find pyenv, if it's not on the path
 export PYENV_ROOT="${PYENV_ROOT:=${HOME}/.pyenv}"

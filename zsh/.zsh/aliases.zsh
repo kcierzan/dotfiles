@@ -68,6 +68,9 @@ alias tkss='tmux kill-session -t'
 alias le="lsd"
 alias la="lsd -lah"
 
+# Joplin
+alias jp="joplin"
+
 # Create a new directory and enter it
 # Create a relative path to arg1 from ar2
 relpath() {
