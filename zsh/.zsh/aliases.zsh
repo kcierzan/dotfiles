@@ -64,6 +64,10 @@ alias tl='tmux list-sessions'
 alias tksv='tmux kill-server'
 alias tkss='tmux kill-session -t'
 
+# lsd
+alias le="lsd"
+alias la="lsd -lah"
+
 # Create a new directory and enter it
 # Create a relative path to arg1 from ar2
 relpath() {

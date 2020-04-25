@@ -5,6 +5,3 @@ alias ppst="xclip -o -selection clipboard"
 alias p="sudo pacman"
 alias sys="sudo systemctl"
 alias usys="systemctl --user"
-
-alias le="lsd"
-alias la="lsd -lah"
