@@ -71,6 +71,9 @@ alias la="lsd -lah"
 # Joplin
 alias jp="joplin"
 
+# LazyGit
+alias lg="lazygit"
+
 # Create a new directory and enter it
 # Create a relative path to arg1 from ar2
 relpath() {
