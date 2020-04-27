@@ -73,9 +73,6 @@ if [[ ! -d ~/.zinit ]]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
 
-# Fire up jenv
-eval "$(jenv init -)"
-
 ### Added by Zplugin's installer
 source "$HOME/.zsh/vi_cursor.zsh"
 source "$HOME/.zinit/bin/zinit.zsh"

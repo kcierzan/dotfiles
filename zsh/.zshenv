@@ -1,4 +1,4 @@
-export PATH="$HOME/.jenv/bin:$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin:$HOME/.composer/vendor/bin:/Library/TeX/Distributions/Programs/texbin"
+export PATH="$HOME/.jenv/bin:$HOME/.pyenv/bin:$HOME/.pyenv/shims:$HOME/.rbenv/shims:$HOME/.scripts:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.cargo/bin:$HOME/.composer/vendor/bin:/Library/TeX/Distributions/Programs/texbin"
 
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 export LESS_TERMCAP_mb=$'\E[01;31m'      # Begins blinking.
@@ -34,15 +34,8 @@ export CM_LAUNCHER=rofi
 export HV_SRC_PART="git"
 export HV_SRC="$HOME/$HV_SRC_PART"
 
-# Try to find pyenv, if it's not on the path
-export PYENV_ROOT="${PYENV_ROOT:=${HOME}/.pyenv}"
-if ! type pyenv > /dev/null && [ -f "${PYENV_ROOT}/bin/pyenv" ]; then
-    export PATH="${PYENV_ROOT}/bin:${PATH}"
-fi
-
 # Lazy load pyenv
 if type pyenv > /dev/null; then
-    export PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
     function pyenv() {
         unset -f pyenv
         eval "$(command pyenv init -)"
@@ -51,6 +44,15 @@ if type pyenv > /dev/null; then
         fi
         pyenv $@
     }
+fi
+
+# lazy load jenv
+if type jenv > /dev/null; then
+  function jenv() {
+    unset -f jenv
+    eval "$(command jenv init -)"
+    jenv $@
+  }
 fi
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
