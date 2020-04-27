@@ -98,6 +98,9 @@ augroup END
 " set the cursor back when we exit nvim
 au VimLeave * set guicursor=a:hor20-Cursor/lCursor
 
+" Keep markdown file lines to 100 characters
+autocmd BufNewFile,BufRead *.md setlocal textwidth=100
+
 "-------------------------------- EX COMMANDS --------------------------------
 function! FormatJson()
   %!python -m json.tool
@@ -376,7 +379,8 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
 "vim-markdown
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
-
+let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 0
 
 " Polyglot
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
