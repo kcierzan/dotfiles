@@ -1,0 +1,47 @@
+scriptencoding utf-8
+set autoindent
+set completeopt-=preview
+set conceallevel=2
+set cursorline
+set expandtab
+set gdefault
+set hidden
+set ignorecase
+set visualbell
+set noerrorbells
+set nolazyredraw
+set noshowmode
+set noswapfile
+set nowrap
+set nonumber
+set pumheight=10
+set scrolloff=3
+set shell=/usr/local/bin/zsh
+set shiftround
+set shiftwidth=2
+set showcmd
+set smartcase
+set smartindent
+set softtabstop=2
+set splitbelow
+set splitright
+set tabstop=2
+set textwidth=0
+set timeoutlen=1000
+set ttimeoutlen=0
+set autoread
+set ttyfast
+set undodir=~/.undo
+set undofile
+set undolevels=100000
+set foldlevelstart=20
+set termguicolors
+set showtabline=0
+
+let mapleader="\<Space>"
+
+set commentary
+set easymotion
+set surround
+
+map s <Plug>(easymotion-s2)
