@@ -63,43 +63,43 @@ let g:python3_host_prog = $HOME . '/.pyenv/versions/main/bin/python3'
 
 "-------------------------------- AUTOCOMMANDS --------------------------------
 " Disable annoying automatic comments
-autocmd BufNewFile,BufRead * setlocal formatoptions+=cqn
+autocmd! BufNewFile,BufRead * setlocal formatoptions+=cqn
 
 " Trigger autoread when files change on disk
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif | set fillchars+=vert:\│
+autocmd! FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif | set fillchars+=vert:\│
 
 " Notification after file change
-autocmd FileChangedShellPost *
+autocmd! FileChangedShellPost *
       \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 " Vim autosaves and reflects changes to files on disk
 au FocusGained,BufEnter * :silent! !
 au FocusLost,WinLeave * :silent! w
 
-autocmd filetype crontab setlocal nobackup nowritebackup
+autocmd! filetype crontab setlocal nobackup nowritebackup
 
-autocmd BufNewFile,BufRead *.thtml
+autocmd! BufNewFile,BufRead *.thtml
       \ setlocal syntax=phtml
 
 augroup netrw_buf_hidden_fix
   autocmd!
   " Set all non-netrw buffers to bufhidden=hide
-  autocmd BufWinEnter *
+  autocmd! BufWinEnter *
         \  if &ft != 'netrw'
         \|     set bufhidden=hide
         \| endif
 augroup end
 
 augroup SwitchPanes
-  autocmd WinEnter * set cursorline
-  autocmd WinLeave * set nocursorline
+  autocmd! WinEnter * set cursorline
+  autocmd! WinLeave * set nocursorline
 augroup END
 
 " set the cursor back when we exit nvim
 au VimLeave * set guicursor=a:hor20-Cursor/lCursor
 
 " Keep markdown file lines to 100 characters
-autocmd BufNewFile,BufRead *.md setlocal textwidth=100
+autocmd! BufNewFile,BufRead *.md setlocal textwidth=100
 
 "-------------------------------- EX COMMANDS --------------------------------
 function! FormatJson()
@@ -108,23 +108,23 @@ function! FormatJson()
 endfunction
 
 "json pretty print
-command Tojson :call FormatJson()
+command! Tojson :call FormatJson()
 
 " Remove trailing whitespace
-command Trimws :%s/\s\+$//
+command! Trimws :%s/\s\+$//
 
 " Format file with prettier
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 "-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'joshdick/onedark.vim'
-Plug 'dracula/vim'
-Plug 'morhetz/gruvbox'
-Plug 'patstockwell/vim-monokai-tasty'
-Plug 'lifepillar/vim-solarized8'
-Plug 'liuchengxu/space-vim-theme'
-Plug 'ayu-theme/ayu-vim'
+" Plug 'joshdick/onedark.vim'
+" Plug 'dracula/vim'
+" Plug 'morhetz/gruvbox'
+" Plug 'patstockwell/vim-monokai-tasty'
+" Plug 'lifepillar/vim-solarized8'
+" Plug 'liuchengxu/space-vim-theme'
+" Plug 'ayu-theme/ayu-vim'
 Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
@@ -163,7 +163,7 @@ Plug 'kh3phr3n/python-syntax'
 Plug 'haya14busa/vim-keeppad'
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'vimwiki/vimwiki'
+" Plug 'vimwiki/vimwiki'
 Plug 'blueyed/vim-diminactive'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-rhubarb'
@@ -173,10 +173,12 @@ Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
 Plug 'airblade/vim-rooter'
 Plug 'chrisbra/Colorizer'
 Plug 'metakirby5/codi.vim'
-Plug 'sunaku/vim-shortcut'
-Plug 'lervag/vimtex'
+" Plug 'sunaku/vim-shortcut'
+" Plug 'lervag/vimtex'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'Shougo/neomru.vim'
+Plug 'sainnhe/edge'
+Plug 'sainnhe/gruvbox-material'
 call plug#end()
 
 " ayu-theme
@@ -274,7 +276,7 @@ let g:comfortable_motion_air_drag = 5.0
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 let g:sneak#s_next = 1
-autocmd Colorscheme * hi Sneak ctermfg=black ctermbg=red
+autocmd! Colorscheme * hi Sneak ctermfg=black ctermbg=red
 
 " vim-tmux-navigator
 " Map alt + hjkl to navigation
@@ -315,9 +317,9 @@ let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/main/bin/vint'
 let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
 let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
 let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '⚠'
-let g:ale_statusline_format = ['✖ %d', '⚠ %d', '']
+let g:ale_sign_error = ''
+let g:ale_sign_warning = ''
+let g:ale_statusline_format = ['✖ %d', ' %d', '']
 let g:ale_warn_about_trailing_whitespace = 1
 let g:ale_lint_on_text_changed = 'always'
 let g:ale_set_highlights = 0
@@ -354,7 +356,7 @@ endif
 
 autocmd! FileType fzf
 autocmd FileType fzf set laststatus=0 noshowmode noruler
-      \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+      \| autocmd! BufLeave <buffer> set laststatus=2 showmode ruler
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
@@ -388,9 +390,9 @@ let g:python_highlight_all = 1
 
 " NERDTree
 let g:NERDTreeShowHidden = 1
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd! StdinReadPre * let s:std_in=1
+autocmd! VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+autocmd! bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " vim-devicons
 let g:webdevicons_enable_nerdtree = 1
@@ -462,7 +464,7 @@ let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 
 " highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd! CursorHold * silent call CocActionAsync('highlight')
 
 " vim-rooter
 let g:rooter_use_lcd = 1
@@ -474,3 +476,206 @@ source $HOME/.config/nvim/colorscheme.vim
 
 " set up the statusline
 source $HOME/.config/nvim/statusline.vim
+
+let mapleader = "\<Space>"
+tnoremap <Esc> <C-\><C-n>
+"
+" resolve confilicts easier
+nnoremap grl :diffget<CR>
+nnoremap grh :diffput<CR>
+vnoremap grl :diffget<CR>
+vnoremap grh :diffput<CR>
+
+" Select all text
+noremap vA ggVG
+
+" Align stuff
+      \ nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
+
+      \ nmap gsh :SidewaysLeft<CR>
+      \ nmap gsl :SidewaysRight<CR>
+
+      \ nnoremap gT g<C-]>
+
+      \ nnoremap gt g<C-]>
+
+      \ xmap K <Plug>(expand_region_expand)
+      \ xmap J <Plug>(expand_region_shrink)
+
+function! GoToOpenFold(direction)
+  let start = line('.')
+  if (a:direction == "next")
+    while (foldclosed(start) != -1)
+      let start = start + 1
+    endwhile
+  else
+    while (foldclosed(start) != -1)
+      let start = start - 1
+    endwhile
+  endif
+  call cursor(start, 0)
+endfunction
+
+nmap ]z :call GoToOpenFold("next")<CR>
+nmap [z :call GoToOpenFold("prev")<CR>
+
+" Jump to next error message
+nnoremap ge :ALENextWrap<CR>
+
+" Show syntax highlight at point
+map gi :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+      \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+" Replace f and t with sneak equivalents
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+
+" Universal nvim split / Tmux navigation
+nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <M-b> :TmuxNavigatePrevious<cr>
+
+" H and L move to start and end of lines
+nmap L <Nop>
+nmap H <Nop>
+xmap L <Nop>
+xmap H <Nop>
+omap L <Nop>
+omap H <Nop>
+nnoremap L g_
+nnoremap H ^
+xnoremap L g_
+xnoremap H ^
+onoremap L g_
+onoremap H ^
+
+" unbind Q for another binding
+nmap Q <Nop>
+xmap Q <Nop>
+omap Q <Nop>
+
+"buffer navigation
+nmap <C-L> <Nop>
+nmap <C-H> <Nop>
+
+nnoremap <C-L> :bnext<CR>
+nnoremap <C-H> :bprev<CR>
+
+nnoremap <silent> <Space>q :q<Return>
+nnoremap <silent> <Space>Q :q!<Return>
+
+" ------------ interface ----------------
+nnoremap <silent> <Space>i% :set invrelativenumber<CR>
+nnoremap <silent> <Space>i# :set invnumber<CR>
+nnoremap <silent> <Space>il :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
+nnoremap <silent> <Space>ii :IndentLinesToggle<CR>
+nnoremap <silent> <Space>iu :UndotreeToggle<CR>
+nnoremap <silent> <Space>ic :nohlsearch<CR>
+nnoremap <silent> <Space>iz :Goyo<CR>
+nnoremap <silent> <Space>ih :ColorHighlight<CR>
+nnoremap <silent> <Space>it :NERDTreeToggle<CR>
+
+" ------------ buffers ------------------
+nnoremap <silent> <Space>be :SudoEdit<CR>
+nnoremap <silent> <Space>bs :w<CR>
+nnoremap <silent> <Space>bn :new<CR>
+nnoremap <silent> <Space>bd :bd<CR>
+nnoremap <silent> <Space>bD :bd!<CR>
+nnoremap <silent> <Space>bc :windo diffthis<CR>
+nnoremap <silent> <Space>bC :windo diffoff<CR>
+nnoremap <silent> <Space>br :edit!<CR>
+nnoremap <silent> <Space>bw :Trimws<CR>
+
+" ------------- windows ------------------
+nnoremap <silent> <Space>wv :vsp<CR>
+nnoremap <silent> <Space>ws :sp<CR>
+nnoremap <silent> <Space>wk 10<C-w>+
+nnoremap <silent> <Space>wj 10<C-w>-
+nnoremap <silent> <Space>wl 10<C-w>>
+nnoremap <silent> <Space>wh 10<C-w><
+nnoremap <silent> <Space>wr <C-w>r
+nnoremap <silent> <Space>wo <C-w>o
+nnoremap <silent> <Space>we <C-w>=
+nnoremap <silent> <Space>wV <C-w>H
+nnoremap <silent> <Space>wS <C-w>J
+
+" ------------- nvim --------------------------
+nnoremap <silent> <Space>vr :so ~/.config/nvim/init.vim<CR>
+nnoremap <silent> <Space>ve :edit ~/.config/nvim/init.vim<CR>
+nnoremap <silent> <Space>vs :Startify<CR>
+nnoremap <silent> <Space>vu :PlugUpdate<CR>
+nnoremap <silent> <Space>vi :PlugInstall<CR>
+nnoremap <silent> <Space>vc :PlugClean<CR>
+
+" ------------ code ---------------------------
+nnoremap <silent> <Space>cT :!ctags<CR>
+nnoremap <silent> <Space>cr :!rm tags && ctags<CR>
+nnoremap <silent> <Space>ca <Plug>(coc-codeaction)
+vnoremap <silent> <Space>ca <Plug>(coc-codeaction-selected)
+nnoremap <silent> <Space>cf <Plug>(coc-fix-current)
+nnoremap <silent> <Space>cF <Plug>(coc-format-selected)
+vnoremap <silent> <Space>cF <Plug>(coc-format-selected)
+nnoremap <silent> <Space>cc :CocRestart<CR>
+nnoremap <silent> <Space>cR <Plug>(coc-rename)
+
+" ------------ testing -----------------------
+nnoremap <silent> <Space>tn :TestNearest<CR>
+nnoremap <silent> <Space>tf :TestFile<CR>
+nnoremap <silent> <Space>ts :TestSuite<CR>
+nnoremap <silent> <Space>tl :TestLast<CR>
+nnoremap <silent> <Space>tv :TestVisit<CR>
+
+" ------------- git ------------------------
+nnoremap <silent> <Space>gs :Gstatus<CR>
+nnoremap <silent> <Space>gb :Gblame<CR>
+nnoremap <silent> <Space>gn :GitGutterNextHunk<CR>
+nnoremap <silent> <Space>gN :GitGutterPrevHunk<CR>
+nnoremap <silent> <Space>gh :GitGutterStageHunk<CR>
+nnoremap <silent> <Space>g] :call <SID>NextHunkAllBuffers()<CR>
+nnoremap <silent> <Space>g[ :call <SID>PrevHunkAllBuffers()<CR>
+nnoremap <silent> <Space>gu :GitGutterUndoHunk<CR>
+nnoremap <silent> <Space>gp :GitGutterPreviewHunk<CR>
+nnoremap <silent> <Space>gd :Gvdiff<CR>
+nnoremap <silent> <Space>gl :GV<CR>
+nnoremap <silent> <Space>go :Gbrowse<CR>
+vnoremap <silent> <Space>go :Gbrowse<CR>
+nnoremap <silent> <Space>gc :Gcommit<CR>
+
+" ------------ FZF -------------------------
+nnoremap <silent> <Space>ff :GFiles<CR>
+nnoremap <silent> <Space><Space> :GFiles<CR>
+nnoremap <silent> <Space>fa :Files<CR>
+nnoremap <silent> <Space>fi :Helptags<CR>
+nnoremap <silent> <Space>fb :Buffers<CR>
+nnoremap <silent> <Space>fl :BLines<CR>
+nnoremap <silent> <Space>fL :Lines<CR>
+nnoremap <silent> <Space>fh :HHistory<CR>
+nnoremap <silent> <Space>fg :Rg<CR>
+nnoremap <silent> <Space>ft :Filetypes<CR>
+nnoremap <silent> <Space>fc :Commits<CR>
+nnoremap <silent> <Space>fO :Tags<CR>
+nnoremap <silent> <Space>fo :BTags<CR>
+nnoremap <silent> <Space>fe :Commands<CR>
+nnoremap <silent> <Space>fp :GGrep<CR>
+nnoremap <silent> <Space>fj :Cd<CR>
+nnoremap <silent> <Space>fs :Snippets<CR>
+
+" ----------- VimWiki ---------------------
+" nmap <silent> <Space>ni <Plug>VimwikiIndex
+" nmap <silent> <Space>ns <Plug>VimwikiUISelect
+" nmap <silent> <Space>nd <Plug>VimwikiDeleteLink
+" nmap <silent> <Space>nr <Plug>VimwikiRenameLink
+" nmap <silent> <Space>nc <Plug>VimwikiToggleListItem
+" nmap <silent> <Space>nh <Plug>Vimwiki2HTML
+
+" nmap <silent> <Space>nli <Plug>VimwikiDiaryIndex
+" nmap <silent> <Space>nll <Plug>VimwikiDiaryGenerateLinks
+" nmap <silent> <Space>nlw <Plug>VimwikiMakeDiaryNote
+" nmap <silent> <Space>nlm <Plug>VimwikiMakeTomorrowDiaryNote
+" nmap <silent> <Space>nly <Plug>VimwikiMakeYesterdayDiaryNote
