@@ -1,7 +1,15 @@
 set background=dark
 " let g:edge_style = 'neon'
-let g:gruvbox_material_background = 'soft'
-colorscheme gruvbox-material
+" let g:gruvbox_material_background = 'soft'
+let g:sonokai_style = 'atlantis'
+let g:sonokai_enable_italic = 1
+let g:sonokai_transparent_background = 1
+colorscheme sonokai
+let g:fzf_colors = {}
+
+" :hi SignColumn guibg=none
+" :hi GitGutter
+" colorscheme gruvbox-material
 
 " hi Normal ctermfg=none ctermbg=none guibg=none guifg=none
 " hi ColorColumn ctermfg=none ctermbg=0

@@ -1,5 +1,6 @@
 ! █▓▒░ onedark
 
+st.alpha: 1
 *.foreground: #abb2bf
 *.background: #282c34
 

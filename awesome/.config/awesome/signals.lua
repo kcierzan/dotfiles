@@ -115,6 +115,7 @@ local update_forecast = function()
   return true
 end
 
+-- TODO: call on initial load
 gears.timer.start_new(weather_update_interval, update_forecast)
 
 -- number pacman updates
@@ -141,6 +142,7 @@ end
 
 gears.timer.start_new(number_updates_update_interval, get_updates)
 
+-- TODO: Does this work?
 local get_paired_devices = function()
   awful.spawn.easy_async_with_shell(
     "bluetoothctl paired-devices | cut -d' ' -f 3-",

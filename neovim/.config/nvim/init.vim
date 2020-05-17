@@ -44,6 +44,7 @@ set undolevels=100000
 set foldlevelstart=20
 set termguicolors
 set showtabline=0
+set inccommand=nosplit
 
 " Enable blinking underline cursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
@@ -179,6 +180,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'Shougo/neomru.vim'
 Plug 'sainnhe/edge'
 Plug 'sainnhe/gruvbox-material'
+Plug 'sainnhe/sonokai'
 call plug#end()
 
 " ayu-theme
