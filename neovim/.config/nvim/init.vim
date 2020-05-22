@@ -20,7 +20,7 @@ set nolazyredraw
 set noshowmode
 set noswapfile
 set nowrap
-set nonumber
+set number
 set pumheight=10
 set scrolloff=3
 set shell=/usr/local/bin/zsh
@@ -181,6 +181,7 @@ Plug 'Shougo/neomru.vim'
 Plug 'sainnhe/edge'
 Plug 'sainnhe/gruvbox-material'
 Plug 'sainnhe/sonokai'
+Plug 'mcchrish/nnn.vim'
 call plug#end()
 
 " ayu-theme
@@ -289,7 +290,7 @@ let g:ale_completion_enabled = 0
 filetype off
 filetype plugin indent on
 let g:ale_linters = {
-      \ 'python': ['flake8', 'mypy'],
+      \ 'python': ['pylint', 'mypy'],
       \ 'javascript': ['eslint'],
       \ 'css': ['prettier'],
       \ 'php': ['php'],
@@ -385,6 +386,8 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_new_list_item_indent = 0
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_conceal = 0
 
 " Polyglot
 let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
@@ -421,6 +424,7 @@ let g:vrc_include_response_header = 1
 let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-snippets', 'coc-emmet', 'coc-css', 'coc-tsserver', 'coc-html']
 set cmdheight=2
 set updatetime=400
+
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -473,12 +477,16 @@ let g:rooter_use_lcd = 1
 let g:rooter_resolve_links = 1
 let g:rooter_silent_chdir = 1
 
+" nnn
+let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
+
 " source the generated colorscheme
 source $HOME/.config/nvim/colorscheme.vim
 
 " set up the statusline
 source $HOME/.config/nvim/statusline.vim
 
+"-------------------------------- KEYBINDINGS --------------------------------
 let mapleader = "\<Space>"
 tnoremap <Esc> <C-\><C-n>
 "
@@ -667,17 +675,3 @@ nnoremap <silent> <Space>fe :Commands<CR>
 nnoremap <silent> <Space>fp :GGrep<CR>
 nnoremap <silent> <Space>fj :Cd<CR>
 nnoremap <silent> <Space>fs :Snippets<CR>
-
-" ----------- VimWiki ---------------------
-" nmap <silent> <Space>ni <Plug>VimwikiIndex
-" nmap <silent> <Space>ns <Plug>VimwikiUISelect
-" nmap <silent> <Space>nd <Plug>VimwikiDeleteLink
-" nmap <silent> <Space>nr <Plug>VimwikiRenameLink
-" nmap <silent> <Space>nc <Plug>VimwikiToggleListItem
-" nmap <silent> <Space>nh <Plug>Vimwiki2HTML
-
-" nmap <silent> <Space>nli <Plug>VimwikiDiaryIndex
-" nmap <silent> <Space>nll <Plug>VimwikiDiaryGenerateLinks
-" nmap <silent> <Space>nlw <Plug>VimwikiMakeDiaryNote
-" nmap <silent> <Space>nlm <Plug>VimwikiMakeTomorrowDiaryNote
-" nmap <silent> <Space>nly <Plug>VimwikiMakeYesterdayDiaryNote
