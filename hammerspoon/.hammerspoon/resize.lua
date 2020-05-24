@@ -17,6 +17,15 @@ function resize.center()
   window:setFrame(frame)
 end
 
+function resize.fullscreen()
+  local window, frame, screen = resize.get_state()
+  frame.x = screen.x
+  frame.y = screen.y
+  frame.w = screen.w
+  frame.h = screen.h
+  window:setFrame(frame)
+end
+
 function resize.left_half()
   local window, frame, screen = resize.get_state()
   frame.x = screen.x
@@ -39,6 +48,7 @@ function resize.round(num, numDecimalPlaces)
   local mult = 10^(numDecimalPlaces or 0)
   return math.floor(num * mult + 0.5) / mult
 end
+
 function resize.resize_to_preset(window, screen)
   local window, frame, screen = resize.get_state()
   if frame.w <= screen.w * 2/5 or frame.w >= screen.w * 4/5 then

@@ -35,14 +35,25 @@ hs.hotkey.bind({
   "H",
   Resize.left_half)
 
-hs.hotkey.bind({"cmd", "shift"}, "L",
+hs.hotkey.bind(
+  {"cmd", "shift"},
+  "L",
   Resize.right_half)
 
-hs.hotkey.bind({"cmd"}, "U",
+hs.hotkey.bind(
+  {"cmd"},
+  "U",
   Resize.center)
 
-hs.hotkey.bind({"cmd", "shift"}, "U",
+hs.hotkey.bind(
+  {"cmd", "shift"},
+  "U",
   Resize.resize_to_preset)
+
+hs.hotkey.bind(
+  {"cmd", "shift"},
+  "F",
+  Resize.fullscreen)
 
 function reloadConfig(files)
   doReload = false

@@ -2,10 +2,10 @@
 
 ;; set fonts
 (if (memq window-system '(mac ns))
-    (setq doom-font (font-spec :family "JetBrains Mono" :size 14.0 :weight 'semi-bold)
+    (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14.0 :weight 'semi-bold)
       doom-variable-pitch-font (font-spec :family "Bitter" :size 20.0)
       doom-serif-font (font-spec :family "Bitter" :size 14.0))
-  (setq doom-font (font-spec :family "JetBrains Mono" :size 10.0 :weight 'semi-bold)
+  (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 10.0 :weight 'semi-bold)
       doom-variable-pitch-font (font-spec :family "Bitter" :size 12.0)
       doom-serif-font (font-spec :family "Bitter" :size 12.0)))
 
@@ -82,7 +82,7 @@
 (advice-add #'evil-window-split :after #'my/evil-window-follow)
 (advice-add #'evil-window-vsplit :after #'my/evil-window-vfollow)
 
-(setq fancy-splash-image "~/Sync/fish-header.png")
+(setq fancy-splash-image "~/Dropbox/fish-header.png")
 
 (add-hook 'org-mode-hook
           '(lambda () (variable-pitch-mode 1)
