@@ -51,13 +51,13 @@ end
 
 function resize.resize_to_preset(window, screen)
   local window, frame, screen = resize.get_state()
-  if frame.w <= screen.w * 2/5 or frame.w >= screen.w * 4/5 then
+  if frame.w <= screen.w * 2/5 or frame.w > screen.w * 4/5 then
     frame.w = screen.w * 4/5
     frame.h = screen.h * 4/5
-  elseif frame.w >= screen.w * 3/5 then
+  elseif frame.w > screen.w * 3/5 then
     frame.w = screen.w * 3/5
     frame.h = screen.h * 3/5
-  elseif frame.w >= screen.w * 2/5 then
+  elseif frame.w > screen.w * 2/5 then
     frame.w = screen.w * 2/5
     frame.h = screen.h * 2/5
   end

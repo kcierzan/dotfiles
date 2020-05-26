@@ -10,7 +10,7 @@
       doom-serif-font (font-spec :family "Bitter" :size 12.0)))
 
 ;; set the org directory
-(setq org-directory "~/Sync/org/")
+(setq org-directory "~/Dropbox/org/")
 
 ;; automatically update buffers if the files have changed on disk
 (global-auto-revert-mode)
@@ -84,27 +84,27 @@
 
 (setq fancy-splash-image "~/Dropbox/fish-header.png")
 
-(add-hook 'org-mode-hook
-          '(lambda () (variable-pitch-mode 1)
-             (setq line-spacing 1)
-             (setq truncate-lines nil)
-             (set-face-attribute 'org-link nil :underline t)
-             (org-indent-mode -1)
-             (mapc (lambda (face)
-                     (set-face-attribute face nil :family "JetBrains Mono"))
-                   (list 'org-code
-                         'org-warning
-                         'org-special-keyword
-                         'org-property-value
-                         'org-verbatim
-                         'org-link
-                         'org-block
-                         'org-done
-                         'org-date
-                         'org-todo
-                         'org-table
-                         'org-tag
-                         'org-block-begin-line
-                         'org-block-end-line
-                         'org-meta-line
-                         'org-document-info-keyword))))
+;; (add-hook 'org-mode-hook
+;;           '(lambda () (variable-pitch-mode 1)
+;;              (setq line-spacing 1)
+;;              (setq truncate-lines nil)
+;;              (set-face-attribute 'org-link nil :underline t)
+;;              (org-indent-mode -1)
+;;              (mapc (lambda (face)
+;;                      (set-face-attribute face nil :family "JetBrains Mono"))
+;;                    (list 'org-code
+;;                          'org-warning
+;;                          'org-special-keyword
+;;                          'org-property-value
+;;                          'org-verbatim
+;;                          'org-link
+;;                          'org-block
+;;                          'org-done
+;;                          'org-date
+;;                          'org-todo
+;;                          'org-table
+;;                          'org-tag
+;;                          'org-block-begin-line
+;;                          'org-block-end-line
+;;                          'org-meta-line
+;;                          'org-document-info-keyword))))
