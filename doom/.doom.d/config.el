@@ -12,12 +12,15 @@
 ;; set the org directory
 (setq org-directory "~/Dropbox/org/")
 
+;; tell projectile where to find projects
+(setq projectile-project-search-path '("~/git/"))
+
 ;; automatically update buffers if the files have changed on disk
 (global-auto-revert-mode)
 
 ;; set some nice eshell aliases
 (set-eshell-alias!
- "la" "ls_extended_macos -lah")
+ "la" "lsd -lah")
 
 ;; add a worklog org capture template
 (after! org (add-to-list 'org-capture-templates
@@ -68,7 +71,7 @@
     (setq doom-modeline-height 40)
   (setq doom-modeline-height 65))
 
-(load-theme 'doom-horizon t)
+(load-theme 'doom-monokai-pro t)
 
 (after! browse-at-remote (add-to-list 'browse-at-remote-remote-type-domains  '("gitlab.aweber.io" . "gitlab")))
 
@@ -83,6 +86,11 @@
 (advice-add #'evil-window-vsplit :after #'my/evil-window-vfollow)
 
 (setq fancy-splash-image "~/Dropbox/fish-header.png")
+
+(after! lsp-python-ms
+  (set-lsp-priority! 'mspyls 1))
+
+(setq company-idle-delay 0.1)
 
 ;; (add-hook 'org-mode-hook
 ;;           '(lambda () (variable-pitch-mode 1)
