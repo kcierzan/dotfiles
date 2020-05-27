@@ -5,9 +5,9 @@ resize.name = "Resize"
 function resize.get_state()
   local current_window = hs.window.focusedWindow()
   local current_frame = current_window:frame()
-  local current_screen = current_window:screen()
-  local screen_frame = current_screen:frame()
-  return current_window, current_frame, screen_frame
+  return current_window,
+         current_frame,
+         current_window:screen():frame()
 end
 
 function resize.center()
