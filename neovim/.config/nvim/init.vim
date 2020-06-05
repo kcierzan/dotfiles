@@ -49,7 +49,7 @@ set inccommand=nosplit
 " Enable blinking underline cursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
 
-" Use system clipboard on macOS and both clipboards on linux
+" FIXME: Use system clipboard on macOS and both clipboards on linux
 set clipboard=unnamed
 set clipboard+=unnamedplus
 
@@ -63,44 +63,84 @@ endif
 let g:python3_host_prog = $HOME . '/.pyenv/versions/main/bin/python3'
 
 "-------------------------------- AUTOCOMMANDS --------------------------------
-" Disable annoying automatic comments
-autocmd! BufNewFile,BufRead * setlocal formatoptions+=cqn
 
-" Trigger autoread when files change on disk
-autocmd! FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif | set fillchars+=vert:\│
+" Trigger autoread when files change on disk and display a notification
+augroup AutoRevert
+  autocmd!
+  autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
+        \ if mode() != 'c' | checktime | endif | set fillchars+=vert:\│
+  autocmd FileChangedShellPost *
+        \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+augroup END
 
-" Notification after file change
-autocmd! FileChangedShellPost *
-      \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+" " Vim autosaves and reflects changes to files on disk
+augroup AutoSave
+  autocmd!
+  autocmd FocusGained,BufEnter * :silent! !
+  autocmd FocusLost,WinLeave * :silent! w
+augroup END
 
-" Vim autosaves and reflects changes to files on disk
-au FocusGained,BufEnter * :silent! !
-au FocusLost,WinLeave * :silent! w
+augroup Crontab
+  autocmd!
+  autocmd filetype crontab setlocal nobackup nowritebackup
+augroup END
 
-autocmd! filetype crontab setlocal nobackup nowritebackup
+augroup HTML
+  autocmd!
+  autocmd BufNewFile,BufRead *.thtml setlocal syntax=phtml
+augroup END
 
-autocmd! BufNewFile,BufRead *.thtml
-      \ setlocal syntax=phtml
+" " Keep markdown file lines to 100 characters
+augroup Markdown
+  autocmd!
+  autocmd FileType markdown setlocal textwidth=100
+augroup END
 
-augroup netrw_buf_hidden_fix
+" augroup NetrwBufHiddenFix
+augroup Netrw
   autocmd!
   " Set all non-netrw buffers to bufhidden=hide
-  autocmd! BufWinEnter *
+  autocmd BufWinEnter *
         \  if &ft != 'netrw'
         \|     set bufhidden=hide
         \| endif
-augroup end
-
-augroup SwitchPanes
-  autocmd! WinEnter * set cursorline
-  autocmd! WinLeave * set nocursorline
 augroup END
 
-" set the cursor back when we exit nvim
-au VimLeave * set guicursor=a:hor20-Cursor/lCursor
+augroup SwitchPanesCursorlineOff
+  autocmd!
+  autocmd WinEnter * set cursorline
+  autocmd WinLeave * set nocursorline
+augroup END
 
-" Keep markdown file lines to 100 characters
-autocmd! BufNewFile,BufRead *.md setlocal textwidth=100
+" " set the cursor back when we exit nvim
+augroup CursorShape
+  autocmd!
+  autocmd VimLeave * set guicursor=a:hor20-Cursor/lCursor
+augroup END
+
+augroup FZF
+  autocmd!
+  autocmd FileType fzf set laststatus=0 noshowmode noruler
+  autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+augroup END
+
+augroup Handlebars
+  autocmd!
+  autocmd BufNewFile,BufRead *.hbs let b:ale_fix_on_save = 0
+augroup END
+
+augroup NerdTree
+  autocmd!
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+augroup END
+
+augroup CocSymbolHighlight
+  " highlight symbol under cursor on CursorHold
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup END
 
 "-------------------------------- EX COMMANDS --------------------------------
 function! FormatJson()
@@ -119,19 +159,12 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 "-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
-" Plug 'joshdick/onedark.vim'
-" Plug 'dracula/vim'
-" Plug 'morhetz/gruvbox'
-" Plug 'patstockwell/vim-monokai-tasty'
-" Plug 'lifepillar/vim-solarized8'
-" Plug 'liuchengxu/space-vim-theme'
-" Plug 'ayu-theme/ayu-vim'
 Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/goyo.vim'
 Plug 'yuttie/comfortable-motion.vim'
-Plug 'justinmk/vim-sneak'
+Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'w0rp/ale'
 Plug 'janko-m/vim-test'
@@ -164,7 +197,6 @@ Plug 'kh3phr3n/python-syntax'
 Plug 'haya14busa/vim-keeppad'
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
-" Plug 'vimwiki/vimwiki'
 Plug 'blueyed/vim-diminactive'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-rhubarb'
@@ -174,21 +206,22 @@ Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
 Plug 'airblade/vim-rooter'
 Plug 'chrisbra/Colorizer'
 Plug 'metakirby5/codi.vim'
-" Plug 'sunaku/vim-shortcut'
-" Plug 'lervag/vimtex'
+Plug 'lervag/vimtex'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'Shougo/neomru.vim'
 Plug 'sainnhe/edge'
 Plug 'sainnhe/gruvbox-material'
 Plug 'sainnhe/sonokai'
 Plug 'mcchrish/nnn.vim'
+Plug 'moll/vim-bbye'
 call plug#end()
+
+"-------------------------------- Plugin Config -----------------------------------
 
 " ayu-theme
 let ayucolor='mirage'
 
 " startify
-"
 let g:ascii = [
       \ '  __   __  ______  ______  __   ____  __    __   ',
       \ ' /\ "-.\ \/\  ___\/\  __ \/\ \ / /\ \/\ "-./  \  ',
@@ -275,12 +308,6 @@ let g:goyo_linenr = 0
 let g:comfortable_motion_friction = 15.0
 let g:comfortable_motion_air_drag = 5.0
 
-" vim-sneak
-let g:sneak#label = 1
-let g:sneak#use_ic_scs = 1
-let g:sneak#s_next = 1
-autocmd! Colorscheme * hi Sneak ctermfg=black ctermbg=red
-
 " vim-tmux-navigator
 " Map alt + hjkl to navigation
 let g:tmux_navigator_no_mappings = 1
@@ -314,6 +341,7 @@ let g:ale_fixers = {
       \ 'css': ['prettier'],
       \ 'html': ['tidy'],
       \}
+
 " let g:ale_python_flake8_options = "--import-order-style=google"
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/main/bin/vint'
@@ -329,9 +357,6 @@ let g:ale_set_highlights = 0
 let g:ale_fix_on_save = 1
 highlight ALEErrorSign ctermfg=1
 highlight ALEWarningSign ctermfg=3
-
-command! ALEDisableFixers       let g:ale_fix_on_save=0
-command! ALEEnableFixers        let g:ale_fix_on_save=1
 
 " vim-test
 let g:test#strategy = 'vimux'
@@ -355,11 +380,6 @@ if has('macunix') == 1
 else
   let s:findcmd = 'find'
 endif
-
-
-autocmd! FileType fzf
-autocmd FileType fzf set laststatus=0 noshowmode noruler
-      \| autocmd! BufLeave <buffer> set laststatus=2 showmode ruler
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
@@ -395,9 +415,6 @@ let g:python_highlight_all = 1
 
 " NERDTree
 let g:NERDTreeShowHidden = 1
-autocmd! StdinReadPre * let s:std_in=1
-autocmd! VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-autocmd! bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " vim-devicons
 let g:webdevicons_enable_nerdtree = 1
@@ -424,7 +441,6 @@ let g:vrc_include_response_header = 1
 let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-snippets', 'coc-emmet', 'coc-css', 'coc-tsserver', 'coc-html']
 set cmdheight=2
 set updatetime=400
-
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -469,9 +485,6 @@ set signcolumn=yes
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 
-" highlight symbol under cursor on CursorHold
-autocmd! CursorHold * silent call CocActionAsync('highlight')
-
 " vim-rooter
 let g:rooter_use_lcd = 1
 let g:rooter_resolve_links = 1
@@ -487,9 +500,10 @@ source $HOME/.config/nvim/colorscheme.vim
 source $HOME/.config/nvim/statusline.vim
 
 "-------------------------------- KEYBINDINGS --------------------------------
+
 let mapleader = "\<Space>"
 tnoremap <Esc> <C-\><C-n>
-"
+
 " resolve confilicts easier
 nnoremap grl :diffget<CR>
 nnoremap grh :diffput<CR>
@@ -500,18 +514,19 @@ vnoremap grh :diffput<CR>
 noremap vA ggVG
 
 " Align stuff
-      \ nmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
 
-      \ nmap gsh :SidewaysLeft<CR>
-      \ nmap gsl :SidewaysRight<CR>
+" Sideways
+nmap gsh :SidewaysLeft<CR>
+nmap gsl :SidewaysRight<CR>
 
-      \ nnoremap gT g<C-]>
+" Tags
+nnoremap gT g<C-]>
+nnoremap gt g<C-]>
 
-      \ nnoremap gt g<C-]>
-
-      \ xmap K <Plug>(expand_region_expand)
-      \ xmap J <Plug>(expand_region_shrink)
+xmap K <Plug>(expand_region_expand)
+xmap J <Plug>(expand_region_shrink)
 
 function! GoToOpenFold(direction)
   let start = line('.')
@@ -537,12 +552,6 @@ nnoremap ge :ALENextWrap<CR>
 map gi :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
       \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
-" Replace f and t with sneak equivalents
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
 
 " Universal nvim split / Tmux navigation
 nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
@@ -580,6 +589,11 @@ nnoremap <C-H> :bprev<CR>
 nnoremap <silent> <Space>q :q<Return>
 nnoremap <silent> <Space>Q :q!<Return>
 
+"Easymotion
+let g:EasyMotion_smartcase = 1
+map \ <Plug>(easymotion-prefix)
+nmap s <Plug>(easymotion-overwin-f2)
+
 " ------------ interface ----------------
 nnoremap <silent> <Space>i% :set invrelativenumber<CR>
 nnoremap <silent> <Space>i# :set invnumber<CR>
@@ -590,12 +604,13 @@ nnoremap <silent> <Space>ic :nohlsearch<CR>
 nnoremap <silent> <Space>iz :Goyo<CR>
 nnoremap <silent> <Space>ih :ColorHighlight<CR>
 nnoremap <silent> <Space>it :NERDTreeToggle<CR>
+nnoremap <silent> <Space>nn :Np<CR>
 
 " ------------ buffers ------------------
 nnoremap <silent> <Space>be :SudoEdit<CR>
 nnoremap <silent> <Space>bs :w<CR>
 nnoremap <silent> <Space>bn :new<CR>
-nnoremap <silent> <Space>bd :bd<CR>
+nnoremap <silent> <Space>bd :Bdelete<CR>
 nnoremap <silent> <Space>bD :bd!<CR>
 nnoremap <silent> <Space>bc :windo diffthis<CR>
 nnoremap <silent> <Space>bC :windo diffoff<CR>
