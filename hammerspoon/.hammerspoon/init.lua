@@ -41,6 +41,16 @@ hs.hotkey.bind(
   Resize.right_half)
 
 hs.hotkey.bind(
+  {"cmd", "shift"},
+  "J",
+  Resize.bottom_half)
+
+hs.hotkey.bind(
+  {"cmd", "shift"},
+  "K",
+  Resize.top_half)
+
+hs.hotkey.bind(
   {"cmd"},
   "U",
   Resize.center)

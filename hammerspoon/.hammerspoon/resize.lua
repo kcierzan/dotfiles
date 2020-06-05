@@ -11,10 +11,8 @@ function resize.get_state()
 end
 
 function resize.center()
-  local window, frame, screen = resize.get_state()
-  frame.x = ((screen.w - frame.w) // 2) + screen.x
-  frame.y = ((screen.h - frame.h) // 2) + screen.y
-  window:setFrame(frame)
+  local window, _, screen = resize.get_state()
+  window:centerOnScreen(screen)
 end
 
 function resize.fullscreen()
@@ -27,26 +25,23 @@ function resize.fullscreen()
 end
 
 function resize.left_half()
-  local window, frame, screen = resize.get_state()
-  frame.x = screen.x
-  frame.y = screen.y
-  frame.w = screen.w // 2
-  frame.h = screen.h
-  window:setFrame(frame)
+  local window = resize.get_state()
+  window:moveToUnit('[0,0,50,100]')
 end
 
 function resize.right_half()
-  local window, frame, screen = resize.get_state()
-  frame.x = (screen.w // 2) + screen.x
-  frame.y = screen.y
-  frame.w = screen.w // 2
-  frame.h = screen.h
-  window:setFrame(frame)
+  local window = resize.get_state()
+  window:moveToUnit('[50,0,100,100]')
 end
 
-function resize.round(num, numDecimalPlaces)
-  local mult = 10^(numDecimalPlaces or 0)
-  return math.floor(num * mult + 0.5) / mult
+function resize.top_half()
+  local window = resize.get_state()
+  window:moveToUnit('[0,0,100,50]')
+end
+
+function resize.bottom_half()
+  local window = resize.get_state()
+  window:moveToUnit('[0,50,100,100]')
 end
 
 function resize.resize_to_preset(window, screen)
@@ -86,6 +81,12 @@ function resize.nudge_down()
   local window, frame, screen = resize.get_state()
   frame.y = frame.y + screen.h // 32
   window:setFrame(frame)
+end
+
+function resize.send_to_next_screen()
+  local window, frame = resize.get_state()
+  local screen = window:screen()
+  window:move(frame:toUnitRect(screen:frame()), screen:next(), true, 0)
 end
 
 return resize
