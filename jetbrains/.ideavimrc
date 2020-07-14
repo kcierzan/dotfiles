@@ -38,10 +38,11 @@ set foldlevelstart=20
 set termguicolors
 set showtabline=0
 
-let mapleader="\<Space>"
+let mapleader = " "
 
 set commentary
 set easymotion
 set surround
 
 map s <Plug>(easymotion-s2)
+nmap <leader><leader> :action SearchEverywhere<cr>
