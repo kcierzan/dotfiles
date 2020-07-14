@@ -75,8 +75,14 @@ alias jp="joplin"
 # LazyGit
 alias lg="lazygit"
 
+# LazyDocker
+alias ld="lazydocker"
+
 # nnn
-alias nnn="nnn -e"
+alias nnn="nnn -ednH"
+
+# vscode
+alias code="code-insiders"
 
 # Create a new directory and enter it
 # Create a relative path to arg1 from ar2
