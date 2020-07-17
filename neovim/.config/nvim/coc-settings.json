@@ -1,12 +1,13 @@
 {
   "diagnostic.displayByAle": true,
-  "diagnostic.errorSign": "✖ ",
-  "diagnostic.warningSign": "⚠ ",
+  "diagnostic.errorSign": " ",
+  "diagnostic.warningSign": " ",
   "diagnostic.infoSign": " ",
   "diagnostic.hintSign": "",
   "python.jediEnabled": false,
   "python.linting.enabled": true,
   "python.venvPath": "~/.pyenv",
+  "coc.preferences.formatOnSaveFiletypes": ["javascriptreact", "json"],
   "python.workspaceSymbols.tagFilePath": "${workspaceFolder}/tags",
   "languageserver": {
     "intelephense": {

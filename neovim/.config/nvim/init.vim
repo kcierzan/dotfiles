@@ -120,8 +120,8 @@ augroup END
 
 augroup FZF
   autocmd!
-  autocmd FileType fzf set laststatus=0 noshowmode noruler
-  autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+  autocmd FileType fzf set laststatus=0 noruler
+        \| autocmd BufLeave <buffer> set laststatus=2 ruler
 augroup END
 
 augroup Handlebars
@@ -162,19 +162,19 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/goyo.vim'
+Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'w0rp/ale'
-Plug 'janko-m/vim-test'
+Plug 'dense-analysis/ale'
+Plug 'janko-m/vim-test' , {'on': ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit']}
 Plug 'benmills/vimux'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'terryma/vim-expand-region'
+Plug 'terryma/vim-expand-region', {'on': ['<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)']}
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'plasticboy/vim-markdown'
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'sheerun/vim-polyglot'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'ryanoasis/vim-devicons'
@@ -186,14 +186,13 @@ Plug 'adelarsq/vim-matchit'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'wellle/targets.vim'
-Plug 'mbbill/undotree'
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'}
 Plug 'michaeljsmith/vim-indent-object'
-Plug 'tpope/vim-abolish'
-Plug 'AndrewRadev/sideways.vim'
-Plug 'kh3phr3n/python-syntax'
+Plug 'AndrewRadev/sideways.vim', {'on': ['SidewaysLeft', 'SidewaysRight']}
+Plug 'kh3phr3n/python-syntax', {'for': 'python'}
 Plug 'haya14busa/vim-keeppad'
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
@@ -204,7 +203,7 @@ Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
 Plug 'airblade/vim-rooter'
-Plug 'chrisbra/Colorizer'
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'metakirby5/codi.vim'
 Plug 'lervag/vimtex'
 Plug 'terryma/vim-multiple-cursors'
@@ -212,8 +211,14 @@ Plug 'Shougo/neomru.vim'
 Plug 'sainnhe/edge'
 Plug 'sainnhe/gruvbox-material'
 Plug 'sainnhe/sonokai'
-Plug 'mcchrish/nnn.vim'
+Plug 'mcchrish/nnn.vim', {'on': 'Np'}
 Plug 'moll/vim-bbye'
+Plug 'camspiers/animate.vim'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'dsznajder/vscode-es7-javascript-react-snippets', { 'do': 'yarn install --frozen-lockfile && yarn compile' }
+Plug 'camspiers/lens.vim'
+Plug 'dracula/vim'
+Plug 'lifepillar/vim-solarized8'
 call plug#end()
 
 "-------------------------------- Plugin Config -----------------------------------
@@ -305,8 +310,8 @@ let g:goyo_width = 100
 let g:goyo_linenr = 0
 
 " comfortable-motion
-let g:comfortable_motion_friction = 15.0
-let g:comfortable_motion_air_drag = 5.0
+let g:comfortable_motion_friction = 70.0
+let g:comfortable_motion_air_drag = 10.0
 
 " vim-tmux-navigator
 " Map alt + hjkl to navigation
@@ -336,10 +341,6 @@ let g:ale_linter_aliases = {
 
 let g:ale_fixers = {
       \ '*': ['trim_whitespace'],
-      \ 'python': ['black'],
-      \ 'javascript': ['prettier'],
-      \ 'css': ['prettier'],
-      \ 'html': ['tidy'],
       \}
 
 " let g:ale_python_flake8_options = "--import-order-style=google"
@@ -354,7 +355,7 @@ let g:ale_statusline_format = ['✖ %d', ' %d', '']
 let g:ale_warn_about_trailing_whitespace = 1
 let g:ale_lint_on_text_changed = 'always'
 let g:ale_set_highlights = 0
-let g:ale_fix_on_save = 1
+let g:ale_fix_on_save = 0
 highlight ALEErrorSign ctermfg=1
 highlight ALEWarningSign ctermfg=3
 
@@ -371,7 +372,11 @@ vmap e <Plug>(expand_region_expand)
 vmap E <Plug>(expand_region_shrink)
 
 " fzf.vim
-let g:fzf_layout = { 'window': '-tabnew' }
+" let g:fzf_layout = { 'window': '-tabnew' }
+let g:fzf_layout = {
+      \ 'window': 'new | wincmd J | resize 1 | call animate#window_percent_height(1)'
+      \ }
+
 let g:fzf_buffers_jump = 1
 
 " set the find executable name by os
@@ -423,10 +428,6 @@ let g:webdevicons_enable_startify = 1
 " windowswap
 let g:windowswap_map_keys = 0
 
-" fugitive
-let g:github_enterprise_urls = ['https://github.aweber.io']
-let g:fugitive_gitlab_domains = ['https://gitlab.aweber.io', 'git@gitlab.aweber.io']
-
 " emmet-vim
 let g:user_emmet_settings = {
       \ 'javascript.jsx': {
@@ -438,31 +439,39 @@ let g:user_emmet_settings = {
 let g:vrc_include_response_header = 1
 
 " coc.nvim
-let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-snippets', 'coc-emmet', 'coc-css', 'coc-tsserver', 'coc-html']
+let g:coc_global_extensions = [
+      \ 'coc-css',
+      \ 'coc-emmet',
+      \ 'coc-html',
+      \ 'coc-json',
+      \ 'coc-python',
+      \ 'coc-snippets',
+      \ 'coc-tsserver',
+      \ 'coc-prettier',
+      \ ]
 set cmdheight=2
 set updatetime=400
 
+" Tab selects completion, expands snippet, and moves through snippet fields
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
+      \ pumvisible() ? "\<C-n>"  :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:coc_snippet_next = '<tab>'
-
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -481,7 +490,6 @@ set shortmess+=c
 set signcolumn=yes
 
 " accept completion with tab
-" inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 
@@ -491,7 +499,19 @@ let g:rooter_resolve_links = 1
 let g:rooter_silent_chdir = 1
 
 " nnn
+let g:nnn#command = 'nnn -ednH'
+let $DISABLE_FILE_OPEN_ON_NAV=1
+let $NNN_RESTRICT_NAV_OPEN=1
 let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
+
+" diminactive
+let g:diminactive_enable_focus = 1
+
+" animate
+let g:animate#duration = 200.0
+
+" nvim-colorizer
+lua require'colorizer'.setup()
 
 " source the generated colorscheme
 source $HOME/.config/nvim/colorscheme.vim
@@ -579,7 +599,7 @@ nmap Q <Nop>
 xmap Q <Nop>
 omap Q <Nop>
 
-"buffer navigation
+" buffer navigation
 nmap <C-L> <Nop>
 nmap <C-H> <Nop>
 
@@ -589,10 +609,16 @@ nnoremap <C-H> :bprev<CR>
 nnoremap <silent> <Space>q :q<Return>
 nnoremap <silent> <Space>Q :q!<Return>
 
-"Easymotion
+" Easymotion
 let g:EasyMotion_smartcase = 1
 map \ <Plug>(easymotion-prefix)
 nmap s <Plug>(easymotion-overwin-f2)
+
+" Animate.vim
+nnoremap <silent> <Up>    :call animate#window_delta_height(10)<CR>
+nnoremap <silent> <Down>  :call animate#window_delta_height(-10)<CR>
+nnoremap <silent> <Left>  :call animate#window_delta_width(10)<CR>
+nnoremap <silent> <Right> :call animate#window_delta_width(-10)<CR>
 
 " ------------ interface ----------------
 nnoremap <silent> <Space>i% :set invrelativenumber<CR>
@@ -647,6 +673,7 @@ nnoremap <silent> <Space>cf <Plug>(coc-fix-current)
 nnoremap <silent> <Space>cF <Plug>(coc-format-selected)
 vnoremap <silent> <Space>cF <Plug>(coc-format-selected)
 nnoremap <silent> <Space>cc :CocRestart<CR>
+nnoremap <silent> <Space>ce :CocConfig<CR>
 nnoremap <silent> <Space>cR <Plug>(coc-rename)
 
 " ------------ testing -----------------------

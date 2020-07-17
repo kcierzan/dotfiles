@@ -34,6 +34,8 @@ export CM_LAUNCHER=rofi
 export HV_SRC_PART="git"
 export HV_SRC="$HOME/$HV_SRC_PART"
 
+export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+
 # Lazy load pyenv
 if type pyenv > /dev/null; then
     function pyenv() {
