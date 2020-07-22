@@ -34,7 +34,7 @@ set splitbelow
 set splitright
 set tabstop=2
 set textwidth=0
-set timeoutlen=1000
+set timeoutlen=500
 set ttimeoutlen=0
 set autoread
 set ttyfast
@@ -142,6 +142,11 @@ augroup CocSymbolHighlight
   autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup END
 
+augroup RegisterWhichKey
+  autocmd!
+  autocmd User vim-which-key call which_key#register('<Space>', 'g:which_key_map')
+augroup END
+
 "-------------------------------- EX COMMANDS --------------------------------
 function! FormatJson()
   %!python -m json.tool
@@ -219,6 +224,7 @@ Plug 'dsznajder/vscode-es7-javascript-react-snippets', { 'do': 'yarn install --f
 Plug 'camspiers/lens.vim'
 Plug 'dracula/vim'
 Plug 'lifepillar/vim-solarized8'
+Plug 'liuchengxu/vim-which-key', {'on': ['WhichKey', 'WhichKey!']}
 call plug#end()
 
 "-------------------------------- Plugin Config -----------------------------------
@@ -494,7 +500,8 @@ let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 
 " vim-rooter
-let g:rooter_use_lcd = 1
+" let g:rooter_use_lcd = 1
+let g:rooter_cd_cmd = "lcd"
 let g:rooter_resolve_links = 1
 let g:rooter_silent_chdir = 1
 
@@ -513,16 +520,12 @@ let g:animate#duration = 200.0
 " nvim-colorizer
 lua require'colorizer'.setup()
 
-" source the generated colorscheme
-source $HOME/.config/nvim/colorscheme.vim
-
-" set up the statusline
-source $HOME/.config/nvim/statusline.vim
-
 "-------------------------------- KEYBINDINGS --------------------------------
 
 let mapleader = "\<Space>"
 tnoremap <Esc> <C-\><C-n>
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
 " resolve confilicts easier
 nnoremap grl :diffget<CR>
@@ -621,99 +624,213 @@ nnoremap <silent> <Left>  :call animate#window_delta_width(10)<CR>
 nnoremap <silent> <Right> :call animate#window_delta_width(-10)<CR>
 
 " ------------ interface ----------------
+let g:which_key_map = {}
+let g:which_key_map.q = 'write and quit'
+let g:which_key_map.Q = 'quit without writing'
+let g:which_key_map.i = {
+ \ 'name': '+interface'
+ \ }
 nnoremap <silent> <Space>i% :set invrelativenumber<CR>
+" let g:which_key_map.i['%'] = 'toggle relative line numbers'
 nnoremap <silent> <Space>i# :set invnumber<CR>
+" let g:which_key_map.i['#'] = 'toggle line numbers'
 nnoremap <silent> <Space>il :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
+let g:which_key_map.i.l = 'disable cursorline'
 nnoremap <silent> <Space>ii :IndentLinesToggle<CR>
+let g:which_key_map.i.i = 'toggle indentation lines'
 nnoremap <silent> <Space>iu :UndotreeToggle<CR>
+let g:which_key_map.i.u = 'toggle undotree'
 nnoremap <silent> <Space>ic :nohlsearch<CR>
+let g:which_key_map.i.c = 'toggle search highlight'
 nnoremap <silent> <Space>iz :Goyo<CR>
-nnoremap <silent> <Space>ih :ColorHighlight<CR>
+let g:which_key_map.i.z = 'toggle zen mode'
+nnoremap <silent> <Space>ih :ColorizerAttachToBuffer<CR>
+let g:which_key_map.i.h = 'highlight colors in buffer'
 nnoremap <silent> <Space>it :NERDTreeToggle<CR>
-nnoremap <silent> <Space>nn :Np<CR>
+let g:which_key_map.i.t = 'toggle NERDTree'
+nnoremap <silent> <Space>in :Np<CR>
+let g:which_key_map.i.n = 'launch nnn'
 
 " ------------ buffers ------------------
+let g:which_key_map['b'] = {
+ \ 'name': '+buffers'
+ \ }
 nnoremap <silent> <Space>be :SudoEdit<CR>
+let g:which_key_map.b.e = 'edit with sudo'
 nnoremap <silent> <Space>bs :w<CR>
-nnoremap <silent> <Space>bn :new<CR>
+let g:which_key_map.b.s = 'write buffer'
+nnoremap <silent> <Space>bn :vsplit
+let g:which_key_map.b.n = 'new buffer and file'
 nnoremap <silent> <Space>bd :Bdelete<CR>
-nnoremap <silent> <Space>bD :bd!<CR>
+let g:which_key_map.b.d = 'close buffer'
+nnoremap <silent> <Space>bD :Bdelete!<CR>
+let g:which_key_map.b.D = 'close buffer without saving'
 nnoremap <silent> <Space>bc :windo diffthis<CR>
+let g:which_key_map.b.c = 'diff buffer'
 nnoremap <silent> <Space>bC :windo diffoff<CR>
+let g:which_key_map.b.C = 'diff off'
 nnoremap <silent> <Space>br :edit!<CR>
-nnoremap <silent> <Space>bw :Trimws<CR>
+let g:which_key_map.b.r = 'force reload buffer'
 
 " ------------- windows ------------------
+let g:which_key_map['w'] = {
+ \ 'name': '+windows'
+ \ }
 nnoremap <silent> <Space>wv :vsp<CR>
+let g:which_key_map.w.v = 'split window vertically'
 nnoremap <silent> <Space>ws :sp<CR>
+let g:which_key_map.w.s = 'split window horizontally'
 nnoremap <silent> <Space>wk 10<C-w>+
+let g:which_key_map.w.k = 'decrease window height'
 nnoremap <silent> <Space>wj 10<C-w>-
+let g:which_key_map.w.j = 'increase window height'
 nnoremap <silent> <Space>wl 10<C-w>>
+let g:which_key_map.w.l = 'increase right window width'
 nnoremap <silent> <Space>wh 10<C-w><
+let g:which_key_map.w.h = 'increase left window width'
 nnoremap <silent> <Space>wr <C-w>r
+let g:which_key_map.w.r = 'rotate windows'
 nnoremap <silent> <Space>wo <C-w>o
+let g:which_key_map.w.r = 'kill other windows'
 nnoremap <silent> <Space>we <C-w>=
+let g:which_key_map.w.e = 'equalize windows'
 nnoremap <silent> <Space>wV <C-w>H
+let g:which_key_map.w.V = 'to vertical split'
 nnoremap <silent> <Space>wS <C-w>J
+let g:which_key_map.w.s = 'to horizontal split'
 
 " ------------- nvim --------------------------
+let g:which_key_map['v'] = {
+ \ 'name': '+(neo)vim'
+ \ }
 nnoremap <silent> <Space>vr :so ~/.config/nvim/init.vim<CR>
+let g:which_key_map.v.r = 'reload init.vim'
 nnoremap <silent> <Space>ve :edit ~/.config/nvim/init.vim<CR>
+let g:which_key_map.v.e = 'edit init.vim'
 nnoremap <silent> <Space>vs :Startify<CR>
+let g:which_key_map.v.s = 'go to start page'
 nnoremap <silent> <Space>vu :PlugUpdate<CR>
+let g:which_key_map.v.u = 'update plugins'
 nnoremap <silent> <Space>vi :PlugInstall<CR>
+let g:which_key_map.v.i = 'install plugins'
 nnoremap <silent> <Space>vc :PlugClean<CR>
+let g:which_key_map.v.c = 'cleanup plugins'
 
 " ------------ code ---------------------------
-nnoremap <silent> <Space>cT :!ctags<CR>
-nnoremap <silent> <Space>cr :!rm tags && ctags<CR>
+let g:which_key_map['c'] = {
+ \ 'name': '+coc'
+ \ }
 nnoremap <silent> <Space>ca <Plug>(coc-codeaction)
+let g:which_key_map.c.a = 'code action'
 vnoremap <silent> <Space>ca <Plug>(coc-codeaction-selected)
 nnoremap <silent> <Space>cf <Plug>(coc-fix-current)
+let g:which_key_map.c.f = 'fix current'
 nnoremap <silent> <Space>cF <Plug>(coc-format-selected)
+let g:which_key_map.c.F = 'format selected'
 vnoremap <silent> <Space>cF <Plug>(coc-format-selected)
+let g:which_key_map.c.F = 'format selected'
 nnoremap <silent> <Space>cc :CocRestart<CR>
+let g:which_key_map.c.c = 'restart'
 nnoremap <silent> <Space>ce :CocConfig<CR>
-nnoremap <silent> <Space>cR <Plug>(coc-rename)
+let g:which_key_map.c.e = 'edit config'
+nnoremap <silent> <Space>cr <Plug>(coc-rename)
+let g:which_key_map.c.r = 'rename'
+
+" ------------ functions ---------------------
+let g:which_key_map['F'] = {
+ \ 'name': '+functions'
+ \ }
+nnoremap <silent> <Space>Ft :Trimws<CR>
+let g:which_key_map.F.t = 'Trim whitespace'
+nnoremap <silent> <Space>Fc :!rm tags && ctags<CR>
+let g:which_key_map.F.c = 'create/refresh ctags'
 
 " ------------ testing -----------------------
+let g:which_key_map['t'] = {
+ \ 'name': '+test'
+ \ }
 nnoremap <silent> <Space>tn :TestNearest<CR>
+let g:which_key_map.t.n = 'test nearest'
 nnoremap <silent> <Space>tf :TestFile<CR>
+let g:which_key_map.t.f = 'test current file'
 nnoremap <silent> <Space>ts :TestSuite<CR>
+let g:which_key_map.t.s = 'test suite'
 nnoremap <silent> <Space>tl :TestLast<CR>
+let g:which_key_map.t.l = 'test last'
 nnoremap <silent> <Space>tv :TestVisit<CR>
+let g:which_key_map.t.v = 'test visit'
 
 " ------------- git ------------------------
+let g:which_key_map['g'] = {
+ \ 'name': '+git'
+ \ }
 nnoremap <silent> <Space>gs :Gstatus<CR>
+let g:which_key_map.g.s = 'status'
 nnoremap <silent> <Space>gb :Gblame<CR>
+let g:which_key_map.g.b = 'blame'
 nnoremap <silent> <Space>gn :GitGutterNextHunk<CR>
+let g:which_key_map.g.n = 'next hunk'
 nnoremap <silent> <Space>gN :GitGutterPrevHunk<CR>
+let g:which_key_map.g.N = 'previous hunk'
 nnoremap <silent> <Space>gh :GitGutterStageHunk<CR>
+let g:which_key_map.g.h = 'state hunk'
 nnoremap <silent> <Space>g] :call <SID>NextHunkAllBuffers()<CR>
+let g:which_key_map.g[']'] = 'next hunk (all buffers)'
 nnoremap <silent> <Space>g[ :call <SID>PrevHunkAllBuffers()<CR>
+let g:which_key_map.g['['] = 'previous hunk (all buffers)'
 nnoremap <silent> <Space>gu :GitGutterUndoHunk<CR>
+let g:which_key_map.g.u = 'reset hunk'
 nnoremap <silent> <Space>gp :GitGutterPreviewHunk<CR>
+let g:which_key_map.g.p = 'preview hunk'
 nnoremap <silent> <Space>gd :Gvdiff<CR>
+let g:which_key_map.g.d = 'diff'
 nnoremap <silent> <Space>gl :GV<CR>
-nnoremap <silent> <Space>go :Gbrowse<CR>
+let g:which_key_map.g.l = 'log'
 vnoremap <silent> <Space>go :Gbrowse<CR>
+let g:which_key_map.g.o = 'open in browser'
 nnoremap <silent> <Space>gc :Gcommit<CR>
+let g:which_key_map.g.c = 'commit'
+nnoremap <silent> <Space>gr :Gvdiffsplit!<CR>
+let g:which_key_map.g.c = 'start three-way merge'
+nnoremap <silent> <Space>gt :diffget //2<CR>
+let g:which_key_map.g.t = 'keep changes from target buffer'
+nnoremap <silent> <Space>gm :diffget //3<CR>
+let g:which_key_map.g.m = 'keep changes from merge buffer'
 
 " ------------ FZF -------------------------
-nnoremap <silent> <Space>ff :GFiles<CR>
+let g:which_key_map['f'] = {
+ \ 'name': '+find'
+ \ }
 nnoremap <silent> <Space><Space> :GFiles<CR>
+nnoremap <silent> <Space>ff :GFiles<CR>
+let g:which_key_map.f.f = 'find git files'
 nnoremap <silent> <Space>fa :Files<CR>
+let g:which_key_map.f.a = 'find all files'
 nnoremap <silent> <Space>fi :Helptags<CR>
+let g:which_key_map.f.i = 'find help tag'
 nnoremap <silent> <Space>fb :Buffers<CR>
+let g:which_key_map.f.b = 'find buffer'
 nnoremap <silent> <Space>fl :BLines<CR>
+let g:which_key_map.f.l = 'find line in current buffer'
 nnoremap <silent> <Space>fL :Lines<CR>
+let g:which_key_map.f.L = 'find line in all buffers'
 nnoremap <silent> <Space>fh :HHistory<CR>
+let g:which_key_map.f.h = 'find recent buffer'
 nnoremap <silent> <Space>fg :Rg<CR>
+let g:which_key_map.f.g = 'find in buffers'
 nnoremap <silent> <Space>ft :Filetypes<CR>
+let g:which_key_map.f.t = 'find and set filetype'
 nnoremap <silent> <Space>fc :Commits<CR>
+let g:which_key_map.f.c = 'find commit'
 nnoremap <silent> <Space>fO :Tags<CR>
+let g:which_key_map.f.O = 'find tag in project'
 nnoremap <silent> <Space>fo :BTags<CR>
+let g:which_key_map.f.o = 'find tag in buffer'
 nnoremap <silent> <Space>fe :Commands<CR>
+let g:which_key_map.f.e = 'find command'
 nnoremap <silent> <Space>fp :GGrep<CR>
+let g:which_key_map.f.p = 'find in git files'
 nnoremap <silent> <Space>fj :Cd<CR>
+let g:which_key_map.f.j = 'find recent directory'
 nnoremap <silent> <Space>fs :Snippets<CR>
+let g:which_key_map.f.s = 'find snippet'
