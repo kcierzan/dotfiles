@@ -147,6 +147,14 @@ augroup RegisterWhichKey
   autocmd User vim-which-key call which_key#register('<Space>', 'g:which_key_map')
 augroup END
 
+" Install missing plugins on startup
+augroup InstallMissingPlugins
+  autocmd!
+  autocmd VimEnter *
+        \ if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+        \| PlugInstall --sync | q
+        \| endif
+augroup END
 "-------------------------------- EX COMMANDS --------------------------------
 function! FormatJson()
   %!python -m json.tool
@@ -177,7 +185,7 @@ Plug 'benmills/vimux'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'terryma/vim-expand-region', {'on': ['<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)']}
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'sheerun/vim-polyglot'
