@@ -1,5 +1,4 @@
 ! color scheme
-#include ".xcolors"
 
 ! Xft
 Xft.dpi: 160
@@ -11,6 +10,7 @@ Xft.antialias: 1
 Xft.rgba: rgb
 
 !st
+#include ".thematic/.thematic-xcolors"
 st.font: monospace-10:style=semibold
 
 ! not sure if needed

@@ -64,5 +64,6 @@ fi
 
 # source colorscheme-related envvars
 source "$HOME/.zsh/zshcolors"
+source "$HOME/.thematic/theme.zsh"
 
 source ~/.zsh/extra.zsh
