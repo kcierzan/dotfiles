@@ -95,7 +95,7 @@ theme.taglist_text_focused = " "
 theme.taglist_text_urgent = "󠅷 "
 
 theme.taglist_text_color_empty    = theme.bg_lighter
-theme.taglist_text_color_occupied  = theme.xcolor8
+theme.taglist_text_color_occupied  = theme.bg_lighter
 theme.taglist_text_color_focused  = theme.xcolor2
 theme.taglist_text_color_urgent   = theme.xcolor3
 

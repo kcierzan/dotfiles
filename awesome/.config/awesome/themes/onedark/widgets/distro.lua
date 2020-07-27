@@ -3,7 +3,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local helpers = require("helpers")
 
-local system_icon = " "
+local system_icon = ""
 
 local distro_name = wibox.widget {
   font = beautiful.wibar_font,
@@ -20,7 +20,7 @@ awful.spawn.easy_async_with_shell(
 
 local distro_icon = wibox.widget {
     markup = helpers.colorize_text(system_icon, beautiful.xcolor4),
-    font = "mono 22",
+    font = "mono 30",
     widget = wibox.widget.textbox,
     valign = "center"
 }

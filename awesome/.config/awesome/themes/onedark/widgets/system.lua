@@ -11,13 +11,13 @@ local pacman_updates = require_widget("pacman_updates")
 local user = require_widget("user")
 local ip = require_widget("ip")
 
-local system_icon = " "
+local system_icon = ""
 local popup_width = dpi(380)
 local popup_height = dpi(200)
 
 local system_button = wibox.widget {
   markup = " " .. helpers.colorize_text(system_icon, beautiful.xcolor4),
-  font = "mono 16",
+  font = "mono 22",
   valign = "center",
   widget = wibox.widget.textbox
 }
