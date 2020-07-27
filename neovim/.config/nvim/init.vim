@@ -155,6 +155,7 @@ augroup InstallMissingPlugins
         \| PlugInstall --sync | q
         \| endif
 augroup END
+
 "-------------------------------- EX COMMANDS --------------------------------
 function! FormatJson()
   %!python -m json.tool
@@ -842,3 +843,7 @@ nnoremap <silent> <Space>fj :Cd<CR>
 let g:which_key_map.f.j = 'find recent directory'
 nnoremap <silent> <Space>fs :Snippets<CR>
 let g:which_key_map.f.s = 'find snippet'
+
+source $HOME/.thematic/theme.vim
+source $HOME/.thematic/status.vim
+source $HOME/.thematic/bars.vim
