@@ -227,13 +227,12 @@ Plug 'sainnhe/gruvbox-material'
 Plug 'sainnhe/sonokai'
 Plug 'mcchrish/nnn.vim', {'on': 'Np'}
 Plug 'moll/vim-bbye'
-Plug 'camspiers/animate.vim'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'dsznajder/vscode-es7-javascript-react-snippets', { 'do': 'yarn install --frozen-lockfile && yarn compile' }
-Plug 'camspiers/lens.vim'
 Plug 'dracula/vim'
 Plug 'lifepillar/vim-solarized8'
 Plug 'liuchengxu/vim-which-key', {'on': ['WhichKey', 'WhichKey!']}
+Plug 'editorconfig/editorconfig'
 call plug#end()
 
 "-------------------------------- Plugin Config -----------------------------------
@@ -387,11 +386,7 @@ vmap e <Plug>(expand_region_expand)
 vmap E <Plug>(expand_region_shrink)
 
 " fzf.vim
-" let g:fzf_layout = { 'window': '-tabnew' }
-let g:fzf_layout = {
-      \ 'window': 'new | wincmd J | resize 1 | call animate#window_percent_height(1)'
-      \ }
-
+let g:fzf_layout = { 'window': '-tabnew' }
 let g:fzf_buffers_jump = 1
 
 " set the find executable name by os
@@ -462,6 +457,7 @@ let g:coc_global_extensions = [
       \ 'coc-python',
       \ 'coc-snippets',
       \ 'coc-tsserver',
+      \ 'coc-lua',
       \ 'coc-prettier',
       \ ]
 set cmdheight=2
