@@ -1,0 +1,28 @@
+" vim: filetype=vim
+
+" Make this config file the source of truth for all tridactyl config
+sanitize tridactyllocal tridactylsync
+
+set smoothscroll true
+
+" Don't close tabs with a key on the home row
+unbind d
+
+" Reduce the scrolling sensitivity
+bind j scrollline 5
+bind k scrollline -5
+bind d scrollline 10
+bind u scrollline -10
+
+bind J tabprev
+bind K tabnext
+bind x tabclose
+
+
+" Don't run tridactyl on gmail
+autocmd DocStart mail.google.com mode ignore
+
+" Don't show the annoying mode
+set modeindicator false
+
+colourscheme dark
