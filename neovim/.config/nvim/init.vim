@@ -49,7 +49,6 @@ set inccommand=nosplit
 " Enable blinking underline cursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
 
-" FIXME: Use system clipboard on macOS and both clipboards on linux
 set clipboard=unnamed
 set clipboard+=unnamedplus
 
@@ -73,26 +72,28 @@ augroup AutoRevert
         \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 augroup END
 
-" " Vim autosaves and reflects changes to files on disk
 augroup AutoSave
   autocmd!
+  " Vim autosaves and reflects changes to files on disk
   autocmd FocusGained,BufEnter * :silent! !
   autocmd FocusLost,WinLeave * :silent! w
 augroup END
 
 augroup Crontab
   autocmd!
+  " disable backups when editing cron files
   autocmd filetype crontab setlocal nobackup nowritebackup
 augroup END
 
 augroup HTML
   autocmd!
+  " teach vim about the horrors of php template files
   autocmd BufNewFile,BufRead *.thtml setlocal syntax=phtml
 augroup END
 
-" " Keep markdown file lines to 100 characters
 augroup Markdown
   autocmd!
+  " Keep markdown file lines to 100 characters
   autocmd FileType markdown setlocal textwidth=100
 augroup END
 
@@ -108,37 +109,41 @@ augroup END
 
 augroup SwitchPanesCursorlineOff
   autocmd!
+  " turn off the cursorline in inactive buffers
   autocmd WinEnter * set cursorline
   autocmd WinLeave * set nocursorline
 augroup END
 
-" " set the cursor back when we exit nvim
 augroup CursorShape
   autocmd!
+  " reset the cursor shape when nvim exits
   autocmd VimLeave * set guicursor=a:hor20-Cursor/lCursor
 augroup END
 
 augroup FZF
   autocmd!
+  " clean up the ui in fzf buffers
   autocmd FileType fzf set laststatus=0 noruler
         \| autocmd BufLeave <buffer> set laststatus=2 ruler
 augroup END
 
 augroup Handlebars
   autocmd!
+  " don't fix
   autocmd BufNewFile,BufRead *.hbs let b:ale_fix_on_save = 0
 augroup END
 
 augroup NerdTree
   autocmd!
+  " if we open a directory, open nerdtree only
   autocmd StdinReadPre * let s:std_in=1
   autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
   autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup END
 
 augroup CocSymbolHighlight
-  " highlight symbol under cursor on CursorHold
   autocmd!
+  " highlight symbol under cursor on CursorHold
   autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup END
 
@@ -570,8 +575,8 @@ function! GoToOpenFold(direction)
   call cursor(start, 0)
 endfunction
 
-nmap ]z :call GoToOpenFold("next")<CR>
-nmap [z :call GoToOpenFold("prev")<CR>
+nmap <silent> ]z :call GoToOpenFold("next")<CR>
+nmap <silent> [z :call GoToOpenFold("prev")<CR>
 
 " Jump to next error message
 nnoremap ge :ALENextWrap<CR>
