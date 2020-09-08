@@ -52,11 +52,6 @@ alias fit="tmux detach -a"
 alias tarc="tar -cvzf"
 alias tarx="tar -xvzf"
 
-# Stop and remove all docker containers
-alias dockstop="docker ps -a -q | xargs docker stop 2>&1"
-alias dockrm="docker ps -a -q | xargs docker rm 2>&1"
-alias dc="docker-compose"
-
 # tmux
 alias ta='tmux attach -t'
 alias tad='tmux attach -d -t'
