@@ -19,8 +19,13 @@ bind K tabnext
 bind x tabclose
 
 
-" Don't run tridactyl on gmail
+" Disable tridactyl on sites that have lots of keyboard shortcuts
 autocmd DocStart mail.google.com mode ignore
+autocmd DocStart calendar.google.com mode ignore
+autocmd DocStart notion.so mode ignore
+autocmd DocStart trello.com mode ignore
+autocmd DocStart xd.adobe.com mode ignore
+autocmd DocStart localhost mode ignore
 
 " Don't show the annoying mode
 set modeindicator false
