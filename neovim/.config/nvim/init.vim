@@ -214,7 +214,6 @@ Plug 'AndrewRadev/sideways.vim', {'on': ['SidewaysLeft', 'SidewaysRight']}
 Plug 'kh3phr3n/python-syntax', {'for': 'python'}
 Plug 'haya14busa/vim-keeppad'
 Plug 'pangloss/vim-javascript'
-Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'blueyed/vim-diminactive'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-rhubarb'
@@ -241,10 +240,6 @@ Plug 'editorconfig/editorconfig'
 call plug#end()
 
 "-------------------------------- Plugin Config -----------------------------------
-
-" ayu-theme
-let ayucolor='mirage'
-
 " startify
 let g:ascii = [
       \ '  __   __  ______  ______  __   ____  __    __   ',
@@ -421,7 +416,7 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
       \ {'source': s:findcmd . ' '. (empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
       \  'sink': 'cd'}))
 
-"vim-markdown
+" vim-markdown
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_auto_insert_bullets = 0
@@ -430,7 +425,7 @@ let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_conceal = 0
 
 " Polyglot
-let g:polyglot_disabled = [ 'javascript', 'javascript.jsx', 'python' ]
+let g:polyglot_disabled = [ 'python' ]
 let g:python_highlight_all = 1
 
 " NERDTree
@@ -510,7 +505,6 @@ let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 
 " vim-rooter
-" let g:rooter_use_lcd = 1
 let g:rooter_cd_cmd = "lcd"
 let g:rooter_resolve_links = 1
 let g:rooter_silent_chdir = 1
