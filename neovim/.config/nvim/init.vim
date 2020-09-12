@@ -176,6 +176,8 @@ command! Trimws :%s/\s\+$//
 " Format file with prettier
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
+let g:polyglot_disabled = [ 'python' ]
+
 "-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'mhinz/vim-startify'
@@ -425,7 +427,6 @@ let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_conceal = 0
 
 " Polyglot
-let g:polyglot_disabled = [ 'python' ]
 let g:python_highlight_all = 1
 
 " NERDTree
@@ -461,7 +462,7 @@ let g:coc_global_extensions = [
       \ 'coc-prettier',
       \ ]
 set cmdheight=2
-set updatetime=400
+set updatetime=100
 
 " Tab selects completion, expands snippet, and moves through snippet fields
 inoremap <silent><expr> <TAB>
@@ -517,9 +518,6 @@ let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debu
 
 " diminactive
 let g:diminactive_enable_focus = 1
-
-" animate
-let g:animate#duration = 200.0
 
 " nvim-colorizer
 lua require'colorizer'.setup()
