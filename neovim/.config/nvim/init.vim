@@ -177,6 +177,7 @@ command! Trimws :%s/\s\+$//
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 let g:polyglot_disabled = [ 'python' ]
+let g:tex_flavor = 'latex'
 
 "-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
@@ -221,7 +222,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-rhubarb'
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'mattn/emmet-vim'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'airblade/vim-rooter'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'metakirby5/codi.vim'
@@ -618,12 +619,6 @@ nnoremap <silent> <Space>Q :q!<Return>
 let g:EasyMotion_smartcase = 1
 map \ <Plug>(easymotion-prefix)
 nmap s <Plug>(easymotion-overwin-f2)
-
-" Animate.vim
-nnoremap <silent> <Up>    :call animate#window_delta_height(10)<CR>
-nnoremap <silent> <Down>  :call animate#window_delta_height(-10)<CR>
-nnoremap <silent> <Left>  :call animate#window_delta_width(10)<CR>
-nnoremap <silent> <Right> :call animate#window_delta_width(-10)<CR>
 
 " ------------ interface ----------------
 let g:which_key_map = {}
