@@ -1,0 +1,97 @@
+colors:
+  bright:
+    black: '#45403d'
+    blue: '#d3869b'
+    cyan: '#89b482'
+    green: '#a9b665'
+    magenta: '#a9b665'
+    red: '#ea6962'
+    white: '#a89984'
+    yellow: '#e78a4e'
+  normal:
+    black: '#46413e'
+    blue: '#d3869b'
+    cyan: '#89b482'
+    green: '#a9b665'
+    magenta: '#7daea3'
+    red: '#ea6962'
+    white: '#d4be98'
+    yellow: '#e78a4e'
+  primary:
+    background: '#282828'
+    foreground: '#ddc7a1'
+font:
+  bold:
+    family: JetBrainsMono Nerd Font Mono
+  italic:
+    family: JetBrainsMono Nerd Font Mono
+  normal:
+    family: JetBrainsMono Nerd Font Mono
+    style: Medium
+key_bindings:
+- chars: "\ej"
+  key: J
+  mods: Alt
+- chars: "\ek"
+  key: K
+  mods: Alt
+- chars: "\eh"
+  key: H
+  mods: Alt
+- chars: "\el"
+  key: L
+  mods: Alt
+- chars: "\e1"
+  key: Key1
+  mods: Alt
+- chars: "\e2"
+  key: Key2
+  mods: Alt
+- chars: "\e3"
+  key: Key3
+  mods: Alt
+- chars: "\e4"
+  key: Key4
+  mods: Alt
+- chars: "\ep"
+  key: P
+  mods: Alt
+- chars: "\e0"
+  key: Key0
+  mods: Alt
+- chars: "\e1"
+  key: Key1
+  mods: Alt
+- chars: "\e2"
+  key: Key2
+  mods: Alt
+- chars: "\e3"
+  key: Key3
+  mods: Alt
+- chars: "\e4"
+  key: Key4
+  mods: Alt
+- chars: "\e5"
+  key: Key5
+  mods: Alt
+- chars: "\e6"
+  key: Key6
+  mods: Alt
+- chars: "\e7"
+  key: Key7
+  mods: Alt
+- chars: "\e8"
+  key: Key8
+  mods: Alt
+- chars: "\e9"
+  key: Key9
+  mods: Alt
+live_config_reload: true
+scrolling:
+  history: 0
+window:
+  decorations: none
+  dynamic_padding: true
+  padding:
+    x: 0
+    y: 0
