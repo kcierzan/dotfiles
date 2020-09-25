@@ -89,4 +89,10 @@ function resize.send_to_next_screen()
   window:move(frame:toUnitRect(screen:frame()), screen:next(), true, 0)
 end
 
+function resize.send_to_previous_screen()
+  local window, frame = resize.get_state()
+  local screen = window:screen()
+  window:move(frame:toUnitRect(screen:frame()), screen:previous(), true, 0)
+end
+
 return resize

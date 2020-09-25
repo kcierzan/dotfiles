@@ -52,18 +52,28 @@ hs.hotkey.bind(
 
 hs.hotkey.bind(
   {"cmd"},
-  "U",
+  "E",
   Resize.center)
 
 hs.hotkey.bind(
   {"cmd", "shift"},
-  "U",
+  "E",
   Resize.resize_to_preset)
 
 hs.hotkey.bind(
   {"cmd", "shift"},
   "F",
   Resize.fullscreen)
+
+hs.hotkey.bind(
+  {"cmd", "shift"},
+  "]",
+  Resize.send_to_next_screen)
+
+hs.hotkey.bind(
+  {"cmd", "shift"},
+  "[",
+  Resize.send_to_previous_screen)
 
 function reloadConfig(files)
   doReload = false
