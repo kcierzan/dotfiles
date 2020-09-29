@@ -8,13 +8,19 @@
 "-------------------------------- SETTINGS --------------------------------
 scriptencoding utf-8
 set autoindent
+set autoread
+set clipboard=unnamed
+set clipboard+=unnamedplus
+set cmdheight=2
 set completeopt-=preview
 set conceallevel=2
 set cursorline
 set expandtab
+set foldlevelstart=20
 set gdefault
 set hidden
 set ignorecase
+set inccommand=nosplit
 set noerrorbells
 set nolazyredraw
 set noshowmode
@@ -26,31 +32,31 @@ set scrolloff=3
 set shell=/usr/local/bin/zsh
 set shiftround
 set shiftwidth=2
+set shortmess+=c
 set showcmd
+set showtabline=0
+set signcolumn=yes
 set smartcase
 set smartindent
 set softtabstop=2
 set splitbelow
 set splitright
 set tabstop=2
+set termguicolors
 set textwidth=0
 set timeoutlen=500
 set ttimeoutlen=0
-set autoread
 set ttyfast
 set undodir=~/.undo
 set undofile
 set undolevels=100000
-set foldlevelstart=20
-set termguicolors
-set showtabline=0
-set inccommand=nosplit
+set updatetime=100
 
 " Enable blinking underline cursor
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor
 
-set clipboard=unnamed
-set clipboard+=unnamedplus
+filetype off
+filetype plugin indent on
 
 " Set :grep to use ripgrep
 if executable('rg')
@@ -58,8 +64,12 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-" Virtualenv for python-dependent plugins
-let g:python3_host_prog = $HOME . '/.pyenv/versions/main/bin/python3'
+" set the find executable name by os
+if has('macunix') == 1
+  let s:findcmd = 'gfind'
+else
+  let s:findcmd = 'find'
+endif
 
 "-------------------------------- AUTOCOMMANDS --------------------------------
 
@@ -176,8 +186,179 @@ command! Trimws :%s/\s\+$//
 " Format file with prettier
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
+" ----------------------------- Pre plugin config -----------------------
+" Virtualenv for python-dependent plugins
+let g:python3_host_prog = $HOME . '/.pyenv/versions/main/bin/python3'
+
 let g:polyglot_disabled = [ 'python' ]
 let g:tex_flavor = 'latex'
+
+" startify
+let g:ascii = [
+      \ '  __   __  ______  ______  __   ____  __    __   ',
+      \ ' /\ "-.\ \/\  ___\/\  __ \/\ \ / /\ \/\ "-./  \  ',
+      \ " \\ \\ \\-.  \\ \\  __\\\\ \\ \\/\\ \\ \\ \\'/\\ \\ \\ \\ \\-./\\ \\ ",
+      \ '  \ \_\\"\_\ \_____\ \_____\ \__| \ \_\ \_\ \ \_\',
+      \ '   \/_/ \/_/\/_____/\/_____/\/_/   \/_/\/_/  \/_/',
+      \ '                                                 ',
+      \]
+let g:scroll =
+      \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"   ". v:val')
+
+let g:drip_header =
+      \ map(g:ascii + g:scroll, '"   ".v:val')
+
+function! s:filter_header(lines) abort
+  let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
+  let centered_lines = map(copy(a:lines),
+        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
+  return centered_lines
+endfunction
+
+let g:startify_custom_header = s:filter_header(g:drip_header)
+
+" indentLine
+let g:indentLine_enabled = 0
+let g:indentLine_char = '│'
+let g:indentLine_first_char = '│'
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_fileTypeExclude = ['text', 'sh', 'startify', 'man', 'help']
+let g:indentLine_bufTypeExclude = ['terminal']
+let g:indentLine_setColors = 1
+
+" vim-gitgutter
+let g:gitgutter_map_keys = 0
+let g:gitgutter_max_signs = 5000
+
+" goyo
+let g:goyo_width = 100
+let g:goyo_linenr = 0
+
+" comfortable-motion
+let g:comfortable_motion_friction = 70.0
+let g:comfortable_motion_air_drag = 10.0
+
+" vim-tmux-navigator
+" Map alt + hjkl to navigation
+let g:tmux_navigator_no_mappings = 1
+
+" ALE
+let g:ale_completion_enabled = 0
+let g:ale_linters = {
+      \ 'python': ['pylint', 'mypy'],
+      \ 'javascript': ['eslint'],
+      \ 'css': ['prettier'],
+      \ 'php': ['php'],
+      \ 'bash': ['shellcheck'],
+      \ 'html': ['tidy'],
+      \ 'vim': ['vint'],
+      \ 'yaml': ['yamllint'],
+      \ 'jsx': ['eslint']
+      \ }
+
+let g:ale_linter_aliases = {
+      \ 'jsx': 'javascript',
+      \ 'thtml': 'html',
+      \ 'phtml': 'html',
+      \ }
+
+let g:ale_fixers = {
+      \ '*': ['trim_whitespace'],
+      \}
+
+" let g:ale_python_flake8_options = "--import-order-style=google"
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/main/bin/vint'
+let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
+let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
+let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
+let g:ale_sign_error = ''
+let g:ale_sign_warning = ''
+let g:ale_statusline_format = ['✖ %d', ' %d', '']
+let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_lint_on_text_changed = 'always'
+let g:ale_set_highlights = 0
+let g:ale_fix_on_save = 0
+highlight ALEErrorSign ctermfg=1
+highlight ALEWarningSign ctermfg=3
+
+" vim-test
+let g:test#strategy = 'vimux'
+let g:test#python#runner = 'nose'
+let g:test#python#nose#options = '-xvs --with-coverage'
+
+" utilsnips
+let g:UltiSnipsExpandTrigger="<C-y>"
+
+" fzf.vim
+let g:fzf_layout = { 'window': '-tabnew' }
+let g:fzf_buffers_jump = 1
+
+
+" vim-markdown
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 0
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_conceal = 0
+
+" Polyglot
+let g:python_highlight_all = 1
+
+" NERDTree
+let g:NERDTreeShowHidden = 1
+
+" vim-devicons
+let g:webdevicons_enable_nerdtree = 1
+let g:webdevicons_enable_startify = 1
+
+" windowswap
+let g:windowswap_map_keys = 0
+
+" emmet-vim
+let g:user_emmet_settings = {
+      \ 'javascript.jsx': {
+      \   'extends': 'jsx',
+      \  },
+      \}
+
+" vim-rest-console
+let g:vrc_include_response_header = 1
+
+" coc.nvim
+let g:coc_global_extensions = [
+      \ 'coc-css',
+      \ 'coc-emmet',
+      \ 'coc-html',
+      \ 'coc-json',
+      \ 'coc-python',
+      \ 'coc-snippets',
+      \ 'coc-tsserver',
+      \ 'coc-lua',
+      \ 'coc-prettier',
+      \ ]
+
+" Easymotion
+let g:EasyMotion_smartcase = 1
+
+" accept completion with tab
+let g:coc_snippet_next = '<TAB>'
+let g:coc_snippet_prev = '<S-TAB>'
+
+" vim-rooter
+let g:rooter_cd_cmd = "lcd"
+let g:rooter_resolve_links = 1
+let g:rooter_silent_chdir = 1
+
+" nnn
+let g:nnn#command = 'nnn -ednH'
+let $DISABLE_FILE_OPEN_ON_NAV=1
+let $NNN_RESTRICT_NAV_OPEN=1
+let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
+
+" diminactive
+let g:diminactive_enable_focus = 1
 
 "-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
@@ -185,7 +366,6 @@ Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
-Plug 'yuttie/comfortable-motion.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'dense-analysis/ale'
@@ -242,44 +422,7 @@ Plug 'liuchengxu/vim-which-key', {'on': ['WhichKey', 'WhichKey!']}
 Plug 'editorconfig/editorconfig'
 call plug#end()
 
-"-------------------------------- Plugin Config -----------------------------------
-" startify
-let g:ascii = [
-      \ '  __   __  ______  ______  __   ____  __    __   ',
-      \ ' /\ "-.\ \/\  ___\/\  __ \/\ \ / /\ \/\ "-./  \  ',
-      \ " \\ \\ \\-.  \\ \\  __\\\\ \\ \\/\\ \\ \\ \\'/\\ \\ \\ \\ \\-./\\ \\ ",
-      \ '  \ \_\\"\_\ \_____\ \_____\ \__| \ \_\ \_\ \ \_\',
-      \ '   \/_/ \/_/\/_____/\/_____/\/_/   \/_/\/_/  \/_/',
-      \ '                                                 ',
-      \]
-let g:scroll =
-      \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"   ". v:val')
-
-let g:drip_header =
-      \ map(g:ascii + g:scroll, '"   ".v:val')
-
-function! s:filter_header(lines) abort
-  let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
-  let centered_lines = map(copy(a:lines),
-        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
-  return centered_lines
-endfunction
-
-let g:startify_custom_header = s:filter_header(g:drip_header)
-
-" indentLine
-let g:indentLine_enabled = 0
-let g:indentLine_char = '│'
-let g:indentLine_first_char = '│'
-let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_fileTypeExclude = ['text', 'sh', 'startify', 'man', 'help']
-let g:indentLine_bufTypeExclude = ['terminal']
-let g:indentLine_setColors = 1
-
-" vim-gitgutter
-let g:gitgutter_map_keys = 0
-let g:gitgutter_max_signs = 5000
-
+"-------------------------------- Post Plugin config  -----------------------------------
 function! s:NextHunkAllBuffers()
   let line = line('.')
   GitGutterNextHunk
@@ -322,82 +465,9 @@ function! s:PrevHunkAllBuffers()
   endwhile
 endfunction
 
-" goyo
-let g:goyo_width = 100
-let g:goyo_linenr = 0
-
-" comfortable-motion
-let g:comfortable_motion_friction = 70.0
-let g:comfortable_motion_air_drag = 10.0
-
-" vim-tmux-navigator
-" Map alt + hjkl to navigation
-let g:tmux_navigator_no_mappings = 1
-
-" ALE
-let g:ale_completion_enabled = 0
-filetype off
-filetype plugin indent on
-let g:ale_linters = {
-      \ 'python': ['pylint', 'mypy'],
-      \ 'javascript': ['eslint'],
-      \ 'css': ['prettier'],
-      \ 'php': ['php'],
-      \ 'bash': ['shellcheck'],
-      \ 'html': ['tidy'],
-      \ 'vim': ['vint'],
-      \ 'yaml': ['yamllint'],
-      \ 'jsx': ['eslint']
-      \ }
-
-let g:ale_linter_aliases = {
-      \ 'jsx': 'javascript',
-      \ 'thtml': 'html',
-      \ 'phtml': 'html',
-      \ }
-
-let g:ale_fixers = {
-      \ '*': ['trim_whitespace'],
-      \}
-
-" let g:ale_python_flake8_options = "--import-order-style=google"
-let g:ale_javascript_eslint_use_global = 1
-let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/main/bin/vint'
-let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
-let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
-let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
-let g:ale_sign_error = ''
-let g:ale_sign_warning = ''
-let g:ale_statusline_format = ['✖ %d', ' %d', '']
-let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_lint_on_text_changed = 'always'
-let g:ale_set_highlights = 0
-let g:ale_fix_on_save = 0
-highlight ALEErrorSign ctermfg=1
-highlight ALEWarningSign ctermfg=3
-
-" vim-test
-let g:test#strategy = 'vimux'
-let g:test#python#runner = 'nose'
-let g:test#python#nose#options = '-xvs --with-coverage'
-
-" utilsnips
-let g:UltiSnipsExpandTrigger="<C-y>"
-
 " vim-expand-region
 vmap e <Plug>(expand_region_expand)
 vmap E <Plug>(expand_region_shrink)
-
-" fzf.vim
-let g:fzf_layout = { 'window': '-tabnew' }
-let g:fzf_buffers_jump = 1
-
-" set the find executable name by os
-if has('macunix') == 1
-  let s:findcmd = 'gfind'
-else
-  let s:findcmd = 'find'
-endif
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
@@ -418,52 +488,6 @@ command! -bang -nargs=* GFiles
 command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
       \ {'source': s:findcmd . ' '. (empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
       \  'sink': 'cd'}))
-
-" vim-markdown
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_auto_insert_bullets = 0
-let g:vim_markdown_new_list_item_indent = 0
-let g:vim_markdown_strikethrough = 1
-let g:vim_markdown_conceal = 0
-
-" Polyglot
-let g:python_highlight_all = 1
-
-" NERDTree
-let g:NERDTreeShowHidden = 1
-
-" vim-devicons
-let g:webdevicons_enable_nerdtree = 1
-let g:webdevicons_enable_startify = 1
-
-" windowswap
-let g:windowswap_map_keys = 0
-
-" emmet-vim
-let g:user_emmet_settings = {
-      \ 'javascript.jsx': {
-      \   'extends': 'jsx',
-      \  },
-      \}
-
-" vim-rest-console
-let g:vrc_include_response_header = 1
-
-" coc.nvim
-let g:coc_global_extensions = [
-      \ 'coc-css',
-      \ 'coc-emmet',
-      \ 'coc-html',
-      \ 'coc-json',
-      \ 'coc-python',
-      \ 'coc-snippets',
-      \ 'coc-tsserver',
-      \ 'coc-lua',
-      \ 'coc-prettier',
-      \ ]
-set cmdheight=2
-set updatetime=100
 
 " Tab selects completion, expands snippet, and moves through snippet fields
 inoremap <silent><expr> <TAB>
@@ -496,29 +520,6 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-
-" don't give |ins-completion-menu| messages
-set shortmess+=c
-
-set signcolumn=yes
-
-" accept completion with tab
-let g:coc_snippet_next = '<TAB>'
-let g:coc_snippet_prev = '<S-TAB>'
-
-" vim-rooter
-let g:rooter_cd_cmd = "lcd"
-let g:rooter_resolve_links = 1
-let g:rooter_silent_chdir = 1
-
-" nnn
-let g:nnn#command = 'nnn -ednH'
-let $DISABLE_FILE_OPEN_ON_NAV=1
-let $NNN_RESTRICT_NAV_OPEN=1
-let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
-
-" diminactive
-let g:diminactive_enable_focus = 1
 
 " nvim-colorizer
 lua require'colorizer'.setup()
@@ -615,8 +616,6 @@ nnoremap <C-H> :bprev<CR>
 nnoremap <silent> <Space>q :q<Return>
 nnoremap <silent> <Space>Q :q!<Return>
 
-" Easymotion
-let g:EasyMotion_smartcase = 1
 map \ <Plug>(easymotion-prefix)
 nmap s <Plug>(easymotion-overwin-f2)
 
@@ -628,9 +627,9 @@ let g:which_key_map.i = {
  \ 'name': '+interface'
  \ }
 nnoremap <silent> <Space>i% :set invrelativenumber<CR>
-" let g:which_key_map.i['%'] = 'toggle relative line numbers'
+let g:which_key_map.i['%'] = 'toggle relative line numbers'
 nnoremap <silent> <Space>i# :set invnumber<CR>
-" let g:which_key_map.i['#'] = 'toggle line numbers'
+let g:which_key_map.i['#'] = 'toggle line numbers'
 nnoremap <silent> <Space>il :set invcursorline<CR>:hi CursorLineNr cterm=none<CR>
 let g:which_key_map.i.l = 'disable cursorline'
 nnoremap <silent> <Space>ii :IndentLinesToggle<CR>
