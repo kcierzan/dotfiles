@@ -38,6 +38,7 @@ set foldlevelstart=20
 set termguicolors
 set showtabline=0
 
+nnoremap <Space> <Nop>
 let mapleader = " "
 
 set commentary
