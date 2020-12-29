@@ -7,8 +7,15 @@
   "python.jediEnabled": false,
   "python.linting.enabled": true,
   "python.venvPath": "~/.pyenv",
-  "coc.preferences.formatOnSaveFiletypes": ["json"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "json",
+    "python",
+    "javascript",
+    "css",
+    "md"
+  ],
   "python.workspaceSymbols.tagFilePath": "${workspaceFolder}/tags",
+  "python.formatting.provider": "black",
   "languageserver": {
     "intelephense": {
       "command": "npx",

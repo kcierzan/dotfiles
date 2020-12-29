@@ -4,15 +4,13 @@ function print_dcs {
 
 function zle-keymap-select zle-line-init
   {
-    # change cursor shape in iTerm2
+    # change cursor shape
     case $KEYMAP in
       vicmd)
         set_cursor_shape 0 # block cursor
-        # RPROMPT="$(prompt_geometry_colorize $GEOMETRY_VI_MODE_COLOR_NORMAL $GEOMETRY_VI_MODE_SYMBOL_NORMAL)"
         ;;
       viins|main)
         set_cursor_shape 2 # underline cursor
-        # RPROMPT="$(prompt_geometry_colorize $GEOMETRY_VI_MODE_COLOR_INSERT $GEOMETRY_VI_MODE_SYMBOL_INSERT)"
         ;;
     esac
 

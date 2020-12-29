@@ -122,7 +122,6 @@ function expand-dot-to-parent-directory-path {
 zle -N expand-dot-to-parent-directory-path
 
 # Allow command line editing in an external editor.
-#
 autoload -Uz edit-command-line
 zle -N edit-command-line
 

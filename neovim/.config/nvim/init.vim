@@ -46,7 +46,6 @@ set termguicolors
 set textwidth=0
 set timeoutlen=500
 set ttimeoutlen=0
-set ttyfast
 set undodir=~/.undo
 set undofile
 set undolevels=100000
