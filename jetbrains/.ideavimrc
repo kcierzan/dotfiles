@@ -2,7 +2,6 @@ scriptencoding utf-8
 set autoindent
 set completeopt-=preview
 set conceallevel=2
-set cursorline
 set expandtab
 set gdefault
 set hidden
@@ -14,7 +13,6 @@ set noshowmode
 set noswapfile
 set nowrap
 set nonumber
-set pumheight=10
 set scrolloff=3
 set shell=/usr/local/bin/zsh
 set shiftround
@@ -30,20 +28,90 @@ set textwidth=0
 set timeoutlen=1000
 set ttimeoutlen=0
 set autoread
-set ttyfast
 set undodir=~/.undo
 set undofile
 set undolevels=100000
 set foldlevelstart=20
-set termguicolors
 set showtabline=0
-
-nnoremap <Space> <Nop>
-let mapleader = " "
 
 set commentary
 set easymotion
 set surround
 
+nnoremap <Space> <Nop>
+let mapleader = " "
+
 map s <Plug>(easymotion-s2)
-nmap <leader><leader> :action SearchEverywhere<cr>
+nnoremap <leader><leader> :action SearchEverywhere<cr>
+
+" --------------------------------- Windows -----------------------------
+" alt + hjkl to move around splits
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-h> <C-w>h
+nnoremap <A-l> <C-w>l
+
+" split editor and focus
+nnoremap <leader>wv <C-w>v<C-w>l
+nnoremap <leader>ws <C-w>s<C-w>j
+
+nnoremap <leader>bd :action CloseContent<CR>
+nnoremap <leader>q :action CloseAllEditors<CR>
+
+nnoremap <C-l> :action NextTab<CR>
+nnoremap <C-h> :action PreviousTab<CR>
+nnoremap <leader>wo :action CloseAllEditorsButActive<CR>
+
+" --------------------------------- Files -----------------------------
+
+nnoremap <leader>fh :action RecentFiles<CR>
+nnoremap <leader>ff :action GotoFile<CR>
+nnoremap <leader>fg :action FindInPath<CR>
+nnoremap <leader>fo :action GotoSymbol<CR>
+nnoremap <leader>fa :action GotoAction<CR>
+
+" --------------------------------- Ideavim -----------------------------
+
+nnoremap <leader>vr :source ~/.ideavimrc<CR>
+nnoremap <leader>Q :action Exit<CR>
+nnoremap <leader>: :action GotoAction<CR>
+nnoremap <leader>ve :e ~/.ideavimrc<CR>
+nnoremap <leader>bt :action SelectIn<CR>
+
+" --------------------------------- Interface -----------------------------
+
+nnoremap <leader>iz :action ToggleDistractionFreeMode<CR>
+nnoremap <leader>il :action EditorToggleShowIndentLines<CR>
+nnoremap <leader>iw :action EditorToggleShowWhitespaces<CR>
+nnoremap <leader>it :action EditorToggleUseSoftWraps<CR>
+nnoremap <leader>iu :action EditorIncreaseFontSize<CR>
+nnoremap <leader>id :action EditorDecreaseFontSize<CR>
+
+" --------------------------------- Refactoring -----------------------------
+
+nnoremap <leader>cr :action RenameElement<CR>
+nnoremap <leader>ch :action HighlightUsagesInFile<CR>
+nnoremap <leader>cu :action FindUsages<CR>
+nnoremap <leader>cc :nohlsearch<CR>
+nnoremap <leader>cs :action InsertLiveTemplate<CR>
+
+" --------------------------------- Git -----------------------------
+
+nnoremap <leader>gn :action JumpToNextChange<CR>
+nnoremap <leader>gp :action JumpToPreviousChange<CR>
+nnoremap <leader>gL :action Vcs.Show.Log<CR>
+nnoremap <leader>gl :action Vcs.ShowTabbedFileHistory<CR>
+nnoremap <leader>gd :action Vcs.Show.Local.Changes<CR>
+nnoremap <leader>gb :action Annotate<CR>
+
+" --------------------------------- Errors -----------------------------
+
+nnoremap gh :action ShowErrorDescription<CR>
+nnoremap <leader>ge :action GotoNextError<CR>
+nnoremap <leader>gE :action GotoPreviousError<CR>
+nnoremap <leader>el :action CodeInspection.OnEditor<CR>
+nnoremap <leader>es :action RunInspection<CR>
+
+" --------------------------------- Errors -----------------------------
+
+nnoremap <leader>ot :action ActivateTerminalToolWindow<CR>
