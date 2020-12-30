@@ -70,6 +70,9 @@ else
   let s:findcmd = 'find'
 endif
 
+" Enable lua-in-vimscript syntax highlighting
+let g:vimsyn_embed = "l"
+
 "-------------------------------- AUTOCOMMANDS --------------------------------
 
 " Trigger autoread when files change on disk and display a notification
@@ -142,14 +145,6 @@ augroup Handlebars
   autocmd BufNewFile,BufRead *.hbs let b:ale_fix_on_save = 0
 augroup END
 
-augroup NerdTree
-  autocmd!
-  " if we open a directory, open nerdtree only
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-augroup END
-
 augroup CocSymbolHighlight
   autocmd!
   " highlight symbol under cursor on CursorHold
@@ -202,19 +197,9 @@ let g:ascii = [
       \ '                                                 ',
       \]
 let g:scroll =
-      \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"   ". v:val')
+      \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"". v:val')
 
-let g:drip_header =
-      \ map(g:ascii + g:scroll, '"   ".v:val')
-
-function! s:filter_header(lines) abort
-  let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
-  let centered_lines = map(copy(a:lines),
-        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
-  return centered_lines
-endfunction
-
-let g:startify_custom_header = s:filter_header(g:drip_header)
+let g:dashboard_custom_header = map(g:ascii + g:scroll, '"   ".v:val')
 
 " indentLine
 let g:indentLine_enabled = 0
@@ -359,11 +344,14 @@ let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debu
 " diminactive
 let g:diminactive_enable_focus = 1
 
+" dashboard.nvim
+let g:dashboard_default_executive = "telescope"
+
 "-------------------------------- PLUGINS -----------------------------------
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'mhinz/vim-startify'
+Plug 'glepnir/dashboard-nvim'
 Plug 'Yggdroot/indentLine'
-Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
@@ -373,12 +361,10 @@ Plug 'benmills/vimux'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'terryma/vim-expand-region', {'on': ['<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)']}
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'sheerun/vim-polyglot'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
@@ -393,7 +379,6 @@ Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'}
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'AndrewRadev/sideways.vim', {'on': ['SidewaysLeft', 'SidewaysRight']}
-Plug 'kh3phr3n/python-syntax', {'for': 'python'}
 Plug 'haya14busa/vim-keeppad'
 Plug 'pangloss/vim-javascript'
 Plug 'blueyed/vim-diminactive'
@@ -419,74 +404,18 @@ Plug 'dracula/vim'
 Plug 'lifepillar/vim-solarized8'
 Plug 'liuchengxu/vim-which-key', {'on': ['WhichKey', 'WhichKey!']}
 Plug 'editorconfig/editorconfig'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'brooth/far.vim', { 'on': 'Far' }
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
 call plug#end()
 
 "-------------------------------- Post Plugin config  -----------------------------------
-function! s:NextHunkAllBuffers()
-  let line = line('.')
-  GitGutterNextHunk
-  if line('.') != line
-    return
-  endif
-
-  let bufnr = bufnr('')
-  while 1
-    bnext
-    if bufnr('') == bufnr
-      return
-    endif
-    if !empty(GitGutterGetHunks())
-      normal! 1G
-      GitGutterNextHunk
-      return
-    endif
-  endwhile
-endfunction
-
-function! s:PrevHunkAllBuffers()
-  let line = line('.')
-  GitGutterPrevHunk
-  if line('.') != line
-    return
-  endif
-
-  let bufnr = bufnr('')
-  while 1
-    bprevious
-    if bufnr('') == bufnr
-      return
-    endif
-    if !empty(GitGutterGetHunks())
-      normal! G
-      GitGutterPrevHunk
-      return
-    endif
-  endwhile
-endfunction
-
 " vim-expand-region
 vmap e <Plug>(expand_region_expand)
 vmap E <Plug>(expand_region_shrink)
-
-command! -bang -nargs=* Rg
-      \ call fzf#vim#grep(
-      \   'rg --smart-case --line-number --column --no-heading --hidden --color=never -g "!TAGS" -g "!node-modules/*" -g"!.git/*" '.shellescape(<q-args>), 0,
-      \   (winwidth(0) > 175 ? fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'right:50%')
-      \                      : fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'up:80%')))
-
-command! -bang -nargs=* GGrep
-      \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0,
-      \ (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
-
-command! -bang -nargs=* HHistory
-      \ call fzf#vim#history((winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
-
-command! -bang -nargs=* GFiles
-      \ call fzf#vim#files(<q-args>, (winwidth(0) > 175 ? fzf#vim#with_preview('right:50%') : fzf#vim#with_preview('up:80%')))
-
-command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
-      \ {'source': s:findcmd . ' '. (empty(<q-args>) ? '~/git' : <q-args>).' -maxdepth 1 -type d',
-      \  'sink': 'cd'}))
 
 " Tab selects completion, expands snippet, and moves through snippet fields
 inoremap <silent><expr> <TAB>
@@ -522,6 +451,40 @@ endfunction
 
 " nvim-colorizer
 lua require'colorizer'.setup()
+
+" Telescope
+lua << EOF
+require('telescope').setup {
+defaults = {
+    vimgrep_arguments = {
+    'rg',
+    '--color=never',
+    '--no-heading',
+    '--with-filename',
+    '--line-number',
+    '--column',
+    '--smart-case',
+    '--hidden'
+    },
+    color_devicons = true
+  }
+}
+EOF
+
+" Tree-sitter
+lua << EOF
+require('nvim-treesitter.configs').setup {
+  ensure_installed = { "python", "javascript", "lua", "bash", "typescript" },
+  highlight = {
+    enable = true,
+    -- JSX doesn't seem to be working...
+    disable = { "javascript" }
+  },
+  indent = {
+    enable = true
+  }
+}
+EOF
 
 "-------------------------------- KEYBINDINGS --------------------------------
 
@@ -641,8 +604,8 @@ nnoremap <silent> <Space>iz :Goyo<CR>
 let g:which_key_map.i.z = 'toggle zen mode'
 nnoremap <silent> <Space>ih :ColorizerAttachToBuffer<CR>
 let g:which_key_map.i.h = 'highlight colors in buffer'
-nnoremap <silent> <Space>it :NERDTreeToggle<CR>
-let g:which_key_map.i.t = 'toggle NERDTree'
+nnoremap <silent> <Space>it :CHADopen<CR>
+let g:which_key_map.i.t = 'toggle file browser'
 nnoremap <silent> <Space>in :Np<CR>
 let g:which_key_map.i.n = 'launch nnn'
 
@@ -763,20 +726,10 @@ nnoremap <silent> <Space>gs :Gstatus<CR>
 let g:which_key_map.g.s = 'status'
 nnoremap <silent> <Space>gb :Gblame<CR>
 let g:which_key_map.g.b = 'blame'
-nnoremap <silent> <Space>gn :GitGutterNextHunk<CR>
+nmap <silent> <Space>gn <Plug>(signify-next-hunk)
 let g:which_key_map.g.n = 'next hunk'
-nnoremap <silent> <Space>gN :GitGutterPrevHunk<CR>
+nmap <silent> <Space>gN <Plug>(signify-prev-hunk)
 let g:which_key_map.g.N = 'previous hunk'
-nnoremap <silent> <Space>gh :GitGutterStageHunk<CR>
-let g:which_key_map.g.h = 'state hunk'
-nnoremap <silent> <Space>g] :call <SID>NextHunkAllBuffers()<CR>
-let g:which_key_map.g[']'] = 'next hunk (all buffers)'
-nnoremap <silent> <Space>g[ :call <SID>PrevHunkAllBuffers()<CR>
-let g:which_key_map.g['['] = 'previous hunk (all buffers)'
-nnoremap <silent> <Space>gu :GitGutterUndoHunk<CR>
-let g:which_key_map.g.u = 'reset hunk'
-nnoremap <silent> <Space>gp :GitGutterPreviewHunk<CR>
-let g:which_key_map.g.p = 'preview hunk'
 nnoremap <silent> <Space>gd :Gvdiff<CR>
 let g:which_key_map.g.d = 'diff'
 nnoremap <silent> <Space>gl :GV<CR>
@@ -796,39 +749,29 @@ let g:which_key_map.g.m = 'keep changes from merge buffer'
 let g:which_key_map['f'] = {
  \ 'name': '+find'
  \ }
-nnoremap <silent> <Space><Space> :GFiles<CR>
-nnoremap <silent> <Space>ff :GFiles<CR>
+nnoremap <silent> <Space><Space> :Telescope git_files<CR>
+nnoremap <silent> <Space>ff :Telescope git_files<CR>
 let g:which_key_map.f.f = 'find git files'
-nnoremap <silent> <Space>fa :Files<CR>
+nnoremap <silent> <Space>fa :Telescope find_files<CR>
 let g:which_key_map.f.a = 'find all files'
-nnoremap <silent> <Space>fi :Helptags<CR>
+nnoremap <silent> <Space>fi :Telescope help_tags<CR>
 let g:which_key_map.f.i = 'find help tag'
-nnoremap <silent> <Space>fb :Buffers<CR>
+nnoremap <silent> <Space>fb :Telescope buffers<CR>
 let g:which_key_map.f.b = 'find buffer'
-nnoremap <silent> <Space>fl :BLines<CR>
+nnoremap <silent> <Space>fl :Telescope current_buffer_fuzzy_find<CR>
 let g:which_key_map.f.l = 'find line in current buffer'
-nnoremap <silent> <Space>fL :Lines<CR>
-let g:which_key_map.f.L = 'find line in all buffers'
-nnoremap <silent> <Space>fh :HHistory<CR>
+nnoremap <silent> <Space>fh :Telescope oldfiles<CR>
 let g:which_key_map.f.h = 'find recent buffer'
-nnoremap <silent> <Space>fg :Rg<CR>
+noremap <silent> <Space>fg :Telescope live_grep<CR>
 let g:which_key_map.f.g = 'find in buffers'
-nnoremap <silent> <Space>ft :Filetypes<CR>
+nnoremap <silent> <Space>ft :Telescope filetypes<CR>
 let g:which_key_map.f.t = 'find and set filetype'
-nnoremap <silent> <Space>fc :Commits<CR>
-let g:which_key_map.f.c = 'find commit'
-nnoremap <silent> <Space>fO :Tags<CR>
+nnoremap <silent> <Space>fO :Telescope tags<CR>
 let g:which_key_map.f.O = 'find tag in project'
-nnoremap <silent> <Space>fo :BTags<CR>
+nnoremap <silent> <Space>fo :Telescope current_buffer_tags<CR>
 let g:which_key_map.f.o = 'find tag in buffer'
-nnoremap <silent> <Space>fe :Commands<CR>
+nnoremap <silent> <Space>fe :Telescope commands<CR>
 let g:which_key_map.f.e = 'find command'
-nnoremap <silent> <Space>fp :GGrep<CR>
-let g:which_key_map.f.p = 'find in git files'
-nnoremap <silent> <Space>fj :Cd<CR>
-let g:which_key_map.f.j = 'find recent directory'
-nnoremap <silent> <Space>fs :Snippets<CR>
-let g:which_key_map.f.s = 'find snippet'
 
 source $HOME/.thematic/theme.vim
 source $HOME/.thematic/status.vim
