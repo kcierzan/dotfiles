@@ -6,6 +6,7 @@ alias awk='gawk'
 alias tar='gtar'
 alias xargs="gxargs"
 alias gzip='/usr/local/bin/gzip'
+alias ls='gls --color=auto'
 
 alias b='brew'
 alias k='kubectl'

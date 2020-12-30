@@ -23,7 +23,8 @@ export KEYTIMEOUT=1
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedxbxgxcxd
 
-export LS_COLORS="di=1;34:ln=1;35:so=1;31:pi=1;33:ex=1;32:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43"
+# export LS_COLORS="di=1;34:ln=1;35:so=1;31:pi=1;33:ex=1;32:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43"
+source "$HOME/.local/share/lscolors.sh"
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
