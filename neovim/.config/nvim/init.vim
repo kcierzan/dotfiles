@@ -181,7 +181,7 @@ let g:python3_host_prog = $HOME . '/.pyenv/versions/main/bin/python3'
 let g:polyglot_disabled = [ 'python' ]
 let g:tex_flavor = 'latex'
 
-" startify
+" dashboard
 let g:ascii = [
       \ '  __   __  ______  ______  __   ____  __    __   ',
       \ ' /\ "-.\ \/\  ___\/\  __ \/\ \ / /\ \/\ "-./  \  ',
@@ -204,10 +204,6 @@ let g:indentLine_fileTypeExclude = ['text', 'sh', 'startify', 'man', 'help']
 let g:indentLine_bufTypeExclude = ['terminal']
 let g:indentLine_setColors = 1
 
-" vim-gitgutter
-let g:gitgutter_map_keys = 0
-let g:gitgutter_max_signs = 5000
-
 " goyo
 let g:goyo_width = 100
 let g:goyo_linenr = 0
@@ -223,11 +219,6 @@ let g:test#python#nose#options = '-xvs --with-coverage'
 
 " utilsnips
 let g:UltiSnipsExpandTrigger="<C-y>"
-
-" fzf.vim
-let g:fzf_layout = { 'window': '-tabnew' }
-let g:fzf_buffers_jump = 1
-
 
 " vim-markdown
 let g:vim_markdown_folding_disabled = 1
@@ -400,7 +391,7 @@ function! s:show_documentation()
 endfunction
 
 " nvim-colorizer
-lua require'colorizer'.setup()
+lua require('colorizer').setup()
 
 " Telescope
 lua << EOF
