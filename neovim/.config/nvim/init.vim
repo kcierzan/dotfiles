@@ -197,7 +197,7 @@ let g:ascii = [
       \ '                                                 ',
       \]
 let g:scroll =
-      \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"". v:val')
+      \ map(split(system('fortune -s | fmt -42 | boxes -k 1 -p h2 -d parchment'), '\n'), '"  ". v:val')
 
 let g:dashboard_custom_header = map(g:ascii + g:scroll, '"   ".v:val')
 
