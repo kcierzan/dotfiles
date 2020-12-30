@@ -1,5 +1,5 @@
 {
-  "diagnostic.displayByAle": true,
+  "diagnostic.displayByAle": false,
   "diagnostic.errorSign": " ",
   "diagnostic.warningSign": " ",
   "diagnostic.infoSign": " ",

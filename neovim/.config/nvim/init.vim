@@ -139,12 +139,6 @@ augroup FZF
         \| autocmd BufLeave <buffer> set laststatus=2 ruler
 augroup END
 
-augroup Handlebars
-  autocmd!
-  " don't fix
-  autocmd BufNewFile,BufRead *.hbs let b:ale_fix_on_save = 0
-augroup END
-
 augroup CocSymbolHighlight
   autocmd!
   " highlight symbol under cursor on CursorHold
@@ -218,53 +212,9 @@ let g:gitgutter_max_signs = 5000
 let g:goyo_width = 100
 let g:goyo_linenr = 0
 
-" comfortable-motion
-let g:comfortable_motion_friction = 70.0
-let g:comfortable_motion_air_drag = 10.0
-
 " vim-tmux-navigator
 " Map alt + hjkl to navigation
 let g:tmux_navigator_no_mappings = 1
-
-" ALE
-let g:ale_completion_enabled = 0
-let g:ale_linters = {
-      \ 'python': ['pylint', 'mypy'],
-      \ 'javascript': ['eslint'],
-      \ 'css': ['prettier'],
-      \ 'php': ['php'],
-      \ 'bash': ['shellcheck'],
-      \ 'html': ['tidy'],
-      \ 'vim': ['vint'],
-      \ 'yaml': ['yamllint'],
-      \ 'jsx': ['eslint']
-      \ }
-
-let g:ale_linter_aliases = {
-      \ 'jsx': 'javascript',
-      \ 'thtml': 'html',
-      \ 'phtml': 'html',
-      \ }
-
-let g:ale_fixers = {
-      \ '*': ['trim_whitespace'],
-      \}
-
-" let g:ale_python_flake8_options = "--import-order-style=google"
-let g:ale_javascript_eslint_use_global = 1
-let g:ale_vim_vint_executable = $HOME . '/.pyenv/versions/main/bin/vint'
-let g:ale_javascript_eslint_executable   = '/usr/local/lib/node_modules/eslint/bin/eslint.js'
-let g:ale_javascript_eslint_options = '-c ~/.eslintrc.yml'
-let g:ale_echo_msg_format = '[%severity%] %s [%linter%]'
-let g:ale_sign_error = ''
-let g:ale_sign_warning = ''
-let g:ale_statusline_format = ['✖ %d', ' %d', '']
-let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_lint_on_text_changed = 'always'
-let g:ale_set_highlights = 0
-let g:ale_fix_on_save = 0
-highlight ALEErrorSign ctermfg=1
-highlight ALEWarningSign ctermfg=3
 
 " vim-test
 let g:test#strategy = 'vimux'
@@ -355,7 +305,6 @@ Plug 'mhinz/vim-signify'
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'dense-analysis/ale'
 Plug 'janko-m/vim-test' , {'on': ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit']}
 Plug 'benmills/vimux'
 Plug 'SirVer/ultisnips'
@@ -410,6 +359,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'brooth/far.vim', { 'on': 'Far' }
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
+Plug 'psliwka/vim-smoothie'
 call plug#end()
 
 "-------------------------------- Post Plugin config  -----------------------------------
@@ -535,7 +485,8 @@ nmap <silent> ]z :call GoToOpenFold("next")<CR>
 nmap <silent> [z :call GoToOpenFold("prev")<CR>
 
 " Jump to next error message
-nnoremap ge :ALENextWrap<CR>
+" TODO: make a coc version of this
+" nnoremap ge :ALENextWrap<CR>
 
 " Show syntax highlight at point
 map gi :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
