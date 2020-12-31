@@ -35,3 +35,5 @@ scratch/
 # generated emacs config
 **/emacs.el
 **/*.elc
+.netrwhist
+packer_compiled.vim

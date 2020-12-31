@@ -1,11 +1,11 @@
-" ██╗███╗   ██╗██╗████████╗██╗   ██╗██╗███╗   ███╗
-" ██║████╗  ██║██║╚══██╔══╝██║   ██║██║████╗ ████║
-" ██║██╔██╗ ██║██║   ██║   ██║   ██║██║██╔████╔██║
-" ██║██║╚██╗██║██║   ██║   ╚██╗ ██╔╝██║██║╚██╔╝██║
-" ██║██║ ╚████║██║   ██║██╗ ╚████╔╝ ██║██║ ╚═╝ ██║
-" ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝
-
-"-------------------------------- SETTINGS --------------------------------
+"  ██╗███╗   ██╗██╗████████╗██╗   ██╗██╗███╗   ███╗
+"  ██║████╗  ██║██║╚══██╔══╝██║   ██║██║████╗ ████║
+"  ██║██╔██╗ ██║██║   ██║   ██║   ██║██║██╔████╔██║
+"  ██║██║╚██╗██║██║   ██║   ╚██╗ ██╔╝██║██║╚██╔╝██║
+"  ██║██║ ╚████║██║   ██║██╗ ╚████╔╝ ██║██║ ╚═╝ ██║
+"  ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝
+  
+" -------------------------------- SETTINGS --------------------------------
 scriptencoding utf-8
 set autoindent
 set autoread
@@ -73,7 +73,7 @@ endif
 " Enable lua-in-vimscript syntax highlighting
 let g:vimsyn_embed = "l"
 
-"-------------------------------- AUTOCOMMANDS --------------------------------
+" -------------------------------- AUTOCOMMANDS --------------------------------
 
 " Trigger autoread when files change on disk and display a notification
 augroup AutoRevert
@@ -109,7 +109,6 @@ augroup Markdown
   autocmd FileType markdown setlocal textwidth=100
 augroup END
 
-" augroup NetrwBufHiddenFix
 augroup Netrw
   autocmd!
   " Set all non-netrw buffers to bufhidden=hide
@@ -132,13 +131,6 @@ augroup CursorShape
   autocmd VimLeave * set guicursor=a:hor20-Cursor/lCursor
 augroup END
 
-augroup FZF
-  autocmd!
-  " clean up the ui in fzf buffers
-  autocmd FileType fzf set laststatus=0 noruler
-        \| autocmd BufLeave <buffer> set laststatus=2 ruler
-augroup END
-
 augroup CocSymbolHighlight
   autocmd!
   " highlight symbol under cursor on CursorHold
@@ -148,15 +140,6 @@ augroup END
 augroup RegisterWhichKey
   autocmd!
   autocmd User vim-which-key call which_key#register('<Space>', 'g:which_key_map')
-augroup END
-
-" Install missing plugins on startup
-augroup InstallMissingPlugins
-  autocmd!
-  autocmd VimEnter *
-        \ if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-        \| PlugInstall --sync | q
-        \| endif
 augroup END
 
 "-------------------------------- EX COMMANDS --------------------------------
@@ -178,7 +161,6 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " Virtualenv for python-dependent plugins
 let g:python3_host_prog = $HOME . '/.pyenv/versions/main/bin/python3'
 
-let g:polyglot_disabled = [ 'python' ]
 let g:tex_flavor = 'latex'
 
 " dashboard
@@ -228,12 +210,6 @@ let g:vim_markdown_new_list_item_indent = 0
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_conceal = 0
 
-" Polyglot
-let g:python_highlight_all = 1
-
-" NERDTree
-let g:NERDTreeShowHidden = 1
-
 " vim-devicons
 let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_enable_startify = 1
@@ -242,6 +218,19 @@ let g:webdevicons_enable_startify = 1
 let g:windowswap_map_keys = 0
 
 " emmet-vim
+imap <silent> <C-l>l <C-y>,
+vmap <silent> <C-l>l <C-y>,
+imap <silent> <C-l>d <C-y>d
+imap <silent> <C-l>D <C-y>D
+imap <silent> <C-l>n <C-y>n
+imap <silent> <C-l>N <C-y>N
+imap <silent> <C-l>m <C-y>m
+imap <silent> <C-l>m <C-y>m
+imap <silent> <C-l>k <C-y>k
+imap <silent> <C-l>j <C-y>j
+imap <silent> <C-l>/ <C-y>/
+imap <silent> <C-l>/ <C-y>/
+imap <silent> <C-l>a <C-y>a
 let g:user_emmet_settings = {
       \ 'javascript.jsx': {
       \   'extends': 'jsx',
@@ -262,6 +251,7 @@ let g:coc_global_extensions = [
       \ 'coc-tsserver',
       \ 'coc-lua',
       \ 'coc-prettier',
+      \ 'coc-pairs',
       \ ]
 
 " Easymotion
@@ -288,70 +278,7 @@ let g:diminactive_enable_focus = 1
 " dashboard.nvim
 let g:dashboard_default_executive = "telescope"
 
-"-------------------------------- PLUGINS -----------------------------------
-call plug#begin('~/.local/share/nvim/plugged')
-Plug 'glepnir/dashboard-nvim'
-Plug 'Yggdroot/indentLine'
-Plug 'mhinz/vim-signify'
-Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
-Plug 'easymotion/vim-easymotion'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'janko-m/vim-test' , {'on': ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit']}
-Plug 'benmills/vimux'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'terryma/vim-expand-region', {'on': ['<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)']}
-Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
-Plug 'sheerun/vim-polyglot'
-Plug 'ryanoasis/vim-devicons'
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sleuth'
-Plug 'jiangmiao/auto-pairs'
-Plug 'adelarsq/vim-matchit'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'wellle/targets.vim'
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
-Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
-Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'}
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'AndrewRadev/sideways.vim', {'on': ['SidewaysLeft', 'SidewaysRight']}
-Plug 'haya14busa/vim-keeppad'
-Plug 'pangloss/vim-javascript'
-Plug 'blueyed/vim-diminactive'
-Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'tpope/vim-rhubarb'
-Plug 'shumphrey/fugitive-gitlab.vim'
-Plug 'mattn/emmet-vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'airblade/vim-rooter'
-Plug 'norcalli/nvim-colorizer.lua'
-Plug 'metakirby5/codi.vim'
-Plug 'lervag/vimtex'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'Shougo/neomru.vim'
-Plug 'sainnhe/edge'
-Plug 'sainnhe/gruvbox-material'
-Plug 'sainnhe/sonokai'
-Plug 'mcchrish/nnn.vim', {'on': 'Np'}
-Plug 'moll/vim-bbye'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'dsznajder/vscode-es7-javascript-react-snippets', { 'do': 'yarn install --frozen-lockfile && yarn compile' }
-Plug 'dracula/vim'
-Plug 'lifepillar/vim-solarized8'
-Plug 'liuchengxu/vim-which-key', {'on': ['WhichKey', 'WhichKey!']}
-Plug 'editorconfig/editorconfig'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-Plug 'brooth/far.vim', { 'on': 'Far' }
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
-Plug 'psliwka/vim-smoothie'
-call plug#end()
+" User packer.nvim for plugin management
 
 "-------------------------------- Post Plugin config  -----------------------------------
 " vim-expand-region
@@ -398,18 +325,32 @@ lua << EOF
 require('telescope').setup {
 defaults = {
     vimgrep_arguments = {
-    'rg',
-    '--color=never',
-    '--no-heading',
-    '--with-filename',
-    '--line-number',
-    '--column',
-    '--smart-case',
-    '--hidden'
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+      '--hidden',
+      '--glob',
+      '!.git/**',
+      '--glob',
+      '!TAGS',
+      '--glob',
+      '!node_modules/**',
     },
-    color_devicons = true
+    color_devicons = true,
+    fzf_writer = {
+      minimum_grep_characters = 2,
+      minimum_files_characters = 2,
+      use_highlighter = true,
+    } 
   }
 }
+
+require('telescope').load_extension('fzy_native')
+
 EOF
 
 " Tree-sitter
@@ -422,7 +363,7 @@ require('nvim-treesitter.configs').setup {
     disable = { "javascript" }
   },
   indent = {
-    enable = true
+    enable = false
   }
 }
 EOF
@@ -694,7 +635,7 @@ let g:which_key_map['f'] = {
 nnoremap <silent> <Space><Space> :Telescope git_files<CR>
 nnoremap <silent> <Space>ff :Telescope git_files<CR>
 let g:which_key_map.f.f = 'find git files'
-nnoremap <silent> <Space>fa :Telescope find_files<CR>
+nnoremap <silent> <Space>fa :lua require('telescope').extensions.fzf_writer.files()<CR>
 let g:which_key_map.f.a = 'find all files'
 nnoremap <silent> <Space>fi :Telescope help_tags<CR>
 let g:which_key_map.f.i = 'find help tag'
@@ -704,7 +645,7 @@ nnoremap <silent> <Space>fl :Telescope current_buffer_fuzzy_find<CR>
 let g:which_key_map.f.l = 'find line in current buffer'
 nnoremap <silent> <Space>fh :Telescope oldfiles<CR>
 let g:which_key_map.f.h = 'find recent buffer'
-noremap <silent> <Space>fg :Telescope live_grep<CR>
+noremap <silent> <Space>fg :lua require('telescope').extensions.fzf_writer.staged_grep()<CR>
 let g:which_key_map.f.g = 'find in buffers'
 nnoremap <silent> <Space>ft :Telescope filetypes<CR>
 let g:which_key_map.f.t = 'find and set filetype'
@@ -715,6 +656,8 @@ let g:which_key_map.f.o = 'find tag in buffer'
 nnoremap <silent> <Space>fe :Telescope commands<CR>
 let g:which_key_map.f.e = 'find command'
 
+lua require('plugins')
+
 source $HOME/.thematic/theme.vim
-source $HOME/.thematic/status.vim
-source $HOME/.thematic/bars.vim
+" source $HOME/.thematic/status.vim
+" source $HOME/.thematic/bars.vim
