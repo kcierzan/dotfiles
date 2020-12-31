@@ -87,5 +87,5 @@ return require('packer').startup(function()
   }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'Shougo/neomru.vim'
-  use 'kyazdani42/nvim-tree.lua'
+  use { 'kyazdani42/nvim-tree.lua', opt = true, cmd = { 'NvimTreeToggle' } }
 end)

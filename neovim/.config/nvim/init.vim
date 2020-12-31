@@ -487,7 +487,7 @@ nnoremap <silent> <Space>iz :Goyo<CR>
 let g:which_key_map.i.z = 'toggle zen mode'
 nnoremap <silent> <Space>ih :ColorizerAttachToBuffer<CR>
 let g:which_key_map.i.h = 'highlight colors in buffer'
-nnoremap <silent> <Space>it :CHADopen<CR>
+nnoremap <silent> <Space>it :NvimTreeToggle<CR>
 let g:which_key_map.i.t = 'toggle file browser'
 nnoremap <silent> <Space>in :Np<CR>
 let g:which_key_map.i.n = 'launch nnn'
