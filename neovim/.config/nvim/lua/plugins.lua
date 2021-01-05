@@ -22,10 +22,10 @@ return require('packer').startup(function()
   use 'blueyed/vim-diminactive'
   use 'norcalli/nvim-colorizer.lua'
   use 'terryma/vim-multiple-cursors'
-  use 'moll/vim-bbye'
   use { 'liuchengxu/vim-which-key', opt = true, cmd = { 'WhichKey' } }
   use 'psliwka/vim-smoothie'
   use 'romgrk/barbar.nvim'
+  use { 'glepnir/galaxyline.nvim', branch = 'main', config = function() require('statusline') end}
   -- Colorschemes --
   use 'sainnhe/edge'
   use 'sainnhe/gruvbox-material'

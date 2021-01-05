@@ -307,7 +307,7 @@ nmap <silent> gr <Plug>(coc-references)
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> gh :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if &filetype == 'vim'
@@ -350,7 +350,6 @@ defaults = {
 }
 
 require('telescope').load_extension('fzy_native')
-
 EOF
 
 " Tree-sitter
@@ -418,7 +417,8 @@ nmap <silent> [z :call GoToOpenFold("prev")<CR>
 
 " Jump to next error message
 " TODO: make a coc version of this
-" nnoremap ge :ALENextWrap<CR>
+nnoremap ge <Plug>(coc-diagnostic-next)<CR>
+nnoremap gE <Plug>(coc-diagnostic-prev)<CR>
 
 " Show syntax highlight at point
 map gi :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -502,9 +502,9 @@ nnoremap <silent> <Space>bs :w<CR>
 let g:which_key_map.b.s = 'write buffer'
 nnoremap <silent> <Space>bn :vsplit
 let g:which_key_map.b.n = 'new buffer and file'
-nnoremap <silent> <Space>bd :Bdelete<CR>
+nnoremap <silent> <Space>bd :BufferClose<CR>
 let g:which_key_map.b.d = 'close buffer'
-nnoremap <silent> <Space>bD :Bdelete!<CR>
+nnoremap <silent> <Space>bD :BufferClose!<CR>
 let g:which_key_map.b.D = 'close buffer without saving'
 nnoremap <silent> <Space>bc :windo diffthis<CR>
 let g:which_key_map.b.c = 'diff buffer'
@@ -548,14 +548,14 @@ nnoremap <silent> <Space>vr :so ~/.config/nvim/init.vim<CR>
 let g:which_key_map.v.r = 'reload init.vim'
 nnoremap <silent> <Space>ve :edit ~/.config/nvim/init.vim<CR>
 let g:which_key_map.v.e = 'edit init.vim'
-nnoremap <silent> <Space>vs :Startify<CR>
+nnoremap <silent> <Space>vs :Dashboard<CR>
 let g:which_key_map.v.s = 'go to start page'
-nnoremap <silent> <Space>vu :PlugUpdate<CR>
+nnoremap <silent> <Space>vu :PackerUpdate<CR>
 let g:which_key_map.v.u = 'update plugins'
-nnoremap <silent> <Space>vi :PlugInstall<CR>
+nnoremap <silent> <Space>vi :PackerInstall<CR>
 let g:which_key_map.v.i = 'install plugins'
-nnoremap <silent> <Space>vc :PlugClean<CR>
-let g:which_key_map.v.c = 'cleanup plugins'
+nnoremap <silent> <Space>vc :PackerClean<CR>
+let g:which_key_map.v.c = 'compile plugins'
 
 " ------------ code ---------------------------
 let g:which_key_map['c'] = {
