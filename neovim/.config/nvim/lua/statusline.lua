@@ -1,7 +1,6 @@
 local gl = require('galaxyline')
 local gls = gl.section
 local ls_right_separator = ""
-local rs_left_separator = ""
 
 gl.short_line_list = {
   'LuaTree',
@@ -29,14 +28,6 @@ local function checkwidth()
   return buffer_not_empty() and has_width_gt(30)
 end
 
-local function has_file_type()
-  local f_type = vim.bo.filetype
-  if not f_type or f_type == '' then
-    return false
-  end
-  return true
-end
-
 local colors = {
   bg = '#32302f',
   line_bg = '#45403d',
@@ -51,44 +42,22 @@ local colors = {
   red = '#ea6962'
 }
 
+local function has_diagnostic_info()
+  local has_info, _ = pcall(vim.fn.nvim_buf_get_var,0,'coc_diagnostic_info')
+  if has_info then return true end
+  return false
+end
+
+local space = {
+  Spacer = {
+    provider = function() return ' ' end,
+    highlight = {colors.line_bg, colors.line_bg},
+    condition = has_diagnostic_info,
+  }
+}
+
+
 local sep_hl = {colors.line_bg, colors.bg}
-
-
-local function get_coc_lsp()
-  local status = vim.fn['coc#status']()
-  if not status or status == '' then
-    return ''
-  end
-end
-
-local function get_diagnostic_info()
-  if vim.fn.exists('*coc#rpc#start_server') == 1 then
-    return get_coc_lsp()
-  end
-  return ''
-end
-
-local function get_current_func()
-  local has_func, func_name = pcall(vim.fn.nvim_buf_get_var, 0, 'CocAction')
-  if not has_func then return end
-  return func_name
-end
-
-local function get_function_info()
-  if vim.fn.exists('*coc#rpc#start_server') == 1 then
-    return get_current_func()
-  end
-  return ''
-end
-
-local function trailing_whitespace()
-  local trail = vim.fn.search("\\s$", "nw")
-  if trail ~= 0 then
-    return ' '
-  else
-    return nil
-  end
-end
 
 
 local lsl_sep_collapse = {
@@ -99,6 +68,14 @@ local lsl_sep_collapse = {
   }
 }
 
+local lsl_coc_separator = {
+  LslCocSep = {
+    provider = function() return " " end,
+    highlight = {colors.line_bg, colors.bg},
+    condition = has_diagnostic_info,
+  }
+}
+
 local lsl_sep_fixed = {
   LslSeparator = {
     provider = function() return " " end,
@@ -106,8 +83,6 @@ local lsl_sep_fixed = {
     condition = buffer_not_empty,
   }
 }
-
-local TrailingWhitespace = trailing_whitespace
 
 gls.left = {
   {
@@ -235,26 +210,35 @@ gls.left = {
       separator_highlight = sep_hl,
     }
   },
-  lsl_sep_collapse,
+  lsl_coc_separator,
   {
     CocHint = {
       provider = 'DiagnosticHint',
       highlight = {colors.green, colors.line_bg},
-      icon = ' '
+      icon = ' ',
+      condition = has_diagnostic_info,
+      separator = ' ',
+      separator_highlight = {colors.line_bg, colors.line_bg},
     }
   },
   {
     CocInfo = {
       provider = 'DiagnosticInfo',
       highlight = {colors.blue, colors.line_bg},
-      icon = ' '
+      icon = ' ',
+      condition = has_diagnostic_info,
+      separator = ' ',
+      separator_highlight = {colors.line_bg, colors.line_bg},
     }
   },
   {
     CocWarning = {
       provider = 'DiagnosticWarn',
       highlight = {colors.yellow, colors.line_bg},
-      icon = '',
+      icon = ' ',
+      condition = has_diagnostic_info,
+      separator = ' ',
+      separator_highlight = {colors.line_bg, colors.line_bg},
     }
   },
   {
@@ -264,6 +248,7 @@ gls.left = {
       separator = ls_right_separator,
       separator_highlight = sep_hl,
       icon = ' ',
+      condition = has_diagnostic_info,
     }
   },
 }
