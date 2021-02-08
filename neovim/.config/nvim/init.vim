@@ -266,19 +266,11 @@ let g:rooter_cd_cmd = "lcd"
 let g:rooter_resolve_links = 1
 let g:rooter_silent_chdir = 1
 
-" nnn
-let g:nnn#command = 'nnn -ednH'
-let $DISABLE_FILE_OPEN_ON_NAV=1
-let $NNN_RESTRICT_NAV_OPEN=1
-let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
-
 " diminactive
 let g:diminactive_enable_focus = 1
 
 " dashboard.nvim
 let g:dashboard_default_executive = "telescope"
-
-" User packer.nvim for plugin management
 
 "-------------------------------- Post Plugin config  -----------------------------------
 " vim-expand-region
@@ -316,56 +308,6 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-
-" nvim-colorizer
-lua require('colorizer').setup()
-
-" Telescope
-lua << EOF
-require('telescope').setup {
-defaults = {
-    vimgrep_arguments = {
-      'rg',
-      '--color=never',
-      '--no-heading',
-      '--with-filename',
-      '--line-number',
-      '--column',
-      '--smart-case',
-      '--hidden',
-      '--glob',
-      '!.git/**',
-      '--glob',
-      '!TAGS',
-      '--glob',
-      '!node_modules/**',
-    },
-    color_devicons = true,
-    fzf_writer = {
-      minimum_grep_characters = 2,
-      minimum_files_characters = 2,
-      use_highlighter = true,
-    } 
-  }
-}
-
-require('telescope').load_extension('fzy_native')
-EOF
-
-" Tree-sitter
-lua << EOF
-require('nvim-treesitter.configs').setup {
-  ensure_installed = { "python", "javascript", "lua", "bash", "typescript" },
-  highlight = {
-    enable = true,
-    -- JSX doesn't seem to be working...
-    disable = { "javascript" }
-  },
-  indent = {
-    enable = false
-  }
-}
-EOF
 
 "-------------------------------- KEYBINDINGS --------------------------------
 
@@ -659,5 +601,6 @@ let g:which_key_map.f.e = 'find command'
 lua require('plugins')
 
 source $HOME/.thematic/theme.vim
+
 " source $HOME/.thematic/status.vim
 " source $HOME/.thematic/bars.vim

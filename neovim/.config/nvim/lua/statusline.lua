@@ -1,6 +1,7 @@
 local gl = require('galaxyline')
 local gls = gl.section
 local ls_right_separator = ""
+local ls_left_separator = ""
 
 gl.short_line_list = {
   'LuaTree',
@@ -24,6 +25,16 @@ local function has_width_gt(cols)
   return vim.fn.winwidth(0) / 2 > cols
 end
 
+local function has_signify_diff()
+  if vim.fn.exists('*sy#repo#get_stats') then
+    local diff = vim.fn['sy#repo#get_stats']()
+    if diff[1] or diff[2] or diff[3] then
+      return true
+    end
+  end
+  return false
+end
+
 local function checkwidth()
   return buffer_not_empty() and has_width_gt(30)
 end
@@ -33,7 +44,6 @@ local colors = {
   line_bg = '#45403d',
   fg = '#ddc7a1',
   green = '#a9b665',
-
   yellow = '#d8a657',
   cyan = '#89b482',
   blue = '#7daea3',
@@ -47,15 +57,6 @@ local function has_diagnostic_info()
   if has_info then return true end
   return false
 end
-
-local space = {
-  Spacer = {
-    provider = function() return ' ' end,
-    highlight = {colors.line_bg, colors.line_bg},
-    condition = has_diagnostic_info,
-  }
-}
-
 
 local sep_hl = {colors.line_bg, colors.bg}
 
@@ -73,6 +74,14 @@ local lsl_coc_separator = {
     provider = function() return " " end,
     highlight = {colors.line_bg, colors.bg},
     condition = has_diagnostic_info,
+  }
+}
+
+local lsl_diff_separator = {
+  LslDiffSep = {
+    provider = function() return " " end,
+    highlight = {colors.line_bg, colors.bg},
+    condition = function() return checkwidth() and has_signify_diff() end,
   }
 }
 
@@ -95,42 +104,44 @@ gls.left = {
     ViMode = {
     provider = function()
       local alias = {
-        n = 'NORMAL',
-        i = 'INSERT',
-        c = 'COMMAND',
-        V = 'VISUAL',
-        [' '] = 'VISUAL',
-        v = 'VISUAL',
-        ['r?'] = ':CONFIRM',
-        rm = '--MORE',
-        R = 'REPLACE',
-        Rv = 'VIRTUAL',
-        s = 'SELECT',
-        S = 'SELECT',
-        ['r'] = 'HIT-ENTER',
-        t = 'TERMINAL',
-        ['!'] = 'SHELL'
+          n = 'NORMAL',
+          i = 'INSERT',
+          c = 'COMMAND',
+          V = 'VISUAL',
+          [''] = 'VISUAL',
+          v ='VISUAL',
+          ['r?'] = ':CONFIRM',
+          rm = '--MORE',
+          R = 'REPLACE',
+          Rv = 'VIRTUAL',
+          s = 'SELECT',
+          S = 'SELECT',
+          ['r']  = 'HIT-ENTER',
+          [''] = 'SELECT',
+          t = 'TERMINAL',
+          ['!']  = 'SHELL',
       }
       local mode_color = {
-        n = colors.blue,
-        i = colors.green,
-        v = colors.magenta,
-        [' '] = colors.blue,
-        V = colors.blue,
-        c = colors.red,
-        no = colors.magenta,
-        s = colors.orange,
-        S = colors.orange,
-        ic = colors.yellow,
-        R = colors.magenta,
-        Rv = colors.magenta,
-        cv = colors.red,
-        ce = colors.red,
-        r = colors.cyan,
-        rm = colors.cyan,
-        ['r?'] = colors.cyan,
-        ['!'] = colors.green,
-        t = colors.green
+          n = colors.blue,
+          i = colors.green,
+          v=colors.magenta,
+          [''] = colors.magenta,
+          V=colors.blue,
+          c = colors.red,
+          no = colors.magenta,
+          s = colors.orange,
+          S=colors.orange,
+          [''] = colors.orange,
+          ic = colors.yellow,
+          R = colors.magenta,
+          Rv = colors.magenta,
+          cv = colors.red,
+          ce=colors.red,
+          r = colors.cyan,
+          rm = colors.cyan,
+          ['r?'] = colors.cyan,
+          ['!']  = colors.green,
+          t = colors.green,
       }
       local vim_mode = vim.fn.mode()
       vim.api.nvim_command('hi GalaxyViMode guifg=' .. mode_color[vim_mode] .. ' guibg=' .. colors.line_bg)
@@ -183,11 +194,11 @@ gls.left = {
       separator_highlight = sep_hl,
     }
   },
-  lsl_sep_collapse,
+  lsl_diff_separator,
   {
     DiffAdd = {
       provider = 'DiffAdd',
-      condition = checkwidth,
+      condition = function() return checkwidth() and has_signify_diff() end,
       highlight = {colors.green, colors.line_bg},
       icon = ' ',
     }
@@ -195,7 +206,7 @@ gls.left = {
   {
     DiffModified = {
       provider = 'DiffModified',
-      condition = checkwidth,
+      condition = function() return checkwidth() and has_signify_diff() end,
       highlight = {colors.blue, colors.line_bg},
       icon = ' ',
     }
@@ -203,7 +214,7 @@ gls.left = {
   {
     DiffRemove = {
       provider = 'DiffRemove',
-      condition = checkwidth,
+      condition = function() return checkwidth() and has_signify_diff() end,
       highlight = {colors.red, colors.line_bg},
       icon = ' ',
       separator = ls_right_separator,
@@ -215,7 +226,7 @@ gls.left = {
     CocHint = {
       provider = 'DiagnosticHint',
       highlight = {colors.green, colors.line_bg},
-      icon = ' ',
+      icon = ' ',
       condition = has_diagnostic_info,
       separator = ' ',
       separator_highlight = {colors.line_bg, colors.line_bg},
@@ -235,7 +246,7 @@ gls.left = {
     CocWarning = {
       provider = 'DiagnosticWarn',
       highlight = {colors.yellow, colors.line_bg},
-      icon = ' ',
+      icon = ' ',
       condition = has_diagnostic_info,
       separator = ' ',
       separator_highlight = {colors.line_bg, colors.line_bg},

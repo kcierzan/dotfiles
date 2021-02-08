@@ -20,7 +20,9 @@ return require('packer').startup(function()
   use 'kyazdani42/nvim-web-devicons'
   use 'haya14busa/vim-keeppad'
   use 'blueyed/vim-diminactive'
-  use 'norcalli/nvim-colorizer.lua'
+  use {'norcalli/nvim-colorizer.lua', config = function()
+    require('colorizer').setup()
+  end}
   use 'terryma/vim-multiple-cursors'
   use { 'liuchengxu/vim-which-key', opt = true, cmd = { 'WhichKey' } }
   use 'psliwka/vim-smoothie'
@@ -62,7 +64,7 @@ return require('packer').startup(function()
   use 'benmills/vimux'
   use 'tmux-plugins/vim-tmux-focus-events'
   -- Syntax --
-  use { 'sheerun/vim-polyglot', setup = function() vim.api.nvim_set_var('polyglot_disabled', {'python'}) end }
+  use { 'sheerun/vim-polyglot', setup = function() vim.api.nvim_set_var('polyglot_disabled', {'python', 'go' }) end }
   use { 'plasticboy/vim-markdown', event = 'FileType markdown' }
   use 'pangloss/vim-javascript'
   use 'lervag/vimtex'
@@ -83,9 +85,55 @@ return require('packer').startup(function()
       { 'nvim-lua/plenary.nvim' },
       { 'nvim-telescope/telescope-fzf-writer.nvim' },
       { 'nvim-telescope/telescope-fzy-native.nvim' },
-    }
+    },
+    config = function()
+      require('telescope').setup {
+      defaults = {
+          vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--hidden',
+            '--glob',
+            '!.git/**',
+            '--glob',
+            '!TAGS',
+            '--glob',
+            '!node_modules/**',
+          },
+          color_devicons = true,
+          fzf_writer = {
+            minimum_grep_characters = 2,
+            minimum_files_characters = 2,
+            use_highlighter = true,
+          } 
+        }
+      }
+
+      require('telescope').load_extension('fzy_native')
+    end,
+
   }
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
+    require('nvim-treesitter.configs').setup {
+      ensure_installed = { "python", "javascript", "lua", "bash", "typescript", "go" },
+      highlight = {
+        enable = true,
+        -- JSX doesn't seem to be working...
+        disable = { "javascript" }
+      },
+      indent = {
+        enable = false
+      }
+    }
+    end
+  }
   use 'Shougo/neomru.vim'
-  use { 'kyazdani42/nvim-tree.lua', opt = true, cmd = { 'NvimTreeToggle' } }
+  use 'kyazdani42/nvim-tree.lua'
+  use 'wellle/tmux-complete.vim'
+  use 'fatih/vim-go'
 end)
