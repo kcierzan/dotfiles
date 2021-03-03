@@ -14,9 +14,9 @@ SAVEHIST=10000000
 setopt share_history append_history extended_history hist_no_store hist_ignore_all_dups hist_ignore_space
 
 # 2x control is completion from history!!!
-zle -C hist-complete complete-word _generic
-zstyle ':completion:hist-complete:*' completer _history
-bindkey '^X^X' hist-complete
+# zle -C hist-complete complete-word _generic
+# zstyle ':completion:hist-complete:*' completer _history
+# bindkey '^X^X' hist-complete
 
 # If a command is issued that can’t be executed as a normal command,
 # and the command is the name of a directory, perform the cd command

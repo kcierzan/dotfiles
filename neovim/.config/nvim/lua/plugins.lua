@@ -49,7 +49,7 @@ return require('packer').startup(function()
   use 'wellle/targets.vim'
   use { 'junegunn/vim-easy-align', opt = true, cmd = { 'EasyAlign'} }
   use 'michaeljsmith/vim-indent-object'
-  use { 'AndrewRadev/sideways.vim', opt = true, cmd = {'SidewaysLeft', 'SidewaysRight'} }
+  use { 'AndrewRadev/sideways.vim', branch = 'main', opt = true, cmd = {'SidewaysLeft', 'SidewaysRight'} }
   use 'mattn/emmet-vim'
   use { 'dsznajder/vscode-es7-javascript-react-snippets', run = 'yarn install --frozen-lockfile && yarn compile' }
   use { 'brooth/far.vim', opt = true, cmd = { 'Far' } }
@@ -64,7 +64,7 @@ return require('packer').startup(function()
   use 'benmills/vimux'
   use 'tmux-plugins/vim-tmux-focus-events'
   -- Syntax --
-  use { 'sheerun/vim-polyglot', setup = function() vim.api.nvim_set_var('polyglot_disabled', {'python', 'go' }) end }
+  use { 'sheerun/vim-polyglot', config = function() vim.api.nvim_set_var('polyglot_disabled', {'python', 'go' }) end }
   use { 'plasticboy/vim-markdown', event = 'FileType markdown' }
   use 'pangloss/vim-javascript'
   use 'lervag/vimtex'
@@ -78,48 +78,10 @@ return require('packer').startup(function()
   use { 'janko-m/vim-test' , cmd = {'TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit'} }
   -- IDE --
   use { 'neoclide/coc.nvim', branch = 'release' }
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      { 'nvim-lua/popup.nvim' },
-      { 'nvim-lua/plenary.nvim' },
-      { 'nvim-telescope/telescope-fzf-writer.nvim' },
-      { 'nvim-telescope/telescope-fzy-native.nvim' },
-    },
-    config = function()
-      require('telescope').setup {
-      defaults = {
-          vimgrep_arguments = {
-            'rg',
-            '--color=never',
-            '--no-heading',
-            '--with-filename',
-            '--line-number',
-            '--column',
-            '--smart-case',
-            '--hidden',
-            '--glob',
-            '!.git/**',
-            '--glob',
-            '!TAGS',
-            '--glob',
-            '!node_modules/**',
-          },
-          color_devicons = true,
-          fzf_writer = {
-            minimum_grep_characters = 2,
-            minimum_files_characters = 2,
-            use_highlighter = true,
-          } 
-        }
-      }
-
-      require('telescope').load_extension('fzy_native')
-    end,
-
-  }
+  use '/usr/local/opt/fzf'
+  use  'junegunn/fzf.vim'
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
-    require('nvim-treesitter.configs').setup {
+    require 'nvim-treesitter.configs'.setup {
       ensure_installed = { "python", "javascript", "lua", "bash", "typescript", "go" },
       highlight = {
         enable = true,

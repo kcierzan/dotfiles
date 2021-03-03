@@ -270,7 +270,7 @@ let g:rooter_silent_chdir = 1
 let g:diminactive_enable_focus = 1
 
 " dashboard.nvim
-let g:dashboard_default_executive = "telescope"
+let g:dashboard_default_executive = "fzf"
 
 "-------------------------------- Post Plugin config  -----------------------------------
 " vim-expand-region
@@ -570,32 +570,68 @@ let g:which_key_map.g.t = 'keep changes from target buffer'
 nnoremap <silent> <Space>gm :diffget //3<CR>
 let g:which_key_map.g.m = 'keep changes from merge buffer'
 
-" ------------ FZF -------------------------
+" ------------ Telescope -------------------------
 let g:which_key_map['f'] = {
  \ 'name': '+find'
  \ }
-nnoremap <silent> <Space><Space> :Telescope git_files<CR>
-nnoremap <silent> <Space>ff :Telescope git_files<CR>
+" nnoremap <silent> <Space><Space> :Telescope git_files<CR>
+" nnoremap <silent> <Space>ff :Telescope git_files<CR>
+" let g:which_key_map.f.f = 'find git files'
+" nnoremap <silent> <Space>fa :lua require('telescope').extensions.fzf_writer.files()<CR>
+" let g:which_key_map.f.a = 'find all files'
+" nnoremap <silent> <Space>fi :Telescope help_tags<CR>
+" let g:which_key_map.f.i = 'find help tag'
+" nnoremap <silent> <Space>fb :Telescope buffers<CR>
+" let g:which_key_map.f.b = 'find buffer'
+" nnoremap <silent> <Space>fl :Telescope current_buffer_fuzzy_find<CR>
+" let g:which_key_map.f.l = 'find line in current buffer'
+" nnoremap <silent> <Space>fh :Telescope oldfiles<CR>
+" let g:which_key_map.f.h = 'find recent buffer'
+" noremap <silent> <Space>fg :lua require('telescope').extensions.fzf_writer.staged_grep()<CR>
+" let g:which_key_map.f.g = 'find in buffers'
+" nnoremap <silent> <Space>ft :Telescope filetypes<CR>
+" let g:which_key_map.f.t = 'find and set filetype'
+" nnoremap <silent> <Space>fO :Telescope tags<CR>
+" let g:which_key_map.f.O = 'find tag in project'
+" nnoremap <silent> <Space>fo :Telescope current_buffer_tags<CR>
+" let g:which_key_map.f.o = 'find tag in buffer'
+" nnoremap <silent> <Space>fe :Telescope commands<CR>
+" let g:which_key_map.f.e = 'find command'
+
+
+" ------------ FZF -------------------------
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+nnoremap <silent> <Space><Space> :GFiles<CR>
+nnoremap <silent> <Space>ff :GFiles<CR>
 let g:which_key_map.f.f = 'find git files'
-nnoremap <silent> <Space>fa :lua require('telescope').extensions.fzf_writer.files()<CR>
+nnoremap <silent> <Space>fa :Files<CR>
 let g:which_key_map.f.a = 'find all files'
-nnoremap <silent> <Space>fi :Telescope help_tags<CR>
+nnoremap <silent> <Space>fi :Helptags<CR>
 let g:which_key_map.f.i = 'find help tag'
-nnoremap <silent> <Space>fb :Telescope buffers<CR>
+nnoremap <silent> <Space>fb :Buffers<CR>
 let g:which_key_map.f.b = 'find buffer'
-nnoremap <silent> <Space>fl :Telescope current_buffer_fuzzy_find<CR>
+nnoremap <silent> <Space>fl :BLines<CR>
 let g:which_key_map.f.l = 'find line in current buffer'
-nnoremap <silent> <Space>fh :Telescope oldfiles<CR>
+nnoremap <silent> <Space>fh :History<CR>
 let g:which_key_map.f.h = 'find recent buffer'
-noremap <silent> <Space>fg :lua require('telescope').extensions.fzf_writer.staged_grep()<CR>
+noremap <silent> <Space>fg :RG<CR>
 let g:which_key_map.f.g = 'find in buffers'
-nnoremap <silent> <Space>ft :Telescope filetypes<CR>
+nnoremap <silent> <Space>ft :Filetypes<CR>
 let g:which_key_map.f.t = 'find and set filetype'
-nnoremap <silent> <Space>fO :Telescope tags<CR>
+nnoremap <silent> <Space>fO :Tags<CR>
 let g:which_key_map.f.O = 'find tag in project'
-nnoremap <silent> <Space>fo :Telescope current_buffer_tags<CR>
+nnoremap <silent> <Space>fo :BTags<CR>
 let g:which_key_map.f.o = 'find tag in buffer'
-nnoremap <silent> <Space>fe :Telescope commands<CR>
+nnoremap <silent> <Space>fe :Commands<CR>
 let g:which_key_map.f.e = 'find command'
 
 lua require('plugins')

@@ -74,7 +74,7 @@ alias lg="lazygit"
 alias ld="lazydocker"
 
 # nnn
-alias nnn="nnn -ednH"
+alias nnn="nnn -edH"
 
 # vscode
 alias code="code-insiders"
@@ -196,7 +196,7 @@ zle -N redraw-prompt
 
 # browse files in a new pane
 file-manager() {
-  tmux new-window -c "#{pane_current_path}" "vifm"
+  tmux new-window -c "#{pane_current_path}" "nnn -edH"
 }
 zle -N file-manager
 bindkey '^O' file-manager
