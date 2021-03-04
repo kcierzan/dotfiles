@@ -22,12 +22,14 @@ colors:
     foreground: '#ddc7a1'
 font:
   bold:
-    family: JetBrainsMono Nerd Font Mono
+    family: RobotoMono Nerd Font Mono
   italic:
-    family: JetBrainsMono Nerd Font Mono
+    family: RobotoMono Nerd Font Mono
   normal:
-    family: JetBrainsMono Nerd Font Mono
+    family: RobotoMono Nerd Font Mono
     style: Medium
+  offset:
+    x: -2
 key_bindings:
 - chars: "\ej"
   key: J

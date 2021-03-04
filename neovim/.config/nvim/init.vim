@@ -246,7 +246,7 @@ let g:coc_global_extensions = [
       \ 'coc-emmet',
       \ 'coc-html',
       \ 'coc-json',
-      \ 'coc-python',
+      \ 'coc-pyright',
       \ 'coc-snippets',
       \ 'coc-tsserver',
       \ 'coc-lua',
@@ -518,6 +518,8 @@ nnoremap <silent> <Space>ce :CocConfig<CR>
 let g:which_key_map.c.e = 'edit config'
 nnoremap <silent> <Space>cr <Plug>(coc-rename)
 let g:which_key_map.c.r = 'rename'
+nnoremap <silent> <Space>cR <Plug>(coc-references-use )
+let g:which_key_map.c.r = 'jump to references'
 
 " ------------ functions ---------------------
 let g:which_key_map['F'] = {
@@ -549,7 +551,7 @@ let g:which_key_map['g'] = {
  \ }
 nnoremap <silent> <Space>gs :Gstatus<CR>
 let g:which_key_map.g.s = 'status'
-nnoremap <silent> <Space>gb :Gblame<CR>
+nnoremap <silent> <Space>gb :Git blame<CR>
 let g:which_key_map.g.b = 'blame'
 nmap <silent> <Space>gn <Plug>(signify-next-hunk)
 let g:which_key_map.g.n = 'next hunk'
