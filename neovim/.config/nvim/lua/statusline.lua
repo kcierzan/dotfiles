@@ -1,3 +1,16 @@
+local colors = {
+  bg = '#32302f',
+  line_bg = '#45403d',
+  fg = '#ddc7a1',
+  green = '#a9b665',
+  yellow = '#d8a657',
+  cyan = '#89b482',
+  blue = '#7daea3',
+  orange = '#e78a4e',
+  magenta = '#d3869b',
+  red = '#ea6962'
+}
+
 local gl = require('galaxyline')
 local gls = gl.section
 local ls_right_separator = ""
@@ -28,7 +41,7 @@ end
 local function has_signify_diff()
   if vim.fn.exists('*sy#repo#get_stats') then
     local diff = vim.fn['sy#repo#get_stats']()
-    if diff[1] or diff[2] or diff[3] then
+    if diff[1] ~= -1 or diff[2] ~= -1 or diff[3] ~= -1 then
       return true
     end
   end
@@ -38,19 +51,6 @@ end
 local function checkwidth()
   return buffer_not_empty() and has_width_gt(30)
 end
-
-local colors = {
-  bg = '#32302f',
-  line_bg = '#45403d',
-  fg = '#ddc7a1',
-  green = '#a9b665',
-  yellow = '#d8a657',
-  cyan = '#89b482',
-  blue = '#7daea3',
-  orange = '#e78a4e',
-  magenta = '#d3869b',
-  red = '#ea6962'
-}
 
 local function has_diagnostic_info()
   local has_info, _ = pcall(vim.fn.nvim_buf_get_var,0,'coc_diagnostic_info')
@@ -80,6 +80,7 @@ local lsl_coc_separator = {
 local lsl_diff_separator = {
   LslDiffSep = {
     provider = function() return " " end,
+    -- provider = function() return has_signify_diff() end,
     highlight = {colors.line_bg, colors.bg},
     condition = function() return checkwidth() and has_signify_diff() end,
   }
