@@ -1,118 +1,123 @@
 /* TODO: template this out */
 * {
-	background: #282C34;
-	lightbg: #2C323D;
-	white07-transparent: #ABB2BF20;
-	base02: #314549;
-	base03: #546E7A;
-	base04: #B2CCD6;
-	base05: #EEFFFF;
-	base06: #EEFFFF;
-	white07: #ABB2BF;
-	base08: #F07178;
-	base09: #F78C6C;
-	base0A: #FFCB6B;
-	base0B: #C3E88D;
-	base0C: #89DDFF;
-	blue04: #61afef;
-	base0E: #C792EA;
-	base0F: #FF5370;
+  background: #282c34;
+  lightbg: #2c323d;
+  white07-transparent: #abb2bf20;
+  base02: #314549;
+  base03: #546e7a;
+  base04: #b2ccd6;
+  base05: #eeffff;
+  base06: #eeffff;
+  white07: #abb2bf;
+  base08: #f07178;
+  base09: #f78c6c;
+  base0a: #ffcb6b;
+  base0b: #c3e88d;
+  base0c: #89ddff;
+  blue04: #61afef;
+  base0e: #c792ea;
+  base0f: #ff5370;
 
-	/*blue04: #00BCD4;*/
+  /*blue04: #00BCD4;*/
 
-	spacing: 0;
-	background-color: transparent;
+  spacing: 0;
+  background-color: transparent;
 
-	font: "Sans 22";
+  font: "Sans 22";
 }
 
 window {
-	transparency: "real";
-	fullscreen: true;
-	background-color: #282C34D8;
+  transparency: "real";
+  fullscreen: true;
+  background-color: #282c34d8;
 }
 
 mainbox {
-	children: [inputbar, message, mode-switcher, listview];
-	spacing: 30px;
-	margin: 30%;
-	padding: 30px 0;
-	border-color: @blue04;
+  children: [inputbar, message, mode-switcher, listview];
+  spacing: 30px;
+  margin: 30%;
+  padding: 30px 0;
+  border-color: @blue04;
 }
 
 mode-switcher {
-	enabled: false;
+  enabled: false;
 }
 
 inputbar {
-	children: [prompt, textbox-prompt-colon, entry, case-indicator];
+  children: [prompt, textbox-prompt-colon, entry, case-indicator];
 }
 
 prompt {
-	enabled: false;
-	text-color: @blue04;
+  enabled: false;
+  text-color: @blue04;
 }
 
 textbox-prompt-colon {
-	expand: false;
-	str: "❯";
-	margin: 0 1ch 0 1ch;
-	text-color: @blue04;
-	font: "Sans 60";
+  expand: false;
+  str: "❯";
+  padding: 90px 0 0 0;
+  text-color: @blue04;
+  font: "Sans 60";
 }
 
 entry {
-	text-color: @white07;
-	font: "Sans bold 60";
+  text-color: @white07;
+  font: "Sans bold 60";
+  padding: 80px 0 80px 20px;
 }
 
 case-indicator {
-	text-color: @base0F;
+  text-color: @base0F;
 }
 
-
-button, textbox {
-	background-color: @base03;
-	text-color: @white07;
-	padding: 5px;
+button,
+textbox {
+  background-color: @base03;
+  text-color: @white07;
+  padding: 5px;
 }
 
 button selected {
-	background-color: transparent;
+  background-color: transparent;
 }
 
 listview {
-	scrollbar: false;
-	margin: 0 0 0 30px;
+  scrollbar: false;
+  margin: 0 30px 0 30px;
 }
 
 element {
-	padding: 5px;
-	highlight: bold;
+  padding: 5px;
+  highlight: bold;
 }
 
 element normal {
-	background-color: transparent;
+  background-color: transparent;
 }
 
 element selected {
-	text-color: @blue04;
-	background-color: @white07-transparent;
+  text-color: @blue04;
+  background-color: @white07-transparent;
 }
-
 
 element normal selected {
-	text-color: @blue04;
+  text-color: @blue04;
 }
 
-element normal normal, element alternate normal {
-	text-color: @white07;
+element normal normal,
+element alternate normal {
+  text-color: @white07;
 }
 
-element normal urgent, element selected urgent, element alternate urgent {
-	text-color: @base0F;
+element normal urgent,
+element selected urgent,
+element alternate urgent {
+  text-color: @base0F;
 }
 
-element normal active, element selected active, element alternate active {
-	text-color: @base0B;
+element normal active,
+element selected active,
+element alternate active {
+  text-color: @base0B;
 }
