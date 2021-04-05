@@ -36,8 +36,8 @@ export HV_SRC="$HOME/$HV_SRC_PART"
 
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+eval "$(pyenv init - --no-rehash)"
+eval "$(pyenv virtualenv-init - --no-rehash)"
 
 # lazy load jenv
 if type jenv > /dev/null; then

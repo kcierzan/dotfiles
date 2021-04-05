@@ -15,6 +15,7 @@ local gl = require('galaxyline')
 local gls = gl.section
 local ls_right_separator = ""
 local ls_left_separator = ""
+local diagnostic = require('galaxyline.provider_diagnostic')
 
 gl.short_line_list = {
   'LuaTree',
@@ -41,7 +42,7 @@ end
 local function has_signify_diff()
   if vim.fn.exists('*sy#repo#get_stats') then
     local diff = vim.fn['sy#repo#get_stats']()
-    if diff[1] ~= -1 or diff[2] ~= -1 or diff[3] ~= -1 then
+    if diff[1] < 1 or diff[2] < 1 or diff[3] < 1 then
       return true
     end
   end
@@ -52,14 +53,7 @@ local function checkwidth()
   return buffer_not_empty() and has_width_gt(30)
 end
 
-local function has_diagnostic_info()
-  local has_info, _ = pcall(vim.fn.nvim_buf_get_var,0,'coc_diagnostic_info')
-  if has_info then return true end
-  return false
-end
-
 local sep_hl = {colors.line_bg, colors.bg}
-
 
 local lsl_sep_collapse = {
   LsLeftSeparator = {
@@ -73,14 +67,12 @@ local lsl_coc_separator = {
   LslCocSep = {
     provider = function() return " " end,
     highlight = {colors.line_bg, colors.bg},
-    condition = has_diagnostic_info,
   }
 }
 
 local lsl_diff_separator = {
   LslDiffSep = {
     provider = function() return " " end,
-    -- provider = function() return has_signify_diff() end,
     highlight = {colors.line_bg, colors.bg},
     condition = function() return checkwidth() and has_signify_diff() end,
   }
@@ -225,42 +217,38 @@ gls.left = {
   lsl_coc_separator,
   {
     CocHint = {
-      provider = 'DiagnosticHint',
+      provider = diagnostic.get_diagnostic_hint,
       highlight = {colors.green, colors.line_bg},
       icon = ' ',
-      condition = has_diagnostic_info,
       separator = ' ',
       separator_highlight = {colors.line_bg, colors.line_bg},
     }
   },
   {
     CocInfo = {
-      provider = 'DiagnosticInfo',
+      provider = diagnostic.get_diagnostic_info,
       highlight = {colors.blue, colors.line_bg},
       icon = ' ',
-      condition = has_diagnostic_info,
       separator = ' ',
       separator_highlight = {colors.line_bg, colors.line_bg},
     }
   },
   {
     CocWarning = {
-      provider = 'DiagnosticWarn',
+      provider = diagnostic.get_diagnostic_warn,
       highlight = {colors.yellow, colors.line_bg},
       icon = ' ',
-      condition = has_diagnostic_info,
       separator = ' ',
       separator_highlight = {colors.line_bg, colors.line_bg},
     }
   },
   {
     CocStatus = {
-      provider = 'DiagnosticError',
+      provider = diagnostic.get_diagnostic_error,
       highlight = {colors.red, colors.line_bg},
       separator = ls_right_separator,
       separator_highlight = sep_hl,
       icon = ' ',
-      condition = has_diagnostic_info,
     }
   },
 }
