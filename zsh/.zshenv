@@ -36,17 +36,8 @@ export HV_SRC="$HOME/$HV_SRC_PART"
 
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 
-# Lazy load pyenv
-if type pyenv > /dev/null; then
-    function pyenv() {
-        unset -f pyenv
-        eval "$(command pyenv init -)"
-        if [[ -n "${ZSH_PYENV_LAZY_VIRTUALENV}" ]]; then
-            eval "$(command pyenv virtualenv-init -)"
-        fi
-        pyenv $@
-    }
-fi
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # lazy load jenv
 if type jenv > /dev/null; then

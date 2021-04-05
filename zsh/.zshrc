@@ -33,12 +33,6 @@ unset fasd_cache
 # lazy load rbenv
 rbenv() { eval "$( command rbenv init - --no-rehash )" && rbenv "$@" }
 
-# lazy load pyenv-virtualenv
-pyenv-virtualenv-init() {
-    eval "$( command pyenv virtualenv-init - )"
-    pyenv-virtualenv-init "$@"
-}
-
 # Defer initialization of nvm until nvm, node or a node-dependent command is
 # run. Ensure this block is only run once if .zshrc gets sourced multiple times
 # by checking whether __init_nvm is a function.
