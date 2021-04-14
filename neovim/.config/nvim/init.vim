@@ -109,14 +109,15 @@ augroup Markdown
   autocmd FileType markdown setlocal textwidth=100
 augroup END
 
-augroup Netrw
-  autocmd!
-  " Set all non-netrw buffers to bufhidden=hide
-  autocmd BufWinEnter *
-        \  if &ft != 'netrw'
-        \|     set bufhidden=hide
-        \| endif
-augroup END
+" Netrw has been removed from neovim HEAD
+" augroup Netrw
+"   autocmd!
+"   " Set all non-netrw buffers to bufhidden=hide
+"   autocmd BufWinEnter *
+"         \  if &ft != 'netrw'
+"         \|     set bufhidden=hide
+"         \| endif
+" augroup END
 
 augroup SwitchPanesCursorlineOff
   autocmd!
@@ -135,11 +136,6 @@ augroup CocSymbolHighlight
   autocmd!
   " highlight symbol under cursor on CursorHold
   autocmd CursorHold * silent call CocActionAsync('highlight')
-augroup END
-
-augroup RegisterWhichKey
-  autocmd!
-  autocmd User vim-which-key call which_key#register('<Space>', 'g:which_key_map')
 augroup END
 
 "-------------------------------- EX COMMANDS --------------------------------
@@ -406,6 +402,8 @@ nnoremap <silent> <Space>Q :q!<Return>
 map \ <Plug>(easymotion-prefix)
 nmap s <Plug>(easymotion-overwin-f2)
 
+lua require('plugins')
+
 " ------------ interface ----------------
 let g:which_key_map = {}
 let g:which_key_map.q = 'write and quit'
@@ -442,7 +440,7 @@ nnoremap <silent> <Space>be :SudoEdit<CR>
 let g:which_key_map.b.e = 'edit with sudo'
 nnoremap <silent> <Space>bs :w<CR>
 let g:which_key_map.b.s = 'write buffer'
-nnoremap <silent> <Space>bn :vsplit
+nnoremap <silent> <Space>bn :vsplit 
 let g:which_key_map.b.n = 'new buffer and file'
 nnoremap <silent> <Space>bd :BufferClose<CR>
 let g:which_key_map.b.d = 'close buffer'
@@ -572,36 +570,11 @@ let g:which_key_map.g.t = 'keep changes from target buffer'
 nnoremap <silent> <Space>gm :diffget //3<CR>
 let g:which_key_map.g.m = 'keep changes from merge buffer'
 
-" ------------ Telescope -------------------------
+" ------------ FZF -------------------------
 let g:which_key_map['f'] = {
  \ 'name': '+find'
  \ }
-" nnoremap <silent> <Space><Space> :Telescope git_files<CR>
-" nnoremap <silent> <Space>ff :Telescope git_files<CR>
-" let g:which_key_map.f.f = 'find git files'
-" nnoremap <silent> <Space>fa :lua require('telescope').extensions.fzf_writer.files()<CR>
-" let g:which_key_map.f.a = 'find all files'
-" nnoremap <silent> <Space>fi :Telescope help_tags<CR>
-" let g:which_key_map.f.i = 'find help tag'
-" nnoremap <silent> <Space>fb :Telescope buffers<CR>
-" let g:which_key_map.f.b = 'find buffer'
-" nnoremap <silent> <Space>fl :Telescope current_buffer_fuzzy_find<CR>
-" let g:which_key_map.f.l = 'find line in current buffer'
-" nnoremap <silent> <Space>fh :Telescope oldfiles<CR>
-" let g:which_key_map.f.h = 'find recent buffer'
-" noremap <silent> <Space>fg :lua require('telescope').extensions.fzf_writer.staged_grep()<CR>
-" let g:which_key_map.f.g = 'find in buffers'
-" nnoremap <silent> <Space>ft :Telescope filetypes<CR>
-" let g:which_key_map.f.t = 'find and set filetype'
-" nnoremap <silent> <Space>fO :Telescope tags<CR>
-" let g:which_key_map.f.O = 'find tag in project'
-" nnoremap <silent> <Space>fo :Telescope current_buffer_tags<CR>
-" let g:which_key_map.f.o = 'find tag in buffer'
-" nnoremap <silent> <Space>fe :Telescope commands<CR>
-" let g:which_key_map.f.e = 'find command'
 
-
-" ------------ FZF -------------------------
 function! RipgrepFzf(query, fullscreen)
   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
   let initial_command = printf(command_fmt, shellescape(a:query))
@@ -636,7 +609,11 @@ let g:which_key_map.f.o = 'find tag in buffer'
 nnoremap <silent> <Space>fe :Commands<CR>
 let g:which_key_map.f.e = 'find command'
 
-lua require('plugins')
+augroup RegisterWhichKey
+  autocmd!
+  autocmd User vim-which-key call which_key#register('<Space>', 'g:which_key_map')
+augroup END
+
 
 source $HOME/.thematic/theme.vim
 

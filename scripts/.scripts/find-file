@@ -1,13 +1,9 @@
 #!/usr/bin/env zsh
 # Fuzzy find files recursively
 
-IFS=$'\n'
-out=($(rg ${1:-.} --files --no-ignore --hidden --follow \
-    -g "!.git/*" \
-    -g "!*.pyc" \
-    -g "!node_modules/*" \
-    -g "!tags" \
-    -g "!TAGS" \
+out=($(fd ${1:-.} --no-ignore --hidden --follow --type f \
+    --exclude ".git" \
+    --exclude "*.pyc" \
     2> /dev/null \
     | fzf +m --exit-0 --expect=ctrl-o,ctrl-x \
     --preview-window=up:80% \
