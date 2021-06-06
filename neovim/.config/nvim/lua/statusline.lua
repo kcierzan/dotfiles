@@ -1,20 +1,8 @@
-local colors = {
-  bg = '#32302f',
-  line_bg = '#45403d',
-  fg = '#ddc7a1',
-  green = '#a9b665',
-  yellow = '#d8a657',
-  cyan = '#89b482',
-  blue = '#7daea3',
-  orange = '#e78a4e',
-  magenta = '#d3869b',
-  red = '#ea6962'
-}
+local theme = dofile(os.getenv("HOME") .. "/.thematic/galaxyline-colors.lua")
+local bars = dofile(os.getenv("HOME") .. "/.thematic/galaxyline-separators.lua")
 
 local gl = require('galaxyline')
 local gls = gl.section
-local ls_right_separator = ""
-local ls_left_separator = ""
 local diagnostic = require('galaxyline.provider_diagnostic')
 
 gl.short_line_list = {
@@ -53,35 +41,44 @@ local function checkwidth()
   return buffer_not_empty() and has_width_gt(30)
 end
 
-local sep_hl = {colors.line_bg, colors.bg}
+local sep_hl = {theme.line_bg, theme.bg}
 
 local lsl_sep_collapse = {
   LsLeftSeparator = {
     provider = function() return " " end,
-    highlight = {colors.line_bg, colors.bg},
+    highlight = {theme.line_bg, theme.bg},
     condition = checkwidth,
   }
 }
 
 local lsl_coc_separator = {
   LslCocSep = {
-    provider = function() return " " end,
-    highlight = {colors.line_bg, colors.bg},
+    provider = function()
+      local spaced = " " .. bars.ls_left_separator
+      return spaced
+    end,
+    highlight = {theme.line_bg, theme.bg},
   }
 }
 
 local lsl_diff_separator = {
   LslDiffSep = {
-    provider = function() return " " end,
-    highlight = {colors.line_bg, colors.bg},
+    provider = function()
+      local spaced = " " .. bars.ls_left_separator
+      return spaced
+    end,
+    highlight = {theme.line_bg, theme.bg},
     condition = function() return checkwidth() and has_signify_diff() end,
   }
 }
 
 local lsl_sep_fixed = {
   LslSeparator = {
-    provider = function() return " " end,
-    highlight = {colors.line_bg, colors.bg},
+    provider = function()
+      local spaced = " " .. bars.ls_left_separator
+      return spaced
+    end,
+    highlight = {theme.line_bg, theme.bg},
     condition = buffer_not_empty,
   }
 }
@@ -90,7 +87,7 @@ gls.left = {
   {
     FirstElement = {
       provider = function() return ' ' end,
-      highlight = {colors.blue, colors.line_bg}
+      highlight = {theme.blue, theme.line_bg}
     }
   },
   {
@@ -115,32 +112,32 @@ gls.left = {
           ['!']  = 'SHELL',
       }
       local mode_color = {
-          n = colors.blue,
-          i = colors.green,
-          v=colors.magenta,
-          [''] = colors.magenta,
-          V=colors.blue,
-          c = colors.red,
-          no = colors.magenta,
-          s = colors.orange,
-          S=colors.orange,
-          [''] = colors.orange,
-          ic = colors.yellow,
-          R = colors.magenta,
-          Rv = colors.magenta,
-          cv = colors.red,
-          ce=colors.red,
-          r = colors.cyan,
-          rm = colors.cyan,
-          ['r?'] = colors.cyan,
-          ['!']  = colors.green,
-          t = colors.green,
+          n = theme.blue,
+          i = theme.green,
+          v=theme.magenta,
+          [''] = theme.magenta,
+          V=theme.blue,
+          c = theme.red,
+          no = theme.magenta,
+          s = theme.orange,
+          S=theme.orange,
+          [''] = theme.orange,
+          ic = theme.yellow,
+          R = theme.magenta,
+          Rv = theme.magenta,
+          cv = theme.red,
+          ce=theme.red,
+          r = theme.cyan,
+          rm = theme.cyan,
+          ['r?'] = theme.cyan,
+          ['!']  = theme.green,
+          t = theme.green,
       }
       local vim_mode = vim.fn.mode()
-      vim.api.nvim_command('hi GalaxyViMode guifg=' .. mode_color[vim_mode] .. ' guibg=' .. colors.line_bg)
+      vim.api.nvim_command('hi GalaxyViMode guifg=' .. mode_color[vim_mode] .. ' guibg=' .. theme.line_bg)
       return alias[vim_mode] .. ' '
     end,
-    separator = ls_right_separator,
+    separator = bars.ls_right_separator,
     separator_highlight = sep_hl
     }
   },
@@ -149,24 +146,24 @@ gls.left = {
     FileIcon = {
       provider = 'FileIcon',
       condition = buffer_not_empty,
-      highlight = {require('galaxyline.provider_fileinfo').get_file_icon_color, colors.line_bg},
+      highlight = {require('galaxyline.provider_fileinfo').get_file_icon_color, theme.line_bg},
     }
   },
   {
     FileName = {
       provider = 'FileName',
       condition = buffer_not_empty,
-      highlight = {colors.fg, colors.line_bg, 'bold'},
+      highlight = {theme.fg, theme.line_bg, 'bold'},
       separator = "| ",
-      separator_highlight = {colors.fg, colors.line_bg, 'bold'},
+      separator_highlight = {theme.fg, theme.line_bg, 'bold'},
     }
   },
   {
     FileSize = {
       provider = 'FileSize',
       condition = buffer_not_empty,
-      highlight = { colors.fg, colors.line_bg},
-      separator = ls_right_separator,
+      highlight = { theme.fg, theme.line_bg},
+      separator = bars.ls_right_separator,
       separator_highlight = sep_hl
     }
   },
@@ -175,15 +172,15 @@ gls.left = {
     GitIcon = {
       provider = function() return '  ' end,
       condition = checkwidth,
-      highlight = {colors.red, colors.line_bg},
+      highlight = {theme.red, theme.line_bg},
     }
   },
   {
     GitBranch = {
       provider = 'GitBranch',
       condition = checkwidth,
-      highlight = {colors.fg, colors.line_bg},
-      separator = ls_right_separator,
+      highlight = {theme.fg, theme.line_bg},
+      separator = bars.ls_right_separator,
       separator_highlight = sep_hl,
     }
   },
@@ -192,7 +189,7 @@ gls.left = {
     DiffAdd = {
       provider = 'DiffAdd',
       condition = function() return checkwidth() and has_signify_diff() end,
-      highlight = {colors.green, colors.line_bg},
+      highlight = {theme.green, theme.line_bg},
       icon = ' ',
     }
   },
@@ -200,7 +197,7 @@ gls.left = {
     DiffModified = {
       provider = 'DiffModified',
       condition = function() return checkwidth() and has_signify_diff() end,
-      highlight = {colors.blue, colors.line_bg},
+      highlight = {theme.blue, theme.line_bg},
       icon = ' ',
     }
   },
@@ -208,9 +205,9 @@ gls.left = {
     DiffRemove = {
       provider = 'DiffRemove',
       condition = function() return checkwidth() and has_signify_diff() end,
-      highlight = {colors.red, colors.line_bg},
+      highlight = {theme.red, theme.line_bg},
       icon = ' ',
-      separator = ls_right_separator,
+      separator = bars.ls_right_separator,
       separator_highlight = sep_hl,
     }
   },
@@ -218,35 +215,35 @@ gls.left = {
   {
     CocHint = {
       provider = diagnostic.get_diagnostic_hint,
-      highlight = {colors.green, colors.line_bg},
+      highlight = {theme.green, theme.line_bg},
       icon = ' ',
       separator = ' ',
-      separator_highlight = {colors.line_bg, colors.line_bg},
+      separator_highlight = {theme.line_bg, theme.line_bg},
     }
   },
   {
     CocInfo = {
       provider = diagnostic.get_diagnostic_info,
-      highlight = {colors.blue, colors.line_bg},
+      highlight = {theme.blue, theme.line_bg},
       icon = ' ',
       separator = ' ',
-      separator_highlight = {colors.line_bg, colors.line_bg},
+      separator_highlight = {theme.line_bg, theme.line_bg},
     }
   },
   {
     CocWarning = {
       provider = diagnostic.get_diagnostic_warn,
-      highlight = {colors.yellow, colors.line_bg},
+      highlight = {theme.yellow, theme.line_bg},
       icon = ' ',
       separator = ' ',
-      separator_highlight = {colors.line_bg, colors.line_bg},
+      separator_highlight = {theme.line_bg, theme.line_bg},
     }
   },
   {
     CocStatus = {
       provider = diagnostic.get_diagnostic_error,
-      highlight = {colors.red, colors.line_bg},
-      separator = ls_right_separator,
+      highlight = {theme.red, theme.line_bg},
+      separator = bars.ls_right_separator,
       separator_highlight = sep_hl,
       icon = ' ',
     }
@@ -258,13 +255,13 @@ gls.right = {
   {
     LineInfo = {
       provider = 'LineColumn',
-      highlight = {colors.fg, colors.line_bg},
+      highlight = {theme.fg, theme.line_bg},
     }
   },
   {
     Space = {
       provider = function() return ' ' end,
-      highlight = {colors.line_bg, colors.line_bg},
+      highlight = {theme.line_bg, theme.line_bg},
     }
   }
 }

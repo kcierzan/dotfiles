@@ -616,6 +616,3 @@ augroup END
 
 
 source $HOME/.thematic/theme.vim
-
-" source $HOME/.thematic/status.vim
-" source $HOME/.thematic/bars.vim
