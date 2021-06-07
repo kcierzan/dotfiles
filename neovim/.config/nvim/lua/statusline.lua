@@ -45,7 +45,10 @@ local sep_hl = {theme.line_bg, theme.bg}
 
 local lsl_sep_collapse = {
   LsLeftSeparator = {
-    provider = function() return " " end,
+    provider = function()
+      local spaced = " " .. bars.ls_left_separator
+      return spaced
+    end,
     highlight = {theme.line_bg, theme.bg},
     condition = checkwidth,
   }
