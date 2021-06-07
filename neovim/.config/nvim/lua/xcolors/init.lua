@@ -3,15 +3,15 @@ local function get_xresources_colors()
   local lines = {}
   local home = os.getenv("HOME")
   for line in io.lines(home .. "/.thematic/thematic-xcolors") do
-    color, value = line:match("(color%d+):%s(#%x+)")
+    local color, value = line:match("(color%d+):%s(#%x+)")
     if color then
       lines[color] = value
     end
-    color, value = line:match("(foreground):%s(#%x+)")
+    local color, value = line:match("(foreground):%s(#%x+)")
     if color then
       lines[color] = value
     end
-    color, value = line:match("(background):%s(#%x+)")
+    local color, value = line:match("(background):%s(#%x+)")
     if color then
       lines[color] = value
     end
@@ -479,7 +479,7 @@ local async_load_plugin
 async_load_plugin = vim.loop.new_async(vim.schedule_wrap(function ()
    xresources.terminal_color()
    local syntax = xresources.load_plugin_syntax()
-   for group,colors in pairs(syntax) do
+   for group, colors in pairs(syntax) do
       xresources.highlight(group,colors)
    end
    async_load_plugin:close()
@@ -491,7 +491,7 @@ function xresources.colorscheme()
       vim.api.nvim_command('syntax reset')
    end
    vim.o.termguicolors = true
-   vim.g.colors_name = 'xresources'
+   vim.g.colors_name = 'xcolors'
    local syntax = xresources.load_syntax()
    for group,colors in pairs(syntax) do
       xresources.highlight(group,colors)
