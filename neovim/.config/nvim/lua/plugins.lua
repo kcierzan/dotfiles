@@ -49,7 +49,6 @@ return require('packer').startup(function()
   use 'wellle/targets.vim'
   use { 'junegunn/vim-easy-align', opt = true, cmd = { 'EasyAlign'} }
   use 'michaeljsmith/vim-indent-object'
-  use { 'AndrewRadev/sideways.vim', branch = 'main', opt = true, cmd = {'SidewaysLeft', 'SidewaysRight'} }
   use 'mattn/emmet-vim'
   use { 'dsznajder/vscode-es7-javascript-react-snippets', run = 'yarn install --frozen-lockfile && yarn compile' }
   use { 'brooth/far.vim', opt = true, cmd = { 'Far' } }

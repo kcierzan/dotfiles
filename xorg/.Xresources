@@ -10,8 +10,9 @@ Xft.antialias: 1
 Xft.rgba: rgb
 
 !st
-#include ".thematic/.thematic-xcolors"
+#include ".thematic/thematic-xcolors"
 st.font: monospace-10:style=semibold
+st.alpha: 1
 
 ! not sure if needed
 XTerm*metaSendsEscape: true
