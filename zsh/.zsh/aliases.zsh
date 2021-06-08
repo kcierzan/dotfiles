@@ -206,7 +206,7 @@ fuzzy-ssh() {
   ~/.scripts/fuzzy-ssh -m
 }
 zle -N fuzzy-ssh
-bindkey '^N' fuzzy-ssh
+# bindkey '^N' fuzzy-ssh
 
 # fuzzy checkout a git branch
 fuzzy-branches() {
@@ -252,6 +252,20 @@ fuzzy-grep() {
 }
 zle -N fuzzy-grep
 bindkey '^G' fuzzy-grep
+
+fuzzy-font() {
+  theme font "$(theme list fonts | fzf)"
+  zle redraw-prompt
+}
+zle -N fuzzy-font
+bindkey '^Y' fuzzy-font
+
+fuzzy-theme() {
+  theme colors "$(theme list colors | fzf)"
+  zle redraw-prompt
+}
+zle -N fuzzy-theme
+bindkey '^N' fuzzy-theme
 
 # set up some macOS specific aliases
 if [[ $OSTYPE == 'darwin'* ]]; then
