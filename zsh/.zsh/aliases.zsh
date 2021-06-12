@@ -201,13 +201,6 @@ file-manager() {
 zle -N file-manager
 bindkey '^O' file-manager
 
-# fuzzy sshs into known hosts
-fuzzy-ssh() {
-  ~/.scripts/fuzzy-ssh -m
-}
-zle -N fuzzy-ssh
-# bindkey '^N' fuzzy-ssh
-
 # fuzzy checkout a git branch
 fuzzy-branches() {
   . ~/.scripts/fuzzy-branches
