@@ -35,6 +35,7 @@ export HV_SRC_PART="git"
 export HV_SRC="$HOME/$HV_SRC_PART"
 
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+export BAT_THEME="base16"
 
 eval "$(pyenv init - --no-rehash)"
 eval "$(pyenv virtualenv-init - --no-rehash)"

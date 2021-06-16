@@ -24,7 +24,113 @@ return require('packer').startup(function()
     require('colorizer').setup()
   end}
   use 'terryma/vim-multiple-cursors'
-  use { 'liuchengxu/vim-which-key', opt = true, cmd = { 'WhichKey' } }
+  use { 'folke/which-key.nvim', config = function()
+    local wk = require("which-key")
+      wk.setup()
+      wk.register({
+          i = {
+            name = "Interface",
+            ["%"] = {"<cmd>set invrelativenumber<cr>", "Toggle relative line numbers"},
+            ["#"] = {"<cmd>set invnumber<cr>", "Toggle line numbers"},
+            l = {"<cmd>set invcursorline<cr>", "Disable cursorline"},
+            i = {"<cmd>IndentLinesToggle<cr>", "Toggle indentation lines"},
+            u = {"<cmd>UndotreeToggle<cr>", "Toggle undotree"},
+            c = {"<cmd>nohlsearch<cr>", "Toggle search highlight"},
+            z = {"<cmd>Goyo<cr>", "Toggle zen mode"},
+            h = {"<cmd>ColorizerAttachToBuffer<cr>", "Highlight colors"},
+            t = {"<cmd>NvimTreeToggle<cr>", "Toggle file browser"},
+          },
+          b = {
+            name = "Buffers",
+            e = {"<cmd>SudoEdit<cr>", "Edit with sudo"},
+            s = {"<cmd>w<cr>", "Write buffer"},
+            n = {"<cmd>vsplit", "New buffer and file"},
+            d = {"<cmd>BufferClose<cr>", "Close buffer"},
+            D = {"<cmd>BufferClose!<cr>", "Close buffer without saving"},
+            c = {"<cmd>windo diffthis<cr>", "Diff buffers"},
+            C = {"<cmd>windo diffoff<cr>", "Diff off"},
+            r = {"<cmd>edit!<cr>", "Force reload buffer"}
+          },
+          w = {
+            name = "Windows",
+            v = {"<cmd>vsp<cr>", "Split window vertically"},
+            s = {"<cmd>sp<cr>", "Split window horizontally"},
+            k = {"10<C-w>+", "Decrease window height"},
+            j = {"10<C-w>-", "Increase window height"},
+            l = {"10<C-w>>", "Increase right window width"},
+            h = {"10<C-w><", "Increase left window width"},
+            r = {"<C-w>r", "Rotate windows"},
+            o = {"<C-w>o", "Kill other windows"},
+            e = {"<C-w>=", "Equalize windows"},
+            V = {"<C-w>H", "To vertical split"},
+            S = {"<C-w>J", "To horizontal split"}
+          },
+          v = {
+            name = "Neovim",
+            r = {"<cmd>so ~/.config/nvim/init.vim<cr>", "Reload init.vim"},
+            e = {"<cmd>edit ~/.config/nvim/init.vim<cr>", "Edit init.vim"},
+            s = {"<cmd>Dashboard<cr>", "Go to start page"},
+            u = {"<cmd>PackerUpdate<cr>", "Update plugins"},
+            i = {"<cmd>PackerInstall<cr>", "Install plugins"},
+            c = {"<cmd>PackerClean<cr>", "Clean plugins"},
+            C = {"<cmd>PackerCompile<cr>", "Compile plugins"}
+          },
+          c = {
+            name = "CoC",
+            a = {"<Plug>(coc-codeaction)", "Code action"},
+            f = {"<Plug>(coc-fix-current)", "Fix current"},
+            F = {"<Plug>(coc-format-selected)", "Format selected"},
+            c = {"<cmd>CocRestart<cr>", "Restart CoC"},
+            e = {"<cmd>CocConfig<cr>", "Edit CoC config"},
+            r = {"<Plug>(coc-rename)", "Rename"},
+            R = {"<Plug>(coc-references-used)", "Jump to references"}
+          },
+          F = {
+            name = "Functions",
+            t = {"<cmd>Trimws<cr>", "Trim whitespace"},
+            c = {"<cmd>!rm tags && ctags<cr>", "Create ctags"}
+          },
+          t = {
+            name = "Testing",
+            n = {"<cmd>TestNearest<cr>", "Test nearest"},
+            f = {"<cmd>TestFile<cr>", "Test file"},
+            s = {"<cmd>TestSuite<cr>", "Test suite"},
+            l = {"<cmd>TestLast<cr>", "Test last"},
+            v = {"<cmd>TestVisit<cr>", "Test visit"},
+          },
+          g = {
+            name = "Git",
+            s = {"<cmd>Gstatus<cr>", "Git status"},
+            b = {"<cmd>Git blame<cr>", "Git blame"},
+            n = {"<Plug>(signify-next-hunk)", "Next hunk"},
+            N = {"<Plug>(signify-prev-hunk)", "Previous hunk"},
+            d = {"<cmd>Gvdiff<cr>", "Git diff"},
+            l = {"<cmd>GV<cr>", "Git log"},
+            o = {"<cmd>Gbrowse<cr>", "Open in browser"},
+            c = {"<cmd>Gcommit<cr>", "Git commit"},
+            r = {"<cmd>Gvdiffsplit!<cr>", "Three-way merge"},
+            t = {"<cmd>diffget //2<cr>", "Keep changes from target buffer"},
+            m = {"<cmd>diffget //3<cr>", "Keep changes from merge buffer"},
+          },
+          f = {
+            name = "Find",
+            f = {"<cmd>GFiles<cr>", "Find git files"},
+            a = {"<cmd>Files<cr>", "Find all files"},
+            i = {"<cmd>Helptags<cr>", "Find help tags"},
+            b = {"<cmd>Buffers<cr>", "Find open buffers"},
+            l = {"<cmd>BLines<cr>", "Find line in current buffer"},
+            h = {"<cmd>History<cr>", "Find recent buffer"},
+            g = {"<cmd>RG<cr>", "Find in files"},
+            t = {"<cmd>Filetypes<cr>", "Find and set filetype"},
+            O = {"<cmd>Tags<cr>", "Find tag in project"},
+            o = {"<cmd>BTags<cr>", "Find tag in buffer"},
+            e = {"<cmd>Commands<cr>", "Find commands"},
+          }
+
+
+        }, { prefix = "<leader>", noremap = true, silent = true}
+      )
+  end}
   use 'psliwka/vim-smoothie'
   use 'romgrk/barbar.nvim'
   use { 'glepnir/galaxyline.nvim', branch = 'main', config = function() require('statusline') end}
@@ -81,11 +187,11 @@ return require('packer').startup(function()
   use  'junegunn/fzf.vim'
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
     require 'nvim-treesitter.configs'.setup {
-      ensure_installed = { "python", "javascript", "lua", "bash", "typescript", "go" },
+      ensure_installed = { "python", "javascript", "lua", "bash", "typescript", "go", "java" },
       highlight = {
         enable = true,
         -- JSX doesn't seem to be working...
-        disable = { "javascript" }
+        -- disable = { "javascript" }
       },
       indent = {
         enable = false
