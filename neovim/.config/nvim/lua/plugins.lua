@@ -187,11 +187,9 @@ return require('packer').startup(function()
   use  'junegunn/fzf.vim'
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
     require 'nvim-treesitter.configs'.setup {
-      ensure_installed = { "python", "javascript", "lua", "bash", "typescript", "go", "java" },
+      ensure_installed = {"python", "javascript", "typescript", "go", "java", "yaml", "json", "lua"},
       highlight = {
-        enable = true,
-        -- JSX doesn't seem to be working...
-        -- disable = { "javascript" }
+        enable = true
       },
       indent = {
         enable = false
@@ -203,4 +201,6 @@ return require('packer').startup(function()
   use 'kyazdani42/nvim-tree.lua'
   use 'wellle/tmux-complete.vim'
   use 'fatih/vim-go'
+  use 'famiu/nvim-reload'
+  use 'nvim-lua/plenary.nvim'
 end)
