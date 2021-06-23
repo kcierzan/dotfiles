@@ -37,18 +37,6 @@ export HV_SRC="$HOME/$HV_SRC_PART"
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export BAT_THEME="base16"
 
-eval "$(pyenv init - --no-rehash)"
-eval "$(pyenv virtualenv-init - --no-rehash)"
-
-# lazy load jenv
-if type jenv > /dev/null; then
-  function jenv() {
-    unset -f jenv
-    eval "$(command jenv init -)"
-    jenv $@
-  }
-fi
-
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"

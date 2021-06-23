@@ -1,25 +1,25 @@
 colors:
   bright:
-    black: '#45403d'
-    blue: '#d3869b'
-    cyan: '#89b482'
-    green: '#a9b665'
-    magenta: '#a9b665'
-    red: '#ea6962'
-    white: '#a89984'
-    yellow: '#e78a4e'
+    black: '#3b4261'
+    blue: '#2ac3de'
+    cyan: '#1abc9c'
+    green: '#73daca'
+    magenta: '#bb9af7'
+    red: '#db4b4b'
+    white: '#565f89'
+    yellow: '#ff9e64'
   normal:
-    black: '#46413e'
-    blue: '#d3869b'
-    cyan: '#89b482'
-    green: '#a9b665'
-    magenta: '#7daea3'
-    red: '#ea6962'
-    white: '#d4be98'
-    yellow: '#e78a4e'
+    black: '#414868'
+    blue: '#7aa2f7'
+    cyan: '#7dcfff'
+    green: '#9ece6a'
+    magenta: '#9d7cd8'
+    red: '#f7768e'
+    white: '#737aa2'
+    yellow: '#e0af68'
   primary:
-    background: '#282828'
-    foreground: '#ddc7a1'
+    background: '#24283b'
+    foreground: '#c0caf5'
 font:
   bold:
     family: RobotoMono Nerd Font Mono
@@ -30,6 +30,7 @@ font:
     style: Medium
   offset:
     x: -2
+  use_thin_strokes: true
 key_bindings:
 - chars: "\ej"
   key: J
@@ -92,8 +93,8 @@ live_config_reload: true
 scrolling:
   history: 0
 window:
-  decorations: none
+  decorations: transparent
   dynamic_padding: true
   padding:
-    x: 0
-    y: 0
+    x: 20
+    y: 20
