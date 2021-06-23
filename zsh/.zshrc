@@ -52,8 +52,8 @@ zinit ice silent wait
 zinit snippet ~/.zsh/aliases.zsh
 
 # configure powerlevel10k prompt
-zinit ice silent
-[ -f ~/.p10k.zsh ] && zinit snippet ~/.p10k.zsh
+# zinit ice silent
+[ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
 #
 # initialize fzf
 zinit ice silent wait
