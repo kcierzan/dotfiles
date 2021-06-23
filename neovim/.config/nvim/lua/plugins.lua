@@ -1,4 +1,3 @@
-local execute = vim.api.nvim_command
 local fn = vim.fn
 
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
@@ -14,6 +13,7 @@ return require('packer').startup(function()
 
   -- Interface
   use 'Yggdroot/indentLine'
+  use 'lukas-reineke/indent-blankline.nvim'
   use 'mhinz/vim-signify'
   use { 'junegunn/goyo.vim', opt = true, cmd = { 'Goyo' } }
   use 'ryanoasis/vim-devicons'
@@ -33,7 +33,7 @@ return require('packer').startup(function()
             ["%"] = {"<cmd>set invrelativenumber<cr>", "Toggle relative line numbers"},
             ["#"] = {"<cmd>set invnumber<cr>", "Toggle line numbers"},
             l = {"<cmd>set invcursorline<cr>", "Disable cursorline"},
-            i = {"<cmd>IndentLinesToggle<cr>", "Toggle indentation lines"},
+            i = {"<cmd>IndentLineToggle<cr>", "Toggle indentation lines"},
             u = {"<cmd>UndotreeToggle<cr>", "Toggle undotree"},
             c = {"<cmd>nohlsearch<cr>", "Toggle search highlight"},
             z = {"<cmd>Goyo<cr>", "Toggle zen mode"},
@@ -134,12 +134,6 @@ return require('packer').startup(function()
   use 'psliwka/vim-smoothie'
   use 'romgrk/barbar.nvim'
   use { 'glepnir/galaxyline.nvim', branch = 'main', config = function() require('statusline') end}
-  -- Colorschemes --
-  use 'sainnhe/edge'
-  use 'sainnhe/gruvbox-material'
-  use 'sainnhe/sonokai'
-  use 'dracula/vim'
-  use 'lifepillar/vim-solarized8'
   -- Navigation --
   use 'easymotion/vim-easymotion'
   use 'airblade/vim-rooter'
@@ -201,6 +195,18 @@ return require('packer').startup(function()
   use 'kyazdani42/nvim-tree.lua'
   use 'wellle/tmux-complete.vim'
   use 'fatih/vim-go'
-  use 'famiu/nvim-reload'
+  use { 'famiu/nvim-reload', config = function()
+    local reload = require('nvim-reload')
+    local plugin_dirs = vim.fn.stdpath('data') .. 'site/pack/*/start/*'
+    reload.vim_reload_dirs = {
+      vim.fn.stdpath('config'),
+      plugin_dirs
+    }
+    reload.lua_reload_dirs = {
+      vim.fn.stdpath('config'),
+      plugin_dirs
+    }
+    reload.modules_reload_external = {'packer'}
+  end}
   use 'nvim-lua/plenary.nvim'
 end)
