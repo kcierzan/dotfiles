@@ -1,25 +1,25 @@
 colors:
   bright:
-    black: '#3b4261'
-    blue: '#2ac3de'
-    cyan: '#1abc9c'
-    green: '#73daca'
-    magenta: '#bb9af7'
-    red: '#db4b4b'
-    white: '#565f89'
-    yellow: '#ff9e64'
+    black: '#5b534d'
+    blue: '#7daea3'
+    cyan: '#89b482'
+    green: '#a9b665'
+    magenta: '#e78a4e'
+    red: '#ea6962'
+    white: '#a89984'
+    yellow: '#d8a657'
   normal:
-    black: '#414868'
-    blue: '#7aa2f7'
-    cyan: '#7dcfff'
-    green: '#9ece6a'
-    magenta: '#9d7cd8'
-    red: '#f7768e'
-    white: '#737aa2'
-    yellow: '#e0af68'
+    black: '#46413e'
+    blue: '#7daea3'
+    cyan: '#89b482'
+    green: '#a9b665'
+    magenta: '#d3869b'
+    red: '#ea6962'
+    white: '#d4be98'
+    yellow: '#d8a657'
   primary:
-    background: '#24283b'
-    foreground: '#c0caf5'
+    background: '#282828'
+    foreground: '#ddc7a1'
 font:
   bold:
     family: RobotoMono Nerd Font Mono

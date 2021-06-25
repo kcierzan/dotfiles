@@ -33,7 +33,7 @@ return require('packer').startup(function()
             ["%"] = {"<cmd>set invrelativenumber<cr>", "Toggle relative line numbers"},
             ["#"] = {"<cmd>set invnumber<cr>", "Toggle line numbers"},
             l = {"<cmd>set invcursorline<cr>", "Disable cursorline"},
-            i = {"<cmd>IndentLineToggle<cr>", "Toggle indentation lines"},
+            i = {"<cmd>IndentLinesToggle<cr>", "Toggle indentation lines"},
             u = {"<cmd>UndotreeToggle<cr>", "Toggle undotree"},
             c = {"<cmd>nohlsearch<cr>", "Toggle search highlight"},
             z = {"<cmd>Goyo<cr>", "Toggle zen mode"},
@@ -89,6 +89,13 @@ return require('packer').startup(function()
             name = "Functions",
             t = {"<cmd>Trimws<cr>", "Trim whitespace"},
             c = {"<cmd>!rm tags && ctags<cr>", "Create ctags"}
+          },
+          T = {
+            name = "Telescope",
+            f = {"<cmd>lua require('telescope.builtin').find_files()<cr>", "Find files"},
+            g = {"<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live grep"},
+            b = {"<cmd>lua require('telescope.builtin').buffers()<cr>", "Find buffers"},
+            h = {"<cmd>lua require('telescope.builtin').help_tags()<cr>", "Find help tags"},
           },
           t = {
             name = "Testing",
@@ -176,6 +183,7 @@ return require('packer').startup(function()
   -- Testing --
   use { 'janko-m/vim-test' , cmd = {'TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit'} }
   -- IDE --
+  use { 'nvim-lua/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}}}
   use { 'neoclide/coc.nvim', branch = 'release' }
   use '/usr/local/opt/fzf'
   use  'junegunn/fzf.vim'

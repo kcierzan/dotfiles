@@ -38,6 +38,7 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 
 # Disable Spotlight
 alias spotoff="sudo mdutil -a -i off"
+
 # Enable Spotlight
 alias spoton="sudo mdutil -a -i on"
 
