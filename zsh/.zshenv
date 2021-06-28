@@ -23,8 +23,6 @@ export KEYTIMEOUT=1
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedxbxgxcxd
 
-source "$HOME/.local/share/lscolors.sh"
-
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
