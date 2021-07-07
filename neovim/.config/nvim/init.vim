@@ -155,7 +155,7 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " ----------------------------- Pre plugin config -----------------------
 " Virtualenv for python-dependent plugins
-let g:python3_host_prog = $HOME . '/.pyenv/versions/main/bin/python3'
+let g:python3_host_prog = $HOME . '/.virtualenvs/neovim/bin/python3'
 
 let g:tex_flavor = 'latex'
 
@@ -267,6 +267,9 @@ let g:diminactive_enable_focus = 1
 
 " dashboard.nvim
 let g:dashboard_default_executive = "fzf"
+
+" indent-blankline
+let g:indent_blankline_enabled = v:false
 
 "-------------------------------- Post Plugin config  -----------------------------------
 " vim-expand-region

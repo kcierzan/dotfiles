@@ -12,10 +12,10 @@ return require('packer').startup(function()
   use { 'wbthomason/packer.nvim' }
 
   -- Interface
-  use 'Yggdroot/indentLine'
-  use 'lukas-reineke/indent-blankline.nvim'
+  use { 'lukas-reineke/indent-blankline.nvim', config = function() 
+    vim.g.indent_blankline_enabled = false    
+  end }
   use 'mhinz/vim-signify'
-  use { 'junegunn/goyo.vim', opt = true, cmd = { 'Goyo' } }
   use 'ryanoasis/vim-devicons'
   use 'kyazdani42/nvim-web-devicons'
   use 'haya14busa/vim-keeppad'
@@ -33,10 +33,9 @@ return require('packer').startup(function()
             ["%"] = {"<cmd>set invrelativenumber<cr>", "Toggle relative line numbers"},
             ["#"] = {"<cmd>set invnumber<cr>", "Toggle line numbers"},
             l = {"<cmd>set invcursorline<cr>", "Disable cursorline"},
-            i = {"<cmd>IndentLinesToggle<cr>", "Toggle indentation lines"},
+            i = {"<cmd>IndentBlanklineToggle<cr>", "Toggle indentation lines"},
             u = {"<cmd>UndotreeToggle<cr>", "Toggle undotree"},
             c = {"<cmd>nohlsearch<cr>", "Toggle search highlight"},
-            z = {"<cmd>Goyo<cr>", "Toggle zen mode"},
             h = {"<cmd>ColorizerAttachToBuffer<cr>", "Highlight colors"},
             t = {"<cmd>NvimTreeToggle<cr>", "Toggle file browser"},
           },
