@@ -3,6 +3,7 @@
     - name: Install libraries with homebrew
       homebrew: name={{ item }} state=present
       with_items:
+        - asdf
         - bat
         - coreutils
         - curl
@@ -23,14 +24,12 @@
         - luarocks
         - markdown
         - neovim
+        - nnn
         - nvm
-        - pyenv
-        - pyenv-virtualenv
         - ripgrep
         - ruby
         - speedtest-cli
         - stow
         - tmux
         - universal-ctags
-        - vifm
-        - zplug
+        - zinit

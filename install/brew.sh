@@ -56,10 +56,8 @@ pkgs=(
  node
  nvm
  pv
- pyenv
- pyenv-virtualenv
+ asdf
  python
- python3
  ranger
  rbenv
  readline
