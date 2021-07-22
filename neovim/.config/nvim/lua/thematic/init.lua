@@ -10,8 +10,8 @@ function thematic.highlight(group, color)
 end
 
 function thematic.load_syntax()
-  local syntax = dofile(os.getenv("HOME") .. "/.thematic/nvim-theme.lua")
-  return syntax
+  local syntax, pairs = dofile(os.getenv("HOME") .. "/.thematic/nvim-theme.lua")
+  return syntax, pairs
 end
 
 function thematic.colorscheme()
@@ -21,9 +21,12 @@ function thematic.colorscheme()
    end
    vim.o.termguicolors = true
    vim.g.colors_name = 'thematic'
-   local syntax = thematic.load_syntax()
+   local syntax, plugins = thematic.load_syntax()
    for group,colors in pairs(syntax) do
       thematic.highlight(group,colors)
+   end
+   for group, colors in pairs(plugins) do
+      thematic.highlight(group, colors)
    end
 end
 
