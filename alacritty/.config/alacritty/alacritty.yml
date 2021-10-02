@@ -1,36 +1,36 @@
 colors:
   bright:
-    black: '#5b534d'
-    blue: '#7daea3'
-    cyan: '#89b482'
-    green: '#a9b665'
-    magenta: '#e78a4e'
-    red: '#ea6962'
-    white: '#a89984'
-    yellow: '#d8a657'
+    black: '#6f7683'
+    blue: '#71bdf2'
+    cyan: '#4db5bd'
+    green: '#62ac65'
+    magenta: '#a9a1e1'
+    red: '#c9665b'
+    white: '#afb0b5'
+    yellow: '#d9a97c'
+  cursor:
+    cursor: '#528bff'
+    text: '#2c2e34'
   normal:
-    black: '#46413e'
-    blue: '#7daea3'
-    cyan: '#89b482'
-    green: '#a9b665'
-    magenta: '#d3869b'
-    red: '#ea6962'
-    white: '#d4be98'
-    yellow: '#d8a657'
+    black: '#393f4a'
+    blue: '#6cb6eb'
+    cyan: '#5dbbc1'
+    green: '#a0c980'
+    magenta: '#d38aea'
+    red: '#ec7279'
+    white: '#b9bfc9'
+    yellow: '#deb974'
   primary:
-    background: '#282828'
-    foreground: '#ddc7a1'
+    background: '#2c2e34'
+    foreground: '#B2BED1'
 font:
   bold:
-    family: RobotoMono Nerd Font Mono
+    family: JetBrainsMono Nerd Font Mono
   italic:
-    family: RobotoMono Nerd Font Mono
+    family: JetBrainsMono Nerd Font Mono
   normal:
-    family: RobotoMono Nerd Font Mono
+    family: JetBrainsMono Nerd Font Mono
     style: Medium
-  offset:
-    x: -2
-  use_thin_strokes: true
 key_bindings:
 - chars: "\ej"
   key: J
