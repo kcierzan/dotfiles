@@ -89,12 +89,31 @@ return require('packer').startup(function()
             t = {"<cmd>Trimws<cr>", "Trim whitespace"},
             c = {"<cmd>!rm tags && ctags<cr>", "Create ctags"}
           },
-          T = {
+          ["<leader>"] = {
             name = "Telescope",
-            f = {"<cmd>lua require('telescope.builtin').find_files()<cr>", "Find files"},
-            g = {"<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live grep"},
-            b = {"<cmd>lua require('telescope.builtin').buffers()<cr>", "Find buffers"},
-            h = {"<cmd>lua require('telescope.builtin').help_tags()<cr>", "Find help tags"},
+            f = {
+              name = "Find",
+              f = {"<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", "Files"},
+              b = {"<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers"},
+              o = {"<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Old files"},
+              l = {"<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>", "Line in current buffer"}
+            },
+            h = {
+              name = "Help",
+              h = {"<cmd>lua require('telescope.builtin').help_tags()<cr>", "Nvim help tags"},
+              m = {"<cmd>lua require('telescope.builtin').man_pages()<cr>", "Man pages"},
+
+            },
+            n = {
+              name = "Neovim",
+              a = {"<cmd>lua require('telescope.builtin').autocommands()<cr>", "Autocommands"},
+              o = {"<cmd>lua require('telescope.builtin').vim_options()<cr>", "Options"},
+              f = {"<cmd>lua require('telescope.builtin').filetypes()<cr>", "Filetypes"},
+              h = {"<cmd>lua require('telescope.builtin').highlights()<cr>", "Highlights"},
+              k = {"<cmd>lua require('telescope.builtin').keymaps()<cr>", "Keymaps"},
+            },
+            g = {"<cmd>lua require('telescope.builtin').live_grep()<cr>", "Grep"},
+            c = {"<cmd>lua require('telescope.builtin').git_commits()<cr>", "Find git commits"},
           },
           t = {
             name = "Testing",
@@ -118,28 +137,12 @@ return require('packer').startup(function()
             t = {"<cmd>diffget //2<cr>", "Keep changes from target buffer"},
             m = {"<cmd>diffget //3<cr>", "Keep changes from merge buffer"},
           },
-          f = {
-            name = "Find",
-            f = {"<cmd>GFiles<cr>", "Find git files"},
-            a = {"<cmd>Files<cr>", "Find all files"},
-            i = {"<cmd>Helptags<cr>", "Find help tags"},
-            b = {"<cmd>Buffers<cr>", "Find open buffers"},
-            l = {"<cmd>BLines<cr>", "Find line in current buffer"},
-            h = {"<cmd>History<cr>", "Find recent buffer"},
-            g = {"<cmd>RG<cr>", "Find in files"},
-            t = {"<cmd>Filetypes<cr>", "Find and set filetype"},
-            O = {"<cmd>Tags<cr>", "Find tag in project"},
-            o = {"<cmd>BTags<cr>", "Find tag in buffer"},
-            e = {"<cmd>Commands<cr>", "Find commands"},
-          }
-
-
         }, { prefix = "<leader>", noremap = true, silent = true}
       )
   end}
   use 'psliwka/vim-smoothie'
   use 'romgrk/barbar.nvim'
-  use { 'glepnir/galaxyline.nvim', branch = 'main', config = function() require('statusline') end}
+  use { 'glepnir/galaxyline.nvim', branch = 'main', config = function() require('statusline') end }
   -- Navigation --
   use 'easymotion/vim-easymotion'
   use 'airblade/vim-rooter'
@@ -169,7 +172,7 @@ return require('packer').startup(function()
   use 'benmills/vimux'
   use 'tmux-plugins/vim-tmux-focus-events'
   -- Syntax --
-  use { 'sheerun/vim-polyglot', config = function() vim.api.nvim_set_var('polyglot_disabled', {'python', 'go' }) end }
+  -- use { 'sheerun/vim-polyglot', setup = function() vim.api.nvim_set_var('polyglot_disabled', {'python', 'go' }) end }
   use { 'plasticboy/vim-markdown', event = 'FileType markdown' }
   use 'pangloss/vim-javascript'
   use 'lervag/vimtex'
@@ -182,10 +185,14 @@ return require('packer').startup(function()
   -- Testing --
   use { 'janko-m/vim-test' , cmd = {'TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit'} }
   -- IDE --
-  use { 'nvim-lua/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}}}
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'nvim-lua/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}},
+  config = function ()
+    require('telescope').load_extension('fzf')
+  end}
   use { 'neoclide/coc.nvim', branch = 'release' }
-  use '/usr/local/opt/fzf'
-  use  'junegunn/fzf.vim'
+  -- use '/usr/local/opt/fzf'
+  -- use  'junegunn/fzf.vim'
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
     require 'nvim-treesitter.configs'.setup {
       ensure_installed = {"python", "javascript", "typescript", "go", "java", "yaml", "json", "lua"},

@@ -6,7 +6,7 @@
   "diagnostic.hintSign": "",
   "python.jediEnabled": false,
   "python.linting.enabled": true,
-  "python.venvPath": "~/.pyenv",
+  "python.pythonPath": "~/.asdf/shims/python",
   "coc.preferences.formatOnSaveFiletypes": [
     "json",
     "python",
