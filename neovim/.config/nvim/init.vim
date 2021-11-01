@@ -155,7 +155,7 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " ----------------------------- Pre plugin config -----------------------
 " Virtualenv for python-dependent plugins
-let g:python3_host_prog = $HOME . '/.virtualenvs/neovim/bin/python3'
+let g:python3_host_prog = $HOME . '/.asdf/installs/python/3.10-dev/bin/python'
 
 let g:tex_flavor = 'latex'
 
