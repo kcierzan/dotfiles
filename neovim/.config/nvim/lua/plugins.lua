@@ -90,30 +90,20 @@ return require('packer').startup(function()
             c = {"<cmd>!rm tags && ctags<cr>", "Create ctags"}
           },
           ["<leader>"] = {
-            name = "Telescope",
-            f = {
-              name = "Find",
-              f = {"<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", "Files"},
-              b = {"<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers"},
-              o = {"<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Old files"},
-              l = {"<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>", "Line in current buffer"}
-            },
-            h = {
-              name = "Help",
-              h = {"<cmd>lua require('telescope.builtin').help_tags()<cr>", "Nvim help tags"},
-              m = {"<cmd>lua require('telescope.builtin').man_pages()<cr>", "Man pages"},
-
-            },
-            n = {
-              name = "Neovim",
-              a = {"<cmd>lua require('telescope.builtin').autocommands()<cr>", "Autocommands"},
-              o = {"<cmd>lua require('telescope.builtin').vim_options()<cr>", "Options"},
-              f = {"<cmd>lua require('telescope.builtin').filetypes()<cr>", "Filetypes"},
-              h = {"<cmd>lua require('telescope.builtin').highlights()<cr>", "Highlights"},
-              k = {"<cmd>lua require('telescope.builtin').keymaps()<cr>", "Keymaps"},
-            },
-            g = {"<cmd>lua require('telescope.builtin').live_grep()<cr>", "Grep"},
+            name = "Find",
+            O = {"<cmd>lua require('telescope.builtin').vim_options()<cr>", "Options"},
+            a = {"<cmd>lua require('telescope.builtin').autocommands()<cr>", "Autocommands"},
+            b = {"<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers"},
             c = {"<cmd>lua require('telescope.builtin').git_commits()<cr>", "Find git commits"},
+            f = {"<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", "Files"},
+            g = {"<cmd>lua require('telescope.builtin').live_grep()<cr>", "Grep"},
+            i = {"<cmd>lua require('telescope.builtin').help_tags()<cr>", "Nvim help tags"},
+            h = {"<cmd>lua require('telescope.builtin').highlights()<cr>", "Highlights"},
+            k = {"<cmd>lua require('telescope.builtin').keymaps()<cr>", "Keymaps"},
+            l = {"<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>", "Line in current buffer"},
+            m = {"<cmd>lua require('telescope.builtin').man_pages()<cr>", "Man pages"},
+            o = {"<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Old files"},
+            t = {"<cmd>lua require('telescope.builtin').filetypes()<cr>", "Filetypes"},
           },
           t = {
             name = "Testing",
