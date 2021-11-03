@@ -196,7 +196,7 @@ return require('packer').startup(function()
     end
   }
   use 'Shougo/neomru.vim'
-  use 'kyazdani42/nvim-tree.lua'
+  use { 'kyazdani42/nvim-tree.lua', config = function() require 'nvim-tree'.setup {} end  }
   use 'wellle/tmux-complete.vim'
   use 'fatih/vim-go'
   use { 'famiu/nvim-reload', config = function()
