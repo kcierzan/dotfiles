@@ -95,7 +95,7 @@ return require('packer').startup(function()
             a = {"<cmd>lua require('telescope.builtin').autocommands()<cr>", "Autocommands"},
             b = {"<cmd>lua require('telescope.builtin').buffers()<cr>", "Buffers"},
             c = {"<cmd>lua require('telescope.builtin').git_commits()<cr>", "Find git commits"},
-            f = {"<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", "Files"},
+            f = {"<cmd>lua require('telescope.builtin').find_files({ find_command = {'rg', '--files', '--iglob', '!.git', '--hidden' } })<cr>", "Files"},
             g = {"<cmd>lua require('telescope.builtin').live_grep()<cr>", "Grep"},
             i = {"<cmd>lua require('telescope.builtin').help_tags()<cr>", "Nvim help tags"},
             h = {"<cmd>lua require('telescope.builtin').highlights()<cr>", "Highlights"},
