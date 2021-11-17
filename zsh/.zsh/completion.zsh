@@ -8,7 +8,7 @@
 autoload -Uz compinit && compinit
 # History Settings (big history for use with many open shells and no dups)
 # Different History files for root and standard user
-HISTFILE=$HOME/.zsh_history
+HISTFILE=$HOME/.zhistory
 HISTSIZE=10000000
 SAVEHIST=10000000
 setopt share_history append_history extended_history hist_no_store hist_ignore_all_dups hist_ignore_space
@@ -21,7 +21,7 @@ setopt share_history append_history extended_history hist_no_store hist_ignore_a
 # If a command is issued that can’t be executed as a normal command,
 # and the command is the name of a directory, perform the cd command
 # to that directory.
-setopt AUTO_CD
+# setopt AUTO_CD
 
 # Treat  the ‘#’, ‘~’ and ‘^’ characters as part of patterns for filename generation, etc.
 # (An initial unquoted ‘~’ always produces named directory expansion.)
@@ -71,8 +71,14 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 # load completions system
 zmodload -i zsh/complist
 
-bindkey '^[[A' up-line-or-search
-bindkey '^[[B' down-line-or-search
+bindkey '^[[A' history-beginning-search-backward
+bindkey '^[[B' history-beginning-search-forward
+
+# autoload -U history-search-end
+# zle -N history-beginning-search-backward-end history-search-end
+# zle -N history-beginning-search-forward-end history-search-end
+bindkey -a j history-beginning-search-forward
+bindkey -a k history-beginning-search-backward
 
 # Go back through completion menu
 bindkey '^[[Z' reverse-menu-complete

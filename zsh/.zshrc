@@ -67,6 +67,9 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice silent wait
 zinit snippet ~/.zsh/aliases.zsh
 
+zinit ice silent wait
+zinit snippet ~/.zsh/completion.zsh
+
 # configure powerlevel10k prompt
 [ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
 #

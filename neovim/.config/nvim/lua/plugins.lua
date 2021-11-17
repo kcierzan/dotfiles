@@ -162,7 +162,6 @@ return require('packer').startup(function()
   use 'benmills/vimux'
   use 'tmux-plugins/vim-tmux-focus-events'
   -- Syntax --
-  -- use { 'sheerun/vim-polyglot', setup = function() vim.api.nvim_set_var('polyglot_disabled', {'python', 'go' }) end }
   use { 'plasticboy/vim-markdown', event = 'FileType markdown' }
   use 'pangloss/vim-javascript'
   use 'lervag/vimtex'
@@ -181,8 +180,6 @@ return require('packer').startup(function()
     require('telescope').load_extension('fzf')
   end}
   use { 'neoclide/coc.nvim', branch = 'release' }
-  -- use '/usr/local/opt/fzf'
-  -- use  'junegunn/fzf.vim'
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
     require 'nvim-treesitter.configs'.setup {
       ensure_installed = {"python", "javascript", "typescript", "go", "java", "yaml", "json", "lua"},
