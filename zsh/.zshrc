@@ -38,6 +38,7 @@ zinit light trapd00r/LS_COLORS
 if [[ "$OSTYPE" = 'linux-gnu' ]]; then
   source /usr/share/fzf/key-bindings.zsh
   source /usr/share/fzf/completion.zsh
+  source /opt/asdf-vm/asdf.sh
 fi
 
 # set zsh preferences
@@ -87,7 +88,9 @@ zinit ice silent wait atload"unset fasd_cache"
 zinit snippet "$fasd_cache"
 
 # manage versions of everything
-source /usr/local/opt/asdf/asdf.sh
+if [[ "$OSTYPE" = darwin* ]]; then
+  source /usr/local/opt/asdf/asdf.sh
+fi
 
 # enable completions from homebrew
 # we may need zinit cdreplay if we are calling compinit multiple times...
@@ -96,5 +99,6 @@ if type brew &>/dev/null; then
     autoload -Uz compinit
     compinit
 fi
-
-zinit cdreplay -q
+if [[ "$OSTYPE" = darwin* ]]; then
+  zinit cdreplay -q
+fi

@@ -40,7 +40,7 @@ fi
 nvidia-led no-animation 0
 
 # run keybinding script
-setkeys
+# setkeys
 
 # configure the firewire interface and start jack
 start-jack
