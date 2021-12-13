@@ -132,11 +132,11 @@ augroup CursorShape
   autocmd VimLeave * set guicursor=a:hor20-Cursor/lCursor
 augroup END
 
-augroup CocSymbolHighlight
-  autocmd!
-  " highlight symbol under cursor on CursorHold
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-augroup END
+" augroup CocSymbolHighlight
+"   autocmd!
+"   " highlight symbol under cursor on CursorHold
+"   autocmd CursorHold * silent call CocActionAsync('highlight')
+" augroup END
 
 "-------------------------------- EX COMMANDS --------------------------------
 function! FormatJson()
@@ -151,7 +151,7 @@ command! Tojson :call FormatJson()
 command! Trimws :%s/\s\+$//
 
 " Format file with prettier
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
+" command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " ----------------------------- Pre plugin config -----------------------
 " Virtualenv for python-dependent plugins
@@ -277,11 +277,11 @@ vmap e <Plug>(expand_region_expand)
 vmap E <Plug>(expand_region_shrink)
 
 " Tab selects completion, expands snippet, and moves through snippet fields
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>"  :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>"  :
+"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
 
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -291,22 +291,22 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use K for show documentation in preview window
-nnoremap <silent> gh :call <SID>show_documentation()<CR>
+" nnoremap <silent> gh :call <SID>show_documentation()<CR>
 
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+" function! s:show_documentation()
+"   if &filetype == 'vim'
+"     execute 'h '.expand('<cword>')
+"   else
+"     call CocAction('doHover')
+"   endif
+" endfunction
 
 "-------------------------------- KEYBINDINGS --------------------------------
 
@@ -356,8 +356,8 @@ nmap <silent> [z :call GoToOpenFold("prev")<CR>
 
 " Jump to next error message
 " TODO: make a coc version of this
-nnoremap ge <Plug>(coc-diagnostic-next)<CR>
-nnoremap gE <Plug>(coc-diagnostic-prev)<CR>
+" nnoremap ge <Plug>(coc-diagnostic-next)<CR>
+" nnoremap gE <Plug>(coc-diagnostic-prev)<CR>
 
 " Show syntax highlight at point
 map gi :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'

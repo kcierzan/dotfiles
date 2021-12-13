@@ -51,6 +51,13 @@ alias dockstop="docker ps -a -q | xargs docker stop 2>&1"
 alias dockrm="docker ps -a -q | xargs docker rm 2>&1"
 alias dc="docker-compose"
 
+source /usr/local/opt/asdf/libexec/asdf.sh
+
+if type brew &>/dev/null; then
+    FPATH=/usr/local/share/zsh/site-functions:$FPATH
+    autoload -Uz compinit
+    compinit
+fi
 
 # Change working directory to the top-most Finder window location
 cdf() { # short for `cdfinder`
@@ -93,3 +100,5 @@ iterm-emit() {
 iterm-profile() {
     iterm-emit '1337;SetProfile=%s' "$1"
 }
+
+zinit cdreplay -q

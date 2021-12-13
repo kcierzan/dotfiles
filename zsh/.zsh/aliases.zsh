@@ -209,12 +209,13 @@ fuzzy-branches() {
 zle -N fuzzy-branches
 bindkey '^b' fuzzy-branches
 
-recent-dirs() {
-  . ~/.scripts/recent-dirs
-  zle redraw-prompt
-}
-zle -N recent-dirs
-bindkey '^J' recent-dirs
+# FIXME: not compatible with zsh-vi-mode
+# recent-dirs() {
+#   . ~/.scripts/recent-dirs
+#   # zle redraw-prompt
+# }
+# zle -N recent-dirs
+# bindkey '^J' recent-dirs
 
 # Edit a frecent file
 recent-files() {

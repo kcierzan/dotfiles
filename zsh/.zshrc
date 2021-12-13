@@ -6,14 +6,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # if we don't have zinit already installed, install it
-if [[ ! -d ~/.zinit ]]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+if [[ ! -d ~/.local/share/zinit/ ]]; then
+  sh -c "$(curl -fsSL https://git.io/zinit-install)"
 fi
 
 # set up zinit
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz zinit
-(( ${+_comps} )) && _comps[zinit]=zinit
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+source "${ZINIT_HOME}/zinit.zsh"
 
 # avoid fancy prompt stuff when in emacs
 if [[ $TERM == "dumb" ]]; then
@@ -34,27 +33,25 @@ zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
     atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
 zinit light trapd00r/LS_COLORS
 
-# install fzf on linux
-if [[ "$OSTYPE" = 'linux-gnu' ]]; then
-  source /usr/share/fzf/key-bindings.zsh
-  source /usr/share/fzf/completion.zsh
-  source /opt/asdf-vm/asdf.sh
-fi
-
 # set zsh preferences
 zinit ice silent wait
 zinit snippet ~/.zsh/prefs.zsh
 
-# enable vi mode and change the cursor shape for "normal mode" and "insert mode"
-zinit ice silent wait
-zinit snippet "$HOME/.zsh/vi_cursor.zsh"
+# zvm configuration
+function zvm_config() {
+  ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
+}
+
+# vi mode
+zinit ice depth=1
+zinit light jeffreytse/zsh-vi-mode
 
 # install powerlevel10k prompt
 zinit light romkatv/powerlevel10k
 
 # highlight shell commands if they exist in $PATH
 zinit ice silent wait
-zinit light zdharma/fast-syntax-highlighting
+zinit light zdharma-continuum/fast-syntax-highlighting
 
 # prezto completion
 zinit ice silent wait svn
@@ -86,19 +83,3 @@ fi
 # set up fasd
 zinit ice silent wait atload"unset fasd_cache"
 zinit snippet "$fasd_cache"
-
-# manage versions of everything
-if [[ "$OSTYPE" = darwin* ]]; then
-  source /usr/local/opt/asdf/asdf.sh
-fi
-
-# enable completions from homebrew
-# we may need zinit cdreplay if we are calling compinit multiple times...
-if type brew &>/dev/null; then
-    FPATH=/usr/local/share/zsh/site-functions:$FPATH
-    autoload -Uz compinit
-    compinit
-fi
-if [[ "$OSTYPE" = darwin* ]]; then
-  zinit cdreplay -q
-fi
