@@ -27,12 +27,12 @@ nmap('<Leader>we', "<C-w>=")
 nmap('<Leader>wV', "<C-w>H")
 nmap('<Leader>wS', "<C-w>J")
 
-nmap('<Leader>nr', "<cmd>so ~/.config/nvim/init.vim<cr>")
-nmap('<Leader>ne', "<cmd>edit ~/.config/nvim/init.vim<cr>")
-nmap('<Leader>nu', "<cmd>PackerUpdate<cr>")
-nmap('<Leader>ni', "<cmd>PackerInstall<cr>")
-nmap('<Leader>nc', "<cmd>PackerClean<cr>")
-nmap('<Leader>nC', "<cmd>PackerCompile<cr>")
+nmap('<Leader>vr', "<cmd>so ~/.config/nvim/init.vim<cr>")
+nmap('<Leader>ve', "<cmd>edit ~/.config/nvim/init.vim<cr>")
+nmap('<Leader>vu', "<cmd>PackerUpdate<cr>")
+nmap('<Leader>vi', "<cmd>PackerInstall<cr>")
+nmap('<Leader>vc', "<cmd>PackerClean<cr>")
+nmap('<Leader>vC', "<cmd>PackerCompile<cr>")
 
 nmap('<Leader>fO', "<cmd>lua require('telescope.builtin').vim_options()<cr>")
 
