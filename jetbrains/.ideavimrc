@@ -99,6 +99,7 @@ nnoremap <leader>cs :action InsertLiveTemplate<CR>
 
 nnoremap <leader>gn :action JumpToNextChange<CR>
 nnoremap <leader>gp :action JumpToPreviousChange<CR>
+nnoremap <leader>gs :action CIDR.Lang.SwitchHeaderSource<CR>
 nnoremap <leader>gL :action Vcs.Show.Log<CR>
 nnoremap <leader>gl :action Vcs.ShowTabbedFileHistory<CR>
 nnoremap <leader>gd :action Vcs.Show.Local.Changes<CR>

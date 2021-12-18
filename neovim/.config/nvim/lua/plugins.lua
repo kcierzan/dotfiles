@@ -50,6 +50,17 @@ nmap('<Leader>fm', "<cmd>lua require('telescope.builtin').man_pages()<cr>")
 nmap('<Leader>fo', "<cmd>lua require('telescope.builtin').oldfiles()<cr>")
 nmap('<Leader>ft', "<cmd>lua require('telescope.builtin').filetypes()<cr>")
 
+nmap('<Leader>gs', "<cmd>Git<cr>")
+nmap('<Leader>gb', "<cmd>Git blame<cr>")
+nmap('<Leader>gn', "<Plug>(signify-next-hunk)")
+nmap('<Leader>gN', "<Plug>(signify-prev-hunk)")
+nmap('<Leader>gd', "<cmd>Gvdiff<cr>")
+nmap('<Leader>gl', "<cmd>GV<cr>")
+nmap('<Leader>go', "<cmd>Gbrowse<cr>")
+nmap('<Leader>gc', "<cmd>Gcommit<cr>")
+nmap('<Leader>gr', "<cmd>Gvdiffsplit!<cr>")
+nmap('<Leader>gt', "<cmd>diffget //2<cr>")
+nmap('<Leader>gm', "<cmd>diffget //3<cr>")
 
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
