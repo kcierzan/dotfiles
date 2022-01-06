@@ -25,11 +25,11 @@ colors:
     foreground: '#B2BED1'
 font:
   bold:
-    family: BlexMono Nerd Font Mono
+    family: Iosevka Nerd Font Mono
   italic:
-    family: BlexMono Nerd Font Mono
+    family: Iosevka Nerd Font Mono
   normal:
-    family: BlexMono Nerd Font Mono
+    family: Iosevka Nerd Font Mono
     style: Medium
 key_bindings:
 - chars: "\ej"
@@ -92,6 +92,10 @@ key_bindings:
 live_config_reload: true
 scrolling:
   history: 0
+shell:
+  args:
+  - --login
+  program: /usr/local/bin/fish
 window:
   decorations: transparent
   dynamic_padding: true

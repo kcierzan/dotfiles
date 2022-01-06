@@ -1,0 +1,14 @@
+[
+	{
+		"keys": ["alt+/"],
+		"command": "double_click_at_caret",
+		// "context": [
+			
+		// 	{
+		// 		"key": "selector",
+		// 		"operator": "equal",
+		// 		"operand": "text.find-in-files"
+		// 	}
+		// ]
+	}	
+]

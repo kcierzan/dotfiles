@@ -64,20 +64,8 @@ alias tkss='tmux kill-session -t'
 alias le="lsd"
 alias la="lsd -lah"
 
-# Joplin
-alias jp="joplin"
-
-# LazyGit
-alias lg="lazygit"
-
 # LazyDocker
 alias ld="lazydocker"
-
-# nnn
-alias nnn="nnn -edH"
-
-# vscode
-alias code="code-insiders"
 
 # Create a new directory and enter it
 # Create a relative path to arg1 from ar2
@@ -174,17 +162,6 @@ untagged() {
   git log $(git describe --tags --abbrev=0)..HEAD --oneline
 }
 
-flake8-plugins() {
-  pip install flake8 \
-    flake8-print \
-    flake8-fixme \
-    flake8-mutable \
-    flake8-import-order \
-    flake8-bandit \
-    flake8-comprehensions \
-    flake8-mock
-}
-
 redraw-prompt() {
   local precmd
   for precmd in $precmd_functions; do
@@ -196,7 +173,7 @@ zle -N redraw-prompt
 
 # browse files in a new pane
 file-manager() {
-  tmux new-window -c "#{pane_current_path}" "nnn -edH"
+  tmux new-window -c "#{pane_current_path}" "n"
 }
 zle -N file-manager
 bindkey '^O' file-manager
@@ -260,6 +237,35 @@ fuzzy-theme() {
 }
 zle -N fuzzy-theme
 bindkey '^N' fuzzy-theme
+
+# nnn cd on quit
+n() {
+    # Block nesting of nnn in subshells
+    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
+        echo "nnn is already running"
+        return
+    fi
+
+    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # To cd on quit only on ^G, either remove the "export" as in:
+    #    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    #    (or, to a custom path: NNN_TMPFILE=/tmp/.lastd)
+    # or, export NNN_TMPFILE after nnn invocation
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+    # stty start undef
+    # stty stop undef
+    # stty lwrap undef
+    # stty lnext undef
+
+    nnn -edH "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+            . "$NNN_TMPFILE"
+            rm -f "$NNN_TMPFILE" > /dev/null
+    fi
+}
 
 # set up some macOS specific aliases
 if [[ $OSTYPE == 'darwin'* ]]; then
