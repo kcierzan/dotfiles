@@ -10,7 +10,7 @@ end
 fish_add_path "$HOME/.local/bin" "$HOME/.scripts" '/usr/local/bin' '/usr/local/sbin' '/usr/bin' '/usr/sbin' '/sbin' '/opt/X11/bin' "$HOME/.cargo/bin" "$HOME/.composer/vendor/bin" '/Library/TeX/Distributions/Programs/texbin'
 set -gx EDITOR 'subl'
 set -gx VISUAL 'subl'
-set -gx PAGER 'most'
+set -gx PAGER 'less'
 set -gx LANG 'en_US.UTF-8'
 set -gx LESS '-F -g -i -M -R -S -w -X -z-4'
 
@@ -28,3 +28,6 @@ set -gx HV_SRC_PART "git"
 set -gx HV_SRC "$HOME/$HV_SRC_PART"
 set -gx NVIM_LISTEN_ADDRESS '/tmp/nvimsocket'
 set -gx BAT_THEME 'base16'
+
+bind -M insert \cF findfile
+bind -M insert \cG grepfiles
