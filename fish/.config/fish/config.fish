@@ -29,5 +29,11 @@ set -gx HV_SRC "$HOME/$HV_SRC_PART"
 set -gx NVIM_LISTEN_ADDRESS '/tmp/nvimsocket'
 set -gx BAT_THEME 'base16'
 
+set fish_color_param normal
+set fish_color_error red --bold
+set fish_color_command 'a0c980' --bold
+set fish_color_
+
 bind -M insert \cF findfile
 bind -M insert \cG grepfiles
+source /usr/local/opt/asdf/libexec/asdf.fish
