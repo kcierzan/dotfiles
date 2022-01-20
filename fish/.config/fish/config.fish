@@ -2,7 +2,8 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
     fish_vi_key_bindings
     set fish_cursor_default underscore
-    set fish_cursor_insert line
+    set fish_cursor_insert underscore
+    set fish_cursor_unknown underscore
     starship init fish | source
     zoxide init fish | source 
 end
@@ -32,7 +33,18 @@ set -gx BAT_THEME 'base16'
 set fish_color_param normal
 set fish_color_error red --bold
 set fish_color_command 'a0c980' --bold
-set fish_color_
+
+abbr -a vim nvim
+abbr -a vi nvim
+abbr -a sed gsed
+abbr -a awk gawk
+abbr -a find gfind
+abbr -a e subl
+abbr -a xargs gxargs
+abbr -a tar gtar
+abbr -a tl 'tmux list-sessions'
+abbr -a ta 'tmux attach'
+abbr -a tn 'tmux new-session'
 
 bind -M insert \cF findfile
 bind -M insert \cG grepfiles
