@@ -113,6 +113,13 @@ nnoremap <leader>gE :action GotoPreviousError<CR>
 nnoremap <leader>el :action CodeInspection.OnEditor<CR>
 nnoremap <leader>es :action RunInspection<CR>
 
-" --------------------------------- Errors -----------------------------
+" --------------------------------- Windows -----------------------------
 
 nnoremap <leader>ot :action ActivateTerminalToolWindow<CR>
+
+
+" --------------------------------- Run -----------------------------
+
+nnoremap <leader>rd :action Debug<CR>
+nnoremap <leader>rr :action Run<CR>
+nnoremap <leader>rb :action Build<CR>
