@@ -1,6 +1,17 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR __fish_initialized:3100
+SETUVAR _fish_abbr_awk:gawk
+SETUVAR _fish_abbr_e:subl
+SETUVAR _fish_abbr_find:gfind
+SETUVAR _fish_abbr_sed:gsed
+SETUVAR _fish_abbr_ta:tmux\x20attach
+SETUVAR _fish_abbr_tar:gtar
+SETUVAR _fish_abbr_tl:tmux\x20list\x2dsessions
+SETUVAR _fish_abbr_tn:tmux\x20new\x2dsession
+SETUVAR _fish_abbr_vi:nvim
+SETUVAR _fish_abbr_vim:nvim
+SETUVAR _fish_abbr_xargs:gxargs
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:a0c980\x1e\x2d\x2dbold
@@ -29,4 +40,4 @@ SETUVAR fish_pager_color_completion:\x1d
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
-SETUVAR fish_user_paths:/Users/kcierzan/\x2escripts\x1e/usr/local/bin\x1e/usr/local/sbin\x1e/usr/bin\x1e/usr/sbin\x1e/sbin
+SETUVAR fish_user_paths:/Users/kyle/\x2elocal/bin\x1e/Users/kyle/\x2escripts\x1e/Library/TeX/Distributions/Programs/texbin\x1e/Users/kcierzan/\x2escripts\x1e/usr/local/bin\x1e/usr/local/sbin\x1e/usr/bin\x1e/usr/sbin\x1e/sbin
