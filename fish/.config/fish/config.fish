@@ -9,8 +9,8 @@ if status is-interactive
 end
 
 fish_add_path "$HOME/.local/bin" "$HOME/.scripts" '/usr/local/bin' '/usr/local/sbin' '/usr/bin' '/usr/sbin' '/sbin' '/opt/X11/bin' "$HOME/.cargo/bin" "$HOME/.composer/vendor/bin" '/Library/TeX/Distributions/Programs/texbin'
-set -gx EDITOR 'subl'
-set -gx VISUAL 'subl'
+set -gx EDITOR 'nvim'
+set -gx VISUAL 'nvim'
 set -gx PAGER 'less'
 set -gx LANG 'en_US.UTF-8'
 set -gx LESS '-F -g -i -M -R -S -w -X -z-4'
