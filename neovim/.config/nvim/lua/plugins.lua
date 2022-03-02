@@ -68,6 +68,7 @@ require('gitsigns').setup()
 require('zen-mode').setup()
 require('lualine').setup{}
 require('alpha').setup(require('alpha.themes.dashboard').config)
+require('Comment').setup()
 require('telescope').setup {
   extensions = {
     fzf = {

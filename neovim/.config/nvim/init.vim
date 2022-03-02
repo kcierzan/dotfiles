@@ -272,10 +272,6 @@ let g:dashboard_default_executive = "telescope"
 let g:indent_blankline_enabled = v:false
 
 "-------------------------------- Post Plugin config  -----------------------------------
-" vim-expand-region
-vmap e <Plug>(expand_region_expand)
-vmap E <Plug>(expand_region_shrink)
-
 " Tab selects completion, expands snippet, and moves through snippet fields
 " inoremap <silent><expr> <TAB>
 "       \ pumvisible() ? "\<C-n>"  :
@@ -283,19 +279,19 @@ vmap E <Plug>(expand_region_shrink)
 "       \ <SID>check_back_space() ? "\<TAB>" :
 "       \ coc#refresh()
 
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 " nmap <silent> gd <Plug>(coc-definition)
 " nmap <silent> gy <Plug>(coc-type-definition)
 " nmap <silent> gi <Plug>(coc-implementation)
 " nmap <silent> gr <Plug>(coc-references)
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use K for show documentation in preview window
 " nnoremap <silent> gh :call <SID>show_documentation()<CR>
