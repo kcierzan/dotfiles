@@ -403,6 +403,36 @@ nnoremap <silent> <Space>Q :q!<Return>
 map \ <Plug>(easymotion-prefix)
 nmap s <Plug>(easymotion-overwin-f2)
 
+call plug#begin()
+ Plug 'neovim/nvim-lspconfig'
+ Plug 'nvim-lua/popup.nvim'
+ Plug 'nvim-lua/plenary.nvim'
+ Plug 'windwp/nvim-autopairs'
+ Plug 'numToStr/Comment.nvim'
+ Plug 'akinsho/bufferline.nvim'
+ Plug 'moll/vim-bbye'
+ Plug 'nvim-lualine/lualine.nvim'
+ Plug 'ahmedkhalf/project.nvim'
+ Plug 'lewis6991/impatient.nvim'
+ Plug 'lukas-reineke/indent-blankline.nvim'
+ Plug 'goolord/alpha-nvim'
+ Plug 'folke/which-key.nvim'
+ Plug 'lunarvim/colorschemes'
+ Plug 'ms-jpq/coq_nvim', {'branch': 'coq' }
+ Plug 'ms-jpq/coq.artifacts', { 'branch': 'artifacts' }
+ Plug 'ms-jpq/coq.thirdparty',  { 'branch': '3p' }
+ Plug 'nvim-telescope/telescope.nvim'
+ Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
+ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+ Plug 'lewis6991/gitsigns.nvim'
+ Plug 'kyazdani42/nvim-web-devicons'
+ Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+ Plug 'phaazon/hop.nvim', { 'branch': 'v1' }
+ Plug 'machakann/vim-sandwich'
+ Plug 'folke/trouble.nvim'
+ Plug 'folke/zen-mode.nvim'
+call plug#end()
+
 lua require('plugins')
 
 " let g:fzf_layout = { 'window': '-tabnew' }
