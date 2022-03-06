@@ -10,7 +10,7 @@ function grepfiles --description 'Fuzzy file grepper'
 	    . \
 	    2> /dev/null \
 	    | fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'preview.sh {}' \
-	    | gawk -F : '{print "+"$2" "$1 }')
+	    | gawk -F : '{print "+"$2" "$1}')
 	else if test "$EDITOR" = 'code'
 	      set linefile (rg -n --hidden \
 	        -g "!.pyc" \
@@ -38,6 +38,6 @@ function grepfiles --description 'Fuzzy file grepper'
 	end
 
 	if test -n "$linefile"
-		$EDITOR $linefile
+		$EDITOR (string split ' ' $linefile)
 	end
 end
