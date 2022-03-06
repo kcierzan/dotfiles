@@ -66,7 +66,7 @@ vim.cmd [[set formatoptions-=cro]]
 vim.g.mapleader = ' '
 
 local nmap = function(key, cmd)
-  vim.api.nvim_set_keymap('n', key, cmd, { noremap = false, silent = true })
+  vim.api.nvim_set_keymap('n', key, cmd, { noremap = true, silent = true })
 end
 
 local xmap = function(key, cmd)
@@ -146,4 +146,8 @@ xmap("L", "g_")
 xmap("H", "^")
 nmap("<Leader>q", "<cmd>q<cr>")
 nmap("<Leader>Q", "<cmd>q!<cr>")
+
+nmap("s", "<cmd>HopChar2<cr>")
+
+
 require('plugins')

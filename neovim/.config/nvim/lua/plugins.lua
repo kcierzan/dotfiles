@@ -1,8 +1,6 @@
 vim.cmd([[
-
   filetype off
   filetype plugin indent on
-  colorscheme thematic
 
   call plug#begin()
     Plug 'neovim/nvim-lspconfig'
@@ -28,14 +26,16 @@ vim.cmd([[
     Plug 'lewis6991/gitsigns.nvim'
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'catppuccin/nvim', {'as': 'catppuccin'}
-    Plug 'phaazon/hop.nvim', { 'branch': 'v1' }
+    Plug 'phaazon/hop.nvim'
     Plug 'machakann/vim-sandwich'
     Plug 'folke/trouble.nvim'
     Plug 'folke/zen-mode.nvim'
+    Plug 'norcalli/nvim-colorizer.lua'
   call plug#end()
 ]])
 
-require('gitsigns').setup()
+require('impatient')
+require('gitsigns').setup{}
 require('zen-mode').setup()
 require('lualine').setup{}
 require('alpha').setup(require('alpha.themes.dashboard').config)
@@ -70,4 +70,43 @@ require('coq_3p') {
   { src = "copilot", short_name = "COP", accept_key = "<c-f>" }
 }
 
+local bufline_bg = '#212226'
+local bufline_faded = '#393f4a'
+local bufline_fg = '#2c2e34'
+
 require("indent_blankline").setup{}
+require("project_nvim").setup{}
+require("nvim-autopairs").setup{}
+require("hop").setup{}
+require("colorizer").setup()
+require("bufferline").setup{
+  options = {
+    separator_style = "slant"
+  },
+  highlights = {
+    separator_selected = {
+      guifg = bufline_bg,
+      guibg = bufline_fg
+    },
+    background = {
+      guibg = bufline_faded,
+    },
+    close_button = {
+      guibg = bufline_faded
+    },
+    separator = {
+      guibg = bufline_faded,
+      guifg = bufline_bg
+    },
+    separator_visible = {
+      guibg = bufline_faded,
+      guifg = bufline_bg
+    },
+    fill = {
+      guibg = bufline_bg,
+    },
+  }
+  
+}
+
+vim.cmd("colorscheme thematic")
