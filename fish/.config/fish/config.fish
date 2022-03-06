@@ -48,6 +48,7 @@ abbr -a tn 'tmux new-session'
 
 bind -M insert \cF findfile
 bind -M insert \cG grepfiles
+bind -M insert \cE forward-char
 
 if test (uname) = "Darwin"
   source /usr/local/opt/asdf/libexec/asdf.fish
