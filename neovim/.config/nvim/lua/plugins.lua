@@ -4,6 +4,7 @@ vim.cmd([[
 
   call plug#begin()
     Plug 'neovim/nvim-lspconfig'
+    Plug 'williamboman/nvim-lsp-installer'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'windwp/nvim-autopairs'
@@ -26,7 +27,7 @@ vim.cmd([[
     Plug 'lewis6991/gitsigns.nvim'
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'catppuccin/nvim', {'as': 'catppuccin'}
-    Plug 'phaazon/hop.nvim'
+    Plug 'ggandor/lightspeed.nvim'
     Plug 'machakann/vim-sandwich'
     Plug 'folke/trouble.nvim'
     Plug 'folke/zen-mode.nvim'
@@ -77,7 +78,6 @@ local bufline_fg = '#2c2e34'
 require("indent_blankline").setup{}
 require("project_nvim").setup{}
 require("nvim-autopairs").setup{}
-require("hop").setup{}
 require("colorizer").setup()
 require("bufferline").setup{
   options = {

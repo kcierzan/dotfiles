@@ -147,7 +147,4 @@ xmap("H", "^")
 nmap("<Leader>q", "<cmd>q<cr>")
 nmap("<Leader>Q", "<cmd>q!<cr>")
 
-nmap("s", "<cmd>HopChar2<cr>")
-
-
 require('plugins')
