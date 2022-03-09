@@ -39,9 +39,6 @@ fi
 # turn off the cheesy graphics card led
 nvidia-led no-animation 0
 
-# run keybinding script
-# setkeys
-
 # configure the firewire interface and start jack
 start-jack
 
@@ -49,7 +46,9 @@ start-jack
 xbanish&
 
 # start the compositor
-picom --experimental-backends &
+# picom --experimental-backends &
 
 # start the wm
-exec awesome
+export DESKTOP_SESSION=plasma 
+
+exec startplasma-x11
