@@ -87,7 +87,11 @@ local bufline_bg = '#212226'
 local bufline_faded = '#393f4a'
 local bufline_fg = '#2c2e34'
 
-require("indent_blankline").setup{}
+require("indent_blankline").setup{
+  buftype_exclude = {"terminal"},
+  filetype_exclude = {"alpha"}
+}
+
 require("project_nvim").setup{}
 require("nvim-autopairs").setup{}
 require("colorizer").setup()
@@ -123,7 +127,11 @@ require("bufferline").setup{
     },
     close_button_visible = {
       guibg = bufline_faded
+    },
+    modified_visible = {
+      guibg = bufline_faded
     }
+
   }
 }
 
