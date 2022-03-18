@@ -54,7 +54,7 @@ for k, v in pairs(options) do
   vim.opt[k] = v
 end
 
-for k, v in pairs(variables) do
+for _, v in pairs(variables) do
   vim.g.k = v
 end
 
@@ -153,4 +153,17 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
+local fn = vim.fn
+local packer_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+local packer_installed = fn.empty(fn.glob(packer_path)) == 0
+
+-- don't require plugins if packer isn't set up yet 
+if packer_installed then
+  require('impatient')
+  require('plugin.packer_compiled')
+end
+
+-- this module will bootstrap packer if it is missing
 require('plugins')
+
+vim.cmd("colorscheme thematic")
