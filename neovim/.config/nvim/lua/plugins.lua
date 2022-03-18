@@ -10,6 +10,9 @@ vim.cmd([[
   filetype plugin indent on
 
   call plug#begin()
+    Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
+    Plug 'moll/vim-bbye'
     Plug 'neovim/nvim-lspconfig'
     Plug 'williamboman/nvim-lsp-installer'
     Plug 'nvim-lua/popup.nvim'
@@ -28,8 +31,6 @@ vim.cmd([[
     Plug 'ms-jpq/coq_nvim', {'branch': 'coq' }
     Plug 'ms-jpq/coq.artifacts', { 'branch': 'artifacts' }
     Plug 'ms-jpq/coq.thirdparty',  { 'branch': '3p' }
-    Plug 'nvim-telescope/telescope.nvim'
-    Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'lewis6991/gitsigns.nvim'
     Plug 'kyazdani42/nvim-web-devicons'
@@ -55,7 +56,7 @@ require('telescope').setup {
      fuzz = true,
      override_generic_sorter = true,
      override_file_sorter = true,
-     case_mode = 'smart_case' 
+     case_mode = 'smart_case'
     }
   }
 }
