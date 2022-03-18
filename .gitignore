@@ -1,3 +1,6 @@
+# shell generated files
+**/fish_variables
+
 # IntelliJ IDEA IDE
 .idea
 
