@@ -36,12 +36,10 @@ set fish_color_command 'a0c980' --bold
 
 abbr -a vim nvim
 abbr -a vi nvim
-abbr -a sed gsed
-abbr -a awk gawk
-abbr -a find gfind
 abbr -a e subl
-abbr -a xargs gxargs
-abbr -a tar gtar
+abbr -a ... ../../
+abbr -a .... ../../../
+abbr -a ..... ../../../../
 abbr -a tl 'tmux list-sessions'
 abbr -a ta 'tmux attach'
 abbr -a tn 'tmux new-session'

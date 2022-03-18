@@ -1,4 +1,11 @@
 vim.cmd([[
+  let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+
+  if empty(glob(data_dir . '/autoload/plug.vim'))
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+
   filetype off
   filetype plugin indent on
 
@@ -32,6 +39,7 @@ vim.cmd([[
     Plug 'folke/trouble.nvim'
     Plug 'folke/zen-mode.nvim'
     Plug 'norcalli/nvim-colorizer.lua'
+    Plug 'nvim-neorg/neorg'
   call plug#end()
 ]])
 
@@ -57,14 +65,18 @@ local tree_sitter = require('nvim-treesitter.configs')
 tree_sitter.setup {
   ensure_installed = "maintained",
   sync_install = false,
+  highlight = { enable = true }
 }
 
 require('telescope').load_extension('fzf')
 vim.g.coq_settings = { auto_start = 'shut-up' }
-local coq = require('coq')
-local lsp = require('lspconfig')
 
-lsp.pyright.setup(coq.lsp_ensure_capabilities())
+local lsp_installer = require('nvim-lsp-installer')
+local coq = require('coq')
+
+lsp_installer.on_server_ready(function(server)
+  server:setup(coq.lsp_ensure_capabilities())
+end)
 
 require('coq_3p') {
   { src = "nvimlua", short_name = "nLUA" },
@@ -81,13 +93,10 @@ require("nvim-autopairs").setup{}
 require("colorizer").setup()
 require("bufferline").setup{
   options = {
-    separator_style = "slant"
+    separator_style = "slant",
+    show_close_icon = false
   },
   highlights = {
-    separator_selected = {
-      guifg = bufline_bg,
-      guibg = bufline_fg
-    },
     background = {
       guibg = bufline_faded,
     },
@@ -98,6 +107,10 @@ require("bufferline").setup{
       guibg = bufline_faded,
       guifg = bufline_bg
     },
+    separator_selected = {
+      guifg = bufline_bg,
+      guibg = bufline_fg
+    },
     separator_visible = {
       guibg = bufline_faded,
       guifg = bufline_bg
@@ -105,8 +118,19 @@ require("bufferline").setup{
     fill = {
       guibg = bufline_bg,
     },
+    buffer_visible = {
+      guibg = bufline_faded,
+    },
+    close_button_visible = {
+      guibg = bufline_faded
+    }
   }
-  
+}
+
+require('neorg').setup {
+  load = {
+    ["core.defaults"] = {}
+  }
 }
 
 vim.cmd("colorscheme thematic")
