@@ -1,5 +1,0 @@
-set noautofocus
-set smoothscroll
-let barposition = 'bottom'
-
-map <C-c> <Esc>
