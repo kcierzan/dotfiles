@@ -17,4 +17,6 @@ function nnn-browser --wraps nnn --description 'NNN file browser'
 		source $NNN_TMPFILE
 		rm -f $NNN_TMPFILE > /dev/null
 	end	
+
+  commandline --function repaint
 end
