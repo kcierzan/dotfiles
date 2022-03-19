@@ -17,12 +17,24 @@ return packer.startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'lewis6991/impatient.nvim'
   use 'nvim-lua/plenary.nvim'
-  use 'nvim-telescope/telescope.nvim'
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = "make",
+    requires = {'nvim-telescope/telescope.nvim'},
     config = function()
       require('telescope').setup {
+        defaults = {
+          vimgrep_arguments = {
+            'rg',
+            '--no-heading',
+            '--color=never',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--hidden'
+          }
+        },
         extensions = {
           fzf = {
             fuzz = true,
