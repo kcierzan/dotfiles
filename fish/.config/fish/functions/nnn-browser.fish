@@ -1,4 +1,4 @@
-function n --wraps nnn --description 'NNN file browser'
+function nnn-browser --wraps nnn --description 'NNN file browser'
 	if test -n "$NNNLVL" && test "$NNNLVL" -ge 1
 		return
 	end
