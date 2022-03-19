@@ -4,6 +4,23 @@ if status is-interactive
     set fish_cursor_default underscore
     set fish_cursor_insert underscore
     set fish_cursor_unknown underscore
+
+    bind -M insert \cF findfile
+    bind -M insert \cG grepfiles
+    bind -M insert \cE forward-char
+    bind -M insert \cO nnn-browser
+    bind -M insert \cR fzf-history
+
+    abbr -a vim nvim
+    abbr -a vi nvim
+    abbr -a e subl
+    abbr -a ... ../../
+    abbr -a .... ../../../
+    abbr -a ..... ../../../../
+    abbr -a tl 'tmux list-sessions'
+    abbr -a ta 'tmux attach'
+    abbr -a tn 'tmux new-session'
+
     starship init fish | source
     zoxide init fish | source 
 end
@@ -33,22 +50,6 @@ set -gx BAT_THEME 'base16'
 set fish_color_param normal
 set fish_color_error red --bold
 set fish_color_command 'a0c980' --bold
-
-abbr -a vim nvim
-abbr -a vi nvim
-abbr -a e subl
-abbr -a ... ../../
-abbr -a .... ../../../
-abbr -a ..... ../../../../
-abbr -a tl 'tmux list-sessions'
-abbr -a ta 'tmux attach'
-abbr -a tn 'tmux new-session'
-
-bind -M insert \cF findfile
-bind -M insert \cG grepfiles
-bind -M insert \cE forward-char
-bind -M insert \cO nnn-browser
-bind -M insert \cR fzf-history
 
 if test (uname) = "Darwin"
   source /usr/local/opt/asdf/libexec/asdf.fish
