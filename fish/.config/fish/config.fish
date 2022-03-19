@@ -48,6 +48,7 @@ bind -M insert \cF findfile
 bind -M insert \cG grepfiles
 bind -M insert \cE forward-char
 bind -M insert \cO nnn-browser
+bind -M insert \cR fzf-history
 
 if test (uname) = "Darwin"
   source /usr/local/opt/asdf/libexec/asdf.fish
