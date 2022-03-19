@@ -146,6 +146,9 @@ xmap("H", "^")
 nmap("<Leader>q", "<cmd>q<cr>")
 nmap("<Leader>Q", "<cmd>q!<cr>")
 
+nmap("<C-l>", "<cmd>bnext<cr>")
+nmap("<C-h>", "<cmd>bprev<cr>")
+
 -- set signs for lsp diagnostics
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
@@ -157,8 +160,9 @@ local fn = vim.fn
 local packer_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 local packer_installed = fn.empty(fn.glob(packer_path)) == 0
 
--- don't require plugins if packer isn't set up yet 
+-- don't require plugins if packer isn't set up yet
 if packer_installed then
+  -- impatient should be loaded before any other plugins
   require('impatient')
   require('plugin.packer_compiled')
 end
