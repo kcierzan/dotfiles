@@ -60,7 +60,7 @@ return packer.startup(function(use)
           opts.settings = {
             Lua = {
               diagnostics = {
-                globals = { 'vim' }
+                globals = { 'vim', 'awesome' }
               }
             }
           }
@@ -137,8 +137,10 @@ return packer.startup(function(use)
   }
   use {
     'ahmedkhalf/project.nvim',
+    requires = {'nvim-telescope/telescope.nvim'},
     config = function ()
       require('project_nvim').setup{}
+      require('telescope').load_extension('projects')
     end
   }
   use {
@@ -156,7 +158,12 @@ return packer.startup(function(use)
       require('alpha').setup(require('alpha.themes.dashboard').config)
     end
   }
-  use 'folke/which-key.nvim'
+  use {
+    'folke/which-key.nvim',
+    config = function()
+      require('keys')
+    end
+  }
   use 'lunarvim/colorschemes'
   use {
     'ms-jpq/coq_nvim',
