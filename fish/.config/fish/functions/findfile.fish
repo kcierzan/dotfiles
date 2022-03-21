@@ -4,9 +4,11 @@ function findfile --description 'Fuzzy file finder'
     --no-ignore \
     --hidden \
     --follow \
+    --strip-cwd-prefix \
     --type f \
     --exclude ".git" \
     --exclude "*.pyc" \
+    --exclude "node_modules" \
     2> /dev/null \
     | fzf +m --exit-0 --expect=ctrl-o,ctrl-x \
     --preview-window=up:80% \
