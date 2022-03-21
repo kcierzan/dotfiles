@@ -5,7 +5,7 @@ wk.register({
   ["<leader>"] = {
     f = {
       name = "+find",
-      f = { "<cmd>lua require('telescope.builtin').find_files({ find_command = {'rg', '--files', '--iglob', '!.git', '--hidden' } })<cr>", "Files in cwd" },
+      f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Files in cwd" },
       O = { "<cmd>lua require('telescope.builtin').vim_options()<cr>", "Vim options" },
       a = { "<cmd>lua require('telescope.builtin').autocommands()<cr>", "Autocommands" },
       b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Open buffers" },
@@ -18,6 +18,8 @@ wk.register({
       m = { "<cmd>lua require('telescope.builtin').man_pages()<cr>", "Man pages" },
       o = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Recent files"},
       T = { "<cmd>lua require('telescope.builtin').filetypes()<cr>", "Filetypes"},
+      p = { "<cmd>Telescope projects<cr>", "Projects"},
+
     },
     v = {
       name = "+vim",

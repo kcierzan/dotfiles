@@ -32,7 +32,26 @@ return packer.startup(function(use)
             '--line-number',
             '--column',
             '--smart-case',
-            '--hidden'
+            '--hidden',
+            '--trim'
+          },
+
+        },
+        pickers = {
+          find_files = {
+            find_command = {
+              "fd",
+              "--type",
+              "f",
+              "--hidden",
+              "--strip-cwd-prefix",
+              "--exclude",
+              '*.pyc',
+              "--exclude",
+              '.git',
+              '--exclude',
+              'node_modules'
+            }
           }
         },
         extensions = {
