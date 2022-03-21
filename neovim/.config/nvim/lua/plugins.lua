@@ -123,6 +123,9 @@ return packer.startup(function(use)
           },
           modified_visible = {
             guibg = bufline_faded
+          },
+          modified = {
+            guibg = bufline_faded
           }
         }
       }

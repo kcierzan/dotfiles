@@ -36,6 +36,18 @@ wk.register({
       c = {'<cmd>windo diffthis<cr>', "Diff buffer"},
       C = {'<cmd>windo diffoff<cr>', "Diff off"},
       r = {'<cmd>edit!<cr>', "Reload buffer"},
+    },
+    w = {
+      name = "+window",
+      v = {'<cmd>vsp<cr>', "Split vertical" },
+      s = {'<cmd>sp<cr>', "Split horizontal" },
+      k = {'10<C-w>+', "Increase size"},
+      j = {'10<C-w>-', "Decrease size"},
+      r = {'<C-w>r', "Rotate windows"},
+      o = {"<C-w>o", "Delete other windows"},
+      e = {"<C-w>=", "Equalize windows"},
+      V = {"<C-w>H", "To vertical splits"},
+      S = {"<C-w>J", "To horizontal splits"},
     }
   }
 })
