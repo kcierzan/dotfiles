@@ -1,34 +1,27 @@
 #!/bin/bash
 
 # Setup cask taps
-brew tap | grep -q 'caskroom/cask' || brew tap caskroom/cask
-brew tap | grep -q 'caskroom/versions' || brew tap caskroom/versions
-brew tap | grep -q 'caskroom/fonts' || brew tap caskroom/fonts
+brew tap | grep -q 'homebrew/cask' || brew tap homebrew/cask
+brew tap | grep -q 'homebrew/cask-versions' || brew tap homebrew/cask-versions
+brew tap | grep -q 'homebrew/cask-fonts' || brew tap homebrew/cask-fonts
+brew tap | grep -q 'homebrew/cask-services' || brew tap homebrew/services
 
 casks=(
   1password
   alfred
   docker
-  firefoxnightly
-  flux
+  font-inter
   font-roboto
-  font-roboto-condensed
   font-robotomono-nerd-font
-  fontforge
-  google-drive
-  handbrake
-  iterm2-nightly
+  hammerspoon
+  jetbrains-toolbox
   karabiner-elements
-  moom
-  transmission
+  kitty
   vagrant
-  vagrant-manager
-  virtualbox
-  xquartz
 )
 
 # Install all brew casks
 for cask in "${casks[@]}"
 do
-	[ ! -d /usr/local/Caskroom/$(basename $cask) ] && brew cask install $cask || echo "Already installed: $cask"
+	[ ! -d /usr/local/Caskroom/$(basename $cask) ] && brew install $cask || echo "Already installed: $cask"
 done

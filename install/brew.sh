@@ -9,71 +9,64 @@ brew tap | grep -q 'crisidev/chunkwm' || brew tap crisidev/homebrew-chunkwm
 brew tap | grep -q 'railwaycat/emacsmacport' || brew tap railwaycat/emacsmacport
 
 pkgs=(
- "emacs-mac --with-official-icon --with-gnutls --with-imagemagick --with-no-title-bars"
- "ffmpeg --with-rtmpdump --with-openssl --with-libass --with-libbs2b --with-rubberband"
- "koekeishiya/formulae/khd"
- "libass --without-harfbuzz"
- "mpv --with-vapoursynth --with-libarchive --with-bundle"
- "universal-ctags --HEAD"
- ansiweather
- bash
- bat
- boxes
- ccat
- coreutils
- curl
- ddate
- fasd
- ffms2
- figlet
- findutils
- fontforge
- fortune
- fzf
- gawk
- gcc
- git
- gmime
- gnu-sed
- gnu-tar
- gnu-which
- gnutls
- gpg-agent
- gpgme
- grc
- ggrep
- gzip
- htop
- httpie
- hub
- jq
- less
- lsd
- mpc
- mpd
- neovim
- ngrep
- node
- nvm
- pv
- asdf
- python
- ranger
- rbenv
- readline
- ripgrep
- rsync
- ruby
- sqlite
- ssh-copy-id
- stow
- tcpdump
- tmux
- weechat
- xz
- youtube-dl
- zplug
- zsh
+asdf
+awscli
+bat
+boxes
+cling
+cmake
+cmatrix
+cowsay
+ctags
+ddate
+fasd
+fd
+figlet
+findutils
+fish
+fortune
+fzf
+gawk
+geoip
+git
+git-delta
+gitui
+global
+glow
+gnu-tar
+gnu-which
+grep
+gzip
+highlight
+htop
+httpie
+jq
+lsd
+luarocks
+lynx
+make
+mosh
+neovim
+nnn
+openssh
+pandoc
+perl
+php
+postgresql
+prettier
+pv
+rename
+ripgrep
+ruby
+sassc
+shellcheck
+speedtest-cli
+starship
+stow
+tree
+wget
+zoxide
+zsh
 )
 # Install all brew packages
 for pkg in "${pkgs[@]}"
