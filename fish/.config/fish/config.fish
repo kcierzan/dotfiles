@@ -10,6 +10,7 @@ if status is-interactive
     bind -M insert \cE forward-char
     bind -M insert \cO nnn-browser
     bind -M insert \cR fzf-history
+    bind -M insert \cP fkill
 
     abbr -a vim nvim
     abbr -a vi nvim
@@ -23,6 +24,7 @@ if status is-interactive
 
     starship init fish | source
     zoxide init fish | source 
+    direnv hook fish | source
 end
 
 fish_add_path "$HOME/.local/bin" "$HOME/.scripts" '/usr/local/bin' '/usr/local/sbin' '/usr/bin' '/usr/sbin' '/sbin' '/opt/X11/bin' "$HOME/.cargo/bin" "$HOME/.composer/vendor/bin" '/Library/TeX/Distributions/Programs/texbin'
@@ -52,7 +54,12 @@ set fish_color_error red --bold
 set fish_color_command 'a0c980' --bold
 
 if test (uname) = "Darwin"
-  source /usr/local/opt/asdf/libexec/asdf.fish
+  set -l is_m1 (sysctl -a | rg 'machdep.cpu.brand_string: Apple M1')
+  if test -n "$is_m1"
+    source /opt/homebrew/opt/asdf/libexec/asdf.fish
+  else
+    source /usr/local/opt/asdf/libexec/asdf.fish
+  end
 else
   source /opt/asdf-vm/asdf.fish
 end
