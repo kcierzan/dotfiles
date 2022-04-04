@@ -1,3 +1,4 @@
+require('caps-to-ctrl-esc')
 local Resize = require('resize')
 
 hs.window.animationDuration = 0.05
