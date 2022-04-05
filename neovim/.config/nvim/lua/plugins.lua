@@ -191,7 +191,7 @@ return packer.startup(function(use)
     'ms-jpq/coq_nvim',
     branch = 'coq',
     setup = function()
-      vim.g.coq_settings = { auto_start = 'shut-up' }
+      vim.g.coq_settings = { auto_start = 'shut-up', keymap = { jump_to_mark = '<c-j>'} }
     end,
     config = function()
       require('coq')
