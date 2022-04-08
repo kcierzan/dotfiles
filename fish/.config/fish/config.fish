@@ -18,7 +18,7 @@ if status is-interactive
     direnv hook fish | source
 end
 
-fish_add_path "$HOME/.local/bin" "$HOME/.scripts" '/opt/homebrew/bin' '/usr/local/bin' '/usr/local/sbin' '/usr/bin' '/usr/sbin' '/sbin' '/opt/X11/bin' "$HOME/.cargo/bin" "$HOME/.composer/vendor/bin" '/Library/TeX/Distributions/Programs/texbin'
+fish_add_path "$HOME/.local/bin" "$HOME/.local/bin-jetbrains" '/opt/homebrew/bin' '/usr/local/bin' '/usr/local/sbin' '/usr/bin' '/usr/sbin' '/sbin' '/opt/X11/bin' "$HOME/.cargo/bin" "$HOME/.composer/vendor/bin" '/Library/TeX/Distributions/Programs/texbin'
 set -gx LESS '-F -g -i -M -R -S -w -X -z-4'
 
 set -gx KEYTIMEOUT 1
