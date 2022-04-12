@@ -1,3 +1,5 @@
+-- TODO: build in some hooks for plugins that do just-in-time themeing and
+-- override the actual colorscheme set in init.lua
 local thematic = {}
 
 function thematic.highlight(group, color)
@@ -10,8 +12,12 @@ function thematic.highlight(group, color)
 end
 
 function thematic.load_syntax()
-  local syntax, pairs = dofile(os.getenv("HOME") .. "/.thematic/nvim-theme.lua")
-  return syntax, pairs
+  local file_path = os.getenv("INKD_DIR") .. "neovim.ink.lua"
+  if io.open(file_path, "r") then
+     return dofile(file_path)
+  else
+    print('inkd theme not found!. Make sure INKD_DIR is set and run `ink colors`.')
+  end
 end
 
 function thematic.colorscheme()
@@ -21,8 +27,8 @@ function thematic.colorscheme()
    end
    vim.o.termguicolors = true
    vim.g.colors_name = 'thematic'
-   local syntax, plugins = thematic.load_syntax()
-   for group,colors in pairs(syntax) do
+   local builtins, plugins = thematic.load_syntax()
+   for group,colors in pairs(builtins) do
       thematic.highlight(group,colors)
    end
    for group, colors in pairs(plugins) do

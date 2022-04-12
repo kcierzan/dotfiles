@@ -129,8 +129,8 @@ local packer_installed = fn.empty(fn.glob(packer_path)) == 0
 -- don't require plugins if packer isn't set up yet
 if packer_installed then
   -- impatient should be loaded before any other plugins
-  require('impatient')
-  require('plugin.packer_compiled')
+  pcall(require, 'impatient')
+  pcall(require, 'plugin.packer_compiled')
 end
 
 -- this module will bootstrap packer if it is missing

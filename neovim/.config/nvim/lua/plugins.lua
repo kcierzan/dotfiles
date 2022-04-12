@@ -103,6 +103,7 @@ return packer.startup(function(use)
   }
   use {
     'akinsho/bufferline.nvim',
+    branch = 'main',
     config = function ()
       local bufline_bg = '#212226'
       local bufline_faded = '#393f4a'
@@ -216,7 +217,39 @@ return packer.startup(function(use)
     run = ':TSUpdate',
     config = function ()
       require('nvim-treesitter.configs').setup {
-        ensure_installed = "maintained",
+        ensure_installed = {
+          'bash',
+          'clojure',
+          'cmake',
+          'commonlisp',
+          'c',
+          'cpp',
+          'css',
+          'dart',
+          'dockerfile',
+          'fennel',
+          'fish',
+          'go',
+          'haskell',
+          'html',
+          'java',
+          'javascript',
+          'json',
+          'julia',
+          'lua',
+          'make',
+          'markdown',
+          'php',
+          'python',
+          'ruby',
+          'rust',
+          'scheme',
+          'scss',
+          'svelte',
+          'typescript',
+          'vim',
+          'yaml',
+        },
         sync_install = false,
         highlight = {
           enable = true
@@ -236,7 +269,12 @@ return packer.startup(function(use)
     as = 'catppuccin'
   }
   use 'ggandor/lightspeed.nvim'
-  use 'machakann/vim-sandwich'
+  use {
+    'machakann/vim-sandwich',
+    config = function()
+      vim.cmd("runtime macros/sandwich/keymap/surround.vim")
+    end
+  }
   use 'folke/trouble.nvim'
   use {
     'folke/zen-mode.nvim',
