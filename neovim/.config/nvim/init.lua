@@ -71,49 +71,13 @@ vim.cmd [[set formatoptions-=cro]]
 
 vim.g.mapleader = ' '
 
-local nmap = function(key, cmd)
+Nmap = function(key, cmd)
   vim.api.nvim_set_keymap('n', key, cmd, { noremap = true, silent = true })
 end
 
-local xmap = function(key, cmd)
+Xmap = function(key, cmd)
   vim.api.nvim_set_keymap("x", key, cmd, { noremap = true, silent = true })
 end
-
-nmap('<Leader>i%', '<cmd>set invrelativenumber<cr>')
-nmap('<Leader>i#', '<cmd>set invnumber<cr>')
-nmap('<Leader>il', '<cmd>IndentBlanklineToggle<cr>')
-nmap('<Leader>ic', '<cmd>nohlsearch<cr>')
-nmap('<Leader>ih', '<cmd>ColorizerAttachToBuffer<cr>')
-
-nmap('<Leader>gs', "<cmd>Git<cr>")
-nmap('<Leader>gb', "<cmd>Git blame<cr>")
-nmap('<Leader>gn', "<Plug>(signify-next-hunk)")
-nmap('<Leader>gN', "<Plug>(signify-prev-hunk)")
-nmap('<Leader>gd', "<cmd>Gvdiff<cr>")
-nmap('<Leader>gl', "<cmd>GV<cr>")
-nmap('<Leader>go', "<cmd>Gbrowse<cr>")
-nmap('<Leader>gc', "<cmd>Gcommit<cr>")
-nmap('<Leader>gr', "<cmd>Gvdiffsplit!<cr>")
-nmap('<Leader>gt', "<cmd>diffget //2<cr>")
-nmap('<Leader>gm', "<cmd>diffget //3<cr>")
-
-nmap("grl", "<cmd>diffget<cr>")
-nmap("grh", "<cmd>diffput<cr>")
-xmap("grl", "<cmd>diffget<cr>")
-xmap("grh", "<cmd>diffput<cr>")
-nmap("L", "<Nop>")
-nmap("H", "<Nop>")
-xmap("H", "<Nop>")
-xmap("L", "<Nop>")
-nmap("L", "g_")
-nmap("H", "^")
-xmap("L", "g_")
-xmap("H", "^")
-nmap("<Leader>q", "<cmd>q<cr>")
-nmap("<Leader>Q", "<cmd>q!<cr>")
-
-nmap("<C-l>", "<cmd>bnext<cr>")
-nmap("<C-h>", "<cmd>bprev<cr>")
 
 -- set signs for lsp diagnostics
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }

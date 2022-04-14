@@ -33,7 +33,9 @@ return packer.startup(function(use)
             '--column',
             '--smart-case',
             '--hidden',
-            '--trim'
+            '--trim',
+            '--glob',
+            '!.git/'
           },
 
         },
@@ -48,9 +50,19 @@ return packer.startup(function(use)
               "--exclude",
               '*.pyc',
               "--exclude",
-              '.git',
+              '.git/',
               '--exclude',
-              'node_modules'
+              'node_modules',
+              '--exclude',
+              '*.jpg',
+              '--exclude',
+              '*.png',
+              '--exclude',
+              '*.ttf',
+              '--exclude',
+              '*.gif',
+              '--exclude',
+              '*.zip',
             }
           }
         },
@@ -69,12 +81,23 @@ return packer.startup(function(use)
   use 'neovim/nvim-lspconfig'
   use {
     'williamboman/nvim-lsp-installer',
-    requires = {'ms-jpq/coq_nvim'},
+    requires = {'ms-jpq/coq_nvim', 'folke/which-key.nvim'},
     config = function ()
       local coq = require('coq')
       local lsp_installer = require('nvim-lsp-installer')
+      local wk = require('which-key')
       lsp_installer.on_server_ready(function(server)
         local opts = coq.lsp_ensure_capabilities()
+        opts.on_attach = function(_, bufnr)
+          wk.register({
+            g = {
+              d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "go to definition"},
+              D = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "go to declaration"},
+              h = { "<cmd>lua vim.lsp.buf.hover()<cr>", 'get hover info'}
+            }
+          },
+          { buffer = bufnr })
+        end
         if server.name == 'sumneko_lua' then
           opts.settings = {
             Lua = {
@@ -151,7 +174,7 @@ return packer.startup(function(use)
       }
     end
   }
-  use 'moll/vim-bbye'
+  use { 'famiu/bufdelete.nvim' }
   use {
     'nvim-lualine/lualine.nvim',
     config = function()
@@ -162,7 +185,9 @@ return packer.startup(function(use)
     'ahmedkhalf/project.nvim',
     requires = {'nvim-telescope/telescope.nvim'},
     config = function ()
-      require('project_nvim').setup{}
+      require('project_nvim').setup{
+        manual_mode = true
+      }
       require('telescope').load_extension('projects')
     end
   }
@@ -219,10 +244,10 @@ return packer.startup(function(use)
       require('nvim-treesitter.configs').setup {
         ensure_installed = {
           'bash',
+          'c',
           'clojure',
           'cmake',
           'commonlisp',
-          'c',
           'cpp',
           'css',
           'dart',
@@ -264,6 +289,7 @@ return packer.startup(function(use)
     end
   }
   use 'kyazdani42/nvim-web-devicons'
+  -- TODO: include this theme in inkd
   use {
     'catppuccin/nvim',
     as = 'catppuccin'
@@ -297,6 +323,9 @@ return packer.startup(function(use)
         }
       }
     end
+  }
+  use {
+    'tpope/vim-fugitive'
   }
   if packer_bootstrap then
     packer.sync()

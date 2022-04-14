@@ -6,6 +6,29 @@ wk.register({
     f = {
       name = "+find",
       f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Files in cwd" },
+      F = {
+        '<cmd>' ..
+        'Telescope find_files ' ..
+        'find_command=' ..
+        'fd,' ..
+        '--type,' ..
+        'f,' ..
+        '--hidden,' ..
+        '--strip-cwd-prefix,' ..
+        '-E,*.pyc,' ..
+        '-E,.git/,' ..
+        '-E,node_modules,' ..
+        '-E,**/spec/**/*,'..
+        '-E,**/*migration*/**/*,' ..
+        '-E,**/vendor/**/*,' ..
+        '-E,**/migrate/**/*,' ..
+        '-E,*.jpg,'..
+        '-E,*.png,'..
+        '-E,*.ttf' ..
+        ' prompt_prefix=💫' ..
+        '<cr>',
+        "Find app files"
+      },
       O = { "<cmd>lua require('telescope.builtin').vim_options()<cr>", "Vim options" },
       a = { "<cmd>lua require('telescope.builtin').autocommands()<cr>", "Autocommands" },
       b = { "<cmd>lua require('telescope.builtin').buffers()<cr>", "Open buffers" },
@@ -19,7 +42,6 @@ wk.register({
       o = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Recent files"},
       T = { "<cmd>lua require('telescope.builtin').filetypes()<cr>", "Filetypes"},
       p = { "<cmd>Telescope projects<cr>", "Projects"},
-
     },
     v = {
       name = "+vim",
@@ -50,6 +72,43 @@ wk.register({
       e = {"<C-w>=", "Equalize windows"},
       V = {"<C-w>H", "To vertical splits"},
       S = {"<C-w>J", "To horizontal splits"},
-    }
+    },
+    i = {
+      name = "+interface",
+      ['%'] = { '<cmd>set invrelativenumber<cr>', 'Toggle relative line numbers'},
+      ['#'] = { '<cmd>set invnumber<cr>', 'Toggle line numbers' },
+      l = { '<cmd>IndentBlanklineToggle<cr>', 'Toggle indentation lines' },
+      c = { '<cmd>nohlsearch<cr>', 'Clear search highlight' },
+      h = { '<cmd>ColorizerAttachToBuffer<cr>', 'Colorize buffer' }
+    },
+    g = {
+      s = { '<cmd>Git<cr>', 'git status' },
+      b = { '<cmd>Git blame<cr>', 'git blame' },
+      n = { '<cmd>lua require("gitsigns").next_hunk()<cr>', 'Next hunk' },
+      p = { '<cmd>lua require("gitsigns").previous_hunk()<cr>', 'Previous hunk' },
+      t = { '<cmd>diffget //2<cr>', 'Get diff from target buffer' },
+      m = { '<cmd>diffget //3<cr>', 'Get diff from merge bugger' },
+      d = { '<cmd>Gvdiff<cr>', 'git diff' },
+      r = { '<cmd>Gvdiffsplit!', 'git 3-way diff' },
+      c = { '<cmd>Git commit<cr>', 'git commit' }
+    },
   }
 })
+
+Nmap("grl", "<cmd>diffget<cr>")
+Nmap("grh", "<cmd>diffput<cr>")
+Xmap("grl", "<cmd>diffget<cr>")
+Xmap("grh", "<cmd>diffput<cr>")
+Nmap("L", "<Nop>")
+Nmap("H", "<Nop>")
+Xmap("H", "<Nop>")
+Xmap("L", "<Nop>")
+Nmap("L", "g_")
+Nmap("H", "^")
+Xmap("L", "g_")
+Xmap("H", "^")
+Nmap("<Leader>q", "<cmd>q<cr>")
+Nmap("<Leader>Q", "<cmd>q!<cr>")
+
+Nmap("<C-l>", "<cmd>bnext<cr>")
+Nmap("<C-h>", "<cmd>bprev<cr>")
