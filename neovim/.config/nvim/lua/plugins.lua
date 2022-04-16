@@ -233,14 +233,17 @@ return packer.startup(function(use)
     config = function()
       require('coq_3p') {
         { src = "nvimlua", short_name = "nLUA" },
+        { src = 'orgmode', short_name = 'ORG' },
         { src = "copilot", short_name = "COP", accept_key = "<c-f>" }
       }
     end
   }
   use {
     'nvim-treesitter/nvim-treesitter',
+    requires = { 'nvim-orgmode/orgmode' },
     run = ':TSUpdate',
     config = function ()
+      require('orgmode').setup_ts_grammar()
       require('nvim-treesitter.configs').setup {
         ensure_installed = {
           'bash',
@@ -264,6 +267,7 @@ return packer.startup(function(use)
           'lua',
           'make',
           'markdown',
+          'org',
           'php',
           'python',
           'ruby',
@@ -289,6 +293,12 @@ return packer.startup(function(use)
     end
   }
   use 'kyazdani42/nvim-web-devicons'
+  use {
+    'kyazdani42/nvim-tree.lua',
+    config = function()
+      require('nvim-tree').setup{}
+    end
+  }
   -- TODO: include this theme in inkd
   use {
     'catppuccin/nvim',
@@ -315,13 +325,9 @@ return packer.startup(function(use)
     end
   }
   use {
-    'nvim-neorg/neorg',
-    config = function ()
-      require('neorg') .setup {
-        load = {
-          ["core.defaults"] = {}
-        }
-      }
+    'nvim-orgmode/orgmode',
+    config = function()
+      require('orgmode').setup{}
     end
   }
   use {
