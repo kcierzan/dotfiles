@@ -9,7 +9,7 @@ local options = {
   backup = false,
   clipboard = "unnamedplus",
   cmdheight = 2,
-  completeopt = {"menuone", "noselect"},
+  completeopt = { "menuone", "noselect" },
   conceallevel = 0,
   cursorline = true,
   expandtab = true,
@@ -46,10 +46,10 @@ local options = {
 }
 
 local variables = {
-  python3_host_prog = os.getenv("HOME") .. '/.asdf/installs/python/3.10-dev/bin/python',
+  python3_host_prog = os.getenv("HOME") .. "/.asdf/installs/python/3.10-dev/bin/python",
   tex_flavor = "latex",
   user_emmet_settings = {
-    ['javascript.jsx'] = {
+    ["javascript.jsx"] = {
       extends = "jsx"
     }
   },
@@ -69,10 +69,10 @@ vim.cmd "set whichwrap+=<,>,[,],h,l"
 vim.cmd [[set iskeyword+=-]]
 vim.cmd [[set formatoptions-=cro]]
 
-vim.g.mapleader = ' '
+vim.g.mapleader = " "
 
 Nmap = function(key, cmd)
-  vim.api.nvim_set_keymap('n', key, cmd, { noremap = true, silent = true })
+  vim.api.nvim_set_keymap("n", key, cmd, { noremap = true, silent = true })
 end
 
 Xmap = function(key, cmd)
@@ -87,17 +87,17 @@ for type, icon in pairs(signs) do
 end
 
 local fn = vim.fn
-local packer_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+local packer_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 local packer_installed = fn.empty(fn.glob(packer_path)) == 0
 
 -- don't require plugins if packer isn't set up yet
 if packer_installed then
   -- impatient should be loaded before any other plugins
-  pcall(require, 'impatient')
-  pcall(require, 'plugin.packer_compiled')
+  pcall(require, "impatient")
+  pcall(require, "plugin.packer_compiled")
 end
 
 -- this module will bootstrap packer if it is missing
-require('plugins')
+require("plugins")
 
 vim.cmd("colorscheme thematic")

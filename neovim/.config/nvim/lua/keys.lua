@@ -3,33 +3,34 @@ wk.setup{}
 
 wk.register({
   ["<leader>"] = {
+    ["<cr>"] = { "org smart return" },
     f = {
       name = "+find",
       f = {
         "<cmd>lua require('telescope.builtin').find_files()<cr>",
-        'files in current directory'
+        "files in current directory"
       },
       F = {
-        '<cmd>' ..
-        'Telescope find_files ' ..
-        'find_command=' ..
-        'fd,' ..
-        '--type,' ..
-        'f,' ..
-        '--hidden,' ..
-        '--strip-cwd-prefix,' ..
-        '-E,*.pyc,' ..
-        '-E,.git/,' ..
-        '-E,node_modules,' ..
-        '-E,**/spec/**/*,'..
-        '-E,**/*migration*/**/*,' ..
-        '-E,**/vendor/**/*,' ..
-        '-E,**/migrate/**/*,' ..
-        '-E,*.jpg,'..
-        '-E,*.png,'..
-        '-E,*.ttf' ..
-        ' prompt_prefix=💫' ..
-        '<cr>',
+        "<cmd>" ..
+        "Telescope find_files " ..
+        "find_command=" ..
+        "fd," ..
+        "--type," ..
+        "f," ..
+        "--hidden," ..
+        "--strip-cwd-prefix," ..
+        "-E,*.pyc," ..
+        "-E,.git/," ..
+        "-E,node_modules," ..
+        "-E,**/spec/**/*,"..
+        "-E,**/*migration*/**/*," ..
+        "-E,**/vendor/**/*," ..
+        "-E,**/migrate/**/*," ..
+        "-E,*.jpg,"..
+        "-E,*.png,"..
+        "-E,*.ttf" ..
+        " prompt_prefix=💫" ..
+        "<cr>",
         "Find application files"
       },
       O = {
@@ -96,82 +97,83 @@ wk.register({
     },
     b = {
       name = "+buffer",
-      s = {'<cmd>w<cr>', "write"},
-      d = {'<cmd>Bdelete<cr>', "delete buffer"},
-      D = {'<cmd>Bdelete!<cr>', "force delete buffer"},
-      c = {'<cmd>windo diffthis<cr>', "diff buffer"},
-      C = {'<cmd>windo diffoff<cr>', "diff off"},
-      r = {'<cmd>edit!<cr>', "reload buffer"},
+      s = { "<cmd>w<cr>", "write" },
+      d = { "<cmd>Bdelete<cr>", "delete buffer" },
+      D = { "<cmd>Bdelete!<cr>", "force delete buffer" },
+      c = { "<cmd>windo diffthis<cr>", "diff buffer" },
+      C = { "<cmd>windo diffoff<cr>", "diff off" },
+      r = { "<cmd>edit!<cr>", "reload buffer" },
+      w = { [[<cmd>%s/\s\+$//e<cr>]], "trim trailing whitespace" }
     },
     w = {
       name = "+window",
-      v = {'<cmd>vsp<cr>', "split vertically" },
-      s = {'<cmd>sp<cr>', "split horizontally" },
-      k = {'10<C-w>+', "increase size"},
-      j = {'10<C-w>-', "decrease size"},
-      r = {'<C-w>r', "rotate windows"},
-      o = {"<C-w>o", "delete other windows"},
-      e = {"<C-w>=", "equalize windows"},
-      V = {"<C-w>H", "to vertical split"},
-      S = {"<C-w>J", "to horizontal split"},
+      v = { "<cmd>vsp<cr>", "split vertically" },
+      s = { "<cmd>sp<cr>", "split horizontally" },
+      k = { "10<C-w>+", "increase size" },
+      j = { "10<C-w>-", "decrease size" },
+      r = { "<C-w>r", "rotate windows" },
+      o = { "<C-w>o", "delete other windows" },
+      e = { "<C-w>=", "equalize windows" },
+      V = { "<C-w>H", "to vertical split" },
+      S = { "<C-w>J", "to horizontal split" },
     },
     i = {
       name = "+interface",
-      ['%'] = {
-        '<cmd>set invrelativenumber<cr>',
-        'toggle relative line numbers'
+      ["%"] = {
+        "<cmd>set invrelativenumber<cr>",
+        "toggle relative line numbers"
       },
-      ['#'] = { '<cmd>set invnumber<cr>', 'toggle line numbers' },
-      l = { '<cmd>IndentBlanklineToggle<cr>', 'toggle indentation lines' },
-      c = { '<cmd>nohlsearch<cr>', 'clear search highlight' },
-      h = { '<cmd>ColorizerAttachToBuffer<cr>', 'colorize buffer' },
-      t = { '<cmd>NvimTreeToggle<cr>', 'toggle tree'}
+      ["#"] = { "<cmd>set invnumber<cr>", "toggle line numbers" },
+      l = { "<cmd>IndentBlanklineToggle<cr>", "toggle indentation lines" },
+      c = { "<cmd>nohlsearch<cr>", "clear search highlight" },
+      h = { "<cmd>ColorizerAttachToBuffer<cr>", "colorize buffer" },
+      t = { "<cmd>NvimTreeToggle<cr>", "toggle tree" }
     },
     g = {
       name = "+git",
-      s = { '<cmd>Git<cr>', 'git status' },
-      b = { '<cmd>Git blame<cr>', 'git blame' },
-      n = { '<cmd>lua require("gitsigns").next_hunk()<cr>', 'next hunk' },
-      p = { '<cmd>lua require("gitsigns").previous_hunk()<cr>', 'previous hunk' },
-      t = { '<cmd>diffget //2<cr>', 'get diff from target buffer' },
-      m = { '<cmd>diffget //3<cr>', 'get diff from merge bugger' },
-      d = { '<cmd>Gvdiff<cr>', 'git diff' },
-      r = { '<cmd>Gvdiffsplit!', 'git 3-way diff' },
-      c = { '<cmd>Git commit<cr>', 'git commit' }
+      s = { "<cmd>Git<cr>", "git status" },
+      b = { "<cmd>Git blame<cr>", "git blame" },
+      n = { "<cmd>lua require('gitsigns').next_hunk()<cr>", "next hunk" },
+      p = { "<cmd>lua require('gitsigns').previous_hunk()<cr>", "previous hunk" },
+      t = { "<cmd>diffget //2<cr>", "get diff from target buffer" },
+      m = { "<cmd>diffget //3<cr>", "get diff from merge bugger" },
+      d = { "<cmd>Gvdiff<cr>", "git diff" },
+      r = { "<cmd>Gvdiffsplit!", "git 3-way diff" },
+      c = { "<cmd>Git commit<cr>", "git commit" }
     },
     o = {
       name = "+org",
-      a = { 'agenda' },
-      c = { 'capture' },
-      r = { 'refile' },
-      o = { 'open at point' },
-      K = { 'move subtree up' },
-      J = { 'move subtree down' },
-      e = { 'export' },
-      k = { 'capture kill' },
-      t = { 'set tags' },
-      A = { 'archive tag' },
-      ["'"] = { 'edit special' },
-      ["$"] = { 'archive subtree' },
-      [','] = { 'priority' },
-      ['*'] = { 'toggle heading' },
+      a = { "agenda" },
+      c = { "capture" },
+      r = { "refile" },
+      o = { "open at point" },
+      K = { "move subtree up" },
+      J = { "move subtree down" },
+      e = { "export" },
+      k = { "capture kill" },
+      t = { "set tags" },
+      A = { "archive tag" },
+      ["'"] = { "edit special" },
+      ["$"] = { "archive subtree" },
+      [","] = { "priority" },
+      ["*"] = { "toggle heading" },
       i = {
         name = "+insert",
-        h = { 'insert heading at same level' },
-        T = { 'insert todo header' },
-        t = { 'insert todo header at same level' },
-        ["."] = { 'time stamp' },
-        s = { 'schedule' },
-        ["!"] = { 'time stamp inactive' },
-        d = { 'deadline' },
+        h = { "insert heading at same level" },
+        T = { "insert todo header" },
+        t = { "insert todo header at same level" },
+        ["."] = { "time stamp" },
+        s = { "schedule" },
+        ["!"] = { "time stamp inactive" },
+        d = { "deadline" },
       },
       x = {
         name = "+clock",
-        i = { 'clock in' },
-        o = { 'clock out' },
-        q = { 'cancel clock' },
-        j = { 'go to clock' },
-        e = { 'set effort' },
+        i = { "clock in" },
+        o = { "clock out" },
+        q = { "cancel clock" },
+        j = { "go to clock" },
+        e = { "set effort" },
       }
     }
   }
