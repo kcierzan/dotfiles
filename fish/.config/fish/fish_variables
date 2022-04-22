@@ -9,6 +9,7 @@ SETUVAR --export FZF_PREVIEW_COMMAND:bat\x20\x2d\x2dstyle\x3dnumbers\x20\x2d\x2d
 SETUVAR --export INKD_DIR:/Users/kylecierzan/\x2einkd/
 SETUVAR --export LANG:en_US\x2eUTF\x2d8
 SETUVAR --export NVIM_LISTEN_ADDRESS:/tmp/nvimsocket
+SETUVAR --export STARSHIP_CONFIG:/Users/kylecierzan/\x2econfig/starship/starship\x2etoml
 SETUVAR --export VISUAL:nvim
 SETUVAR __fish_initialized:3400
 SETUVAR _fish_abbr__2E_2E_2E_:\x2e\x2e/\x2e\x2e/

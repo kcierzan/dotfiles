@@ -128,57 +128,62 @@ return packer.startup(function(use)
     "akinsho/bufferline.nvim",
     branch = "main",
     config = function ()
-      local bufline_bg = "#212226"
-      local bufline_faded = "#393f4a"
-      local bufline_fg = "#2c2e34"
       require("bufferline").setup{
         options = {
-          separator_style = "slant",
           show_close_icon = false
-        },
-        highlights = {
-          background = {
-            guibg = bufline_faded,
-          },
-          close_button = {
-            guibg = bufline_faded
-          },
-          separator = {
-            guibg = bufline_faded,
-            guifg = bufline_bg
-          },
-          separator_selected = {
-            guifg = bufline_bg,
-            guibg = bufline_fg
-          },
-          separator_visible = {
-            guibg = bufline_faded,
-            guifg = bufline_bg
-          },
-          fill = {
-            guibg = bufline_bg,
-          },
-          buffer_visible = {
-            guibg = bufline_faded,
-          },
-          close_button_visible = {
-            guibg = bufline_faded
-          },
-          modified_visible = {
-            guibg = bufline_faded
-          },
-          modified = {
-            guibg = bufline_faded
-          }
         }
       }
+      -- local bufline_bg = "#212226"
+      -- local bufline_faded = "#393f4a"
+      -- local bufline_fg = "#2c2e34"
+      -- require("bufferline").setup{
+      --   options = {
+      --     separator_style = "slant",
+      --     show_close_icon = false
+      --   },
+      --   highlights = {
+      --     background = {
+      --       guibg = bufline_faded,
+      --     },
+      --     close_button = {
+      --       guibg = bufline_faded
+      --     },
+      --     separator = {
+      --       guibg = bufline_faded,
+      --       guifg = bufline_bg
+      --     },
+      --     separator_selected = {
+      --       guifg = bufline_bg,
+      --       guibg = bufline_fg
+      --     },
+      --     separator_visible = {
+      --       guibg = bufline_faded,
+      --       guifg = bufline_bg
+      --     },
+      --     fill = {
+      --       guibg = bufline_bg,
+      --     },
+      --     buffer_visible = {
+      --       guibg = bufline_faded,
+      --     },
+      --     close_button_visible = {
+      --       guibg = bufline_faded
+      --     },
+      --     modified_visible = {
+      --       guibg = bufline_faded
+      --     },
+      --     modified = {
+      --       guibg = bufline_faded
+      --     }
+      --   }
+      -- }
     end
   }
   use { "famiu/bufdelete.nvim" }
   use {
     "nvim-lualine/lualine.nvim",
     config = function()
-      require("lualine").setup{}
+      require('evil_lualine')
     end
   }
   use {

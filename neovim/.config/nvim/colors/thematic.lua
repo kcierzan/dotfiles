@@ -3,12 +3,13 @@
 local thematic = {}
 
 function thematic.highlight(group, color)
-   local style = color.style and 'gui=' .. color.style or 'gui=NONE'
-   local fg = color.fg and 'guifg=' .. color.fg or 'guifg=NONE'
-   local bg = color.bg and 'guibg=' .. color.bg or 'guibg=NONE'
-   local sp = color.sp and 'guisp=' .. color.sp or ''
-   vim.api.nvim_command('highlight ' .. group .. ' ' .. style .. ' ' .. fg ..
-      ' ' .. bg..' '..sp)
+  local style = color.style and 'gui=' .. color.style or 'gui=NONE'
+  local fg = color.fg and 'guifg=' .. color.fg or 'guifg=NONE'
+  local bg = color.bg and 'guibg=' .. color.bg or 'guibg=NONE'
+  local sp = color.sp and 'guisp=' .. color.sp or ''
+  local command = 'highlight ' .. group .. ' ' .. style .. ' ' .. fg ..
+  ' ' .. bg ..' '.. sp
+  vim.api.nvim_command(command)
 end
 
 function thematic.load_syntax()
@@ -27,11 +28,8 @@ function thematic.colorscheme()
    end
    vim.o.termguicolors = true
    vim.g.colors_name = 'thematic'
-   local builtins, plugins = thematic.load_syntax()
-   for group,colors in pairs(builtins) do
-      thematic.highlight(group,colors)
-   end
-   for group, colors in pairs(plugins) do
+   local highlights = thematic.load_syntax()
+   for group,colors in pairs(highlights) do
       thematic.highlight(group, colors)
    end
 end

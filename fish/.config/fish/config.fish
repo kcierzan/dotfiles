@@ -12,6 +12,7 @@ if status is-interactive
     bind -M insert \cO nnn-browser
     bind -M insert \cR fzf-history
     bind -M insert \cP fkill
+    bind -M insert \cb fzf-git-checkout
 
     starship init fish | source
     zoxide init fish | source 
