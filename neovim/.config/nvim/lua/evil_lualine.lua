@@ -5,19 +5,16 @@ local lualine = require('lualine')
 
 -- Color table for highlights
 -- stylua: ignore
-local colors = {
-  bg       = '#212226',
-  fg       = '#bbc2cf',
-  yellow   = '#ECBE7B',
-  cyan     = '#008080',
-  darkblue = '#081633',
-  green    = '#98be65',
-  orange   = '#FF8800',
-  violet   = '#a9a1e1',
-  magenta  = '#c678dd',
-  blue     = '#51afef',
-  red      = '#ec5f67',
-}
+local function get_colors()
+  local file_path = os.getenv("INKD_DIR") .. "lualine.ink.lua"
+  if io.open(file_path, "r") then
+    return dofile(file_path)
+  else
+    print('inkd theme not found for lualine!. Make sure INKD_DIR is set and run `ink colors`.')
+  end
+end
+
+local colors = get_colors()
 
 local conditions = {
   buffer_not_empty = function()

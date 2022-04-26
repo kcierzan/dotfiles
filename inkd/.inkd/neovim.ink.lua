@@ -1,4 +1,4 @@
-local highlights = {
+return {
   Boolean = { fg = '#9ece6a' };
   BufferCurrent = { fg = '#e0af68', bg = '#24283b', style = 'bold' };
   BufferCurrentMod = { fg = '#7aa2f7', bg = '#24283b' };
@@ -32,7 +32,7 @@ local highlights = {
   Float = { fg = '#9ece6a' };
   FoldColumn = { fg = '#c0caf5', bg = '#24283b' };
   Folded = { fg = '#7aa2f7', bg = '#3b4261' };
-  Function = { fg = '#0db9d7' };
+  Function = { fg = '#7aa2f7' };
   Identifier = { fg = '#bb9af7' };
   IncSearch = { fg = '#414868', bg = '#ff9e64' };
   LineNr = { fg = '#3b4261' };
@@ -74,32 +74,35 @@ local highlights = {
   TSConstBuiltin = { fg = '#7dcfff', style = 'italic' };
   TSConstant = { fg = '#f7768e', style = 'italic' };
   TSConstructor = { fg = '#c0caf5' };
+  TSField = { fg = '#73daca' };
   TSFunction = { fg = '#7aa2f7' };
   TSFunctionBuiltin = { fg = '#7aa2f7' };
   TSInclude = { fg = '#9d7cd8' };
-  TSKeywordFunction = { fg = '#9d7cd8' };
+  TSKeyword = { fg = '#9d7cd8' };
+  TSKeywordFunction = { fg = '#bb9af7' };
   TSKeywordOperator = { fg = '#9d7cd8' };
-  TSLabel = { fg = '#9d7cd8' };
+  TSLabel = { fg = '#7aa2f7' };
   TSMath = { fg = '#9ece6a' };
   TSMethod = { fg = '#7aa2f7' };
   TSNamespace = { fg = '#e0af68' };
   TSNumber = { fg = '#e0af68' };
-  TSParameter = { fg = '#f7768e', style = 'italic' };
-  TSPunctDelimitter = { fg = '#292e42' };
+  TSParameter = { fg = '#e0af68', style = 'italic' };
+  TSPunctBracket = { fg = '#a9b1d6' };
+  TSPunctDelimitter = { fg = '#89ddff' };
   TSPunctSpecial = { fg = '#e0af68' };
   TSSymbol = { fg = '#e0af68' };
   TSText = { fg = '#9ece6a' };
+  TSTextReference = { fg = '#1abc9c' };
   TSType = { fg = '#e0af68' };
   TSTypeBuiltin = { fg = '#bb9af7' };
-  TSVariable = { fg = '#f7768e' };
-  TSVariableBuiltin = { fg = '#7dcfff' };
+  TSVariableBuiltin = { fg = '#f7768e' };
   TablineFill = { style = 'none' };
   TablineSel = { bg = '#24283b', fg = '#7aa2f7' };
   Tag = { fg = '#e0af68' };
   Terminal = { fg = '#c0caf5', bg = '#24283b' };
   Title = { fg = '#9d7cd8', style = 'bold' };
   Todo = { fg = '#e0af68', style = 'italic' };
-  Type = { fg = '#f7768e', style = 'italic' };
+  Type = { fg = '#2ac3de', style = 'italic' };
   Typedef = { fg = '#9d7cd8' };
   Underlined = { style = 'underline' };
   VertSplit = { fg = '#24283b' };
@@ -112,5 +115,5 @@ local highlights = {
   BufferLineSeparator = { fg = '#24283b', bg = '#292e42' };
   BufferLineSeparatorSelected = { fg = '#24283b', bg = '#292e42' };
   WhichKeyFloat = { fg = '#c0caf5', bg = '#1f2335' };
+  NvimTreeNormal = { fg = '#c0caf5', bg = '#1f2335' };
 }
-return highlights
