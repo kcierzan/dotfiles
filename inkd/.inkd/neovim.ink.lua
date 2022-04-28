@@ -43,7 +43,7 @@ return {
   Normal = { bg = '#24283b' };
   NormalFloat = { fg = '#c0caf5', bg = '#292e42' };
   Operator = { fg = '#89ddff' };
-  Pmenu = { fg = '#c0caf5', bg = '#24283b' };
+  Pmenu = { fg = '#c0caf5', bg = '#1f2335' };
   PmenuSbar = { fg = '#9d7cd8', bg = '#292e42' };
   PmenuSel = { fg = '#292e42', bg = '#0db9d7' };
   PmenuThumb = { bg = '#3b4261' };

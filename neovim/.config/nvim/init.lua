@@ -42,7 +42,8 @@ local options = {
   updatetime = 300,
   wrap = false,
   writebackup = false,
-  guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor",
+  -- guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:hor20-Cursor/lCursor",
+  guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor",
 }
 
 local variables = {
