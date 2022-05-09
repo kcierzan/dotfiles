@@ -21,7 +21,7 @@ local conditions = {
     return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
   end,
   hide_in_width = function()
-    return vim.fn.winwidth(0) > 80
+    return vim.fn.winwidth(0) > 85
   end,
   check_git_workspace = function()
     local filepath = vim.fn.expand('%:p:h')
@@ -86,9 +86,44 @@ ins_left {
 ins_left {
   -- mode component
   function()
-    -- return ''
-    -- return ""
-    return "λ"
+    local cube = ''
+    local hex_empty = ''
+    local hex_full = ''
+    local mode = vim.fn.mode()
+
+    local modes = {
+      n = "NORMAL",
+      no = "OPERATOR PENDING",
+      v = "VISUAL",
+      V = "VISUAL LINE",
+      ['^V'] = "VISUAL BLOCK",
+      s = "SELECT",
+      S = "SELECT LINE",
+      ['^S'] = "SELECT BLOCK",
+      i = "INSERT",
+      ic = "INSERT COMPLETION",
+      ix = "INSERT COMPLETION",
+      R = "REPLACE",
+      Rv = "VIRTUAL REPLACE",
+      c = "COMMAND",
+      cv = "VIM EX",
+      ce = "EX",
+      r = "HIT ENTER",
+      ["r?"] = "CONFIRM",
+      ["!"] = "SHELL",
+      t = "TERMINAL"
+    }
+
+    local mode_str = ""
+    if mode == "i" or mode == "ic" or mode == "ix" then
+      mode_str = cube
+    elseif mode == "n" or mode == "no" or mode == "t" or mode == "!" then
+      mode_str = hex_empty
+    else
+      mode_str = hex_full
+    end
+
+    return mode_str .. " " .. modes[mode]
   end,
   color = function()
     -- auto change color according to neovims mode
@@ -114,28 +149,29 @@ ins_left {
       ['!'] = colors.red,
       t = colors.red,
     }
-    return { fg = mode_color[vim.fn.mode()] }
+    return { fg = mode_color[vim.fn.mode()], gui = "bold" }
   end,
-  padding = { right = 1 },
+  padding = { left = 0, right = 1 }
 }
 
 ins_left {
-  -- filesize component
-  'filesize',
-  cond = conditions.buffer_not_empty,
+  'filetype',
+  icon_only = true,
+  colored = false,
+  color = { fg = colors.blue, gui = 'bold' },
+  padding = { left = 0, right = 1}
 }
 
 ins_left {
   'filename',
   cond = conditions.buffer_not_empty,
-  color = { fg = colors.magenta, gui = 'bold' },
+  path = 1,
+  color = { fg = colors.blue },
+  padding = { left = 0, right = 0}
 }
 
-ins_left { 'location' }
 
-ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
-
-ins_left {
+ins_right {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
   symbols = { error = ' ', warn = ' ', info = ' ' },
@@ -146,18 +182,14 @@ ins_left {
   },
 }
 
--- Insert mid section. You can make any number of sections in neovim :)
--- for lualine it's any number greater then 2
-ins_left {
-  function()
-    return '%='
-  end,
-}
+local function show_lsp_info()
+  local clients = vim.lsp.get_active_clients()
+  return conditions.hide_in_width() and next(clients) ~= nil
+end
 
-ins_left {
-  -- Lsp server name .
+ins_right {
   function()
-    local msg = 'No Active Lsp'
+    local msg = 'NONE'
     local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
     local clients = vim.lsp.get_active_clients()
     if next(clients) == nil then
@@ -171,24 +203,26 @@ ins_left {
     end
     return msg
   end,
-  icon = ' LSP:',
-  color = { fg = '#ffffff', gui = 'bold' },
-}
-
--- Add components to right sections
-ins_right {
-  'o:encoding', -- option component same as &encoding in viml
-  fmt = string.upper, -- I'm not sure why it's upper case either ;)
-  cond = conditions.hide_in_width,
-  color = { fg = colors.green, gui = 'bold' },
+  icon = '力',
+  color = { fg = colors.orange, gui = 'bold' },
+  cond = show_lsp_info
 }
 
 ins_right {
   'fileformat',
-  fmt = string.upper,
-  icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-  color = { fg = colors.green, gui = 'bold' },
+  icons_enabled = true,
+  color = { fg = colors.cyan, gui = 'bold' },
+  cond = conditions.hide_in_width,
 }
+
+ins_right {
+  'fileformat',
+  icons_enabled = false,
+  color = { fg = colors.cyan, gui = 'bold' },
+  padding = { left = 0, right = 1 },
+  cond = conditions.hide_in_width
+}
+
 
 ins_right {
   'branch',
@@ -206,6 +240,26 @@ ins_right {
     removed = { fg = colors.red },
   },
   cond = conditions.hide_in_width,
+}
+
+ins_right {
+  function()
+    local blocks = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
+    local curr_line = vim.api.nvim_win_get_cursor(0)[1]
+    local lines = vim.api.nvim_buf_line_count(0)
+
+    return string.rep(blocks[math.floor(curr_line / lines * 7) + 1], 2)
+  end,
+  color = { fg = colors.blue, bg = colors.bg },
+  padding = { right = 0, left = 1 },
+  cond = conditions.hide_in_width
+}
+
+ins_right {
+  'progress',
+  color = { fg = colors.blue, gui = 'bold' },
+  padding = { right = 0, left = 0 },
+  cond = conditions.hide_in_width
 }
 
 ins_right {

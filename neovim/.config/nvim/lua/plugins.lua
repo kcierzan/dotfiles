@@ -68,7 +68,7 @@ return packer.startup(function(use)
         },
         extensions = {
           fzf = {
-            fuzz = true,
+            fuzzy = true,
             override_generic_sorter = true,
             override_file_sorter = true,
             case_mode = "smart_case"
@@ -343,6 +343,14 @@ return packer.startup(function(use)
   use {
     "tpope/vim-fugitive"
   }
+  use {
+    "eraserhd/parinfer-rust",
+    run = "cargo build --release"
+  }
+  use "bakpakin/fennel.vim"
+  use "Olical/conjure"
+  use "rktjmp/hotpot.nvim"
+  use "tpope/vim-rhubarb"
   if packer_bootstrap then
     packer.sync()
   end
