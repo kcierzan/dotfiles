@@ -31,6 +31,9 @@
               server (. lspconf lsp)]
           (when (= server.name :sumneko_lua)
             (tset coq-opts :settings {:Lua {:diagnostics {:globals [:vim :awesome]}}}))
+          (when (= server.name :solargraph)
+            (tset coq-opts :settings {:solargraph {:diagnostics true}}))
+            ;; (tset coq-opts :cmd ["bundle exec solargraph --stdio" "stdio"]))
           (server.setup coq-opts))))))
 
 (lspconfig.to-params)

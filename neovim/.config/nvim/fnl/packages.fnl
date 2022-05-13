@@ -1,5 +1,4 @@
 ;; ------------------- utility functions -------------------------------
-
 (local pkg (. (require :utils) :package))
 
 (fn use-packages [...]
@@ -123,6 +122,16 @@
   (fn []
     (require :evil_lualine)))
 
+(local vim-kitty-nav (pkg :knubie/vim-kitty-navigator))
+(vim-kitty-nav.config
+  (fn []
+    (tset _G :kitty_navigator_no_mappings 1)
+    (Nmap :<A-j> ":KittyNavigateDown<cr>")
+    (Nmap :<A-k> ":KittyNavigateUp<cr>")
+    (Nmap :<A-h> ":KittyNavigateLeft<cr>")
+    (Nmap :<A-l> ":KittyNavigateRight<cr>")))
+(vim-kitty-nav.run "cp ./*.py ~/.config/kitty/")
+
 ;; --------------------- set up plugins with packer --------------------------
 
 (use-packages
@@ -152,6 +161,7 @@
   (zen.to-params)
   (colorizer.to-params)
   (lualine.to-params)
+  (vim-kitty-nav.to-params)
   :famiu/bufdelete.nvim
   :kyazdani42/nvim-web-devicons
   :ggandor/lightspeed.nvim
