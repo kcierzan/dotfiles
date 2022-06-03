@@ -6,7 +6,8 @@
 
 (local home-dir (os.getenv :HOME))
                                            
-(let [options {:backup false
+(let [options {:autowriteall true
+               :backup false
                :clipboard :unnamedplus
                :cmdheight 2
                :completeopt [:menuone :noselect]
@@ -104,5 +105,12 @@
                                   :plugin
                                   :packer_compiled.lua)})
     (require :packages)))
+
+;; auto write 
+(let [group-id (vim.api.nvim_create_augroup :AutoWrite {:clear true})]
+  (vim.api.nvim_create_autocmd [:BufEnter :FocusLost]
+                               {:pattern "*"
+                                :command :update
+                                :group group-id}))
 
 (vim.cmd "colorscheme thematic")

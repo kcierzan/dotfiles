@@ -123,14 +123,22 @@
     (require :evil_lualine)))
 
 (local vim-kitty-nav (pkg :knubie/vim-kitty-navigator))
+(vim-kitty-nav.setup
+  (fn []
+    (tset _G :kitty_navigator_no_mappings 1)))
 (vim-kitty-nav.config
   (fn []
-    (tset _G :kitty_navigator_no_mappings 1)
     (Nmap :<A-j> ":KittyNavigateDown<cr>")
     (Nmap :<A-k> ":KittyNavigateUp<cr>")
     (Nmap :<A-h> ":KittyNavigateLeft<cr>")
     (Nmap :<A-l> ":KittyNavigateRight<cr>")))
 (vim-kitty-nav.run "cp ./*.py ~/.config/kitty/")
+
+(local nvim-web-devicons (pkg :kyazdani42/nvim-web-devicons))
+(nvim-web-devicons.config
+  (fn []
+    (let [icons (require :nvim-web-devicons)]
+      (icons.setup {:override {:fnl {:icon "🥬" :name :Fennel}}}))))
 
 ;; --------------------- set up plugins with packer --------------------------
 
@@ -162,8 +170,8 @@
   (colorizer.to-params)
   (lualine.to-params)
   (vim-kitty-nav.to-params)
+  (nvim-web-devicons.to-params)
   :famiu/bufdelete.nvim
-  :kyazdani42/nvim-web-devicons
   :ggandor/lightspeed.nvim
   :folke/trouble.nvim
   :bakpakin/fennel.vim
