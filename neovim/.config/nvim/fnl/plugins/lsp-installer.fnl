@@ -15,6 +15,6 @@
                     :dockerls
                     :clojure_lsp
                     :elixirls]]
-      (installer.setup {:ensure_installed required :automatic_installation false}))))
+      (installer.setup {:automatic_installation false}))))
 
 (installer.to-params)
