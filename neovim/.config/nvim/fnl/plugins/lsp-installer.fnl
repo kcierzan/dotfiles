@@ -5,7 +5,6 @@
   (fn []
     (let [installer (require :nvim-lsp-installer)
           required [:pyright
-                    :solargraph
                     :bashls
                     :emmet_ls
                     :tsserver

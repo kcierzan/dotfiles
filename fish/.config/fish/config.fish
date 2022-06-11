@@ -1,8 +1,8 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
     fish_vi_key_bindings
-    set fish_cursor_default underscore
-    set fish_cursor_insert underscore
+    set fish_cursor_default block
+    set fish_cursor_insert line
     set fish_cursor_unknown underscore
 
     # bind commonly-used functions to keys
