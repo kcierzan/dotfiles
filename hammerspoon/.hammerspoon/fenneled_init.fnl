@@ -1,5 +1,5 @@
 (require :caps-to-ctrl-esc)
-
+(require :hot-reload)
 (local windows (require :windows))
 
 (tset hs.window :animationDuration 0.1)
@@ -22,22 +22,5 @@
 (bind [:shift :cmd] "[" windows.send-to-previous-screen)
 (bind [:shift :cmd] "]" windows.send-to-next-screen)
 (bind [:shift :cmd] :F windows.fullscreen) 
-
-(fn is-lua-or-fennel? [file]
-  (let [extension (file:sub -4)]
-    (or (= extension ".lua") (= extension ".fnl"))))
-
-(fn reload-config [files]
-  (var should-reload false)
-  (each [_ file (pairs files)]
-    (if (is-lua-or-fennel? file)
-      (set should-reload true)))
-  (if should-reload
-    (hs.reload)))
-
-(let [home (os.getenv :HOME)
-      config-dir (.. home "/.hammerspoon/")
-      watcher (hs.pathwatcher.new config-dir reload-config)]
-  (watcher:start))
 
 (hs.alert.show "Config loaded")

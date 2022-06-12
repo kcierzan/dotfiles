@@ -6,7 +6,7 @@
 
 (fn center []
   (let [[window _ screen] (get-state)]
-    (: window :centerOnScreen screen)))
+    (window:centerOnScreen screen)))
 
 (fn fullscreen []
   (let [[window frame screen] (get-state)]
