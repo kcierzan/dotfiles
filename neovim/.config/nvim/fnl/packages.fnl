@@ -136,6 +136,7 @@
 
 (local nvim-web-devicons (pkg :kyazdani42/nvim-web-devicons))
 (nvim-web-devicons.config
+
   (fn []
     (let [icons (require :nvim-web-devicons)]
       (icons.setup {:override {:fnl {:icon "🥬" :name :Fennel}}}))))
