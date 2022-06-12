@@ -5,6 +5,8 @@
   (set send-escape? false)
   (hs.eventtap.keyStroke {} :ESCAPE))
 
+;; somewhat more useful than `length' as length does not
+;; count any nils in the table
 (fn len [t]
   (var len 0)
   (each [_ _ (pairs t)]
@@ -17,6 +19,7 @@
              (= (len current-modifiers) 1)
              (= (len prev-modifiers) 0))
         (set send-escape? true)
+      ;; deal with additional modifiers that might be held down alongside ctrol
       (and (. prev-modifiers :ctrl)
            (= (len current-modifiers) 0)
            send-escape?)
@@ -29,5 +32,6 @@
   (set send-escape? false)
   false)
 
+;; these listeners need to be set as global or they will get gc'd
 (tset _G :mod-listener (-> (hs.eventtap.new [hs.eventtap.event.types.flagsChanged] mod-handler) (: :start)))
 (tset _G :keydown-listener (-> (hs.eventtap.new [hs.eventtap.event.types.keyDown] non-mod-handler) (: :start)))
