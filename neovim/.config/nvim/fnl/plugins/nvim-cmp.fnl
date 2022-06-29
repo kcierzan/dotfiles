@@ -6,6 +6,7 @@
   (fn []
     (local cmp (require :cmp))
     (local luasnip (require :luasnip))
+    (local lspkind (require :lspkind))
     (local compare cmp.config.compare)
     (local border [["╭" :CmpBorder]
                    ["─" :CmpBorder]
@@ -43,8 +44,8 @@
         (luasnip.jump -1)
         (fallback)))
 
-    (local mapping {"<Tab>" (cmp.mapping tab-func [:i :s])
-                    "<S-Tab>" (cmp.mapping s-tab-func [:i :s])})
+    (local mapping {"<Tab>" (cmp.mapping tab-func [:i :s :c])
+                    "<S-Tab>" (cmp.mapping s-tab-func [:i :s :c])})
 
     (fn is-telescope-buffer? []
       (= vim.bo.ft :TelescopePrompt))
@@ -60,40 +61,47 @@
             (= (vim.fn.synIDattr syn-id :name) :Comment)))))
 
     (fn enabled []
-      (if (or (is-telescope-buffer?) (is-comment?) (is-popup-buffer?))
-        false
-        true))
+      (not (or (is-telescope-buffer?) (is-popup-buffer?) (is-comment?))))
 
     (fn snippet-expand [args]
       (luasnip.lsp_expand args.body))
 
     (local sources [{:name :buffer
-                      :priority 7
-                      :keyword_length 3}
+                     :priority 7
+                     :keyword_length 3}
                     {:name :path
-                      :priority 5}
-                    {:name :emoji
-                      :priority 3}
+                     :priority 5}
+                    {:name :rg
+                     :priority 6}
                     {:name :calc
-                      :priority 4}
+                     :priority 4}
                     {:name :cmdline
-                      :priority 4}
+                     :priority 4}
                     {:name :nvim_lsp
-                      :priority 9}
+                     :priority 9}
                     {:name :luasnip
-                      :priority 8}
+                     :priority 8}
                     {:name :nvim_lsp_signature_help
                      :priority 10}])
 
-    (cmp.setup {:window {:completion {:border border}
+    (fn format-menu [entry vim-item]
+      (let [kind ((lspkind.cmp_format {:mode :symbol_text :maxwidth 50}) entry vim-item)
+            strings (vim.split kind.kind "%s" {:trimempty true})]
+        (tset kind :kind (.. " " (. strings 1) " "))
+        (tset kind :menu (.. "    [" (. strings 2) "]"))
+        kind))
+
+    (cmp.setup {:window {:completion {:border border
+                                      :winhighlight "Normal:Normal,FloatBorder:Normal,CursorLine:PmenuSel,Search:None"}
                           :documentation (cmp.config.window.bordered)}
                 :snippet {:expand snippet-expand}
                 :mapping mapping
                 :sources sources
                 :enabled enabled
-                :formatting {:fields [cmp.ItemField.Kind
-                                      cmp.ItemField.Abbr
-                                      cmp.ItemField.Menu]}
+                :formatting {:fields [:kind
+                                      :abbr
+                                      :menu]
+                             :format format-menu} 
                 :sorting {:priority_weight 1.0
                           :comparators [compare.locality
                                         compare.recently_used

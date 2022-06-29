@@ -116,7 +116,6 @@
 
 (local nvim-web-devicons (pkg :kyazdani42/nvim-web-devicons))
 (nvim-web-devicons.config
-
   (fn []
     (let [icons (require :nvim-web-devicons)]
       (icons.setup {:override {:fnl {:icon "🥬" :name :Fennel}}}))))
@@ -135,7 +134,8 @@
   :hrsh7th/cmp-calc
   :hrsh7th/cmp-nvim-lsp-signature-help
   :hrsh7th/cmp-nvim-lsp
-  :hrsh7th/cmp-emoji
+  :lukas-reineke/cmp-rg
+  :onsails/lspkind.nvim
   (require :plugins.telescope)
   (require :plugins.lspconfig)
   (require :plugins.treesitter)
