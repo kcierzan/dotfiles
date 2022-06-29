@@ -1,0 +1,113 @@
+(local pkg (. (require :utils) :package))
+
+(local cmp-pkg (pkg :hrsh7th/nvim-cmp))
+
+(cmp-pkg.config
+  (fn []
+    (local cmp (require :cmp))
+    (local luasnip (require :luasnip))
+    (local compare cmp.config.compare)
+    (local border [["╭" :CmpBorder]
+                   ["─" :CmpBorder]
+                   ["╮" :CmpBorder]
+                   ["│" :CmpBorder]
+                   ["╯" :CmpBorder]
+                   ["─" :CmpBorder]
+                   ["╰" :CmpBorder]
+                   ["│" :CmpBorder]])
+
+    (let [autopairs (require :nvim-autopairs.completion.cmp)]
+      (cmp.event:on :confirm_done (autopairs.on_confirm_done {:map_char {:tex ""}})))
+
+    (fn has-words-before? []
+      (let [[line col] (vim.api.nvim_win_get_cursor 0)
+            before (vim.api.nvim_buf_get_lines 0 (- line 1) line true)
+            lines-before (-> (. before 1)
+                             (: :sub col col)
+                             (: :match "%s"))]
+        (and (!= col 0) (= lines-before nil))))
+
+    (fn tab-func [fallback]
+      (if (cmp.visible)
+        (cmp.select_next_item)
+        (luasnip.expand_or_jumpable) ;; else if
+        (luasnip.expand_or_jump)
+        (has-words-before?) ;; else if
+        (cmp.complete) ;; else
+        (fallback)))
+
+    (fn s-tab-func [fallback]
+      (if (cmp.visible)
+        (cmp.select_prev_item)
+        (luasnip.jumpable -1)
+        (luasnip.jump -1)
+        (fallback)))
+
+    (local mapping {"<Tab>" (cmp.mapping tab-func [:i :s])
+                    "<S-Tab>" (cmp.mapping s-tab-func [:i :s])})
+
+    (fn is-telescope-buffer? []
+      (= vim.bo.ft :TelescopePrompt))
+
+    (fn is-popup-buffer? []
+      (string.find (vim.api.nvim_buf_get_name 0) :s_popup:/))
+
+    (fn is-comment? []
+      (let [lnum (vim.fn.line ".")
+            col (math.min lnum (length (vim.fn.getline ".")))]
+        (each [_ syn-id (ipairs (vim.fn.synstack lnum col))]
+          (let [syn-id (vim.fn.synIDtrans syn-id)]
+            (= (vim.fn.synIDattr syn-id :name) :Comment)))))
+
+    (fn enabled []
+      (if (or (is-telescope-buffer?) (is-comment?) (is-popup-buffer?))
+        false
+        true))
+
+    (fn snippet-expand [args]
+      (luasnip.lsp_expand args.body))
+
+    (local sources [{:name :buffer
+                      :priority 7
+                      :keyword_length 3}
+                    {:name :path
+                      :priority 5}
+                    {:name :emoji
+                      :priority 3}
+                    {:name :calc
+                      :priority 4}
+                    {:name :cmdline
+                      :priority 4}
+                    {:name :nvim_lsp
+                      :priority 9}
+                    {:name :luasnip
+                      :priority 8}
+                    {:name :nvim_lsp_signature_help
+                     :priority 10}])
+
+    (cmp.setup {:window {:completion {:border border}
+                          :documentation (cmp.config.window.bordered)}
+                :snippet {:expand snippet-expand}
+                :mapping mapping
+                :sources sources
+                :enabled enabled
+                :formatting {:fields [cmp.ItemField.Kind
+                                      cmp.ItemField.Abbr
+                                      cmp.ItemField.Menu]}
+                :sorting {:priority_weight 1.0
+                          :comparators [compare.locality
+                                        compare.recently_used
+                                        compare.score
+                                        compare.offset
+                                        compare.order]}
+                :experimental {:ghost_text true}})
+
+    (cmp.setup.cmdline ":" {:sources [{:name :cmdline
+                                       :group_index 1}
+                                      {:name :cmdline_history
+                                       :group_index 2}]
+                            :mapping mapping})
+
+    (cmp.setup.cmdline "/" {:sources [{:name :cmdline_history}
+                                      {:name :buffer}]
+                            :mapping mapping})))

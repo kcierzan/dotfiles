@@ -59,26 +59,6 @@
       (require :keys)
       (wk.setup {:key_labels {:<cr> :RET}}))))
 
-(local coq (pkg :ms-jpq/coq_nvim))
-(coq.branch :coq)
-(coq.setup 
-  (fn []
-    (tset vim.g :coq_settings {:auto_start :shut-up 
-                               :keymap {:jump_to_mark :<c-j>}})))
-(coq.config (fn [] (require :coq)))
-
-(local coq-artifacts (pkg :ms-jpq/coq.artifacts))
-(coq-artifacts.branch :artifacts)
-
-(local coq-3p (pkg :ms-jpq/coq.thirdparty))
-(coq-3p.branch "3p")
-(coq-3p.config 
-  (fn []
-    (let [lib (require :coq_3p)]
-      (lib [{:src :nvimlua :short_name :nLUA}
-            {:src :orgmode :short_name :ORG}
-            {:src :copilot :short_name :COP :accept_key :<c-f>}]))))
-
 (local gitsigns (pkg :lewis6991/gitsigns.nvim))
 (gitsigns.config 
   (fn []
@@ -147,6 +127,15 @@
   :wbthomason/packer.nvim
   :lewis6991/impatient.nvim
   :nvim-lua/plenary.nvim
+  :L3MON4D3/LuaSnip
+  :saadparwaiz1/cmp_luasnip
+  :hrsh7th/cmp-buffer
+  :hrsh7th/cmp-cmdline
+  :hrsh7th/cmp-path
+  :hrsh7th/cmp-calc
+  :hrsh7th/cmp-nvim-lsp-signature-help
+  :hrsh7th/cmp-nvim-lsp
+  :hrsh7th/cmp-emoji
   (require :plugins.telescope)
   (require :plugins.lspconfig)
   (require :plugins.treesitter)
@@ -159,9 +148,7 @@
   (project.to-params)
   (indent-bl.to-params)
   (which-key.to-params)
-  (coq.to-params)
-  (coq-artifacts.to-params)
-  (coq-3p.to-params)
+  (require :plugins.nvim-cmp)
   (gitsigns.to-params)
   (tree.to-params)
   (org.to-params)

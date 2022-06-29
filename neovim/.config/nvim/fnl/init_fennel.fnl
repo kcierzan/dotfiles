@@ -10,7 +10,7 @@
                :backup false
                :clipboard :unnamedplus
                :cmdheight 2
-               :completeopt [:menuone :noselect]
+               :completeopt [:menu :menuone :noselect]
                :conceallevel 0
                :cursorline true
                :expandtab true
