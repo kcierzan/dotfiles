@@ -1,4 +1,0 @@
-{
-	"terminal": "Alacritty",
-	"parameters": ["-e", "tmux", "new-session"]
-}

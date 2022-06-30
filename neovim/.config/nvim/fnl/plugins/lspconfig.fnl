@@ -29,12 +29,12 @@
                 :capabilities capabilities}]
       (each [_ lsp (ipairs servers)]
         (let [lspconf (require :lspconfig)
-              server (. lspconf lsp)]
+              server (. lspconf lsp)
+              coq-opts (coq.lsp_ensure_capabilities opts)]
           (when (= server.name :sumneko_lua)
             (tset opts :settings {:Lua {:diagnostics {:globals [:vim :awesome]}}}))
           (when (= server.name :solargraph)
             (tset opts :settings {:solargraph {:diagnostics true}})
             (tset opts :cmd ["bundle" "exec" "solargraph" "stdio"]))
           (server.setup opts))))))
-
 (lspconfig.to-params)

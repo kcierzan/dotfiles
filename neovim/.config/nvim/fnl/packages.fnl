@@ -46,6 +46,7 @@
                  :filetype_exclude [:alpha]}))))
 
 (local alpha (pkg :goolord/alpha-nvim))
+
 (alpha.config 
   (fn []
     (let [a (require :alpha)

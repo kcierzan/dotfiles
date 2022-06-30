@@ -31,7 +31,7 @@ wk.register({
         "-E,*.ttf" ..
         " prompt_prefix=💫" ..
         "<cr>",
-        "Find application files"
+        "find application files"
       },
       O = {
         "<cmd>lua require('telescope.builtin').vim_options()<cr>",
