@@ -25,11 +25,11 @@ function findfile --description 'Fuzzy file finder'
 	set key $out[1]
 	set file $out[2..]
 
-  if test "$key" = 'ctrl-o'
+  if test "$key" = 'ctrl-o' && test -n "$file"
     open "$file"
-  else if test "$key" = 'ctrl-x'
+  else if test "$key" = 'ctrl-x' && test -n "$file"
     rm -i "$file"
-  else
+  else if test -n "$file"
     $EDITOR $file
   end
 end
