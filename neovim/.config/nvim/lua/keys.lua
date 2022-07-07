@@ -1,4 +1,7 @@
 local wk = require('which-key')
+local nmap = require('utils').nmap
+local xmap = require('utils').xmap
+
 wk.setup{}
 
 wk.register({
@@ -179,20 +182,20 @@ wk.register({
   }
 })
 
-Nmap("grl", "<cmd>diffget<cr>")
-Nmap("grh", "<cmd>diffput<cr>")
-Xmap("grl", "<cmd>diffget<cr>")
-Xmap("grh", "<cmd>diffput<cr>")
-Nmap("L", "<Nop>")
-Nmap("H", "<Nop>")
-Xmap("H", "<Nop>")
-Xmap("L", "<Nop>")
-Nmap("L", "g_")
-Nmap("H", "^")
-Xmap("L", "g_")
-Xmap("H", "^")
-Nmap("<Leader>q", "<cmd>q<cr>")
-Nmap("<Leader>Q", "<cmd>q!<cr>")
+nmap("grl", "<cmd>diffget<cr>")
+nmap("grh", "<cmd>diffput<cr>")
+xmap("grl", "<cmd>diffget<cr>")
+xmap("grh", "<cmd>diffput<cr>")
+nmap("L", "<Nop>")
+nmap("H", "<Nop>")
+xmap("H", "<Nop>")
+xmap("L", "<Nop>")
+nmap("L", "g_")
+nmap("H", "^")
+xmap("L", "g_")
+xmap("H", "^")
+nmap("<Leader>q", "<cmd>q<cr>")
+nmap("<Leader>Q", "<cmd>q!<cr>")
 
-Nmap("<C-l>", "<cmd>bnext<cr>")
-Nmap("<C-h>", "<cmd>bprev<cr>")
+nmap("<C-l>", "<cmd>bnext<cr>")
+nmap("<C-h>", "<cmd>bprev<cr>")
