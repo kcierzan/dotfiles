@@ -11,7 +11,7 @@
 (fn fullscreen []
   (let [[window frame screen] (get-state)]
     (tset frame :x screen.x)
-    (tset frame :y screen.x)
+    (tset frame :y screen.y)
     (tset frame :w screen.w)
     (tset frame :h screen.h)
     (window:setFrame frame)))
