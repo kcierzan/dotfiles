@@ -26,7 +26,7 @@
             lines-before (-> (. before 1)
                              (: :sub col col)
                              (: :match "%s"))]
-        (and (!= col 0) (= lines-before nil))))
+        (and (not= col 0) (= lines-before nil))))
 
     (fn tab-func [fallback]
       (if (cmp.visible)
@@ -34,7 +34,8 @@
         (luasnip.expand_or_jumpable) ;; else if
         (luasnip.expand_or_jump)
         (has-words-before?) ;; else if
-        (cmp.complete) ;; else
+        (cmp.complete)
+        ;; else
         (fallback)))
 
     (fn s-tab-func [fallback]
@@ -118,4 +119,5 @@
 
     (cmp.setup.cmdline "/" {:sources [{:name :cmdline_history}
                                       {:name :buffer}]
-                            :mapping mapping})))
+                            :mapping mapping})
+    ((. (require :luasnip.loaders.from_vscode) :lazy_load))))

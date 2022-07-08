@@ -83,7 +83,7 @@
     (and git-dir (> (length git-dir) 0) (> (length filepath) (length git-dir)))))
 
 (fn M.buffer-not-empty? []
-  (!= (vim.fn.empty (vim.fn.expand "%:t")) 1))
+  (not= (vim.fn.empty (vim.fn.expand "%:t")) 1))
 
 (fn M.window-wide? []
   (> (vim.fn.winwidth 0) 85))
