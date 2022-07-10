@@ -49,6 +49,7 @@ xbanish&
 # picom --experimental-backends &
 
 # start the wm
-export DESKTOP_SESSION=plasma 
+export XDG_SESSION_TYPE=x11
+export GDK_BACKEND=x11
 
-exec startplasma-x11
+exec gnome-session
