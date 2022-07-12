@@ -88,11 +88,6 @@
   (fn []
     (vim.cmd "runtime macros/sandwich/keymap/surround.vim")))
 
-(local lualine (package :nvim-lualine/lualine.nvim))
-(lualine.config
-  (fn []
-    (require :evil_lualine)))
-
 (local vim-kitty-nav (package :knubie/vim-kitty-navigator))
 (vim-kitty-nav.setup
   (fn []
@@ -147,7 +142,7 @@
   (sandwich.to-params)
   (zen.to-params)
   (colorizer.to-params)
-  (lualine.to-params)
+  (require :plugins.lualine)
   (vim-kitty-nav.to-params)
   (nvim-web-devicons.to-params)
   :famiu/bufdelete.nvim

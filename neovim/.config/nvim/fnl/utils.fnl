@@ -17,11 +17,11 @@
       (do
         (pcall require :impatient)
         (pcall require :plugin.packer_compiled))
-      (vim.fn.system [:git 
-                      :clone 
-                      :--depth 
-                      "1" 
-                      :https://github.com/wbthomason/packer.nvim 
+      (vim.fn.system [:git
+                      :clone
+                      :--depth
+                      "1"
+                      :https://github.com/wbthomason/packer.nvim
                       packer-path]))
     (not packer-installed?)))
 
@@ -61,7 +61,7 @@
         as (fn [as-str]
              (tset self :as as-str)
              (to-params))]
-        
+
     {: requires
      : config
      : run
@@ -95,11 +95,11 @@
       (print "inkd theme not found! Make sure INKD_DIR is set and run `ink colors`"))))
 
 (fn M.nmap [key cmd]
-  (vim.api.nvim_set_keymap 
+  (vim.api.nvim_set_keymap
     :n key cmd {:noremap true :silent true}))
 
 (fn M.xmap [key cmd]
-  (vim.api.nvim_set_keymap 
+  (vim.api.nvim_set_keymap
     :x key cmd {:noremap true :silent true}))
 
 M
