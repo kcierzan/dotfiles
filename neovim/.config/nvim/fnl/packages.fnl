@@ -113,7 +113,6 @@
   (fn []
     (let [snippets (require :luasnip.loaders.from_vscode)]
       (snippets.lazy_load))))
-    
 
 ;; --------------------- set up plugins with packer --------------------------
 (use-packages

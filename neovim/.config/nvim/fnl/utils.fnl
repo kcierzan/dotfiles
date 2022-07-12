@@ -9,6 +9,9 @@
 (fn M.vim-global [variable value]
   (tset vim.g variable value))
 
+(fn file-exists? [path]
+  (= (vim.fn.empty (vim.fn.glob path)) 0))
+
 (fn clone-packer [path]
   (vim.fn.system [:git
                   :clone
@@ -20,7 +23,7 @@
 (fn M.bootstrap-packer []
   "bootstrap packer and return whether it needed to be bootstrapped"
   (let [packer-path (.. (vim.fn.stdpath :data) "/site/pack/packer/start/packer.nvim")
-        packer-installed? (= (vim.fn.empty (vim.fn.glob packer-path)) 0)]
+        packer-installed? (file-exists? packer-path)]
     (if packer-installed?
       (do
         (pcall require :impatient)

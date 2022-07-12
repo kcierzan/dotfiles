@@ -74,7 +74,6 @@
                                 :texthl hl 
                                 :numhl hl})))))
 
-
 (fn create-autowrite-augroup [] 
   (let [group-id (vim.api.nvim_create_augroup :AutoWrite {:clear true})]
     (vim.api.nvim_create_autocmd [:BufEnter :FocusLost]
