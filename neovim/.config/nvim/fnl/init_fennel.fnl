@@ -63,21 +63,25 @@
 (vim.cmd "set iskeyword+=-")
 (vim.cmd "set formatoptions-=cro")
 
-(let [signs {:Error " "
-             :Warn " " 
-             :Hint " " 
-             :Info " "}]
-  (each [status icon (pairs signs)]
-    (let [hl (.. :DiagnosticSign status)]
-      (vim.fn.sign_define hl {:text icon 
-                              :texthl hl 
-                              :numhl hl}))))
+(fn setup-lsp-icons []
+  (let [signs {:Error " "
+                :Warn " " 
+                :Hint " " 
+                :Info " "}]
+    (each [status icon (pairs signs)]
+      (let [hl (.. :DiagnosticSign status)]
+        (vim.fn.sign_define hl {:text icon 
+                                :texthl hl 
+                                :numhl hl})))))
 
-(let [group-id (vim.api.nvim_create_augroup :AutoWrite {:clear true})]
-  (vim.api.nvim_create_autocmd [:BufEnter :FocusLost]
-                               {:pattern "*"
-                                :command :update
-                                :group group-id}))
 
+(fn create-autowrite-augroup [] 
+  (let [group-id (vim.api.nvim_create_augroup :AutoWrite {:clear true})]
+    (vim.api.nvim_create_autocmd [:BufEnter :FocusLost]
+                                 {:pattern "*"
+                                  :command :update
+                                  :group group-id})))
+(setup-lsp-icons)
+(create-autowrite-augroup)
 (-> (bootstrap-packer) (initialize-packer))
 (colorscheme :thematic)
