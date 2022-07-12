@@ -9,6 +9,14 @@
 (fn M.vim-global [variable value]
   (tset vim.g variable value))
 
+(fn clone-packer [path]
+  (vim.fn.system [:git
+                  :clone
+                  :--depth
+                  "1"
+                  :https://github.com/wbthomason/packer.nvim
+                  path]))
+
 (fn M.bootstrap-packer []
   "bootstrap packer and return whether it needed to be bootstrapped"
   (let [packer-path (.. (vim.fn.stdpath :data) "/site/pack/packer/start/packer.nvim")
@@ -17,12 +25,7 @@
       (do
         (pcall require :impatient)
         (pcall require :plugin.packer_compiled))
-      (vim.fn.system [:git
-                      :clone
-                      :--depth
-                      "1"
-                      :https://github.com/wbthomason/packer.nvim
-                      packer-path]))
+      (clone-packer packer-path))
     (not packer-installed?)))
 
 (fn M.initialize-packer [should-sync?]
