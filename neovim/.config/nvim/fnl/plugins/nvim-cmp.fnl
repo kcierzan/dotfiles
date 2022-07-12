@@ -59,7 +59,7 @@
                     "<S-Tab>" (cmp.mapping s-tab-func [:i :s :c])
                     "<CR>" (cmp.mapping.confirm {:select true})
                     "<C-n>" (cmp.mapping ctrl-n [:i :s :c])
-                    "<C-p>" (cmp.mapping ctrl-p [:i :s :c])}) 
+                    "<C-p>" (cmp.mapping ctrl-p [:i :s :c])})
 
     (fn is-telescope-buffer? []
       (= vim.bo.ft :TelescopePrompt))
@@ -98,6 +98,7 @@
                     {:name :nvim_lsp_signature_help
                      :priority 10}])
 
+
     (fn format-menu [entry vim-item]
       (let [kind ((lspkind.cmp_format {:mode :symbol_text :maxwidth 50}) entry vim-item)
             strings (vim.split kind.kind "%s" {:trimempty true})]
@@ -115,7 +116,7 @@
                 :formatting {:fields [:kind
                                       :abbr
                                       :menu]
-                             :format format-menu} 
+                             :format format-menu}
                 :sorting {:priority_weight 1.0
                           :comparators [compare.locality
                                         compare.recently_used
