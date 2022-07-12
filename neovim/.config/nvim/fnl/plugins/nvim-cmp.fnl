@@ -45,8 +45,21 @@
         (luasnip.jump -1)
         (fallback)))
 
+    (fn ctrl-n [fallback]
+      (if (luasnip.expand_or_jumpable)
+        (luasnip.expand_or_jump)
+        (fallback)))
+
+    (fn ctrl-p [fallback]
+      (if (luasnip.expand_or_jumpable)
+        (luasnip.jump -1)
+        (fallback)))
+
     (local mapping {"<Tab>" (cmp.mapping tab-func [:i :s :c])
-                    "<S-Tab>" (cmp.mapping s-tab-func [:i :s :c])})
+                    "<S-Tab>" (cmp.mapping s-tab-func [:i :s :c])
+                    "<CR>" (cmp.mapping.confirm {:select true})
+                    "<C-n>" (cmp.mapping ctrl-n [:i :s :c])
+                    "<C-p>" (cmp.mapping ctrl-p [:i :s :c])}) 
 
     (fn is-telescope-buffer? []
       (= vim.bo.ft :TelescopePrompt))
@@ -120,4 +133,5 @@
     (cmp.setup.cmdline "/" {:sources [{:name :cmdline_history}
                                       {:name :buffer}]
                             :mapping mapping})
+
     ((. (require :luasnip.loaders.from_vscode) :lazy_load))))

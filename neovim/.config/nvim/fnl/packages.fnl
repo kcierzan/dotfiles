@@ -107,12 +107,21 @@
     (let [icons (require :nvim-web-devicons)]
       (icons.setup {:override {:fnl {:icon "🥬" :name :Fennel}}}))))
 
+(local luasnip (package :L3MON4D3/LuaSnip))
+(luasnip.requires :rafamadriz/friendly-snippets)
+(luasnip.config
+  (fn []
+    (let [snippets (require :luasnip.loaders.from_vscode)]
+      (snippets.lazy_load))))
+    
+
 ;; --------------------- set up plugins with packer --------------------------
 (use-packages
   :wbthomason/packer.nvim
   :lewis6991/impatient.nvim
   :nvim-lua/plenary.nvim
-  :L3MON4D3/LuaSnip
+  :rafamadriz/friendly-snippets
+  (luasnip.to-params)
   :saadparwaiz1/cmp_luasnip
   :hrsh7th/cmp-buffer
   :hrsh7th/cmp-cmdline

@@ -77,17 +77,18 @@
         (.. mode-str " " (. modes mode))))
 
     (fn get-lsp-for-buffer [clients buf-ft]
-      (each [_ client (ipairs clients)]
-        (let [filetypes client.config.filetypes]
-          (when (and filetypes (not= (vim.fn.index filetypes buf-ft) -1))
-            client.name))))
+      (each [_ client (ipairs clients)] 
+        (let [filetypes client.config.filetypes
+              buffer-for-ft? (not= (vim.fn.index filetypes buf-ft) -1)]
+          (when (and filetypes buffer-for-ft?)
+            (lua "return client.name"))))
+      :NONE)
 
     (fn lsp-name []
       (let [buf-ft (vim.api.nvim_buf_get_option 0 :filetype)
             clients (vim.lsp.get_active_clients)
-            clients? (fn [clnts] (and (= (next clnts) nil) clnts))
-            lsp-name (-?> clients (clients?) (get-lsp-for-buffer buf-ft))]
-        (or lsp-name :NONE)))
+            clients? (fn [clnts] (and (not= (next clnts) nil) clnts))]
+        (-?> clients (clients?) (get-lsp-for-buffer buf-ft))))
 
     (fn show-lsp-info? []
       (let [clients (vim.lsp.get_active_clients)]
