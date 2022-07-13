@@ -8,8 +8,8 @@
   [(def-pkg 
      :windwp/nvim-autopairs 
      {:config (fn []
-                (let [pairs (require :nvim-autopairs)]
-                  (pairs.setup)))})
+                (let [autopairs (require :nvim-autopairs)]
+                  (autopairs.setup)))})
    (def-pkg 
      :numToStr/Comment.nvim
      {:config (fn []
