@@ -1,15 +1,21 @@
-(local {: package} (require :utils))
+(local def-pkg (. (require :pkg-utils) :def-pkg))
 
-(local lualine-pkg (package :nvim-lualine/lualine.nvim))
-
-(lualine-pkg.config
-  (fn []
+(def-pkg
+  :nvim-lualine/lualine.nvim
+  {:config
+   (fn []
     (local {: git-workspace?
             : buffer-not-empty?
-            : window-wide?
-            : inkd-colors} (require :utils))
+            : window-wide?} (require :utils))
     (local lualine (require :lualine))
-    (local colors (inkd-colors))
+
+    (fn inkd-lualine-colors []
+      (let [file-path (.. (os.getenv :INKD_DIR) :lualine.ink.lua)]
+        (if (io.open file-path :r)
+          (dofile file-path)
+          (print "inkd theme not found! Make sure INKD_DIR is set and run `ink colors`"))))
+
+    (local colors (inkd-lualine-colors))
     (local config {:options {:component_separators ""
                              :section_separators ""
                              :theme {:normal {:c {:fg colors.fg
@@ -204,6 +210,4 @@
                {:color {:fg colors.blue}
                 :padding {:left 1}})
 
-    (lualine.setup config)))
-
-(lualine-pkg.to-params)
+    (lualine.setup config))})

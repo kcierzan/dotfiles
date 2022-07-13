@@ -1,16 +1,14 @@
 ;; _____       __________ ________      ______
 ;; ___(_)_________(_)_  /____  __/_________  /
-;; __  /__  __ \_  /_  __/__  /_ __  __ \_  / 
-;; _  / _  / / /  / / /____  __/ _  / / /  /  
-;; /_/  /_/ /_//_/  \__/(_)_/    /_/ /_//_/   
+;; __  /__  __ \_  /_  __/__  /_ __  __ \_  /
+;; _  / _  / / /  / / /____  __/ _  / / /  /
+;; /_/  /_/ /_//_/  \__/(_)_/    /_/ /_//_/
 ;; lisp? in my vim configuration? it's more likely than you think...
-(local {: opt
-        : colorscheme
-        : vim-global
-        : bootstrap-packer
-        : initialize-packer} (require :utils))
-
+(local colorscheme (. (require :utils) :colorscheme))
 (local home-dir (os.getenv :HOME))
+(local opt (. (require :utils) :opt))
+(local packages (require :packages))
+(local vim-global (. (require :utils) :vim-global))
 
 (opt :autowriteall true)
 (opt :backup false)
@@ -65,16 +63,16 @@
 
 (fn setup-lsp-icons []
   (let [signs {:Error " "
-                :Warn " " 
-                :Hint " " 
+                :Warn " "
+                :Hint " "
                 :Info " "}]
     (each [status icon (pairs signs)]
       (let [hl (.. :DiagnosticSign status)]
-        (vim.fn.sign_define hl {:text icon 
-                                :texthl hl 
+        (vim.fn.sign_define hl {:text icon
+                                :texthl hl
                                 :numhl hl})))))
 
-(fn create-autowrite-augroup [] 
+(fn create-autowrite-augroup []
   (let [group-id (vim.api.nvim_create_augroup :AutoWrite {:clear true})]
     (vim.api.nvim_create_autocmd [:BufEnter :FocusLost]
                                  {:pattern "*"
@@ -82,5 +80,5 @@
                                   :group group-id})))
 (setup-lsp-icons)
 (create-autowrite-augroup)
-(-> (bootstrap-packer) (initialize-packer))
+(packages.configure!)
 (colorscheme :thematic)
