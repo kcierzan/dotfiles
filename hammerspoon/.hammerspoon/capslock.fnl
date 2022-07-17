@@ -32,6 +32,9 @@
   (set send-escape? false)
   false)
 
-;; these listeners need to be set as global or they will get gc'd
-(tset _G :mod-listener (-> (hs.eventtap.new [hs.eventtap.event.types.flagsChanged] mod-handler) (: :start)))
-(tset _G :keydown-listener (-> (hs.eventtap.new [hs.eventtap.event.types.keyDown] non-mod-handler) (: :start)))
+(fn setup! []
+  ;; these listeners need to be set as global or they will get gc'd
+  (tset _G :mod-listener (-> (hs.eventtap.new [hs.eventtap.event.types.flagsChanged] mod-handler) (: :start)))
+  (tset _G :keydown-listener (-> (hs.eventtap.new [hs.eventtap.event.types.keyDown] non-mod-handler) (: :start))))
+
+{: setup!}

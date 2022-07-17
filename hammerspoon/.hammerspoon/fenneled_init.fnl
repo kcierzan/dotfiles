@@ -1,5 +1,5 @@
-(require :hot-reload)
-(require :capslock)
+(local capslock (require :capslock))
+(local watchers (require :fs-watchers))
 (local windows (require :windows))
 
 (tset hs.window :animationDuration 0.1)
@@ -22,5 +22,8 @@
 (bind-key [:shift :cmd] "[" windows.send-to-previous-screen)
 (bind-key [:shift :cmd] "]" windows.send-to-next-screen)
 (bind-key [:shift :cmd] :F windows.fullscreen) 
+
+(capslock.setup!)
+(watchers.reload-hs-on-change!)
 
 (hs.alert.show "Config loaded")
