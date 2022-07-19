@@ -99,16 +99,16 @@
         rect (frame:toUnitRect (screen:frame))]
     (window:move rect previous-screen true 0)))
 
-{:center center
- :fullscreen fullscreen
- :left-half left-half
- :right-half right-half
- :top-half top-half
- :bottom-half bottom-half
- :toggle-between-sizes toggle-between-sizes
- :nudge-left nudge-left
- :nudge-right nudge-right
- :nudge-up nudge-up
- :nudge-down nudge-down
- :send-to-next-screen send-to-next-screen
- :send-to-previous-screen send-to-previous-screen} 
+{: center
+ : fullscreen
+ : left-half
+ : right-half
+ : top-half
+ : bottom-half
+ : toggle-between-sizes
+ : nudge-left
+ : nudge-right
+ : nudge-up
+ : nudge-down
+ : send-to-next-screen
+ : send-to-previous-screen}

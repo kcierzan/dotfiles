@@ -5,12 +5,12 @@
 (local sync-packages! (. (require :pkg-utils) :sync-packages!))
 
 (local packages
-  [(def-pkg 
-     :windwp/nvim-autopairs 
+  [(def-pkg
+     :windwp/nvim-autopairs
      {:config (fn []
                 (let [autopairs (require :nvim-autopairs)]
                   (autopairs.setup)))})
-   (def-pkg 
+   (def-pkg
      :numToStr/Comment.nvim
      {:config (fn []
                 (let [cmt (require :Comment)]
@@ -104,7 +104,7 @@
      :kyazdani42/nvim-web-devicons
      {:config (fn []
                 (let [icons (require :nvim-web-devicons)]
-                  (icons.setup {:override {:fnl {:icon "🥬" 
+                  (icons.setup {:override {:fnl {:icon "🥬"
                                                  :name :Fennel}}})))})
    (def-pkg
      :L3MON4D3/LuaSnip
@@ -138,16 +138,22 @@
    :tpope/vim-fugitive])
 
 (local module-packages
-  [(require :plugins.telescope)
-   (require :plugins.lspconfig)
-   (require :plugins.treesitter)
-   (require :plugins.lsp-installer)
-   (require :plugins.nvim-cmp)
-   (require :plugins.lualine)])
+  [:telescope
+   :lspconfig
+   :treesitter
+   :lsp-installer
+   :nvim-cmp
+   :lualine])
+
+(fn require-module-packages [modules]
+  (let [packages []]
+    (each [_ module (ipairs modules)]
+      (table.insert packages (require (.. :plugins. module))))
+    packages))
 
 (fn configure! []
   (let [?sync-packages (bootstrap-packer!)
-        packages (merge basic-packages packages module-packages)]
+        packages (merge basic-packages packages (require-module-packages module-packages))]
     (initialize-packer! packages)
     (when ?sync-packages
       (sync-packages!))))

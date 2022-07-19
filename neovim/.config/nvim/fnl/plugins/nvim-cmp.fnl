@@ -1,4 +1,6 @@
 (local def-pkg (. (require :pkg-utils) :def-pkg))
+(local nil? (. (require :utils) :nil?))
+(local nonzero? (. (require :utils) :nonzero?))
 
 (def-pkg
   :hrsh7th/nvim-cmp
@@ -26,7 +28,7 @@
               lines-before (-> (. before 1)
                                (: :sub col col)
                                (: :match "%s"))]
-          (and (not= col 0) (= lines-before nil))))
+          (and (nonzero? col) (nil? lines-before))))
 
       (fn tab-func [fallback]
         (if (cmp.visible)
