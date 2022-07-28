@@ -1,11 +1,11 @@
 (local def-pkg (. (require :pkg-utils) :def-pkg))
-(local nil? (. (require :utils) :nil?))
-(local nonzero? (. (require :utils) :nonzero?))
 
 (def-pkg
   :hrsh7th/nvim-cmp
   {:config
     (fn []
+      (local nil? (. (require :utils) :nil?))
+      (local nonzero? (. (require :utils) :nonzero?))
       (local cmp (require :cmp))
       (local luasnip (require :luasnip))
       (local lspkind (require :lspkind))
