@@ -35,12 +35,7 @@ set fish_color_command 'a0c980' --bold
 
 # asdf works a little differently across environments
 if test (uname) = "Darwin"
-  set -l is_m1 (sysctl -a | rg 'machdep.cpu.brand_string: Apple M1')
-  if test -n "$is_m1"
-    source /opt/homebrew/opt/asdf/libexec/asdf.fish
-  else
-    source /usr/local/opt/asdf/libexec/asdf.fish
-  end
+  source "$(brew --prefix)/opt/asdf/libexec/asdf.fish"
 else
   source /opt/asdf-vm/asdf.fish
 end
