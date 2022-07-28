@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
+THINGS3_APP_STORE_ID=904280696
 
 # install build tools
 xcode-select --install
 
 # install homebrew
 /usr/bin/env bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+BREW_PREFIX="$(brew --prefix)"
 
 brew tap | grep -q 'homebrew/cask' || brew tap homebrew/cask
 brew tap | grep -q 'homebrew/cask-versions' || brew tap homebrew/cask-versions
@@ -17,9 +20,11 @@ casks=(
   bitwig-studio
   font-inter
   hammerspoon
+  google-chrome
   iina
   jetbrains-toolbox
   kitty
+  logseq
   scroll-reverser
   transmission
 )
@@ -55,8 +60,9 @@ pkgs=(
   jq
   lsd
   luarocks
-  mas
+  magic-wormhole
   make
+  mas
   mosh
   neovim
   nnn
@@ -74,33 +80,43 @@ pkgs=(
   stow
   wget
   zoxide
-  zsh
 )
+
 # Install all brew packages
 for pkg in "${pkgs[@]}"
 do
-	[ ! -d /usr/local/Cellar/$(basename $pkg) ] && brew install $pkg || echo "Already installed: $pkg"
+  [ ! -d "$BREW_PREFIX/Cellar/$(basename "$pkg")" ] && brew install "$pkg" || echo "Already installed: $pkg"
 done
 
 # Install all brew casks
 for cask in "${casks[@]}"
 do
-	[ ! -d /usr/local/Caskroom/$(basename $cask) ] && brew install $cask || echo "Already installed: $cask"
+	[ ! -d "$BREW_PREFIX/Caskroom/$(basename "$cask")" ] && brew install "$cask" || echo "Already installed: $cask"
 done
 
 # install fennel
 luarocks install fennel
 
 # symlink dotfiles
+stow fish
 stow kitty
 stow hammerspoon
-stow fish
 stow gitui
 stow neovim
 stow starship
 stow surfingkeys
-stow inkd
 
-things3_app_store_id=904280696
+# install things3
+mas install "$THINGS3_APP_STORE_ID"
 
-mas install "$things3_app_store_id"
+# change default shell for user to fish (will prompt for password)
+chsh -s "$(which fish)"
+
+# install neovim packages
+nvim --headless +PackerSync +qa
+
+# bootstrap inkd themes
+[ ! -d ~/.inkd/ ] && mkdir -p ~/.inkd/ && cp inkd/* ~/.inkd/ || echo "Ink themes already installed"
+
+# bootstrap terminal fonts
+cp fonts/*/* ~/Library/Fonts/
