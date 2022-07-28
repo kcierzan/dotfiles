@@ -117,6 +117,7 @@
   [:wbthomason/packer.nvim
    :lewis6991/impatient.nvim
    :nvim-lua/plenary.nvim
+   :williamboman/nvim-lsp-installer
    :rafamadriz/friendly-snippets
    :saadparwaiz1/cmp_luasnip
    :hrsh7th/cmp-buffer
@@ -139,10 +140,9 @@
 
 (local module-packages
   [:telescope
+   :nvim-cmp
    :lspconfig
    :treesitter
-   :lsp-installer
-   :nvim-cmp
    :lualine])
 
 (fn require-module-packages [modules]
@@ -153,7 +153,9 @@
 
 (fn configure! []
   (let [?sync-packages (bootstrap-packer!)
-        packages (merge basic-packages packages (require-module-packages module-packages))]
+        packages (merge basic-packages
+                        packages
+                        (require-module-packages module-packages))]
     (initialize-packer! packages)
     (when ?sync-packages
       (sync-packages!))))

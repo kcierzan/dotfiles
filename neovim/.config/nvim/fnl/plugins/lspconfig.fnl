@@ -2,7 +2,9 @@
 
 (def-pkg
   :neovim/nvim-lspconfig
-  {:requires :folke/which-key.nvim
+  {:requires [:williamboman/nvim-lsp-installer
+              :folke/which-key.nvim
+              :hrsh7th/cmp-nvim-lsp]
    :setup
     (fn []
       (let [signs {:Error " "
@@ -16,35 +18,57 @@
                                     :numhl hl})))))
    :config
    (fn []
-     (let [servers [:pyright 
-                    :solargraph 
-                    :bashls 
-                    :emmet_ls 
-                    :tsserver
-                    :jsonls
-                    :sumneko_lua
-                    :rust_analyzer
-                    :svelte
-                    :dockerls
-                    :clojure_lsp
-                    :elixirls]
-           on-attach (fn [_ bufnr]
-                       (let [wk (require :which-key)]
-                         (wk.register {:g {:d ["<cmd>lua vim.lsp.buf.definition()<cr>" "go to definition"]
-                                           :D ["<cmd>lua vim.lsp.buf.declaration()<cr>" "go to declaration"]
-                                           :h ["<cmd>lua vim.lsp.buf.hover()<cr>" "get hover info"]}} 
-                                      {:buffer bufnr})))
-           cmp-lsp (require :cmp_nvim_lsp)
-           capabilities (cmp-lsp.update_capabilities (vim.lsp.protocol.make_client_capabilities))]
-       (each [_ lsp (ipairs servers)]
-         (let [lspconf (require :lspconfig)
-               server (. lspconf lsp)
-               opts {:on_attach on-attach
-                     :capabilities capabilities}]
-           (if (= server.name :sumneko_lua)
-             (tset opts :settings {:Lua {:diagnostics {:globals [:vim :awesome]}}}))
-           (if (= server.name :solargraph)
-             (do
-               (tset opts :settings {:solargraph {:diagnostics true}})
-               (tset opts :cmd ["bundle" "exec" "solargraph" "stdio"])))
-           (server.setup opts)))))})
+     (local lspconf (require :lspconfig))
+     (local cmp-lsp (require :cmp_nvim_lsp))
+     (local installer (require :nvim-lsp-installer))
+     (local capabilities (cmp-lsp.update_capabilities
+                           (vim.lsp.protocol.make_client_capabilities)))
+
+     (local default-servers [:pyright
+                             :bashls
+                             :emmet_ls
+                             :tsserver
+                             :jsonls
+                             :rust_analyzer
+                             :svelte
+                             :dockerls
+                             :clojure_lsp])
+                             
+     (fn on-attach [_ bufnr]
+       (let [wk (require :which-key)]
+         (wk.register {:g {:d ["<cmd>lua vim.lsp.buf.definition()<cr>" "go to definition"]
+                           :D ["<cmd>lua vim.lsp.buf.declaration()<cr>" "go to declaration"]
+                           :h ["<cmd>lua vim.lsp.buf.hover()<cr>" "get hover info"]}}
+                     {:buffer bufnr})))
+
+     (fn configure-lsp [lsp-name config]
+       (let [server (. lspconf lsp-name)
+             opts {:on_attach on-attach
+                   :capabilities capabilities}
+             opts (config opts)]
+         (server.setup opts)))
+
+     (fn setup-lua []
+       (configure-lsp :sumneko_lua
+                      (fn [opts]
+                        (tset opts :settings {:Lua {:diagnostics {:globals [:vim :awesome :hs]}}})
+                        opts)))
+
+     (fn setup-solargraph []
+       (configure-lsp :solargraph
+                      (fn [opts]
+                        (tset opts :settings {:solargraph {:diagnostics true}})
+                        (tset opts :cmd [:bundle :exec :solargraph :stdio])
+                        opts)))
+
+     (fn setup-servers []
+       (each [_ server (ipairs default-servers)]
+         (let [server (. lspconf server)]
+          (server.setup {:on_attach on-attach
+                         :capabilities capabilities})))
+       (setup-lua)
+       (setup-solargraph))
+         
+
+     (installer.setup)
+     (setup-servers))})

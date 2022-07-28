@@ -2,7 +2,8 @@
 
 (def-pkg
   :hrsh7th/nvim-cmp
-  {:config
+  {:requires [:onsails/lspkind.nvim]
+   :config
     (fn []
       (local nil? (. (require :utils) :nil?))
       (local nonzero? (. (require :utils) :nonzero?))
