@@ -10,12 +10,12 @@ api.map('gt', 'T');
 api.unmap('<ctrl-i>');
 
 // api.Hints.style('font-size: 16pt;')
-api.Hints.style('font-size: 11pt; font-family: Iosevka Nerd Font;')
+api.Hints.style('font-size: 11pt; font-family: Liga SFMono Nerd Font;')
 
 // set theme
 settings.theme = `
 .sk_theme {
-    font-family: Iosevka Nerd Font, Charcoal, sans-serif;
+    font-family: Liga SFMono Nerd Font, Charcoal, sans-serif;
     font-size: 10pt;
     background: #24272e;
     color: #abb2bf;

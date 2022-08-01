@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
+
 THINGS3_APP_STORE_ID=904280696
 
 # install build tools
-xcode-select --install
+[ ! -d "$(xcode-select -p)" ] && xcode-select --install
 
 # install homebrew
-/usr/bin/env bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+[ -z "$(which brew)" ] && /usr/bin/env bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 BREW_PREFIX="$(brew --prefix)"
 
@@ -14,6 +15,10 @@ brew tap | grep -q 'homebrew/cask-versions' || brew tap homebrew/cask-versions
 brew tap | grep -q 'homebrew/cask-fonts' || brew tap homebrew/cask-fonts
 brew tap | grep -q 'homebrew/cask-services' || brew tap homebrew/services
 
+# TODO: 
+# macos ships with an insanely old version of bash.
+# maybe we should install that first before continuing on?
+
 casks=(
   1password
   alfred
@@ -21,6 +26,7 @@ casks=(
   font-inter
   hammerspoon
   google-chrome
+  google-drive
   iina
   jetbrains-toolbox
   kitty
@@ -95,7 +101,7 @@ do
 done
 
 # install fennel
-luarocks install fennel
+[ -z "$(which fennel)" ] && luarocks install fennel
 
 # symlink dotfiles
 stow fish
@@ -110,13 +116,38 @@ stow surfingkeys
 mas install "$THINGS3_APP_STORE_ID"
 
 # change default shell for user to fish (will prompt for password)
-chsh -s "$(which fish)"
+echo "$SHELL" | grep -q 'fish' || chsh -s "$(which fish)"
 
-# install neovim packages
-nvim --headless +PackerSync +qa
+# install fisher
+[ -z "$(fish -c 'fisher -v')" ] && fish -c "curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
 
 # bootstrap inkd themes
-[ ! -d ~/.inkd/ ] && mkdir -p ~/.inkd/ && cp inkd/* ~/.inkd/ || echo "Ink themes already installed"
+[ ! -d ~/.inkd/ ] && mkdir -p ~/.inkd/ && cp -n inkd/* ~/.inkd/ || echo "Ink themes already installed"
+
+# install neovim packages
+INKD_DIR="$HOME/.inkd/" nvim --headless +PackerCompile +PackerSync +qa
 
 # bootstrap terminal fonts
-cp fonts/*/* ~/Library/Fonts/
+cp -n fonts/*/* ~/Library/Fonts/
+
+# install some environments
+asdf_plugins="$(asdf plugin list)"
+ruby_installed="$(echo "$asdf_plugins" | grep 'ruby')"
+python_installed="$(echo "$asdf_plugins" | grep 'python')"
+have_ruby_version="$(asdf list ruby | grep '3.0.2')"
+have_python_version="$(asdf list python | grep '3.10.5')"
+
+[ -z "$ruby_installed" ] && asdf plugin add ruby
+[ -z "$python_installed" ] && asdf plugin add python
+[ -z "$have_ruby_version" ] && asdf install ruby 3.0.2
+[ -z "$have_python_version" ] && asdf install python 3.10.5
+
+# set up our global/shell versions of interpreters
+asdf global ruby 3.0.2
+asdf global python 3.10.5
+
+[ -z "$(asdf which bundler)" ] && asdf exec gem install bundler
+
+brew update
+brew upgrade
+brew cleanup
