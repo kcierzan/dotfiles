@@ -28,6 +28,33 @@
 (fn positive? [val]
   (> val 0))
 
+(fn head [list]
+  [(. list 1)])
+
+(fn tail [list]
+  (local [_ & tail] list)
+  tail)
+
+(fn first [list]
+  (. list 1))
+
+(fn second [list]
+  (. list 2))
+
+(fn last [list]
+  (. list (length list)))
+
+(fn butlast [list]
+  (local target [])
+  (each [i v (ipairs list) :until (= i (length list))]
+    (table.insert target v))
+  target)
+
+(fn table-length [tbl]
+  (accumulate [sum 0
+               _ _ (pairs tbl)]
+              (+ sum 1)))
+
 (fn present? [value]
   (if (number? value)
     true
@@ -35,17 +62,21 @@
     true
     (function? value)
     true
-    (and (table? value) (positive? (length value)))
+    (and (table? value) (positive? (table-length value)))
     true
     (and (boolean? value) (= value true))
     true
     false))
 
+(fn reverse [tbl]
+  (local reversed [])
+  (local size (length tbl))
+  (each [i v (ipairs tbl)]
+    (tset reversed (- size (- i 1)) v))
+  reversed)
+
 (fn vim-global [variable value]
   (tset vim.g variable value))
-
-(fn file-exists? [path]
-  (= (vim.fn.empty (vim.fn.glob path)) 0))
 
 (fn merge [...]
   "merge an arbitrary number of tables, string keys are clobbered, sequential keys are appended"
@@ -63,6 +94,9 @@
         git-dir (vim.fn.finddir ".git" (.. filepath ";"))]
     (and git-dir (positive? (length git-dir)) (> (length filepath) (length git-dir)))))
 
+(fn file-exists? [path]
+  (= (vim.fn.empty (vim.fn.glob path)) 0))
+
 (fn buffer-not-empty? []
   (not= (vim.fn.empty (vim.fn.expand "%:t")) 1))
 
@@ -78,18 +112,26 @@
     :x key cmd {:noremap true :silent true}))
 
 {: boolean?
+ : butlast
  : colorscheme
  : file-exists?
+ : first
  : function?
  : git-workspace?
+ : head
+ : last
  : merge
  : nil?
  : nmap
  : nonzero?
  : opt
+ : present?
+ : reverse
  : number?
  : string?
  : table?
+ : table-length
+ : tail
  : vim-global
  : window-wide?
  : xmap}

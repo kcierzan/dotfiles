@@ -41,13 +41,6 @@
                 (let [alpha (require :alpha)
                       dash (require :alpha.themes.dashboard)]
                   (alpha.setup dash.config)))})
-   (def-pkg
-     :folke/which-key.nvim
-     {:config (fn []
-                (let [wk (require :which-key)]
-                  ;; TODO: FIX ME
-                  (require :keys)
-                  (wk.setup {:key_labels {:<cr> :RET}})))})
 
    (def-pkg
      :lewis6991/gitsigns.nvim
@@ -143,13 +136,15 @@
    :nvim-cmp
    :lspconfig
    :treesitter
+   :which-key
    :lualine])
 
 (fn require-module-packages [modules]
-  (let [packages []]
-    (each [_ module (ipairs modules)]
-      (table.insert packages (require (.. :plugins. module))))
-    packages))
+  (accumulate [packages []
+               _ module (ipairs modules)]
+              (do
+                (table.insert packages (require (.. :plugins. module)))
+                packages)))
 
 (fn configure! []
   (let [?sync-packages (bootstrap-packer!)

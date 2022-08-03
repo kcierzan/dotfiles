@@ -5,8 +5,7 @@
   {:requires [:onsails/lspkind.nvim]
    :config
     (fn []
-      (local nil? (. (require :utils) :nil?))
-      (local nonzero? (. (require :utils) :nonzero?))
+      (local {: nil? : nonzero?} (require :utils))
       (local cmp (require :cmp))
       (local luasnip (require :luasnip))
       (local lspkind (require :lspkind))
@@ -64,21 +63,21 @@
                       "<C-n>" (cmp.mapping ctrl-n [:i :s :c])
                       "<C-p>" (cmp.mapping ctrl-p [:i :s :c])})
 
-      (fn is-telescope-buffer? []
+      (fn telescope-buffer? []
         (= vim.bo.ft :TelescopePrompt))
 
-      (fn is-popup-buffer? []
+      (fn popup-buffer? []
         (string.find (vim.api.nvim_buf_get_name 0) :s_popup:/))
 
-      (fn is-comment? []
+      (fn comment? []
         (let [lnum (vim.fn.line ".")
               col (math.min lnum (length (vim.fn.getline ".")))]
           (each [_ syn-id (ipairs (vim.fn.synstack lnum col))]
             (let [syn-id (vim.fn.synIDtrans syn-id)]
               (= (vim.fn.synIDattr syn-id :name) :Comment)))))
 
-      (fn enabled []
-        (not (or (is-telescope-buffer?) (is-popup-buffer?) (is-comment?))))
+      (fn enabled? []
+        (not (or (telescope-buffer?) (popup-buffer?) (comment?))))
 
       (fn snippet-expand [args]
         (luasnip.lsp_expand args.body))
@@ -111,11 +110,11 @@
 
       (cmp.setup {:window {:completion {:border border
                                         :winhighlight "Normal:Normal,FloatBorder:Normal,CursorLine:PmenuSel,Search:None"}
-                            :documentation (cmp.config.window.bordered)}
+                           :documentation (cmp.config.window.bordered)}
                   :snippet {:expand snippet-expand}
                   :mapping mapping
                   :sources sources
-                  :enabled enabled
+                  :enabled enabled?
                   :formatting {:fields [:kind
                                         :abbr
                                         :menu]
