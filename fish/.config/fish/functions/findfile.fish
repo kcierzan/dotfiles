@@ -3,7 +3,6 @@ function findfile --description 'Fuzzy file finder'
     fd . \
     --no-ignore \
     --hidden \
-    --follow \
     --strip-cwd-prefix \
     --type f \
     --exclude ".git" \
