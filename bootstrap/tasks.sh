@@ -162,3 +162,12 @@ create_dot_dirs() {
     mkdir -p "$dotdir"
   done
 }
+
+symlink_bootstrap_executable() {
+  if [ "$(uname)" = 'Darwin' ]
+  then
+    ln -s ~/.dotfiles/bootstrap/macstrap.sh ~/.local/bin/bootstrap
+  else
+    ln -s ~/.dotfiles/bootstrap/archstrap.sh ~/.local/bin/bootstrap
+  fi
+}

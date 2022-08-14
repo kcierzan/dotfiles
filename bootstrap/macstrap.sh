@@ -58,6 +58,8 @@ subtask_exec "Setting global ruby version" asdf global ruby "$TARGET_RUBY_VERSIO
 
 subtask_exec "Setting global python version" asdf global python "$TARGET_PYTHON_VERSION"
 
+subtask_exec "Symlinking bootstrap script" symlink_bootstrap_executable
+
 # --------------------------------------------------------------
 task_inform "Configuring applications"
 
