@@ -1,11 +1,5 @@
 # Dotfiles
 
-## macOS Installation
+## Installation
 
-Run the bootstrap script:
-
-`$ ./bootstrap`
-
-## Arch Installation
-
-Read the [installation guide](https://wiki.archlinux.org/title/installation_guide).
+`/usr/bin/env bash -c "$(curl -fsSL 'https://raw.githubusercontent.com/kcierzan/dotfiles/master/bootstrap/init.sh')"`
