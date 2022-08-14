@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 DOTFILES_DIR="$HOME/.dotfiles"
 
-eval "$(curl 'https://raw.githubusercontent.com/kcierzan/dotfiles/master/bootstrap/helpers.sh')"
-eval "$(curl 'https://raw.githubusercontent.com/kcierzan/dotfiles/master/bootstrap/tasks.sh')"
+eval "$(curl -fsSL 'https://raw.githubusercontent.com/kcierzan/dotfiles/master/bootstrap/helpers.sh')"
+eval "$(curl -fsSL 'https://raw.githubusercontent.com/kcierzan/dotfiles/master/bootstrap/tasks.sh')"
 
 task_inform "Bootstrapping developer tools"
 
