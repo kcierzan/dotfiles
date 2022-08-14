@@ -132,7 +132,7 @@ set_fish_globals() {
   fish_global EDITOR nvim
   fish_global VISUAL nvim
   fish_global STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
-  fish_global INKD_DIR "$HOME/.inkd"
+  fish_global INKD_DIR "$HOME/.inkd/"
   fish_global LANG en_US.UTF-8
   fish_global FZF_PREVIEW_COMMAND 'bat --style=numbers --color=always {}'
   fish_global FZF_COMPLETION_TRIGGER '**'

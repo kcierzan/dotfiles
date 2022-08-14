@@ -8,6 +8,7 @@ task_inform "Bootstrapping developer tools"
 
 clone_dotfiles() {
   [ ! -d "$DOTFILES_DIR" ] && subtask_exec "Cloning dotfiles repository" git clone 'https://github.com/kcierzan/dotfiles' "$DOTFILES_DIR"
+  echo 'here'
   pushd "$DOTFILES_DIR" || exit 255
 }
 
