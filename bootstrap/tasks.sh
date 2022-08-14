@@ -151,3 +151,14 @@ brew_upgrade() {
   brew upgrade
   brew cleanup
 }
+
+create_dot_dirs() {
+  dotdirs=(
+    "$HOME/.local/bin/"
+    "$HOME/.config/fish/fish_functions/"
+    )
+  for dotdir in "${dotdirs[@]}"
+  do
+    mkdir -p "$dotdir"
+  done
+}

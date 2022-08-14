@@ -35,6 +35,8 @@ mas list | grep -q 'Things' || subtask_exec 'Installing Things' mas install "$TH
 # --------------------------------------------------------------
 task_inform 'Setting up environment'
 
+subtask_exec 'Creating dot directories' create_dot_dirs
+
 subtask_exec 'Symlinking dotfiles' stow_dot_dirs
 
 [ "$SHELL" != "$(brew --prefix)/bin/fish" ] && subtask_exec "Changing $(whoami)'s shell to fish" chsh -s "$(which fish)"
