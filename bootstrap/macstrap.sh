@@ -5,7 +5,7 @@ TARGET_RUBY_VERSION='3.0.2'
 TARGET_PYTHON_VERSION='3.10.5'
 DOTFILES_DIR="$HOME/.dotfiles"
 
-pushd "$DOTFILES_DIR" || exit 255
+pushd "$DOTFILES_DIR" 1> /dev/null || exit 255
 
 source bootstrap/helpers.sh
 source bootstrap/tasks.sh
