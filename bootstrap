@@ -4,6 +4,10 @@ THINGS3_APP_STORE_ID=904280696
 TARGET_RUBY_VERSION='3.0.2'
 TARGET_PYTHON_VERSION='3.10.5'
 
+fish_global() {
+  fish -c set -Ux "$1" "$2"
+}
+
 # install build tools
 [ ! -d "$(xcode-select -p)" ] \
   && echo 'Installing build tools...' \
@@ -20,10 +24,6 @@ brew tap | grep -q 'homebrew/cask' || brew tap homebrew/cask
 brew tap | grep -q 'homebrew/cask-versions' || brew tap homebrew/cask-versions
 brew tap | grep -q 'homebrew/cask-fonts' || brew tap homebrew/cask-fonts
 brew tap | grep -q 'homebrew/cask-services' || brew tap homebrew/services
-
-# TODO: 
-# macos ships with an insanely old version of bash.
-# maybe we should install that first before continuing on?
 
 casks=(
   1password
@@ -173,6 +173,17 @@ asdf global ruby 3.0.2
 asdf global python 3.10.5
 
 [ -z "$(asdf which bundler)" ] && asdf exec gem install bundler
+
+fish_global BAT_THEME base16
+fish_global EDITOR nvim
+fish_global VISUAL nvim
+fish_global STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
+fish_global INKD_DIR "$HOME/.inkd"
+fish_global LANG en_US.UTF-8
+fish_global FZF_PREVIEW_COMMAND 'bat --style=numbers --color=always {}'
+fish_global FZF_COMPLETION_TRIGGER '**'
+fish_global FZF_DEFAULT_OPTS '--color=fg:-1,bg:-1,fg+:4,bg+:-1,header:3,hl:-1,hl+:3,prompt:4,spinner:5,pointer:5,marker:4,info:4'
+
 
 brew update
 brew upgrade

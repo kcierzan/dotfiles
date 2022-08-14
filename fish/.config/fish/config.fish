@@ -26,7 +26,6 @@ set -gx KEYTIMEOUT 1
 set -gx CLICOLOR 1
 set -gx LSCOLORS 'ExFxBxDxCxegedxbxgxcxd'
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
-set -gx ZSH_AUTOSUGGEST_USE_ASYNC 1
 set -gx CM_LAUNCHER 'rofi'
 
 set fish_color_param normal
