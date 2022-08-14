@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROMPT="-->"
+PROMPT="==>"
 CLEARCOLOR="\033[0m"
 RED="\033[0;31m"
 YELLOW="\033[0;33m"
@@ -13,7 +13,7 @@ fail() {
 }
 
 fish_global() {
-  fish -c set -Ux "$1" "$2"
+  fish -c "set -Ux "$1" "$2""
 }
 
 task_inform() {

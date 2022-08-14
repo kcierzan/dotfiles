@@ -15,7 +15,7 @@ source bootstrap/tasks.sh
 is_tapped 'homebrew/cask' || subtask_exec "Tapping cask" brew tap homebrew/cask
 is_tapped 'homebrew/cask-versions' || subtask_exec "Tapping cask versions" brew tap homebrew/cask-versions
 is_tapped 'homebrew/cask-fonts' || subtask_exec "Tapping cask fonts" brew tap homebrew/cask-fonts
-is_tapped 'homebrew/cask-services' || subtask_exec "Tapping cask services" brew tap homebrew/services
+is_tapped 'homebrew/services' || subtask_exec "Tapping cask services" brew tap homebrew/services
 
 # --------------------------------------------------------------
 task_inform 'Installing applications'
