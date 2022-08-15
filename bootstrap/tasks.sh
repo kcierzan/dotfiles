@@ -142,7 +142,7 @@ set_fish_globals() {
 copy_missing_fonts() {
   for f in fonts/*/*
   do
-    [ -f "$HOME/Library/$(basename "$f")" ] || cp "$f" ~/Library/Fonts/
+    [ -f "$HOME/Library/Fonts/$(basename "$f")" ] || cp "$f" ~/Library/Fonts/
   done
 }
 
@@ -164,10 +164,19 @@ create_dot_dirs() {
 }
 
 symlink_bootstrap_executable() {
-  if [ "$(uname)" = 'Darwin' ]
-  then
-    ln -s ~/.dotfiles/bootstrap/macstrap.sh ~/.local/bin/bootstrap
+  TARGET="$HOME/.local/bin/bootstrap"
+
+  if [ "$(uname)" = 'Darwin' ]; then
+    [ ! -L "$TARGET" ] && ln -s ~/.dotfiles/bootstrap/macstrap.sh "$TARGET"
   else
-    ln -s ~/.dotfiles/bootstrap/archstrap.sh ~/.local/bin/bootstrap
+    [ ! -L "$TARGET" ] && ln -s ~/.dotfiles/bootstrap/archstrap.sh "$TARGET"
   fi
+  return 0
+}
+
+install_audio_apps() {
+  LOGIC_PRO_APP_STORE_ID=634148309
+  brew install ocenaudio
+  brew install audio-hijack
+  mas install "$LOGIC_PRO_APP_STORE_ID"
 }

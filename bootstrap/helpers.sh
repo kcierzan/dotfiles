@@ -4,6 +4,7 @@ PROMPT="==>"
 CLEARCOLOR="\033[0m"
 RED="\033[0;31m"
 YELLOW="\033[0;33m"
+BLUE="\033[0;34m"
 GREEN="\033[0;32m"
 LOGFILE=$(mktemp)
 
@@ -18,6 +19,10 @@ fish_global() {
 
 task_inform() {
   echo -e "${GREEN}${PROMPT} $1${CLEARCOLOR}"
+}
+
+option_inform() {
+  echo -e "${BLUE}💫 $1${CLEARCOLOR}"
 }
 
 clear_previous_line() {
