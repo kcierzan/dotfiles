@@ -4,14 +4,8 @@ userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
 sysmodmap=/etc/X11/xinit/.Xmodmap
-zsh_env=$HOME/.zshenv
 
 # merge in defaults and keymaps
-
-if [ -f "$zsh_env"  ]; then
-    source "$zsh_env"
-fi
-
 if [ -f $sysresources ]; then
     xrdb -merge $sysresources
 fi
@@ -51,5 +45,6 @@ xbanish&
 # start the wm
 export XDG_SESSION_TYPE=x11
 export GDK_BACKEND=x11
+export DESKTOP_SESSION=plasma
 
-exec gnome-session
+exec startplasma-x11
