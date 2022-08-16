@@ -99,6 +99,7 @@ stow_dot_dirs() {
     fish
     kitty
     hammerspoon
+    jetbrains
     gitui
     neovim
     starship

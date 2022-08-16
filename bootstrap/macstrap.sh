@@ -21,11 +21,11 @@ do
       ;;
     --asdf)
       ASDF=1
-      option_inform "Installing asdf languages!"
+      option_inform "Installing asdf runtimes!"
       ;;
-    --nvim)
-      NVIM=1
-      option_inform "Bootstrapping neovim!"
+    --editors)
+      EDITORS=1
+      option_inform "Bootstrapping editors!"
       ;;
     --fonts)
       FONTS=1
@@ -47,7 +47,7 @@ if [ $# -eq 0 ]; then
   ASDF=1
   FONTS=1
   CONFIG_SHELL=1
-  NVIM=1
+  EDITORS=1
 fi
 
 pushd "$DOTFILES_DIR" 1> /dev/null || exit 255
@@ -110,7 +110,7 @@ if [ -n "$ASDF" ]; then
 fi
 
 # --------------------------------------------------------------
-if [ -n "$NVIM" ]; then
+if [ -n "EDITORS" ]; then
   task_inform "Configuring editors"
   subtask_exec 'Bootstrapping neovim' bootstrap_neovim
 fi

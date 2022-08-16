@@ -13,3 +13,14 @@ Subsequent bootstrap runs can performed by running the boostrap command from any
 ```
 $ bootstrap
 ```
+
+The bootstrap command can be passed flags to bootstrap individual parts of the environment:
+
+| Flag        | Description                         |
+|-------------|-------------------------------------|
+| `--audio`   | Installs audio applications         |
+| `--apps`    | Installs cli and gui apps           |
+| `--asdf`    | Installs asdf runtimes              |
+| `--editors` | Installs and configures editors     |
+| `--fonts`   | Installs any missing fonts          |
+| `--shell`   | Sets the shell and installs plugins |
