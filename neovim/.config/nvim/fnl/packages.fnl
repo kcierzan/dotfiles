@@ -109,6 +109,9 @@
 (local basic-packages
   [:wbthomason/packer.nvim
    :lewis6991/impatient.nvim
+   :nathom/filetype.nvim
+   :vim-ruby/vim-ruby
+   :tpope/vim-rails
    :nvim-lua/plenary.nvim
    :williamboman/nvim-lsp-installer
    :rafamadriz/friendly-snippets
