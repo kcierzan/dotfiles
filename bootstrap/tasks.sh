@@ -181,3 +181,14 @@ install_audio_apps() {
   brew install audio-hijack
   mas install "$LOGIC_PRO_APP_STORE_ID"
 }
+
+clone_inkd() {
+  git clone 'https://github.com/kcierzan/inkd' ~/git/inkd
+}
+
+build_and_install_inkd() {
+  pushd ~/git/inkd || exit 255
+  VERSION="$(grep 's.version' inkd.gemspec | cut -d'=' -f2 | tr -d "'" | xargs)"
+  asdf exec gem build inkd.gemspec && asdf exec gem install "inkd-$VERSION.gem"
+  popd || exit 255
+}

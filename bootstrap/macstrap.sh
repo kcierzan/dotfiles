@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 THINGS3_APP_STORE_ID=904280696
-TARGET_RUBY_VERSION='3.0.2'
-TARGET_PYTHON_VERSION='3.10.5'
+GLOBAL_RUBY_VERSION='3.0.2'
+GLOBAL_PYTHON_VERSION='3.10.5'
 DOTFILES_DIR="$HOME/.dotfiles"
 
 source bootstrap/helpers.sh
@@ -82,15 +82,16 @@ if [ -n "$CONFIG_SHELL" ]; then
 
   subtask_exec 'Symlinking dotfiles' stow_dot_dirs
 
+  [ -z "$(pgrep -i hammerspoon)" ] && subtask_exec 'Starting hammerspoon' open /Applications/Hammerspoon.app
+
   [ "$SHELL" != "$(brew --prefix)/bin/fish" ] && subtask_exec "Changing $(whoami)'s shell to fish" chsh -s "$(which fish)"
 
   subtask_exec "Setting fish global variables" set_fish_globals
 
   [ -z "$(fish -c 'fisher -v')" ] && subtask_exec 'Installing fisher' install_fisher
 
-  [ ! -d ~/.inkd/ ] && subtask_exec "Bootstrapping inkd" bootstrap_inkd
-
   subtask_exec "Symlinking bootstrap script" symlink_bootstrap_executable
+  
 fi
 
 # --------------------------------------------------------------
@@ -99,23 +100,28 @@ if [ -n "$ASDF" ]; then
 
   subtask_exec "Installing asdf plugins" install_asdf_plugins
 
-  asdf list ruby | grep -q $TARGET_RUBY_VERSION && subtask_exec "Installing ruby $TARGET_RUBY_VERSION" asdf install ruby "$TARGET_RUBY_VERSION"
-  asdf list python | grep -q $TARGET_PYTHON_VERSION && subtask_exec "Installing python $TARGET_PYTHON_VERSION" asdf install python "$TARGET_PYTHON_VERSION"
+  asdf list ruby | grep -q $GLOBAL_RUBY_VERSION && subtask_exec "Installing ruby $GLOBAL_RUBY_VERSION" asdf install ruby "$GLOBAL_RUBY_VERSION"
+  asdf list python | grep -q $GLOBAL_PYTHON_VERSION && subtask_exec "Installing python $GLOBAL_PYTHON_VERSION" asdf install python "$GLOBAL_PYTHON_VERSION"
 
-  subtask_exec "Setting global ruby version" asdf global ruby "$TARGET_RUBY_VERSION"
+  subtask_exec "Setting global ruby version" asdf global ruby "$GLOBAL_RUBY_VERSION"
 
   [ -z "$(asdf which bundler)" ] && subtask_exec "Installing bundler" asdf exec gem install bundler
 
-  subtask_exec "Setting global python version" asdf global python "$TARGET_PYTHON_VERSION"
+  if [ ! -d ~/.inkd/ ]; then
+    [ ! -d ~/git/inkd/ ] &&
+      subtask_exec "Cloning inkd" clone_inkd &&
+      subtask_exec "Building inkd" build_and_install_inkd
+    subtask_exec "Setting theme to one dark" asdf exec ink color one dark
+  fi
+
+  subtask_exec "Setting global python version" asdf global python "$GLOBAL_PYTHON_VERSION"
 fi
 
 # --------------------------------------------------------------
-if [ -n "EDITORS" ]; then
+if [ -n "$EDITORS" ]; then
   task_inform "Configuring editors"
   subtask_exec 'Bootstrapping neovim' bootstrap_neovim
 fi
-
-# TODO: set up alfred
 
 # --------------------------------------------------------------
 if [ -n "$FONTS" ]; then
