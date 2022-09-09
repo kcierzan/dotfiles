@@ -129,7 +129,7 @@
       (leader-g :m "<cmd>diffget //3<cr>" "get diff from merge buffer")
       (leader-g :n "<cmd>lua require('gitsigns').next_hunk()<cr>" "next hunk")
       (leader-g :p "<cmd>lua require('gitsigns').previous_hunk()<cr>" "previous hunk")
-      (leader-g :r "<cmd>Gvdiffsplit!" "3-way diff")
+      (leader-g :r "<cmd>Gvdiffsplit!<cr>" "3-way diff")
       (leader-g :s "<cmd>Git<cr>" "status")
       (leader-g :t "<cmd>diffget //2<cr>" "get diff from target buffer")
 
