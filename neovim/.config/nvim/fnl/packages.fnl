@@ -23,7 +23,11 @@
                   (bl.setup {:options {:show_close_icon false
                                        :show_buffer_close_icons false
                                        :indicator {:style :none}
-                                       :separator_style {"" ""}}})))})
+                                       :separator_style {"" ""}
+                                       :offsets [{:filetype :NvimTree
+                                                  :text "File Explorer"
+                                                  :highlight :Directory
+                                                  :separator true}]}})))})
    (def-pkg
      :ahmedkhalf/project.nvim
      {:requires :nvim-telescope/telescope.nvim
