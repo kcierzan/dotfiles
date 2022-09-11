@@ -20,7 +20,10 @@
      {:branch :main
       :config (fn []
                 (let [bl (require :bufferline)]
-                  (bl.setup {:options {:show_close_icon :false}})))})
+                  (bl.setup {:options {:show_close_icon false
+                                       :show_buffer_close_icons false
+                                       :indicator {:style :none}
+                                       :separator_style {"" ""}}})))})
    (def-pkg
      :ahmedkhalf/project.nvim
      {:requires :nvim-telescope/telescope.nvim
