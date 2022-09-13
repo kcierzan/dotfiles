@@ -72,6 +72,8 @@ if [ -n "$APPS" ]; then
   [ -z "$(which fennel)" ] && subtask_exec 'Installing fennel' luarocks install fennel
 
   mas list | grep -q 'Things' || subtask_exec 'Installing Things' mas install "$THINGS3_APP_STORE_ID"
+
+  subtask_exec "Updating macOS" softwareupdate --install --all
 fi
 
 # --------------------------------------------------------------
