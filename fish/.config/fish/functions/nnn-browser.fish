@@ -11,7 +11,7 @@ function nnn-browser --wraps nnn --description 'NNN file browser'
 
 	set -gx NNN_TMPFILE "$config_dir/nnn/.lastd"
 
-	nnn -edH $argv[1]
+	nnn -eAdH $argv[1]
 
 	if test -f $NNN_TMPFILE
 		source $NNN_TMPFILE
