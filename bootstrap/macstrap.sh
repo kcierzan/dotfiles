@@ -56,6 +56,8 @@ pushd "$DOTFILES_DIR" 1> /dev/null || exit 255
 if [ -n "$APPS" ]; then
   task_inform 'Installing applications'
 
+  subtask_exec "Updating macOS" softwareupdate --install --all
+
   [ -z "$(which brew)" ] && subtask_exec 'Installing homebrew' install_homebrew
 
   is_tapped 'homebrew/cask' || subtask_exec 'Tapping cask' brew tap homebrew/cask
@@ -72,8 +74,6 @@ if [ -n "$APPS" ]; then
   [ -z "$(which fennel)" ] && subtask_exec 'Installing fennel' luarocks install fennel
 
   mas list | grep -q 'Things' || subtask_exec 'Installing Things' mas install "$THINGS3_APP_STORE_ID"
-
-  subtask_exec "Updating macOS" softwareupdate --install --all
 fi
 
 # --------------------------------------------------------------
