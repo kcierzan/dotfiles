@@ -50,7 +50,7 @@ if [ $# -eq 0 ]; then
   EDITORS=1
 fi
 
-pushd "$DOTFILES_DIR" 1> /dev/null || exit 255
+cd "$DOTFILES_DIR" || exit 255
 
 # --------------------------------------------------------------
 if [ -n "$APPS" ]; then
