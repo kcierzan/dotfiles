@@ -5,8 +5,8 @@ GLOBAL_RUBY_VERSION='3.0.2'
 GLOBAL_PYTHON_VERSION='3.10.5'
 DOTFILES_DIR="$HOME/.dotfiles"
 
-source bootstrap/helpers.sh
-source bootstrap/tasks.sh
+source ~/.dotfiles/bootstrap/helpers.sh
+source ~/.dotfiles/bootstrap/tasks.sh
 
 for arg in "$@"
 do
