@@ -60,6 +60,7 @@ install_brew_packages() {
     ripgrep
     ruby
     shellcheck
+    sketchybar
     speedtest-cli
     starship
     stow
@@ -97,11 +98,12 @@ install_casks() {
 stow_dot_dirs() {
   dots=(
     fish
-    kitty
+    gitui
     hammerspoon
     jetbrains
-    gitui
+    kitty
     neovim
+    sketchybar
     starship
     surfingkeys
   )

@@ -64,6 +64,7 @@ if [ -n "$APPS" ]; then
   is_tapped 'homebrew/cask-versions' || subtask_exec 'Tapping cask versions' brew tap homebrew/cask-versions
   is_tapped 'homebrew/cask-fonts' || subtask_exec 'Tapping cask fonts' brew tap homebrew/cask-fonts
   is_tapped 'homebrew/services' || subtask_exec 'Tapping cask services' brew tap homebrew/services
+  is_tapped 'FelixKratz/formulae' || subtask_exec 'Tapping sketchybar' brew tap FelixKratz
 
   subtask_exec 'Installing homebrew packages' install_brew_packages
 
