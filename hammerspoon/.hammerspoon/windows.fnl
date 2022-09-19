@@ -1,6 +1,6 @@
 (local window-locations {})
-(local bar-height 0)
-(local gaps-width 32)
+(local bar-height 40)
+(local gaps-width 16)
 (local y-offset (+ bar-height gaps-width))
 (var ?gaps false)
 
@@ -9,51 +9,44 @@
 
 (fn focused-window-frame-screen []
   (let [current-window (hs.window.focusedWindow)
-        current-frame (current-window:frame)
+        current-frame (-> current-window (: :frame))
         current-screen (-> current-window (: :screen) (: :frame))]
     (values current-window current-frame current-screen)))
 
 (fn window-frame-screen [id]
   (let [current-window (hs.window id)
-        current-frame (current-window:frame)
+        current-frame (-> current-window (: :frame))
         current-screen (-> current-window (: :screen) (: :frame))]
     (values current-window current-frame current-screen)))
-
-(fn screen-height [screen]
-  (if ?gaps
-    (- screen.h (* 2 gaps-width))
-    screen.h))
-
-(fn screen-y [screen]
-  (if ?gaps
-    (+ screen.y y-offset)
-    screen.y))
-
-(fn screen-x [screen]
-  (if ?gaps
-    (+ screen.x gaps-width)
-    screen.x))
-
-(fn screen-width [screen]
-  (if ?gaps
-    (- screen.w (* 2 gaps-width))
-    screen.w))
 
 (fn focused-center []
   (let [(window _ screen) (focused-window-frame-screen)]
     (window:centerOnScreen screen)))
 
+(fn set-fullscreen-gaps [window frame screen]
+  (set-window-location window :fullscreen)
+  (tset frame :x (+ screen.x gaps-width))
+  (tset frame :y (+ screen.y y-offset))
+  (tset frame :w (- screen.w (* 2 gaps-width)))
+  (tset frame :h (- screen.h (+ gaps-width y-offset)))
+  (window:setFrame frame))
+
 (fn set-fullscreen [window frame screen]
   (set-window-location window :fullscreen)
-  (tset frame :x (screen-x screen))
-  (tset frame :y (screen-y screen))
-  (tset frame :w (screen-width screen))
-  (tset frame :h (screen-height screen))
+  (tset frame :x screen.x)
+  (tset frame :y screen.y)
+  (tset frame :w screen.w)
+  (tset frame :h screen.h)
   (window:setFrame frame))
+
+(fn size-fullscreen [window frame screen]
+  (if ?gaps
+    (set-fullscreen-gaps window frame screen)
+    (set-fullscreen window frame screen)))
 
 (fn focused-fullscreen []
   (let [(window frame screen) (focused-window-frame-screen)]
-    (set-fullscreen window frame screen)))
+    (size-fullscreen window frame screen)))
 
 (fn left-half-gaps-rect [screen]
   (let [x gaps-width
@@ -94,7 +87,7 @@
         y y-offset
         width (- screen.w (* 2 gaps-width))
         height (- (/ screen.h 2) (* gaps-width 1.5))]
-    (hs.geometry.new x y width height)))
+    (hs.geometry.rect x y width height)))
 
 (fn set-top-half [window screen]
   (set-window-location window :top-half)
@@ -107,11 +100,11 @@
     (set-top-half window screen)))
 
 (fn bottom-half-gaps-rect [screen]
-  (let [y (+ (/ screen.h 2) (* 0.5 gaps-width))
+  (let [y (+ (/ screen.h 2) y-offset)
         x gaps-width
         width (- screen.w (* 2 gaps-width))
-        height (- (/ screen.h 2) (* 1.5 gaps-width))]
-    (hs.geometry.new x y width height)))
+        height (- (/ screen.h 2) (* 1.5 y-offset))]
+    (hs.geometry.rect x y width height)))
 
 (fn set-bottom-half [window screen]
   (set-window-location window :bottom-half)
@@ -190,21 +183,27 @@
         rect (frame:toUnitRect (screen:frame))]
     (window:move rect previous-screen true 0)))
 
-(fn valid-window? [window frame screen]
-  (not= screen nil))
+(fn valid-window? [window screen]
+  (and (not= screen nil) (not= window nil)))
+
+(fn refresh-window! [id position]
+  (let [(window frame screen) (window-frame-screen id)]
+    (when (valid-window? window screen)
+      (match position
+        :fullscreen (size-fullscreen window frame screen)
+        :top-half (set-top-half window screen)
+        :bottom-half (set-bottom-half window screen)
+        :right-half (set-right-half window screen)
+        :left-half (set-left-half window screen)))))
+
+(fn on-off [x]
+  (if x "ON" "OFF"))
 
 (fn toggle-gaps []
   (set ?gaps (not ?gaps))
   (each [id position (pairs window-locations)]
-    (let [(window frame screen) (window-frame-screen id)]
-      (when valid-window? window
-        (match position
-          :fullscreen (set-fullscreen window frame screen)
-          :top-half (set-top-half window screen)
-          :bottom-half (set-bottom-half window screen)
-          :right-half (set-right-half window screen)
-          :left-half (set-left-half window screen)))))
-  (hs.alert.show (.. "Gaps set to: " (tostring ?gaps))))
+    (refresh-window! id position))
+  (hs.alert.show (.. "Gaps: " (on-off ?gaps))))
 
 {: focused-center
  : focused-fullscreen
