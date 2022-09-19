@@ -1,9 +1,12 @@
+#!/usr/bin/env bash
+
 # This is a demo config to show some of the most important commands more easily.
 # This is meant to be changed and configured, as it is intentionally kept sparse.
 # For a more advanced configuration example see my dotfiles:
 # https://github.com/FelixKratz/dotfiles
 
 PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+INKD_THEME_PATH="$HOME/.inkd/sketchybar.ink.sh"
 
 ##### Bar Appearance #####
 # Configuring the general appearance of the bar, these are only some of the
@@ -18,7 +21,7 @@ sketchybar --bar height=32        \
                  padding_left=10  \
                  padding_right=10 \
                  y_offset=8       \
-                 margin=16         \
+                 margin=16        \
                  corner_radius=6  \
                  color=0xFF1F1F28
 
@@ -37,6 +40,8 @@ sketchybar --default updates=when_shown                           \
                      label.padding_right=4                        \
                      icon.padding_left=4                          \
                      icon.padding_right=4
+
+[ -d "$INKD_THEME_PATH" ] && source "$INKD_THEME_PATH"
 
 ##### Adding Mission Control Space Indicators #####
 # Now we add some mission control spaces:
