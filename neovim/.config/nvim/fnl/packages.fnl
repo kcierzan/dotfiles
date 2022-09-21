@@ -49,13 +49,6 @@
         (let [bl (require :indent_blankline)]
           (bl.setup {:buftype_exclude: [:terminal]
                      :filetype_exclude [:alpha]})))})
-   (def-pkg
-     :goolord/alpha-nvim
-     {:config
-      (fn []
-        (let [alpha (require :alpha)
-              dash (require :alpha.themes.dashboard)]
-          (alpha.setup dash.config)))})
 
    (def-pkg
      :lewis6991/gitsigns.nvim
@@ -165,6 +158,7 @@
    :nvim-cmp
    :lspconfig
    :treesitter
+   :alpha
    :formatter
    :which-key
    :lualine])
