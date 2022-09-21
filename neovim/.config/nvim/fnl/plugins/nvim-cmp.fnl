@@ -59,7 +59,7 @@
 
       (local mapping {"<Tab>" (cmp.mapping tab-func [:i :s :c])
                       "<S-Tab>" (cmp.mapping s-tab-func [:i :s :c])
-                      "<CR>" (cmp.mapping.confirm {:select true})
+                      "<CR>" (cmp.mapping.confirm {:select false})
                       "<C-n>" (cmp.mapping ctrl-n [:i :s :c])
                       "<C-p>" (cmp.mapping ctrl-p [:i :s :c])})
 
@@ -91,8 +91,6 @@
                        :priority 6}
                       {:name :calc
                        :priority 4}
-                      {:name :cmdline
-                       :priority 4}
                       {:name :nvim_lsp
                        :priority 9}
                       {:name :luasnip
@@ -115,6 +113,7 @@
                   :mapping mapping
                   :sources sources
                   :enabled enabled?
+                  :completion {:keyword_length 2}
                   :formatting {:fields [:kind
                                         :abbr
                                         :menu]

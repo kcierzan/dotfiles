@@ -65,7 +65,7 @@
   (let [group-id (vim.api.nvim_create_augroup :AutoWrite {:clear true})]
     (vim.api.nvim_create_autocmd [:BufEnter :FocusLost]
                                  {:pattern "*"
-                                  :command :update
+                                  :command "if &buftype == '' | silent update | endif"
                                   :group group-id})))
 (create-autowrite-augroup)
 (packages.configure!)

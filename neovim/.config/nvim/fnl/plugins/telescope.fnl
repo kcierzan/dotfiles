@@ -19,8 +19,10 @@
                                              :--trim
                                              :--glob
                                              "!.git/"]
-                        :layout_config {:horizontal {:width {:padding 0}
-                                                     :height {:padding 0}}}}
+                        :layout_strategy :vertical
+                        :layout_config {:vertical {:width {:padding 0}
+                                                   :height {:padding 0}
+                                                   :preview_height 0.66}}}
                        :pickers
                        {:find_files 
                          {:find_command [:fd

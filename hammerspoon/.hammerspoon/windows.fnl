@@ -1,3 +1,4 @@
+;; TODO: Make this look decent on a notched macbook
 (local window-locations {})
 (local bar-height 40)
 (local gaps-width 16)
@@ -7,20 +8,18 @@
 (fn set-window-location [window location]
   (tset window-locations (window:id) location))
 
-(fn focused-window-frame-screen []
-  (let [current-window (hs.window.focusedWindow)
-        current-frame (-> current-window (: :frame))
-        current-screen (-> current-window (: :screen) (: :frame))]
-    (values current-window current-frame current-screen)))
+(fn focused-window []
+  (values (hs.window.focusedWindow)
+          (-?> (hs.window.focusedWindow) (: :frame))
+          (-?> (hs.window.focusedWindow) (: :screen) (: :frame))))
 
-(fn window-frame-screen [id]
-  (let [current-window (hs.window id)
-        current-frame (-> current-window (: :frame))
-        current-screen (-> current-window (: :screen) (: :frame))]
-    (values current-window current-frame current-screen)))
+(fn window-by-id [id]
+  (values (hs.window id)
+          (-?> (hs.window id) (: :frame))
+          (-?> (hs.window id) (: :screen) (: :frame))))
 
 (fn focused-center []
-  (let [(window _ screen) (focused-window-frame-screen)]
+  (let [(window _ screen) (focused-window)]
     (window:centerOnScreen screen)))
 
 (fn set-fullscreen-gaps [window frame screen]
@@ -45,7 +44,7 @@
     (set-fullscreen window frame screen)))
 
 (fn focused-fullscreen []
-  (let [(window frame screen) (focused-window-frame-screen)]
+  (let [(window frame screen) (focused-window)]
     (size-fullscreen window frame screen)))
 
 (fn left-half-gaps-rect [screen]
@@ -69,7 +68,7 @@
     (window:moveToUnit "[0,0,50,100]")))
 
 (fn focused-left-half []
-  (let [(window _ screen) (focused-window-frame-screen)]
+  (let [(window _ screen) (focused-window)]
     (set-left-half window screen)))
 
 (fn set-right-half [window screen]
@@ -79,7 +78,7 @@
     (window:moveToUnit "[50,0,100,100]")))
 
 (fn focused-right-half []
-  (let [(window _ screen) (focused-window-frame-screen)]
+  (let [(window _ screen) (focused-window)]
     (set-right-half window screen)))
 
 (fn top-half-gaps-rect [screen]
@@ -93,17 +92,17 @@
   (set-window-location window :top-half)
   (if ?gaps
     (window:move (top-half-gaps-rect screen))
-    (window:moveToUnit "[0,0,100,50]"))) 
-      
+    (window:moveToUnit "[0,0,100,50]")))
+
 (fn focused-top-half []
-  (let [(window _ screen) (focused-window-frame-screen)]
+  (let [(window _ screen) (focused-window)]
     (set-top-half window screen)))
 
 (fn bottom-half-gaps-rect [screen]
   (let [y (+ (/ screen.h 2) y-offset)
         x gaps-width
         width (- screen.w (* 2 gaps-width))
-        height (- (/ screen.h 2) (* 1.5 y-offset))]
+        height (- (/ screen.h 2) y-offset)]
     (hs.geometry.rect x y width height)))
 
 (fn set-bottom-half [window screen]
@@ -113,7 +112,7 @@
     (window:moveToUnit "[0,50,100,100]")))
 
 (fn focused-bottom-half []
-  (let [(window _ screen) (focused-window-frame-screen)]
+  (let [(window _ screen) (focused-window)]
     (set-bottom-half window screen)))
 
 (fn frame-outside-bounds [frame screen]
@@ -128,7 +127,7 @@
   (> frame.w (* screen.w (/ 2 5))))
 
 (fn set-frame-big [frame screen]
-  (tset frame :w (* screen.w (/ 4 5))) 
+  (tset frame :w (* screen.w (/ 4 5)))
   (tset frame :h (* screen.h (/ 4 5))))
 
 (fn set-frame-medium [frame screen]
@@ -140,7 +139,7 @@
   (tset frame :h (* screen.h (/ 2 5))))
 
 (fn toggle-between-sizes []
-  (let [(window frame screen) (focused-window-frame-screen)]
+  (let [(window frame screen) (focused-window)]
     (if (frame-outside-bounds frame screen)
       (set-frame-big frame screen)
       (bigger-than-medium frame screen)
@@ -150,34 +149,34 @@
     (window:setFrame frame)))
 
 (fn nudge-focused-left []
-  (let [(window frame screen) (focused-window-frame-screen)]
+  (let [(window frame screen) (focused-window)]
     (tset frame :x (- frame.x (// screen.w 32)))
     (window:setFrame frame)))
 
 (fn nudge-focused-right []
-  (let [(window frame screen) (focused-window-frame-screen)]
+  (let [(window frame screen) (focused-window)]
     (tset frame :x (+ frame.x (// screen.w 32)))
     (window:setFrame frame)))
 
 (fn nudge-focused-up []
-  (let [(window frame screen) (focused-window-frame-screen)]
+  (let [(window frame screen) (focused-window)]
     (tset frame :y (- frame.y (// screen.h 32)))
     (window:setFrame frame)))
 
 (fn nudge-focused-down []
-  (let [(window frame screen) (focused-window-frame-screen)]
+  (let [(window frame screen) (focused-window)]
     (tset frame :y (+ frame.y (// screen.h 32)))
     (window:setFrame frame)))
 
 (fn focused-to-next-screen []
-  (let [(window frame screen) (focused-window-frame-screen)
+  (let [(window frame screen) (focused-window)
         screen (window:screen)
         next-screen (screen:next)
         rect (frame:toUnitRect (screen:frame))]
     (window:move rect next-screen true 0)))
 
 (fn focused-to-previous-screen []
-  (let [(window frame screen) (focused-window-frame-screen)
+  (let [(window frame screen) (focused-window)
         screen (window:screen)
         previous-screen (screen:previous)
         rect (frame:toUnitRect (screen:frame))]
@@ -187,7 +186,7 @@
   (and (not= screen nil) (not= window nil)))
 
 (fn refresh-window! [id position]
-  (let [(window frame screen) (window-frame-screen id)]
+  (let [(window frame screen) (window-by-id id)]
     (when (valid-window? window screen)
       (match position
         :fullscreen (size-fullscreen window frame screen)

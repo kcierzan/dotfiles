@@ -87,6 +87,12 @@
      :machakann/vim-sandwich
      {:config (fn []
                 (vim.cmd "runtime macros/sandwich/keymap/surround.vim"))})
+   (def-pkg
+     :ggandor/leap.nvim
+     {:config
+      (fn []
+        (let [leap (require :leap)]
+          (leap.set_default_keymaps)))})
 
    (def-pkg
      :knubie/vim-kitty-navigator
@@ -118,6 +124,7 @@
    :lewis6991/impatient.nvim
    :nathom/filetype.nvim
    :vim-ruby/vim-ruby
+   :RRethy/nvim-treesitter-endwise
    :tpope/vim-rails
    :nvim-lua/plenary.nvim
    :williamboman/nvim-lsp-installer
@@ -133,12 +140,12 @@
    :onsails/lspkind.nvim
    :nvim-lua/popup.nvim
    :famiu/bufdelete.nvim
-   :ggandor/lightspeed.nvim
    :folke/trouble.nvim
    :bakpakin/fennel.vim
    :Olical/conjure
    :rktjmp/hotpot.nvim
    :tpope/vim-rhubarb
+   :tpope/vim-repeat
    :tpope/vim-fugitive])
 
 (local module-packages
@@ -146,6 +153,7 @@
    :nvim-cmp
    :lspconfig
    :treesitter
+   :formatter
    :which-key
    :lualine])
 

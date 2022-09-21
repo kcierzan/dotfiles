@@ -104,7 +104,9 @@
       (leader-b :d "<cmd>Bdelete<cr>" "delete buffer")
       (leader-b :r "<cmd>edit!<cr>" "reload buffer")
       (leader-b :s "<cmd>w<cr>" "write")
+      (leader-b :y "<cmd>let @+ = expand(\"%:p\")<cr>" "yank buffer name")
       (leader-b :w "<cmd>%s/\\s\\+$//e<cr>" "trim trailing whitespace")
+      (leader-b :f "<cmd>silent exec \"!bundle exec rubocop -A %:p\"<cr>" "run rubocop on buffer")
 
       (leader-w :S "<C-w>J" "to horizontal split")
       (leader-w :V "<C-w>H" "to vertical split")
@@ -122,6 +124,7 @@
       (leader-i :h "<cmd>ColorizerAttachToBuffer<cr>" "colorize buffer")
       (leader-i :l "<cmd>IndentBlanklineToggle<cr>" "toggle indentation lines")
       (leader-i :t "<cmd>NvimTreeToggle<cr>" "toggle tree")
+      (leader-i :f "<cmd>NvimTreeFindFile<cr>" "show current file in tree")
 
       (leader-g :b "<cmd>Git blame<cr>" "blame")
       (leader-g :c "<cmd>Git commit<cr>" "commit")

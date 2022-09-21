@@ -58,8 +58,8 @@
        (configure-lsp :solargraph
                       (fn [opts]
                         (tset opts :settings {:solargraph {:diagnostics true}})
-                        ;; (tset opts :cmd [:bundle :exec :solargraph :stdio])
-                        (tset opts :cmd [:solargraph :stdio])
+                        (tset opts :cmd [:bundle :exec :solargraph :stdio])
+                        ;; (tset opts :cmd [:solargraph :stdio])
                         opts)))
 
      (fn setup-servers []
