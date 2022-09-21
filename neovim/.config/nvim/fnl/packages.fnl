@@ -7,59 +7,69 @@
 (local packages
   [(def-pkg
      :windwp/nvim-autopairs
-     {:config (fn []
-                (let [autopairs (require :nvim-autopairs)]
-                  (autopairs.setup)))})
+     {:config
+      (fn []
+        (let [autopairs (require :nvim-autopairs)]
+          (autopairs.setup)))})
+
    (def-pkg
      :numToStr/Comment.nvim
-     {:config (fn []
-                (let [cmt (require :Comment)]
-                  (cmt.setup)))})
+     {:config
+      (fn []
+        (let [cmt (require :Comment)]
+          (cmt.setup)))})
+
    (def-pkg
      :akinsho/bufferline.nvim
      {:branch :main
-      :config (fn []
-                (let [bl (require :bufferline)]
-                  (bl.setup {:options {:show_close_icon false
-                                       :show_buffer_close_icons false
-                                       :indicator {:style :none}
-                                       :separator_style {"" ""}
-                                       :offsets [{:filetype :NvimTree
-                                                  :text "File Explorer"
-                                                  :highlight :Directory
-                                                  :separator true}]}})))})
+      :config
+      (fn []
+        (let [bl (require :bufferline)]
+          (bl.setup {:options {:show_close_icon false
+                               :show_buffer_close_icons false
+                               :indicator {:style :none}
+                               :separator_style {"" ""}
+                               :offsets [{:filetype :NvimTree
+                                          :text "File Explorer"
+                                          :highlight :Directory
+                                          :separator true}]}})))})
    (def-pkg
      :ahmedkhalf/project.nvim
      {:requires :nvim-telescope/telescope.nvim
-      :config (fn []
-                (let [prj (require :project_nvim)
-                      telescope (require :telescope)]
-                  (prj.setup {:manual_mode true})
-                  (telescope.load_extension :projects)))})
+      :config
+      (fn []
+        (let [prj (require :project_nvim)
+              telescope (require :telescope)]
+          (prj.setup {:manual_mode true})
+          (telescope.load_extension :projects)))})
    (def-pkg
      :lukas-reineke/indent-blankline.nvim
-     {:config (fn []
-                (let [bl (require :indent_blankline)]
-                  (bl.setup {:buftype_exclude: [:terminal]
-                             :filetype_exclude [:alpha]})))})
+     {:config
+      (fn []
+        (let [bl (require :indent_blankline)]
+          (bl.setup {:buftype_exclude: [:terminal]
+                     :filetype_exclude [:alpha]})))})
    (def-pkg
      :goolord/alpha-nvim
-     {:config (fn []
-                (let [alpha (require :alpha)
-                      dash (require :alpha.themes.dashboard)]
-                  (alpha.setup dash.config)))})
+     {:config
+      (fn []
+        (let [alpha (require :alpha)
+              dash (require :alpha.themes.dashboard)]
+          (alpha.setup dash.config)))})
 
    (def-pkg
      :lewis6991/gitsigns.nvim
-     {:config (fn []
-                (let [signs (require :gitsigns)]
-                  (signs.setup)))})
+     {:config
+      (fn []
+        (let [signs (require :gitsigns)]
+          (signs.setup)))})
 
    (def-pkg
      :kyazdani42/nvim-tree.lua
-     {:config (fn []
-                (let [tree (require :nvim-tree)]
-                  (tree.setup)))})
+     {:config
+      (fn []
+        (let [tree (require :nvim-tree)]
+          (tree.setup)))})
 
    (def-pkg
      :folke/zen-mode.nvim
@@ -108,16 +118,18 @@
 
    (def-pkg
      :kyazdani42/nvim-web-devicons
-     {:config (fn []
-                (let [icons (require :nvim-web-devicons)]
-                  (icons.setup {:override {:fnl {:icon "🥬"
-                                                 :name :Fennel}}})))})
+     {:config
+      (fn []
+        (let [icons (require :nvim-web-devicons)]
+          (icons.setup {:override {:fnl {:icon "🥬"
+                                         :name :Fennel}}})))})
    (def-pkg
      :L3MON4D3/LuaSnip
      {:requires :rafamadriz/friendly-snippets
-      :config (fn []
-                (let [snippets (require :luasnip.loaders.from_vscode)]
-                  (snippets.lazy_load)))})])
+      :config
+      (fn []
+        (let [snippets (require :luasnip.loaders.from_vscode)]
+          (snippets.lazy_load)))})])
 
 (local basic-packages
   [:wbthomason/packer.nvim

@@ -63,6 +63,7 @@
       (leader-f :c "<cmd>lua require('telescope.builtin').git_commits()<cr>" "git commits")
       (leader-f :f "<cmd>lua require('telescope.builtin').find_files()<cr>" "files in current directory")
       (leader-f :g "<cmd>lua require('telescope.builtin').live_grep()<cr>" "text in files")
+      (leader-f :G "<cmd>Telescope grep_string search=<cr>" "super fuzzy grep")
       (leader-f :h "<cmd>lua require('telescope.builtin').highlights()<cr>" "highlights")
       (leader-f :k "<cmd>lua require('telescope.builtin').keymaps()<cr>" "keymaps")
       (leader-f :l "<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>" "lines in buffer")
