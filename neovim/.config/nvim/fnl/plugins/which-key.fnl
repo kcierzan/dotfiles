@@ -55,6 +55,7 @@
       (local leader-i (leader-prefix :i "interface"))
       (local leader-g (leader-prefix :g "git"))
       (local leader-o (leader-prefix :o "org"))
+      (local leader-t (leader-prefix :t "test"))
 
       (leader-f :O "<cmd>lua require('telescope.builtin').vim_options()<cr>" "vim options")
       (leader-f :T "<cmd>lua require('telescope.builtin').filetypes()<cr>" "filetypes")
@@ -126,6 +127,7 @@
       (leader-i :l "<cmd>IndentBlanklineToggle<cr>" "toggle indentation lines")
       (leader-i :t "<cmd>NvimTreeToggle<cr>" "toggle tree")
       (leader-i :f "<cmd>NvimTreeFindFile<cr>" "show current file in tree")
+      (leader-i :e "<cmd>Trouble<cr>" "show errors and warnings")
 
       (leader-g :b "<cmd>Git blame<cr>" "blame")
       (leader-g :c "<cmd>Git commit<cr>" "commit")
@@ -136,6 +138,14 @@
       (leader-g :r "<cmd>Gvdiffsplit!<cr>" "3-way diff")
       (leader-g :s "<cmd>Git<cr>" "status")
       (leader-g :t "<cmd>diffget //2<cr>" "get diff from target buffer")
+
+      (leader-t :r "<cmd>lua require('neotest').run.run()<cr>" "run nearest test")
+      (leader-t :f "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>" "run current file")
+      (leader-t :c "<cmd>lua require('neotest').run.stop()<cr>" "stop nearest test")
+      (leader-t :o "<cmd>lua require('neotest').output.open()<cr>" "show test results")
+      (leader-t :t "<cmd>lua require('neotest').summary.open()<cr>" "show test suite structure")
+      (leader-t :i "<cmd>lua require('neotest').output.open({ enter = true})<cr>" "open output of nearest test result")
+
 
       (wk.setup {:key_labels {:<cr> :RET}})
       (wk.register keys)

@@ -27,6 +27,7 @@
         (let [bl (require :bufferline)]
           (bl.setup {:options {:show_close_icon false
                                :show_buffer_close_icons false
+                               :show_buffer_icons false
                                :indicator {:style :none}
                                :separator_style {"" ""}
                                :offsets [{:filetype :NvimTree
@@ -71,7 +72,7 @@
                   (zen.setup)))})
 
    (def-pkg
-     :norcalli/nvim-colorizer.lua
+     :NvChad/nvim-colorizer.lua
      {:config (fn []
                 (let [colors (require :colorizer)]
                   (colors.setup)))})
@@ -127,10 +128,13 @@
 (local basic-packages
   [:wbthomason/packer.nvim
    :lewis6991/impatient.nvim
+   :antoinemadec/FixCursorHold.nvim
    :nathom/filetype.nvim
-   :vim-ruby/vim-ruby
+   ;; :vim-ruby/vim-ruby
+   ;; :tpope/vim-rails
    :RRethy/nvim-treesitter-endwise
-   :tpope/vim-rails
+   :pechorin/any-jump.vim
+   :mg979/vim-visual-multi
    :nvim-lua/plenary.nvim
    :williamboman/nvim-lsp-installer
    :rafamadriz/friendly-snippets
@@ -158,6 +162,7 @@
    :nvim-cmp
    :lspconfig
    :treesitter
+   :neotest
    :alpha
    :formatter
    :which-key
