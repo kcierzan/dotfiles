@@ -154,6 +154,7 @@
    :Olical/conjure
    :rktjmp/hotpot.nvim
    :tpope/vim-rhubarb
+   :tpope/vim-projectionist
    :tpope/vim-repeat
    :tpope/vim-fugitive])
 
