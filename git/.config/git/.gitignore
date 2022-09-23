@@ -1,3 +1,7 @@
 # solargraph definitions
 definitions.rb
+prepare.sh
+tags
+.yardoc
+.projections.json
 .DS_STORE

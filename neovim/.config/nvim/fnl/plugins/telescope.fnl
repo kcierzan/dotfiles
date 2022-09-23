@@ -22,7 +22,7 @@
                         :layout_strategy :vertical
                         :layout_config {:vertical {:width {:padding 0}
                                                    :height {:padding 0}
-                                                   :preview_height 0.66}}}
+                                                   :preview_height 0.70}}}
                        :pickers
                        {:find_files 
                          {:find_command [:fd
