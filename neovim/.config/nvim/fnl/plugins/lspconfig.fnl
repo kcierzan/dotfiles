@@ -28,12 +28,13 @@
                              :bashls
                              :emmet_ls
                              :tsserver
+                             :elixirls
                              :jsonls
                              :rust_analyzer
                              :svelte
                              :dockerls
                              :clojure_lsp])
-                             
+
      (fn on-attach [_ bufnr]
        (let [wk (require :which-key)]
          (wk.register {:g {:d ["<cmd>lua vim.lsp.buf.definition()<cr>" "go to definition"]
@@ -62,14 +63,22 @@
                         ;; (tset opts :cmd [:solargraph :stdio])
                         opts)))
 
+     (fn setup-elixirls []
+       (configure-lsp :elixirls
+                      (fn [opts]
+                        (tset opts :cmd [:elixir-ls])
+                        (tset opts :settings {:elixirls {:diagnostics true}})
+                        opts)))
+
      (fn setup-servers []
        (each [_ server (ipairs default-servers)]
          (let [server (. lspconf server)]
           (server.setup {:on_attach on-attach
                          :capabilities capabilities})))
        (setup-lua)
+       (setup-elixirls)
        (setup-solargraph))
-         
+
 
      (installer.setup)
      (setup-servers))})
