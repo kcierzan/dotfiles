@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+set -e
+
 DOTFILES_DIR="$HOME/.dotfiles"
 
 eval "$(curl -fsSL 'https://raw.githubusercontent.com/kcierzan/dotfiles/master/bootstrap/helpers.sh')"

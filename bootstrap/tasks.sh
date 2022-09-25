@@ -8,66 +8,10 @@ install_fisher() {
   fish -c "curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
 }
 
-bootstrap_inkd() {
-  mkdir -p ~/.inkd/ && cp -n inkd/* ~/.inkd/
-}
-
 install_brew_packages() {
   BREW_PREFIX="$(brew --prefix)"
-  pkgs=(
-    asdf
-    awscli
-    bat
-    boxes
-    cling
-    cmake
-    cmatrix
-    cowsay
-    ctags
-    fd
-    figlet
-    findutils
-    fish
-    fortune
-    fzf
-    gawk
-    git
-    git-delta
-    gitui
-    glow
-    gnu-tar
-    gnu-which
-    grep
-    gzip
-    highlight
-    htop
-    httpie
-    jq
-    lsd
-    luarocks
-    magic-wormhole
-    make
-    mas
-    mosh
-    neovim
-    nnn
-    openssh
-    pandoc
-    postgresql
-    prettier
-    pv
-    rename
-    ripgrep
-    ruby
-    shellcheck
-    sketchybar
-    speedtest-cli
-    starship
-    stow
-    wget
-    zoxide
-  )
-  for pkg in "${pkgs[@]}"
+  source ./homebrew_packages.sh
+  for pkg in "${HOMEBREW_PACKAGES[@]}"
   do
     [ ! -d "$BREW_PREFIX/Cellar/$(basename "$pkg")" ] \
       && brew install "$pkg" || subtask_inform "Already installed: $pkg"
@@ -79,9 +23,12 @@ install_casks() {
   casks=(
     1password
     alfred
-    hammerspoon
+    font-iosevka-aile
+    font-iosevka-etoile
+    font-iosevka-ss08
     google-chrome
     google-drive
+    hammerspoon
     iina
     jetbrains-toolbox
     kitty
@@ -145,7 +92,7 @@ set_fish_globals() {
 copy_missing_fonts() {
   for f in fonts/*/*
   do
-    [ -f "$HOME/Library/Fonts/$(basename "$f")" ] || cp "$f" ~/Library/Fonts/
+    [ -f "$HOME/Library/Fonts/$(basename "$f")" ] || cp "$f" "$HOME/Library/Fonts/"
   done
 }
 
@@ -170,9 +117,9 @@ symlink_bootstrap_executable() {
   TARGET="$HOME/.local/bin/bootstrap"
 
   if [ "$(uname)" = 'Darwin' ]; then
-    [ ! -L "$TARGET" ] && ln -s ~/.dotfiles/bootstrap/macstrap.sh "$TARGET"
+    [ ! -L "$TARGET" ] && ln -s "$HOME/.dotfiles/bootstrap/macstrap.sh" "$TARGET"
   else
-    [ ! -L "$TARGET" ] && ln -s ~/.dotfiles/bootstrap/archstrap.sh "$TARGET"
+    [ ! -L "$TARGET" ] && ln -s "$HOME/.dotfiles/bootstrap/archstrap.sh" "$TARGET"
   fi
   return 0
 }
@@ -185,11 +132,11 @@ install_audio_apps() {
 }
 
 clone_inkd() {
-  git clone 'https://github.com/kcierzan/inkd' ~/git/inkd
+  git clone 'https://github.com/kcierzan/inkd' "$HOME/git/inkd"
 }
 
 build_and_install_inkd() {
-  pushd ~/git/inkd || exit 255
+  pushd "$HOME/git/inkd" || exit 255
   VERSION="$(grep 's.version' inkd.gemspec | cut -d'=' -f2 | tr -d "'" | xargs)"
   asdf exec gem build inkd.gemspec && asdf exec gem install "inkd-$VERSION.gem"
   popd || exit 255

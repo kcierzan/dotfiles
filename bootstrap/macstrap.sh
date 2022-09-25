@@ -5,8 +5,8 @@ GLOBAL_RUBY_VERSION='3.0.2'
 GLOBAL_PYTHON_VERSION='3.10.5'
 DOTFILES_DIR="$HOME/.dotfiles"
 
-source ~/.dotfiles/bootstrap/helpers.sh
-source ~/.dotfiles/bootstrap/tasks.sh
+source "$HOME/.dotfiles/bootstrap/helpers.sh"
+source "$HOME/.dotfiles/bootstrap/tasks.sh"
 
 for arg in "$@"
 do
@@ -19,9 +19,9 @@ do
       APPS=1
       option_inform 'Installing applications!'
       ;;
-    --asdf)
-      ASDF=1
-      option_inform 'Installing asdf runtimes!'
+    --runtimes)
+      RUNTIMES=1
+      option_inform 'Installing runtimes!'
       ;;
     --editors)
       EDITORS=1
@@ -44,7 +44,7 @@ done
 
 if [ $# -eq 0 ]; then
   APPS=1
-  ASDF=1
+  RUNTIMES=1
   FONTS=1
   CONFIG_SHELL=1
   EDITORS=1
@@ -64,7 +64,7 @@ if [ -n "$APPS" ]; then
   is_tapped 'homebrew/cask-versions' || subtask_exec 'Tapping cask versions' brew tap homebrew/cask-versions
   is_tapped 'homebrew/cask-fonts' || subtask_exec 'Tapping cask fonts' brew tap homebrew/cask-fonts
   is_tapped 'homebrew/services' || subtask_exec 'Tapping cask services' brew tap homebrew/services
-  is_tapped 'FelixKratz/formulae' || subtask_exec 'Tapping sketchybar' brew tap FelixKratz
+  is_tapped 'felixkratz/formulae' || subtask_exec 'Tapping sketchybar' brew tap felixkratz/formulae
 
   subtask_exec 'Installing homebrew packages' install_brew_packages
 
@@ -98,8 +98,8 @@ if [ -n "$CONFIG_SHELL" ]; then
 fi
 
 # --------------------------------------------------------------
-if [ -n "$ASDF" ]; then
-  task_inform 'Installing language support'
+if [ -n "$RUNTIMES" ]; then
+  task_inform 'Installing runtime support'
 
   subtask_exec 'Installing asdf plugins' install_asdf_plugins
 
