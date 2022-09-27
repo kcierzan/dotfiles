@@ -43,6 +43,7 @@
               telescope (require :telescope)]
           (prj.setup {:manual_mode true})
           (telescope.load_extension :projects)))})
+
    (def-pkg
      :lukas-reineke/indent-blankline.nvim
      {:config
