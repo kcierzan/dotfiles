@@ -109,7 +109,6 @@ if [ -n "$CONFIG_SHELL" ]; then
     subtask_exec 'Installing fisher' install_fisher
 
   subtask_exec 'Symlinking bootstrap script' symlink_bootstrap_executable
-  
 fi
 
 # --------------------------------------------------------------

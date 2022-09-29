@@ -6,7 +6,7 @@
 # https://github.com/FelixKratz/dotfiles
 
 PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
-INKD_THEME_PATH="$HOME/.inkd/sketchybar.ink.sh"
+INKD_THEME_PATH="$HOME/.inkd"
 
 ##### Bar Appearance #####
 # Configuring the general appearance of the bar, these are only some of the
@@ -34,14 +34,14 @@ sketchybar --default updates=when_shown                           \
                      drawing=on                                   \
                      icon.font="Liga SFMono Nerd Font:Bold:17.0"  \
                      icon.color=0xffDCD7BA                        \
-                     label.font="Iosevka SS08:Bold:14.0" \
+                     label.font="Iosevka SS08:Bold:14.0"          \
                      label.color=0xffDCD7BA                       \
                      label.padding_left=4                         \
                      label.padding_right=4                        \
                      icon.padding_left=4                          \
                      icon.padding_right=4
 
-[ -d "$INKD_THEME_PATH" ] && source "$INKD_THEME_PATH"
+[ -d "$INKD_THEME_PATH" ] && source "$INKD_THEME_PATH/sketchybar.ink.sh"
 
 ##### Adding Mission Control Space Indicators #####
 # Now we add some mission control spaces:
