@@ -15,23 +15,23 @@ end
 function thematic.load_syntax()
   local file_path = os.getenv("INKD_DIR") .. "neovim.ink.lua"
   if io.open(file_path, "r") then
-     return dofile(file_path)
+    return dofile(file_path)
   else
     print('inkd theme not found!. Make sure INKD_DIR is set and run `ink colors`.')
   end
 end
 
 function thematic.colorscheme()
-   vim.api.nvim_command('hi clear')
-   if vim.fn.exists('syntax_on') then
-      vim.api.nvim_command('syntax reset')
-   end
-   vim.o.termguicolors = true
-   vim.g.colors_name = 'thematic'
-   local highlights = thematic.load_syntax()
-   for group,colors in pairs(highlights) do
-      thematic.highlight(group, colors)
-   end
+  vim.api.nvim_command('hi clear')
+  if vim.fn.exists('syntax_on') then
+    vim.api.nvim_command('syntax reset')
+  end
+  vim.o.termguicolors = true
+  vim.g.colors_name = 'thematic'
+  local highlights = thematic.load_syntax()
+  for group, colors in pairs(highlights) do
+    thematic.highlight(group, colors)
+  end
 end
 
 thematic.colorscheme()

@@ -115,15 +115,15 @@
   (let [(window _ screen) (focused-window)]
     (set-bottom-half window screen)))
 
-(fn frame-outside-bounds [frame screen]
+(fn frame-outside-bounds? [frame screen]
   (let [frame-is-small (<= frame.w (* screen.w (/ 2 5)))
         frame-is-big (> frame.w (* screen.w (/ 4 5)))]
     (or frame-is-small frame-is-big)))
 
-(fn bigger-than-medium [frame screen]
+(fn bigger-than-medium? [frame screen]
   (> frame.w (* screen.w (/ 3 5))))
 
-(fn bigger-than-small [frame screen]
+(fn bigger-than-small? [frame screen]
   (> frame.w (* screen.w (/ 2 5))))
 
 (fn set-frame-big [frame screen]
@@ -140,11 +140,11 @@
 
 (fn toggle-between-sizes []
   (let [(window frame screen) (focused-window)]
-    (if (frame-outside-bounds frame screen)
+    (if (frame-outside-bounds? frame screen)
       (set-frame-big frame screen)
-      (bigger-than-medium frame screen)
+      (bigger-than-medium? frame screen)
       (set-frame-medium frame screen)
-      (bigger-than-small frame screen)
+      (bigger-than-small? frame screen)
       (set-frame-small frame screen))
     (window:setFrame frame)))
 
