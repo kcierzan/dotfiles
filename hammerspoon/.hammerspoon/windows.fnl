@@ -102,7 +102,7 @@
   (let [y (+ (/ screen.h 2) y-offset)
         x gaps-width
         width (- screen.w (* 2 gaps-width))
-        height (- (/ screen.h 2) y-offset)]
+        height (- (/ screen.h 2) (+ y-offset gaps-width))]
     (hs.geometry.rect x y width height)))
 
 (fn set-bottom-half [window screen]
