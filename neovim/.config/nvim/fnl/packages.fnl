@@ -130,7 +130,7 @@
   [:wbthomason/packer.nvim
    :lewis6991/impatient.nvim
    :antoinemadec/FixCursorHold.nvim
-   :nathom/filetype.nvim
+   ;; :nathom/filetype.nvim
    ;; :vim-ruby/vim-ruby
    ;; :tpope/vim-rails
    :RRethy/nvim-treesitter-endwise
