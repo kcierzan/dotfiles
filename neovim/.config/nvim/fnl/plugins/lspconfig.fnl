@@ -26,7 +26,6 @@
 
      (local default-servers [:pyright
                              :bashls
-                             :emmet_ls
                              :tsserver
                              :elixirls
                              :jsonls
@@ -70,6 +69,12 @@
                         (tset opts :settings {:elixirls {:diagnostics true}})
                         opts)))
 
+     (fn setup-emmet []
+       (configure-lsp :emmet_ls
+                      (fn [opts]
+                        (tset opts :filetypes [:html :typescriptreact :javascriptreact :css :sass :scss :less :eruby :heex])
+                        opts)))
+
      (fn setup-servers []
        (each [_ server (ipairs default-servers)]
          (let [server (. lspconf server)]
@@ -77,8 +82,8 @@
                          :capabilities capabilities})))
        (setup-lua)
        (setup-elixirls)
+       (setup-emmet)
        (setup-solargraph))
-
 
      (installer.setup)
      (setup-servers))})
