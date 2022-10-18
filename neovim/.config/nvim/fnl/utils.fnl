@@ -1,3 +1,5 @@
+(local vim _G.vim)
+
 (fn opt [option value]
   (tset vim.opt option value))
 
@@ -9,6 +11,20 @@
 
 (fn number? [val]
   (= (type val) :number))
+
+(fn keys [tbl]
+  (icollect [k _ (pairs tbl)] k))
+
+(fn vals [tbl]
+  (icollect [_ v (pairs tbl)] v))
+
+(fn args-keys [...]
+  (fcollect [i -1 (length [...]) 2]
+            (. [...] i)))
+
+(fn args-values [...]
+  (fcollect [i 0 (length [...]) 2]
+            (. [...] i)))
 
 (fn table? [val]
   (= (type val) :table))
@@ -25,6 +41,9 @@
 (fn nonzero? [val]
   (not= val 0))
 
+(fn zero? [val]
+  (= val 0))
+
 (fn positive? [val]
   (> val 0))
 
@@ -32,8 +51,8 @@
   [(. list 1)])
 
 (fn tail [list]
-  (local [_ & tail] list)
-  tail)
+  (let [[_ & tail] list]
+    tail))
 
 (fn first [list]
   (. list 1))
@@ -45,35 +64,35 @@
   (. list (length list)))
 
 (fn butlast [list]
-  (local target [])
-  (each [i v (ipairs list) :until (= i (length list))]
-    (table.insert target v))
-  target)
+  (let [target []]
+    (each [i v (ipairs list) &until (= i (length list))]
+      (table.insert target v))
+    target))
 
-(fn table-length [tbl]
+(fn size [tbl]
+  "Returns the number of keys in a table, regardless of type"
   (accumulate [sum 0
                _ _ (pairs tbl)]
               (+ sum 1)))
 
 (fn present? [value]
-  (if (number? value)
-    true
-    (and (string? value) (positive? (length value)))
-    true
-    (function? value)
-    true
-    (and (table? value) (positive? (table-length value)))
-    true
-    (and (boolean? value) (= value true))
-    true
-    false))
-
+  "Rails-like boolean casting"
+  (if (= value false)
+    false
+    (and (table? value) (zero? (size value)))
+    false
+    (= value "")
+    false
+    (nil? value)
+    false
+    true))
+    
 (fn reverse [tbl]
-  (local reversed [])
-  (local size (length tbl))
-  (each [i v (ipairs tbl)]
-    (tset reversed (- size (- i 1)) v))
-  reversed)
+  (let [reversed []
+        size (length tbl)]
+    (each [i v (ipairs tbl)]
+      (tset reversed (- size (- i 1)) v))
+    reversed))
 
 (fn vim-global [variable value]
   (tset vim.g variable value))
@@ -97,6 +116,29 @@
 (fn file-exists? [path]
   (= (vim.fn.empty (vim.fn.glob path)) 0))
 
+(fn split [str delim]
+  (vim.fn.split str delim))
+
+(fn module-files [dir]
+  (let [fennel-files (split (vim.fn.glob (.. dir "/*\\.fnl")) "\n")
+        lua-files (split (vim.fn.glob (.. dir "/*\\.lua")) "\n")]
+    (merge fennel-files lua-files)))
+
+(fn pp [tbl]
+  (let [fennel (require :fennel)]
+    (print (fennel.view tbl))))
+
+(fn export-module [fennel-module]
+  (let [dir (.. (vim.fn.stdpath :config) "/fnl/" fennel-module)
+        files (module-files dir)
+        names-exts (icollect [_ path (ipairs files)]
+                            (last (split path "/")))
+        filenames (icollect [_ filename (ipairs names-exts)]
+                            (let [name (first (split filename "\\."))]
+                              (if (not= name "init") name)))]
+    (collect [_ file (ipairs filenames)]
+             file (require (.. fennel-module "." file)))))
+
 (fn buffer-not-empty? []
   (not= (vim.fn.empty (vim.fn.expand "%:t")) 1))
 
@@ -115,7 +157,10 @@
  : butlast
  : colorscheme
  : file-exists?
+ : args-keys
+ : args-values
  : first
+ : export-module
  : function?
  : git-workspace?
  : head
@@ -126,12 +171,17 @@
  : nonzero?
  : opt
  : present?
+ : pp
  : reverse
  : number?
  : string?
  : table?
- : table-length
+ : keys
+ : split
+ : vals
+ : size
  : tail
  : vim-global
  : window-wide?
- : xmap}
+ : xmap
+ : zero?}

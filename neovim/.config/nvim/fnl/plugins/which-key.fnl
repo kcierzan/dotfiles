@@ -128,6 +128,7 @@
       (leader-i :t "<cmd>NvimTreeToggle<cr>" "toggle tree")
       (leader-i :f "<cmd>NvimTreeFindFile<cr>" "show current file in tree")
       (leader-i :e "<cmd>Trouble<cr>" "show errors and warnings")
+      (leader-i :H "<cmd>TSHighlightCapturesUnderCursor<cr>" "show highlight groups under cursor")
 
       (leader-g :b "<cmd>Git blame<cr>" "blame")
       (leader-g :c "<cmd>Git commit<cr>" "commit")

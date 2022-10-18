@@ -18,6 +18,13 @@ if not file_exits(hotpot_path) then
   vim.cmd("helptags " .. hotpot_path .. "/doc")
 end
 
-require("hotpot")
+require("hotpot").setup({
+  provide_required_fennel = true,
+  macros = {
+    env = '_COMPILER',
+    compilerEnv = _G,
+    allowGlobals = false
+  }
+})
 
-require("init_fennel")
+require("init")

@@ -2,7 +2,7 @@
 
 (def-pkg
   :nvim-treesitter/nvim-treesitter
-  {:requires :nvim-orgmode/orgmode
+  {:requires [:nvim-orgmode/orgmode :nvim-treesitter/playground]
    :run ":TSUpdate"
    :config
    (fn []

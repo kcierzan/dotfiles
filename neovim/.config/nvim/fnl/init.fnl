@@ -4,11 +4,12 @@
 ;; _  / _  / / /  / / /____  __/ _  / / /  /
 ;; /_/  /_/ /_//_/  \__/(_)_/    /_/ /_//_/
 ;; lisp? in my vim configuration? it's more likely than you think...
-(local colorscheme (. (require :utils) :colorscheme))
 (local home-dir (os.getenv :HOME))
-(local opt (. (require :utils) :opt))
-(local packages (require :packages))
-(local vim-global (. (require :utils) :vim-global))
+(import-macros {: require*} :macros)
+(require* colorscheme [:utils :colorscheme]
+          opt [:utils :opt]
+          packages [:packages]
+          vim-global [:utils :vim-global])
 
 (opt :autowriteall true)
 (opt :backup false)
@@ -68,5 +69,5 @@
                                   :command "if &buftype == '' | silent update | endif"
                                   :group group-id})))
 (create-autowrite-augroup)
-(packages.configure!)
+(packages.use!)
 (colorscheme :thematic)

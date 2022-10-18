@@ -1,4 +1,7 @@
-(local file-exists? (. (require :utils) :file-exists?))
+(import-macros {: require*} :macros)
+(require* file-exists? [:utils :file-exists?]
+          merge [:utils :merge]
+          vals [:utils :vals])
 
 (fn clone-packer! [path]
   (vim.fn.system [:git
@@ -7,12 +10,6 @@
                   "1"
                   :https://github.com/wbthomason/packer.nvim
                   path]))
-
-(fn use-packages [packages]
-  (let [packer (require :packer)]
-    (packer.startup (fn [use]
-                      (each [_ pkg (ipairs packages)]
-                        (use pkg))))))
 
 (fn bootstrap-packer! []
   "bootstrap packer and return whether it needed to be bootstrapped"
@@ -34,19 +31,24 @@
                                   :lua
                                   :plugin
                                   :packer_compiled.lua)})
-    (use-packages packages)))
+    (packer.startup (fn [use]
+                      (each [_ pkg (ipairs packages)]
+                        (use pkg))))))
 
 (fn sync-packages! []
   (vim.cmd :PackerSync))
 
+(fn configure! [pkgs]
+  (let [?sync-packages (bootstrap-packer!)
+        packages (merge pkgs (vals (require :plugins)))]
+    (initialize-packer! packages)
+    (when ?sync-packages
+      (sync-packages!))))
+
 (fn def-pkg [name props]
   (let [pkg {}]
     (tset pkg 1 name)
-    (each [k v (pairs props)]
-      (tset pkg k v))
-    pkg))
+    (merge pkg props)))
 
 {: def-pkg
- : initialize-packer!
- : bootstrap-packer!
- : sync-packages!}
+ : configure!}

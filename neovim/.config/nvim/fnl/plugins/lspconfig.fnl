@@ -18,10 +18,12 @@
                                     :numhl hl})))))
    :config
    (fn []
-     (local lspconf (require :lspconfig))
-     (local cmp-lsp (require :cmp_nvim_lsp))
-     (local installer (require :nvim-lsp-installer))
-     (local capabilities (cmp-lsp.update_capabilities
+     (import-macros {: require*} :macros)
+     (require* lspconf [:lspconfig]
+               cmp-lsp [:cmp_nvim_lsp]
+               installer [:nvim-lsp-installer])
+              
+     (local capabilities (cmp-lsp.default_capabilities
                            (vim.lsp.protocol.make_client_capabilities)))
 
      (local default-servers [:pyright

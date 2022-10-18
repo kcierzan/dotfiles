@@ -5,10 +5,13 @@
   {:requires [:onsails/lspkind.nvim]
    :config
     (fn []
-      (local {: nil? : nonzero?} (require :utils))
-      (local cmp (require :cmp))
-      (local luasnip (require :luasnip))
-      (local lspkind (require :lspkind))
+      (import-macros {: require*} :macros)
+      (require* cmp [:cmp]
+                luasnip [:luasnip]
+                lspkind [:lspkind]
+                nil? [:utils :nil?]
+                nonzero? [:utils :nonzero?])
+
       (local compare cmp.config.compare)
       (local border [["╭" :CmpBorder]
                      ["─" :CmpBorder]

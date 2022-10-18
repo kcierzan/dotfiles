@@ -1,8 +1,6 @@
-(local bootstrap-packer! (. (require :pkg-utils) :bootstrap-packer!))
-(local def-pkg (. (require :pkg-utils) :def-pkg))
-(local initialize-packer! (. (require :pkg-utils) :initialize-packer!))
-(local merge (. (require :utils) :merge))
-(local sync-packages! (. (require :pkg-utils) :sync-packages!))
+(import-macros {: require*} :macros)
+(require* def-pkg [:pkg-utils :def-pkg]
+          merge [:utils :merge])
 
 (local packages
   [(def-pkg
@@ -41,7 +39,7 @@
       (fn []
         (let [prj (require :project_nvim)
               telescope (require :telescope)]
-          (prj.setup {:manual_mode true})
+          (prj.setup {:manual_mode false})
           (telescope.load_extension :projects)))})
 
    (def-pkg
@@ -118,6 +116,7 @@
         (let [icons (require :nvim-web-devicons)]
           (icons.setup {:override {:fnl {:icon "🥬"
                                          :name :Fennel}}})))})
+
    (def-pkg
      :L3MON4D3/LuaSnip
      {:requires :rafamadriz/friendly-snippets
@@ -156,31 +155,8 @@
    :tpope/vim-repeat
    :tpope/vim-fugitive])
 
-(local module-packages
-  [:telescope
-   :nvim-cmp
-   :lspconfig
-   :treesitter
-   :neotest
-   :alpha
-   :formatter
-   :which-key
-   :lualine])
+(fn use! []
+  (let [configure! (. (require :pkg-utils) :configure!)]
+    (configure! (merge packages basic-packages))))
 
-(fn require-module-packages [modules]
-  (accumulate [packages []
-               _ module (ipairs modules)]
-              (do
-                (table.insert packages (require (.. :plugins. module)))
-                packages)))
-
-(fn configure! []
-  (let [?sync-packages (bootstrap-packer!)
-        packages (merge basic-packages
-                        packages
-                        (require-module-packages module-packages))]
-    (initialize-packer! packages)
-    (when ?sync-packages
-      (sync-packages!))))
-
-{: configure!}
+{: use!}
