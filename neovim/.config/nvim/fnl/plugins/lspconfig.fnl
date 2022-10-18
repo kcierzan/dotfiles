@@ -29,7 +29,6 @@
      (local default-servers [:pyright
                              :bashls
                              :tsserver
-                             :elixirls
                              :jsonls
                              :rust_analyzer
                              :svelte
