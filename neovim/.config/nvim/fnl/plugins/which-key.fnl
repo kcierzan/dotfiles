@@ -109,6 +109,7 @@
       (leader-b :y "<cmd>let @+ = expand(\"%:p\")<cr>" "yank buffer name")
       (leader-b :w "<cmd>%s/\\s\\+$//e<cr>" "trim trailing whitespace")
       (leader-b :f "<cmd>silent exec \"!bundle exec rubocop -A %:p\"<cr>" "run rubocop on buffer")
+      (leader-b :a "<cmd>AV<cr>" "open alternate file in vertical split")
 
       (leader-w :S "<C-w>J" "to horizontal split")
       (leader-w :V "<C-w>H" "to vertical split")
