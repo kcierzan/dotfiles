@@ -113,9 +113,12 @@
      :kyazdani42/nvim-web-devicons
      {:config
       (fn []
-        (let [icons (require :nvim-web-devicons)]
-          (icons.setup {:override {:fnl {:icon "🥬"
-                                         :name :Fennel}}})))})
+        (let [devicons (require :nvim-web-devicons)
+              fnl {:fnl {:icon "🥬"
+                         :name :Fennel}}]
+          (if (devicons.has_loaded)
+            (devicons.set_icon fnl)
+            (devicons.setup {:override fnl}))))})
 
    (def-pkg
      :L3MON4D3/LuaSnip
