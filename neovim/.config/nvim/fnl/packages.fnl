@@ -39,7 +39,7 @@
       (fn []
         (let [prj (require :project_nvim)
               telescope (require :telescope)]
-          (prj.setup {:manual_mode false})
+          (prj.setup {:manual_mode true})
           (telescope.load_extension :projects)))})
 
    (def-pkg
