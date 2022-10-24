@@ -62,7 +62,9 @@
      {:config
       (fn []
         (let [tree (require :nvim-tree)]
-          (tree.setup)))})
+          (tree.setup {:view {:adaptive_size true
+                              :mappings {:list [{:key :u :action :dir_up}]}}
+                       :renderer {:group_empty true}})))})
 
    (def-pkg
      :folke/zen-mode.nvim

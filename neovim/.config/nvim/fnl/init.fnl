@@ -70,4 +70,4 @@
                                   :group group-id})))
 (create-autowrite-augroup)
 (packages.use!)
-(colorscheme :thematic)
+(colorscheme :inkd)
