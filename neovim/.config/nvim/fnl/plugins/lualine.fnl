@@ -1,4 +1,5 @@
-(local def-pkg (. (require :pkg-utils) :def-pkg))
+(import-macros {: require*} :macros)
+(require* def-pkg [:pkg-utils :def-pkg])
 
 (def-pkg
   :nvim-lualine/lualine.nvim
@@ -60,6 +61,7 @@
                    :no "OPERATOR PENDING"
                    :v :VISUAL
                    :V "VISUAL LINE"
+                   "^V" "VISUAL BLOCK"
                    :s :SELECT
                    :S "SELECT LINE"
                    "^S" "SELECT BLOCK"
@@ -103,9 +105,9 @@
         (and (window-wide?) (not= (next clients) nil))))
 
     (fn edit-mode-colors []
-      (let [colors {:n colors.red
+      (let [colors {:n colors.blue
                     :i colors.green
-                    :v colors.blue
+                    :v colors.violet
                     "^V" colors.blue
                     :V colors.blue
                     :c colors.magenta
@@ -145,14 +147,13 @@
 
     (ins-left :filetype
               {:icon_only true
-               :colored false
-               :color {:fg colors.blue :gui :bold}
+               :colored true
                :padding {:left 0 :right 1}})
 
     (ins-left :filename
               {:cond buffer-not-empty?
                :path 1
-               :color {:fg colors.blue}
+               :color {:fg colors.fg}
                :padding {:left 0 :right 0}})
 
 ;; -------------  RIGHT HAND SECTIONS -----------------------
@@ -167,21 +168,9 @@
                                     :color_info {:fg colors.cyan}}})
     (ins-right lsp-name
                {:icon "力"
-                :color {:fg colors.orange
-                        :gui :bold}
-                :cond show-lsp-info?})
-
-    (ins-right :fileformat
-               {:icons_enabled true
                 :color {:fg colors.cyan
                         :gui :bold}
-                :cond window-wide?})
-
-    (ins-right :fileformat
-               {:icons_enabled false
-                :color {:fg colors.cyan :gui :bold}
-                :padding {:left 0 :right 1}
-                :cond window-wide?})
+                :cond show-lsp-info?})
 
     (ins-right :branch
                {:icon ""
@@ -196,6 +185,12 @@
                 :diff_color {:added {:fg colors.green}
                              :modified {:fg colors.orange}
                              :removed {:fg colors.red}}
+                :cond window-wide?})
+
+    (ins-right :fileformat
+               {:icons_enabled true
+                :color {:fg colors.blue
+                        :gui :bold}
                 :cond window-wide?})
 
     (ins-right progress-bar

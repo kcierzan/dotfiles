@@ -97,7 +97,7 @@
      {:config
       (fn []
         (let [leap (require :leap)]
-          (leap.set_default_keymaps)))})
+          (leap.add_default_mappings)))})
 
    (def-pkg
      :knubie/vim-kitty-navigator
