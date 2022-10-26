@@ -125,7 +125,7 @@
    (def-pkg
      :folke/noice.nvim
      {:event :VimEnter
-      :requires ["MuniTanjim/nui.nvim" "rcarriga/nvim-notify"]
+      :requires ["MunifTanjim/nui.nvim" "rcarriga/nvim-notify"]
       :config
       (fn []
         (let [noice (require :noice)]

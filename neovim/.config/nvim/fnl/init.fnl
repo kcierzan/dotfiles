@@ -14,7 +14,7 @@
 (opt :autowriteall true)
 (opt :backup false)
 (opt :clipboard :unnamedplus)
-(opt :cmdheight 2)
+(opt :cmdheight 0)
 (opt :completeopt [:menu :menuone :noselect])
 (opt :conceallevel 0)
 (opt :cursorline true)
