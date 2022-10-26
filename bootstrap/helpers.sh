@@ -55,7 +55,3 @@ subtask_exec() {
     fail "Command ${*:2} failed. Check $LOGFILE for more info"
   fi
 }
-
-is_tapped() {
-  brew tap | grep -q "$1"
-}

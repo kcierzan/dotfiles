@@ -123,6 +123,15 @@
             (devicons.setup {:override fnl}))))})
 
    (def-pkg
+     :folke/noice.nvim
+     {:event :VimEnter
+      :requires ["MuniTanjim/nui.nvim" "rcarriga/nvim-notify"]
+      :config
+      (fn []
+        (let [noice (require :noice)]
+          (noice.setup)))})
+
+   (def-pkg
      :L3MON4D3/LuaSnip
      {:requires :rafamadriz/friendly-snippets
       :config
