@@ -38,17 +38,18 @@
 (fn sync-packages! []
   (vim.cmd :PackerSync))
 
-(fn configure! [pkgs]
-  (let [?sync-packages (bootstrap-packer!)
-        packages (merge pkgs (vals (require :plugins)))]
-    (initialize-packer! packages)
-    (when ?sync-packages
-      (sync-packages!))))
+(fn to-use-args [plugins]
+  (icollect [_ pkg (ipairs plugins)]
+    (let [args {}]
+      (tset args 1 pkg.repo)
+      (tset pkg :repo nil)
+      (merge args pkg))))
 
-(fn def-pkg [name props]
-  (let [pkg {}]
-    (tset pkg 1 name)
-    (merge pkg props)))
+(fn use-plugins! [plugins]
+  (fn []
+    (let [?sync-packages (bootstrap-packer!)]
+      (initialize-packer! (to-use-args plugins))
+      (when ?sync-packages
+        (sync-packages!)))))
 
-{: def-pkg
- : configure!}
+{: use-plugins!}

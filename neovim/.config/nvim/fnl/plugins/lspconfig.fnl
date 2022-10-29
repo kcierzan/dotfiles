@@ -1,90 +1,85 @@
-(local def-pkg (. (require :pkg-utils) :def-pkg))
-
-(def-pkg
-  :neovim/nvim-lspconfig
-  {:requires [:williamboman/nvim-lsp-installer
-              :folke/which-key.nvim
-              :hrsh7th/cmp-nvim-lsp]
-   :setup
-    (fn []
-      (let [signs {:Error " "
-                    :Warn " "
-                    :Hint " "
-                    :Info " "}]
-        (each [status icon (pairs signs)]
-          (let [hl (.. :DiagnosticSign status)]
-            (vim.fn.sign_define hl {:text icon
-                                    :texthl hl
-                                    :numhl hl})))))
-   :config
-   (fn []
-     (import-macros {: require*} :macros)
-     (require* lspconf [:lspconfig]
-               cmp-lsp [:cmp_nvim_lsp]
-               installer [:nvim-lsp-installer])
+{:repo :neovim/nvim-lspconfig
+ :requires [:williamboman/nvim-lsp-installer
+             :folke/which-key.nvim
+             :hrsh7th/cmp-nvim-lsp]
+ :setup (fn []
+          (let [signs {:Error " "
+                        :Warn " "
+                        :Hint " "
+                        :Info " "}]
+            (each [status icon (pairs signs)]
+              (let [hl (.. :DiagnosticSign status)]
+                (vim.fn.sign_define hl {:text icon
+                                        :texthl hl
+                                        :numhl hl})))))
+ :config (fn []
+           (import-macros {: require*} :macros)
+           (require* lspconf [:lspconfig]
+                     cmp-lsp [:cmp_nvim_lsp]
+                     installer [:nvim-lsp-installer])
               
-     (local capabilities (cmp-lsp.default_capabilities
-                           (vim.lsp.protocol.make_client_capabilities)))
+           (local capabilities (cmp-lsp.default_capabilities
+                                 (vim.lsp.protocol.make_client_capabilities)))
 
-     (local default-servers [:pyright
-                             :bashls
-                             :tsserver
-                             :jsonls
-                             :rust_analyzer
-                             :svelte
-                             :dockerls
-                             :clojure_lsp])
+           (local default-servers [:pyright
+                                   :bashls
+                                   :tsserver
+                                   :jsonls
+                                   :rust_analyzer
+                                   :svelte
+                                   :dockerls
+                                   :clojure_lsp])
 
-     (fn on-attach [_ bufnr]
-       (let [wk (require :which-key)]
-         (wk.register {:g {:d ["<cmd>lua vim.lsp.buf.definition()<cr>" "go to definition"]
-                           :D ["<cmd>lua vim.lsp.buf.declaration()<cr>" "go to declaration"]
-                           :h ["<cmd>lua vim.lsp.buf.hover()<cr>" "get hover info"]}}
-                     {:buffer bufnr})))
+           (fn on-attach [_ bufnr]
+             (let [wk (require :which-key)]
+               (wk.register {:g {:d ["<cmd>lua vim.lsp.buf.definition()<cr>" "go to definition"]
+                                 :D ["<cmd>lua vim.lsp.buf.declaration()<cr>" "go to declaration"]
+                                 :h ["<cmd>lua vim.lsp.buf.hover()<cr>" "get hover info"]}}
+                           {:buffer bufnr})))
 
-     (fn configure-lsp [lsp-name config]
-       (let [server (. lspconf lsp-name)
-             opts {:on_attach on-attach
-                   :capabilities capabilities}
-             opts (config opts)]
-         (server.setup opts)))
+           (fn configure-lsp [lsp-name config]
+             (let [server (. lspconf lsp-name)
+                   opts {:on_attach on-attach
+                         :capabilities capabilities}
+                   opts (config opts)]
+               (server.setup opts)))
 
-     (fn setup-lua []
-       (configure-lsp :sumneko_lua
-                      (fn [opts]
-                        (tset opts :settings {:Lua {:diagnostics {:globals [:vim :awesome :hs]}}})
-                        opts)))
+           (fn setup-lua []
+             (configure-lsp :sumneko_lua
+                            (fn [opts]
+                              (tset opts :settings {:Lua {:diagnostics {:globals [:vim :awesome :hs]}}})
+                              opts)))
 
-     (fn setup-solargraph []
-       (configure-lsp :solargraph
-                      (fn [opts]
-                        (tset opts :settings {:solargraph {:diagnostics true}})
-                        (tset opts :cmd [:bundle :exec :solargraph :stdio])
-                        ;; (tset opts :cmd [:solargraph :stdio])
-                        opts)))
+           (fn setup-solargraph []
+             (configure-lsp :solargraph
+                            (fn [opts]
+                              (tset opts :settings {:solargraph {:diagnostics true}})
+                              (tset opts :cmd [:bundle :exec :solargraph :stdio])
+                              ;; (tset opts :cmd [:solargraph :stdio])
+                              opts)))
 
-     (fn setup-elixirls []
-       (configure-lsp :elixirls
-                      (fn [opts]
-                        (tset opts :cmd [:elixir-ls])
-                        (tset opts :settings {:elixirls {:diagnostics true}})
-                        opts)))
+           (fn setup-elixirls []
+             (configure-lsp :elixirls
+                            (fn [opts]
+                              (tset opts :cmd [:elixir-ls])
+                              (tset opts :settings {:elixirls {:diagnostics true}})
+                              opts)))
 
-     (fn setup-emmet []
-       (configure-lsp :emmet_ls
-                      (fn [opts]
-                        (tset opts :filetypes [:html :typescriptreact :javascriptreact :css :sass :scss :less :eruby :heex])
-                        opts)))
+           (fn setup-emmet []
+             (configure-lsp :emmet_ls
+                            (fn [opts]
+                              (tset opts :filetypes [:html :typescriptreact :javascriptreact :css :sass :scss :less :eruby :heex])
+                              opts)))
 
-     (fn setup-servers []
-       (each [_ server (ipairs default-servers)]
-         (let [server (. lspconf server)]
-          (server.setup {:on_attach on-attach
-                         :capabilities capabilities})))
-       (setup-lua)
-       (setup-elixirls)
-       (setup-emmet)
-       (setup-solargraph))
+           (fn setup-servers []
+             (each [_ server (ipairs default-servers)]
+               (let [server (. lspconf server)]
+                (server.setup {:on_attach on-attach
+                               :capabilities capabilities})))
+             (setup-lua)
+             (setup-elixirls)
+             (setup-emmet)
+             (setup-solargraph))
 
-     (installer.setup)
-     (setup-servers))})
+           (installer.setup)
+           (setup-servers))}

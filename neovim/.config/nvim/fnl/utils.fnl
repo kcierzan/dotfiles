@@ -128,6 +128,15 @@
   (let [fennel (require :fennel)]
     (print (fennel.view tbl))))
 
+(fn pretty-print [tbl prefix]
+  (let [indent (if (nil? prefix) "" prefix)]
+    (each [k v (pairs tbl)]
+      (if (table? v)
+        (do
+          (print (.. indent k ":"))
+          (pretty-print v (.. indent "  ")))
+        (print (.. indent k ": " (tostring v)))))))
+
 (fn export-module [fennel-module]
   (let [dir (.. (vim.fn.stdpath :config) "/fnl/" fennel-module)
         files (module-files dir)
@@ -171,7 +180,7 @@
  : nonzero?
  : opt
  : present?
- : pp
+ : pretty-print
  : reverse
  : number?
  : string?
