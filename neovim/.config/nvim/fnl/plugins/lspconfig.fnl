@@ -1,7 +1,7 @@
 {:repo :neovim/nvim-lspconfig
- :requires [:williamboman/nvim-lsp-installer
-             :folke/which-key.nvim
-             :hrsh7th/cmp-nvim-lsp]
+ :requires [:williamboman/mason-lspconfig.nvim
+            :folke/which-key.nvim
+            :hrsh7th/cmp-nvim-lsp]
  :setup (fn []
           (let [signs {:Error " "
                         :Warn " "
@@ -15,8 +15,8 @@
  :config (fn []
            (import-macros {: require*} :macros)
            (require* lspconf [:lspconfig]
-                     cmp-lsp [:cmp_nvim_lsp]
-                     installer [:nvim-lsp-installer])
+                     cmp-lsp [:cmp_nvim_lsp])
+                     
               
            (local capabilities (cmp-lsp.default_capabilities
                                  (vim.lsp.protocol.make_client_capabilities)))
@@ -50,12 +50,43 @@
                               (tset opts :settings {:Lua {:diagnostics {:globals [:vim :awesome :hs]}}})
                               opts)))
 
-           (fn setup-solargraph []
-             (configure-lsp :solargraph
+           ;; (fn setup-solargraph []
+           ;;   (configure-lsp :solargraph
+           ;;                  (fn [opts]
+           ;;                    (tset opts :settings {:solargraph {:diagnostics true}})
+           ;;                    (tset opts :cmd [:bundle :exec :solargraph :stdio])
+           ;;                    ;; (tset opts :cmd [:solargraph :stdio])
+           ;;                    opts)))
+
+           (fn setup-ruby-lsp []
+             (configure-lsp :ruby_ls
                             (fn [opts]
-                              (tset opts :settings {:solargraph {:diagnostics true}})
-                              (tset opts :cmd [:bundle :exec :solargraph :stdio])
-                              ;; (tset opts :cmd [:solargraph :stdio])
+                              (tset opts :init_options {:enabledFeatures [:codeActions
+                                                                          :diagnostics
+                                                                          :documentHighlights
+                                                                          :documentSymbols
+                                                                          :formatting
+                                                                          :inlayHint]})
+                              (tset opts :on_attach (fn [client bufnr]
+                                                      (on-attach client bufnr)
+                                                      (vim.api.nvim_create_autocmd 
+                                                        [:BufEnter :BufWritePre :CursorHold]
+                                                        {:buffer bufnr
+                                                         :callback 
+                                                         (fn []
+                                                           (let [params (vim.lsp.util.make_text_document_params bufnr)]
+                                                             (client.request :textDocument/diagnostic
+                                                                             {:textDocument params}
+                                                                             (fn [err result]
+                                                                               (if (not err)
+                                                                                 (vim.lsp.diagnostic.on_publish_diagnostics nil 
+                                                                                                                            (vim.tbl_extend 
+                                                                                                                              :keep 
+                                                                                                                              params 
+                                                                                                                              {:diagnostics result.items}) 
+                                                                                                                            {:client_id client.id}))))))})))
+                                                      
+                              (tset opts :cmd [:bundle :exec :ruby-lsp])
                               opts)))
 
            (fn setup-elixirls []
@@ -79,7 +110,7 @@
              (setup-lua)
              (setup-elixirls)
              (setup-emmet)
-             (setup-solargraph))
+             (setup-ruby-lsp))
+             ;; (setup-solargraph))
 
-           (installer.setup)
            (setup-servers))}

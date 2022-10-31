@@ -112,6 +112,27 @@
                  :config (fn []
                            (let [snippets (require :luasnip.loaders.from_vscode)]
                              (snippets.lazy_load)))}
+    
+                {:repo :williamboman/mason-lspconfig.nvim
+                 :config (fn []
+                           (let [mlsp (require :mason-lspconfig)]
+                             (mlsp.setup {:ensure_installed [:pyright
+                                                             :bashls
+                                                             :tsserver
+                                                             :jsonls
+                                                             :rust_analyzer
+                                                             :svelte
+                                                             :dockerls
+                                                             :clojure_lsp
+                                                             :ruby_ls
+                                                             :elixirls
+                                                             :sumneko_lua
+                                                             :emmet_ls]})))}
+
+                {:repo :williamboman/mason.nvim
+                 :config (fn []
+                           (let [mason (require :mason)]
+                             (mason.setup)))}
 
                 {:repo :wbthomason/packer.nvim}
                 {:repo :lewis6991/impatient.nvim}
@@ -120,7 +141,6 @@
                 {:repo :pechorin/any-jump.vim}
                 {:repo :mg979/vim-visual-multi}
                 {:repo :nvim-lua/plenary.nvim}
-                {:repo :williamboman/nvim-lsp-installer}
                 {:repo :rafamadriz/friendly-snippets}
                 {:repo :saadparwaiz1/cmp_luasnip}
                 {:repo :hrsh7th/cmp-buffer}

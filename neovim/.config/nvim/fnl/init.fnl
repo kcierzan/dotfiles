@@ -8,7 +8,8 @@
 (require* colorscheme [:utils :colorscheme]
           opt [:utils :opt]
           plugins [:plugins]
-          vim-global [:utils :vim-global])
+          vim-global [:utils :vim-global]
+          nmap [:utils :nmap])
 (local home-dir (os.getenv :HOME))
 
 (opt :autowriteall true)
@@ -53,6 +54,7 @@
 (vim-global :python3_host_prog (.. home-dir "./.asdf/installs/python/3.10.4/bin/python"))
 (vim-global :tex_flavor :latex)
 (vim-global :mapleader " ")
+(nmap "+" "<Nop>")
 (vim-global :maplocalleader "+")
 (vim-global :user_emmet_settings {:javascript.jsx {:extends :jsx}})
 

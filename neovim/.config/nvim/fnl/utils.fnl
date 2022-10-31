@@ -162,6 +162,9 @@
   (vim.api.nvim_set_keymap
     :x key cmd {:noremap true :silent true}))
 
+(fn unmap [mode key]
+  (vim.api.nvim_del_keymap mode key))
+
 {: boolean?
  : butlast
  : colorscheme
@@ -177,6 +180,7 @@
  : merge
  : nil?
  : nmap
+ : unmap
  : nonzero?
  : opt
  : present?

@@ -1,9 +1,11 @@
 {:repo :folke/which-key.nvim
  :config (fn []
-           (local {: nil?
-                   : nmap
-                   : xmap
-                   : merge} (require :utils))
+           (import-macros {: require*} :macros)
+           (require* nil? [:utils :nil?]
+                     nmap [:utils :nmap]
+                     xmap [:utils :xmap]
+                     merge [:utils :merge])
+
            (local wk (require :which-key))
            (local keys {"<leader>" {"<cr>" ["org smart return"]
                                     :o {:name "+org"

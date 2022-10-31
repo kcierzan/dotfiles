@@ -32,11 +32,10 @@
            (fn tab-func [fallback]
              (if (cmp.visible)
                (cmp.select_next_item)
-               (luasnip.expand_or_jumpable) ;; else if
+               (luasnip.expand_or_jumpable)
                (luasnip.expand_or_jump)
-               (has-words-before?) ;; else if
+               (has-words-before?)
                (cmp.complete)
-               ;; else
                (fallback)))
 
            (fn s-tab-func [fallback]
