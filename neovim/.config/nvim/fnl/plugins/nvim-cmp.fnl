@@ -5,8 +5,8 @@
            (require* cmp [:cmp]
                      luasnip [:luasnip]
                      lspkind [:lspkind]
-                     nil? [:utils :nil?]
-                     nonzero? [:utils :nonzero?])
+                     nil? [:lib :nil?]
+                     nonzero? [:lib :nonzero?])
 
            (local compare cmp.config.compare)
            (local border [["╭" :CmpBorder]

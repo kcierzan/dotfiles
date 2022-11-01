@@ -1,7 +1,7 @@
 (import-macros {: require*} :macros)
-(require* file-exists? [:utils :file-exists?]
-          merge [:utils :merge]
-          vals [:utils :vals])
+(require* file-exists? [:lib :file-exists?]
+          merge [:lib :merge]
+          vals [:lib :vals])
 
 (fn clone-packer! [path]
   (vim.fn.system [:git

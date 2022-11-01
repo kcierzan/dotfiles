@@ -50,13 +50,12 @@
                               (tset opts :settings {:Lua {:diagnostics {:globals [:vim :awesome :hs]}}})
                               opts)))
 
-           ;; (fn setup-solargraph []
-           ;;   (configure-lsp :solargraph
-           ;;                  (fn [opts]
-           ;;                    (tset opts :settings {:solargraph {:diagnostics true}})
-           ;;                    (tset opts :cmd [:bundle :exec :solargraph :stdio])
-           ;;                    ;; (tset opts :cmd [:solargraph :stdio])
-           ;;                    opts)))
+           (fn setup-solargraph []
+             (configure-lsp :solargraph
+                            (fn [opts]
+                              (tset opts :settings {:solargraph {:diagnostics true}})
+                              (tset opts :cmd [:bundle :exec :solargraph :stdio])
+                              opts)))
 
            (fn setup-ruby-lsp []
              (configure-lsp :ruby_ls
@@ -67,6 +66,9 @@
                                                                           :documentSymbols
                                                                           :formatting
                                                                           :inlayHint]})
+                              ;; Neovim does not support the latest version of the language server protocol
+                              ;; that allows for language server update pushing. This is a workaround
+                              ;; that sets up a callback to poll ruby-lsp for diagnostic info.
                               (tset opts :on_attach (fn [client bufnr]
                                                       (on-attach client bufnr)
                                                       (vim.api.nvim_create_autocmd 
@@ -110,7 +112,7 @@
              (setup-lua)
              (setup-elixirls)
              (setup-emmet)
-             (setup-ruby-lsp))
-             ;; (setup-solargraph))
+             (setup-ruby-lsp)
+             (setup-solargraph))
 
            (setup-servers))}

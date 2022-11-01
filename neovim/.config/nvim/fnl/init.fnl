@@ -5,11 +5,11 @@
 ;; /_/  /_/ /_//_/  \__/(_)_/    /_/ /_//_/
 ;; lisp? in my vim configuration? it's more likely than you think...
 (import-macros {: require*} :macros)
-(require* colorscheme [:utils :colorscheme]
-          opt [:utils :opt]
+(require* colorscheme [:lib :colorscheme]
+          opt [:lib :opt]
           plugins [:plugins]
-          vim-global [:utils :vim-global]
-          nmap [:utils :nmap])
+          vim-global [:lib :vim-global]
+          nmap [:lib :nmap])
 (local home-dir (os.getenv :HOME))
 
 (opt :autowriteall true)

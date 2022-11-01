@@ -1,6 +1,6 @@
 (import-macros {: require*} :macros)
-(require* opt [:utils :opt]
-          vim-global [:utils :vim-global])
+(require* opt [:lib :opt]
+          vim-global [:lib :vim-global])
 
 (fn highlight [group color]
   (let [style (or (and color.style (.. "gui=" color.style)) "gui=NONE")

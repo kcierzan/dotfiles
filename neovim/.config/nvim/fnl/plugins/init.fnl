@@ -1,8 +1,8 @@
 (import-macros {: require*} :macros)
-(require* export-module [:utils :export-module]
-          use-plugins! [:pkg-utils :use-plugins!]
-          merge [:utils :merge]
-          vals [:utils :vals])
+(require* export-module [:lib :export-module]
+          use-plugins! [:packer-lib :use-plugins!]
+          merge [:lib :merge]
+          vals [:lib :vals])
 
 (local plugins [{:repo :windwp/nvim-autopairs
                  :config (fn []
@@ -85,7 +85,7 @@
                  :setup (fn []
                           (tset _G :kitty_navigator_no_mappings 1))
                  :config (fn []
-                           (let [nmap (. (require :utils) :nmap)]
+                           (let [nmap (. (require :lib) :nmap)]
                             (nmap :<A-j> ":KittyNavigateDown<cr>")
                             (nmap :<A-k> ":KittyNavigateUp<cr>")
                             (nmap :<A-h> ":KittyNavigateLeft<cr>")
@@ -121,6 +121,7 @@
                                                              :tsserver
                                                              :jsonls
                                                              :rust_analyzer
+                                                             :solargraph
                                                              :svelte
                                                              :dockerls
                                                              :clojure_lsp

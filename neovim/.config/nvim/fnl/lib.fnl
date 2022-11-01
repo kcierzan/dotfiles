@@ -1,4 +1,4 @@
-(local vim _G.vim)
+(local vim _G.vim) ; make the compiler happy
 
 (fn opt [option value]
   (tset vim.opt option value))

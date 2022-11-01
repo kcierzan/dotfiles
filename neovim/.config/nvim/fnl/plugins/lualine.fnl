@@ -2,7 +2,7 @@
  :config (fn []
           (local {: git-workspace?
                   : buffer-not-empty?
-                  : window-wide?} (require :utils))
+                  : window-wide?} (require :lib))
           (local lualine (require :lualine))
 
           (fn inkd-lualine-colors []
