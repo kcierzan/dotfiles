@@ -7,4 +7,4 @@ package.cpath = package.cpath .. ";" .. os.getenv("HOME") .. "/.luarocks/lib/lua
 fennel = require("fennel")
 table.insert(package.loaders or package.searchers, fennel.searcher)
 
-require "fenneled_init"
+require "fnl"
