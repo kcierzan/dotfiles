@@ -105,7 +105,21 @@
                  :requires ["MunifTanjim/nui.nvim" "rcarriga/nvim-notify"]
                  :config (fn []
                            (let [noice (require :noice)]
-                             (noice.setup)))}
+                             (noice.setup {:routes [{:filter {:event :msg_show
+                                                              :kind ""
+                                                              :find :written}
+                                                     :opts {:skip true}}
+                                                    {:view :notify
+                                                     :filter {:event :msg_showmode}}
+                                                    {:filter {:error true
+                                                              :find :Pattern}
+                                                     :opts {:skip true}}
+                                                    {:filter {:warning true
+                                                              :find "search hit"}
+                                                     :opts {:skip true}}
+                                                    {:filter {:find "go up one level"}
+                                                     :view :cmdline}]})))}
+                                                     
 
                 {:repo :L3MON4D3/LuaSnip
                  :requires :rafamadriz/friendly-snippets
