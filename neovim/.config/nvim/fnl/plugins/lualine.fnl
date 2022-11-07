@@ -7,9 +7,10 @@
 
           (fn inkd-lualine-colors []
             (let [file-path (.. (os.getenv :INKD_DIR) :lualine.ink.lua)]
-              (if (io.open file-path :r)
-                (dofile file-path)
-                (print "inkd theme not found! Make sure INKD_DIR is set and run `ink colors`"))))
+              (with-open [file-handle (io.open file-path :r)]
+                (if file-handle
+                  (dofile file-path)
+                  (print "inkd theme not found! Make sure INKD_DIR is set and run `ink colors`")))))
 
           (local colors (inkd-lualine-colors))
           (local config {:options {:component_separators ""
