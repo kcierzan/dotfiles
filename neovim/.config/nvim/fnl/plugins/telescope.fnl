@@ -39,11 +39,13 @@
                                                :--exclude
                                                "*.gif"
                                                :--exclude
-                                               "*.zip"]}}
-                             :extensions
-                             {:fzf
-                               {:fuzzy true
-                                :override_generic_sorter true
-                                :override_file_sorter true
-                                :case_mode :smart_case}}})
+                                               "*.zip"]
+                                :lsp_references {:fname_width 60}
+                                :lsp_workspace_symbols {:fname_width 60}
+                                :lsp_document_symbols {:fname_width 60}}}
+                             :extensions {:fzf
+                                           {:fuzzy true
+                                            :override_generic_sorter true
+                                            :override_file_sorter true
+                                            :case_mode :smart_case}}})
             (tscope.load_extension :fzf)))}

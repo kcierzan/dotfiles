@@ -81,20 +81,21 @@
              (luasnip.lsp_expand args.body))
 
            (local sources [{:name :buffer
-                            :priority 7
-                            :keyword_length 3}
+                            :priority 700
+                            :max_item_count 4}
                            {:name :path
-                            :priority 5}
+                            :priority 500}
                            {:name :rg
-                            :priority 6}
+                            :priority 600
+                            :max_item_count 4}
                            {:name :calc
-                            :priority 4}
+                            :priority 400}
                            {:name :nvim_lsp
-                            :priority 9}
+                            :priority 900}
                            {:name :luasnip
-                            :priority 8}
+                            :priority 800}
                            {:name :nvim_lsp_signature_help
-                            :priority 10}])
+                            :priority 1000}])
 
 
            (fn format-menu [entry vim-item]
@@ -111,7 +112,6 @@
                        :mapping mapping
                        :sources sources
                        :enabled enabled?
-                       :completion {:keyword_length 2}
                        :formatting {:fields [:kind
                                              :abbr
                                              :menu]

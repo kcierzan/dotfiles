@@ -118,8 +118,10 @@
                                                               :find "search hit"}
                                                      :opts {:skip true}}
                                                     {:filter {:find "go up one level"}
-                                                     :view :cmdline}]})))}
-                                                     
+                                                     :view :cmdline}
+                                                    {:filter {:find "quit with exit code"
+                                                              :warning true}
+                                                     :opts {:skip true}}]})))}
 
                 {:repo :L3MON4D3/LuaSnip
                  :requires :rafamadriz/friendly-snippets

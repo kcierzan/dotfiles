@@ -10,3 +10,9 @@ disabled = false
 
 [aws]
 disabled = true
+
+[package]
+disabled = true
+
+[cmd_duration]
+disabled = true
