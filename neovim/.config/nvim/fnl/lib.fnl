@@ -176,6 +176,7 @@
  : function?
  : git-workspace?
  : head
+ : second
  : last
  : merge
  : nil?

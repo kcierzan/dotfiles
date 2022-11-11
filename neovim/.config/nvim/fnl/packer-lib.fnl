@@ -1,5 +1,8 @@
 (import-macros {: require*} :macros)
 (require* file-exists? [:lib :file-exists?]
+          first [:lib :first]
+          second [:lib :second]
+          tail [:lib :second]
           merge [:lib :merge]
           vals [:lib :vals])
 
@@ -16,9 +19,7 @@
   (let [packer-path (.. (vim.fn.stdpath :data) "/site/pack/packer/start/packer.nvim")
         ?packer-installed (file-exists? packer-path)]
     (if ?packer-installed
-      (do
-        (pcall require :impatient)
-        (pcall require :plugin.packer_compiled))
+      (pcall require :plugin.packer_compiled)
       (clone-packer! packer-path))
     (not ?packer-installed)))
 

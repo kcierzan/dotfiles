@@ -18,6 +18,8 @@ if not file_exits(hotpot_path) then
   vim.cmd("helptags " .. hotpot_path .. "/doc")
 end
 
+pcall(require, "impatient")
+
 require("hotpot").setup({
   provide_required_fennel = true,
   macros = {

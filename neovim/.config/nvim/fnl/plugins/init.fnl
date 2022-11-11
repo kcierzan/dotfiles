@@ -1,84 +1,69 @@
-(import-macros {: require*} :macros)
+(import-macros {: require*
+                : req-call} :macros)
 (require* export-module [:lib :export-module]
           use-plugins! [:packer-lib :use-plugins!]
           merge [:lib :merge]
           vals [:lib :vals])
 
 (local plugins [{:repo :windwp/nvim-autopairs
-                 :config (fn []
-                           (let [autopairs (require :nvim-autopairs)]
-                             (autopairs.setup)))}
+                 :config (fn [] (req-call :nvim-autopairs :setup))}
 
                 {:repo :numToStr/Comment.nvim
-                 :config (fn []
-                           (let [cmt (require :Comment)]
-                             (cmt.setup)))}
+                 :config (fn [] (req-call :Comment :setup))}
 
                 {:repo :akinsho/bufferline.nvim
                  :branch :main
                  :config (fn []
-                           (let [bl (require :bufferline)]
-                             (bl.setup {:options {:show_close_icon false
-                                                  :show_buffer_close_icons false
-                                                  :indicator {:style :none}
-                                                  :separator_style {"" ""}
-                                                  :offsets [{:filetype :NvimTree
-                                                             :text "File Explorer"
-                                                             :highlight :Directory
-                                                             :separator true}]}})))}
+                           (req-call :bufferline
+                                     :setup
+                                     {:options {:show_close_icon false
+                                                :show_buffer_close_icons false
+                                                :indicator {:style :none}
+                                                :separator_style {"" ""}
+                                                :offsets [{:filetype :NvimTree
+                                                           :text "File Explorer"
+                                                           :highlight :Directory
+                                                           :separator true}]}}))}
 
                 {:repo :ahmedkhalf/project.nvim
                  :requires [:nvim-telescope/telescope.nvim]
                  :config (fn []
-                           (let [prj (require :project_nvim)
-                                 telescope (require :telescope)]
-                             (prj.setup {:manual_mode true})
-                             (telescope.load_extension :projects)))}
+                           (req-call :project_nvim :setup {:manual_mode true})
+                           (req-call :telescope :load_extension :projects))}
 
                 {:repo :lukas-reineke/indent-blankline.nvim
                  :config (fn []
-                           (let [bl (require :indent_blankline)]
-                             (bl.setup {:buftype_exclude [:terminal]
-                                        :filetype_exclude [:alpha]})))}
+                           (req-call :indent_blankline :setup {:buftype_exclude [:terminal]
+                                                               :filetype_exclude [:alpha]}))}
 
                 {:repo :lewis6991/gitsigns.nvim
-                 :config (fn []
-                           (let [signs (require :gitsigns)]
-                             (signs.setup)))}
+                 :config (fn [] (req-call :gitsigns :setup))}
 
                 {:repo :kyazdani42/nvim-tree.lua
                  :config (fn []
-                           (let [tree (require :nvim-tree)]
-                             (tree.setup {:view {:adaptive_size true
-                                                 :mappings {:list [{:key :u :action :dir_up}]}}
-                                          :renderer {:group_empty true}})))}
+                           (req-call :nvim-tree 
+                                     :setup 
+                                     {:view {:adaptive_size true
+                                             :mappings {:list [{:key :u :action :dir_up}]}}
+                                      :renderer {:group_empty true}}))}
 
                 {:repo :folke/zen-mode.nvim
-                 :config (fn []
-                           (let [zen (require :zen-mode)]
-                             (zen.setup)))}
+                 :config (fn [] (req-call :zen-mode :setup))}
 
                 {:repo :NvChad/nvim-colorizer.lua
-                 :config (fn []
-                           (let [colors (require :colorizer)]
-                             (colors.setup)))}
+                 :config (fn [] (req-call :colorizer :setup))}
 
                 {:repo :nvim-orgmode/orgmode
-                 :config (fn []
-                           (let [org (require :orgmode)]
-                             (org.setup)))}
+                 :config (fn [] (req-call :orgmode :setup))}
 
                 {:repo :eraserhd/parinfer-rust
                  :run "cargo build --release"}
 
-                {:repo :machakann/vim-sandwich
-                 :config (fn []
-                           (vim.cmd "runtime macros/sandwich/keymap/surround.vim"))}
+                {:repo :kylechui/nvim-surround
+                 :config (fn [] (req-call :nvim-surround :setup))}
 
                 {:repo :ggandor/leap.nvim
-                 :config (fn []
-                           (let [leap (require :leap)]
-                             (leap.add_default_mappings)))}
+                 :config (fn [] (req-call :leap :add_default_mappings))}
 
                 {:repo :knubie/vim-kitty-navigator
                  :run "cp ./*.py ~/.config/kitty"
@@ -104,52 +89,50 @@
                  :event :VimEnter
                  :requires ["MunifTanjim/nui.nvim" "rcarriga/nvim-notify"]
                  :config (fn []
-                           (let [noice (require :noice)]
-                             (noice.setup {:routes [{:filter {:event :msg_show
-                                                              :kind ""
-                                                              :find :written}
-                                                     :opts {:skip true}}
-                                                    {:view :notify
-                                                     :filter {:event :msg_showmode}}
-                                                    {:filter {:error true
-                                                              :find :Pattern}
-                                                     :opts {:skip true}}
-                                                    {:filter {:warning true
-                                                              :find "search hit"}
-                                                     :opts {:skip true}}
-                                                    {:filter {:find "go up one level"}
-                                                     :view :cmdline}
-                                                    {:filter {:find "quit with exit code"
-                                                              :warning true}
-                                                     :opts {:skip true}}]})))}
+                           (req-call :noice
+                                     :setup
+                                     {:routes [{:filter {:event :msg_show
+                                                         :kind ""
+                                                         :find :written}
+                                                :opts {:skip true}}
+                                               {:view :notify
+                                                :filter {:event :msg_showmode}}
+                                               {:filter {:error true
+                                                         :find :Pattern}
+                                                :opts {:skip true}}
+                                               {:filter {:warning true
+                                                         :find "search hit"}
+                                                :opts {:skip true}}
+                                               {:filter {:find "go up one level"}
+                                                :opts {:skip true}}
+                                               {:filter {:find "quit with exit code"
+                                                         :warning true}
+                                                :opts {:skip true}}]}))}
 
                 {:repo :L3MON4D3/LuaSnip
                  :requires :rafamadriz/friendly-snippets
-                 :config (fn []
-                           (let [snippets (require :luasnip.loaders.from_vscode)]
-                             (snippets.lazy_load)))}
+                 :config (fn [] (req-call :luasnip.loaders.from_vscode :lazy_load))}
     
                 {:repo :williamboman/mason-lspconfig.nvim
                  :config (fn []
-                           (let [mlsp (require :mason-lspconfig)]
-                             (mlsp.setup {:ensure_installed [:pyright
-                                                             :bashls
-                                                             :tsserver
-                                                             :jsonls
-                                                             :rust_analyzer
-                                                             :solargraph
-                                                             :svelte
-                                                             :dockerls
-                                                             :clojure_lsp
-                                                             :ruby_ls
-                                                             :elixirls
-                                                             :sumneko_lua
-                                                             :emmet_ls]})))}
+                           (req-call :mason-lspconfig
+                                     :setup
+                                     {:ensure_installed [:pyright
+                                                         :bashls
+                                                         :tsserver
+                                                         :jsonls
+                                                         :rust_analyzer
+                                                         :solargraph
+                                                         :svelte
+                                                         :dockerls
+                                                         :clojure_lsp
+                                                         :ruby_ls
+                                                         :elixirls
+                                                         :sumneko_lua
+                                                         :emmet_ls]}))}
 
                 {:repo :williamboman/mason.nvim
-                 :config (fn []
-                           (let [mason (require :mason)]
-                             (mason.setup)))}
+                 :config (fn [] (req-call :mason :setup))}
 
                 {:repo :wbthomason/packer.nvim}
                 {:repo :lewis6991/impatient.nvim}
