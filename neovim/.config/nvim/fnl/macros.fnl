@@ -13,10 +13,10 @@
          : second
          : tail
          : present?} (require :lib)
-        args (tail (tail [...]))]
-    (if (present? args)
-      `((-> (require ,(first [...])) (. ,(second [...]))) ,(unpack args))
-      `((-> (require ,(first [...])) (. ,(second [...])))))))
+        [mod function & args] [...]]
+    (if (present? [(unpack args)])
+      `((-> (require ,mod) (. ,function)) ,(unpack args))
+      `((-> (require ,mod) (. ,function))))))
 
 {: require*
  : req-call}

@@ -135,7 +135,8 @@
                  :config (fn [] (req-call :mason :setup))}
 
                 {:repo :wbthomason/packer.nvim}
-                {:repo :lewis6991/impatient.nvim}
+                {:repo :lewis6991/impatient.nvim
+                 :disable true}
                 {:repo :antoinemadec/FixCursorHold.nvim}
                 {:repo :RRethy/nvim-treesitter-endwise}
                 {:repo :pechorin/any-jump.vim}
