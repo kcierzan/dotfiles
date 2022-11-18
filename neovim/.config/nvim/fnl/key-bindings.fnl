@@ -120,7 +120,7 @@
       :e [(cmd "Trouble") "show errors and warnings"]
       :H [(cmd "TSHighlightCapturesUnderCursor") "show highlights under cursor"]}
   :g {:name "+git"
-      :b [(cmd "Git blame>") "blame"]
+      :b [(cmd "Git blame") "blame"]
       :c [(cmd "Git commit") "commit"]
       :d [(cmd "Gvdiff") "diff"]
       :m [(cmd "diffget //3") "get diff from merge buffer"]

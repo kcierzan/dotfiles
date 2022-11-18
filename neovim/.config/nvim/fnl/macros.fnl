@@ -9,10 +9,7 @@
     `(local ,(args-keys ...) ,(nested-req (args-values ...)))))
 
 (fn req-call [...]
-  (let [{: first
-         : second
-         : tail
-         : present?} (require :lib)
+  (let [{: present?} (require :lib)
         [mod function & args] [...]]
     (if (present? [(unpack args)])
       `((-> (require ,mod) (. ,function)) ,(unpack args))
