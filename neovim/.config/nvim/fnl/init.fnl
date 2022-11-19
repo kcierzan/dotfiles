@@ -3,12 +3,13 @@
 ;; __  /__  __ \_  /_  __/__  /_ __  __ \_  /
 ;; _  / _  / / /  / / /____  __/ _  / / /  /
 ;; /_/  /_/ /_//_/  \__/(_)_/    /_/ /_//_/
-;; lisp? in my vim configuration? it's more likely than you think...
+;; lisp? in my vim config? it's more likely than you think...
 (import-macros {: require*} :macros)
 (require* colorscheme [:lib :colorscheme]
           opt [:lib :opt]
           plugins [:plugins]
           vim-global [:lib :vim-global]
+          neovide? [:lib :neovide?]
           nmap [:lib :nmap])
 (local home-dir (os.getenv :HOME))
 
@@ -26,7 +27,7 @@
 (opt :mouse :a)
 (opt :number true)
 (opt :numberwidth 4)
-(opt :pumheight 0)
+(opt :pumheight 6)
 (opt :relativenumber false)
 (opt :scrolloff 8)
 (opt :shiftround true)
@@ -71,5 +72,10 @@
                                   :command "if &buftype == '' | silent update | endif"
                                   :group group-id})))
 (create-autowrite-augroup)
+
+(when (neovide?)
+  (opt :guifont "MonoLisa:h16:#e-subpixelantialias")
+  (vim-global :neovide_input_macos_alt_is_meta true))
+
 (plugins.use!)
 (colorscheme :inkd)

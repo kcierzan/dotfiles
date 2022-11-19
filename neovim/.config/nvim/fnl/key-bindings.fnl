@@ -109,6 +109,11 @@
       :r ["<C-w>r" "rotate windows"]
       :s [(cmd "sp") "split horizontal"]
       :v [(cmd "vsp") "split vertically"]}
+  " " {:name "+terminal"
+       "h" [(cmd "ToggleTerm direction=horizontal") "open lower terminal"]
+       "v" [(cmd "ToggleTerm direction=vertical size=60") "open vertical terminal"]
+       "f" [(cmd "ToggleTerm direction=float") "open floating terminal"]
+       "t" [(cmd "ToggleTerm direction=tab") "open tab terminal"]}
   :i {:name "+interface"
       "#" [(cmd "set invnumber") "toggle line numbers"]
       "%" [(cmd "set invrelativenumber") "toggle relative line numbers"]

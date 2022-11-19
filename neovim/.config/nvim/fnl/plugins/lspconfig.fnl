@@ -16,7 +16,10 @@
            (import-macros {: require*} :macros)
            (require* lspconf [:lspconfig]
                      cmp-lsp [:cmp_nvim_lsp])
-                     
+
+           (vim.diagnostic.config {:virtual_text false
+                                   :signs true
+                                   :underline true})
               
            (local capabilities (cmp-lsp.default_capabilities
                                  (vim.lsp.protocol.make_client_capabilities)))

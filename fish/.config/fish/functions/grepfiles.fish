@@ -1,5 +1,5 @@
 function grepfiles --description 'Fuzzy file grepper'
-	if test "$EDITOR" = 'nvim'
+	if test "$EDITOR" = 'nvim' || test "$EDITOR" = 'neovide --frame buttonless'
 		set linefile (rg -n --hidden \
 	    -g "!.pyc" \
 	    -g "!.git/*" \
@@ -38,6 +38,6 @@ function grepfiles --description 'Fuzzy file grepper'
 	end
 
 	if test -n "$linefile"
-		$EDITOR (string split ' ' $linefile)
+		eval $EDITOR (string split ' ' $linefile)
 	end
 end

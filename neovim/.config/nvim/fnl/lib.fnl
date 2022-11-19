@@ -165,6 +165,9 @@
 (fn unmap [mode key]
   (vim.api.nvim_del_keymap mode key))
 
+(fn neovide? []
+  (vim.fn.exists "g:neovide"))
+
 {: boolean?
  : butlast
  : colorscheme
@@ -181,6 +184,7 @@
  : merge
  : nil?
  : nmap
+ : neovide?
  : unmap
  : nonzero?
  : opt

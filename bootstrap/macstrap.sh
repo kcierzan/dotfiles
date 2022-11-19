@@ -97,9 +97,8 @@ install_casks() {
     google-drive
     hammerspoon
     iina
-    jetbrains-toolbox
     kitty
-    logseq
+    neovide
     scroll-reverser
   )
   for cask in "${casks[@]}"
@@ -146,8 +145,8 @@ install_asdf_plugins() {
 
 set_fish_globals() {
   fish_global BAT_THEME base16
-  fish_global EDITOR nvim
-  fish_global VISUAL nvim
+  fish_global EDITOR 'neovide --frame buttonless'
+  fish_global VISUAL 'neovide --frame buttonless'
   fish_global STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
   fish_global INKD_DIR "$HOME/.inkd/"
   fish_global LANG en_US.UTF-8

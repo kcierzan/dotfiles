@@ -187,13 +187,14 @@
 
 (fn refresh-window! [id position]
   (let [(window frame screen) (window-by-id id)]
-    (when (valid-window? window screen)
+    (if (valid-window? window screen)
       (match position
         :fullscreen (size-fullscreen window frame screen)
         :top-half (set-top-half window screen)
         :bottom-half (set-bottom-half window screen)
         :right-half (set-right-half window screen)
-        :left-half (set-left-half window screen)))))
+        :left-half (set-left-half window screen))
+      (tset window-locations id nil))))
 
 (fn on-off [x]
   (if x "ON" "OFF"))

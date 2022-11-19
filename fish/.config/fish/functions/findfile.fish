@@ -29,6 +29,6 @@ function findfile --description 'Fuzzy file finder'
   else if test "$key" = 'ctrl-x' && test -n "$file"
     rm -i "$file"
   else if test -n "$file"
-    $EDITOR $file
+    eval $EDITOR $file
   end
 end

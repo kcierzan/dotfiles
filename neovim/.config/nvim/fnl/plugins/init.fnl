@@ -1,5 +1,6 @@
 (import-macros {: require*
                 : req-call} :macros)
+
 (require* export-module [:lib :export-module]
           use-plugins! [:packer-lib :use-plugins!]
           merge [:lib :merge]
@@ -66,6 +67,7 @@
                  :config (fn [] (req-call :leap :add_default_mappings))}
 
                 {:repo :knubie/vim-kitty-navigator
+                 :disable true
                  :run "cp ./*.py ~/.config/kitty"
                  :setup (fn []
                           (tset _G :kitty_navigator_no_mappings 1))
@@ -86,6 +88,7 @@
                                (devicons.setup {:override fnl}))))}
 
                 {:repo :folke/noice.nvim
+                 :disable false
                  :event :VimEnter
                  :requires ["MunifTanjim/nui.nvim" "rcarriga/nvim-notify"]
                  :config (fn []
@@ -133,6 +136,19 @@
 
                 {:repo :williamboman/mason.nvim
                  :config (fn [] (req-call :mason :setup))}
+
+                {:repo :akinsho/toggleterm.nvim
+                 :config (fn [] (req-call :toggleterm
+                                          :setup
+                                          {:open_mapping "<C-\\>"}))}
+                {:repo :jose-elias-alvarez/null-ls.nvim
+                 :config (fn []
+                           (let [null-ls (require :null-ls)]
+                             (null-ls.setup {:sources [(null-ls.builtins.code_actions.proselint.with {:filetypes [:markdown :tex :org]})
+                                                       (null-ls.builtins.diagnostics.proselint.with {:filetypes [:markdown :tex :org]})
+                                                       null-ls.builtins.diagnostics.misspell
+                                                       null-ls.builtins.diagnostics.credo
+                                                       null-ls.builtins.diagnostics.erb_lint]})))}
 
                 {:repo :wbthomason/packer.nvim}
                 {:repo :lewis6991/impatient.nvim

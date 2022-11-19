@@ -81,13 +81,11 @@
              (luasnip.lsp_expand args.body))
 
            (local sources [{:name :buffer
-                            :priority 700
-                            :max_item_count 4}
+                            :priority 700}
                            {:name :path
                             :priority 500}
                            {:name :rg
-                            :priority 600
-                            :max_item_count 4}
+                            :priority 600}
                            {:name :calc
                             :priority 400}
                            {:name :nvim_lsp

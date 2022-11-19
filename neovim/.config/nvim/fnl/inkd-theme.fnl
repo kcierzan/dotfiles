@@ -15,7 +15,14 @@
     (with-open [file-handle (io.open theme-file :r)]
                (if file-handle
                  (dofile theme-file)
-                 (print "inkd theme not found! Make sure INKD_DIR is set and run `ink color <color> <shade>`")))))
+                 (print "inkd theme not found! Make sure INKD_DIR is set and run `ink theme <color> <shade>`")))))
+
+(fn globals []
+  (let [globals-file (.. (os.getenv :INKD_DIR) :neovim_terminal.ink.lua)]
+    (with-open [file-handle (io.open globals-file :r)]
+               (if file-handle
+                 (dofile globals-file)
+                 (print "inkd terminal theme not found! Make sure INKD_DIR is set and run `ink theme <color> <shade>`")))))
 
 (fn colorscheme []
   (vim.cmd "hi clear")
@@ -23,6 +30,7 @@
     (vim.cmd "syntax reset"))
   (opt :termguicolors true)
   (vim-global :colors_name :inkd)
+  (globals)
   (each [group colors (pairs (groups))]
     (highlight group colors)))
 
