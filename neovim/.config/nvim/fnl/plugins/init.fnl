@@ -88,7 +88,7 @@
                                (devicons.setup {:override fnl}))))}
 
                 {:repo :folke/noice.nvim
-                 :disable false
+                 :disable true
                  :event :VimEnter
                  :requires ["MunifTanjim/nui.nvim" "rcarriga/nvim-notify"]
                  :config (fn []
@@ -141,6 +141,7 @@
                  :config (fn [] (req-call :toggleterm
                                           :setup
                                           {:open_mapping "<C-\\>"}))}
+
                 {:repo :jose-elias-alvarez/null-ls.nvim
                  :config (fn []
                            (let [null-ls (require :null-ls)]

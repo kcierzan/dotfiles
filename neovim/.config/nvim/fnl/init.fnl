@@ -10,7 +10,10 @@
           plugins [:plugins]
           vim-global [:lib :vim-global]
           neovide? [:lib :neovide?]
-          nmap [:lib :nmap])
+          nmap [:lib :nmap]
+          imap [:lib :imap]
+          cmap [:lib :cmap])
+
 (local home-dir (os.getenv :HOME))
 
 (opt :autowriteall true)
@@ -59,7 +62,7 @@
 (vim-global :maplocalleader "+")
 (vim-global :user_emmet_settings {:javascript.jsx {:extends :jsx}})
 
-(vim.opt.shortmess:append :c)
+(vim.opt.shortmess:append :cW)
 
 (vim.cmd "set whichwrap+=<,>,[,],h,l")
 (vim.cmd "set iskeyword+=-")
@@ -75,6 +78,9 @@
 
 (when (neovide?)
   (opt :guifont "MonoLisa:h16:#e-subpixelantialias")
+  (nmap "<D-v>" "\"+p")
+  (imap "<D-v>" "<C-r>+")
+  (cmap "<D-v>" "<C-r>+")
   (vim-global :neovide_input_macos_alt_is_meta true))
 
 (plugins.use!)

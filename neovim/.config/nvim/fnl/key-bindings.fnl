@@ -84,9 +84,10 @@
       :p [(cmd "Telescope projects") "projects"]
       :F [rails-app-files-cmd "rails app files"]}
   :v {:name "+vim"
-      :r [(cmd "so ~/.config/nvim/init.lua") "reload config"] ;; FIXME
-      :e [(cmd "edit ~/.config/nvim/fnl/init_fennel.fnl") "edit config"] ;; FIXME
+      :r [(cmd "lua ReloadConfig()") "reload config"] ;; FIXME
+      :e [(cmd "edit ~/.config/nvim/fnl/init.fnl") "edit config"] ;; FIXME
       :s [(cmd "PackerSync") "packer sync"]
+      :m [(cmd "Mason") "mason"]
       :c [(cmd "PackerCompile") "packer compile"]}
   :b {:name "+buffer"
       :C [(cmd "windo diffoff") "diff off"]

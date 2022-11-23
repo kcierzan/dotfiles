@@ -158,6 +158,14 @@
   (vim.api.nvim_set_keymap
     :n key cmd {:noremap true :silent true}))
 
+(fn imap [key cmd]
+  (vim.api.nvim_set_keymap
+    :i key cmd {:noremap true :silent true}))
+
+(fn cmap [key cmd]
+  (vim.api.nvim_set_keymap
+    :c key cmd {:noremap true :silent true}))
+
 (fn xmap [key cmd]
   (vim.api.nvim_set_keymap
     :x key cmd {:noremap true :silent true}))
@@ -167,6 +175,16 @@
 
 (fn neovide? []
   (vim.fn.exists "g:neovide"))
+
+(fn _G.ReloadConfig []
+  ;; (each [name _ (pairs _G.package.loaded)]
+  ;;   (when (not (or (: name :match :nvim-tree) 
+  ;;                  (: name :match :bufferline)
+  ;;                  (: name :match :lualine)
+  ;;                  (: name :match :colorizer)))
+  ;;     (tset _G.package.loaded name nil)))
+  (_G.dofile vim.env.MYVIMRC)
+  (vim.notify "neovim configuration reloaded!" vim.log.levels.INFO))
 
 {: boolean?
  : butlast
@@ -180,10 +198,12 @@
  : git-workspace?
  : head
  : second
+ : imap
  : last
  : merge
  : nil?
  : nmap
+ : cmap
  : neovide?
  : unmap
  : nonzero?
