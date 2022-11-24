@@ -82,6 +82,8 @@
 
            (local sources [{:name :buffer
                             :priority 700}
+                           {:name :treesitter
+                            :priority 750}
                            {:name :path
                             :priority 500}
                            {:name :rg

@@ -29,13 +29,18 @@
                 {:repo :ahmedkhalf/project.nvim
                  :requires [:nvim-telescope/telescope.nvim]
                  :config (fn []
-                           (req-call :project_nvim :setup {:manual_mode true})
+                           (req-call :project_nvim :setup {:manual_mode false})
                            (req-call :telescope :load_extension :projects))}
 
                 {:repo :lukas-reineke/indent-blankline.nvim
+                 :disable true
                  :config (fn []
                            (req-call :indent_blankline :setup {:buftype_exclude [:terminal]
                                                                :filetype_exclude [:alpha]}))}
+
+                {:repo :echasnovski/mini.indentscope
+                 :branch :stable
+                 :config (fn [] (req-call :mini.indentscope :setup))}
 
                 {:repo :lewis6991/gitsigns.nvim
                  :config (fn [] (req-call :gitsigns :setup))}
@@ -59,6 +64,10 @@
 
                 {:repo :eraserhd/parinfer-rust
                  :run "cargo build --release"}
+
+                {:repo :glepnir/lspsaga.nvim
+                 :branch :main
+                 :config (fn [] (req-call :lspsaga :init_lsp_saga))}
 
                 {:repo :kylechui/nvim-surround
                  :config (fn [] (req-call :nvim-surround :setup))}
@@ -165,6 +174,7 @@
                 {:repo :hrsh7th/cmp-cmdline}
                 {:repo :hrsh7th/cmp-path}
                 {:repo :hrsh7th/cmp-calc}
+                {:repo :ray-x/cmp-treesitter}
                 {:repo :hrsh7th/cmp-nvim-lsp-signature-help}
                 {:repo :hrsh7th/cmp-nvim-lsp}
                 {:repo :lukas-reineke/cmp-rg}

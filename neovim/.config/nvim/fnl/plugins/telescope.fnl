@@ -2,6 +2,12 @@
  :requires :nvim-telescope/telescope-fzf-native.nvim
  :run :make
  :config (fn []
+           (fn _G.ProjectGrep []
+             (let [git-cmd "git rev-parse --show-toplevel"
+                   git-dir (-> (vim.fn.system git-cmd) (: :gsub "\n" ""))
+                   tscope (require :telescope.builtin)]
+               (tscope.live_grep {:cwd git-dir})))
+               
            (let [tscope (require :telescope)]
               (tscope.setup {:defaults
                              {:vimgrep_arguments [:rg

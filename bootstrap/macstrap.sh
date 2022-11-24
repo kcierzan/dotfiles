@@ -43,7 +43,6 @@ HOMEBREW_PACKAGES=(
   mas
   mosh
   neovim
-  nnn
   openssh
   pandoc
   postgresql
@@ -97,9 +96,8 @@ install_casks() {
     google-drive
     hammerspoon
     iina
-    kitty
-    neovide
     scroll-reverser
+    wezterm
   )
   for cask in "${casks[@]}"
   do
@@ -114,11 +112,12 @@ stow_dot_dirs() {
     gitui
     hammerspoon
     jetbrains
-    kitty
     neovim
     sketchybar
     starship
     surfingkeys
+    xplr
+    wezterm
   )
   for dot in "${dots[@]}"
   do
