@@ -97,7 +97,7 @@
                                (devicons.setup {:override fnl}))))}
 
                 {:repo :folke/noice.nvim
-                 :disable true
+                 :disable false
                  :event :VimEnter
                  :requires ["MunifTanjim/nui.nvim" "rcarriga/nvim-notify"]
                  :config (fn []

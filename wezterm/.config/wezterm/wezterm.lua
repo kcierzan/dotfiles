@@ -4,6 +4,7 @@ return {
   color_scheme = 'Catppuccin Frappe',
   default_cursor_style = 'SteadyUnderline',
   font = wezterm.font('Recursive'),
+  font_size = 18.0,
   scrollback_lines = 50000,
   window_decorations = 'RESIZE',
   freetype_load_target = 'Light',
