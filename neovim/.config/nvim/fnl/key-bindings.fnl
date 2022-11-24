@@ -153,5 +153,5 @@
       :c [(neotest-cmd "run.stop()") "stop nearest test"]
       :p [(neotest-cmd "output_panel.toggle()") "toggle output panel"]
       :o [(neotest-cmd "output.open()") "show test results"]
-      :t [(neotest-cmd "summary.open()") "show test suite structure"]
+      :t [(neotest-cmd "summary.toggle()") "show test suite structure"]
       :i [(neotest-cmd "output.open({ enter = true})") "open output of nearest test result"]}}}
