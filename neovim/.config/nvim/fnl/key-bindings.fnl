@@ -59,14 +59,26 @@
           :q ["cancel clock"]
           :j ["go to clock"]
           :e ["set effort"]}}
-  :f {:name "+find"
-      :L {:name "+LSP"
+  :l {:name "+LSP"
+      :f {:name "+find"
           :r [(tscope-cmd :lsp_references) "references"]
           :s [(tscope-cmd :lsp_document_symbols) "buffer symbols"]
           :S [(tscope-cmd :lsp_workspace_symbols) "workspace symbols"]
           :i [(tscope-cmd :lsp_implementations) "implementations"]
           :d [(tscope-cmd :lsp_definitions) "definitions"]
           :c [(tscope-cmd :lsp_incoming_calls) "incoming calls"]}
+      :n [(cmd "Lspsaga diagnostic_jump_next") "jump to next diagnostic"]
+      :p [(cmd "Lspsaga diagnostic_jump_previous") "jump to previous diagnostic"]
+      :i [(cmd "Lspsaga show_cursor_diagnostics") "show cursor diagnostics"]
+      :l [(cmd "Lspsaga show_line_diagnostics") "show line diagnostics"]
+      :o [(cmd "LSoutlineToggle") "toggle outline"]
+      :d [(cmd "Lspsaga peek_definition") "peek definition"]
+      :h [(cmd "Lspsaga hover_doc") "hover documentation"]
+      :r [(cmd :LspRestart) "restart"]
+      :s [(cmd :LspStart) "start"]
+      :L [(cmd :LspLog) "log"]
+      :I [(cmd :LspInfo) "info"]}
+  :f {:name "+find"
       :O [(tscope-cmd :vim_options) "vim options"]
       :T [(tscope-cmd :filetypes) "filetypes"]
       :t [(tscope-cmd :help_tags) "help tags"]
@@ -84,8 +96,8 @@
       :p [(cmd "Telescope projects") "projects"]
       :F [rails-app-files-cmd "rails app files"]}
   :v {:name "+vim"
-      :r [(cmd "lua ReloadConfig()") "reload config"] ;; FIXME
-      :e [(cmd "edit ~/.config/nvim/fnl/init.fnl") "edit config"] ;; FIXME
+      :r [(cmd "lua ReloadConfig()") "reload config"]
+      :e [(cmd "edit ~/.config/nvim/fnl/init.fnl") "edit config"]
       :s [(cmd "PackerSync") "packer sync"]
       :m [(cmd "Mason") "mason"]
       :c [(cmd "PackerCompile") "packer compile"]}
