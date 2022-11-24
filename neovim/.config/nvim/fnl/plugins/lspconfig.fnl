@@ -17,7 +17,7 @@
            (require* lspconf [:lspconfig]
                      cmp-lsp [:cmp_nvim_lsp])
 
-           (vim.diagnostic.config {:virtual_text true
+           (vim.diagnostic.config {:virtual_text false
                                    :signs true
                                    :underline true})
               
