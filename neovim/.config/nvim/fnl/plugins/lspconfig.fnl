@@ -56,13 +56,17 @@
            (fn setup-solargraph []
              (configure-lsp :solargraph
                             (fn [opts]
-                              (tset opts :settings {:solargraph {:diagnostics true}})
-                              (tset opts :cmd [:bundle :exec :solargraph :stdio])
-                              opts)))
+                              (let [util (-> (require :lspconfig) (. :util))]
+                                (tset opts :settings {:solargraph {:diagnostics true}})
+                                (tset opts :cmd [:bundle :exec :solargraph :stdio])
+                                (tset opts :root_dir (util.root_pattern :Gemfile))
+                                opts))))
 
            (fn setup-ruby-lsp []
              (configure-lsp :ruby_ls
                             (fn [opts]
+                              (let [util (-> (require :lspconfig) (. :util))]
+                                (tset opts :root_dir (util.root_pattern :Gemfile)))
                               (tset opts :init_options {:enabledFeatures [:codeActions
                                                                           :diagnostics
                                                                           :documentHighlights
