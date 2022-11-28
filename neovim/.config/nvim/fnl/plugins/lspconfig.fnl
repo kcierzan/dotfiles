@@ -47,6 +47,12 @@
                    opts (config opts)]
                (server.setup opts)))
 
+           (fn setup-clangd []
+             (configure-lsp :clangd
+                            (fn [opts]
+                              (tset opts :capabilities :offsetEncoding "utf-8")
+                              opts)))
+
            (fn setup-lua []
              (configure-lsp :sumneko_lua
                             (fn [opts]
@@ -120,6 +126,7 @@
              (setup-elixirls)
              (setup-emmet)
              (setup-ruby-lsp)
+             (setup-clangd)
              (setup-solargraph))
 
            (setup-servers))}

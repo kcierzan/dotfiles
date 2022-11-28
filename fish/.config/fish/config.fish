@@ -9,7 +9,7 @@ if status is-interactive
     bind -M insert \cF findfile
     bind -M insert \cG grepfiles
     bind -M insert \cE forward-char
-    bind -M insert \cO nnn-browser
+    bind -M insert \cO xplr-key
     bind -M insert \cR fzf-history
     bind -M insert \cP fkill
     bind -M insert \cb fzf-git-checkout
