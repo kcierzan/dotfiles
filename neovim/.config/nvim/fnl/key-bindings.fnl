@@ -71,6 +71,7 @@
       :p [(cmd "Lspsaga diagnostic_jump_previous") "jump to previous diagnostic"]
       :i [(cmd "Lspsaga show_cursor_diagnostics") "show cursor diagnostics"]
       :l [(cmd "Lspsaga show_line_diagnostics") "show line diagnostics"]
+      :a [(cmd "Lspsaga code_action") "code action"]
       :o [(cmd "LSoutlineToggle") "toggle outline"]
       :d [(cmd "Lspsaga peek_definition") "peek definition"]
       :h [(cmd "Lspsaga hover_doc") "hover documentation"]

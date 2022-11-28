@@ -101,6 +101,7 @@
                  :event :VimEnter
                  :requires ["MunifTanjim/nui.nvim" "rcarriga/nvim-notify"]
                  :config (fn []
+                           (req-call :notify :setup {:timeout 800})
                            (req-call :noice
                                      :setup
                                      {:routes [{:filter {:event :msg_show
