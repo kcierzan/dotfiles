@@ -77,7 +77,7 @@
 (create-autowrite-augroup)
 
 (when (neovide?)
-  (opt :guifont "MonoLisa:h16:#e-subpixelantialias")
+  (opt :guifont "Recursive:h16:#e-subpixelantialias")
   (nmap "<D-v>" "\"+p")
   (imap "<D-v>" "<C-r>+")
   (cmap "<D-v>" "<C-r>+")
