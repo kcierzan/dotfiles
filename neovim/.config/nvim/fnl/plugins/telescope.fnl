@@ -1,12 +1,18 @@
+(import-macros {: require*} :macros)
+
 {:repo :nvim-telescope/telescope.nvim
  :requires :nvim-telescope/telescope-fzf-native.nvim
  :run :make
  :config (fn []
            (fn _G.ProjectGrep []
+             (require* file-exists? [:lib :file-exists?])
              (let [git-cmd "git rev-parse --show-toplevel"
                    git-dir (-> (vim.fn.system git-cmd) (: :gsub "\n" ""))
+                   ?in-git-dir (file-exists? git-dir)
                    tscope (require :telescope.builtin)]
-               (tscope.live_grep {:cwd git-dir})))
+               (if ?in-git-dir
+                (tscope.live_grep {:cwd git-dir})
+                (tscope.live_grep))))
                
            (let [tscope (require :telescope)]
               (tscope.setup {:defaults
