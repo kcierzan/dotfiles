@@ -6,12 +6,12 @@ if status is-interactive
     set fish_cursor_unknown underscore
 
     # bind commonly-used functions to keys
-    bind -M insert \cF findfile
+    bind -M insert \cf findfile
     bind -M insert \cG grepfiles
-    bind -M insert \cE forward-char
-    bind -M insert \cO xplr-key
-    bind -M insert \cR fzf-history
-    bind -M insert \cP fkill
+    bind -M insert \ce forward-char
+    bind -M insert \co xplr-key
+    bind -M insert \cr fzf-history
+    bind -M insert \cp fkill
     bind -M insert \cb fzf-git-checkout
 
     starship init fish | source

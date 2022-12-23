@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-
-THINGS3_APP_STORE_ID=904280696
-GLOBAL_RUBY_VERSION='3.0.2'
-GLOBAL_PYTHON_VERSION='3.10.5'
+GLOBAL_RUBY_VERSION='3.1.2'
+GLOBAL_PYTHON_VERSION='3.11.1'
 DOTFILES_DIR="$HOME/.dotfiles"
 
 HOMEBREW_PACKAGES=(
@@ -52,7 +50,6 @@ HOMEBREW_PACKAGES=(
   ripgrep
   ruby
   shellcheck
-  sketchybar
   speedtest-cli
   starship
   stow
@@ -88,15 +85,15 @@ install_casks() {
   BREW_PREFIX="$(brew --prefix)"
   casks=(
     1password
-    alfred
-    font-iosevka-aile
-    font-iosevka-etoile
-    font-iosevka-ss08
+    bettertouchtool
     google-chrome
     google-drive
-    hammerspoon
+    hyperkey
     iina
+    raycast
+    rectangle
     scroll-reverser
+    visual-studio-code
     wezterm
   )
   for cask in "${casks[@]}"
@@ -113,7 +110,6 @@ stow_dot_dirs() {
     hammerspoon
     jetbrains
     neovim
-    sketchybar
     starship
     surfingkeys
     xplr
@@ -144,8 +140,8 @@ install_asdf_plugins() {
 
 set_fish_globals() {
   fish_global BAT_THEME base16
-  fish_global EDITOR 'neovide --frame buttonless'
-  fish_global VISUAL 'neovide --frame buttonless'
+  fish_global EDITOR 'code'
+  fish_global VISUAL 'code'
   fish_global STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
   fish_global INKD_DIR "$HOME/.inkd/"
   fish_global LANG en_US.UTF-8
@@ -167,6 +163,10 @@ brew_upgrade() {
   brew cleanup
 }
 
+brew_upgrade_outdated_casks() {
+  brew outdated --cask --greedy --verbose | grep -v '(latest)' | awk '{print $1}' | xargs brew reinstall --cask
+}
+
 create_dot_dirs() {
   dotdirs=(
     "$HOME/.local/bin/"
@@ -186,18 +186,18 @@ symlink_bootstrap_executable() {
 }
 
 install_audio_apps() {
-  LOGIC_PRO_APP_STORE_ID=634148309
   brew install ocenaudio
   brew install audio-hijack
   mas install "$LOGIC_PRO_APP_STORE_ID"
 }
 
 clone_inkd() {
-  git clone 'https://github.com/kcierzan/inkd' "$HOME/git/inkd"
+  mkdir -p "$HOME/src"
+  git clone 'https://github.com/kcierzan/inkd' "$HOME/src/inkd"
 }
 
 build_and_install_inkd() {
-  pushd "$HOME/git/inkd" || exit 255
+  pushd "$HOME/src/inkd" || exit 255
   VERSION="$(grep 's.version' inkd.gemspec | cut -d'=' -f2 | tr -d "'" | xargs)"
   asdf exec gem build inkd.gemspec && asdf exec gem install "inkd-$VERSION.gem"
   popd || exit 255
@@ -234,7 +234,7 @@ do
       echo "Invalid option: $arg"
       exit 255
       ;;
-  esac 
+  esac
 done
 
 if [ $# -eq 0 ]; then
@@ -268,16 +268,15 @@ if [ -n "$APPS" ]; then
   is_tapped 'homebrew/services' ||
     subtask_exec 'Tapping cask services' brew tap homebrew/services
 
-  is_tapped 'felixkratz/formulae' ||
-    subtask_exec 'Tapping sketchybar' brew tap felixkratz/formulae
-
   subtask_exec 'Installing homebrew packages' install_brew_packages
 
   subtask_exec 'Installing homebrew applications' install_casks
 
   subtask_exec 'Upgrading homebrew packages' brew_upgrade
 
-  [ -z "$(which fennel)" ] && 
+  subtask_exec 'Upgrading outdated casks' brew_upgrade_outdated_casks
+
+  [ -z "$(which fennel)" ] &&
     subtask_exec 'Installing fennel' luarocks install fennel
 
   mas list | grep -q 'Things' ||
@@ -292,8 +291,8 @@ if [ -n "$CONFIG_SHELL" ]; then
 
   subtask_exec 'Symlinking dotfiles' stow_dot_dirs
 
-  [ -z "$(pgrep -i hammerspoon)" ] &&
-    subtask_exec 'Starting hammerspoon' open /Applications/Hammerspoon.app
+  # [ -z "$(pgrep -i hammerspoon)" ] &&
+  #   subtask_exec 'Starting hammerspoon' open /Applications/Hammerspoon.app
 
   [ "$SHELL" != "$(brew --prefix)/bin/fish" ] &&
     subtask_exec "Changing $(whoami)'s shell to fish" chsh -s "$(which fish)"
@@ -324,7 +323,7 @@ if [ -n "$RUNTIMES" ]; then
     subtask_exec 'Installing bundler' asdf exec gem install bundler
 
   if [ ! -d ~/.inkd/ ]; then
-    [ ! -d ~/git/inkd/ ] &&
+    [ ! -d ~/src/inkd/ ] &&
       subtask_exec 'Cloning inkd' clone_inkd &&
       subtask_exec 'Building inkd' build_and_install_inkd
     subtask_exec 'Setting theme to one dark' asdf exec ink color one dark
