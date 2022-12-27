@@ -2,8 +2,8 @@ local wezterm = require 'wezterm'
 
 return {
   color_scheme = 'Catppuccin Frappe',
-  default_cursor_style = 'SteadyUnderline',
-  font = wezterm.font('Recursive'),
+  default_cursor_style = 'BlinkingBlock',
+  font = wezterm.font('Liga SFMono Nerd Font'),
   font_size = 18.0,
   scrollback_lines = 50000,
   window_decorations = 'RESIZE',
@@ -14,7 +14,7 @@ return {
     button_fg = '#c6d0f5',
     button_bg = '#414559',
     button_hover_bg = '#737994',
-    font = wezterm.font { family = 'Recursive', weight = 'Bold' },
+    font = wezterm.font { family = 'Liga SFMono Nerd Font', weight = 'Bold' },
     font_size = 14.0,
   },
   colors = {
