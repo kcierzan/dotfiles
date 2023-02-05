@@ -1,9 +1,9 @@
 local wezterm = require 'wezterm'
 
 return {
-  color_scheme = 'Catppuccin Frappe',
+  color_scheme = 'kanagawabones',
   default_cursor_style = 'BlinkingBlock',
-  font = wezterm.font('Liga SFMono Nerd Font'),
+  font = wezterm.font('Fisa Code'),
   font_size = 18.0,
   scrollback_lines = 50000,
   window_decorations = 'RESIZE',

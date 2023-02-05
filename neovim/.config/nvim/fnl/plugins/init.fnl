@@ -67,7 +67,7 @@
 
                 {:repo :glepnir/lspsaga.nvim
                  :branch :main
-                 :config (fn [] (req-call :lspsaga :init_lsp_saga))}
+                 :config (fn [] (req-call :lspsaga :setup))}
 
                 {:repo :kylechui/nvim-surround
                  :config (fn [] (req-call :nvim-surround :setup))}
