@@ -6,9 +6,10 @@
  :config (fn []
            (fn _G.ProjectGrep []
              (require* parent-git-directory [:lib :parent-git-directory])
-             (let [tscope (require :telescope.builtin)]
-               (if (parent-git-directory)
-                 (tscope.live_grep {:cwd parent-git-directory})
+             (let [tscope (require :telescope.builtin)
+                   dir (parent-git-directory)]
+               (if dir
+                 (tscope.live_grep {:cwd dir})
                  (tscope.live_grep))))
 
            (fn _G.FindFiles []

@@ -155,9 +155,7 @@
                 {:repo :jose-elias-alvarez/null-ls.nvim
                  :config (fn []
                            (let [null-ls (require :null-ls)]
-                             (null-ls.setup {:sources [(null-ls.builtins.code_actions.proselint.with {:filetypes [:markdown :tex :org]})
-                                                       (null-ls.builtins.diagnostics.proselint.with {:filetypes [:markdown :tex :org]})
-                                                       null-ls.builtins.diagnostics.misspell
+                             (null-ls.setup {:sources [null-ls.builtins.diagnostics.misspell
                                                        null-ls.builtins.diagnostics.credo
                                                        null-ls.builtins.diagnostics.erb_lint]})))}
 
