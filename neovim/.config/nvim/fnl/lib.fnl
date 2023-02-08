@@ -116,6 +116,11 @@
 (fn file-exists? [path]
   (= (vim.fn.empty (vim.fn.glob path)) 0))
 
+(fn parent-git-directory []
+  (let [git-cmd "git rev-parse --show-toplevel"
+        git-dir (-> (vim.fn.system git-cmd) (: :gsub "\n" ""))]
+    (and (file-exists? git-dir) git-dir)))
+
 (fn split [str delim]
   (vim.fn.split str delim))
 
@@ -197,6 +202,7 @@
  : function?
  : git-workspace?
  : head
+ : parent-git-directory
  : second
  : imap
  : last

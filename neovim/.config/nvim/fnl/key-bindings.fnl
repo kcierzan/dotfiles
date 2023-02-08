@@ -86,7 +86,7 @@
       :a [(tscope-cmd :autocommands) "autocommands"]
       :b [(tscope-cmd :buffers) "buffers"]
       :c [(tscope-cmd :git_commits) "commits"]
-      :f [(cmd "lua require('telescope.builtin').git_files({ show_untracked = true })") "files in current repo"]
+      :f [(cmd "lua FindFiles()") "files in current repo"]
       :g [(cmd "lua ProjectGrep()") "text in git files"]
       :G [(cmd "Telescope grep_string search=") "super fuzzy grep"]
       :h [(tscope-cmd :highlights) "highlights"]

@@ -5,15 +5,19 @@
  :run :make
  :config (fn []
            (fn _G.ProjectGrep []
-             (require* file-exists? [:lib :file-exists?])
-             (let [git-cmd "git rev-parse --show-toplevel"
-                   git-dir (-> (vim.fn.system git-cmd) (: :gsub "\n" ""))
-                   ?in-git-dir (file-exists? git-dir)
-                   tscope (require :telescope.builtin)]
-               (if ?in-git-dir
-                (tscope.live_grep {:cwd git-dir})
-                (tscope.live_grep))))
-               
+             (require* parent-git-directory [:lib :parent-git-directory])
+             (let [tscope (require :telescope.builtin)]
+               (if (parent-git-directory)
+                 (tscope.live_grep {:cwd parent-git-directory})
+                 (tscope.live_grep))))
+
+           (fn _G.FindFiles []
+             (require* parent-git-directory [:lib :parent-git-directory])
+             (let [tscope (require :telescope.builtin)]
+               (if (parent-git-directory)
+                 (tscope.git_files {:show_untracked true})
+                 (tscope.find_files))))
+
            (let [tscope (require :telescope)]
               (tscope.setup {:defaults
                              {:vimgrep_arguments [:rg

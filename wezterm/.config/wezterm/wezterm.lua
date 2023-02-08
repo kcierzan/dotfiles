@@ -3,7 +3,7 @@ local wezterm = require 'wezterm'
 return {
   color_scheme = 'kanagawabones',
   default_cursor_style = 'BlinkingBlock',
-  font = wezterm.font('Fisa Code'),
+  font = wezterm.font('FiraCode Nerd Font'),
   font_size = 18.0,
   scrollback_lines = 50000,
   window_decorations = 'RESIZE',
