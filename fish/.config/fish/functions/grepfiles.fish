@@ -38,6 +38,6 @@ function grepfiles --description 'Fuzzy file grepper'
 	end
 
 	if test -n "$linefile"
-		eval $EDITOR (string split ' ' $linefile)
+		eval $EDITOR (string split -- ' ' $linefile)
 	end
 end
