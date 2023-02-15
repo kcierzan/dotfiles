@@ -15,6 +15,7 @@ HOMEBREW_PACKAGES=(
   ctags
   elixir
   elixir-ls
+  emacs-mac
   fd
   figlet
   findutils
@@ -196,6 +197,14 @@ clone_inkd() {
   git clone 'https://github.com/kcierzan/inkd' "$HOME/src/inkd"
 }
 
+clone_doom() {
+  git clone --depth 1 'https://github.com/doomemacs/doomemacs' ~/.emacs.d
+}
+
+install_doom() {
+  ~/.emacs.d/bin/doom install
+}
+
 build_and_install_inkd() {
   pushd "$HOME/src/inkd" || exit 255
   VERSION="$(grep 's.version' inkd.gemspec | cut -d'=' -f2 | tr -d "'" | xargs)"
@@ -268,6 +277,9 @@ if [ -n "$APPS" ]; then
   is_tapped 'homebrew/services' ||
     subtask_exec 'Tapping cask services' brew tap homebrew/services
 
+  is_tapped 'railwaycat/emacsmacport' ||
+    subtask_exec 'Tapping emacs-mac' brew tap railwaycat/emacsmacport
+
   subtask_exec 'Installing homebrew packages' install_brew_packages
 
   subtask_exec 'Installing homebrew applications' install_casks
@@ -336,6 +348,8 @@ fi
 if [ -n "$EDITORS" ]; then
   task_inform 'Configuring editors'
   subtask_exec 'Bootstrapping neovim' bootstrap_neovim
+  subtask_exec 'Cloning DOOM' clone_doom
+  subtask_exec 'Installing DOOM' install_doom
 fi
 
 # --------------------------------------------------------------
