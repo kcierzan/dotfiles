@@ -106,6 +106,7 @@ install_casks() {
 
 stow_dot_dirs() {
   dots=(
+    doom_emacs
     fish
     gitui
     hammerspoon
@@ -189,7 +190,7 @@ symlink_bootstrap_executable() {
 install_audio_apps() {
   brew install ocenaudio
   brew install audio-hijack
-  mas install "$LOGIC_PRO_APP_STORE_ID"
+  wget -P '~/Downloads/' -c 'https://support.image-line.com/redirect/flstudio_mac_installer'
 }
 
 clone_inkd() {
@@ -303,9 +304,6 @@ if [ -n "$CONFIG_SHELL" ]; then
 
   subtask_exec 'Symlinking dotfiles' stow_dot_dirs
 
-  # [ -z "$(pgrep -i hammerspoon)" ] &&
-  #   subtask_exec 'Starting hammerspoon' open /Applications/Hammerspoon.app
-
   [ "$SHELL" != "$(brew --prefix)/bin/fish" ] &&
     subtask_exec "Changing $(whoami)'s shell to fish" chsh -s "$(which fish)"
 
@@ -348,7 +346,7 @@ fi
 if [ -n "$EDITORS" ]; then
   task_inform 'Configuring editors'
   subtask_exec 'Bootstrapping neovim' bootstrap_neovim
-  subtask_exec 'Cloning DOOM' clone_doom
+  [ ! -d ~/.emacs.d/ ] && subtask_exec 'Cloning DOOM' clone_doom
   subtask_exec 'Installing DOOM' install_doom
 fi
 
