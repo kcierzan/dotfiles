@@ -15,20 +15,20 @@ if status is-interactive
     bind -M insert \cb fzf-git-checkout
 
     starship init fish | source
-    zoxide init fish | source 
+    zoxide init fish | source
     direnv hook fish | source
 end
 
-fish_add_path "$HOME/.local/bin" "$HOME/.local/bin-jetbrains" '/opt/homebrew/bin' '/usr/local/bin' '/usr/local/sbin' '/usr/bin' '/usr/sbin' '/sbin' '/opt/X11/bin' "$HOME/.cargo/bin" "$HOME/.composer/vendor/bin" '/Library/TeX/Distributions/Programs/texbin'
+fish_add_path "$HOME/.emacs.d/bin" "$HOME/.local/bin" "$HOME/.local/bin-jetbrains" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin /opt/X11/bin "$HOME/.cargo/bin" "$HOME/.composer/vendor/bin" /Library/TeX/Distributions/Programs/texbin
 
 set -gx LESS '-F -g -i -M -R -S -w -X -z-4'
 set -gx KEYTIMEOUT 1
 set -gx CLICOLOR 1
-set -gx LSCOLORS 'ExFxBxDxCxegedxbxgxcxd'
+set -gx LSCOLORS ExFxBxDxCxegedxbxgxcxd
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 
 set fish_color_param normal
 set fish_color_error red --bold
-set fish_color_command 'a0c980' --bold
+set fish_color_command a0c980 --bold
 
 source "$(brew --prefix)/opt/asdf/libexec/asdf.fish"
