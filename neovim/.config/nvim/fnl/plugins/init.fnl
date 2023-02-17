@@ -141,7 +141,7 @@
                                                          :clojure_lsp
                                                          :ruby_ls
                                                          :elixirls
-                                                         :sumneko_lua
+                                                         :lua_ls
                                                          :emmet_ls]}))}
 
                 {:repo :williamboman/mason.nvim

@@ -54,7 +54,7 @@
                               opts)))
 
            (fn setup-lua []
-             (configure-lsp :sumneko_lua
+             (configure-lsp :lua_ls
                             (fn [opts]
                               (tset opts :settings {:Lua {:diagnostics {:globals [:vim :awesome :hs]}}})
                               opts)))

@@ -75,6 +75,13 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(setq doom-modeline-height 40)
 (setq projectile-project-search-path '(("~/git" . 2) ("~/src" . 2) ("~/.dotfiles")))
 
-(setq doom-modeline-height 40)
+;; Re-binding external keyboard modifiers via macOS system preferences results in
+;; re-bound modifiers becoming "right" modifiers. By default, DOOM binds right
+;; option to `none'.
+;; N.B: emacs-mac uses the mac-* prefix for mac-specific variables, not ns-*
+(setq mac-right-option-modifier 'meta)
+
+(setenv "PAGER" "cat")
