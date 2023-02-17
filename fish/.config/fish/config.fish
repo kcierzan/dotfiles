@@ -1,18 +1,21 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    fish_vi_key_bindings
-    set fish_cursor_default block
-    set fish_cursor_insert line
-    set fish_cursor_unknown underscore
+    if test -z $INSIDE_EMACS
+        fish_vi_key_bindings
+        set fish_cursor_default block
+        set fish_cursor_insert line
+        set fish_cursor_unknown underscore
 
-    # bind commonly-used functions to keys
-    bind -M insert \cf findfile
-    bind -M insert \cG grepfiles
+        # bind commonly-used functions to keys
+        bind -M insert \cf findfile
+        bind -M insert \cG grepfiles
+        bind -M insert \co xplr-key
+        bind -M insert \cr fzf-history
+        bind -M insert \cp fkill
+        bind -M insert \cb fzf-git-checkout
+    end
+
     bind -M insert \ce forward-char
-    bind -M insert \co xplr-key
-    bind -M insert \cr fzf-history
-    bind -M insert \cp fkill
-    bind -M insert \cb fzf-git-checkout
 
     starship init fish | source
     zoxide init fish | source
