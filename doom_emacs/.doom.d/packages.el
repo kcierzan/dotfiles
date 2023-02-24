@@ -25,6 +25,7 @@
 ;; If you'd like to disable a package included with Doom, you can do so here
 ;; with the `:disable' property:
 ;(package! builtin-package :disable t)
+;; (package! evil-snipe :disable t)
 
 ;; You can override the recipe of a built in package without having to specify
 ;; all the properties for `:recipe'. These will inherit the rest of its recipe
@@ -48,10 +49,10 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(package! transient
-  :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440"
-  :recipe (:host github :repo "magit/transient"))
+;; (package! transient
+;;   :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440"
+;;   :recipe (:host github :repo "magit/transient"))
 
-(package! with-editor
-  :pin "bbc60f68ac190f02da8a100b6fb67cf1c27c53ab"
-  :recipe (:host github :repo "magit/with-editor"))
+;; (package! with-editor
+;;   :pin "bbc60f68ac190f02da8a100b6fb67cf1c27c53ab"
+;;   :recipe (:host github :repo "magit/with-editor"))
