@@ -1,25 +1,26 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    if test -z $INSIDE_EMACS
-        fish_vi_key_bindings
-        set fish_cursor_default block
-        set fish_cursor_insert line
-        set fish_cursor_unknown underscore
+    set fish_cursor_default line
+    fish_default_key_bindings
+    # bind -M insert \ce forward-char
 
-        # bind commonly-used functions to keys
-        bind -M insert \cf findfile
-        bind -M insert \cG grepfiles
-        bind -M insert \co xplr-key
-        bind -M insert \cr fzf-history
-        bind -M insert \cp fkill
-        bind -M insert \cb fzf-git-checkout
+    if test -n "$(which starship)"
+        starship init fish | source
+    else
+        echo "starship not found!"
     end
 
-    bind -M insert \ce forward-char
+    if test -n "$(which zoxide)"
+        zoxide init fish | source
+    else
+        echo "zoxide not found!"
+    end
 
-    starship init fish | source
-    zoxide init fish | source
-    direnv hook fish | source
+    if test -n "$(which direnv)"
+        direnv hook fish | source
+    else
+        echo "direnv not found!"
+    end
 end
 
 fish_add_path "$HOME/.emacs.d/bin" "$HOME/.local/bin" "$HOME/.local/bin-jetbrains" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin /opt/X11/bin "$HOME/.cargo/bin" "$HOME/.composer/vendor/bin" /Library/TeX/Distributions/Programs/texbin
@@ -34,4 +35,6 @@ set fish_color_param normal
 set fish_color_error red --bold
 set fish_color_command a0c980 --bold
 
-source "$(brew --prefix)/opt/asdf/libexec/asdf.fish"
+if test -n "$(which brew)"
+    source "$(brew --prefix)/opt/asdf/libexec/asdf.fish"
+end
