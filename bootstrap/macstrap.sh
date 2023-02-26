@@ -1,52 +1,38 @@
 #!/usr/bin/env bash
-GLOBAL_RUBY_VERSION='3.1.2'
-GLOBAL_PYTHON_VERSION='3.11.1'
 DOTFILES_DIR="$HOME/.dotfiles"
 
 HOMEBREW_PACKAGES=(
   asdf
-  awscli
   bat
-  boxes
+  bottom
   cling
   cmake
   cmatrix
   cowsay
-  ctags
   elixir
   elixir-ls
   emacs-mac
   fd
-  figlet
   findutils
   fish
   fortune
   fzf
   gawk
   git
-  git-delta
-  gitui
-  glow
   gnu-tar
   gnu-which
   grep
   gzip
-  highlight
-  htop
-  httpie
+  helix
   jq
   lsd
-  luarocks
   magic-wormhole
   make
   mas
   mosh
-  neovim
   openssh
-  pandoc
   postgresql
   prettier
-  pv
   rename
   ripgrep
   ruby
@@ -55,7 +41,6 @@ HOMEBREW_PACKAGES=(
   starship
   stow
   wget
-  xplr
   zoxide
 )
 
@@ -86,16 +71,18 @@ install_casks() {
   BREW_PREFIX="$(brew --prefix)"
   casks=(
     1password
-    bettertouchtool
-    google-chrome
-    google-drive
+    betterdisplay
+    brave-browser-nightly
+    font-iosevka-aile
+    font-iosevka-etoile
+    font-iosevka-nerd-font
+    font-iosevka-ss08
     hyperkey
     iina
     raycast
     rectangle
     scroll-reverser
-    visual-studio-code
-    wezterm
+    wezterm-nightly
   )
   for cask in "${casks[@]}"
   do
@@ -108,13 +95,8 @@ stow_dot_dirs() {
   dots=(
     doom_emacs
     fish
-    gitui
-    hammerspoon
-    jetbrains
-    neovim
     starship
     surfingkeys
-    xplr
     wezterm
   )
   for dot in "${dots[@]}"
@@ -123,40 +105,15 @@ stow_dot_dirs() {
   done
 }
 
-bootstrap_neovim() {
-  INKD_DIR="$HOME/.inkd/" nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-  INKD_DIR="$HOME/.inkd/" nvim --headless +PackerCompile +qa
-}
-
-install_asdf_plugins() {
-  plugs=(
-    python
-    ruby
-    julia
-  )
-  for plug in "${plugs[@]}"
-  do
-    asdf plugin list | grep -q "$plug" || asdf plugin add "$plug"
-  done
-}
-
 set_fish_globals() {
   fish_global BAT_THEME base16
-  fish_global EDITOR 'code'
-  fish_global VISUAL 'code'
+  fish_global EDITOR 'emacs'
+  fish_global VISUAL 'emacs'
   fish_global STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
-  fish_global INKD_DIR "$HOME/.inkd/"
   fish_global LANG en_US.UTF-8
   fish_global FZF_PREVIEW_COMMAND 'bat --style=numbers --color=always {}'
   fish_global FZF_COMPLETION_TRIGGER '**'
   fish_global FZF_DEFAULT_OPTS '--color=fg:-1,bg:-1,fg+:4,bg+:-1,header:3,hl:-1,hl+:3,prompt:4,spinner:5,pointer:5,marker:4,info:4'
-}
-
-copy_missing_fonts() {
-  for f in fonts/*/*
-  do
-    [ -f "$HOME/Library/Fonts/$(basename "$f")" ] || cp "$f" "$HOME/Library/Fonts/"
-  done
 }
 
 brew_upgrade() {
@@ -187,15 +144,11 @@ symlink_bootstrap_executable() {
   return 0
 }
 
-install_audio_apps() {
-  brew install ocenaudio
-  brew install audio-hijack
-  wget -P '~/Downloads/' -c 'https://support.image-line.com/redirect/flstudio_mac_installer'
-}
-
-clone_inkd() {
-  mkdir -p "$HOME/src"
-  git clone 'https://github.com/kcierzan/inkd' "$HOME/src/inkd"
+download_fl_studio() {
+  [ ! -d /Applications/FL\ Studio\ 21.app ] &&
+    wget -P "$HOME/Downloads/" -c 'https://support.image-line.com/redirect/flstudio_mac_installer' &&
+    mv ~/Downloads/flstudio_mac_installer ~/Downloads/flstudio_mac_installer.dmg &&
+    open ~/Downloads/flstudio_mac_installer.dmg
 }
 
 clone_doom() {
@@ -203,14 +156,7 @@ clone_doom() {
 }
 
 install_doom() {
-  ~/.emacs.d/bin/doom install
-}
-
-build_and_install_inkd() {
-  pushd "$HOME/src/inkd" || exit 255
-  VERSION="$(grep 's.version' inkd.gemspec | cut -d'=' -f2 | tr -d "'" | xargs)"
-  asdf exec gem build inkd.gemspec && asdf exec gem install "inkd-$VERSION.gem"
-  popd || exit 255
+  ~/.emacs.d/bin/doom install --force
 }
 
 for arg in "$@"
@@ -224,17 +170,9 @@ do
       APPS=1
       option_inform 'Installing applications!'
       ;;
-    --runtimes)
-      RUNTIMES=1
-      option_inform 'Installing runtimes!'
-      ;;
     --editors)
       EDITORS=1
       option_inform 'Bootstrapping editors!'
-      ;;
-    --fonts)
-      FONTS=1
-      option_inform 'Installing missing fonts!'
       ;;
     --shell)
       CONFIG_SHELL=1
@@ -249,13 +187,11 @@ done
 
 if [ $# -eq 0 ]; then
   APPS=1
-  RUNTIMES=1
-  FONTS=1
   CONFIG_SHELL=1
   EDITORS=1
 fi
 
-cd "$DOTFILES_DIR" || exit 255
+pushd "$DOTFILES_DIR" || exit 255
 
 # --------------------------------------------------------------
 if [ -n "$APPS" ]; then
@@ -288,12 +224,6 @@ if [ -n "$APPS" ]; then
   subtask_exec 'Upgrading homebrew packages' brew_upgrade
 
   subtask_exec 'Upgrading outdated casks' brew_upgrade_outdated_casks
-
-  [ -z "$(which fennel)" ] &&
-    subtask_exec 'Installing fennel' luarocks install fennel
-
-  mas list | grep -q 'Things' ||
-    subtask_exec 'Installing Things' mas install "$THINGS3_APP_STORE_ID"
 fi
 
 # --------------------------------------------------------------
@@ -316,48 +246,16 @@ if [ -n "$CONFIG_SHELL" ]; then
 fi
 
 # --------------------------------------------------------------
-if [ -n "$RUNTIMES" ]; then
-  task_inform 'Installing runtime support'
-
-  subtask_exec 'Installing asdf plugins' install_asdf_plugins
-
-  asdf list ruby | grep -q $GLOBAL_RUBY_VERSION &&
-    subtask_exec "Installing ruby $GLOBAL_RUBY_VERSION" asdf install ruby "$GLOBAL_RUBY_VERSION"
-
-  asdf list python | grep -q $GLOBAL_PYTHON_VERSION &&
-    subtask_exec "Installing python $GLOBAL_PYTHON_VERSION" asdf install python "$GLOBAL_PYTHON_VERSION"
-
-  subtask_exec 'Setting global ruby version' asdf global ruby "$GLOBAL_RUBY_VERSION"
-
-  [ -z "$(asdf which bundler)" ] &&
-    subtask_exec 'Installing bundler' asdf exec gem install bundler
-
-  if [ ! -d ~/.inkd/ ]; then
-    [ ! -d ~/src/inkd/ ] &&
-      subtask_exec 'Cloning inkd' clone_inkd &&
-      subtask_exec 'Building inkd' build_and_install_inkd
-    subtask_exec 'Setting theme to one dark' asdf exec ink color one dark
-  fi
-
-  subtask_exec 'Setting global python version' asdf global python "$GLOBAL_PYTHON_VERSION"
-fi
-
-# --------------------------------------------------------------
 if [ -n "$EDITORS" ]; then
   task_inform 'Configuring editors'
-  subtask_exec 'Bootstrapping neovim' bootstrap_neovim
   [ ! -d ~/.emacs.d/ ] && subtask_exec 'Cloning DOOM' clone_doom
   subtask_exec 'Installing DOOM' install_doom
 fi
 
 # --------------------------------------------------------------
-if [ -n "$FONTS" ]; then
-  task_inform 'Installing fonts'
-  subtask_exec 'Copying missing fonts' copy_missing_fonts
+if [ -n "$AUDIO" ]; then
+  task_inform 'Installings audio applications'
+  subtask_exec 'Downloading FL Studio' download_fl_studio
 fi
 
-# --------------------------------------------------------------
-if [ -n "$AUDIO" ]; then
-  task_inform 'Bootstrapping audio environment'
-  subtask_exec 'Installing applications' install_audio_apps
-fi
+popd || exit 255

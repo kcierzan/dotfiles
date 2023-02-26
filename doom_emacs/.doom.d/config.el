@@ -22,7 +22,7 @@
 ;; accept. For example:
 ;;
 (setq doom-font (font-spec :family "Iosevka SS08" :size 16 :weight 'regular)
-      doom-unicode-font (font-spec :family "Iosevka Nerd Font Complete" :size 16 :weigh 'regular)
+      doom-unicode-font (font-spec :family "Iosevka Nerd Font Complete" :size 16 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Iosevka Etoile" :size 16 :weight 'regular))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
