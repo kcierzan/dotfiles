@@ -3,7 +3,7 @@ local wezterm = require 'wezterm'
 return {
   color_scheme = 'GruvboxDark',
   default_cursor_style = 'BlinkingBar',
-  font = wezterm.font_with_fallback { 'Iosevka SS08', 'Iosevka Nerd Font Complete' },
+  font = wezterm.font_with_fallback { 'Iosevka Comfy', 'Iosevka Nerd Font Complete' },
   font_size = 18.0,
   scrollback_lines = 50000,
   window_decorations = 'RESIZE',

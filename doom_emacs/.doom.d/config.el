@@ -3,7 +3,6 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "John Doe"
@@ -21,9 +20,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Iosevka SS08" :size 16 :weight 'regular)
-      doom-unicode-font (font-spec :family "Iosevka Nerd Font Complete" :size 16 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Iosevka Etoile" :size 16 :weight 'regular))
+(setq doom-font (font-spec :family "Iosevka Comfy" :size 16 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Iosevka Comfy Duo" :size 16 :weight 'regular))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -33,7 +31,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-tokyo-night)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -84,23 +82,30 @@
 ;; N.B: emacs-mac uses the mac-* prefix for mac-specific variables, not ns-*
 (setq mac-right-option-modifier 'meta)
 
+;; The pager is generally just annoying in emacs
 (setenv "PAGER" "cat")
 
 ;; tell lsp-mode that it should use html-lsp for .erb files
 (after! lsp-mode
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html")))
 
-;; the `+format-on-save-enabled-modes' list starts with a `not' so this disables
-;; format-on-save for web-mode as it wreaks havoc on .erb files
-(add-to-list '+format-on-save-enabled-modes 'web-mode t)
+(let ((disabled-formatting-modes '(c-mode web-mode)))
+  (dolist (elem disabled-formatting-modes)
+    ;; the `+format-on-save-enabled-modes' list starts with a `not' so this disables
+    ;; format-on-save for web-mode as it wreaks havoc on .erb files. Fun times with elisp...
+    (add-to-list '+format-on-save-enabled-modes elem t)))
 
+;; snipe all the things we can see
 (after! evil-snipe
   (setq evil-snipe-scope 'whole-visible
         evil-snipe-repeat-scope 'whole-visible))
 
+;; why not write with proportional font?
 (add-hook! 'org-mode-hook 'variable-pitch-mode)
+;; and add some more forgiving line spacing
 (setq-hook! 'org-mode-hook line-spacing 0.3)
 
+;; org-mode ricing ahead
 (custom-theme-set-faces
  'user
  '(tree-sitter-hl-face:punctuation ((t (:inherit fixed-pitch))))
