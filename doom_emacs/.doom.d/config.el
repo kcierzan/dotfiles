@@ -20,8 +20,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Iosevka Comfy" :size 16 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Iosevka Comfy Duo" :size 16 :weight 'regular))
+(setq doom-font (font-spec :family "Iosevka Comfy" :size 18 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Iosevka Comfy Duo" :size 18 :weight 'regular))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -31,7 +31,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tokyo-night)
+(setq doom-theme 'doom-one)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -104,6 +104,9 @@
 (add-hook! 'org-mode-hook 'variable-pitch-mode)
 ;; and add some more forgiving line spacing
 (setq-hook! 'org-mode-hook line-spacing 0.3)
+
+(setq-hook! 'typescript-mode-hook typescript-indent-level 2)
+(setq-hook! 'typescript-tsx-mode-hook typescript-indent-level 2)
 
 ;; org-mode ricing ahead
 (custom-theme-set-faces
