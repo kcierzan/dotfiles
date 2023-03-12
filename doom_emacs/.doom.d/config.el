@@ -108,6 +108,13 @@
 (setq-hook! 'typescript-mode-hook typescript-indent-level 2)
 (setq-hook! 'typescript-tsx-mode-hook typescript-indent-level 2)
 
+(use-package! lsp-tailwindcss
+  :init
+  (setq lsp-tailwindcss-add-on-mode t))
+
+(use-package! prisma-mode)
+(add-hook! 'prisma-mode-hook 'lsp-mode)
+
 ;; org-mode ricing ahead
 (custom-theme-set-faces
  'user
