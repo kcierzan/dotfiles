@@ -5,3 +5,6 @@ tags
 .yardoc
 .projections.json
 .DS_STORE
+.projectile
+lsp.sh
+.solargraph.yml
