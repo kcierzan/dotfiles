@@ -21,14 +21,28 @@ return {
         "bashls",
         "tsserver",
         "jsonls",
+        "ruby_ls",
         "rust_analyzer",
         "lua_ls",
-        "ruby_ls",
         "emmet_ls"
       }
 
       for _, server in ipairs(servers) do
-        lspconfig[server].setup({ capabilities = capabilities })
+        local opts = { capabilities = capabilities }
+
+        if server == "ruby_ls" then
+          opts.cmd = { "bundle", "exec", "ruby-lsp" }
+        elseif server == "lua_ls" then
+          opts.settings = {
+            Lua = {
+              diagnostics = {
+                globals = { "vim", "awesome", "hs" }
+              }
+            }
+          }
+        end
+
+        lspconfig[server].setup(opts)
       end
     end
   },

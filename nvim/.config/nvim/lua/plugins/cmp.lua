@@ -35,11 +35,11 @@ return {
       cmp.event:on("confirm_done", autopairs.on_confirm_done({ map_char = { tex = ""}}))
 
       local function has_words_before()
-        local line, col = vim.api.nvim_win_get_cursor(0)
+        local line,col = unpack(vim.api.nvim_win_get_cursor(0))
         local before = vim.api.nvim_buf_get_lines(0, line - 1, line, true)
         local lines_before = before[1]:sub(col, col):match("%s")
 
-        return col ~= 0 and lines_before == nil 
+        return col ~= 0 and lines_before == nil
       end
 
       local function tab_func(fallback)
