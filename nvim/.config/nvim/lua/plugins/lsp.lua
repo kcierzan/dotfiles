@@ -1,10 +1,8 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    event = "CursorHold",
+    event = "BufReadPre",
     dependencies = {
-      "williamboman/mason-lspconfig.nvim",
-      "glepnir/lspsaga.nvim",
       "hrsh7th/cmp-nvim-lsp"
     },
     config = function()
@@ -48,6 +46,7 @@ return {
   },
   {
     "glepnir/lspsaga.nvim",
+    dependencies = { "neovim/nvim-lspconfig" },
     branch = "main",
     config = function()
       require("lspsaga").setup()
@@ -56,7 +55,7 @@ return {
   {
     "williamboman/mason.nvim",
     build = "MasonUpdate",
-    cmd = "Mason",
+    cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
     config = function()
       require("mason").setup()
     end
@@ -64,7 +63,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
-    event = "CursorHold",
+    event = "BufReadPost",
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {
