@@ -4,7 +4,7 @@ return {
     "RRethy/nvim-treesitter-endwise"
   },
   build = "TSUpdate",
-  event = "UIEnter",
+  event = "CursorHold",
   config = function()
     require("nvim-treesitter.configs").setup({
       ensure_installed = {

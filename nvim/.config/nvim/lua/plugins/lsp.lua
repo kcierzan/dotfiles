@@ -1,7 +1,7 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    event = "BufReadPre",
+    event = "CursorHold",
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
       "glepnir/lspsaga.nvim",
@@ -64,7 +64,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
-    event = "UIEnter",
+    event = "CursorHold",
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {

@@ -1,6 +1,6 @@
 return {
   "lukas-reineke/indent-blankline.nvim",
-  event = "BufReadPre",
+  event = "CursorHold",
   config = function()
     require("indent_blankline").setup({
       buftype_exclude = { "terminal" },

@@ -1,7 +1,7 @@
 return {
   {
     "folke/which-key.nvim",
-    event = "UIEnter",
+    keys = { " ", "<Space>", "<leader>" },
     config = function()
       local wk = require("which-key")
       local function cmd(command)
