@@ -3,7 +3,17 @@ return {
     "hrsh7th/nvim-cmp",
     dependencies = { 
       "onsails/lspkind.nvim",
-      "windwp/nvim-autopairs"
+      "windwp/nvim-autopairs",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "saadparwaiz1/cmp_luasnip",
+      "lukas-reineke/cmp-rg",
+      "hrsh7th/cmp-nvim-lsp",
+      "ray-x/cmp-treesitter",
+      "rafamadriz/friendly-snippets",
+      "L3MON4D3/LuaSnip"
     },
     event = "InsertEnter",
     config = function()
@@ -195,36 +205,4 @@ return {
       require("luasnip.loaders.from_vscode").lazy_load()
     end
   },
-  {
-    "hrsh7th/cmp-buffer",
-    lazy = true
-  },
-  {
-    "hrsh7th/cmp-path",
-    lazy = true
-  },
-  {
-    "hrsh7th/cmp-cmdline",
-    lazy = true
-  },
-  {
-    "hrsh7th/cmp-nvim-lsp-signature-help",
-    lazy = true
-  },
-  {
-    "saadparwaiz1/cmp_luasnip",
-    lazy = true
-  },
-  {
-    "lukas-reineke/cmp-rg",
-    lazy = true
-  },
-  {
-    "hrsh7th/cmp-nvim-lsp",
-    lazy = true
-  },
-  {
-    "ray-x/cmp-treesitter",
-    lazy = true
-  }
 }
