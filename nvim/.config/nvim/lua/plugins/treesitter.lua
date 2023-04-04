@@ -3,7 +3,7 @@ return {
   dependencies = {
     "RRethy/nvim-treesitter-endwise"
   },
-  build = "TSUpdate",
+  build = ":TSUpdate",
   event = "BufReadPost",
   config = function()
     require("nvim-treesitter.configs").setup({
