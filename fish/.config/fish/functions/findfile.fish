@@ -1,34 +1,12 @@
 function findfile --description 'Fuzzy file finder'
-	set out (
-    fd . \
-    --no-ignore \
-    --hidden \
-    --strip-cwd-prefix \
-    --type f \
-    --exclude ".git" \
-    --exclude "*.pyc" \
-    --exclude "node_modules" \
-    2> /dev/null \
-    | fzf \
-    -m \
-    --exit-0 \
-    --expect=ctrl-o,ctrl-x \
-    --preview-window=up:80% \
-    --preview 'if test "(file --mime {} | string match -r 'binary')" != binary
-          preview {} 2> /dev/null | head -2000
-        else 
-          echo {} is a binary file
-        end'
-  )
+    set preview_cmd 'if test "(file --mime {} | string match -r \'binary\')" != binary; preview {} 2> /dev/null | head -2000; else; echo {} is a binary file; end'
+    set excludes '"{.git,node_modules,*.pyc}"'
+    set get_files fd . --no-ignore --strip-cwd-prefix --hidden --type f --exclude $excludes 2>/dev/null
+    set filter_files fzf -m --exit-0 --preview-window=up:80% --preview (string join '' "'" $preview_cmd "'")
+    set cmd "$get_files | $filter_files"
+    set file (eval $cmd)
 
-	set key $out[1]
-	set file $out[2..]
-
-  if test "$key" = 'ctrl-o' && test -n "$file"
-    open "$file"
-  else if test "$key" = 'ctrl-x' && test -n "$file"
-    rm -i "$file"
-  else if test -n "$file"
-    eval $EDITOR $file
-  end
+    if test -n "$file"
+        eval $EDITOR $file
+    end
 end

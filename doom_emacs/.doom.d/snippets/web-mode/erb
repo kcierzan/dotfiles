@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: erb
+# uuid: 61478994-53f7-4c92-acdd-d929ca29caee
+# expand_env: ((yas-indent-line 'auto))
+# key: erb
+# condition: t
+# --
+<% $0 %>

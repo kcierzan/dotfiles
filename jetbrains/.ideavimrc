@@ -14,7 +14,7 @@ set noswapfile
 set nowrap
 set nonumber
 set scrolloff=3
-set shell=/usr/local/bin/zsh
+set shell=/usr/local/bin/fish
 set shiftround
 set shiftwidth=2
 set showcmd
@@ -38,8 +38,10 @@ set commentary
 set easymotion
 set surround
 
+let g:EasyMotion_do_mapping=0
 nnoremap <Space> <Nop>
 let mapleader = " "
+
 
 map s <Plug>(easymotion-s2)
 nnoremap <leader><leader> :action SearchEverywhere<cr>

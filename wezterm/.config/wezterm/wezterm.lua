@@ -1,9 +1,11 @@
 local wezterm = require 'wezterm'
 
 return {
-  color_scheme = 'kanagawabones',
-  default_cursor_style = 'BlinkingBlock',
-  font = wezterm.font('Monolisa'),
+  color_scheme = 'Kanagawa (Gogh)',
+  default_cursor_style = 'BlinkingBar',
+  font = wezterm.font_with_fallback { 'Iosevka Comfy', 'Iosevka Nerd Font Complete' },
+  -- window_background_opacity = 0.85,
+  -- macos_window_background_blur = 20,
   font_size = 18.0,
   scrollback_lines = 50000,
   window_decorations = 'RESIZE',
@@ -14,7 +16,7 @@ return {
     button_fg = '#c6d0f5',
     button_bg = '#414559',
     button_hover_bg = '#737994',
-    font = wezterm.font { family = 'Monolisa', weight = 'Bold' },
+    font = wezterm.font { family = 'Iosevka Comfy', weight = 'Bold' },
     font_size = 14.0,
   },
   colors = {
