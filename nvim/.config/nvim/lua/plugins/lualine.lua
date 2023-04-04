@@ -175,7 +175,7 @@ return {
 
     local function progress_bar()
       local blocks = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" }
-      local lines = vim.fn.nvim_buf_line_count(0)
+      local lines = vim.api.nvim_buf_line_count(0)
       local current_line = vim.api.nvim_win_get_cursor(0)[1]
       local block_index = math.floor((current_line / lines) * 7) + 1
 
@@ -245,9 +245,9 @@ return {
     right_insert({
       "diff",
       symbols = {
-        added = " ",
-        modified = "柳",
-        removed = " "
+        added = "  ",
+        modified = "柳 ",
+        removed = "  "
       },
       diff_color = {
         added = { fg = colors.green },
