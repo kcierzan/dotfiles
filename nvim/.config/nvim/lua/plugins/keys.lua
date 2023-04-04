@@ -27,7 +27,6 @@ return {
 
       local function parent_git_dir()
         local dir = vim.fn.system("git rev-parse --show-toplevel"):gsub("\n", "")
-        print(dir)
         return vim.fn.empty(vim.fn.glob(dir)) == 0, dir
       end
 
