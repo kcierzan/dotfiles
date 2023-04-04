@@ -145,17 +145,9 @@ symlink_bootstrap_executable() {
 for arg in "$@"
 do
   case "$arg" in
-    --audio)
-      AUDIO=1
-      option_inform 'Installing audio applications!'
-      ;;
     --apps)
       APPS=1
       option_inform 'Installing applications!'
-      ;;
-    --editors)
-      EDITORS=1
-      option_inform 'Bootstrapping editors!'
       ;;
     --shell)
       CONFIG_SHELL=1
