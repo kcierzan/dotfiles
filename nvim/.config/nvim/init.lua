@@ -1,3 +1,12 @@
+--[[
+_____       __________ ______
+___(_)_________(_)_  /____  /___  _______ _
+__  /__  __ \_  /_  __/__  /_  / / /  __ `/
+_  / _  / / /  / / /____  / / /_/ // /_/ /
+/_/  /_/ /_//_/  \__/(_)_/  \__,_/ \__,_/
+gotta go fast...
+]]--
+
 vim.opt.autowriteall = true
 vim.opt.backup = false
 vim.opt.clipboard = "unnamedplus"
@@ -56,7 +65,7 @@ require("lazy").setup(
   "plugins",
   {
     defaults = {
-      lazy = true 
+      lazy = true
     },
     performance = {
       cache = {
