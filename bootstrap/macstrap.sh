@@ -8,14 +8,9 @@ HOMEBREW_PACKAGES=(
   cling
   cmake
   cmatrix
-  cowsay
-  elixir
-  elixir-ls
-  emacs-mac
   fd
   findutils
   fish
-  fortune
   fzf
   gawk
   git
@@ -23,13 +18,13 @@ HOMEBREW_PACKAGES=(
   gnu-which
   grep
   gzip
-  helix
   jq
   lsd
   magic-wormhole
   make
   mas
   mosh
+  'neovim --HEAD'
   openssh
   postgresql
   prettier
@@ -76,12 +71,14 @@ install_casks() {
     font-iosevka-aile
     font-iosevka-etoile
     font-iosevka-nerd-font
-    font-iosevka-ss08
+    font-iosevka-comfy
     hyperkey
     iina
+    jetbrains-toolbox
     raycast
     rectangle
     scroll-reverser
+    obsidian
     wezterm-nightly
   )
   for cask in "${casks[@]}"
@@ -93,8 +90,9 @@ install_casks() {
 
 stow_dot_dirs() {
   dots=(
-    doom_emacs
     fish
+    jetbrains
+    nvim
     starship
     surfingkeys
     wezterm
@@ -107,8 +105,8 @@ stow_dot_dirs() {
 
 set_fish_globals() {
   fish_global BAT_THEME base16
-  fish_global EDITOR 'emacs'
-  fish_global VISUAL 'emacs'
+  fish_global EDITOR 'nvim'
+  fish_global VISUAL 'nvim'
   fish_global STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
   fish_global LANG en_US.UTF-8
   fish_global FZF_PREVIEW_COMMAND 'bat --style=numbers --color=always {}'
@@ -142,21 +140,6 @@ symlink_bootstrap_executable() {
 
   [ ! -L "$TARGET" ] && ln -s "$HOME/.dotfiles/bootstrap/macstrap.sh" "$TARGET"
   return 0
-}
-
-download_fl_studio() {
-  [ ! -d /Applications/FL\ Studio\ 21.app ] &&
-    wget -P "$HOME/Downloads/" -c 'https://support.image-line.com/redirect/flstudio_mac_installer' &&
-    mv ~/Downloads/flstudio_mac_installer ~/Downloads/flstudio_mac_installer.dmg &&
-    open ~/Downloads/flstudio_mac_installer.dmg
-}
-
-clone_doom() {
-  git clone --depth 1 'https://github.com/doomemacs/doomemacs' ~/.emacs.d
-}
-
-install_doom() {
-  ~/.emacs.d/bin/doom install --force
 }
 
 for arg in "$@"
@@ -243,19 +226,6 @@ if [ -n "$CONFIG_SHELL" ]; then
     subtask_exec 'Installing fisher' install_fisher
 
   subtask_exec 'Symlinking bootstrap script' symlink_bootstrap_executable
-fi
-
-# --------------------------------------------------------------
-if [ -n "$EDITORS" ]; then
-  task_inform 'Configuring editors'
-  [ ! -d ~/.emacs.d/ ] && subtask_exec 'Cloning DOOM' clone_doom
-  subtask_exec 'Installing DOOM' install_doom
-fi
-
-# --------------------------------------------------------------
-if [ -n "$AUDIO" ]; then
-  task_inform 'Installings audio applications'
-  subtask_exec 'Downloading FL Studio' download_fl_studio
 fi
 
 popd || exit 255
