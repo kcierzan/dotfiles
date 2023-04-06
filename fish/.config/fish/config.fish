@@ -3,6 +3,8 @@ if status is-interactive
     set fish_cursor_default line
     fish_default_key_bindings
     # bind -M insert \ce forward-char
+    bind \eg grepfiles
+    bind \ep findfile
 
     if test -n "$(which starship)"
         starship init fish | source
