@@ -116,7 +116,7 @@ return {
         mode_string = hex_full
       end
 
-      return mode_string .. " " .. modes[mode]
+      return mode_string .. "  " .. modes[mode]
     end
 
     local function get_buffer_lsp(clients, buf_ft)
@@ -193,7 +193,7 @@ return {
     left_insert({
       edit_mode,
       color = edit_mode_colors,
-      padding = { left = 0, right = 1 }
+      padding = { left = 0, right = 2 }
     })
 
     left_insert({
