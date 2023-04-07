@@ -1,7 +1,7 @@
 return {
-  { 
+  {
     "hrsh7th/nvim-cmp",
-    dependencies = { 
+    dependencies = {
       "onsails/lspkind.nvim",
       "windwp/nvim-autopairs",
       "hrsh7th/cmp-buffer",
@@ -136,20 +136,20 @@ return {
         }
       }
 
-      local function format_menu(entry, vim_item)
-        local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50})(entry, vim_item)
-        local strings = vim.split(kind.kind, "%s", { trimempty = true })
-
-        kind.kind = " " .. strings[1] .. " "
-        kind.menu = "    [" .. strings[2] .. "]"
-        return kind
-      end
+      -- local function format_menu(entry, vim_item)
+      --   local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50})(entry, vim_item)
+      --   local strings = vim.split(kind.kind, "%s", { trimempty = true })
+      --
+      --   kind.kind = " " .. strings[1] .. " "
+      --   kind.menu = "    [" .. strings[2] .. "]"
+      --   return kind
+      -- end
 
       cmp.setup({
         window = {
           completion = {
             border = border,
-            winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Pmenu,Search:None" 
+            winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Pmenu,Search:None"
           },
           documentation = cmp.config.window.bordered(),
         },
@@ -160,8 +160,12 @@ return {
         sources = sources,
         enabled = function() return not telescope_buffer() and not popup_buffer() and not comment() end,
         formatting = {
-          fields = { "kind", "abbr", "menu" },
-          format = format_menu
+          fields = { "abbr", "kind", "menu" },
+          format = lspkind.cmp_format({
+            mode = "symbol",
+            maxwidth= 50,
+            ellipsis_char= "...",
+          })
         },
         sorting = {
           priority_weight = 1.0,
