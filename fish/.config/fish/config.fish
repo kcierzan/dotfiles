@@ -1,3 +1,7 @@
+function in_path
+  test -n "(which $argv[1] > /dev/null 2>&1)"
+end
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
     set fish_cursor_default line
@@ -6,19 +10,19 @@ if status is-interactive
     bind \eg grepfiles
     bind \ep findfile
 
-    if test -n "$(which starship)"
+    if in_path 'starship'
         starship init fish | source
     else
         echo "starship not found!"
     end
 
-    if test -n "$(which zoxide)"
+    if in_path 'zoxide'
         zoxide init fish | source
     else
         echo "zoxide not found!"
     end
 
-    if test -n "$(which direnv)"
+    if in_path 'direnv'
         direnv hook fish | source
     else
         echo "direnv not found!"
@@ -37,6 +41,6 @@ set fish_color_param normal
 set fish_color_error red --bold
 set fish_color_command a0c980 --bold
 
-if test -n "$(which brew)"
-    source "$(brew --prefix)/opt/asdf/libexec/asdf.fish"
+if in_path 'brew'
+  source "$(brew --prefix)/opt/asdf/libexec/asdf.fish"
 end
