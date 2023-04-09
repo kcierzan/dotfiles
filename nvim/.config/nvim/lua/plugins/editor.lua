@@ -1,14 +1,14 @@
 return {
   {
     "numToStr/Comment.nvim",
-    keys = { "gc" },
+    keys = { "gc", "v", "V" },
     config = function()
       require("Comment").setup()
     end
   },
   {
     "kylechui/nvim-surround",
-    keys = { "ys", "ds", "cs" },
+    keys = { "ys", "ds", "cs", "v", "V" },
     config = function()
       require("nvim-surround").setup()
     end
