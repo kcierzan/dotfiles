@@ -37,3 +37,10 @@ scratch/
 **/*.elc
 .netrwhist
 packer_compiled.lua
+
+# fish plugin functions
+br.fish
+fish_user_key_bindings.fish
+fzf_key_bindings.fish
+nodenv.fish
+fisher.fish
