@@ -5,18 +5,6 @@ return {
     config = function()
       local wk = require("which-key")
 
-      local function nmap(key, cmd)
-        vim.api.nvim_set_keymap("n", key, cmd, { noremap = true, silent = true })
-      end
-
-      local function xmap(key, cmd)
-        vim.api.nvim_set_keymap("x", key, cmd, { noremap = true, silent = true })
-      end
-
-      local function unmap(mode, key)
-        vim.api.nvim_del_keymap(mode, key)
-      end
-
       local function cmd(command)
         return "<cmd>" .. command .. "<cr>"
       end
@@ -96,6 +84,7 @@ return {
           v = {
             name = "+vim",
             e = { cmd("edit ~/.config/nvim/init.lua"), "edit init.lua" },
+            l = { cmd("Lazy"), "lazy" },
             m = { cmd("Mason"), "mason" },
           },
           b = {
@@ -136,18 +125,6 @@ return {
         },
       }
 
-      nmap("L","<Nop>")
-      nmap("H", "<Nop>")
-      xmap("L", "<Nop>")
-      xmap("H", "<Nop>")
-
-      nmap("L", "g_")
-      nmap("H", "^")
-      xmap("L", "g_")
-      xmap("H", "^")
-
-      nmap("<C-l>", cmd("bnext"))
-      nmap("<C-h>", cmd("bprev"))
       wk.register(mappings)
     end
   }

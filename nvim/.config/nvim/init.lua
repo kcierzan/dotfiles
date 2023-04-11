@@ -59,6 +59,40 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 
+local function cmd(command)
+  return "<cmd>" .. command .. "<cr>"
+end
+
+local function nmap(key, command)
+  vim.api.nvim_set_keymap("n", key, command, { noremap = true, silent = true })
+end
+
+local function xmap(key, command)
+  vim.api.nvim_set_keymap("x", key, command, { noremap = true, silent = true })
+end
+
+nmap("L","<Nop>")
+nmap("H", "<Nop>")
+xmap("L", "<Nop>")
+xmap("H", "<Nop>")
+
+nmap("L", "g_")
+nmap("H", "^")
+xmap("L", "g_")
+xmap("H", "^")
+
+nmap("<C-l>", cmd("bnext"))
+nmap("<C-h>", cmd("bprev"))
+
+nmap("<A-h>", "<C-w>h")
+nmap("<A-j>", "<C-w>j")
+nmap("<A-k>", "<C-w>k")
+nmap("<A-l>", "<C-w>l")
+
+nmap("gh", cmd("lua vim.lsp.buf.hover()"))
+nmap("gd", cmd("lua vim.lsp.buf.definition()"))
+nmap("gD", cmd("lua vim.lsp.buf.incoming_calls()"))
+
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
