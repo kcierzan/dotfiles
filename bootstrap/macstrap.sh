@@ -5,15 +5,18 @@ HOMEBREW_PACKAGES=(
   asdf
   bat
   bottom
+  broot
   cling
   cmake
   cmatrix
+  direnv
   fd
   findutils
   fish
   fzf
   gawk
   git
+  gitui
   gnu-tar
   gnu-which
   grep
@@ -163,7 +166,6 @@ done
 if [ $# -eq 0 ]; then
   APPS=1
   CONFIG_SHELL=1
-  EDITORS=1
 fi
 
 pushd "$DOTFILES_DIR" || exit 255
