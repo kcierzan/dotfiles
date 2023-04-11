@@ -44,3 +44,6 @@ fish_user_key_bindings.fish
 fzf_key_bindings.fish
 nodenv.fish
 fisher.fish
+**/fish/conf.d/*
+**/fish/completions/*
+
