@@ -1,28 +1,23 @@
-function in_path
-  test -n "(which $argv[1] > /dev/null 2>&1)"
-end
-
 if status is-interactive
     # Commands to run in interactive sessions can go here
     set fish_cursor_default line
     fish_default_key_bindings
-    # bind -M insert \ce forward-char
     bind \eg grepfiles
     bind \ep findfile
 
-    if in_path 'starship'
+    if command --query starship
         starship init fish | source
     else
         echo "starship not found!"
     end
 
-    if in_path 'zoxide'
+    if command --query zoxide
         zoxide init fish | source
     else
         echo "zoxide not found!"
     end
 
-    if in_path 'direnv'
+    if command --query direnv
         direnv hook fish | source
     else
         echo "direnv not found!"
@@ -41,6 +36,6 @@ set fish_color_param normal
 set fish_color_error red --bold
 set fish_color_command a0c980 --bold
 
-if in_path 'brew'
+if command --query brew
   source "$(brew --prefix)/opt/asdf/libexec/asdf.fish"
 end
