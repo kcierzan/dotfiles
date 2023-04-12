@@ -18,7 +18,7 @@ return {
         return vim.fn.empty(vim.fn.glob(dir)) == 0, dir
       end
 
-      function create_rails_fd_command(directory)
+      local function create_rails_fd_command(directory)
         local excludes = "{.git/,node_modules,**/spec/**/*,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}"
         if directory == 'spec' then
           excludes = "{.git/,node_modules,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}"
@@ -37,7 +37,7 @@ return {
         }
       end
 
-      function my_find_files()
+      local function my_find_files()
         local tscope = require("telescope.builtin")
         local exists, _ = parent_git_dir()
         if exists then
@@ -47,7 +47,7 @@ return {
         end
       end
 
-      function find_app_files()
+      local function find_app_files()
         local tscope = require("telescope.builtin")
         tscope.find_files(
           {
@@ -65,7 +65,7 @@ return {
         )
       end
 
-      function find_models()
+      local function find_models()
         require("telescope.builtin").find_files(
           {
             find_command = create_rails_fd_command("models"),
@@ -74,7 +74,7 @@ return {
         )
       end
 
-      function find_controllers()
+      local function find_controllers()
         require("telescope.builtin").find_files(
           {
             find_command = create_rails_fd_command("controllers"),
@@ -101,11 +101,11 @@ return {
         )
       end
 
-      function open_in_rubymine()
+      local function open_in_rubymine()
         vim.fn.system({ "rubymine", vim.fn.expand("%:p") })
       end
 
-      function my_project_grep()
+      local function my_project_grep()
         local tscope = require("telescope.builtin")
         local exists, dir = parent_git_dir()
         if exists then
@@ -148,8 +148,8 @@ return {
             a = { tscope_cmd("autocommands"), "autocommands" },
             b = { tscope_cmd("buffers"), "buffers" },
             c = { tscope_cmd("git_commits"), "commits" },
-            f = { cmd("lua my_find_files()"), "files in repo" },
-            g = { cmd("lua my_project_grep()"), "text in git files" },
+            f = { my_find_files, "files in repo" },
+            g = { my_project_grep, "text in git files" },
             G = { cmd("Telescope grep_string search="), "super fuzzy grep" },
             h = { tscope_cmd("highlights"), "highlights" },
             k = { tscope_cmd("keymaps"), "keymaps" },
@@ -159,11 +159,11 @@ return {
             p = { cmd("Telescope projects"), "projects" },
             r = {
               name = "+rails",
-              f = { cmd("lua find_app_files()"), "app files"},
-              m = { cmd("lua find_models()"), "models" },
-              c = { cmd("lua find_controllers()"), "controllers" },
-              v = { cmd("lua find_views()"), "views" },
-              s = { cmd("lua find_specs()"), "specs" }
+              f = { find_app_files, "app files"},
+              m = { find_models, "models" },
+              c = { find_controllers, "controllers" },
+              v = { find_views, "views" },
+              s = { find_specs, "specs" }
             }
           },
           v = {
@@ -181,7 +181,7 @@ return {
             y = { cmd("let @+ = expand(\"%:p\")"), "yank name" },
             w = { cmd("%s/\\s\\+$//e"), "trim trailing whitespace" },
             f = { cmd("silent exec \"!bundle exec rubocop -A %:p\""), "run rubocop on buffer" },
-            m = { cmd("lua open_in_rubymine()"), "open in rubymine" }
+            m = { open_in_rubymine, "open in rubymine" }
           },
           w = {
             name = "+window",
