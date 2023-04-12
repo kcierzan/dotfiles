@@ -18,6 +18,25 @@ return {
         return vim.fn.empty(vim.fn.glob(dir)) == 0, dir
       end
 
+      function create_rails_fd_command(directory)
+        local excludes = "{.git/,node_modules,**/spec/**/*,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}"
+        if directory == 'spec' then
+          excludes = "{.git/,node_modules,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}"
+        end
+        return {
+          "fd",
+          "--type",
+          "f",
+          "--hidden",
+          "--strip-cwd-prefix",
+          "--full-path",
+          "--glob",
+          "**/" .. directory .. "/**/*.rb",
+          "-E",
+          excludes
+        }
+      end
+
       function my_find_files()
         local tscope = require("telescope.builtin")
         local exists, _ = parent_git_dir()
@@ -26,6 +45,64 @@ return {
         else
           tscope.find_files()
         end
+      end
+
+      function find_app_files()
+        local tscope = require("telescope.builtin")
+        tscope.find_files(
+          {
+            find_command = {
+              "fd",
+              "--type",
+              "f",
+              "--hidden",
+              "--strip-cwd-prefix",
+              "-E",
+              "{.git/,node_modules,**/spec/**/*,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}"
+            },
+            prompt_prefix = "💎"
+          }
+        )
+      end
+
+      function find_models()
+        require("telescope.builtin").find_files(
+          {
+            find_command = create_rails_fd_command("models"),
+            prompt_prefix = "🗿"
+          }
+        )
+      end
+
+      function find_controllers()
+        require("telescope.builtin").find_files(
+          {
+            find_command = create_rails_fd_command("controllers"),
+            prompt_prefix = "🎛️"
+          }
+        )
+      end
+
+      function find_views()
+        require("telescope.builtin").find_files(
+          {
+            find_command = create_rails_fd_command("views"),
+            prompt_prefix = "👁️"
+          }
+        )
+      end
+
+      function find_specs()
+        require("telescope.builtin").find_files(
+          {
+            find_command = create_rails_fd_command("spec"),
+            prompt_prefix = "🧪"
+          }
+        )
+      end
+
+      function open_in_rubymine()
+        vim.fn.system({ "rubymine", vim.fn.expand("%:p") })
       end
 
       function my_project_grep()
@@ -79,7 +156,15 @@ return {
             l = { tscope_cmd("current_buffer_fuzzy_find"), "line in buffer" },
             m = { tscope_cmd("man_pages"), "man pages" },
             o = { tscope_cmd("oldfiles"), "oldfiles" },
-            p = { cmd("Telescope projects"), "projects" }
+            p = { cmd("Telescope projects"), "projects" },
+            r = {
+              name = "+rails",
+              f = { cmd("lua find_app_files()"), "app files"},
+              m = { cmd("lua find_models()"), "models" },
+              c = { cmd("lua find_controllers()"), "controllers" },
+              v = { cmd("lua find_views()"), "views" },
+              s = { cmd("lua find_specs()"), "specs" }
+            }
           },
           v = {
             name = "+vim",
@@ -96,6 +181,7 @@ return {
             y = { cmd("let @+ = expand(\"%:p\")"), "yank name" },
             w = { cmd("%s/\\s\\+$//e"), "trim trailing whitespace" },
             f = { cmd("silent exec \"!bundle exec rubocop -A %:p\""), "run rubocop on buffer" },
+            m = { cmd("lua open_in_rubymine()"), "open in rubymine" }
           },
           w = {
             name = "+window",
