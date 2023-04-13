@@ -31,7 +31,7 @@ return {
           "--strip-cwd-prefix",
           "--full-path",
           "--glob",
-          "**/" .. directory .. "/**/*.rb",
+          "**/" .. directory .. "/**/*.{erb,rb}",
           "-E",
           excludes
         }
@@ -45,6 +45,19 @@ return {
         else
           tscope.find_files()
         end
+      end
+
+      local function find_in_app_files()
+        require("telescope.builtin").live_grep({
+          glob_pattern = {
+            "!**/spec/**/*",
+            "!**/*migration*/**/*",
+            "!**/vendor/**/*",
+            "!**/migrate/**/*",
+            "!**/doc/**/*",
+            "!node_modules"
+          }
+        })
       end
 
       local function find_app_files()
@@ -83,7 +96,7 @@ return {
         )
       end
 
-      function find_views()
+      local function find_views()
         require("telescope.builtin").find_files(
           {
             find_command = create_rails_fd_command("views"),
@@ -92,7 +105,7 @@ return {
         )
       end
 
-      function find_specs()
+      local function find_specs()
         require("telescope.builtin").find_files(
           {
             find_command = create_rails_fd_command("spec"),
@@ -132,6 +145,7 @@ return {
             p = { cmd("Lspsaga diagnostic_jump_previous"), "jump to previous diagnostic" },
             i = { cmd("Lspsaga show_cursor_diagnostics"), "show cursor diagnostics" },
             a = { cmd("Lspsaga code_action"), "code action" },
+            F = { vim.lsp.buf.format, "format buffer" },
             o = { cmd("LSoutlineToggle"), "toggle outline" },
             d = { cmd("Lspsaga peek_definition"), "peek definition" },
             h = { cmd("Lspsaga hover_doc"), "hover documentation" },
@@ -163,7 +177,8 @@ return {
               m = { find_models, "models" },
               c = { find_controllers, "controllers" },
               v = { find_views, "views" },
-              s = { find_specs, "specs" }
+              s = { find_specs, "specs" },
+              g = { find_in_app_files, "find in app files"}
             }
           },
           v = {

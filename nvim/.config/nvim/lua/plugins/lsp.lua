@@ -19,6 +19,7 @@ return {
         "bashls",
         "tsserver",
         "jsonls",
+        "solargraph",
         "ruby_ls",
         "rust_analyzer",
         "lua_ls",
@@ -30,6 +31,22 @@ return {
 
         if server == "ruby_ls" then
           opts.cmd = { "bundle", "exec", "ruby-lsp" }
+          opts.root_dir = require("lspconfig").util.root_pattern("Gemfile")
+        elseif server == "solargraph" then
+          opts.cmd = { "bundle", "exec", "solargraph", "stdio" }
+          opts.filetypes = { "ruby" }
+          opts.flags = { debounce_text_changes = 150 }
+          opts.settings = {
+            solargraph = {
+              autoformat = true,
+              completion = true,
+              diagnostic = true,
+              references = true,
+              rename = true,
+              symbols = true
+            }
+          }
+          opts.root_dir = require("lspconfig").util.root_pattern("Gemfile")
         elseif server == "lua_ls" then
           opts.settings = {
             Lua = {
@@ -48,6 +65,7 @@ return {
     "glepnir/lspsaga.nvim",
     dependencies = { "neovim/nvim-lspconfig" },
     branch = "main",
+    event = "LspAttach",
     config = function()
       require("lspsaga").setup()
     end
@@ -72,6 +90,7 @@ return {
           "jsonls",
           "rust_analyzer",
           "ruby_ls",
+          "solargraph",
           "lua_ls",
           "emmet_ls"
         }
