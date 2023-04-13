@@ -27,7 +27,7 @@ return {
             vertical = {
               width = { padding = 0 },
               height = { padding = 0 },
-              preview_height = 0.7
+              preview_height = 0.65
             }
           },
           pickers = {

@@ -73,7 +73,7 @@ return {
               "-E",
               "{.git/,node_modules,**/spec/**/*,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}"
             },
-            prompt_prefix = "💎"
+            prompt_prefix = "💎 "
           }
         )
       end
@@ -191,6 +191,7 @@ return {
             name = "+buffer",
             c = { cmd("windo diffthis"), "diff on" },
             C = { cmd("window diffoff"), "diff off" },
+            d = { cmd("Bdelete"), "delete" },
             r = { cmd("edit!"), "reload" },
             s = { cmd("w"), "write" },
             y = { cmd("let @+ = expand(\"%:p\")"), "yank name" },
