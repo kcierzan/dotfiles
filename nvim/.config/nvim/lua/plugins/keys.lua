@@ -19,9 +19,9 @@ return {
       end
 
       local function create_rails_fd_command(directory)
-        local excludes = "{.git/,node_modules,**/spec/**/*,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}"
-        if directory == 'spec' then
-          excludes = "{.git/,node_modules,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}"
+        local excludes = { ".git/", "node_modules", "**/*migration*/**/*", "**/vendor/**/*", "**/migrate/**/*" }
+        if directory ~= 'spec' then
+          table.insert(excludes, "**/spec/**/*")
         end
         return {
           "fd",
@@ -33,7 +33,7 @@ return {
           "--glob",
           "**/" .. directory .. "/**/*.{erb,rb}",
           "-E",
-          excludes
+          table.concat(excludes, ",")
         }
       end
 
@@ -228,6 +228,11 @@ return {
       }
 
       wk.register(mappings)
+      wk.setup({
+        window = {
+          border = { "┏", "━", "┓", "┃", "┛","━", "┗", "┃" },
+        }
+      })
     end
   }
 }

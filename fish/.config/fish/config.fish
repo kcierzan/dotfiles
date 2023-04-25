@@ -4,6 +4,7 @@ if status is-interactive
     fish_default_key_bindings
     bind \eg grepfiles
     bind \ep findfile
+    bind \ej zoxide-fzf
 
     if command --query starship
         starship init fish | source
