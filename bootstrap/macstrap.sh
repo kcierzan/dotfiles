@@ -16,12 +16,12 @@ HOMEBREW_PACKAGES=(
   fzf
   gawk
   git
-  gitui
   gnu-tar
   gnu-which
   grep
   gzip
   jq
+  lazygit
   lsd
   magic-wormhole
   make

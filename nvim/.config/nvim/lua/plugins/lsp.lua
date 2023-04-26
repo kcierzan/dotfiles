@@ -17,13 +17,14 @@ return {
 
       local servers = {
         "bashls",
-        "tsserver",
+        "emmet_ls",
         "jsonls",
-        "solargraph",
+        "lua_ls",
+        "pyright",
         "ruby_ls",
         "rust_analyzer",
-        "lua_ls",
-        "emmet_ls"
+        "solargraph",
+        "tsserver",
       }
 
       for _, server in ipairs(servers) do
@@ -86,13 +87,14 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "bashls",
-          "tsserver",
+          "emmet_ls",
           "jsonls",
-          "rust_analyzer",
-          "ruby_ls",
-          "solargraph",
           "lua_ls",
-          "emmet_ls"
+          "pyright",
+          "ruby_ls",
+          "rust_analyzer",
+          "solargraph",
+          "tsserver",
         }
       })
     end
@@ -103,6 +105,21 @@ return {
     event = "LspAttach",
     config = function()
       require("trouble").setup()
+    end
+  },
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    event = "LspAttach",
+    dependencies = {  "nvim-lua/plenary.nvim" },
+    config = function()
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.formatting.stylua,
+          null_ls.builtins.diagnostics.ruff,
+          null_ls.builtins.formatting.black
+        }
+      })
     end
   }
 }
