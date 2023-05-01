@@ -9,11 +9,16 @@ return {
         theme = {
           all = {
             ui = {
-              bg_gutter = "none"
+              bg_gutter = "none",
             }
           }
         }
-      }
+      },
+      overrides = function(colors)
+        return {
+          Normal = { bg = "None", fg = colors.theme.ui.fg }
+        }
+      end
     })
     vim.cmd("colorscheme kanagawa")
   end

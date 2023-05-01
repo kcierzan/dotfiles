@@ -5,6 +5,7 @@ if status is-interactive
     bind \eg grepfiles
     bind \ep findfile
     bind \ej zoxide-fzf
+    bind \eg lazygit
 
     if command --query starship
         starship init fish | source

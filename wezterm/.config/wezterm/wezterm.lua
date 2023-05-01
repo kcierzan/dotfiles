@@ -4,8 +4,10 @@ return {
   color_scheme = 'Kanagawa (Gogh)',
   default_cursor_style = 'BlinkingBar',
   font = wezterm.font_with_fallback { 'Iosevka Comfy', 'Iosevka Nerd Font Complete' },
-  -- window_background_opacity = 0.85,
-  -- macos_window_background_blur = 20,
+  command_palette_bg_color = '#363646',
+  window_background_opacity = 0.75,
+  leader = { key = 'Space', mods = 'META' },
+  macos_window_background_blur = 30,
   font_size = 18.0,
   scrollback_lines = 50000,
   window_decorations = 'RESIZE',
@@ -19,24 +21,36 @@ return {
     font = wezterm.font { family = 'Iosevka Comfy', weight = 'Bold' },
     font_size = 14.0,
   },
-  colors = {
-    tab_bar = {
-      active_tab = {
-        bg_color = '#626880',
-        fg_color = '#c6d0f5'
-      },
-      inactive_tab = {
-        bg_color = '#414559',
-        fg_color = '#838ba7'
-      },
-      new_tab = {
-        bg_color = '#303446',
-        fg_color = '#c6d0f5'
-      },
-      new_tab_hover = {
-        bg_color = '#626880',
-        fg_color = '#c6d0f5'
-      }
+  keys = {
+    {
+      key = 'v',
+      mods = 'LEADER',
+      action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' }
+    },
+    {
+      key = 's',
+      mods = 'LEADER',
+      action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' }
+    },
+    {
+      key = 'o',
+      mods = 'LEADER',
+      action = wezterm.action.PaneSelect
+    },
+    {
+      key = 'p',
+      mods = 'LEADER',
+      action = wezterm.action.ActivateCommandPalette
+    },
+    {
+      key = 'UpArrow',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ScrollByPage(-1)
+    },
+    {
+      key = 'DownArrow',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ScrollByPage(1)
     }
-  }
+  },
 }

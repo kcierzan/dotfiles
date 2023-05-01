@@ -8,7 +8,6 @@ HOMEBREW_PACKAGES=(
   broot
   cling
   cmake
-  cmatrix
   direnv
   fd
   findutils
@@ -19,6 +18,7 @@ HOMEBREW_PACKAGES=(
   gnu-tar
   gnu-which
   grep
+  gsed
   gzip
   jq
   lazygit
@@ -30,7 +30,6 @@ HOMEBREW_PACKAGES=(
   'neovim --HEAD'
   openssh
   postgresql
-  prettier
   rename
   ripgrep
   ruby
@@ -38,6 +37,7 @@ HOMEBREW_PACKAGES=(
   speedtest-cli
   starship
   stow
+  sqlite
   wget
   zoxide
 )
