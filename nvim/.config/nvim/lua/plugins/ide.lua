@@ -1,6 +1,7 @@
 return {
   {
-    "tpope/vim-projectionist"
+    "tpope/vim-projectionist",
+    lazy = false
   },
   {
     "akinsho/toggleterm.nvim",
@@ -30,5 +31,9 @@ return {
         }
       })
     end
+  },
+  {
+    "f-person/git-blame.nvim",
+    cmd = { "GitBlameToggle" },
   }
 }
