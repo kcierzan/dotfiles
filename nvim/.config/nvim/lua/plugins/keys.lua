@@ -1,7 +1,7 @@
 return {
   {
     "folke/which-key.nvim",
-    keys = { " ", "<Space>", "<leader>" },
+    keys = { " ", "<Space>", "<leader>", "v", "V" },
     config = function()
       local wk = require("which-key")
 
@@ -128,7 +128,7 @@ return {
         end
       end
 
-      local mappings = {
+      local normal_mappings = {
         ["<leader>"] = {
           l = {
             name = "+LSP",
@@ -139,20 +139,23 @@ return {
               S = { tscope_cmd("lsp_workspace_symbols"), "workspace symbols" },
               i = { tscope_cmd("lsp_implementations"), "implementations" },
               d = { tscope_cmd("lsp_definitions"), "definitions" },
-              c = { tscope_cmd("lsp_incoming_calls"), "incoming calls" }
+              c = { tscope_cmd("lsp_incoming_calls"), "incoming calls" },
+              F = { cmd("Lspsaga lsp_finder"), "Finder UI" }
             },
             n = { cmd("Lspsaga diagnostic_jump_next"), "jump to next diagnostic"},
             p = { cmd("Lspsaga diagnostic_jump_previous"), "jump to previous diagnostic" },
             i = { cmd("Lspsaga show_cursor_diagnostics"), "show cursor diagnostics" },
             a = { cmd("Lspsaga code_action"), "code action" },
             F = { vim.lsp.buf.format, "format buffer" },
-            o = { cmd("LSoutlineToggle"), "toggle outline" },
+            o = { cmd("Lspsaga outline"), "toggle outline" },
             d = { cmd("Lspsaga peek_definition"), "peek definition" },
             h = { cmd("Lspsaga hover_doc"), "hover documentation" },
-            r = { cmd("LspRestart"), "restart" },
+            q = { cmd("LspRestart"), "restart" },
             s = { cmd("LspStart"), "start" },
             L = { cmd("LspLog"), "log" },
-            I = { cmd("LspInfo"), "info" }
+            I = { cmd("LspInfo"), "info" },
+            r = { cmd("Lspsaga rename"), "rename in file" },
+            R = { cmd("Lspsaga rename ++project"), "rename in project" }
           },
           f = {
             name = "+find",
@@ -190,15 +193,15 @@ return {
           },
           b = {
             name = "+buffer",
-            c = { cmd("windo diffthis"), "diff on" },
             C = { cmd("window diffoff"), "diff off" },
+            c = { cmd("windo diffthis"), "diff on" },
             d = { cmd("Bdelete"), "delete" },
+            f = { cmd("silent exec \"!bundle exec rubocop -A %:p\""), "run rubocop on buffer" },
+            m = { open_in_rubymine, "open in rubymine" },
             r = { cmd("edit!"), "reload" },
             s = { cmd("w"), "write" },
-            y = { cmd("let @+ = expand(\"%:p\")"), "yank name" },
             w = { cmd("%s/\\s\\+$//e"), "trim trailing whitespace" },
-            f = { cmd("silent exec \"!bundle exec rubocop -A %:p\""), "run rubocop on buffer" },
-            m = { open_in_rubymine, "open in rubymine" }
+            y = { cmd("let @+ = expand(\"%:p\")"), "yank name" },
           },
           w = {
             name = "+window",
@@ -214,21 +217,61 @@ return {
           },
           i = {
             name = "+gui",
+            F = { cmd("NvimTreeFindFile"), "show current file in tree" },
+            H = { cmd("TSHighlightCapturesUnderCursor"), "show highlights under cursor" },
+            T = { cmd("ToggleTerm direction=float"), "toggle floating terminal" },
             ["#"] = { cmd("set invnumber"), "toggle line numbers" },
             ["%"] = { cmd("set invrelativenumber"), "toggle relative line numbers" },
             c = { cmd("nohlsearch"), "clear search highlight" },
+            e = { cmd("Trouble"), "show errors and warnings" },
+            f = { cmd("NvimTreeToggle"), "toggle tree" },
             h = { cmd("ColorizerAttachToBuffer"), "colorize buffer" },
             l = { cmd("IndentBlanklineToggle"), "toggle indentation lines" },
-            t = { cmd("NvimTreeToggle"), "toggle tree" },
-            f = { cmd("NvimTreeFindFile"), "show current file in tree" },
-            e = { cmd("Trouble"), "show errors and warnings" },
-            H = { cmd("TSHighlightCapturesUnderCursor"), "show highlights under cursor" }
-
+            t = { cmd("ToggleTerm direction=down"), "toggle terminal drawer" }
           }
         },
+        t = {
+          name = "+test",
+          b = { cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b')"), "b4b suite" },
+          c = { cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/clinic')"), "clinic suite" },
+          f = { cmd("lua require('neotest').run.run(vim.fn.expand('%'))"), "file" },
+          g = { cmd("A"), "show test file" },
+          m = { cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b_core')"), "b4b_core suite" },
+          o = { cmd("lua require('neotest').output_panel.toggle()"), "toggle output" },
+          s = { cmd("lua require('neotest').run.stop()"), "stop test run" },
+          t = { cmd("lua require('neotest').run.run()"), "test" },
+        },
+        g = {
+          name = "+git",
+          B = { cmd("Gitsigns stage_buffer"), "stage buffer" },
+          R = { cmd("Gitsigns reset_buffer"), "reset bufffer" },
+          d = { cmd("Gvdiffsplit"), "diff staged & working tree" },
+          h = { cmd("Gitsigns stage_hunk"), "stage hunk" },
+          o = { cmd("GBrowse"), "open in github" },
+          p = { cmd("Gitsigns preview_hunk"), "preview hunk" },
+          r = { cmd("Gitsigns reset_hunk"), "reset hunk" },
+          s = { cmd("Git"), "status" },
+          b = { cmd("Gitsigns toggle_current_line_blame"), "toggle blame" },
+        }
       }
 
-      wk.register(mappings)
+      local visual_mappings = {
+        ["<leader>"] = {
+          g = {
+            name = "+git",
+            o = { cmd("GBrowse"), "open in github" },
+            h = { cmd("Gitsigns stage_hunk"), "stage hunk" },
+            r = { cmd("Gitsigns reset_hunk"), "reset hunk" },
+          },
+          f = {
+            name = "+find",
+            f = { "\"zy:lua require('telescope.builtin').live_grep({default_text=vim.api.nvim_exec([[echo getreg('z')]], true)})<cr>", "search visual selection" }
+          }
+        }
+      }
+
+      wk.register(normal_mappings)
+      wk.register(visual_mappings, { mode = "v" }) -- TODO: make these only relevant keybinds
       wk.setup({
         window = {
           border = { "┏", "━", "┓", "┃", "┛","━", "┗", "┃" },

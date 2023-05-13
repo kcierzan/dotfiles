@@ -68,7 +68,11 @@ return {
     branch = "main",
     event = "LspAttach",
     config = function()
-      require("lspsaga").setup()
+      require("lspsaga").setup({
+        outline = {
+          auto_preview = false
+        }
+      })
     end
   },
   {

@@ -33,7 +33,8 @@ return {
     end
   },
   {
-    "f-person/git-blame.nvim",
-    cmd = { "GitBlameToggle" },
-  }
+    "tpope/vim-fugitive",
+    dependencies = { "tpope/vim-rhubarb" },
+    cmd = { "Git", "GBrowse", "GDelete", "GMove", "Gread", "Gwrite", "Gvdiffsplit", "Gdiffsplit", "Gedit" }
+  },
 }
