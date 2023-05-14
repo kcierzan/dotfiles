@@ -18,9 +18,9 @@ return {
               i = { lib.telescope_builtin("lsp_implementations"), "implementations" },
               d = { lib.telescope_builtin("lsp_definitions"), "definitions" },
               c = { lib.telescope_builtin("lsp_incoming_calls"), "incoming calls" },
-              F = { lib.ex_cmd("Lspsaga lsp_finder"), "Finder UI" }
+              F = { lib.ex_cmd("Lspsaga lsp_finder"), "Finder UI" },
             },
-            n = { lib.ex_cmd("Lspsaga diagnostic_jump_next"), "jump to next diagnostic"},
+            n = { lib.ex_cmd("Lspsaga diagnostic_jump_next"), "jump to next diagnostic" },
             p = { lib.ex_cmd("Lspsaga diagnostic_jump_previous"), "jump to previous diagnostic" },
             i = { lib.ex_cmd("Lspsaga show_cursor_diagnostics"), "show cursor diagnostics" },
             a = { lib.ex_cmd("Lspsaga code_action"), "code action" },
@@ -33,7 +33,7 @@ return {
             L = { lib.ex_cmd("LspLog"), "log" },
             I = { lib.ex_cmd("LspInfo"), "info" },
             r = { lib.ex_cmd("Lspsaga rename"), "rename in file" },
-            R = { lib.ex_cmd("Lspsaga rename ++project"), "rename in project" }
+            R = { lib.ex_cmd("Lspsaga rename ++project"), "rename in project" },
           },
           f = {
             name = "+find",
@@ -52,16 +52,16 @@ return {
             m = { lib.telescope_builtin("man_pages"), "man pages" },
             o = { lib.telescope_builtin("oldfiles"), "oldfiles" },
             p = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "projects" },
-            s = { "<cmd>lua require('telescope.builtin').grep_string()<cr>", "word under cursor"},
+            s = { "<cmd>lua require('telescope.builtin').grep_string()<cr>", "word under cursor" },
             r = {
               name = "+rails",
-              f = { lib.find_rails_app_file, "app files"},
+              f = { lib.find_rails_app_file, "app files" },
               m = { lib.find_rails_model, "models" },
               c = { lib.find_rails_controller, "controllers" },
               v = { lib.find_rails_view, "views" },
               s = { lib.find_specs, "specs" },
-              g = { lib.live_grep_rails_app_files, "find in app files"}
-            }
+              g = { lib.live_grep_rails_app_files, "find in app files" },
+            },
           },
           v = {
             name = "+vim",
@@ -74,24 +74,24 @@ return {
             C = { lib.ex_cmd("window diffoff"), "diff off" },
             c = { lib.ex_cmd("windo diffthis"), "diff on" },
             d = { lib.ex_cmd("Bdelete"), "delete" },
-            f = { lib.ex_cmd("silent exec \"!bundle exec rubocop -A %:p\""), "run rubocop on buffer" },
+            f = { lib.ex_cmd('silent exec "!bundle exec rubocop -A %:p"'), "run rubocop on buffer" },
             m = { lib.open_in_rubymine, "open in rubymine" },
             r = { lib.ex_cmd("edit!"), "reload" },
             s = { lib.ex_cmd("w"), "write" },
             w = { lib.ex_cmd("%s/\\s\\+$//e"), "trim trailing whitespace" },
-            y = { lib.ex_cmd("let @+ = expand(\"%:p\")"), "yank name" },
+            y = { lib.ex_cmd('let @+ = expand("%:p")'), "yank name" },
           },
           w = {
             name = "+window",
-            S =  { "<C-w>J", "to horizontal split" },
-            V =  { "<C-w>H", "to vertical split" },
-            e =  { "<C-w>=", "equalize windows" },
-            j =  { "10<C-w>-", "decrease size" },
-            k =  { "10<C-w>+", "increase size" },
-            o =  { "<C-w>o", "delete other windows" },
-            r =  { "<C-w>r", "rotate windows" },
-            s =  { lib.ex_cmd("sp"), "split horizontal" },
-            v =  { lib.ex_cmd("vsp"), "split vertically" }
+            S = { "<C-w>J", "to horizontal split" },
+            V = { "<C-w>H", "to vertical split" },
+            e = { "<C-w>=", "equalize windows" },
+            j = { "10<C-w>-", "decrease size" },
+            k = { "10<C-w>+", "increase size" },
+            o = { "<C-w>o", "delete other windows" },
+            r = { "<C-w>r", "rotate windows" },
+            s = { lib.ex_cmd("sp"), "split horizontal" },
+            v = { lib.ex_cmd("vsp"), "split vertically" },
           },
           i = {
             name = "+gui",
@@ -105,7 +105,7 @@ return {
             f = { lib.ex_cmd("NvimTreeToggle"), "toggle tree" },
             h = { lib.ex_cmd("ColorizerAttachToBuffer"), "colorize buffer" },
             l = { lib.ex_cmd("IndentBlanklineToggle"), "toggle indentation lines" },
-            t = { lib.ex_cmd("ToggleTerm direction=down"), "toggle terminal drawer" }
+            t = { lib.ex_cmd("ToggleTerm direction=down"), "toggle terminal drawer" },
           },
           t = {
             name = "+test",
@@ -138,8 +138,13 @@ return {
             i = { lib.ex_cmd("lua require('dap').step_into()"), "step into" },
             u = { lib.ex_cmd("lua require('dapui').toggle()"), "toggle UI" },
             r = { lib.ex_cmd("lua require('dap').repl.toggle()"), "toggle repl" },
-            f = { lib.ex_cmd("lua require('dapui').float_element('repl', { height = 40, width = 140, position = 'center', enter = true })"), "toggle floating repl" }
-          }
+            f = {
+              lib.ex_cmd(
+                "lua require('dapui').float_element('repl', { height = 40, width = 140, position = 'center', enter = true })"
+              ),
+              "toggle floating repl",
+            },
+          },
         },
       }
 
@@ -153,18 +158,21 @@ return {
           },
           f = {
             name = "+find",
-            f = { "\"zy:lua require('telescope.builtin').live_grep({default_text=vim.api.nvim_exec([[echo getreg('z')]], true)})<cr>", "search visual selection" }
-          }
-        }
+            f = {
+              "\"zy:lua require('telescope.builtin').live_grep({default_text=vim.api.nvim_exec([[echo getreg('z')]], true)})<cr>",
+              "search visual selection",
+            },
+          },
+        },
       }
 
       wk.register(normal_mappings)
       wk.register(visual_mappings, { mode = "v" })
       wk.setup({
         window = {
-          border = { "┏", "━", "┓", "┃", "┛","━", "┗", "┃" },
-        }
+          border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+        },
       })
-    end
-  }
+    end,
+  },
 }

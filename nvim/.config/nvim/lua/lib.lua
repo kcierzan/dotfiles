@@ -13,7 +13,7 @@ end
 
 local function create_rails_fd_command(directory)
   local excludes = { ".git/", "node_modules", "**/*migration*/**/*", "**/vendor/**/*", "**/migrate/**/*" }
-  if directory ~= 'spec' then
+  if directory ~= "spec" then
     table.insert(excludes, "**/spec/**/*")
   end
   return {
@@ -26,7 +26,7 @@ local function create_rails_fd_command(directory)
     "--glob",
     "**/" .. directory .. "/**/*.{erb,rb}",
     "-E",
-    table.concat(excludes, ",")
+    table.concat(excludes, ","),
   }
 end
 
@@ -48,63 +48,53 @@ local function live_grep_rails_app_files()
       "!**/vendor/**/*",
       "!**/migrate/**/*",
       "!**/doc/**/*",
-      "!node_modules"
-    }
+      "!node_modules",
+    },
   })
 end
 
 local function find_rails_app_file()
   local tscope = require("telescope.builtin")
-  tscope.find_files(
-    {
-      find_command = {
-        "fd",
-        "--type",
-        "f",
-        "--hidden",
-        "--strip-cwd-prefix",
-        "-E",
-        "{.git/,node_modules,**/spec/**/*,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}"
-      },
-      prompt_prefix = "💎 "
-    }
-  )
+  tscope.find_files({
+    find_command = {
+      "fd",
+      "--type",
+      "f",
+      "--hidden",
+      "--strip-cwd-prefix",
+      "-E",
+      "{.git/,node_modules,**/spec/**/*,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}",
+    },
+    prompt_prefix = "💎 ",
+  })
 end
 
 local function find_rails_model()
-  require("telescope.builtin").find_files(
-    {
-      find_command = create_rails_fd_command("models"),
-      prompt_prefix = "🗿"
-    }
-  )
+  require("telescope.builtin").find_files({
+    find_command = create_rails_fd_command("models"),
+    prompt_prefix = "🗿",
+  })
 end
 
 local function find_rails_controller()
-  require("telescope.builtin").find_files(
-    {
-      find_command = create_rails_fd_command("controllers"),
-      prompt_prefix = "🎛️"
-    }
-  )
+  require("telescope.builtin").find_files({
+    find_command = create_rails_fd_command("controllers"),
+    prompt_prefix = "🎛️",
+  })
 end
 
 local function find_rails_view()
-  require("telescope.builtin").find_files(
-    {
-      find_command = create_rails_fd_command("views"),
-      prompt_prefix = "👁️"
-    }
-  )
+  require("telescope.builtin").find_files({
+    find_command = create_rails_fd_command("views"),
+    prompt_prefix = "👁️",
+  })
 end
 
 local function find_specs()
-  require("telescope.builtin").find_files(
-    {
-      find_command = create_rails_fd_command("spec"),
-      prompt_prefix = "🧪"
-    }
-  )
+  require("telescope.builtin").find_files({
+    find_command = create_rails_fd_command("spec"),
+    prompt_prefix = "🧪",
+  })
 end
 
 local function open_in_rubymine()

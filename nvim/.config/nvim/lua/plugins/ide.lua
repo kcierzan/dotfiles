@@ -1,7 +1,7 @@
 return {
   {
     "tpope/vim-projectionist",
-    lazy = false
+    lazy = false,
   },
   {
     "akinsho/toggleterm.nvim",
@@ -9,7 +9,7 @@ return {
     cmd = { "ToggleTerm" },
     config = function()
       require("toggleterm").setup({ open_mapping = "<C-\\>" })
-    end
+    end,
   },
   {
     "ahmedkhalf/project.nvim",
@@ -18,7 +18,7 @@ return {
     config = function()
       require("project_nvim").setup({ manual_mode = false })
       require("telescope").load_extension("projects")
-    end
+    end,
   },
   {
     "nvim-neotest/neotest",
@@ -28,36 +28,51 @@ return {
         adapters = { require("neotest-rspec") },
         status = {
           signs = false,
-          virtual_text = true
-        }
+          virtual_text = true,
+        },
       })
-    end
+    end,
   },
   {
     "tpope/vim-fugitive",
     dependencies = { "tpope/vim-rhubarb" },
-    cmd = { "Git", "GBrowse", "GDelete", "GMove", "Gread", "Gwrite", "Gvdiffsplit", "Gdiffsplit", "Gedit" }
+    cmd = { "Git", "GBrowse", "GDelete", "GMove", "Gread", "Gwrite", "Gvdiffsplit", "Gdiffsplit", "Gedit" },
   },
   {
     "mfussenegger/nvim-dap",
     config = function()
-      vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg=0, fg='#993939', bg='#31353f' })
-      vim.api.nvim_set_hl(0, 'DapLogPoint', { ctermbg=0, fg='#61afef', bg='#31353f' })
-      vim.api.nvim_set_hl(0, 'DapStopped', { ctermbg=0, fg='#98c379', bg='#31353f' })
+      vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = "#993939", bg = "#31353f" })
+      vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = "#61afef", bg = "#31353f" })
+      vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = "#98c379", bg = "#31353f" })
 
-      vim.fn.sign_define('DapBreakpoint', { text='', texthl='DapBreakpoint', linehl='DapBreakpoint', numhl='DapBreakpoint' })
-      vim.fn.sign_define('DapBreakpointCondition', { text='ﳁ', texthl='DapBreakpoint', linehl='DapBreakpoint', numhl='DapBreakpoint' })
-      vim.fn.sign_define('DapBreakpointRejected', { text='', texthl='DapBreakpoint', linehl='DapBreakpoint', numhl= 'DapBreakpoint' })
-      vim.fn.sign_define('DapLogPoint', { text='', texthl='DapLogPoint', linehl='DapLogPoint', numhl= 'DapLogPoint' })
-      vim.fn.sign_define('DapStopped', { text='', texthl='DapStopped', linehl='DapStopped', numhl= 'DapStopped' })
-    end
+      vim.fn.sign_define(
+        "DapBreakpoint",
+        { text = "", texthl = "DapBreakpoint", linehl = "DapBreakpoint", numhl = "DapBreakpoint" }
+      )
+      vim.fn.sign_define(
+        "DapBreakpointCondition",
+        { text = "ﳁ", texthl = "DapBreakpoint", linehl = "DapBreakpoint", numhl = "DapBreakpoint" }
+      )
+      vim.fn.sign_define(
+        "DapBreakpointRejected",
+        { text = "", texthl = "DapBreakpoint", linehl = "DapBreakpoint", numhl = "DapBreakpoint" }
+      )
+      vim.fn.sign_define(
+        "DapLogPoint",
+        { text = "", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" }
+      )
+      vim.fn.sign_define(
+        "DapStopped",
+        { text = "", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" }
+      )
+    end,
   },
   {
     "rcarriga/nvim-dap-ui",
     dependencies = { "mfussenegger/nvim-dap" },
     config = function()
       require("dapui").setup()
-    end
+    end,
   },
   {
     "suketa/nvim-dap-ruby",
@@ -65,6 +80,6 @@ return {
     ft = { "ruby", "eruby" },
     config = function()
       require("dap-ruby").setup()
-    end
-  }
+    end,
+  },
 }

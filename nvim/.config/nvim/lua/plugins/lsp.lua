@@ -3,7 +3,7 @@ return {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp"
+      "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
       local lspconfig = require("lspconfig")
@@ -12,7 +12,7 @@ return {
       vim.diagnostic.config({
         virtual_text = false,
         signs = true,
-        underline = true
+        underline = true,
       })
 
       local servers = {
@@ -44,23 +44,23 @@ return {
               diagnostic = true,
               references = true,
               rename = true,
-              symbols = true
-            }
+              symbols = true,
+            },
           }
           opts.root_dir = require("lspconfig").util.root_pattern("Gemfile")
         elseif server == "lua_ls" then
           opts.settings = {
             Lua = {
               diagnostics = {
-                globals = { "vim", "awesome", "hs" }
-              }
-            }
+                globals = { "vim", "awesome", "hs" },
+              },
+            },
           }
         end
 
         lspconfig[server].setup(opts)
       end
-    end
+    end,
   },
   {
     "glepnir/lspsaga.nvim",
@@ -70,10 +70,13 @@ return {
     config = function()
       require("lspsaga").setup({
         outline = {
-          auto_preview = false
-        }
+          auto_preview = false,
+        },
+        symbols_in_winbar = {
+          in_custom = true,
+        },
       })
-    end
+    end,
   },
   {
     "williamboman/mason.nvim",
@@ -81,7 +84,7 @@ return {
     cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
     config = function()
       require("mason").setup()
-    end
+    end,
   },
   {
     "williamboman/mason-lspconfig.nvim",
@@ -99,9 +102,9 @@ return {
           "rust_analyzer",
           "solargraph",
           "tsserver",
-        }
+        },
       })
-    end
+    end,
   },
   {
     "folke/trouble.nvim",
@@ -109,12 +112,12 @@ return {
     event = "LspAttach",
     config = function()
       require("trouble").setup()
-    end
+    end,
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
     event = "LspAttach",
-    dependencies = {  "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local null_ls = require("null-ls")
       null_ls.setup({
@@ -122,9 +125,9 @@ return {
           null_ls.builtins.formatting.stylua,
           null_ls.builtins.diagnostics.ruff,
           null_ls.builtins.formatting.black,
-          null_ls.builtins.formatting.prettier
-        }
+          null_ls.builtins.formatting.prettier,
+        },
       })
-    end
-  }
+    end,
+  },
 }

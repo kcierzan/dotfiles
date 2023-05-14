@@ -29,7 +29,7 @@ return {
       magenta = "#D27E99",
       orange = "#FFA066",
       yellow = "#E6C384",
-      cyan = "#7FB4CA"
+      cyan = "#7FB4CA",
     }
 
     local config = {
@@ -41,16 +41,16 @@ return {
           normal = {
             c = {
               fg = colors.fg,
-              bg = colors.bg
-            }
+              bg = colors.bg,
+            },
           },
           inactive = {
             c = {
               fg = colors.fg,
-              bg = colors.bg
-            }
-          }
-        }
+              bg = colors.bg,
+            },
+          },
+        },
       },
       sections = {
         lualine_a = {},
@@ -58,7 +58,7 @@ return {
         lualine_y = {},
         lualine_z = {},
         lualine_c = {},
-        lualine_x = {}
+        lualine_x = {},
       },
       inactive_sections = {
         lualine_a = {},
@@ -66,8 +66,8 @@ return {
         lualine_y = {},
         lualine_z = {},
         lualine_c = {},
-        lualine_x = {}
-      }
+        lualine_x = {},
+      },
     }
 
     local function left_insert(component)
@@ -98,7 +98,7 @@ return {
       r = "HIT ENTER",
       ["r?"] = "CONFIRM",
       ["!"] = "SHELL",
-      t = "TERMINAL"
+      t = "TERMINAL",
     }
 
     local function edit_mode()
@@ -134,7 +134,9 @@ return {
     local function lsp_name()
       local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
       local clients = vim.lsp.get_active_clients()
-      local clients_exist = function(clnts) return next(clnts) ~= nil and clnts end
+      local clients_exist = function(clnts)
+        return next(clnts) ~= nil and clnts
+      end
 
       if clients_exist(clients) then
         return get_buffer_lsp(buf_ft)
@@ -167,7 +169,7 @@ return {
         rm = colors.cyan,
         ["r?"] = colors.cyan,
         ["!"] = colors.red,
-        t = colors.red
+        t = colors.red,
       }
 
       return { fg = edit_colors[vim.fn.mode()], gui = "bold" }
@@ -185,22 +187,24 @@ return {
     -- ================== Left Hand Sections ========================
 
     left_insert({
-      function() return "▊" end,
+      function()
+        return "▊"
+      end,
       color = { fg = colors.blue },
-      padding = { left = 0, right = 1 }
+      padding = { left = 0, right = 1 },
     })
 
     left_insert({
       edit_mode,
       color = edit_mode_colors,
-      padding = { left = 0, right = 2 }
+      padding = { left = 0, right = 2 },
     })
 
     left_insert({
       "filetype",
       icon_only = true,
       colored = true,
-      padding = { left = 0, right = 1 }
+      padding = { left = 0, right = 1 },
     })
 
     left_insert({
@@ -208,7 +212,7 @@ return {
       cond = buffer_not_empty,
       path = 1,
       color = { fg = colors.fg },
-      padding = { left = 0, right = 0 }
+      padding = { left = 0, right = 0 },
     })
 
     -- ================== Right Hand Sections ========================
@@ -219,13 +223,13 @@ return {
       symbols = {
         error = " ",
         warn = " ",
-        info = " "
+        info = " ",
       },
       diagnostics_color = {
         color_error = { fg = colors.red },
         color_warn = { fg = colors.yellow },
-        color_info = { fg = colors.cyan }
-      }
+        color_info = { fg = colors.cyan },
+      },
     })
 
     right_insert({
@@ -239,7 +243,7 @@ return {
       "branch",
       icon = "",
       color = { fg = colors.violet, gui = "bold" },
-      cond = is_git_workspace
+      cond = is_git_workspace,
     })
 
     right_insert({
@@ -247,28 +251,28 @@ return {
       symbols = {
         added = "  ",
         modified = "柳 ",
-        removed = "  "
+        removed = "  ",
       },
       diff_color = {
         added = { fg = colors.green },
         modified = { fg = colors.orange },
-        removed = { fg = colors.red }
+        removed = { fg = colors.red },
       },
-      cond = is_wide_window
+      cond = is_wide_window,
     })
 
     right_insert({
       "fileformat",
       icons_enabled = true,
       color = { fg = colors.blue, gui = "bold" },
-      cond = is_wide_window
+      cond = is_wide_window,
     })
 
     right_insert({
       progress_bar,
       color = { fg = colors.blue, bg = colors.bg },
       padding = { right = 0, left = 1 },
-      cond = is_wide_window
+      cond = is_wide_window,
     })
 
     right_insert({
@@ -279,11 +283,13 @@ return {
     })
 
     right_insert({
-      function() return "▊" end,
+      function()
+        return "▊"
+      end,
       color = { fg = colors.blue },
-      padding = { left = 1 }
+      padding = { left = 1 },
     })
 
     lualine.setup(config)
-  end
+  end,
 }

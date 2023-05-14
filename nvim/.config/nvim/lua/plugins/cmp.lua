@@ -13,7 +13,7 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "ray-x/cmp-treesitter",
       "rafamadriz/friendly-snippets",
-      "L3MON4D3/LuaSnip"
+      "L3MON4D3/LuaSnip",
     },
     event = "InsertEnter",
     config = function()
@@ -29,13 +29,13 @@ return {
         { "╯", "CmpBorder" },
         { "─", "CmpBorder" },
         { "╰", "CmpBorder" },
-        { "│", "CmpBorder" }
+        { "│", "CmpBorder" },
       }
       local autopairs = require("nvim-autopairs.completion.cmp")
-      cmp.event:on("confirm_done", autopairs.on_confirm_done({ map_char = { tex = ""}}))
+      cmp.event:on("confirm_done", autopairs.on_confirm_done({ map_char = { tex = "" } }))
 
       local function has_words_before()
-        local line,col = unpack(vim.api.nvim_win_get_cursor(0))
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
         local before = vim.api.nvim_buf_get_lines(0, line - 1, line, true)
         local lines_before = before[1]:sub(col, col):match("%s")
 
@@ -81,11 +81,11 @@ return {
       end
 
       local mapping = {
-        ["<Tab>"] = cmp.mapping(tab_func, {"i", "s", "c"}),
-        ["<S-Tab>"] = cmp.mapping(s_tab_func, {"i", "s", "c"}),
+        ["<Tab>"] = cmp.mapping(tab_func, { "i", "s", "c" }),
+        ["<S-Tab>"] = cmp.mapping(s_tab_func, { "i", "s", "c" }),
         ["<CR>"] = cmp.mapping.confirm({ select = false }),
-        ["<C-n>"] = cmp.mapping(ctrl_n, {"i", "s", "c"}),
-        ["<C-p>"] = cmp.mapping(ctrl_p, {"i", "s", "c"})
+        ["<C-n>"] = cmp.mapping(ctrl_n, { "i", "s", "c" }),
+        ["<C-p>"] = cmp.mapping(ctrl_p, { "i", "s", "c" }),
       }
 
       local function telescope_buffer()
@@ -104,59 +104,63 @@ return {
       local sources = {
         {
           name = "buffer",
-          priority = 700
+          priority = 700,
         },
         {
           name = "treesitter",
-          priority = 750
+          priority = 750,
         },
         {
           name = "path",
-          priority = 500
+          priority = 500,
         },
         {
           name = "rg",
-          priority = 600
+          priority = 600,
         },
         {
           name = "calc",
-          priority = 900
+          priority = 900,
         },
         {
           name = "nvim_lsp",
-          priority = 900
+          priority = 900,
         },
         {
           name = "luasnip",
-          priority = 800
+          priority = 800,
         },
         {
           name = "nvim_lsp_signature_help",
-          priority = 1000
-        }
+          priority = 1000,
+        },
       }
 
       cmp.setup({
         window = {
           completion = {
             border = border,
-            winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Pmenu,Search:None"
+            winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Pmenu,Search:None",
           },
           documentation = cmp.config.window.bordered(),
         },
         snippet = {
-          expand = function(args) luasnip.lsp_expand(args.body) end,
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
         },
         mapping = mapping,
         sources = sources,
-        enabled = function() return not telescope_buffer() and not popup_buffer() and not comment() end,
+        enabled = function()
+          return not telescope_buffer() and not popup_buffer() and not comment()
+        end,
         formatting = {
           fields = { "abbr", "kind", "menu" },
           format = lspkind.cmp_format({
             mode = "symbol",
-            maxwidth= 50,
-            ellipsis_char= "...",
-          })
+            maxwidth = 50,
+            ellipsis_char = "...",
+          }),
         },
         sorting = {
           priority_weight = 1.0,
@@ -165,24 +169,24 @@ return {
             compare.recently_used,
             compare.score,
             compare.offset,
-            compare.order
-          }
+            compare.order,
+          },
         },
-        experimental = { ghost_text = true }
+        experimental = { ghost_text = true },
       })
 
       cmp.setup.cmdline(":", {
         sources = {
           {
             name = "cmdline",
-            group_index = 1
+            group_index = 1,
           },
           {
             name = "cmdline_history",
-            group_index = 2
-          }
+            group_index = 2,
+          },
         },
-        mapping = mapping
+        mapping = mapping,
       })
 
       cmp.setup.cmdline("/", {
@@ -191,13 +195,13 @@ return {
             name = "cmdline_history",
           },
           {
-            name = "buffer"
-          }
+            name = "buffer",
+          },
         },
-        mapping = mapping
+        mapping = mapping,
       })
 
       require("luasnip.loaders.from_vscode").lazy_load()
-    end
+    end,
   },
 }
