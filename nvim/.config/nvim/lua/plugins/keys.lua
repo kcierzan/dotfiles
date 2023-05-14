@@ -4,129 +4,7 @@ return {
     keys = { " ", "<Space>", "<leader>", "v", "V" },
     config = function()
       local wk = require("which-key")
-
-      local function cmd(command)
-        return "<cmd>" .. command .. "<cr>"
-      end
-
-      local function tscope_cmd(method)
-        return cmd("lua require('telescope.builtin')." .. method .. "()")
-      end
-
-      local function parent_git_dir()
-        local dir = vim.fn.system("git rev-parse --show-toplevel"):gsub("\n", "")
-        return vim.fn.empty(vim.fn.glob(dir)) == 0, dir
-      end
-
-      local function create_rails_fd_command(directory)
-        local excludes = { ".git/", "node_modules", "**/*migration*/**/*", "**/vendor/**/*", "**/migrate/**/*" }
-        if directory ~= 'spec' then
-          table.insert(excludes, "**/spec/**/*")
-        end
-        return {
-          "fd",
-          "--type",
-          "f",
-          "--hidden",
-          "--strip-cwd-prefix",
-          "--full-path",
-          "--glob",
-          "**/" .. directory .. "/**/*.{erb,rb}",
-          "-E",
-          table.concat(excludes, ",")
-        }
-      end
-
-      local function my_find_files()
-        local tscope = require("telescope.builtin")
-        local exists, _ = parent_git_dir()
-        if exists then
-          tscope.git_files({ show_untracked_files = true })
-        else
-          tscope.find_files()
-        end
-      end
-
-      local function find_in_app_files()
-        require("telescope.builtin").live_grep({
-          glob_pattern = {
-            "!**/spec/**/*",
-            "!**/*migration*/**/*",
-            "!**/vendor/**/*",
-            "!**/migrate/**/*",
-            "!**/doc/**/*",
-            "!node_modules"
-          }
-        })
-      end
-
-      local function find_app_files()
-        local tscope = require("telescope.builtin")
-        tscope.find_files(
-          {
-            find_command = {
-              "fd",
-              "--type",
-              "f",
-              "--hidden",
-              "--strip-cwd-prefix",
-              "-E",
-              "{.git/,node_modules,**/spec/**/*,**/*migration*/**/*,**/vendor/**/*,**/migrate/**/*}"
-            },
-            prompt_prefix = "💎 "
-          }
-        )
-      end
-
-      local function find_models()
-        require("telescope.builtin").find_files(
-          {
-            find_command = create_rails_fd_command("models"),
-            prompt_prefix = "🗿"
-          }
-        )
-      end
-
-      local function find_controllers()
-        require("telescope.builtin").find_files(
-          {
-            find_command = create_rails_fd_command("controllers"),
-            prompt_prefix = "🎛️"
-          }
-        )
-      end
-
-      local function find_views()
-        require("telescope.builtin").find_files(
-          {
-            find_command = create_rails_fd_command("views"),
-            prompt_prefix = "👁️"
-          }
-        )
-      end
-
-      local function find_specs()
-        require("telescope.builtin").find_files(
-          {
-            find_command = create_rails_fd_command("spec"),
-            prompt_prefix = "🧪"
-          }
-        )
-      end
-
-      local function open_in_rubymine()
-        vim.fn.system({ "rubymine", vim.fn.expand("%:p") })
-      end
-
-      local function my_project_grep()
-        local tscope = require("telescope.builtin")
-        local exists, dir = parent_git_dir()
-        if exists then
-          tscope.live_grep({ cwd = dir })
-        else
-          tscope.live_grep()
-        end
-      end
+      local lib = require("lib")
 
       local normal_mappings = {
         ["<leader>"] = {
@@ -134,74 +12,74 @@ return {
             name = "+LSP",
             f = {
               name = "+find",
-              r = { tscope_cmd("lsp_references"), "references" },
-              s = { tscope_cmd("lsp_document_symbols"), "buffer symbols" },
-              S = { tscope_cmd("lsp_workspace_symbols"), "workspace symbols" },
-              i = { tscope_cmd("lsp_implementations"), "implementations" },
-              d = { tscope_cmd("lsp_definitions"), "definitions" },
-              c = { tscope_cmd("lsp_incoming_calls"), "incoming calls" },
-              F = { cmd("Lspsaga lsp_finder"), "Finder UI" }
+              r = { lib.telescope_builtin("lsp_references"), "references" },
+              s = { lib.telescope_builtin("lsp_document_symbols"), "buffer symbols" },
+              S = { lib.telescope_builtin("lsp_workspace_symbols"), "workspace symbols" },
+              i = { lib.telescope_builtin("lsp_implementations"), "implementations" },
+              d = { lib.telescope_builtin("lsp_definitions"), "definitions" },
+              c = { lib.telescope_builtin("lsp_incoming_calls"), "incoming calls" },
+              F = { lib.ex_cmd("Lspsaga lsp_finder"), "Finder UI" }
             },
-            n = { cmd("Lspsaga diagnostic_jump_next"), "jump to next diagnostic"},
-            p = { cmd("Lspsaga diagnostic_jump_previous"), "jump to previous diagnostic" },
-            i = { cmd("Lspsaga show_cursor_diagnostics"), "show cursor diagnostics" },
-            a = { cmd("Lspsaga code_action"), "code action" },
+            n = { lib.ex_cmd("Lspsaga diagnostic_jump_next"), "jump to next diagnostic"},
+            p = { lib.ex_cmd("Lspsaga diagnostic_jump_previous"), "jump to previous diagnostic" },
+            i = { lib.ex_cmd("Lspsaga show_cursor_diagnostics"), "show cursor diagnostics" },
+            a = { lib.ex_cmd("Lspsaga code_action"), "code action" },
             F = { vim.lsp.buf.format, "format buffer" },
-            o = { cmd("Lspsaga outline"), "toggle outline" },
-            d = { cmd("Lspsaga peek_definition"), "peek definition" },
-            h = { cmd("Lspsaga hover_doc"), "hover documentation" },
-            q = { cmd("LspRestart"), "restart" },
-            s = { cmd("LspStart"), "start" },
-            L = { cmd("LspLog"), "log" },
-            I = { cmd("LspInfo"), "info" },
-            r = { cmd("Lspsaga rename"), "rename in file" },
-            R = { cmd("Lspsaga rename ++project"), "rename in project" }
+            o = { lib.ex_cmd("Lspsaga outline"), "toggle outline" },
+            d = { lib.ex_cmd("Lspsaga peek_definition"), "peek definition" },
+            h = { lib.ex_cmd("Lspsaga hover_doc"), "hover documentation" },
+            q = { lib.ex_cmd("LspRestart"), "restart" },
+            s = { lib.ex_cmd("LspStart"), "start" },
+            L = { lib.ex_cmd("LspLog"), "log" },
+            I = { lib.ex_cmd("LspInfo"), "info" },
+            r = { lib.ex_cmd("Lspsaga rename"), "rename in file" },
+            R = { lib.ex_cmd("Lspsaga rename ++project"), "rename in project" }
           },
           f = {
             name = "+find",
-            O = { tscope_cmd("vim_options"), "vim options" },
-            T = { tscope_cmd("filetypes"), "filetypes" },
-            t = { tscope_cmd("help_tags"), "help tags" },
-            a = { tscope_cmd("autocommands"), "autocommands" },
-            b = { tscope_cmd("buffers"), "buffers" },
-            c = { tscope_cmd("git_commits"), "commits" },
-            f = { my_find_files, "files in repo" },
-            g = { my_project_grep, "text in git files" },
+            O = { lib.telescope_builtin("vim_options"), "vim options" },
+            T = { lib.telescope_builtin("filetypes"), "filetypes" },
+            t = { lib.telescope_builtin("help_tags"), "help tags" },
+            a = { lib.telescope_builtin("autocommands"), "autocommands" },
+            b = { lib.telescope_builtin("buffers"), "buffers" },
+            c = { lib.telescope_builtin("git_commits"), "commits" },
+            f = { lib.fast_find_file, "files in repo" },
+            g = { lib.live_grep_from_git_root, "text in git files" },
             G = { "<cmd>lua require('telescope.builtin').grep_string({ search = '' })<cr>", "super fuzzy grep" },
-            h = { tscope_cmd("highlights"), "highlights" },
-            k = { tscope_cmd("keymaps"), "keymaps" },
-            l = { tscope_cmd("current_buffer_fuzzy_find"), "line in buffer" },
-            m = { tscope_cmd("man_pages"), "man pages" },
-            o = { tscope_cmd("oldfiles"), "oldfiles" },
+            h = { lib.telescope_builtin("highlights"), "highlights" },
+            k = { lib.telescope_builtin("keymaps"), "keymaps" },
+            l = { lib.telescope_builtin("current_buffer_fuzzy_find"), "line in buffer" },
+            m = { lib.telescope_builtin("man_pages"), "man pages" },
+            o = { lib.telescope_builtin("oldfiles"), "oldfiles" },
             p = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "projects" },
             s = { "<cmd>lua require('telescope.builtin').grep_string()<cr>", "word under cursor"},
             r = {
               name = "+rails",
-              f = { find_app_files, "app files"},
-              m = { find_models, "models" },
-              c = { find_controllers, "controllers" },
-              v = { find_views, "views" },
-              s = { find_specs, "specs" },
-              g = { find_in_app_files, "find in app files"}
+              f = { lib.find_rails_app_file, "app files"},
+              m = { lib.find_rails_model, "models" },
+              c = { lib.find_rails_controller, "controllers" },
+              v = { lib.find_rails_view, "views" },
+              s = { lib.find_specs, "specs" },
+              g = { lib.live_grep_rails_app_files, "find in app files"}
             }
           },
           v = {
             name = "+vim",
-            e = { cmd("edit ~/.config/nvim/init.lua"), "edit init.lua" },
-            l = { cmd("Lazy"), "lazy" },
-            m = { cmd("Mason"), "mason" },
+            e = { lib.ex_cmd("edit ~/.config/nvim/init.lua"), "edit init.lua" },
+            l = { lib.ex_cmd("Lazy"), "lazy" },
+            m = { lib.ex_cmd("Mason"), "mason" },
           },
           b = {
             name = "+buffer",
-            C = { cmd("window diffoff"), "diff off" },
-            c = { cmd("windo diffthis"), "diff on" },
-            d = { cmd("Bdelete"), "delete" },
-            f = { cmd("silent exec \"!bundle exec rubocop -A %:p\""), "run rubocop on buffer" },
-            m = { open_in_rubymine, "open in rubymine" },
-            r = { cmd("edit!"), "reload" },
-            s = { cmd("w"), "write" },
-            w = { cmd("%s/\\s\\+$//e"), "trim trailing whitespace" },
-            y = { cmd("let @+ = expand(\"%:p\")"), "yank name" },
+            C = { lib.ex_cmd("window diffoff"), "diff off" },
+            c = { lib.ex_cmd("windo diffthis"), "diff on" },
+            d = { lib.ex_cmd("Bdelete"), "delete" },
+            f = { lib.ex_cmd("silent exec \"!bundle exec rubocop -A %:p\""), "run rubocop on buffer" },
+            m = { lib.open_in_rubymine, "open in rubymine" },
+            r = { lib.ex_cmd("edit!"), "reload" },
+            s = { lib.ex_cmd("w"), "write" },
+            w = { lib.ex_cmd("%s/\\s\\+$//e"), "trim trailing whitespace" },
+            y = { lib.ex_cmd("let @+ = expand(\"%:p\")"), "yank name" },
           },
           w = {
             name = "+window",
@@ -212,56 +90,66 @@ return {
             k =  { "10<C-w>+", "increase size" },
             o =  { "<C-w>o", "delete other windows" },
             r =  { "<C-w>r", "rotate windows" },
-            s =  { cmd("sp"), "split horizontal" },
-            v =  { cmd("vsp"), "split vertically" }
+            s =  { lib.ex_cmd("sp"), "split horizontal" },
+            v =  { lib.ex_cmd("vsp"), "split vertically" }
           },
           i = {
             name = "+gui",
-            F = { cmd("NvimTreeFindFile"), "show current file in tree" },
-            H = { cmd("TSHighlightCapturesUnderCursor"), "show highlights under cursor" },
-            T = { cmd("ToggleTerm direction=float"), "toggle floating terminal" },
-            ["#"] = { cmd("set invnumber"), "toggle line numbers" },
-            ["%"] = { cmd("set invrelativenumber"), "toggle relative line numbers" },
-            c = { cmd("nohlsearch"), "clear search highlight" },
-            e = { cmd("Trouble"), "show errors and warnings" },
-            f = { cmd("NvimTreeToggle"), "toggle tree" },
-            h = { cmd("ColorizerAttachToBuffer"), "colorize buffer" },
-            l = { cmd("IndentBlanklineToggle"), "toggle indentation lines" },
-            t = { cmd("ToggleTerm direction=down"), "toggle terminal drawer" }
+            F = { lib.ex_cmd("NvimTreeFindFile"), "show current file in tree" },
+            H = { lib.ex_cmd("TSHighlightCapturesUnderCursor"), "show highlights under cursor" },
+            T = { lib.ex_cmd("ToggleTerm direction=float"), "toggle floating terminal" },
+            ["#"] = { lib.ex_cmd("set invnumber"), "toggle line numbers" },
+            ["%"] = { lib.ex_cmd("set invrelativenumber"), "toggle relative line numbers" },
+            c = { lib.ex_cmd("nohlsearch"), "clear search highlight" },
+            e = { lib.ex_cmd("Trouble"), "show errors and warnings" },
+            f = { lib.ex_cmd("NvimTreeToggle"), "toggle tree" },
+            h = { lib.ex_cmd("ColorizerAttachToBuffer"), "colorize buffer" },
+            l = { lib.ex_cmd("IndentBlanklineToggle"), "toggle indentation lines" },
+            t = { lib.ex_cmd("ToggleTerm direction=down"), "toggle terminal drawer" }
+          },
+          t = {
+            name = "+test",
+            b = { lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b')"), "b4b suite" },
+            c = { lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/clinic')"), "clinic suite" },
+            f = { lib.ex_cmd("lua require('neotest').run.run(vim.fn.expand('%'))"), "file" },
+            g = { lib.ex_cmd("A"), "show test file" },
+            m = { lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b_core')"), "b4b_core suite" },
+            o = { lib.ex_cmd("lua require('neotest').output_panel.toggle()"), "toggle output" },
+            s = { lib.ex_cmd("lua require('neotest').run.stop()"), "stop test run" },
+            t = { lib.ex_cmd("lua require('neotest').run.run()"), "test" },
+          },
+          g = {
+            name = "+git",
+            B = { lib.ex_cmd("Gitsigns stage_buffer"), "stage buffer" },
+            R = { lib.ex_cmd("Gitsigns reset_buffer"), "reset bufffer" },
+            d = { lib.ex_cmd("Gvdiffsplit"), "diff staged & working tree" },
+            h = { lib.ex_cmd("Gitsigns stage_hunk"), "stage hunk" },
+            o = { lib.ex_cmd("GBrowse"), "open in github" },
+            p = { lib.ex_cmd("Gitsigns preview_hunk"), "preview hunk" },
+            r = { lib.ex_cmd("Gitsigns reset_hunk"), "reset hunk" },
+            s = { lib.ex_cmd("Git"), "status" },
+            b = { lib.ex_cmd("Gitsigns toggle_current_line_blame"), "toggle blame" },
+          },
+          d = {
+            name = "+debug",
+            b = { lib.ex_cmd("lua require('dap').toggle_breakpoint()"), "toggle breakpoint" },
+            c = { lib.ex_cmd("lua require('dap').continue()"), "continue" },
+            o = { lib.ex_cmd("lua require('dap').step_over()"), "step over" },
+            i = { lib.ex_cmd("lua require('dap').step_into()"), "step into" },
+            u = { lib.ex_cmd("lua require('dapui').toggle()"), "toggle UI" },
+            r = { lib.ex_cmd("lua require('dap').repl.toggle()"), "toggle repl" },
+            f = { lib.ex_cmd("lua require('dapui').float_element('repl', { height = 40, width = 140, position = 'center', enter = true })"), "toggle floating repl" }
           }
         },
-        t = {
-          name = "+test",
-          b = { cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b')"), "b4b suite" },
-          c = { cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/clinic')"), "clinic suite" },
-          f = { cmd("lua require('neotest').run.run(vim.fn.expand('%'))"), "file" },
-          g = { cmd("A"), "show test file" },
-          m = { cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b_core')"), "b4b_core suite" },
-          o = { cmd("lua require('neotest').output_panel.toggle()"), "toggle output" },
-          s = { cmd("lua require('neotest').run.stop()"), "stop test run" },
-          t = { cmd("lua require('neotest').run.run()"), "test" },
-        },
-        g = {
-          name = "+git",
-          B = { cmd("Gitsigns stage_buffer"), "stage buffer" },
-          R = { cmd("Gitsigns reset_buffer"), "reset bufffer" },
-          d = { cmd("Gvdiffsplit"), "diff staged & working tree" },
-          h = { cmd("Gitsigns stage_hunk"), "stage hunk" },
-          o = { cmd("GBrowse"), "open in github" },
-          p = { cmd("Gitsigns preview_hunk"), "preview hunk" },
-          r = { cmd("Gitsigns reset_hunk"), "reset hunk" },
-          s = { cmd("Git"), "status" },
-          b = { cmd("Gitsigns toggle_current_line_blame"), "toggle blame" },
-        }
       }
 
       local visual_mappings = {
         ["<leader>"] = {
           g = {
             name = "+git",
-            o = { cmd("GBrowse"), "open in github" },
-            h = { cmd("Gitsigns stage_hunk"), "stage hunk" },
-            r = { cmd("Gitsigns reset_hunk"), "reset hunk" },
+            o = { lib.ex_cmd("GBrowse"), "open in github" },
+            h = { lib.ex_cmd("Gitsigns stage_hunk"), "stage hunk" },
+            r = { lib.ex_cmd("Gitsigns reset_hunk"), "reset hunk" },
           },
           f = {
             name = "+find",
@@ -271,7 +159,7 @@ return {
       }
 
       wk.register(normal_mappings)
-      wk.register(visual_mappings, { mode = "v" }) -- TODO: make these only relevant keybinds
+      wk.register(visual_mappings, { mode = "v" })
       wk.setup({
         window = {
           border = { "┏", "━", "┓", "┃", "┛","━", "┗", "┃" },
