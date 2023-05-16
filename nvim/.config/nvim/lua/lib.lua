@@ -40,8 +40,14 @@ local function fast_find_file()
   end
 end
 
+local function parent_git_dir_or_cwd()
+  local in_git_dir, git_dir = parent_git_dir()
+  return in_git_dir and git_dir or vim.fn.getcwd()
+end
+
 local function live_grep_rails_app_files()
   require("telescope.builtin").live_grep({
+    cwd = parent_git_dir_or_cwd(),
     glob_pattern = {
       "!**/spec/**/*",
       "!**/*migration*/**/*",
@@ -56,6 +62,7 @@ end
 local function find_rails_app_file()
   local tscope = require("telescope.builtin")
   tscope.find_files({
+    cwd = parent_git_dir_or_cwd(),
     find_command = {
       "fd",
       "--type",
@@ -71,6 +78,7 @@ end
 
 local function find_rails_model()
   require("telescope.builtin").find_files({
+    cwd = parent_git_dir_or_cwd(),
     find_command = create_rails_fd_command("models"),
     prompt_prefix = "🗿",
   })
@@ -78,6 +86,7 @@ end
 
 local function find_rails_controller()
   require("telescope.builtin").find_files({
+    cwd = parent_git_dir_or_cwd(),
     find_command = create_rails_fd_command("controllers"),
     prompt_prefix = "🎛️",
   })
@@ -85,6 +94,7 @@ end
 
 local function find_rails_view()
   require("telescope.builtin").find_files({
+    cwd = parent_git_dir_or_cwd(),
     find_command = create_rails_fd_command("views"),
     prompt_prefix = "👁️",
   })
@@ -92,8 +102,22 @@ end
 
 local function find_specs()
   require("telescope.builtin").find_files({
+    cwd = parent_git_dir_or_cwd(),
     find_command = create_rails_fd_command("spec"),
     prompt_prefix = "🧪",
+  })
+end
+
+local function super_fuzzy_grep()
+  require("telescope.builtin").grep_string({
+    cwd = parent_git_dir_or_cwd(),
+    search = "",
+  })
+end
+
+local function grep_word_under_cursor()
+  require("telescope.builtin").grep_string({
+    cwd = parent_git_dir_or_cwd(),
   })
 end
 
@@ -103,12 +127,13 @@ end
 
 local function live_grep_from_git_root()
   local tscope = require("telescope.builtin")
-  local exists, dir = parent_git_dir()
-  if exists then
-    tscope.live_grep({ cwd = dir })
-  else
-    tscope.live_grep()
-  end
+  tscope.live_grep({ cwd = parent_git_dir_or_cwd() })
+end
+
+local function lsp_document_symbols()
+  require("telescope.builtin").lsp_document_symbols({
+    symbol_width = 60,
+  })
 end
 
 return {
@@ -123,4 +148,7 @@ return {
   find_rails_view = find_rails_view,
   telescope_builtin = telescope_builtin,
   live_grep_rails_app_files = live_grep_rails_app_files,
+  super_fuzzy_grep = super_fuzzy_grep,
+  grep_word_under_cursor = grep_word_under_cursor,
+  lsp_document_symbols = lsp_document_symbols,
 }

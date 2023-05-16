@@ -45,12 +45,12 @@ return {
     },
     {
       key = 'UpArrow',
-      mods = 'CTRL|SHIFT',
+      mods = 'CTRL|SHIFT|META',
       action = wezterm.action.ScrollByPage(-1)
     },
     {
       key = 'DownArrow',
-      mods = 'CTRL|SHIFT',
+      mods = 'CTRL|SHIFT|META',
       action = wezterm.action.ScrollByPage(1)
     }
   },

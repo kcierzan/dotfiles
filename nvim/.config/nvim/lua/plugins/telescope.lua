@@ -8,8 +8,8 @@ return {
     config = function()
       require("telescope").setup({
         defaults = {
-          prompt_prefix = "➤ ",
-          selection_caret = "➤ ",
+          prompt_prefix = " ",
+          selection_caret = " ",
           vimgrep_arguments = {
             "rg",
             "--no-heading",
