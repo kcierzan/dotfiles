@@ -6,6 +6,7 @@ if status is-interactive
     bind \ep findfile
     bind \ej zoxide-fzf
     bind \ev lazygit
+    bind \ei br
 
     if command --query starship
         starship init fish | source
