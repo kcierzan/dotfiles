@@ -1,3 +1,11 @@
+local function nmap(key, command)
+  vim.api.nvim_set_keymap("n", key, command, { noremap = true, silent = true })
+end
+
+local function xmap(key, command)
+  vim.api.nvim_set_keymap("x", key, command, { noremap = true, silent = true })
+end
+
 local function ex_cmd(command)
   return "<cmd>" .. command .. "<cr>"
 end
@@ -171,6 +179,8 @@ local function lsp_document_symbols()
 end
 
 return {
+  nmap = nmap,
+  xmap = xmap,
   ex_cmd = ex_cmd,
   open_in_rubymine = open_in_rubymine,
   find_specs = find_specs,

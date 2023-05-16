@@ -5,7 +5,9 @@ __  /__  __ \_  /_  __/__  /_  / / /  __ `/
 _  / _  / / /  / / /____  / / /_/ // /_/ /
 /_/  /_/ /_//_/  \__/(_)_/  \__,_/ \__,_/
 gotta go fast...
-]]--
+]]
+--
+local lib = require("lib")
 
 vim.opt.autowriteall = true
 vim.opt.backup = false
@@ -46,7 +48,7 @@ vim.opt.writebackup = false
 vim.opt.guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor"
 vim.opt.shortmess:append("cW")
 vim.g.mapleader = " "
-vim.api.nvim_set_keymap("n", "+", "<Nop>", { noremap = true, silent = true })
+lib.nmap("+", "<Nop>")
 vim.g.maplocalleader = "+"
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -57,56 +59,41 @@ if not vim.loop.fs_stat(lazypath) then
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
     "--branch=stable",
-    lazypath
+    lazypath,
   })
 end
 
-local function cmd(command)
-  return "<cmd>" .. command .. "<cr>"
-end
+lib.nmap("L", "<Nop>")
+lib.nmap("H", "<Nop>")
+lib.xmap("L", "<Nop>")
+lib.xmap("H", "<Nop>")
 
-local function nmap(key, command)
-  vim.api.nvim_set_keymap("n", key, command, { noremap = true, silent = true })
-end
+lib.nmap("L", "g_")
+lib.nmap("H", "^")
+lib.xmap("L", "g_")
+lib.xmap("H", "^")
 
-local function xmap(key, command)
-  vim.api.nvim_set_keymap("x", key, command, { noremap = true, silent = true })
-end
+lib.nmap("<C-l>", lib.ex_cmd("bnext"))
+lib.nmap("<C-h>", lib.ex_cmd("bprev"))
 
-nmap("L","<Nop>")
-nmap("H", "<Nop>")
-xmap("L", "<Nop>")
-xmap("H", "<Nop>")
+lib.nmap("<A-h>", "<C-w>h")
+lib.nmap("<A-j>", "<C-w>j")
+lib.nmap("<A-k>", "<C-w>k")
+lib.nmap("<A-l>", "<C-w>l")
 
-nmap("L", "g_")
-nmap("H", "^")
-xmap("L", "g_")
-xmap("H", "^")
-
-nmap("<C-l>", cmd("bnext"))
-nmap("<C-h>", cmd("bprev"))
-
-nmap("<A-h>", "<C-w>h")
-nmap("<A-j>", "<C-w>j")
-nmap("<A-k>", "<C-w>k")
-nmap("<A-l>", "<C-w>l")
-
-nmap("gh", cmd("lua vim.lsp.buf.hover()"))
-nmap("gd", cmd("lua vim.lsp.buf.definition()"))
-nmap("gD", cmd("lua vim.lsp.buf.incoming_calls()"))
+lib.nmap("gh", lib.ex_cmd("lua vim.lsp.buf.hover()"))
+lib.nmap("gd", lib.ex_cmd("lua vim.lsp.buf.definition()"))
+lib.nmap("gD", lib.ex_cmd("lua vim.lsp.buf.incoming_calls()"))
 
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(
-  "plugins",
-  {
-    defaults = {
-      lazy = true
+require("lazy").setup("plugins", {
+  defaults = {
+    lazy = true,
+  },
+  performance = {
+    cache = {
+      enabled = true,
     },
-    performance = {
-      cache = {
-        enabled = true
-      }
-    }
-  }
-)
+  },
+})
