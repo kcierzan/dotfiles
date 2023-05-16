@@ -40,6 +40,40 @@ local function fast_find_file()
   end
 end
 
+local function run_test_from_engine(test_func)
+  return function()
+    local engine_root_files = { "Gemfile", "spec" }
+    local path = vim.api.nvim_buf_get_name(0)
+    if path == "" then
+      return
+    end
+
+    path = vim.fs.dirname(path)
+    local cwd = vim.fn.getcwd()
+    local root_file = vim.fs.find(engine_root_files, { path = path, upward = true })[1]
+    if root_file == nil then
+      return
+    end
+
+    local root = vim.fs.dirname(root_file)
+    vim.fn.chdir(root)
+    test_func()
+    vim.fn.chdir(cwd)
+  end
+end
+
+local test_file_from_engine_root = run_test_from_engine(function()
+  require("neotest").run.run(vim.fn.expand("%"))
+end)
+
+local test_test_from_engine_root = run_test_from_engine(function()
+  require("neotest").run.run()
+end)
+
+local stop_test = run_test_from_engine(function()
+  require("neotest").run.stop()
+end)
+
 local function parent_git_dir_or_cwd()
   local in_git_dir, git_dir = parent_git_dir()
   return in_git_dir and git_dir or vim.fn.getcwd()
@@ -151,4 +185,7 @@ return {
   super_fuzzy_grep = super_fuzzy_grep,
   grep_word_under_cursor = grep_word_under_cursor,
   lsp_document_symbols = lsp_document_symbols,
+  test_file_from_engine_root = test_file_from_engine_root,
+  test_test_from_engine_root = test_test_from_engine_root,
+  stop_test = stop_test,
 }

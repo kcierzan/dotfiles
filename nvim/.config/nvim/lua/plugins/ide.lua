@@ -14,6 +14,7 @@ return {
   {
     "ahmedkhalf/project.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
+    enabled = false,
     event = { "BufReadPost" },
     config = function()
       require("project_nvim").setup({ manual_mode = false })
