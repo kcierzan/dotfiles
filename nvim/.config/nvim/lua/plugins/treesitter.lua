@@ -1,7 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   dependencies = {
-    "RRethy/nvim-treesitter-endwise"
+    "RRethy/nvim-treesitter-endwise",
   },
   build = ":TSUpdate",
   event = "BufReadPost",
@@ -30,11 +30,11 @@ return {
         "scss",
         "typescript",
         "vim",
-        "yaml"
+        "yaml",
       },
       sync_install = false,
       highlight = { enable = true },
-      endwise = { enable = true}
+      endwise = { enable = true },
     })
-  end
+  end,
 }
