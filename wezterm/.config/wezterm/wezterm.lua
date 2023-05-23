@@ -1,8 +1,9 @@
 local wezterm = require 'wezterm'
 
 return {
+  color_scheme = 'tokyonight_storm',
   -- color_scheme = 'Kanagawa (Gogh)',
-  color_scheme = 'nord',
+  -- color_scheme = 'nord',
   default_cursor_style = 'BlinkingBar',
   font = wezterm.font_with_fallback { 'Iosevka Comfy', 'Iosevka Nerd Font Complete' },
   command_palette_bg_color = '#363646',

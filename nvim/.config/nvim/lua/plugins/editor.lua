@@ -2,16 +2,12 @@ return {
   {
     "numToStr/Comment.nvim",
     keys = { "gc", "v", "V" },
-    config = function()
-      require("Comment").setup()
-    end,
+    config = true,
   },
   {
     "kylechui/nvim-surround",
     keys = { "ys", "ds", "cs", "v", "V" },
-    config = function()
-      require("nvim-surround").setup()
-    end,
+    config = true,
   },
   {
     "ggandor/leap.nvim",
@@ -23,9 +19,7 @@ return {
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
-    config = function()
-      require("nvim-autopairs").setup()
-    end,
+    config = true,
   },
   {
     "tpope/vim-repeat",

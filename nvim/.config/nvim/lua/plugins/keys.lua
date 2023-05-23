@@ -94,7 +94,7 @@ return {
             v = { lib.ex_cmd("vsp"), "split vertically" },
           },
           i = {
-            name = "+gui",
+            name = "+interface",
             F = { lib.ex_cmd("NvimTreeFindFile"), "show current file in tree" },
             H = { lib.ex_cmd("TSHighlightCapturesUnderCursor"), "show highlights under cursor" },
             T = { lib.ex_cmd("ToggleTerm direction=float"), "toggle floating terminal" },
@@ -106,6 +106,7 @@ return {
             h = { lib.ex_cmd("ColorizerAttachToBuffer"), "colorize buffer" },
             l = { lib.ex_cmd("IndentBlanklineToggle"), "toggle indentation lines" },
             t = { lib.ex_cmd("ToggleTerm direction=down"), "toggle terminal drawer" },
+            L = { lib.ex_cmd("set cursorline"), "toggle cursorline" },
           },
           t = {
             name = "+test",

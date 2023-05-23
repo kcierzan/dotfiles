@@ -2,7 +2,7 @@ return {
   {
     "rebelot/kanagawa.nvim",
     lazy = false,
-    enabled = true,
+    enabled = false,
     priority = 1000,
     config = function()
       require("kanagawa").setup({
@@ -12,26 +12,37 @@ return {
             all = {
               ui = {
                 bg_gutter = "none",
-              }
-            }
-          }
+              },
+            },
+          },
         },
         overrides = function(colors)
           return {
-            Normal = { bg = "None", fg = colors.theme.ui.fg }
+            Normal = { bg = "None", fg = colors.theme.ui.fg },
           }
-        end
+        end,
       })
       vim.cmd("colorscheme kanagawa")
-    end
+    end,
   },
   {
-    'AlexvZyl/nordic.nvim',
+    "AlexvZyl/nordic.nvim",
     lazy = false,
     priority = 1000,
     enabled = false,
+    config = true,
+  },
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    enabled = true,
+    priority = 1000,
     config = function()
-      require('nordic').load()
-    end
+      require("tokyonight").setup({
+        style = "storm",
+        transparent = true,
+      })
+      vim.cmd("colorscheme tokyonight")
+    end,
   },
 }

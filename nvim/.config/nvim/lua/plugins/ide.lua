@@ -7,9 +7,7 @@ return {
     "akinsho/toggleterm.nvim",
     keys = { "<C-\\>" },
     cmd = { "ToggleTerm" },
-    config = function()
-      require("toggleterm").setup({ open_mapping = "<C-\\>" })
-    end,
+    opts = { open_mapping = "<C-\\>" },
   },
   {
     "ahmedkhalf/project.nvim",
@@ -71,16 +69,12 @@ return {
   {
     "rcarriga/nvim-dap-ui",
     dependencies = { "mfussenegger/nvim-dap" },
-    config = function()
-      require("dapui").setup()
-    end,
+    config = true,
   },
   {
     "suketa/nvim-dap-ruby",
     dependencies = { "mfussenegger/nvim-dap" },
     ft = { "ruby", "eruby" },
-    config = function()
-      require("dap-ruby").setup()
-    end,
+    config = true,
   },
 }

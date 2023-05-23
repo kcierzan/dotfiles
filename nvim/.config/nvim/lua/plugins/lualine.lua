@@ -1,5 +1,6 @@
 return {
   "nvim-lualine/lualine.nvim",
+  dependencies = { "folke/tokyonight.nvim" },
   event = "BufReadPre",
   config = function()
     local lualine = require("lualine")
@@ -19,17 +20,19 @@ return {
       return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
     end
 
+    local tn_colors = require("tokyonight.colors").setup()
+
     local colors = {
-      fg = "#DCD7BA",
-      bg = "#1F1F28",
-      blue = "#7E9CD8",
-      green = "#98BB6C",
-      violet = "#957FB8",
-      red = "#E46876",
-      magenta = "#D27E99",
-      orange = "#FFA066",
-      yellow = "#E6C384",
-      cyan = "#7FB4CA",
+      fg = tn_colors.fg,
+      bg = tn_colors.bg_dark,
+      blue = tn_colors.blue1,
+      green = tn_colors.green1,
+      violet = tn_colors.purple,
+      red = tn_colors.red,
+      magenta = tn_colors.magenta,
+      orange = tn_colors.orange,
+      yellow = tn_colors.yellow,
+      cyan = tn_colors.cyan,
     }
 
     local config = {
