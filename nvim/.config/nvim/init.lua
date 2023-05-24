@@ -81,10 +81,6 @@ lib.nmap("<A-j>", "<C-w>j")
 lib.nmap("<A-k>", "<C-w>k")
 lib.nmap("<A-l>", "<C-w>l")
 
-lib.nmap("gh", lib.ex_cmd("lua vim.lsp.buf.hover()"))
-lib.nmap("gd", lib.ex_cmd("lua vim.lsp.buf.definition()"))
-lib.nmap("gD", lib.ex_cmd("lua vim.lsp.buf.incoming_calls()"))
-
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {

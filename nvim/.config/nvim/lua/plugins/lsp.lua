@@ -65,6 +65,7 @@ return {
   {
     "glepnir/lspsaga.nvim",
     dependencies = { "neovim/nvim-lspconfig" },
+    enabled = false,
     branch = "main",
     event = "LspAttach",
     config = function()
@@ -77,6 +78,50 @@ return {
         },
       })
     end,
+  },
+  {
+    "ray-x/guihua.lua",
+    build = "cd lua/fzy && make"
+  },
+  {
+    "ray-x/navigator.lua",
+    dependencies = { "ray-x/guihua.lua", "neovim/nvim-lspconfig" },
+    event = "LspAttach",
+    config = function()
+      require("navigator").setup({
+        width = 0.75,
+        height = 0.3,
+        preview_height = 0.35,
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        default_mapping = false,
+        treesitter_analysis = true,
+        treesitter_navigation = true,
+        mason = true,
+        lsp = {
+          code_action = {
+            enable = true,
+            sign = true,
+            sign_priority = 40,
+            virtual_text = true,
+            format_on_save = true,
+            format_options = {
+              async = true
+            },
+            hover = {
+              enable = true,
+              keymap = {
+                gh = {
+                  default = function()
+                    local w = vim.fn.expand("<cWORD>")
+                    vim.lsp.buf.workspace_symbol(w)
+                  end
+                }
+              }
+            },
+          }
+        }
+      })
+    end
   },
   {
     "williamboman/mason.nvim",

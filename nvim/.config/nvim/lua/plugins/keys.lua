@@ -5,6 +5,15 @@ return {
     config = function()
       local wk = require("which-key")
       local lib = require("lib")
+      lib.nmap("gh", lib.ex_cmd("lua vim.lsp.buf.hover()"))
+      lib.nmap("gd", lib.ex_cmd("lua vim.lsp.buf.definition()"))
+      lib.nmap("gD", lib.ex_cmd("lua vim.lsp.buf.incoming_calls()"))
+      lib.nmap("gr", lib.ex_cmd("lua require('navigator.reference').reference()"))
+      lib.nmap("gW", lib.ex_cmd("lua require('navigator.workspace').workspace_symbol_live()"))
+      lib.nmap("gp", lib.ex_cmd("lua require('navigator.definition').definition_preview()"))
+      lib.nmap("gi", lib.ex_cmd("lua vim.lsp.buf.implementation()"))
+      lib.nmap("]d", lib.ex_cmd("lua vim.diagnostic.goto_next()"))
+      lib.nmap("[d", lib.ex_cmd("lua vim.diagnostic.goto_prev()"))
 
       local normal_mappings = {
         ["<leader>"] = {
@@ -17,23 +26,24 @@ return {
               S = { lib.telescope_builtin("lsp_workspace_symbols"), "workspace symbols" },
               i = { lib.telescope_builtin("lsp_implementations"), "implementations" },
               d = { lib.telescope_builtin("lsp_definitions"), "definitions" },
-              c = { lib.telescope_builtin("lsp_incoming_calls"), "incoming calls" },
-              F = { lib.ex_cmd("Lspsaga lsp_finder"), "Finder UI" },
+              -- F = { lib.ex_cmd("Lspsaga lsp_finder"), "Finder UI" },
             },
-            n = { lib.ex_cmd("Lspsaga diagnostic_jump_next"), "jump to next diagnostic" },
-            p = { lib.ex_cmd("Lspsaga diagnostic_jump_previous"), "jump to previous diagnostic" },
-            i = { lib.ex_cmd("Lspsaga show_cursor_diagnostics"), "show cursor diagnostics" },
-            a = { lib.ex_cmd("Lspsaga code_action"), "code action" },
+            -- n = { lib.ex_cmd("Lspsaga diagnostic_jump_next"), "jump to next diagnostic" },
+            -- p = { lib.ex_cmd("Lspsaga diagnostic_jump_previous"), "jump to previous diagnostic" },
+            -- i = { lib.ex_cmd("Lspsaga show_cursor_diagnostics"), "show cursor diagnostics" },
+            -- a = { lib.ex_cmd("Lspsaga code_action"), "code action" },
+            a = { lib.ex_cmd("lua require('navigator.codeAction').code_action()"), "code action" },
             F = { vim.lsp.buf.format, "format buffer" },
-            o = { lib.ex_cmd("Lspsaga outline"), "toggle outline" },
-            d = { lib.ex_cmd("Lspsaga peek_definition"), "peek definition" },
-            h = { lib.ex_cmd("Lspsaga hover_doc"), "hover documentation" },
+            -- o = { lib.ex_cmd("Lspsaga outline"), "toggle outline" },
+            -- d = { lib.ex_cmd("Lspsaga peek_definition"), "peek definition" },
+            -- h = { lib.ex_cmd("Lspsaga hover_doc"), "hover documentation" },
             q = { lib.ex_cmd("LspRestart"), "restart" },
             s = { lib.ex_cmd("LspStart"), "start" },
             L = { lib.ex_cmd("LspLog"), "log" },
             I = { lib.ex_cmd("LspInfo"), "info" },
-            r = { lib.ex_cmd("Lspsaga rename"), "rename in file" },
-            R = { lib.ex_cmd("Lspsaga rename ++project"), "rename in project" },
+            r = { lib.ex_cmd("lua require('navigator.rename').rename()"), "rename" },
+            -- r = { lib.ex_cmd("Lspsaga rename"), "rename in file" },
+            -- R = { lib.ex_cmd("Lspsaga rename ++project"), "rename in project" },
           },
           f = {
             name = "+find",
