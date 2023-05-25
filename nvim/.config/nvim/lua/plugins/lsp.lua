@@ -81,7 +81,7 @@ return {
   },
   {
     "ray-x/guihua.lua",
-    build = "cd lua/fzy && make"
+    build = "cd lua/fzy && make",
   },
   {
     "ray-x/navigator.lua",
@@ -97,6 +97,9 @@ return {
         treesitter_analysis = true,
         treesitter_navigation = true,
         mason = true,
+        icons = {
+          icons = false,
+        },
         lsp = {
           code_action = {
             enable = true,
@@ -105,7 +108,7 @@ return {
             virtual_text = true,
             format_on_save = true,
             format_options = {
-              async = true
+              async = true,
             },
             hover = {
               enable = true,
@@ -114,14 +117,14 @@ return {
                   default = function()
                     local w = vim.fn.expand("<cWORD>")
                     vim.lsp.buf.workspace_symbol(w)
-                  end
-                }
-              }
+                  end,
+                },
+              },
             },
-          }
-        }
+          },
+        },
       })
-    end
+    end,
   },
   {
     "williamboman/mason.nvim",

@@ -39,6 +39,11 @@ return {
     event = { "BufReadPre" },
     dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
     opts = {
+      lsp = {
+        hover = {
+          enabled = false,
+        },
+      },
       routes = {
         {
           filter = {

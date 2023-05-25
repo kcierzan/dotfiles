@@ -1,59 +1,53 @@
-local wezterm = require 'wezterm'
+local wezterm = require("wezterm")
+local tn = wezterm.get_builtin_color_schemes()["tokyonight_storm"]
 
 return {
-  color_scheme = 'tokyonight_storm',
-  -- color_scheme = 'Kanagawa (Gogh)',
-  -- color_scheme = 'nord',
-  default_cursor_style = 'BlinkingBar',
-  -- font = wezterm.font_with_fallback { 'Iosevka Comfy', 'Iosevka Nerd Font Complete' },
-  font = wezterm.font_with_fallback { 'Iosevka Comfy', 'Iosevka NF' },
-  command_palette_bg_color = '#363646',
-  -- window_background_opacity = 0.75,
-  leader = { key = 'Space', mods = 'META' },
-  -- macos_window_background_blur = 30,
+  color_scheme = "tokyonight_storm",
+  use_fancy_tab_bar = false,
+  tab_bar_at_bottom = true,
+  default_cursor_style = "BlinkingBar",
+  font = wezterm.font_with_fallback({ "Iosevka Comfy", "IosevkaNF" }),
+  command_palette_bg_color = tn.tab_bar.inactive_tab.bg_color,
+  command_palette_fg_color = tn.foreground,
+  command_palette_font_size = 16.0,
+  colors = {
+    cursor_border = tn.ansi[3],
+  },
+  leader = { key = "Space", mods = "META" },
   font_size = 18.0,
   scrollback_lines = 50000,
-  window_decorations = 'RESIZE',
+  window_decorations = "RESIZE",
   hide_tab_bar_if_only_one_tab = true,
-  window_frame = {
-    active_titlebar_bg = '#303446',
-    active_titlebar_fg = '#c6d0f5',
-    button_fg = '#c6d0f5',
-    button_bg = '#414559',
-    button_hover_bg = '#737994',
-    font = wezterm.font { family = 'Iosevka Comfy', weight = 'Bold' },
-    font_size = 14.0,
-  },
   keys = {
     {
-      key = 'v',
-      mods = 'LEADER',
-      action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' }
+      key = "v",
+      mods = "LEADER",
+      action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
     },
     {
-      key = 's',
-      mods = 'LEADER',
-      action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' }
+      key = "s",
+      mods = "LEADER",
+      action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
     },
     {
-      key = 'o',
-      mods = 'LEADER',
-      action = wezterm.action.PaneSelect
+      key = "o",
+      mods = "LEADER",
+      action = wezterm.action.PaneSelect,
     },
     {
-      key = 'p',
-      mods = 'LEADER',
-      action = wezterm.action.ActivateCommandPalette
+      key = "p",
+      mods = "LEADER",
+      action = wezterm.action.ActivateCommandPalette,
     },
     {
-      key = 'UpArrow',
-      mods = 'CTRL|SHIFT|META',
-      action = wezterm.action.ScrollByPage(-1)
+      key = "UpArrow",
+      mods = "CTRL|SHIFT|META",
+      action = wezterm.action.ScrollByPage(-1),
     },
     {
-      key = 'DownArrow',
-      mods = 'CTRL|SHIFT|META',
-      action = wezterm.action.ScrollByPage(1)
-    }
+      key = "DownArrow",
+      mods = "CTRL|SHIFT|META",
+      action = wezterm.action.ScrollByPage(1),
+    },
   },
 }
