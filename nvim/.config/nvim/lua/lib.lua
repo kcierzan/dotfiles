@@ -1,17 +1,19 @@
-local function nmap(key, command)
+local M = {}
+
+function M.nmap(key, command)
   vim.api.nvim_set_keymap("n", key, command, { noremap = true, silent = true })
 end
 
-local function xmap(key, command)
+function M.xmap(key, command)
   vim.api.nvim_set_keymap("x", key, command, { noremap = true, silent = true })
 end
 
-local function ex_cmd(command)
+function M.ex_cmd(command)
   return "<cmd>" .. command .. "<cr>"
 end
 
-local function telescope_builtin(method)
-  return ex_cmd("lua require('telescope.builtin')." .. method .. "()")
+function M.telescope_builtin(method)
+  return M.ex_cmd("lua require('telescope.builtin')." .. method .. "()")
 end
 
 local function parent_git_dir()
@@ -38,7 +40,7 @@ local function create_rails_fd_command(directory)
   }
 end
 
-local function fast_find_file()
+function M.fast_find_file()
   local tscope = require("telescope.builtin")
   local exists, _ = parent_git_dir()
   if exists then
@@ -70,15 +72,15 @@ local function run_test_from_engine(test_func)
   end
 end
 
-local test_file_from_engine_root = run_test_from_engine(function()
+M.test_file_from_engine_root = run_test_from_engine(function()
   require("neotest").run.run(vim.fn.expand("%"))
 end)
 
-local test_test_from_engine_root = run_test_from_engine(function()
+M.test_test_from_engine_root = run_test_from_engine(function()
   require("neotest").run.run()
 end)
 
-local stop_test = run_test_from_engine(function()
+M.stop_test = run_test_from_engine(function()
   require("neotest").run.stop()
 end)
 
@@ -87,7 +89,7 @@ local function parent_git_dir_or_cwd()
   return in_git_dir and git_dir or vim.fn.getcwd()
 end
 
-local function live_grep_rails_app_files()
+function M.live_grep_rails_app_files()
   require("telescope.builtin").live_grep({
     cwd = parent_git_dir_or_cwd(),
     glob_pattern = {
@@ -101,7 +103,7 @@ local function live_grep_rails_app_files()
   })
 end
 
-local function find_rails_app_file()
+function M.find_rails_app_file()
   local tscope = require("telescope.builtin")
   tscope.find_files({
     cwd = parent_git_dir_or_cwd(),
@@ -118,7 +120,7 @@ local function find_rails_app_file()
   })
 end
 
-local function find_rails_model()
+function M.find_rails_model()
   require("telescope.builtin").find_files({
     cwd = parent_git_dir_or_cwd(),
     find_command = create_rails_fd_command("models"),
@@ -126,7 +128,7 @@ local function find_rails_model()
   })
 end
 
-local function find_rails_controller()
+function M.find_rails_controller()
   require("telescope.builtin").find_files({
     cwd = parent_git_dir_or_cwd(),
     find_command = create_rails_fd_command("controllers"),
@@ -134,7 +136,7 @@ local function find_rails_controller()
   })
 end
 
-local function find_rails_view()
+function M.find_rails_view()
   require("telescope.builtin").find_files({
     cwd = parent_git_dir_or_cwd(),
     find_command = create_rails_fd_command("views"),
@@ -142,7 +144,7 @@ local function find_rails_view()
   })
 end
 
-local function find_specs()
+function M.find_specs()
   require("telescope.builtin").find_files({
     cwd = parent_git_dir_or_cwd(),
     find_command = create_rails_fd_command("spec"),
@@ -150,52 +152,32 @@ local function find_specs()
   })
 end
 
-local function super_fuzzy_grep()
+function M.super_fuzzy_grep()
   require("telescope.builtin").grep_string({
     cwd = parent_git_dir_or_cwd(),
     search = "",
   })
 end
 
-local function grep_word_under_cursor()
+function M.grep_word_under_cursor()
   require("telescope.builtin").grep_string({
     cwd = parent_git_dir_or_cwd(),
   })
 end
 
-local function open_in_rubymine()
+function M.open_in_rubymine()
   vim.fn.system({ "rubymine", vim.fn.expand("%:p") })
 end
 
-local function live_grep_from_git_root()
+function M.live_grep_from_git_root()
   local tscope = require("telescope.builtin")
   tscope.live_grep({ cwd = parent_git_dir_or_cwd() })
 end
 
-local function lsp_document_symbols()
+function M.lsp_document_symbols()
   require("telescope.builtin").lsp_document_symbols({
     symbol_width = 60,
   })
 end
 
-return {
-  nmap = nmap,
-  xmap = xmap,
-  ex_cmd = ex_cmd,
-  open_in_rubymine = open_in_rubymine,
-  find_specs = find_specs,
-  live_grep_from_git_root = live_grep_from_git_root,
-  find_rails_app_file = find_rails_app_file,
-  fast_find_file = fast_find_file,
-  find_rails_model = find_rails_model,
-  find_rails_controller = find_rails_controller,
-  find_rails_view = find_rails_view,
-  telescope_builtin = telescope_builtin,
-  live_grep_rails_app_files = live_grep_rails_app_files,
-  super_fuzzy_grep = super_fuzzy_grep,
-  grep_word_under_cursor = grep_word_under_cursor,
-  lsp_document_symbols = lsp_document_symbols,
-  test_file_from_engine_root = test_file_from_engine_root,
-  test_test_from_engine_root = test_test_from_engine_root,
-  stop_test = stop_test,
-}
+return M
