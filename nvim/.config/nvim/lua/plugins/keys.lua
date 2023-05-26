@@ -1,10 +1,12 @@
 return {
   {
     "folke/which-key.nvim",
-    keys = { " ", "<Space>", "<leader>", "v", "V" },
+    keys = { " ", "<Space>", "<leader>", "g", "]", "[" },
     config = function()
       local wk = require("which-key")
       local lib = require("lib")
+
+      -- TODO: add descriptions via table arg to nvim_set_keymap()
       lib.nmap("gh", lib.ex_cmd("lua vim.lsp.buf.hover()"))
       lib.nmap("gd", lib.ex_cmd("lua vim.lsp.buf.definition()"))
       lib.nmap("gD", lib.ex_cmd("lua vim.lsp.buf.incoming_calls()"))
@@ -12,8 +14,11 @@ return {
       lib.nmap("gW", lib.ex_cmd("lua require('navigator.workspace').workspace_symbol_live()"))
       lib.nmap("gp", lib.ex_cmd("lua require('navigator.definition').definition_preview()"))
       lib.nmap("gi", lib.ex_cmd("lua vim.lsp.buf.implementation()"))
+      lib.nmap("gL", lib.ex_cmd("lua require('navigator.diagnostics').show_diagnostics()"))
       lib.nmap("]d", lib.ex_cmd("lua vim.diagnostic.goto_next()"))
       lib.nmap("[d", lib.ex_cmd("lua vim.diagnostic.goto_prev()"))
+      lib.nmap("]g", lib.ex_cmd("Gitsigns next_hunk"))
+      lib.nmap("[g", lib.ex_cmd("Gitsigns prev_hunk"))
 
       local normal_mappings = {
         ["<leader>"] = {
@@ -26,24 +31,15 @@ return {
               S = { lib.telescope_builtin("lsp_workspace_symbols"), "workspace symbols" },
               i = { lib.telescope_builtin("lsp_implementations"), "implementations" },
               d = { lib.telescope_builtin("lsp_definitions"), "definitions" },
-              -- F = { lib.ex_cmd("Lspsaga lsp_finder"), "Finder UI" },
             },
-            -- n = { lib.ex_cmd("Lspsaga diagnostic_jump_next"), "jump to next diagnostic" },
-            -- p = { lib.ex_cmd("Lspsaga diagnostic_jump_previous"), "jump to previous diagnostic" },
-            -- i = { lib.ex_cmd("Lspsaga show_cursor_diagnostics"), "show cursor diagnostics" },
-            -- a = { lib.ex_cmd("Lspsaga code_action"), "code action" },
             a = { lib.ex_cmd("lua require('navigator.codeAction').code_action()"), "code action" },
             F = { vim.lsp.buf.format, "format buffer" },
-            -- o = { lib.ex_cmd("Lspsaga outline"), "toggle outline" },
-            -- d = { lib.ex_cmd("Lspsaga peek_definition"), "peek definition" },
-            -- h = { lib.ex_cmd("Lspsaga hover_doc"), "hover documentation" },
+            o = { lib.ex_cmd("LspSymbols"), "toggle outline" },
             q = { lib.ex_cmd("LspRestart"), "restart" },
             s = { lib.ex_cmd("LspStart"), "start" },
             L = { lib.ex_cmd("LspLog"), "log" },
             I = { lib.ex_cmd("LspInfo"), "info" },
-            r = { lib.ex_cmd("lua require('navigator.rename').rename()"), "rename" },
-            -- r = { lib.ex_cmd("Lspsaga rename"), "rename in file" },
-            -- R = { lib.ex_cmd("Lspsaga rename ++project"), "rename in project" },
+            r = { lib.ex_cmd("lua vim.lsp.buf.rename()"), "rename" },
           },
           f = {
             name = "+find",
@@ -87,7 +83,7 @@ return {
             f = { lib.ex_cmd('silent exec "!bundle exec rubocop -A %:p"'), "run rubocop on buffer" },
             m = { lib.open_in_rubymine, "open in rubymine" },
             r = { lib.ex_cmd("edit!"), "reload" },
-            s = { lib.ex_cmd("w"), "write" },
+            s = { lib.ex_cmd("silent! w"), "write" },
             w = { lib.ex_cmd("%s/\\s\\+$//e"), "trim trailing whitespace" },
             y = { lib.ex_cmd('let @+ = expand("%:p")'), "yank name" },
           },

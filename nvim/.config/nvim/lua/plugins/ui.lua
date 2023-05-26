@@ -23,6 +23,11 @@ return {
     cmd = { "Bdelete" },
   },
   {
+    "folke/todo-comments.nvim",
+    event = { "BufReadPost" },
+    config = true,
+  },
+  {
     "NvChad/nvim-colorizer.lua",
     event = "BufReadPre",
     config = true,
@@ -47,9 +52,8 @@ return {
       routes = {
         {
           filter = {
-            event = "msg_show",
-            kind = "",
-            find = "written",
+            warning = true,
+            find = "Failed to attach",
           },
           opts = { skip = true },
         },
@@ -91,23 +95,26 @@ return {
   },
   {
     "akinsho/bufferline.nvim",
-    branch = "main",
-    event = { "BufReadPre" },
-    opts = {
-      options = {
-        show_close_icon = false,
-        show_buffer_close_icons = false,
-        indicator = { style = "none" },
-        separator_style = { "", "" },
-        offsets = {
-          {
-            filetype = "NvimTree",
-            text = "File Explorer",
-            highlight = "Directory",
-            separator = true,
+    version = "*",
+    lazy = false,
+    config = function()
+      require("bufferline").setup({
+        options = {
+          show_close_icon = false,
+          show_buffer_close_icons = false,
+          indicator = { style = "none" },
+          -- separator_style = { "", "" },
+          separator_style = "slant",
+          offsets = {
+            {
+              filetype = "NvimTree",
+              text = "File Explorer",
+              highlight = "Directory",
+              separator = true,
+            },
           },
         },
-      },
-    },
+      })
+    end,
   },
 }

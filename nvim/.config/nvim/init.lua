@@ -10,6 +10,7 @@ gotta go fast...
 local lib = require("lib")
 
 vim.opt.autowriteall = true
+vim.opt.hidden = false
 vim.opt.backup = false
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cmdheight = 0
@@ -46,7 +47,7 @@ vim.opt.updatetime = 300
 vim.opt.wrap = true
 vim.opt.writebackup = false
 vim.opt.guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor"
-vim.opt.shortmess:append("cW")
+vim.opt.shortmess = "astWAcCFSo"
 vim.g.mapleader = " "
 lib.nmap("+", "<Nop>")
 vim.g.maplocalleader = "+"
@@ -80,6 +81,11 @@ lib.nmap("<A-h>", "<C-w>h")
 lib.nmap("<A-j>", "<C-w>j")
 lib.nmap("<A-k>", "<C-w>k")
 lib.nmap("<A-l>", "<C-w>l")
+
+vim.api.nvim_create_autocmd({ "InsertLeave", "FocusLost" }, {
+  pattern = "*",
+  command = [[if &readonly==0 && filereadable(bufname('%')) | silent update | endif]],
+})
 
 vim.opt.rtp:prepend(lazypath)
 

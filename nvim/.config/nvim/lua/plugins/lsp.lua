@@ -94,11 +94,16 @@ return {
         preview_height = 0.35,
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
         default_mapping = false,
-        treesitter_analysis = true,
+        treesitter_analysis = false,
         treesitter_navigation = true,
         mason = true,
         icons = {
-          icons = false,
+          diagnostic_head = "󰃤",
+          diagnostic_err = "",
+          diagnostic_warn = "",
+          diagnostic_info = "",
+          diagnostic_hint = "",
+          diagnostic_virtual_text = "󱁤",
         },
         lsp = {
           code_action = {
@@ -110,15 +115,21 @@ return {
             format_options = {
               async = true,
             },
-            hover = {
-              enable = true,
-              keymap = {
-                gh = {
-                  default = function()
-                    local w = vim.fn.expand("<cWORD>")
-                    vim.lsp.buf.workspace_symbol(w)
-                  end,
-                },
+          },
+          code_lens_action = {
+            enable = true,
+            sign = true,
+            sign_priority = 40,
+            virtual_text = true,
+          },
+          hover = {
+            enable = true,
+            keymap = {
+              gh = {
+                default = function()
+                  local w = vim.fn.expand("<cWORD>")
+                  vim.lsp.buf.workspace_symbol(w)
+                end,
               },
             },
           },
@@ -153,6 +164,18 @@ return {
         },
       })
     end,
+  },
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    -- event = "LspAttach",
+    lazy = false,
+    version = "*",
+    config = true,
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
   },
   {
     "folke/trouble.nvim",
