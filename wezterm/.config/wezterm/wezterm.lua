@@ -13,6 +13,9 @@ return {
   colors = {
     cursor_border = tn.ansi[3],
   },
+  window_padding = {
+    bottom = -5,
+  },
   leader = { key = "Space", mods = "META" },
   font_size = 18.0,
   scrollback_lines = 50000,
