@@ -34,10 +34,14 @@ return {
   },
   {
     "rcarriga/nvim-notify",
-    opts = {
-      timeout = 800,
-      background_colour = "#000000",
-    },
+    dependencies = { "folke/tokyonight.nvim" },
+    config = function()
+      local tn = require("tokyonight.colors").setup()
+      require("notify").setup({
+        timeout = 800,
+        background_colour = tn.bg,
+      })
+    end,
   },
   {
     "folke/noice.nvim",
