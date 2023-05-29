@@ -15,13 +15,14 @@ return {
       lib.nmap("gp", lib.ex_cmd("lua require('navigator.definition').definition_preview()"))
       lib.nmap("gi", lib.ex_cmd("lua vim.lsp.buf.implementation()"))
       lib.nmap("gL", lib.ex_cmd("lua require('navigator.diagnostics').show_diagnostics()"))
-      lib.nmap("]d", lib.ex_cmd("lua vim.diagnostic.goto_next()"))
-      lib.nmap("[d", lib.ex_cmd("lua vim.diagnostic.goto_prev()"))
+      lib.nmap("]e", lib.ex_cmd("lua vim.diagnostic.goto_next()"))
+      lib.nmap("[e", lib.ex_cmd("lua vim.diagnostic.goto_prev()"))
       lib.nmap("]g", lib.ex_cmd("Gitsigns next_hunk"))
       lib.nmap("[g", lib.ex_cmd("Gitsigns prev_hunk"))
 
       local normal_mappings = {
         ["<leader>"] = {
+          [":"] = { lib.ex_cmd("ToggleTerm direction=horizontal"), "toggle terminal drawer" },
           l = {
             name = "+LSP",
             f = {
@@ -32,26 +33,26 @@ return {
               i = { lib.telescope_builtin("lsp_implementations"), "implementations" },
               d = { lib.telescope_builtin("lsp_definitions"), "definitions" },
             },
-            a = { lib.ex_cmd("lua require('navigator.codeAction').code_action()"), "code action" },
             F = { vim.lsp.buf.format, "format buffer" },
+            I = { lib.ex_cmd("LspInfo"), "info" },
+            L = { lib.ex_cmd("LspLog"), "log" },
+            a = { lib.ex_cmd("lua require('navigator.codeAction').code_action()"), "code action" },
+            e = { lib.ex_cmd("Trouble"), "show errors and warnings" },
             o = { lib.ex_cmd("LspSymbols"), "toggle outline" },
             q = { lib.ex_cmd("LspRestart"), "restart" },
-            s = { lib.ex_cmd("LspStart"), "start" },
-            L = { lib.ex_cmd("LspLog"), "log" },
-            I = { lib.ex_cmd("LspInfo"), "info" },
             r = { lib.ex_cmd("lua vim.lsp.buf.rename()"), "rename" },
+            s = { lib.ex_cmd("LspStart"), "start" },
           },
           f = {
             name = "+find",
+            G = { lib.super_fuzzy_grep, "super fuzzy grep" },
             O = { lib.telescope_builtin("vim_options"), "vim options" },
             T = { lib.telescope_builtin("filetypes"), "filetypes" },
-            t = { lib.telescope_builtin("help_tags"), "help tags" },
             a = { lib.telescope_builtin("autocommands"), "autocommands" },
             b = { lib.telescope_builtin("buffers"), "buffers" },
             c = { lib.telescope_builtin("git_commits"), "commits" },
             f = { lib.fast_find_file, "files in repo" },
             g = { lib.live_grep_from_git_root, "text in git files" },
-            G = { lib.super_fuzzy_grep, "super fuzzy grep" },
             h = { lib.telescope_builtin("highlights"), "highlights" },
             k = { lib.telescope_builtin("keymaps"), "keymaps" },
             l = { lib.telescope_builtin("current_buffer_fuzzy_find"), "line in buffer" },
@@ -59,6 +60,7 @@ return {
             o = { lib.telescope_builtin("oldfiles"), "oldfiles" },
             p = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "projects" },
             s = { lib.grep_word_under_cursor, "word under cursor" },
+            t = { lib.telescope_builtin("help_tags"), "help tags" },
             r = {
               name = "+rails",
               f = { lib.find_rails_app_file, "app files" },
@@ -103,16 +105,21 @@ return {
             name = "+interface",
             F = { lib.ex_cmd("NvimTreeFindFile"), "show current file in tree" },
             H = { lib.ex_cmd("TSHighlightCapturesUnderCursor"), "show highlights under cursor" },
-            T = { lib.ex_cmd("ToggleTerm direction=float"), "toggle floating terminal" },
+            t = { lib.ex_cmd("ToggleTerm direction=float"), "toggle floating terminal" },
             ["#"] = { lib.ex_cmd("set invnumber"), "toggle line numbers" },
             ["%"] = { lib.ex_cmd("set invrelativenumber"), "toggle relative line numbers" },
             c = { lib.ex_cmd("nohlsearch"), "clear search highlight" },
-            e = { lib.ex_cmd("Trouble"), "show errors and warnings" },
             f = { lib.ex_cmd("NvimTreeToggle"), "toggle tree" },
             h = { lib.ex_cmd("ColorizerAttachToBuffer"), "colorize buffer" },
             l = { lib.ex_cmd("IndentBlanklineToggle"), "toggle indentation lines" },
-            t = { lib.ex_cmd("ToggleTerm direction=down"), "toggle terminal drawer" },
             L = { lib.ex_cmd("set cursorline"), "toggle cursorline" },
+          },
+          o = {
+            name = "+browser",
+            t = { lib.ex_cmd("Neotree focus filesystem reveal left"), "show file in tree" },
+            o = { lib.ex_cmd("Neotree show filesystem left"), "open filetree" },
+            g = { lib.ex_cmd("Neotree git_status left"), "git status tree" },
+            b = { lib.ex_cmd("Neotree buffers"), "open buffers tree" },
           },
           t = {
             name = "+test",
