@@ -42,10 +42,11 @@ return {
     dependencies = { "folke/tokyonight.nvim" },
     config = function()
       local tn_colors = require("tokyonight.colors").setup()
+      local util = require("tokyonight.util")
 
-      vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = tn_colors.red, bg = tn_colors.bg })
-      vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = tn_colors.blue, bg = tn_colors.bg })
-      vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = tn_colors.green, bg = tn_colors.bg })
+      vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = tn_colors.red, bg = tn_colors.bg_dark })
+      vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = tn_colors.blue, bg = tn_colors.bg_dark })
+      vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = tn_colors.green, bg = tn_colors.bg_dark })
 
       vim.fn.sign_define(
         "DapBreakpoint",
@@ -79,5 +80,26 @@ return {
     dependencies = { "mfussenegger/nvim-dap" },
     ft = { "ruby", "eruby" },
     config = true,
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
+    cmd = { "Neotree" },
+    config = function()
+      vim.g.neo_tree_remove_legacy_commands = 1
+      require("neo-tree").setup({
+        close_if_last_window = true,
+        popup_border_style = "rounded",
+        sort_case_insensitive = true,
+        filesystem = {
+          filtered_items = {
+            hide_dotfiles = false,
+            hide_by_name = { "node_modules" },
+            never_show = { ".DS_STORE" },
+          },
+        },
+      })
+    end,
   },
 }

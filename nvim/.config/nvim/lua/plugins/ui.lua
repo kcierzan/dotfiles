@@ -101,7 +101,7 @@ return {
   {
     "akinsho/bufferline.nvim",
     version = "*",
-    lazy = false,
+    event = { "VimEnter" },
     config = function()
       require("bufferline").setup({
         options = {
@@ -112,7 +112,7 @@ return {
           separator_style = "slant",
           offsets = {
             {
-              filetype = "NvimTree",
+              filetype = "neo-tree",
               text = "File Explorer",
               highlight = "Directory",
               separator = true,
