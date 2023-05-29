@@ -132,7 +132,7 @@ return {
       require("dashboard").setup({
         config = {
           shortcut = {
-            { desc = "Find Files", key = "f", group = "@function", action = lib.fast_find_file },
+            { desc = "Find files", key = "f", group = "@function", action = lib.fast_find_file },
             { desc = "Grep", key = "g", group = "@character", action = lib.live_grep_from_git_root },
             { desc = "Help", key = "h", group = "@boolean", action = telescope.help_tags },
             { desc = "Quit", key = "q", group = "@variable.builtin", action = "q!" },
