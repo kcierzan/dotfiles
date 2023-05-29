@@ -39,10 +39,13 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
+    dependencies = { "folke/tokyonight.nvim" },
     config = function()
-      vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = "#993939", bg = "#31353f" })
-      vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = "#61afef", bg = "#31353f" })
-      vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = "#98c379", bg = "#31353f" })
+      local tn_colors = require("tokyonight.colors").setup()
+
+      vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = tn_colors.red, bg = tn_colors.bg })
+      vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = tn_colors.blue, bg = tn_colors.bg })
+      vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = tn_colors.green, bg = tn_colors.bg })
 
       vim.fn.sign_define(
         "DapBreakpoint",

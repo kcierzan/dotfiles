@@ -70,14 +70,13 @@ install_casks() {
   casks=(
     1password
     betterdisplay
-    brave-browser-nightly
+    font-caskaydia-cove-nerd-font
     font-iosevka-aile
     font-iosevka-etoile
     font-iosevka-nerd-font
     font-iosevka-comfy
     hyperkey
     iina
-    jetbrains-toolbox
     raycast
     rectangle
     scroll-reverser
@@ -145,81 +144,49 @@ symlink_bootstrap_executable() {
   return 0
 }
 
-for arg in "$@"
-do
-  case "$arg" in
-    --apps)
-      APPS=1
-      option_inform 'Installing applications!'
-      ;;
-    --shell)
-      CONFIG_SHELL=1
-      option_inform 'Configuring shell!'
-      ;;
-    *)
-      echo "Invalid option: $arg"
-      exit 255
-      ;;
-  esac
-done
-
-if [ $# -eq 0 ]; then
-  APPS=1
-  CONFIG_SHELL=1
-fi
-
 pushd "$DOTFILES_DIR" || exit 255
 
-# --------------------------------------------------------------
-if [ -n "$APPS" ]; then
-  task_inform 'Installing applications'
+task_inform 'Installing applications'
 
-  subtask_exec "Updating macOS" softwareupdate --install --all
+subtask_exec "Updating macOS" softwareupdate --install --all
 
-  [ -z "$(which brew)" ] &&
-    subtask_exec 'Installing homebrew' install_homebrew
+[ -z "$(which brew)" ] &&
+  subtask_exec 'Installing homebrew' install_homebrew
 
-  is_tapped 'homebrew/cask' ||
-    subtask_exec 'Tapping cask' brew tap homebrew/cask
+is_tapped 'homebrew/cask' ||
+  subtask_exec 'Tapping cask' brew tap homebrew/cask
 
-  is_tapped 'homebrew/cask-versions' ||
-    subtask_exec 'Tapping cask versions' brew tap homebrew/cask-versions
+is_tapped 'homebrew/cask-versions' ||
+  subtask_exec 'Tapping cask versions' brew tap homebrew/cask-versions
 
-  is_tapped 'homebrew/cask-fonts' ||
-    subtask_exec 'Tapping cask fonts' brew tap homebrew/cask-fonts
+is_tapped 'homebrew/cask-fonts' ||
+  subtask_exec 'Tapping cask fonts' brew tap homebrew/cask-fonts
 
-  is_tapped 'homebrew/services' ||
-    subtask_exec 'Tapping cask services' brew tap homebrew/services
+is_tapped 'homebrew/services' ||
+  subtask_exec 'Tapping cask services' brew tap homebrew/services
 
-  is_tapped 'railwaycat/emacsmacport' ||
-    subtask_exec 'Tapping emacs-mac' brew tap railwaycat/emacsmacport
+subtask_exec 'Installing homebrew packages' install_brew_packages
 
-  subtask_exec 'Installing homebrew packages' install_brew_packages
+subtask_exec 'Installing homebrew applications' install_casks
 
-  subtask_exec 'Installing homebrew applications' install_casks
+subtask_exec 'Upgrading homebrew packages' brew_upgrade
 
-  subtask_exec 'Upgrading homebrew packages' brew_upgrade
+subtask_exec 'Upgrading outdated casks' brew_upgrade_outdated_casks
 
-  subtask_exec 'Upgrading outdated casks' brew_upgrade_outdated_casks
-fi
+task_inform 'Setting up shell'
 
-# --------------------------------------------------------------
-if [ -n "$CONFIG_SHELL" ]; then
-  task_inform 'Setting up shell'
+subtask_exec 'Creating dot directories' create_dot_dirs
 
-  subtask_exec 'Creating dot directories' create_dot_dirs
+subtask_exec 'Symlinking dotfiles' stow_dot_dirs
 
-  subtask_exec 'Symlinking dotfiles' stow_dot_dirs
+[ "$SHELL" != "$(brew --prefix)/bin/fish" ] &&
+  subtask_exec "Changing $(whoami)'s shell to fish" chsh -s "$(which fish)"
 
-  [ "$SHELL" != "$(brew --prefix)/bin/fish" ] &&
-    subtask_exec "Changing $(whoami)'s shell to fish" chsh -s "$(which fish)"
+subtask_exec 'Setting fish global variables' set_fish_globals
 
-  subtask_exec 'Setting fish global variables' set_fish_globals
+[ -z "$(fish -c 'fisher -v')" ] &&
+  subtask_exec 'Installing fisher' install_fisher
 
-  [ -z "$(fish -c 'fisher -v')" ] &&
-    subtask_exec 'Installing fisher' install_fisher
-
-  subtask_exec 'Symlinking bootstrap script' symlink_bootstrap_executable
-fi
+subtask_exec 'Symlinking bootstrap script' symlink_bootstrap_executable
 
 popd || exit 255

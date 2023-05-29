@@ -40,6 +40,7 @@ return {
       require("notify").setup({
         timeout = 800,
         background_colour = tn.bg,
+        fps = 60,
       })
     end,
   },
@@ -120,5 +121,11 @@ return {
         },
       })
     end,
+  },
+  {
+    "nvimdev/dashboard-nvim",
+    event = { "VimEnter" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = true,
   },
 }
