@@ -125,7 +125,41 @@ return {
   {
     "nvimdev/dashboard-nvim",
     event = { "VimEnter" },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = true,
+    dependencies = { "nvim-tree/nvim-web-devicons", "nvim-telescope/telescope.nvim" },
+    config = function()
+      local lib = require("lib")
+      local telescope = require("telescope.builtin")
+      require("dashboard").setup({
+        config = {
+          shortcut = {
+            { desc = "Find Files", key = "f", group = "@function", action = lib.fast_find_file },
+            { desc = "Grep", key = "g", group = "@character", action = lib.live_grep_from_git_root },
+            { desc = "Help", key = "h", group = "@boolean", action = telescope.help_tags },
+            { desc = "Quit", key = "q", group = "@variable.builtin", action = "q!" },
+          },
+          header = {
+            "",
+            "⠀⠀⢀⣤⣤⣤⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⢸⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠘⠉⠉⠙⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀ ",
+            "⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⣴⣿⣿⣿⠟⣿⣿⣿⣷⠀⠀⠀⠀",
+            "⠀⠀⠀⣰⣿⣿⣿⡏⠀⠸⣿⣿⣿⣇⠀⠀⠀",
+            "⠀⠀⢠⣿⣿⣿⡟⠀⠀⠀⢻⣿⣿⣿⡆⠀⠀",
+            "⠀⢠⣿⣿⣿⡿⠀⠀⠀⠀⠀⢿⣿⣿⣷⣤⡄",
+            "⢀⣾⣿⣿⣿⠁⠀⠀⠀⠀⠀⠈⠿⣿⣿⣿⡇",
+            "",
+          },
+          footer = {
+            "",
+            "",
+            "Programming is not about typing, it's about thinking.",
+            "                              - Rich Hickey"
+          }
+        },
+      })
+    end,
   },
 }

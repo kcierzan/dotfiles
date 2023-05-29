@@ -58,7 +58,6 @@ return {
             l = { lib.telescope_builtin("current_buffer_fuzzy_find"), "line in buffer" },
             m = { lib.telescope_builtin("man_pages"), "man pages" },
             o = { lib.telescope_builtin("oldfiles"), "oldfiles" },
-            p = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "projects" },
             s = { lib.grep_word_under_cursor, "word under cursor" },
             t = { lib.telescope_builtin("help_tags"), "help tags" },
             r = {
