@@ -42,7 +42,6 @@ return {
     dependencies = { "folke/tokyonight.nvim" },
     config = function()
       local tn_colors = require("tokyonight.colors").setup()
-      local util = require("tokyonight.util")
 
       vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = tn_colors.red, bg = tn_colors.bg_dark })
       vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = tn_colors.blue, bg = tn_colors.bg_dark })

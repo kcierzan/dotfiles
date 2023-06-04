@@ -81,7 +81,7 @@ install_casks() {
     rectangle
     scroll-reverser
     obsidian
-    wezterm-nightly
+    wezterm
   )
   for cask in "${casks[@]}"
   do

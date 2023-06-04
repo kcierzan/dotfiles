@@ -134,6 +134,7 @@ return {
           shortcut = {
             { desc = "Find files", key = "f", group = "@function", action = lib.fast_find_file },
             { desc = "Grep", key = "g", group = "@character", action = lib.live_grep_from_git_root },
+            { desc = "Plugins", key = "p", group = "@string.documentation", action = "Lazy" },
             { desc = "Help", key = "h", group = "@boolean", action = telescope.help_tags },
             { desc = "Quit", key = "q", group = "@variable.builtin", action = "q!" },
           },

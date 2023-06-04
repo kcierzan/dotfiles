@@ -16,6 +16,7 @@ return {
       })
 
       local servers = {
+        "clangd",
         "bashls",
         "emmet_ls",
         "jsonls",
