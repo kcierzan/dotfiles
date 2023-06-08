@@ -25,6 +25,7 @@ return {
           [":"] = { lib.ex_cmd("ToggleTerm direction=horizontal"), "toggle terminal drawer" },
           Q = { lib.ex_cmd("q!"), "quit" },
           l = {
+            name = "+lsp",
             F = { vim.lsp.buf.format, "format buffer" },
             I = { lib.ex_cmd("LspInfo"), "info" },
             L = { lib.ex_cmd("LspLog"), "log" },
@@ -77,7 +78,7 @@ return {
             name = "+buffer",
             C = { lib.ex_cmd("window diffoff"), "diff off" },
             c = { lib.ex_cmd("windo diffthis"), "diff on" },
-            d = { lib.ex_cmd("Bdelete"), "delete" },
+            d = { lib.ex_cmd("bd"), "delete" },
             f = { lib.ex_cmd('silent exec "!bundle exec rubocop -A %:p"'), "run rubocop on buffer" },
             m = { lib.open_in_rubymine, "open in rubymine" },
             r = { lib.ex_cmd("edit!"), "reload" },
@@ -111,7 +112,7 @@ return {
             L = { lib.ex_cmd("set cursorline"), "toggle cursorline" },
           },
           o = {
-            name = "+browser",
+            name = "+filetree",
             t = { lib.ex_cmd("Neotree focus filesystem reveal left"), "show file in tree" },
             o = { lib.ex_cmd("Neotree show filesystem left"), "open filetree" },
             g = { lib.ex_cmd("Neotree git_status left"), "git status tree" },

@@ -20,12 +20,16 @@ return {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     opts = {
-      disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" }
+      disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
     },
   },
   {
     "tpope/vim-repeat",
     keys = { "." },
+  },
+  {
+    "chrisbra/csv.vim",
+    ft = { "csv" },
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
