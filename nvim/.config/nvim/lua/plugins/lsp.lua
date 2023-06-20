@@ -158,9 +158,7 @@ return {
           "jsonls",
           "lua_ls",
           "pyright",
-          "ruby_ls",
           "rust_analyzer",
-          "solargraph",
           "tsserver",
         },
       })

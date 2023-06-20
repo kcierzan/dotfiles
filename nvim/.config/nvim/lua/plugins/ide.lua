@@ -111,4 +111,9 @@ return {
       })
     end,
   },
+  {
+    "nvim-pack/nvim-spectre",
+    cmd = { "Spectre" },
+    config = true,
+  },
 }
