@@ -3,7 +3,7 @@ function rlm --description='Update default branch from remote and rebase the cur
   set current_branch (git branch --show-current)
   set default_branch (git symbolic-ref "refs/remotes/$upstream/HEAD" | sed "s@^refs/remotes/$upstream/@@")
 
-  git stash
+  git stash push -m "rlm_stash"
 
   if test $current_branch = $default_branch
     git pull $upstream $current_branch
@@ -12,5 +12,5 @@ function rlm --description='Update default branch from remote and rebase the cur
     git rebase $default_branch
   end
 
-  git stash pop
+  git stash apply stash^{/rlm_stash}
 end
