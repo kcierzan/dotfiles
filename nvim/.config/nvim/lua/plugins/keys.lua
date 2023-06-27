@@ -165,7 +165,7 @@ return {
         ["<leader>"] = {
           g = {
             name = "+git",
-            o = { lib.ex_cmd("GBrowse"), "open in github" },
+            o = { lib.ex_cmd("'<,'>GBrowse"), "open in github" },
             h = { lib.ex_cmd("Gitsigns stage_hunk"), "stage hunk" },
             r = { lib.ex_cmd("Gitsigns reset_hunk"), "reset hunk" },
           },
