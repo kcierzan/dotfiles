@@ -129,6 +129,25 @@ return {
     config = function()
       local lib = require("lib")
       local telescope = require("telescope.builtin")
+      local generate_hickey_quote = function()
+        local quotes = {
+          "Programming is not about typing, it's about thinking.",
+          "This is the 'Information non-problem': Information is simple. This is a problem we create for ourselves.",
+          "Leave data alone.",
+          "Polymorphism à la carte completely changes the way you work.",
+          "Every new thing you have to do, you write a new class. Where's the reuse in that?",
+          "'It requires object-relational mapping, and that's like, a problem with SQL'. No! It's a problem with objects.",
+          "You cannot correctly represent change without immutability. It's a profound idea.",
+          "State. You're doing it wrong.",
+          "Mutable objects are the new Spaghetti code.",
+          "...recognize the difference between abstracting in order to simplify, and abstracting in order to hide.",
+          "By the time you're writing a service, there's nothing premature about abstraction.",
+          "I was an expert C++ user and really loved C++. For some value of 'love', that involves no satisfaction at all.",
+        }
+
+        math.randomseed(os.time())
+        return quotes[math.random(1, #quotes)]
+      end
       require("dashboard").setup({
         config = {
           shortcut = {
@@ -156,7 +175,7 @@ return {
           footer = {
             "",
             "",
-            "Programming is not about typing, it's about thinking.",
+            generate_hickey_quote(),
             "                              - Rich Hickey",
           },
         },

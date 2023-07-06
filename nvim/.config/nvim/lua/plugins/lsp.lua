@@ -19,6 +19,7 @@ return {
         "clangd",
         "bashls",
         "emmet_ls",
+        "elixirls",
         "jsonls",
         "lua_ls",
         "pyright",
@@ -49,6 +50,25 @@ return {
             },
           }
           opts.root_dir = require("lspconfig").util.root_pattern("Gemfile")
+        elseif server == "elixirls" then
+          opts.cmd = { vim.fn.expand("$HOME/.local/share/nvim/mason/packages/elixir-ls/language_server.sh") }
+        elseif server == "emmet_ls" then
+          opts.filetypes = {
+            "astro",
+            "css",
+            "eruby",
+            "heex",
+            "html",
+            "htmldjango",
+            "javascriptreact",
+            "less",
+            "pug",
+            "sass",
+            "scss",
+            "svelte",
+            "typescriptreact",
+            "vue",
+          }
         elseif server == "lua_ls" then
           opts.settings = {
             Lua = {
@@ -154,6 +174,7 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "bashls",
+          "elixirls",
           "emmet_ls",
           "jsonls",
           "lua_ls",

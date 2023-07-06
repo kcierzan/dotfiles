@@ -39,7 +39,7 @@ return {
     priority = 1000,
     config = function()
       require("tokyonight").setup({
-        style = "storm",
+        style = "moon",
         transparent = false,
       })
       vim.cmd("colorscheme tokyonight")

@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 local tn = wezterm.get_builtin_color_schemes()["tokyonight_storm"]
 
 return {
-  color_scheme = "tokyonight_storm",
+  color_scheme = "tokyonight_moon",
   use_fancy_tab_bar = false,
   tab_bar_at_bottom = true,
   default_cursor_style = "BlinkingBar",
