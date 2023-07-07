@@ -10,7 +10,7 @@ gotta go fast...
 local lib = require("lib")
 
 vim.opt.autowriteall = true
-vim.opt.hidden = false
+vim.opt.hidden = true
 vim.opt.backup = false
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cmdheight = 0
@@ -64,6 +64,7 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 
+lib.tmap("<Esc>", "<C-\\><C-n>")
 lib.nmap("L", "<Nop>")
 lib.nmap("H", "<Nop>")
 lib.xmap("L", "<Nop>")

@@ -8,6 +8,10 @@ function M.xmap(key, command)
   vim.api.nvim_set_keymap("x", key, command, { noremap = true, silent = true })
 end
 
+function M.tmap(key, command)
+  vim.api.nvim_set_keymap("t", key, command, { noremap = true, silent = true })
+end
+
 function M.ex_cmd(command)
   return "<cmd>" .. command .. "<cr>"
 end
@@ -178,6 +182,25 @@ function M.lsp_document_symbols()
   require("telescope.builtin").lsp_document_symbols({
     symbol_width = 60,
   })
+end
+
+function M.keys(in_table)
+  local keys = {}
+  for k, _ in pairs(in_table) do
+    table.insert(keys, k)
+  end
+  return keys
+end
+
+function M.random_table_key(in_table)
+  local keys = M.keys(in_table)
+  math.randomseed(os.time())
+  return keys[math.random(#keys)]
+end
+
+function M.random_table_value(in_table)
+  local random_key = M.random_table_key(in_table)
+  return in_table[random_key]
 end
 
 return M
