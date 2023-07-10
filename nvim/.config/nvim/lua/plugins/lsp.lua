@@ -26,6 +26,7 @@ return {
         "ruby_ls",
         "rust_analyzer",
         "solargraph",
+        "svelte",
         "tsserver",
       }
 
