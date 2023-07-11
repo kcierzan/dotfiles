@@ -43,6 +43,7 @@ return {
             c = { lib.telescope_builtin("git_commits"), "commits" },
             d = { lib.telescope_builtin("lsp_definitions"), "definitions" },
             f = { lib.fast_find_file, "files in repo" },
+            R = { lib.ex_cmd("Spectre"), "replace" },
             g = { lib.live_grep_from_git_root, "text in git files" },
             h = { lib.telescope_builtin("oldfiles"), "oldfiles" },
             i = { lib.telescope_builtin("lsp_implementations"), "implementations" },

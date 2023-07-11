@@ -20,7 +20,7 @@ return {
       return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
     end
 
-    local tn_colors = require("tokyonight.colors").setup()
+    local tn_colors = require("tokyonight.colors").setup({ transform = true })
 
     local colors = {
       fg = tn_colors.fg,
