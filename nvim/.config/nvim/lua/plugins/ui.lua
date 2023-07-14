@@ -148,7 +148,7 @@ return {
           ["Paul Graham"] = {
             "Object-oriented programming offers a sustainable way to write spaghetti code.",
             "Object-oriented programming lets you accrete programs as a series of patches.",
-            "The recipe for great work is: very exacting taste, plus the ability to gratify it."
+            "The recipe for great work is very exacting taste, plus the ability to gratify it."
           }
         }
 

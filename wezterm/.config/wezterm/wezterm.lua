@@ -6,7 +6,7 @@ return {
   use_fancy_tab_bar = false,
   tab_bar_at_bottom = true,
   default_cursor_style = "BlinkingBar",
-  font = wezterm.font_with_fallback({ "RobotoMono Nerd Font", "IosevkaNF" }),
+  font = wezterm.font_with_fallback({ "JetbrainsMono Nerd Font", "IosevkaNF" }),
   command_palette_bg_color = tn.tab_bar.inactive_tab.bg_color,
   command_palette_fg_color = tn.foreground,
   command_palette_font_size = 16.0,

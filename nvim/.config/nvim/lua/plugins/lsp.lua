@@ -27,6 +27,7 @@ return {
         "rust_analyzer",
         "solargraph",
         "svelte",
+        "tailwindcss",
         "tsserver",
       }
 
@@ -181,6 +182,7 @@ return {
           "lua_ls",
           "pyright",
           "rust_analyzer",
+          "tailwindcss",
           "tsserver",
         },
       })
