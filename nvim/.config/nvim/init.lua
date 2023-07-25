@@ -64,7 +64,7 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 
-lib.tmap("<Esc>", "<C-\\><C-n>")
+-- lib.tmap("<Esc>", "<C-\\><C-n>")
 lib.nmap("L", "<Nop>")
 lib.nmap("H", "<Nop>")
 lib.xmap("L", "<Nop>")
