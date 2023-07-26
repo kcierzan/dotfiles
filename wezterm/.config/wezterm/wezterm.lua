@@ -6,7 +6,7 @@ return {
   use_fancy_tab_bar = false,
   tab_bar_at_bottom = true,
   default_cursor_style = "BlinkingBar",
-  font = wezterm.font_with_fallback({ "Iosevka Comfy", "Roboto Mono Nerd Font" }),
+  font = wezterm.font_with_fallback({ "Iosevka Comfy", "Iosevka Nerd Font" }),
   command_palette_bg_color = tn.tab_bar.inactive_tab.bg_color,
   command_palette_fg_color = tn.foreground,
   warn_about_missing_glyphs = false,
@@ -20,7 +20,6 @@ return {
   leader = { key = "Space", mods = "META" },
   font_size = 18.0,
   scrollback_lines = 50000,
-  window_decorations = "RESIZE",
   hide_tab_bar_if_only_one_tab = true,
   keys = {
     {
