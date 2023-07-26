@@ -27,7 +27,7 @@ if status is-interactive
     end
 end
 
-fish_add_path "$HOME/.emacs.d/bin" "$HOME/.local/bin" "$HOME/.local/bin-jetbrains" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin /opt/X11/bin "$HOME/.cargo/bin" "$HOME/.composer/vendor/bin" /Library/TeX/Distributions/Programs/texbin
+fish_add_path "$HOME/.local/bin" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin "$HOME/.cargo/bin"
 
 set -gx LESS '-F -g -i -M -R -S -w -X -z-4'
 set -gx KEYTIMEOUT 1
@@ -42,3 +42,8 @@ set fish_color_command a0c980 --bold
 if command --query brew
   source "$(brew --prefix)/opt/asdf/libexec/asdf.fish"
 end
+
+if command --query pacman
+  rtx activate fish | source
+end
+

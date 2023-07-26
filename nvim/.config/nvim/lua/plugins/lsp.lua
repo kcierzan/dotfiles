@@ -183,6 +183,7 @@ return {
           "pyright",
           "rust_analyzer",
           "tailwindcss",
+          "svelte",
           "tsserver",
         },
       })
