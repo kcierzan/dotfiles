@@ -20,6 +20,12 @@ if status is-interactive
         echo "zoxide not found!"
     end
 
+    if command --query rtx
+      rtx activate fish | source
+    else
+      echo "rtx not found!"
+    end
+
     if command --query direnv
         direnv hook fish | source
     else
@@ -38,12 +44,3 @@ set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set fish_color_param normal
 set fish_color_error red --bold
 set fish_color_command a0c980 --bold
-
-if command --query brew
-  source "$(brew --prefix)/opt/asdf/libexec/asdf.fish"
-end
-
-if command --query pacman
-  rtx activate fish | source
-end
-
