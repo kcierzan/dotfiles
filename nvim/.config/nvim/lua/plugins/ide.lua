@@ -28,6 +28,9 @@ return {
     config = function()
       require("neotest").setup({
         adapters = { require("neotest-rspec") },
+        output = {
+          open_on_run = false
+        },
         status = {
           signs = false,
           virtual_text = true,

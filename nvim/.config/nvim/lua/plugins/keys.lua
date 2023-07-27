@@ -104,6 +104,7 @@ return {
             F = { lib.ex_cmd("NvimTreeFindFile"), "show current file in tree" },
             H = { lib.ex_cmd("TSHighlightCapturesUnderCursor"), "show highlights under cursor" },
             t = { lib.ex_cmd("ToggleTerm direction=float"), "toggle floating terminal" },
+            T = { lib.ex_cmd("ToggleTerm direction=horizontal"), "toggle drawer terminal" },
             ["#"] = { lib.ex_cmd("set invnumber"), "toggle line numbers" },
             ["%"] = { lib.ex_cmd("set invrelativenumber"), "toggle relative line numbers" },
             c = { lib.ex_cmd("nohlsearch"), "clear search highlight" },
