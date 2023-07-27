@@ -4,6 +4,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-fzf-native.nvim",
+      "jvgrootveld/telescope-zoxide",
     },
     config = function()
       require("telescope").setup({
@@ -56,6 +57,7 @@ return {
         },
       })
       require("telescope").load_extension("fzf")
+      require("telescope").load_extension("zoxide")
     end,
   },
   {

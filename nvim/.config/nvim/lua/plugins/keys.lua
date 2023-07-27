@@ -47,6 +47,7 @@ return {
             g = { lib.live_grep_from_git_root, "text in git files" },
             h = { lib.telescope_builtin("oldfiles"), "oldfiles" },
             i = { lib.telescope_builtin("lsp_implementations"), "implementations" },
+            j = { lib.ex_cmd(":lua require('telescope').extensions.zoxide.list()"), "recent dirs" },
             l = { lib.telescope_builtin("current_buffer_fuzzy_find"), "line in buffer" },
             o = { lib.telescope_builtin("lsp_workspace_symbols"), "workspace symbols" },
             s = { lib.lsp_document_symbols, "buffer symbols" },

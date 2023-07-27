@@ -105,9 +105,9 @@ return {
     }
 
     local function edit_mode()
-      local cube = ""
-      local hex_empty = ""
-      local hex_full = ""
+      local cube = "󰆧"
+      local hex_empty = "󰋙"
+      local hex_full = "󰋘"
       local mode = vim.fn.mode()
       local mode_string = ""
 
@@ -237,7 +237,7 @@ return {
 
     right_insert({
       lsp_name,
-      icon = "力",
+      icon = "󰒋",
       color = { fg = colors.cyan, gui = "bold" },
       cond = should_show_lsp_info,
     })
@@ -253,7 +253,7 @@ return {
       "diff",
       symbols = {
         added = "  ",
-        modified = "柳 ",
+        modified = "󰝤 ",
         removed = "  ",
       },
       diff_color = {
