@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 local tn = wezterm.get_builtin_color_schemes()["tokyonight_storm"]
 
 return {
-  color_scheme = "tokyonight_moon",
+  color_scheme = "Oxocarbon Dark",
   use_fancy_tab_bar = false,
   tab_bar_at_bottom = true,
   default_cursor_style = "BlinkingBar",
@@ -11,6 +11,7 @@ return {
   command_palette_fg_color = tn.foreground,
   warn_about_missing_glyphs = false,
   command_palette_font_size = 16.0,
+  window_decorations = "RESIZE",
   colors = {
     cursor_border = tn.ansi[3],
   },

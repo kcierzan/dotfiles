@@ -203,4 +203,11 @@ function M.random_table_value(in_table)
   return in_table[random_key]
 end
 
+function M.get_hl_group_colors(group)
+  local colors = vim.fn.synIDtrans(vim.fn.hlID(group))
+  local fg = vim.fn.synIDattr(colors, "fg#")
+  local bg = vim.fn.synIDattr(colors, "bg#")
+  return { fg = fg, bg = bg }
+end
+
 return M

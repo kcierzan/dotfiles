@@ -34,12 +34,13 @@ return {
   },
   {
     "rcarriga/nvim-notify",
-    dependencies = { "folke/tokyonight.nvim" },
+    -- dependencies = { "folke/tokyonight.nvim" },
     config = function()
-      local tn = require("tokyonight.colors").setup()
+      -- local tn = require("tokyonight.colors").setup()
+      local lib = require("lib")
       require("notify").setup({
         timeout = 800,
-        background_colour = tn.bg,
+        background_colour = lib.get_hl_group_colors("CursorLine").bg,
         fps = 60,
       })
     end,

@@ -1,9 +1,9 @@
 return {
   "nvim-lualine/lualine.nvim",
-  dependencies = { "folke/tokyonight.nvim" },
   event = "BufReadPre",
   config = function()
     local lualine = require("lualine")
+    local lib = require("lib")
 
     local function is_git_workspace()
       local filepath = vim.fn.expand("%:p:h")
@@ -20,19 +20,17 @@ return {
       return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
     end
 
-    local tn_colors = require("tokyonight.colors").setup({ transform = true })
-
     local colors = {
-      fg = tn_colors.fg,
-      bg = tn_colors.bg_dark,
-      blue = tn_colors.blue,
-      green = tn_colors.green,
-      violet = tn_colors.purple,
-      red = tn_colors.red,
-      magenta = tn_colors.magenta,
-      orange = tn_colors.orange,
-      yellow = tn_colors.yellow,
-      cyan = tn_colors.cyan,
+      fg = lib.get_hl_group_colors("Normal").fg,
+      bg = lib.get_hl_group_colors("CursorLine").bg,
+      blue = lib.get_hl_group_colors("@function").fg,
+      green = lib.get_hl_group_colors("@character").fg,
+      violet = lib.get_hl_group_colors("@keyword").fg,
+      red = lib.get_hl_group_colors("Error").fg,
+      magenta = lib.get_hl_group_colors("@conditional").fg,
+      orange = lib.get_hl_group_colors("@constant").fg,
+      yellow = lib.get_hl_group_colors("@parameter").fg,
+      cyan = lib.get_hl_group_colors("@define").fg,
     }
 
     local config = {

@@ -35,7 +35,7 @@ return {
   {
     "folke/tokyonight.nvim",
     lazy = false,
-    enabled = true,
+    enabled = false,
     priority = 1000,
     config = function()
       require("tokyonight").setup({
@@ -44,5 +44,14 @@ return {
       })
       vim.cmd("colorscheme tokyonight")
     end,
+  },
+  {
+    "nyoom-engineering/oxocarbon.nvim",
+    lazy = false,
+    enabled = true,
+    priority = 1000,
+    config = function ()
+      vim.cmd.colorscheme "oxocarbon"
+    end
   },
 }
