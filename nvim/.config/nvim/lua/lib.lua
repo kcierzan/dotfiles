@@ -48,7 +48,7 @@ function M.fast_find_file()
   local tscope = require("telescope.builtin")
   local exists, _ = parent_git_dir()
   if exists then
-    tscope.git_files({ show_untracked_files = true })
+    tscope.git_files({ show_untracked = true, recurse_submodules = true })
   else
     tscope.find_files()
   end
@@ -56,23 +56,17 @@ end
 
 local function run_test_from_engine(test_func)
   return function()
-    local engine_root_files = { "Gemfile", "spec" }
-    local path = vim.api.nvim_buf_get_name(0)
-    if path == "" then
+    local current_file_path = vim.api.nvim_buf_get_name(0)
+    if current_file_path == "" then
       return
     end
-
-    path = vim.fs.dirname(path)
-    local cwd = vim.fn.getcwd()
-    local root_file = vim.fs.find(engine_root_files, { path = path, upward = true })[1]
-    if root_file == nil then
+    local spec_dir = current_file_path:match(".+/spec")
+    if spec_dir == nil then
       return
     end
-
-    local root = vim.fs.dirname(root_file)
-    vim.fn.chdir(root)
+    local engine_dir = spec_dir:sub(1, #spec_dir - 5)
+    vim.fn.chdir(engine_dir)
     test_func()
-    vim.fn.chdir(cwd)
   end
 end
 

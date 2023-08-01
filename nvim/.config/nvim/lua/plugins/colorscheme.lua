@@ -29,8 +29,10 @@ return {
     "AlexvZyl/nordic.nvim",
     lazy = false,
     priority = 1000,
-    enabled = false,
-    config = true,
+    enabled = true,
+    config = function()
+      require("nordic").load()
+    end,
   },
   {
     "folke/tokyonight.nvim",
@@ -39,7 +41,7 @@ return {
     priority = 1000,
     config = function()
       require("tokyonight").setup({
-        style = "moon",
+        style = "night",
         transparent = false,
       })
       vim.cmd("colorscheme tokyonight")
@@ -48,10 +50,10 @@ return {
   {
     "nyoom-engineering/oxocarbon.nvim",
     lazy = false,
-    enabled = true,
+    enabled = false,
     priority = 1000,
-    config = function ()
-      vim.cmd.colorscheme "oxocarbon"
-    end
+    config = function()
+      vim.cmd.colorscheme("oxocarbon")
+    end,
   },
 }

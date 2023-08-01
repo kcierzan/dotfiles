@@ -80,7 +80,7 @@ return {
             name = "+buffer",
             C = { lib.ex_cmd("window diffoff"), "diff off" },
             c = { lib.ex_cmd("windo diffthis"), "diff on" },
-            d = { lib.ex_cmd("bd"), "delete" },
+            d = { lib.ex_cmd("Bdelete"), "delete" },
             f = { lib.ex_cmd('silent exec "!bundle exec rubocop -A %:p"'), "run rubocop on buffer" },
             m = { lib.open_in_rubymine, "open in rubymine" },
             r = { lib.ex_cmd("edit!"), "reload" },

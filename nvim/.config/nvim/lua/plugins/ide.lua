@@ -55,13 +55,17 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
-    dependencies = { "folke/tokyonight.nvim" },
     config = function()
-      local tn_colors = require("tokyonight.colors").setup()
+      local lib = require("lib")
+      local red = lib.get_hl_group_colors("Error").fg
+      local bg_dark = lib.get_hl_group_colors("Cursorline").bg
+      local blue = lib.get_hl_group_colors("@function").fg
+      local green = lib.get_hl_group_colors("@character").fg
 
-      vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = tn_colors.red, bg = tn_colors.bg_dark })
-      vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = tn_colors.blue, bg = tn_colors.bg_dark })
-      vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = tn_colors.green, bg = tn_colors.bg_dark })
+
+      vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = red, bg = bg_dark })
+      vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = blue, bg = bg_dark })
+      vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = green, bg = bg_dark })
 
       vim.fn.sign_define(
         "DapBreakpoint",
