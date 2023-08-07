@@ -26,9 +26,10 @@ local function parent_git_dir()
 end
 
 local function create_rails_fd_command(directory)
+  local top_level = "app/"
   local excludes = { ".git/", "node_modules", "**/*migration*/**/*", "**/vendor/**/*", "**/migrate/**/*" }
-  if directory ~= "spec" then
-    table.insert(excludes, "**/spec/**/*")
+  if directory == "spec" then
+    top_level = ""
   end
   return {
     "fd",
@@ -38,7 +39,7 @@ local function create_rails_fd_command(directory)
     "--strip-cwd-prefix",
     "--full-path",
     "--glob",
-    "**/" .. directory .. "/**/*.{erb,rb}",
+    "**/" .. top_level ..  directory .. "/**/*.{erb,rb}",
     "-E",
     table.concat(excludes, ","),
   }
@@ -48,7 +49,7 @@ function M.fast_find_file()
   local tscope = require("telescope.builtin")
   local exists, _ = parent_git_dir()
   if exists then
-    tscope.git_files({ show_untracked = true, recurse_submodules = true })
+    tscope.git_files({ show_untracked = true })
   else
     tscope.find_files()
   end
@@ -91,6 +92,8 @@ function M.live_grep_rails_app_files()
   require("telescope.builtin").live_grep({
     cwd = parent_git_dir_or_cwd(),
     glob_pattern = {
+      "!.git",
+      "!.Gemfile.lock",
       "!**/spec/**/*",
       "!**/*migration*/**/*",
       "!**/vendor/**/*",
@@ -119,9 +122,10 @@ function M.find_rails_app_file()
 end
 
 function M.find_rails_model()
+  local command = create_rails_fd_command("models")
   require("telescope.builtin").find_files({
     cwd = parent_git_dir_or_cwd(),
-    find_command = create_rails_fd_command("models"),
+    find_command = command,
     prompt_prefix = "🗿",
   })
 end

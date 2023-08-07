@@ -175,7 +175,7 @@ return {
           f = {
             name = "+find",
             f = {
-              "\"zy:lua require('telescope.builtin').live_grep({default_text=vim.api.nvim_exec([[echo getreg('z')]], true)})<cr>",
+              "\"zy:lua require('telescope.builtin').live_grep({default_text=vim.api.nvim_exec([[echo getreg('z')]], true), glob_pattern='!**/spec/**/*'})<cr>",
               "search visual selection",
             },
           },
