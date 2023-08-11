@@ -39,7 +39,7 @@ local function create_rails_fd_command(directory)
     "--strip-cwd-prefix",
     "--full-path",
     "--glob",
-    "**/" .. top_level ..  directory .. "/**/*.{erb,rb}",
+    "**/" .. top_level .. directory .. "/**/*.{erb,rb}",
     "-E",
     table.concat(excludes, ","),
   }
