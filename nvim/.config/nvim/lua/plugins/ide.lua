@@ -5,10 +5,10 @@ return {
   },
   {
     "akinsho/toggleterm.nvim",
-    keys = { "<C-\\>" },
+    keys = { "<C-;>" },
     cmd = { "ToggleTerm", "TermExec" },
     opts = {
-      open_mapping = "<C-\\>",
+      open_mapping = "<C-;>",
       persist_mode = true,
     },
   },

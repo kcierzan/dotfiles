@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 local tn = wezterm.get_builtin_color_schemes()["tokyonight_storm"]
 
 return {
-  color_scheme = "Nordic",
+  color_scheme = "Tokyo Night Storm",
   use_fancy_tab_bar = false,
   tab_bar_at_bottom = true,
   default_cursor_style = "BlinkingBar",
@@ -10,8 +10,12 @@ return {
   command_palette_bg_color = tn.tab_bar.inactive_tab.bg_color,
   command_palette_fg_color = tn.foreground,
   warn_about_missing_glyphs = false,
+  freetype_load_target = "Light",
+  freetype_render_target = "HorizontalLcd",
   command_palette_font_size = 16.0,
-  window_decorations = "RESIZE",
+  -- TODO: make this macOS-only
+  -- window_decorations = "RESIZE",
+  -- window_background_opacity = 0.85,
   colors = {
     cursor_border = tn.ansi[3],
   },

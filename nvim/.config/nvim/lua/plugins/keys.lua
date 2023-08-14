@@ -23,7 +23,8 @@ return {
       local normal_mappings = {
         ["<leader>"] = {
           [":"] = { lib.ex_cmd("ToggleTerm direction=horizontal"), "toggle terminal drawer" },
-          Q = { lib.ex_cmd("q!"), "quit" },
+          Q = { lib.ex_cmd("q!"), "quit without saving" },
+          q = { lib.ex_cmd("wq"), "save and quit"},
           l = {
             name = "+lsp",
             F = { vim.lsp.buf.format, "format buffer" },

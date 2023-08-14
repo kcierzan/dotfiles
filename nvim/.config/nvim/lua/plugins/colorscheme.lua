@@ -29,19 +29,22 @@ return {
     "AlexvZyl/nordic.nvim",
     lazy = false,
     priority = 1000,
-    enabled = true,
+    enabled = false,
     config = function()
+      require("nordic").setup({
+        transparent_bg = false
+      })
       require("nordic").load()
     end,
   },
   {
     "folke/tokyonight.nvim",
     lazy = false,
-    enabled = false,
+    enabled = true,
     priority = 1000,
     config = function()
       require("tokyonight").setup({
-        style = "night",
+        style = "storm",
         transparent = false,
       })
       vim.cmd("colorscheme tokyonight")
