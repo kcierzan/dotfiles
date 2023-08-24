@@ -83,6 +83,14 @@ lib.nmap("<A-j>", "<C-w>j")
 lib.nmap("<A-k>", "<C-w>k")
 lib.nmap("<A-l>", "<C-w>l")
 
+vim.api.nvim_set_keymap("i", "<C-,>", "<Nop>", { noremap = true, silent = true})
+vim.api.nvim_set_keymap(
+  "i",
+  "<C-,>",
+  lib.ex_cmd("lua require('telescope').extensions.luasnip.luasnip()"),
+  { noremap = true, silent = true }
+)
+
 vim.api.nvim_create_autocmd({ "InsertLeave", "FocusLost" }, {
   pattern = "*",
   command = [[if &readonly==0 && filereadable(bufname('%')) | silent update | endif]],

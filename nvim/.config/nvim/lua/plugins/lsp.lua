@@ -135,6 +135,7 @@ return {
             sign_priority = 40,
             virtual_text = true,
             format_on_save = true,
+            display_diagnostic_qf = "trouble",
             format_options = {
               async = true,
             },
@@ -205,7 +206,11 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "LspAttach",
     config = function()
-      require("trouble").setup()
+      local trouble = require("trouble")
+      trouble.setup({
+        auto_open = false,
+        auto_preview = false,
+      })
     end,
   },
   {

@@ -5,6 +5,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-fzf-native.nvim",
       "jvgrootveld/telescope-zoxide",
+      "benfowler/telescope-luasnip.nvim",
     },
     config = function()
       require("telescope").setup({
@@ -58,6 +59,7 @@ return {
       })
       require("telescope").load_extension("fzf")
       require("telescope").load_extension("zoxide")
+      require("telescope").load_extension("luasnip")
     end,
   },
   {

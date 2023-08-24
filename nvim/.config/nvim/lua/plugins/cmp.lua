@@ -1,5 +1,14 @@
 return {
   {
+    "L3MON4D3/LuaSnip",
+    version = "2.*",
+    build = "make install_jsregexp",
+  },
+  {
+    "benfowler/telescope-luasnip.nvim",
+    cmd = { "Telescope", "Telescope luasnip" },
+  },
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "onsails/lspkind.nvim",
@@ -126,11 +135,11 @@ return {
         },
         {
           name = "nvim_lsp",
-          priority = 900,
+          priority = 800,
         },
         {
           name = "luasnip",
-          priority = 800,
+          priority = 900,
         },
         {
           name = "nvim_lsp_signature_help",
