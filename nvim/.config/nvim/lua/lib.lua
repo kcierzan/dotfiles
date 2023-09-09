@@ -62,11 +62,11 @@ local function run_test_from_engine(test_func)
       return
     end
     local spec_dir = current_file_path:match(".+/spec")
-    if spec_dir == nil then
-      return
+
+    if spec_dir ~= nil then
+      local engine_dir = spec_dir:sub(1, #spec_dir - 5)
+      vim.fn.chdir(engine_dir)
     end
-    local engine_dir = spec_dir:sub(1, #spec_dir - 5)
-    vim.fn.chdir(engine_dir)
     test_func()
   end
 end

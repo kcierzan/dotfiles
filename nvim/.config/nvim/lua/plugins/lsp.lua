@@ -129,13 +129,14 @@ return {
           diagnostic_virtual_text = "󱁤",
         },
         lsp = {
+          display_diagnostic_qf = false,
           code_action = {
             enable = true,
             sign = true,
             sign_priority = 40,
             virtual_text = true,
             format_on_save = true,
-            display_diagnostic_qf = "trouble",
+            -- display_diagnostic_qf = "trouble",
             format_options = {
               async = true,
             },

@@ -64,6 +64,21 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 
+if vim.loop.os_uname().sysname == "Linux" then
+  vim.g.clipboard = {
+    name = "copyq",
+    copy = {
+      ["+"] = { "copyq", "add", "-" },
+      ["*"] = { "copyq", "add", "-" },
+    },
+    paste = {
+      ["+"] = "+",
+      ["*"] = "*",
+    },
+    cache_enabled = 1,
+  }
+end
+
 -- lib.tmap("<Esc>", "<C-\\><C-n>")
 lib.nmap("L", "<Nop>")
 lib.nmap("H", "<Nop>")
@@ -83,7 +98,7 @@ lib.nmap("<A-j>", "<C-w>j")
 lib.nmap("<A-k>", "<C-w>k")
 lib.nmap("<A-l>", "<C-w>l")
 
-vim.api.nvim_set_keymap("i", "<C-,>", "<Nop>", { noremap = true, silent = true})
+vim.api.nvim_set_keymap("i", "<C-,>", "<Nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
   "i",
   "<C-,>",

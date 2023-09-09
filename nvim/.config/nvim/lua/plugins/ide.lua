@@ -24,10 +24,10 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    dependencies = { "olimorris/neotest-rspec" },
+    dependencies = { "olimorris/neotest-rspec", "jfpedroza/neotest-elixir" },
     config = function()
       require("neotest").setup({
-        adapters = { require("neotest-rspec") },
+        adapters = { require("neotest-rspec"), require("neotest-elixir") },
         output = {
           open_on_run = false
         },
