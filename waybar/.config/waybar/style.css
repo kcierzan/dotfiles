@@ -1,0 +1,64 @@
+* {
+  font-family: "Iosevka Comfy";
+  font-size: 0.875rem;
+  padding: 0;
+}
+
+window#waybar {
+  background-color: rgba(84,92,127, 1);
+  color: #c0caf5;
+  transition-property: background-color;
+  transition-duration: .5s;
+}
+
+#workspaces button {
+  color: #7aa2f7;
+}
+
+#clock,
+#cpu,
+#backlight,
+#memory,
+#network,
+#tray,
+#wireplumber,
+#disk,
+#workspaces,
+#idle_inhibitor {
+  margin: 0 0.5rem;
+  background-color: #24283b;
+  border-radius: 0.75rem;
+  padding: 0 1rem;
+}
+
+ #workspaces button  {
+  margin: 0 0.5rem;
+}
+
+.modules-right > widget:first-child > #idle_inhibitor {
+  margin-right: 1rem;
+}
+
+#clock {
+  color: #e0af68;
+}
+
+#wireplumber {
+  color: #9ece6a;
+}
+
+#network {
+  color: #bb9af7;
+}
+
+#cpu {
+  color: #ff9e64
+}
+
+#memory {
+  color: #7dcfff
+}
+
+#idle_inhibitor {
+  padding: 0 1rem 0 0.5rem;
+}

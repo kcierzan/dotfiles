@@ -1,6 +1,4 @@
 {
-    "height": 30,
-    "spacing": 4,
     "modules-left": ["hyprland/workspaces"],
     "modules-right": ["idle_inhibitor", "wireplumber", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "clock", "tray"],
     "hyprland/workspaces": {
@@ -10,15 +8,6 @@
             "urgent": "",
             "focused": "",
             "default": ""
-        }
-    },
-    "keyboard-state": {
-        "numlock": true,
-        "capslock": true,
-        "format": "{name} {icon}",
-        "format-icons": {
-            "locked": "",
-            "unlocked": ""
         }
     },
     "idle_inhibitor": {
@@ -60,6 +49,12 @@
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "wireplumber": {
+      "format": "{volume}% 󰕾",
+      "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +1%",
+      "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -1%",
+      "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
     }
 }
 
