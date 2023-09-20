@@ -1,12 +1,12 @@
 return {
   {
     "lewis6991/gitsigns.nvim",
-    event = "BufReadPost",
+    event = "VeryLazy",
     config = true,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = "BufReadPost",
+    event = "VeryLazy",
     opts = {
       buftype_exclude = { "terminal" },
       filetype_exclude = { "alpha" },
@@ -24,12 +24,12 @@ return {
   },
   {
     "folke/todo-comments.nvim",
-    event = { "BufReadPost" },
+    event = { "VeryLazy" },
     config = true,
   },
   {
     "NvChad/nvim-colorizer.lua",
-    event = "BufReadPre",
+    event = "VeryLazy",
     config = true,
   },
   {
@@ -47,7 +47,7 @@ return {
   },
   {
     "folke/noice.nvim",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
     opts = {
       lsp = {
@@ -102,7 +102,7 @@ return {
   {
     "akinsho/bufferline.nvim",
     version = "*",
-    event = { "VimEnter" },
+    event = { "VeryLazy" },
     config = function()
       require("bufferline").setup({
         options = {

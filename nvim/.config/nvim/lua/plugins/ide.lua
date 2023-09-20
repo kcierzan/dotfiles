@@ -13,16 +13,6 @@ return {
     },
   },
   {
-    "ahmedkhalf/project.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    enabled = false,
-    event = { "BufReadPost" },
-    config = function()
-      require("project_nvim").setup({ manual_mode = false })
-      require("telescope").load_extension("projects")
-    end,
-  },
-  {
     "nvim-neotest/neotest",
     dependencies = { "olimorris/neotest-rspec", "jfpedroza/neotest-elixir" },
     config = function()

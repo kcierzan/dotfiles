@@ -1,7 +1,7 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    event = "BufReadPre",
+    event = "VeryLazy",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
     },
@@ -173,7 +173,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
-    event = "BufReadPost",
+    event = "VeryLazy",
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {
@@ -194,7 +194,7 @@ return {
   {
     "utilyre/barbecue.nvim",
     name = "barbecue",
-    event = { "VimEnter" },
+    event = { "VeryLazy" },
     version = "*",
     config = true,
     dependencies = {
