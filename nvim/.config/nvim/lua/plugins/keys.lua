@@ -112,7 +112,7 @@ return {
             c = { lib.ex_cmd("nohlsearch"), "clear search highlight" },
             f = { lib.ex_cmd("NvimTreeToggle"), "toggle tree" },
             h = { lib.ex_cmd("ColorizerAttachToBuffer"), "colorize buffer" },
-            l = { lib.ex_cmd("IndentBlanklineToggle"), "toggle indentation lines" },
+            l = { lib.ex_cmd("IBLToggle"), "toggle indentation lines" },
             L = { lib.ex_cmd("set cursorline"), "toggle cursorline" },
           },
           o = {

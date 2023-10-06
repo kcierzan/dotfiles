@@ -7,6 +7,7 @@ return {
   {
     "lukas-reineke/indent-blankline.nvim",
     event = "VeryLazy",
+    main = "ibl",
     opts = {
       buftype_exclude = { "terminal" },
       filetype_exclude = { "alpha" },

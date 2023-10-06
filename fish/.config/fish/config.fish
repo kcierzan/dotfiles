@@ -2,6 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
     set fish_cursor_default line
     fish_default_key_bindings
+    fzf_key_bindings
     bind \eg grepfiles
     bind \ep findfile
     bind \ej zoxide-fzf
