@@ -32,7 +32,7 @@ return {
     enabled = false,
     config = function()
       require("nordic").setup({
-        transparent_bg = false
+        transparent_bg = false,
       })
       require("nordic").load()
     end,
@@ -44,7 +44,7 @@ return {
     priority = 1000,
     config = function()
       require("tokyonight").setup({
-        style = "storm",
+        style = "night",
         transparent = false,
       })
       vim.cmd("colorscheme tokyonight")

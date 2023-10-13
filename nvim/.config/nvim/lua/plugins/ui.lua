@@ -9,9 +9,10 @@ return {
     event = "VeryLazy",
     main = "ibl",
     opts = {
-      buftype_exclude = { "terminal" },
-      filetype_exclude = { "alpha" },
-      use_treesitter = true,
+      exclude = {
+        filetypes = { "alpha" },
+        buftypes = { "terminal" }
+      },
       enabled = false,
     },
   },

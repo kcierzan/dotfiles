@@ -2,11 +2,11 @@ local wezterm = require("wezterm")
 local tn = wezterm.get_builtin_color_schemes()["tokyonight_storm"]
 
 return {
-  color_scheme = "Tokyo Night Storm",
+  color_scheme = "Tokyo Night",
   use_fancy_tab_bar = false,
   tab_bar_at_bottom = true,
   default_cursor_style = "BlinkingBar",
-  font = wezterm.font_with_fallback({ "Iosevka Comfy", "Iosevka Nerd Font" }),
+  font = wezterm.font_with_fallback({ "JuliaMono", "FiraCode Nerd Font" }),
   command_palette_bg_color = tn.tab_bar.inactive_tab.bg_color,
   command_palette_fg_color = tn.foreground,
   warn_about_missing_glyphs = false,
