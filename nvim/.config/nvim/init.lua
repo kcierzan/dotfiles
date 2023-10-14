@@ -74,6 +74,8 @@ lib.nmap("L", "g_")
 lib.nmap("H", "^")
 lib.xmap("L", "g_")
 lib.xmap("H", "^")
+lib.omap("H", "^")
+lib.omap("L", "g_")
 
 lib.nmap("<C-l>", lib.ex_cmd("bnext"))
 lib.nmap("<C-h>", lib.ex_cmd("bprev"))

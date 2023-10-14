@@ -12,6 +12,10 @@ function M.tmap(key, command)
   vim.api.nvim_set_keymap("t", key, command, { noremap = true, silent = true })
 end
 
+function M.omap(key, command)
+  vim.api.nvim_set_keymap("o", key, command, { noremap = true, silent = true})
+end
+
 function M.ex_cmd(command)
   return "<cmd>" .. command .. "<cr>"
 end
