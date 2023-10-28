@@ -1,3 +1,9 @@
+if command --query rtx
+  rtx activate fish | source
+else
+  echo "rtx not found!"
+end
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
     set fish_cursor_default line
@@ -21,11 +27,6 @@ if status is-interactive
         echo "zoxide not found!"
     end
 
-    if command --query rtx
-      rtx activate fish | source
-    else
-      echo "rtx not found!"
-    end
 
     if command --query direnv
         direnv hook fish | source
