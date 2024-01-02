@@ -14,12 +14,12 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    dependencies = { "olimorris/neotest-rspec", "jfpedroza/neotest-elixir" },
+    dependencies = { "olimorris/neotest-rspec", "jfpedroza/neotest-elixir", "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("neotest").setup({
         adapters = { require("neotest-rspec"), require("neotest-elixir") },
         output = {
-          open_on_run = false
+          open_on_run = false,
         },
         status = {
           signs = false,
@@ -51,7 +51,6 @@ return {
       local bg_dark = lib.get_hl_group_colors("Cursorline").bg
       local blue = lib.get_hl_group_colors("@function").fg
       local green = lib.get_hl_group_colors("@character").fg
-
 
       vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = red, bg = bg_dark })
       vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = blue, bg = bg_dark })

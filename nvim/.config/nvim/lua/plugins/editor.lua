@@ -76,6 +76,7 @@ return {
   },
   {
     "chrisbra/csv.vim",
+    enabled = false,
     ft = { "csv" },
   },
   {

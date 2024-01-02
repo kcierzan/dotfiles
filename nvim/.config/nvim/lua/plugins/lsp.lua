@@ -25,7 +25,7 @@ return {
         "pyright",
         "ruby_ls",
         "rust_analyzer",
-        "solargraph",
+        -- "solargraph",
         "svelte",
         "tailwindcss",
         "tsserver",
@@ -173,7 +173,8 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    lazy = false,
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {

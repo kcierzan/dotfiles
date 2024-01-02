@@ -44,7 +44,7 @@ return {
     priority = 1000,
     config = function()
       require("tokyonight").setup({
-        style = "night",
+        style = "storm",
         transparent = false,
       })
       vim.cmd("colorscheme tokyonight")
@@ -57,6 +57,15 @@ return {
     priority = 1000,
     config = function()
       vim.cmd.colorscheme("oxocarbon")
+    end,
+  },
+  {
+    "Mofiqul/dracula.nvim",
+    lazy = false,
+    enabled = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("dracula")
     end,
   },
 }
