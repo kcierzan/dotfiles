@@ -1,7 +1,7 @@
-if command --query rtx
-  rtx activate fish | source
+if command --query mise
+  mise activate fish | source
 else
-  echo "rtx not found!"
+  echo "mise not found!"
 end
 
 if status is-interactive
@@ -35,7 +35,7 @@ if status is-interactive
     end
 end
 
-fish_add_path "$HOME/.local/bin" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin "$HOME/.cargo/bin"
+fish_add_path "$HOME/.local/bin" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin "$HOME/.cargo/bin" /opt/homebrew/opt/postgresql@15/bin
 
 set -gx LESS '-F -g -i -M -R -S -w -X -z-4'
 set -gx KEYTIMEOUT 1
