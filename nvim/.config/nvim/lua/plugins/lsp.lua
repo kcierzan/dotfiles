@@ -216,7 +216,7 @@ return {
     end,
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     event = "LspAttach",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()

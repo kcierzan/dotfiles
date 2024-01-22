@@ -35,7 +35,7 @@ if status is-interactive
     end
 end
 
-fish_add_path "$HOME/.local/bin" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin "$HOME/.cargo/bin" /opt/homebrew/opt/postgresql@15/bin
+fish_add_path "$HOME/.local/bin" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin "$HOME/.cargo/bin"
 
 set -gx LESS '-F -g -i -M -R -S -w -X -z-4'
 set -gx KEYTIMEOUT 1
@@ -46,3 +46,7 @@ set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set fish_color_param normal
 set fish_color_error red --bold
 set fish_color_command a0c980 --bold
+
+if command --query rbenv
+  . (rbenv init - | source)
+end

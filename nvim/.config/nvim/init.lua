@@ -103,6 +103,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins", {
   defaults = {
     lazy = true,
+    cond = not vim.g.vscode,
   },
   performance = {
     cache = {

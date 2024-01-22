@@ -2,24 +2,19 @@ return {
   {
     "numToStr/Comment.nvim",
     keys = { "gc", "v", "V" },
+    cond = true,
     config = true,
   },
   {
     "kylechui/nvim-surround",
     keys = { "ys", "ds", "cs", "v", "V" },
+    cond = true,
     config = true,
-  },
-  {
-    "ggandor/leap.nvim",
-    enabled = false,
-    keys = { "s", "S" },
-    config = function()
-      require("leap").add_default_mappings()
-    end,
   },
   {
     "folke/flash.nvim",
     event = "VeryLazy",
+    cond = true,
     keys = {
       {
         "s",
@@ -66,22 +61,20 @@ return {
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
+    cond = true,
     opts = {
       disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
     },
   },
   {
     "tpope/vim-repeat",
+    cond = true,
     keys = { "." },
-  },
-  {
-    "chrisbra/csv.vim",
-    enabled = false,
-    ft = { "csv" },
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
+    cond = true,
     event = "VeryLazy",
     config = function()
       require("nvim-treesitter.configs").setup({
