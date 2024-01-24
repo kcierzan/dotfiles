@@ -16,7 +16,7 @@ return {
   freetype_render_target = "HorizontalLcd",
   command_palette_font_size = 16.0,
   -- TODO: make this macOS-only
-  window_decorations = "INTEGRATED_BUTTONS",
+  window_decorations = "RESIZE",
   -- window_background_opacity = 0.85,
   colors = {
     cursor_border = tn.ansi[3],

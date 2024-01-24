@@ -1,0 +1,56 @@
+[window]
+opacity = 0.8
+blur = true
+option_as_alt = "Both"
+padding = { x = 6, y = 6 }
+decorations = "Buttonless"
+
+[font]
+normal = { family = "0xProto Nerd Font", style = "Regular" }
+size = 16
+
+[cursor]
+style = { shape = "Beam", blinking = "Never" }
+thickness = 0.2
+
+[colors]
+# TokyoNight Alacritty Colors
+# Default colors
+[colors.primary]
+background = '#222436'
+foreground = '#c8d3f5'
+
+#[colors.cursor]
+#cursor = '#c8d3f5'
+#text = '#222436'
+
+# Normal colors
+[colors.normal]
+black = '#1b1d2b'
+red = '#ff757f'
+green = '#c3e88d'
+yellow = '#ffc777'
+blue = '#82aaff'
+magenta = '#c099ff'
+cyan = '#86e1fc'
+white = '#828bb8'
+
+# # Bright colors
+[colors.bright]
+black = '#444a73'
+red = '#ff757f'
+green = '#c3e88d'
+yellow = '#ffc777'
+blue = '#82aaff'
+magenta = '#c099ff'
+cyan = '#86e1fc'
+white = '#c8d3f5'
+
+# # Indexed Colors
+[[colors.indexed_colors]]
+index = 16
+color = '#ff966c'
+
+[[colors.indexed_colors]]
+index = 17
+color = '#c53b53'
