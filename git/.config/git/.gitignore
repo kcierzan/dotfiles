@@ -7,4 +7,6 @@ tags
 .DS_STORE
 .projectile
 lsp.sh
+lsp.rb
 .solargraph.yml
+.null-ls-root
