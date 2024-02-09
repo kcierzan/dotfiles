@@ -40,7 +40,7 @@ return {
   {
     "folke/tokyonight.nvim",
     lazy = false,
-    enabled = true,
+    enabled = false,
     priority = 1000,
     config = function()
       require("tokyonight").setup({
@@ -58,6 +58,20 @@ return {
     config = function()
       vim.cmd.colorscheme("oxocarbon")
     end,
+  },
+  {
+    "loctvl842/monokai-pro.nvim",
+    lazy = false,
+    enabled = true,
+    config = function()
+      require("monokai-pro").setup({
+        transparent_background = false,
+        -- filter = "octagon",
+        filter = "pro",
+      })
+
+      vim.cmd("colorscheme monokai-pro")
+    end
   },
   {
     "Mofiqul/dracula.nvim",

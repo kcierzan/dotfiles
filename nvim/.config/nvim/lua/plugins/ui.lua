@@ -36,9 +36,7 @@ return {
   },
   {
     "rcarriga/nvim-notify",
-    -- dependencies = { "folke/tokyonight.nvim" },
     config = function()
-      -- local tn = require("tokyonight.colors").setup()
       local lib = require("lib")
       require("notify").setup({
         timeout = 800,

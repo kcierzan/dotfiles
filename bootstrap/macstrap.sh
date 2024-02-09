@@ -2,7 +2,6 @@
 DOTFILES_DIR="$HOME/.dotfiles"
 
 HOMEBREW_PACKAGES=(
-  asdf
   bat
   bottom
   broot
@@ -26,6 +25,7 @@ HOMEBREW_PACKAGES=(
   magic-wormhole
   make
   mas
+  mise
   mosh
   'neovim --HEAD'
   openssh
@@ -39,6 +39,7 @@ HOMEBREW_PACKAGES=(
   stow
   sqlite
   wget
+  zellij
   zoxide
 )
 
@@ -190,3 +191,4 @@ subtask_exec 'Setting fish global variables' set_fish_globals
 subtask_exec 'Symlinking bootstrap script' symlink_bootstrap_executable
 
 popd || exit 255
+
