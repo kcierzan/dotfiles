@@ -4,7 +4,6 @@ DOTFILES_DIR="$HOME/.dotfiles"
 HOMEBREW_PACKAGES=(
   bat
   bottom
-  broot
   cling
   cmake
   direnv
@@ -70,19 +69,25 @@ install_casks() {
   BREW_PREFIX="$(brew --prefix)"
   casks=(
     1password
+    alacritty
     betterdisplay
+    font-0xproto-nerd-font
     font-caskaydia-cove-nerd-font
+    font-commit-mono-nerd-font
+    font-geist-mono-nerd-font
     font-iosevka-aile
+    font-iosevka-comfy
     font-iosevka-etoile
     font-iosevka-nerd-font
-    font-iosevka-comfy
+    font-juliamono
+    font-monaspace-nerd-font
+    font-symbols-only-nerd-font
     hyperkey
     iina
+    jetbrains-toolbox
     raycast
     rectangle
     scroll-reverser
-    obsidian
-    wezterm
   )
   for cask in "${casks[@]}"
   do
@@ -98,7 +103,6 @@ stow_dot_dirs() {
     nvim
     starship
     surfingkeys
-    wezterm
   )
   for dot in "${dots[@]}"
   do
