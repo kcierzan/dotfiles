@@ -1,3 +1,5 @@
+fish_add_path "$HOME/.local/bin" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin "$HOME/.cargo/bin"
+
 if command --query mise
   mise activate fish | source
 else
@@ -33,9 +35,11 @@ if status is-interactive
     else
         echo "direnv not found!"
     end
-end
 
-fish_add_path "$HOME/.local/bin" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin "$HOME/.cargo/bin"
+    set fish_color_param normal
+    set fish_color_error red --bold
+    set fish_color_command a0c980 --bold
+end
 
 set -gx LESS '-F -g -i -M -R -S -w -X -z-4'
 set -gx KEYTIMEOUT 1
@@ -43,10 +47,6 @@ set -gx CLICOLOR 1
 set -gx LSCOLORS ExFxBxDxCxegedxbxgxcxd
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 
-set fish_color_param normal
-set fish_color_error red --bold
-set fish_color_command a0c980 --bold
-
-if command --query rbenv
+if command --query rbenv && test -z "$INTELLIJ_ENVIRONMENT_READER"
   . (rbenv init - | source)
 end
