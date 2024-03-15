@@ -11,10 +11,6 @@ decorations = "Buttonless"
 
 [font]
 normal = { family = "MonaspiceNe Nerd Font", style = "Regular" }
-# normal = { family = "0xProto Nerd Font", style = "Regular" }
-# normal = { family = "GeistMono NF", style = "Regular" }
-# normal = { family = "Liga SFMono Nerd Font", style = "Regular" }
-# normal = { family = "CommitMono Nerd Font", style = "Regular" }
 size = 18
 
 [cursor]
