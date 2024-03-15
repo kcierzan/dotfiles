@@ -224,7 +224,7 @@ return {
       null_ls.setup({
         sources = {
           null_ls.builtins.formatting.stylua,
-          null_ls.builtins.diagnostics.ruff,
+          -- null_ls.builtins.diagnostics.ruff,
           null_ls.builtins.diagnostics.rubocop.with({
             command = "bundle",
             args = {"exec", "rubocop", "-f", "json", "--force-exclusion", "--stdin", "$FILENAME"}
