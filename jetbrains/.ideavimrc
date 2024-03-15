@@ -34,6 +34,7 @@ set undofile
 set undolevels=100000
 set foldlevelstart=20
 set showtabline=0
+set clipboard+=unnamed
 
 set commentary
 set easymotion
@@ -118,7 +119,6 @@ map <leader>es <Action>(RunInspection)
 " --------------------------------- Windows -----------------------------
 
 map <leader>ot <Action>(ActivateTerminalToolWindow)
-
 
 " --------------------------------- Run -----------------------------
 
