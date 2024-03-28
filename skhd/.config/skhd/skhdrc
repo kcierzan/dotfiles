@@ -81,42 +81,36 @@
 
 # Define mode: navigation
 :: default : borders active_color=0xfff9cc6c
-:: navigation @ : borders active_color=0xff85dacc
-:: shuffle @ : borders active_color=0xfffd6883
+# :: navigation @ : borders active_color=0xff85dacc
+:: motion @ : borders active_color=0xfffd6883
 
-cmd - return ; navigation
-cmd + shift - return ; shuffle
+cmd - return ; motion
+motion < escape ; default
 
 # Navigation mode bindings
-navigation < cmd + shift - return ; shuffle
-navigation < h : yabai -m window --focus west
-navigation < j : yabai -m window --focus south
-navigation < k : yabai -m window --focus north
-navigation < l : yabai -m window --focus east
-navigation < r : skhd --restart-service
-# Exit navigation mode with escape
-navigation < escape ; default
-
-# shuffle mode bindings
-shuffle < cmd - return ; navigation
-shuffle < h : yabai -m window --swap west
-shuffle < j : yabai -m window --swap south
-shuffle < k : yabai -m window --swap north
-shuffle < l : yabai -m window --swap east
-shuffle < r : skhd --restart-service
-
+motion < h : yabai -m window --focus west
+motion < j : yabai -m window --focus south
+motion < k : yabai -m window --focus north
+motion < l : yabai -m window --focus east
+motion < shift - h : yabai -m window --swap west
+motion < shift - j : yabai -m window --swap south
+motion < shift - k : yabai -m window --swap north
+motion < shift -l : yabai -m window --swap east
+# make managed window take up entire screen
+motion < return : yabai -m window --toggle float --grid 1:1:0:0:1:1
+motion < s : yabai -m window --toggle split
 # toggle emphasized, centered floating window
-shuffle < t : yabai -m window --toggle float --grid 6:6:1:1:4:4
+motion < t : yabai -m window --toggle float --grid 6:6:1:1:4:4
+
+motion < ctrl - p : yabai -m display --focus prev
+motion < ctrl - n : yabai -m display --focus next
+
+# send a window to the next display and follow focus
+motion < cmd + shift - p : yabai -m window --display prev; yabai -m display --focus prev
+motion < cmd + shift - n : yabai -m window --display next; yabai -m display --focus next
 
 # make floating window take up entire screen
-shuffle < up : yabai -m window --grid 1:1:0:0:1:1
-
-# make managed window take up entire screen
-shuffle < return : yabai -m window --toggle float --grid 1:1:0:0:1:1
-
-# Exit shuffle mode with escape
-shuffle < escape ; default
-
+motion < up : yabai -m window --grid 1:1:0:0:1:1
 
 # swap managed window
 # cmd + alt + ctrl - h : yabai -m window --swap west
