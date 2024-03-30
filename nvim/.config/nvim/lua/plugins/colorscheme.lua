@@ -40,12 +40,12 @@ return {
   {
     "folke/tokyonight.nvim",
     lazy = false,
-    enabled = false,
+    enabled = true,
     priority = 1000,
     config = function()
       require("tokyonight").setup({
         style = "storm",
-        transparent = false,
+        transparent = true,
       })
       vim.cmd("colorscheme tokyonight")
     end,
@@ -62,7 +62,7 @@ return {
   {
     "loctvl842/monokai-pro.nvim",
     lazy = false,
-    enabled = true,
+    enabled = false,
     config = function()
       require("monokai-pro").setup({
         transparent_background = false,
