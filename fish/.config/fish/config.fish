@@ -1,5 +1,9 @@
 fish_add_path "$HOME/.local/bin" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin "$HOME/.cargo/bin"
 
+if test (uname -s) = 'Linux'
+  fish_add_path /var/lib/snapd/snap/bin
+end
+
 if command --query mise
   mise activate fish | source
 else

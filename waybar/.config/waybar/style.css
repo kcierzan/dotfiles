@@ -1,6 +1,7 @@
 * {
-  font-family: "Iosevka Comfy";
+  font-family: "MonaspiceNe Nerd Font Mono";
   font-size: 1rem;
+  font-weight: 800;
   padding: 0;
 }
 
@@ -28,7 +29,7 @@ window#waybar {
   margin: 0 0.5rem;
   background-color: #24283b;
   border-radius: 0.75rem;
-  padding: 0 1rem;
+  padding: 0.25rem 1rem;
 }
 
  #workspaces button  {
