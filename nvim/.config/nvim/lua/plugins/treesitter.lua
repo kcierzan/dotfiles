@@ -23,6 +23,7 @@ return {
         "haskell",
         "heex",
         "html",
+        "hyprlang",
         "java",
         "javascript",
         "julia",
