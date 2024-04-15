@@ -10,11 +10,11 @@ return {
       lib.nmap("gh", lib.ex_cmd("lua vim.lsp.buf.hover()"))
       lib.nmap("gd", lib.ex_cmd("lua vim.lsp.buf.definition()"))
       lib.nmap("gD", lib.ex_cmd("lua vim.lsp.buf.incoming_calls()"))
-      lib.nmap("gr", lib.ex_cmd("lua require('navigator.reference').reference()"))
-      lib.nmap("gW", lib.ex_cmd("lua require('navigator.workspace').workspace_symbol_live()"))
-      lib.nmap("gp", lib.ex_cmd("lua require('navigator.definition').definition_preview()"))
+      -- lib.nmap("gr", lib.ex_cmd("lua require('navigator.reference').reference()"))
+      -- lib.nmap("gW", lib.ex_cmd("lua require('navigator.workspace').workspace_symbol_live()"))
+      -- lib.nmap("gp", lib.ex_cmd("lua require('navigator.definition').definition_preview()"))
       lib.nmap("gi", lib.ex_cmd("lua vim.lsp.buf.implementation()"))
-      lib.nmap("gL", lib.ex_cmd("lua require('navigator.diagnostics').show_diagnostics()"))
+      -- lib.nmap("gL", lib.ex_cmd("lua require('navigator.diagnostics').show_diagnostics()"))
       lib.nmap("]e", lib.ex_cmd("lua vim.diagnostic.goto_next()"))
       lib.nmap("[e", lib.ex_cmd("lua vim.diagnostic.goto_prev()"))
       lib.nmap("]g", lib.ex_cmd("Gitsigns next_hunk"))
@@ -30,8 +30,8 @@ return {
             F = { vim.lsp.buf.format, "format buffer" },
             I = { lib.ex_cmd("LspInfo"), "info" },
             L = { lib.ex_cmd("LspLog"), "log" },
-            a = { lib.ex_cmd("lua require('navigator.codeAction').code_action()"), "code action" },
-            e = { lib.ex_cmd("Trouble"), "show errors and warnings" },
+            -- a = { lib.ex_cmd("lua require('navigator.codeAction').code_action()"), "code action" },
+            -- e = { lib.ex_cmd("Trouble"), "show errors and warnings" },
             o = { lib.ex_cmd("LspSymbols"), "toggle outline" },
             q = { lib.ex_cmd("LspRestart"), "restart" },
             r = { lib.ex_cmd("lua vim.lsp.buf.rename()"), "rename" },
@@ -44,7 +44,7 @@ return {
             c = { lib.telescope_builtin("git_commits"), "commits" },
             d = { lib.telescope_builtin("lsp_definitions"), "definitions" },
             f = { lib.fast_find_file, "files in repo" },
-            R = { lib.ex_cmd("Spectre"), "replace" },
+            -- R = { lib.ex_cmd("Spectre"), "replace" },
             g = { lib.live_grep_from_git_root, "text in git files" },
             h = { lib.telescope_builtin("oldfiles"), "oldfiles" },
             i = { lib.telescope_builtin("lsp_implementations"), "implementations" },
@@ -122,57 +122,57 @@ return {
             g = { lib.ex_cmd("Neotree git_status left"), "git status tree" },
             b = { lib.ex_cmd("Neotree buffers"), "open buffers tree" },
           },
-          t = {
-            name = "+test",
-            b = { lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b')"), "b4b suite" },
-            c = { lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/clinic')"), "clinic suite" },
-            f = { lib.test_file_from_engine_root, "file" },
-            g = { lib.ex_cmd("A"), "show test file" },
-            m = { lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b_core')"), "b4b_core suite" },
-            o = { lib.ex_cmd("lua require('neotest').output_panel.toggle()"), "toggle output" },
-            s = { lib.stop_test, "stop test run" },
-            t = { lib.test_test_from_engine_root, "test" },
-          },
-          g = {
-            name = "+git",
-            B = { lib.ex_cmd("Gitsigns stage_buffer"), "stage buffer" },
-            R = { lib.ex_cmd("Gitsigns reset_buffer"), "reset bufffer" },
-            b = { lib.ex_cmd("Gitsigns toggle_current_line_blame"), "toggle blame" },
-            c = { lib.ex_cmd("Gvdiffsplit!"), "3 way merge" },
-            d = { lib.ex_cmd("Gvdiffsplit"), "diff staged & working tree" },
-            h = { lib.ex_cmd("Gitsigns stage_hunk"), "stage hunk" },
-            l = { lib.ex_cmd("TermExec direction=float cmd=lazygit"), "open lazygit" },
-            o = { lib.ex_cmd("GBrowse"), "open in github" },
-            p = { lib.ex_cmd("Gitsigns preview_hunk"), "preview hunk" },
-            r = { lib.ex_cmd("Gitsigns reset_hunk"), "reset hunk" },
-            s = { lib.ex_cmd("Git"), "status" },
-          },
-          d = {
-            name = "+debug",
-            b = { lib.ex_cmd("lua require('dap').toggle_breakpoint()"), "toggle breakpoint" },
-            c = { lib.ex_cmd("lua require('dap').continue()"), "continue" },
-            o = { lib.ex_cmd("lua require('dap').step_over()"), "step over" },
-            i = { lib.ex_cmd("lua require('dap').step_into()"), "step into" },
-            u = { lib.ex_cmd("lua require('dapui').toggle()"), "toggle UI" },
-            r = { lib.ex_cmd("lua require('dap').repl.toggle()"), "toggle repl" },
-            f = {
-              lib.ex_cmd(
-                "lua require('dapui').float_element('repl', { height = 40, width = 140, position = 'center', enter = true })"
-              ),
-              "toggle floating repl",
-            },
-          },
+          -- t = {
+          --   name = "+test",
+          --   b = { lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b')"), "b4b suite" },
+          --   c = { lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/clinic')"), "clinic suite" },
+          --   f = { lib.test_file_from_engine_root, "file" },
+          --   g = { lib.ex_cmd("A"), "show test file" },
+          --   m = { lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b_core')"), "b4b_core suite" },
+          --   o = { lib.ex_cmd("lua require('neotest').output_panel.toggle()"), "toggle output" },
+          --   s = { lib.stop_test, "stop test run" },
+          --   t = { lib.test_test_from_engine_root, "test" },
+          -- },
+          -- g = {
+          --   name = "+git",
+          --   B = { lib.ex_cmd("Gitsigns stage_buffer"), "stage buffer" },
+          --   R = { lib.ex_cmd("Gitsigns reset_buffer"), "reset bufffer" },
+          --   b = { lib.ex_cmd("Gitsigns toggle_current_line_blame"), "toggle blame" },
+          --   c = { lib.ex_cmd("Gvdiffsplit!"), "3 way merge" },
+          --   d = { lib.ex_cmd("Gvdiffsplit"), "diff staged & working tree" },
+          --   h = { lib.ex_cmd("Gitsigns stage_hunk"), "stage hunk" },
+          --   l = { lib.ex_cmd("TermExec direction=float cmd=lazygit"), "open lazygit" },
+          --   o = { lib.ex_cmd("GBrowse"), "open in github" },
+          --   p = { lib.ex_cmd("Gitsigns preview_hunk"), "preview hunk" },
+          --   r = { lib.ex_cmd("Gitsigns reset_hunk"), "reset hunk" },
+          --   s = { lib.ex_cmd("Git"), "status" },
+          -- },
+          -- d = {
+          --   name = "+debug",
+          --   b = { lib.ex_cmd("lua require('dap').toggle_breakpoint()"), "toggle breakpoint" },
+          --   c = { lib.ex_cmd("lua require('dap').continue()"), "continue" },
+          --   o = { lib.ex_cmd("lua require('dap').step_over()"), "step over" },
+          --   i = { lib.ex_cmd("lua require('dap').step_into()"), "step into" },
+          --   u = { lib.ex_cmd("lua require('dapui').toggle()"), "toggle UI" },
+          --   r = { lib.ex_cmd("lua require('dap').repl.toggle()"), "toggle repl" },
+          --   f = {
+          --     lib.ex_cmd(
+          --       "lua require('dapui').float_element('repl', { height = 40, width = 140, position = 'center', enter = true })"
+          --     ),
+          --     "toggle floating repl",
+          --   },
+          -- },
         },
       }
 
       local visual_mappings = {
         ["<leader>"] = {
-          g = {
-            name = "+git",
-            o = { lib.ex_cmd("'<,'>GBrowse"), "open in github" },
-            h = { lib.ex_cmd("Gitsigns stage_hunk"), "stage hunk" },
-            r = { lib.ex_cmd("Gitsigns reset_hunk"), "reset hunk" },
-          },
+          -- g = {
+          --   name = "+git",
+          --   o = { lib.ex_cmd("'<,'>GBrowse"), "open in github" },
+          --   h = { lib.ex_cmd("Gitsigns stage_hunk"), "stage hunk" },
+          --   r = { lib.ex_cmd("Gitsigns reset_hunk"), "reset hunk" },
+          -- },
           f = {
             name = "+find",
             f = {

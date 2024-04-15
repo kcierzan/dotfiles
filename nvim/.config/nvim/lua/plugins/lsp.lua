@@ -23,7 +23,7 @@ return {
         "jsonls",
         "lua_ls",
         "pyright",
-        "ruby_ls",
+        "ruby_lsp",
         "rust_analyzer",
         -- "solargraph",
         "svelte",
@@ -105,10 +105,12 @@ return {
   {
     "ray-x/guihua.lua",
     build = "cd lua/fzy && make",
+    enabled = false,
   },
   {
     "ray-x/navigator.lua",
     dependencies = { "ray-x/guihua.lua", "neovim/nvim-lspconfig" },
+    enabled = false,
     event = "LspAttach",
     config = function()
       require("navigator").setup({
@@ -195,6 +197,7 @@ return {
   {
     "utilyre/barbecue.nvim",
     name = "barbecue",
+    enabled = false,
     event = { "VeryLazy" },
     version = "*",
     config = true,

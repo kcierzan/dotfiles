@@ -40,7 +40,7 @@ return {
   {
     "folke/tokyonight.nvim",
     lazy = false,
-    enabled = true,
+    enabled = false,
     priority = 1000,
     config = function()
       require("tokyonight").setup({
@@ -82,4 +82,18 @@ return {
       vim.cmd.colorscheme("dracula")
     end,
   },
+  {
+    "miikanissi/modus-themes.nvim",
+    priority = 1000,
+    lazy = false,
+    enabled = true,
+    config = function()
+      require('modus-themes').setup({
+        transparent = true,
+        variant = "tinted"
+      })
+
+      vim.cmd("colorscheme modus")
+    end
+}
 }

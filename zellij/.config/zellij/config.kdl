@@ -1,1 +1,14 @@
-theme "twofiftysix"
+default_mode "locked"
+theme "modus_vivendi_tinted"
+
+keybinds {
+  locked {
+    bind "Alt h" { MoveFocus "Left"; }
+    bind "Alt l" { MoveFocus "Right"; }
+    bind "Alt j" { MoveFocus "Down"; }
+    bind "Alt k" { MoveFocus "Up"; }
+    bind "Alt n" { NewPane; }
+    bind "Alt ]" { NextSwapLayout; }
+    bind "Alt [" { NextSwapLayout; }
+  }
+}

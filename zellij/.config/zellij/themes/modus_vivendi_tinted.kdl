@@ -1,0 +1,15 @@
+themes {
+  modus_vivendi_tinted {
+    fg 8
+    bg 0
+    black 0
+    red 1
+    green 4
+    yellow 3
+    blue 4
+    magenta 5
+    cyan 6
+    white 7
+    orange 11
+  }
+}

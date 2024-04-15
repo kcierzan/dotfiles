@@ -5,6 +5,7 @@ return {
   },
   {
     "akinsho/toggleterm.nvim",
+    enabled = true,
     keys = { "<C-;>" },
     cmd = { "ToggleTerm", "TermExec" },
     opts = {
@@ -14,6 +15,7 @@ return {
   },
   {
     "nvim-neotest/neotest",
+    enabled = false,
     dependencies = { "olimorris/neotest-rspec", "jfpedroza/neotest-elixir", "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("neotest").setup({
@@ -30,6 +32,7 @@ return {
   },
   {
     "tpope/vim-fugitive",
+    enabled = false,
     dependencies = { "tpope/vim-rhubarb" },
     cmd = {
       "Git",
@@ -45,6 +48,7 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
+    enabled = false,
     config = function()
       local lib = require("lib")
       local red = lib.get_hl_group_colors("Error").fg
@@ -80,11 +84,13 @@ return {
   },
   {
     "rcarriga/nvim-dap-ui",
+    enabled = false,
     dependencies = { "mfussenegger/nvim-dap" },
     config = true,
   },
   {
     "suketa/nvim-dap-ruby",
+    enabled = false,
     dependencies = { "mfussenegger/nvim-dap" },
     ft = { "ruby", "eruby" },
     config = true,
@@ -112,6 +118,7 @@ return {
   },
   {
     "nvim-pack/nvim-spectre",
+    enabled = false,
     cmd = { "Spectre" },
     config = true,
   },
