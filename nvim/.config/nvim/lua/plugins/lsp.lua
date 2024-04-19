@@ -35,7 +35,7 @@ return {
         local opts = { capabilities = capabilities }
 
         if server == "ruby_ls" then
-          opts.cmd = { "bundle", "exec", "ruby-lsp" }
+          opts.cmd = { "ruby-lsp" }
           opts.root_dir = require("lspconfig").util.root_pattern("Gemfile")
         elseif server == "solargraph" then
           opts.cmd = { "bundle", "exec", "solargraph", "stdio" }
