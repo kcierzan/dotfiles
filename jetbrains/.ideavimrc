@@ -128,6 +128,9 @@ map <leader>bo <Action>(MoveEditorToOppositeTabGroup)
 let g:WhichKeyDesc_copy_absolute_path = "<leader>by copy absolute file path"
 map <leader>by <Action>(CopyAbsolutePath)
 
+let g:WhichKeyDesc_save_all = "<leader>bs save buffer"
+map <leader>bs <Action>(SaveAll)
+
 " --------------------------------- Interface -----------------------------
 let g:WhichKeyDesc_interface = "<leader>i interface"
 

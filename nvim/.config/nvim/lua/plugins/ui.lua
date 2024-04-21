@@ -11,7 +11,7 @@ return {
     opts = {
       exclude = {
         filetypes = { "alpha" },
-        buftypes = { "terminal" }
+        buftypes = { "terminal" },
       },
       enabled = false,
     },
@@ -106,6 +106,7 @@ return {
     version = "*",
     enabled = false,
     event = { "VeryLazy" },
+    requires = "nvim-tree/nvim-web-devicons",
     config = function()
       require("bufferline").setup({
         options = {
@@ -113,7 +114,7 @@ return {
           show_buffer_close_icons = false,
           indicator = { style = "none" },
           -- separator_style = { "", "" },
-          separator_style = "slant",
+          -- separator_style = "slant",
           offsets = {
             {
               filetype = "neo-tree",
@@ -147,13 +148,13 @@ return {
             "Mutable objects are the new Spaghetti code.",
             "...recognize the difference between abstracting in order to simplify, and abstracting in order to hide.",
             "By the time you're writing a service, there's nothing premature about abstraction.",
-            "I was an expert C++ user and really loved C++. For some value of 'love', that involves no satisfaction at all."
+            "I was an expert C++ user and really loved C++. For some value of 'love', that involves no satisfaction at all.",
           },
           ["Paul Graham"] = {
             "Object-oriented programming offers a sustainable way to write spaghetti code.",
             "Object-oriented programming lets you accrete programs as a series of patches.",
-            "The recipe for great work is very exacting taste, plus the ability to gratify it."
-          }
+            "The recipe for great work is very exacting taste, plus the ability to gratify it.",
+          },
         }
 
         local random_author = lib.random_table_key(quotes)
@@ -166,11 +167,11 @@ return {
       require("dashboard").setup({
         config = {
           shortcut = {
-            { desc = "Find files", key = "f", group = "@function", action = lib.fast_find_file },
-            { desc = "Grep", key = "g", group = "@character", action = lib.live_grep_from_git_root },
-            { desc = "Plugins", key = "p", group = "@string.documentation", action = "Lazy" },
-            { desc = "Help", key = "h", group = "@boolean", action = telescope.help_tags },
-            { desc = "Quit", key = "q", group = "@variable.builtin", action = "q!" },
+            { desc = "Find files", key = "f", group = "@function",             action = lib.fast_find_file },
+            { desc = "Grep",       key = "g", group = "@character",            action = lib.live_grep_from_git_root },
+            { desc = "Plugins",    key = "p", group = "@string.documentation", action = "Lazy" },
+            { desc = "Help",       key = "h", group = "@boolean",              action = telescope.help_tags },
+            { desc = "Quit",       key = "q", group = "@variable.builtin",     action = "q!" },
           },
           header = {
             "",
