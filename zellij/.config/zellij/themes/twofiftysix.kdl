@@ -1,15 +1,15 @@
 themes {
   twofiftysix {
-    fg 7
-    bg 0
-    black 0
-    red 1
-    green 2
+    fg 240
+    bg 235
+    black 235
+    red 3
+    green 4
     yellow 3
     blue 4
     magenta 5
     cyan 6
-    white 255
+    white 240
     orange 16
   }
 }
