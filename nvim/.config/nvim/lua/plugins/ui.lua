@@ -36,6 +36,7 @@ return {
   },
   {
     "rcarriga/nvim-notify",
+    enabled = false,
     config = function()
       local lib = require("lib")
       require("notify").setup({
@@ -47,6 +48,7 @@ return {
   },
   {
     "folke/noice.nvim",
+    enabled = false,
     event = { "VeryLazy" },
     dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
     opts = {
@@ -102,6 +104,7 @@ return {
   {
     "akinsho/bufferline.nvim",
     version = "*",
+    enabled = false,
     event = { "VeryLazy" },
     config = function()
       require("bufferline").setup({

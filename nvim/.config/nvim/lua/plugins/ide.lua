@@ -14,6 +14,7 @@ return {
   },
   {
     "nvim-neotest/neotest",
+    enabled = false,
     dependencies = { "olimorris/neotest-rspec", "jfpedroza/neotest-elixir", "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("neotest").setup({
@@ -80,11 +81,13 @@ return {
   },
   {
     "rcarriga/nvim-dap-ui",
+    enabled = false,
     dependencies = { "mfussenegger/nvim-dap" },
     config = true,
   },
   {
     "suketa/nvim-dap-ruby",
+    enabled = false,
     dependencies = { "mfussenegger/nvim-dap" },
     ft = { "ruby", "eruby" },
     config = true,

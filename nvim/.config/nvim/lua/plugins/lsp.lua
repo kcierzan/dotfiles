@@ -23,7 +23,7 @@ return {
         "jsonls",
         "lua_ls",
         "pyright",
-        "ruby_ls",
+        "ruby_lsp",
         "rust_analyzer",
         -- "solargraph",
         "svelte",
@@ -34,7 +34,7 @@ return {
       for _, server in ipairs(servers) do
         local opts = { capabilities = capabilities }
 
-        if server == "ruby_ls" then
+        if server == "ruby_lsp" then
           opts.cmd = { "ruby-lsp" }
           opts.root_dir = require("lspconfig").util.root_pattern("Gemfile")
         elseif server == "solargraph" then
@@ -195,6 +195,7 @@ return {
   {
     "utilyre/barbecue.nvim",
     name = "barbecue",
+    enabled = false,
     event = { "VeryLazy" },
     version = "*",
     config = true,
