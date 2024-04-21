@@ -10,7 +10,7 @@ opacity = 0.9
 blur = true
 
 [font]
-normal = { family = "MonaspiceNe Nerd Font", style = "Regular" }
+normal = { family = "IosevkaNeapolitan Nerd Font", style = "Regular" }
 size = 18
 
 [cursor]
