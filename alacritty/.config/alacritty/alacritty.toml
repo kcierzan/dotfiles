@@ -11,6 +11,7 @@ blur = true
 
 [font]
 normal = { family = "IosevkaNeapolitan Nerd Font", style = "Medium" }
+bold = { family = "IosevkaNeapolitan Nerd Font", style = "Bold" }
 size = 18
 
 [cursor]
