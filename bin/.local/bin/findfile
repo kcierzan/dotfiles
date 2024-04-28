@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+preview_cmd='if [ $(file --mime -b {} | grep -c binary) -eq 0 ]; then preview {} 2> /dev/null | head -2000; else echo \"{} is a binary file\"; fi'
+excludes='(.git node_modules *.pyc tmp)'
+get_files="fd . --no-ignore --strip-cwd-prefix --hidden --type f $(printf -- '--exclude=%s ' \"${excludes[@]}\") 2>/dev/null"
+filter_files="fzf -m --exit-0 --preview-window=up:80% --preview '$preview_cmd'"
+cmd="$get_files | $filter_files"
+
+file=$(eval "$cmd")
+
+if [ -n "$file" ]; then
+  eval "$EDITOR" "$file"
+fi
