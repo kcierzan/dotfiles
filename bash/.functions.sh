@@ -1,10 +1,16 @@
 ifile() {
     local file
+    local get_files
+    local excludes=(.git node_modules '*.pyc' tmp)
 
-    local excludes='(.git node_modules *.pyc tmp)'
-    local get_files="fd . --no-ignore --strip-cwd-prefix --hidden --type f $(printf -- '--exclude=%s ' \"${excludes[@]}\") 2>/dev/null"
+    get_files="fd . --no-ignore --strip-cwd-prefix --hidden --type f"
+
+    for exclude in "${excludes[@]}"; do
+        get_files+=" --exclude='$exclude'"
+    done
+
     local filter_files="fzf -m --exit-0 --preview-window=up:80% --preview 'fzf-preview {}'"
-    local cmd="$get_files | $filter_files"
+    local cmd="$get_files 2>/dev/null | $filter_files"
 
     file=$(eval "$cmd")
 
@@ -58,6 +64,26 @@ igrep() {
     linefile=$(eval "$get_files | $filter_files | $format_for_editor")
 
     if [ -n "$linefile" ]; then
-        eval "$EDITOR" "$(echo $linefile | tr ' ' '\n')"
+        echo "$linefile" | tr ' ' '\n' | xargs -d '\n' "$EDITOR"
     fi
 }
+
+lg() {
+    lazygit
+}
+
+if grep -q 'zsh' <<<"$SHELL"; then
+    icd() {
+        zi && zle reset-prompt
+    }
+
+    zle -N ifile
+    zle -N igrep
+    zle -N lg
+    zle -N icd
+
+    bindkey '^[p' ifile
+    bindkey '^[g' igrep
+    bindkey '^[v' lg
+    bindkey '^[j' icd
+fi

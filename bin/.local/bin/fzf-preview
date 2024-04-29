@@ -2,7 +2,7 @@
 
 file="$1"
 
-if file --mime "$file" | grep -q 'binary'; then
+if file --mime "$file" | rg -q 'binary'; then
     echo "File is a binary file"
     exit 0
 fi

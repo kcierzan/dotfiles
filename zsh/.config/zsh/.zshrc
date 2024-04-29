@@ -18,10 +18,12 @@ eval "$(starship init zsh)"
 # initialize zoxide
 eval "$(zoxide init zsh)"
 
+# initialize mise
+eval "$(mise activate zsh)"
+
 # set up aliases
 alias g='git'
 alias gr='grepfiles'
-alias lg='lazygit'
 alias ff='findfile'
 alias la='lsd -lah'
 alias be='bundle exec'
