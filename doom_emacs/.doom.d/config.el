@@ -8,6 +8,8 @@
 (setq user-full-name "John Doe"
       user-mail-address "john@doe.com")
 
+(setq shell-file-name (executable-find "zsh"))
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
@@ -20,8 +22,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Iosevka Comfy" :size 18 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Iosevka Comfy Duo" :size 18 :weight 'regular))
+(setq doom-font (font-spec :family "IosevkaNeapolitan Nerd Font" :size 18 :weight 'medium)
+      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 18 :weight 'medium))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -31,7 +33,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-dracula)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -85,15 +87,23 @@
 ;; The pager is generally just annoying in emacs
 (setenv "PAGER" "cat")
 
-;; tell lsp-mode that it should use html-lsp for .erb files
-(after! lsp-mode
-  (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html")))
+(setq lsp-disabled-clients '(rubocop-ls))
 
-(let ((disabled-formatting-modes '(c-mode web-mode)))
-  (dolist (elem disabled-formatting-modes)
-    ;; the `+format-on-save-enabled-modes' list starts with a `not' so this disables
-    ;; format-on-save for web-mode as it wreaks havoc on .erb files. Fun times with elisp...
-    (add-to-list '+format-on-save-enabled-modes elem t)))
+
+(after! lsp-mode
+  ;; use web mode for erb files
+  (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
+  ;; use ruby-lsp instead of solargraph
+  (lsp-register-client (make-lsp-client :new-connection (lsp-stdio-connection '("ruby-lsp"))
+                                        :major-modes '(ruby-mode)
+                                        :priority 1
+                                        :server-id 'ruby-lsp-ls)))
+
+;; (let ((disabled-formatting-modes '(c-mode web-mode)))
+;;   (dolist (elem disabled-formatting-modes)
+;;     ;; the `+format-on-save-enabled-modes' list starts with a `not' so this disables
+;;     ;; format-on-save for web-mode as it wreaks havoc on .erb files. Fun times with elisp...
+;;     (add-to-list '+format-on-save-enabled-modes elem t)))
 
 ;; snipe all the things we can see
 (after! evil-snipe
