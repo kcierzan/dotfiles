@@ -15,11 +15,10 @@ if status is-interactive
     set fish_cursor_default line
     fish_default_key_bindings
     fzf_key_bindings
-    bind \eg grepfiles
-    bind \ep findfile
+    bind \eg fishgrep
+    bind \ep fishfindfile
     bind \ej zoxide-fzf
     bind \ev lazygit
-    bind \ei br
 
     if command --query starship
         starship init fish | source
