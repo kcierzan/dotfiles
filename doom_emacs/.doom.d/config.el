@@ -89,6 +89,9 @@
 
 (setq lsp-disabled-clients '(rubocop-ls))
 
+;; Nobody uses prettier-ruby
+(setq-hook! 'ruby-mode-hook +format-with 'rubocop)
+
 
 (after! lsp-mode
   ;; use web mode for erb files
@@ -98,12 +101,6 @@
                                         :major-modes '(ruby-mode)
                                         :priority 1
                                         :server-id 'ruby-lsp-ls)))
-
-;; (let ((disabled-formatting-modes '(c-mode web-mode)))
-;;   (dolist (elem disabled-formatting-modes)
-;;     ;; the `+format-on-save-enabled-modes' list starts with a `not' so this disables
-;;     ;; format-on-save for web-mode as it wreaks havoc on .erb files. Fun times with elisp...
-;;     (add-to-list '+format-on-save-enabled-modes elem t)))
 
 ;; snipe all the things we can see
 (after! evil-snipe
