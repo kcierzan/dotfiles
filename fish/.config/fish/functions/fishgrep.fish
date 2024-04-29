@@ -1,3 +1,3 @@
 function fishgrep --description 'Fuzzy file grepper'
-  bash -c 'grepfiles'
+    bash -c 'call-bash-func igrep'
 end

@@ -1,3 +1,3 @@
 function fishfindfile --description 'Fuzzy file finder'
-  bash -c findfile
+    bash -c 'call-bash-func ifile'
 end

@@ -20,3 +20,4 @@ alias reload='source ~/.bash_profile'
 #shellcheck source=/dev/null
 source "$HOME/.bootstrap/env.sh"
 
+source ~/.functions.sh

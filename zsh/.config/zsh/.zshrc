@@ -37,3 +37,5 @@ antidote load ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
 
 # load zsh completion system
 [ -f "$ZDOTDIR/completion.zsh" ] && source "$ZDOTDIR/completion.zsh"
+
+source "$HOME/.functions.sh"
