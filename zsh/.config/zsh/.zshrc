@@ -1,5 +1,3 @@
-#!/usr/bin/env zsh
-
 # use emacs keybinds
 bindkey -e
 
