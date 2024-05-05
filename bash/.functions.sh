@@ -64,26 +64,10 @@ igrep() {
     linefile=$(eval "$get_files | $filter_files | $format_for_editor")
 
     if [ -n "$linefile" ]; then
-        echo "$linefile" | tr ' ' '\n' | xargs -d '\n' "$EDITOR"
+        echo "$linefile" | tr ' ' '\n' | gxargs -d '\n' "$EDITOR"
     fi
 }
 
 lg() {
     lazygit
 }
-
-if grep -q 'zsh' <<<"$SHELL"; then
-    icd() {
-        zi && zle reset-prompt
-    }
-
-    zle -N ifile
-    zle -N igrep
-    zle -N lg
-    zle -N icd
-
-    bindkey '^[p' ifile
-    bindkey '^[g' igrep
-    bindkey '^[v' lg
-    bindkey '^[j' icd
-fi

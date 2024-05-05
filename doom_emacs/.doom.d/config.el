@@ -22,8 +22,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "IosevkaNeapolitan Nerd Font" :size 18 :weight 'medium)
-      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 18 :weight 'medium))
+(setq doom-font (font-spec :family "IosevkaNeapolitan Nerd Font" :size 16 :weight 'medium)
+      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16 :weight 'medium))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -87,7 +87,7 @@
 ;; The pager is generally just annoying in emacs
 (setenv "PAGER" "cat")
 
-(setq lsp-disabled-clients '(rubocop-ls))
+(setq lsp-disabled-clients '(rubocop-ls semgrep-ls))
 
 ;; Nobody uses prettier-ruby
 (setq-hook! 'ruby-mode-hook +format-with 'rubocop)
