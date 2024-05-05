@@ -1,13 +1,13 @@
-fish_add_path "$HOME/.local/bin" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin "$HOME/.cargo/bin"
+fish_add_path "$HOME/.local/bin" /opt/homebrew/bin /usr/local/bin /usr/local/sbin /usr/bin /usr/sbin /sbin "$HOME/.cargo/bin" "$HOME/.emacs.d/bin"
 
-if test (uname -s) = 'Linux'
-  fish_add_path /var/lib/snapd/snap/bin
+if test (uname -s) = Linux
+    fish_add_path /var/lib/snapd/snap/bin
 end
 
 if command --query mise
-  mise activate fish | source
+    mise activate fish | source
 else
-  echo "mise not found!"
+    echo "mise not found!"
 end
 
 if status is-interactive
@@ -15,11 +15,10 @@ if status is-interactive
     set fish_cursor_default line
     fish_default_key_bindings
     fzf_key_bindings
-    bind \eg grepfiles
-    bind \ep findfile
-    bind \ej zoxide-fzf
+    bind \eg igrep
+    bind \ep ifile
+    bind \ej icd
     bind \ev lazygit
-    bind \ei br
 
     if command --query starship
         starship init fish | source
@@ -51,6 +50,6 @@ set -gx CLICOLOR 1
 set -gx LSCOLORS ExFxBxDxCxegedxbxgxcxd
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 
-if command --query rbenv && test -z "$INTELLIJ_ENVIRONMENT_READER"
-  . (rbenv init - | source)
-end
+# if command --query rbenv && test -z "$INTELLIJ_ENVIRONMENT_READER"
+#     . (rbenv init - | source)
+# end
