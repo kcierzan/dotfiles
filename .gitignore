@@ -51,3 +51,4 @@ fisher.fish
 .zcompdump
 .zhistory
 .zsh_plugins.zsh
+**/.zsh_sessions/*
