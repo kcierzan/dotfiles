@@ -47,3 +47,7 @@ fisher.fish
 **/fish/conf.d/*
 **/fish/completions/*
 
+# zsh junk
+.zcompdump
+.zhistory
+.zsh_plugins.zsh
