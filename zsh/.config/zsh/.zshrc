@@ -34,6 +34,7 @@ eval "$(mise activate zsh)"
 
 # load plugin manager
 [ -f "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh" ] && source "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh"
+[ -f "/usr/share/zsh-antidote/antidote.zsh" ] && source "/usr/share/zsh-antidote/antidote.zsh"
 antidote load ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
 
 # load zsh completion system
