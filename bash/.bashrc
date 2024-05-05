@@ -1,10 +1,7 @@
 eval "$(direnv hook bash)"
 eval "$(mise activate bash)"
 
-#shellcheck source=/dev/null
-# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-command -v fzf 2>&1 >/dev/null && eval "$(fzf --bash)"
+command -v fzf > /dev/null 2>&1 && eval "$(fzf --bash)"
 
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
