@@ -1,9 +1,10 @@
 eval "$(direnv hook bash)"
-
 eval "$(mise activate bash)"
 
 #shellcheck source=/dev/null
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+command -v fzf 2>&1 >/dev/null && eval "$(fzf --bash)"
 
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
@@ -18,6 +19,6 @@ alias gs='git status'
 alias reload='source ~/.bash_profile'
 
 #shellcheck source=/dev/null
-source "$HOME/.bootstrap/env.sh"
+[ -f "$HOME/.boostrap/env.sh" ] && source "$HOME/.bootstrap/env.sh"
 
 source ~/.functions.sh
