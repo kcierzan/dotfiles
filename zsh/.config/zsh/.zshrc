@@ -10,7 +10,7 @@ alias la='lsd -lah'
 alias be='bundle exec'
 alias gs='git status'
 alias reload="exec zsh"
-
+alias lg='lazygit'
 
 # initialize direnv
 eval "$(direnv hook zsh)"

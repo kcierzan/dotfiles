@@ -60,20 +60,16 @@ igrep() {
             ;;
     esac
 
+    # Execute the file search, selection, and parsing
+    linefile=$(eval "$get_files | $filter_files | $format_for_editor")
+
     if xargs --help 2>&1 | grep -q "\-d"; then
       xargs_command="xargs"
     else
       xargs_command="gxargs"
     fi
 
-    # Execute the file search, selection, and parsing
-    linefile=$(eval "$get_files | $filter_files | $format_for_editor")
-
     if [ -n "$linefile" ]; then
         echo "$linefile" | tr ' ' '\n' | $xargs_command -d '\n' "$EDITOR"
     fi
-}
-
-lg() {
-    lazygit
 }
