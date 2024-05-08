@@ -44,9 +44,9 @@ cmd-ctrl-alt-8 = 'workspace 8'
 cmd-ctrl-alt-9 = 'workspace 9'
 cmd-ctrl-alt-0 = 'workspace 10'
 
-cmd-ctrl-alt-shift-1 = 'move-node-to-workspace 1'
-cmd-ctrl-alt-shift-2 = 'move-node-to-workspace 2'
-cmd-ctrl-alt-shift-3 = 'move-node-to-workspace 3'
+cmd-ctrl-alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
+cmd-ctrl-alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
+cmd-ctrl-alt-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
 cmd-ctrl-alt-shift-4 = 'move-node-to-workspace 4'
 cmd-ctrl-alt-shift-5 = 'move-node-to-workspace 5'
 cmd-ctrl-alt-shift-6 = 'move-node-to-workspace 6'
@@ -76,6 +76,6 @@ outer.top = 10
 outer.right = 10
 
 [workspace-to-monitor-force-assignment]
-1 = 2
-2 = 1
-3 = 3
+1 = 3
+2 = 2
+3 = 1

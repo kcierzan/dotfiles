@@ -3,6 +3,7 @@
 ;; This file controls what Doom modules are enabled and what order they load
 ;; in. Remember to run 'doom sync' after modifying it!
 
+
 ;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
 ;;      documentation. There you'll find a link to Doom's Module Index where all
 ;;      of our modules are listed, including what flags they support.
@@ -25,7 +26,6 @@
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
-       ;; (corfu +icons +orderless +dabbrev)
        (vertico +icons)    ; the search engine of the future
 
        :ui
@@ -58,7 +58,7 @@
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        (format +onsave)  ; automated prettiness
-       ;;god               ; run Emacs commands without modifier keys
+       ;;god             ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        ;;multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
@@ -168,7 +168,7 @@
        ;;(rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps
-       (sh +fish +lsp +tree-sitter)                ; she sells {ba,z,fi}sh shells on the C xor
+       (sh +lsp +tree-sitter)                ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
