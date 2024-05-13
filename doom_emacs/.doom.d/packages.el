@@ -58,11 +58,13 @@
 ;;   :recipe (:host github :repo "magit/with-editor"))
 
 (package! prisma-mode
+  :disable t
   :recipe (:host github
            :repo "pimeys/emacs-prisma-mode"
            :branch "main"))
 
 (package! lsp-tailwindcss
+  :disable t
   :recipe (:host github
            :repo "merrickluo/lsp-tailwindcss"))
 
@@ -71,5 +73,11 @@
            :repo "protesilaos/modus-themes"))
 
 (package! meow
+  :disable t
   :recipe (:host github
            :repo "meow-edit/meow"))
+
+(package! ultra-scroll-mac
+  :disable (not IS-MAC)
+  :recipe (:host github
+           :repo "jdtsmith/ultra-scroll-mac"))

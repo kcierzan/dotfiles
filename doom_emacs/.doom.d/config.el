@@ -89,11 +89,10 @@
 ;; The pager is generally just annoying in emacs
 (setenv "PAGER" "cat")
 
-(setq lsp-disabled-clients '(rubocop-ls semgrep-ls))
+(setq lsp-disabled-clients '(semgrep-ls))
 
 ;; Nobody uses prettier-ruby
 (setq-hook! 'ruby-mode-hook +format-with 'rubocop)
-
 
 (after! lsp-mode
   ;; use web mode for erb files
@@ -101,6 +100,7 @@
   ;; use ruby-lsp instead of solargraph
   (lsp-register-client (make-lsp-client :new-connection (lsp-stdio-connection '("ruby-lsp"))
                                         :major-modes '(ruby-mode)
+                                        :add-on? t
                                         :priority 1
                                         :server-id 'ruby-lsp-ls)))
 
@@ -121,11 +121,18 @@
   :init
   (setq lsp-tailwindcss-add-on-mode t))
 
-(use-package! prisma-mode)
-(add-hook! 'prisma-mode-hook 'lsp-mode)
+(use-package! prisma-mode
+  :config
+  (add-hook! 'prisma-mode-hook 'lsp-mode))
+
+(use-package! ultra-scroll-mac
+  :init
+  (setq scroll-conservatively 101
+        scroll-margin 0)
+  :config
+  (ultra-scroll-mac-mode 1))
 
 (use-package! meow
-  :disabled t
   :demand t
   :config (progn
             (defun meow-setup ()
@@ -215,6 +222,38 @@
                '("<escape>" . ignore)))
             (meow-setup)
             (meow-global-mode 1)))
+
+;; lsp booster: https://github.com/blahgeek/emacs-lsp-booster
+;; this requires a rust binary to be in the path
+;; TODO: Build the rust binary if it doesn't already exist
+(defun lsp-booster--advice-json-parse (old-fn &rest args)
+  "Try to parse bytecode instead of json."
+  (or
+   (when (equal (following-char) ?#)
+     (let ((bytecode (read (current-buffer))))
+       (when (byte-code-function-p bytecode)
+         (funcall bytecode))))
+   (apply old-fn args)))
+(advice-add (if (progn (require 'json)
+                       (fboundp 'json-parse-buffer))
+                'json-parse-buffer
+              'json-read)
+            :around
+            #'lsp-booster--advice-json-parse)
+
+(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+  "Prepend emacs-lsp-booster command to lsp CMD."
+  (let ((orig-result (funcall old-fn cmd test?)))
+    (if (and (not test?)                             ;; for check lsp-server-present?
+             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+             lsp-use-plists
+             (not (functionp 'json-rpc-connection))  ;; native json-rpc
+             (executable-find "emacs-lsp-booster"))
+        (progn
+          (message "Using emacs-lsp-booster for %s!" orig-result)
+          (cons "emacs-lsp-booster" orig-result))
+      orig-result)))
+(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
 ;; org-mode ricing ahead
 (custom-theme-set-faces
