@@ -3,8 +3,14 @@ export HISTFILE=10000
 export SAVEHIST=10000
 
 export GOPATH=$HOME/go
-export EDITOR=nvim
-export VISUAL=nvim
+
+if [ "$(uname)" = 'Darwin' ]; then
+    export EDITOR='open -a /Applications/Emacs.app --args'
+    export VISUAL='open -a /Applications/Emacs.app --args'
+else
+    export EDITOR='emacs'
+    export VISUAL='emacs'
+fi
 
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 export CLICOLOR=1

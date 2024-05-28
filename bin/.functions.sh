@@ -22,11 +22,13 @@ ifile() {
 ikill() {
     local pid
     # Use a subshell to capture the output of ps piped through fzf into awk to get PIDs
-    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+    pids=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
     # Check if PID is not empty and not just spaces
-    if [[ -n "$pid" && "$pid" != "" ]]; then
-        kill -9 "$pid"
+    if [[ -n "$pids" ]]; then
+        for pid in $pids; do
+            kill -9 "$pid"
+        done
     fi
 }
 

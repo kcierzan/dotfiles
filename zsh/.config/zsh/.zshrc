@@ -12,6 +12,10 @@ alias gs='git status'
 alias reload="exec zsh"
 alias lg='lazygit'
 
+function emacs-dev() {
+    /Applications/Emacs.app/Contents/MacOS/Emacs "$@" --init-directory ~/.custom
+}
+
 # initialize direnv
 eval "$(direnv hook zsh)"
 

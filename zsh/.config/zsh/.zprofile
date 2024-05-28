@@ -17,3 +17,4 @@ path=(
 )
 
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY='YES'
+export LSP_USE_PLISTS='t'
