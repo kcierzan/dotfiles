@@ -28,6 +28,10 @@ Thumbs.db
 
 # Emacs files
 .projectile
+elpa/
+eln-cache/
+auto-save-list/
+recentf
 
 # Repo scratch directory
 scratch/
