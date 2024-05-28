@@ -89,7 +89,7 @@
 ;; The pager is generally just annoying in emacs
 (setenv "PAGER" "cat")
 
-(setq lsp-disabled-clients '(semgrep-ls))
+(setq lsp-disabled-clients '(semgrep-ls rubocop-ls))
 
 ;; Nobody uses prettier-ruby
 (setq-hook! 'ruby-mode-hook +format-with 'rubocop)
@@ -98,11 +98,18 @@
   ;; use web mode for erb files
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
   ;; use ruby-lsp instead of solargraph
-  (lsp-register-client (make-lsp-client :new-connection (lsp-stdio-connection '("ruby-lsp"))
-                                        :major-modes '(ruby-mode)
-                                        :add-on? t
-                                        :priority 1
-                                        :server-id 'ruby-lsp-ls)))
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection (list "rubocop" "--lsp"))
+                    :major-modes '(ruby-mode)
+                    :priority 0
+                    :add-on? t
+                    :server-id 'addon-rubocop-ls))
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection "ruby-lsp")
+                    :major-modes '(ruby-mode)
+                    :multi-root t
+                    :priority 100
+                    :server-id 'ruby-lsp-ls)))
 
 ;; snipe all the things we can see
 (after! evil-snipe
