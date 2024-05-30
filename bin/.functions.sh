@@ -75,3 +75,23 @@ igrep() {
         echo "$linefile" | tr ' ' '\n' | $xargs_command -d '\n' "$EDITOR"
     fi
 }
+
+timeshell() {
+    # Temporary file to store the profiling start time
+    START_TIME_FILE=$(mktemp)
+
+    # Record the start time
+    date +%s%N > "$START_TIME_FILE"
+
+    # Start Zsh with a command to measure the end time and calculate the difference
+    zsh -i -c "
+    END_TIME=\$(date +%s%N)
+    START_TIME=\$(cat $START_TIME_FILE)
+    TOTAL_TIME=\$(echo \"scale=3; (\$END_TIME - \$START_TIME) / 1000000000\" | bc)
+    echo \"Total Zsh startup time: \${TOTAL_TIME}s\"
+    "
+
+    # Clean up temporary file
+    rm "$START_TIME_FILE"
+
+}

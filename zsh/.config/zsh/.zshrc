@@ -12,8 +12,13 @@ alias gs='git status'
 alias reload="exec zsh"
 alias lg='lazygit'
 
-function emacs-dev() {
+emacs-dev() {
     /Applications/Emacs.app/Contents/MacOS/Emacs "$@" --init-directory ~/.custom
+}
+
+# interactive cd
+icd() {
+    zi && zle reset-prompt
 }
 
 # initialize direnv
@@ -33,8 +38,13 @@ eval "$(zoxide init zsh)"
 #shellcheck source=/dev/null
 [ -f ~/.bootstrap/env.sh ] && source "$HOME/.bootstrap/env.sh"
 
+eval "$(rbenv init -)"
+
 # initialize mise
 eval "$(mise activate zsh)"
+
+# initialize fzf
+eval "$(fzf --zsh)"
 
 # load plugin manager
 [ -f "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh" ] && source "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh"
@@ -46,10 +56,6 @@ antidote load ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
 
 # load shell functions
 source "$HOME/.functions.sh"
-
-icd() {
-    zi && zle reset-prompt
-}
 
 zle -N ifile
 zle -N igrep
@@ -63,5 +69,3 @@ bindkey '^[j' icd
 
 bindkey '^p' history-substring-search-up
 bindkey '^n' history-substring-search-down
-
-eval "$(fzf --zsh)"
