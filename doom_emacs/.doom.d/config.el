@@ -241,6 +241,7 @@
        (when (byte-code-function-p bytecode)
          (funcall bytecode))))
    (apply old-fn args)))
+
 (advice-add (if (progn (require 'json)
                        (fboundp 'json-parse-buffer))
                 'json-parse-buffer
@@ -260,7 +261,16 @@
           (message "Using emacs-lsp-booster for %s!" orig-result)
           (cons "emacs-lsp-booster" orig-result))
       orig-result)))
+
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+
+(add-to-list 'auto-mode-alist '("\\.fnl\\'" . fennel-mode))
+
+(add-to-list 'lispyville-key-theme 'additional-movement)
+(add-to-list 'lispyville-key-theme 'text-objects)
+
+(map! :nv "s" #'evil-avy-goto-char-2
+      :nv "S" #'evil-avy-goto-char-timer)
 
 ;; org-mode ricing ahead
 (custom-theme-set-faces
