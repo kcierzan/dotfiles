@@ -32,6 +32,7 @@ elpa/
 eln-cache/
 auto-save-list/
 recentf
+emacs-lsp-booster
 
 # Repo scratch directory
 scratch/
