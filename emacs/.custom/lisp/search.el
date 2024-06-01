@@ -247,7 +247,6 @@ If prefix ARG is set, include ignored/hidden files."
   (interactive)
   (+default/search-project 'other))
 
-;; FIXME: requires projectile to work
 (defun +default/search-project-for-symbol-at-point (symbol dir)
   "Search current project for symbol at point.
 If prefix ARG is set, prompt for a known project to search from."

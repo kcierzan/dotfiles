@@ -3,38 +3,6 @@
 ;; Copyright (C) 2024  Kyle Cierzan
 
 ;; Author: Kyle Cierzan
-
-(require 'cl-lib)
-
-(eval-and-compile
-  (setq gc-cons-threshold (* 16 1024 1024)))
-
-(defvar original-gc-cons-threshold-backup nil
-  "Variable to hold a backup of `gc-cons-threshold'.")
-
-(defvar original-file-name-handler-alist nil
-  "Variable to hold a backup of `file-name-handler-alist'.")
-
-(defun teardown-init-perf ()
-  "Reset the performance hacks set in `configure-init-perf'."
-  (setq file-name-handler-alist (cl-union original-file-name-handler-alist
-                                          file-name-handler-alist
-                                          :test #'equal))
-  (when (= gc-cons-threshold most-positive-fixnum)
-    (setq gc-cons-threshold original-gc-cons-threshold))
-  (setq original-file-name-handler-alist nil
-        original-gc-cons-threshold-backup nil))
-
-(defun configure-init-perf ()
-  "Setup vars and behavior only for initialization process"
-  (setq original-gc-cons-threshold-backup gc-cons-threshold
-        original-file-name-handler-alist file-name-handler-alist)
-  (setq gc-cons-threshold most-positive-fixnum
-        file-name-handler-alist nil)
-  (add-hook 'emacs-startup-hook #'quicken-teardown))
-
-(add-function :after after-focus-change-function 'garbage-collect)
-
 (setq load-prefer-newer noninteractive)
 
 (add-to-list 'load-path "~/.custom/lisp/")
@@ -47,7 +15,10 @@
            "/opt/homebrew/opt/gcc/lib/gcc/14/gcc/aarch64-apple-darwin22/14")
          ":"))
 
-(setq inhibit-startup-message t)
+(require 'elpaca-bootstrap)
+(elpaca elpaca-use-package
+        (elpaca-use-package-mode))
+
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -56,9 +27,9 @@
 (setq byte-compile-warnings
       '(not free-vars unresolved noruntime lexical make-local))
 
-(setq auto-revert-interval 1)
-
 (setq create-lockfiles nil
+      auto-revert-interval 1
+      inhibit-startup-message t
       make-backup-files nil
       global-auto-revert-non-file-buffers t
       auto-revert-verbose nil)
@@ -80,31 +51,18 @@
 
 (set-face-attribute 'default nil :font "IosevkaNeapolitan Nerd Font" :height 170)
 
-(load-theme 'tango-dark t)
-
-(require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
 
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(require 'use-package)
-
-;; TODO: replace package.el with elpaca 
-(setq use-package-always-ensure t)
-
 (use-package which-key
   :init (which-key-mode 1)
+  :ensure t
   :config  (setq which-key-idle-delay 0.3))
 
 (use-package vertico
+  :ensure t
   :init
   (setq vertico-resize nil
         vertico-count 17
@@ -118,6 +76,7 @@
   (vertico-mode 1))
 
 (use-package consult
+  :ensure t
   :defer t
   :preface
   (dolist (mapping '(([remap bookmark-jump] . #'consult-bookmark)
@@ -146,6 +105,7 @@
           "--hidden --exclude .git")))
 
 (use-package orderless
+  :ensure t
   :config
   (defun +vertico-orderless-dispatch (pattern _index _total)
     (cond
@@ -178,6 +138,7 @@
   (set-face-attribute 'completions-first-difference nil :inherit nil))
 
 (use-package modus-themes
+  :ensure t
   :pin melpa
   :init
   (load-theme 'modus-vivendi-tinted t))
@@ -212,7 +173,7 @@
          (prompt (if (stringp prompt) (string-trim prompt) "Search"))
          (query (or query
                     (when (doom-region-active-p)
-                      (regexp-quote (doom-thing-at-point-or-region)))))
+                      (regexp-quote (thing-at-point-or-region)))))
          (consult-async-split-style consult-async-split-style)
          (consult-async-split-styles-alist consult-async-split-styles-alist))
     ;; Change the split style if the initial query contains the separator.
@@ -236,8 +197,15 @@
     (consult--grep prompt #'consult--ripgrep-make-builder directory query)))
 
 (use-package wgrep
+  :ensure t
   :commands wgrep-change-to-wgrep-mode
   :config (setq wgrep-auto-save-buffer t))
+
+(use-package vertico-posframe
+  :ensure (:host github
+           :repo "tumashu/vertico-posframe"
+           :ref "2e0e09e5bbd6ec576ddbe566ab122575ef051fab"))
+
 
 (defun thing-at-point-or-region (&optional thing prompt)
   "Customized emacs-bindings-only version of doom-thing-at-point-or-region"
@@ -257,9 +225,9 @@
         (prompt
          (read-string (if (stringp prompt) prompt "")))))
 
+(require 'lib)
+(require 'projection)
 (require 'search)
-
-(require 'project)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -268,7 +236,6 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("c7a926ad0e1ca4272c90fce2e1ffa7760494083356f6bb6d72481b879afce1f2" default))
- '(package-selected-packages '(wgrep modus-themes which-key command-log-mode))
  '(safe-local-variable-values '((git-commit-major-mode . git-commit-elisp-text-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
