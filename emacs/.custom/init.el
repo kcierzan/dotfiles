@@ -49,12 +49,21 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(set-face-attribute 'default nil :font "IosevkaNeapolitan Nerd Font" :height 170)
+(advice-add 'custom-save-all :override #'ignore)
+(advice-add 'custom-set-variables :override #'ignore)
+(advice-add 'custom-set-faces :override #'ignore)
 
+(set-face-attribute 'default nil :font "MonaspiceNe Nerd Font" :weight 'medium :height 170)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
+
+(defun +setup-ielm-bindings ()
+  "Configure custom bindings for `ielm-mode'"
+  (define-key ielm-map (kbd "C-<return>") #'ielm-return))
+
+(add-hook 'ielm-mode-hook #'+setup-ielm-bindings)
 
 (use-package which-key
   :init (which-key-mode 1)
@@ -95,6 +104,7 @@
     (global-set-key (car mapping) (cdr mapping)))
   :config
   (setq consult-line-numbers-widen t
+        consult-narrow-key "<"
         consult-async-min-input 2
         consult-async-refresh-delay 0.15
         consult-async-input-throttle 0.2
@@ -102,7 +112,16 @@
         consult-fd-args
         '("fd" "--color=never"
           "--full-path --absolute-path"
-          "--hidden --exclude .git")))
+          "--hidden --exclude .git"))
+  (consult-customize consult-ripgrep
+                     consult-git-grep
+                     consult-grep
+                     consult-bookmark
+                     consult-recent-file
+                     consult--source-recent-file
+                     consult--source-project-recent-file
+                     consult--source-bookmark
+                     :preview-key "C-SPC"))
 
 (use-package orderless
   :ensure t
@@ -143,59 +162,6 @@
   :init
   (load-theme 'modus-vivendi-tinted t))
 
-(cl-defun +vertico-file-search (&key query in all-files (recursive t) prompt args)
-  "Conduct a file search using ripgrep.
-
-:query STRING
-  Determines the initial input to search for.
-:in PATH
-  Sets what directory to base the search out of. Defaults to the current project's root.
-:recursive BOOL
-  Whether or not to search files recursively from the base directory.
-:args LIST
-  Arguments to be appended to `consult-ripgrep-args'."
-  (declare (indent defun))
-  (unless (executable-find "rg")
-    (user-error "Couldn't find ripgrep in your PATH"))
-  (require 'consult)
-  (setq deactivate-mark t)
-  (let* ((project-root (or (doom-project-root) default-directory))
-         (directory (or in project-root))
-         (consult-ripgrep-args
-          (concat "rg "
-                  (if all-files "-uu ")
-                  (unless recursive "--maxdepth 1 ")
-                  "--null --line-buffered --color=never --max-columns=1000 "
-                  "--path-separator /   --smart-case --no-heading "
-                  "--with-filename --line-number --search-zip "
-                  "--hidden -g !.git -g !.svn -g !.hg "
-                  (mapconcat #'identity args " ")))
-         (prompt (if (stringp prompt) (string-trim prompt) "Search"))
-         (query (or query
-                    (when (doom-region-active-p)
-                      (regexp-quote (thing-at-point-or-region)))))
-         (consult-async-split-style consult-async-split-style)
-         (consult-async-split-styles-alist consult-async-split-styles-alist))
-    ;; Change the split style if the initial query contains the separator.
-    (when query
-      (cl-destructuring-bind (&key type separator initial _function)
-          (consult--async-split-style)
-        (pcase type
-          (`separator
-           (replace-regexp-in-string (regexp-quote (char-to-string separator))
-                                     (concat "\\" (char-to-string separator))
-                                     query t t))
-          (`perl
-           (when (string-match-p initial query)
-             (setf (alist-get 'perlalt consult-async-split-styles-alist)
-                   `(:initial ,(or (cl-loop for char in (list "%" "@" "!" "&" "/" ";")
-                                            unless (string-match-p char query)
-                                            return char)
-                                   "%")
-                     :type perl)
-                   consult-async-split-style 'perlalt))))))
-    (consult--grep prompt #'consult--ripgrep-make-builder directory query)))
-
 (use-package wgrep
   :ensure t
   :commands wgrep-change-to-wgrep-mode
@@ -206,40 +172,85 @@
            :repo "tumashu/vertico-posframe"
            :ref "2e0e09e5bbd6ec576ddbe566ab122575ef051fab"))
 
+(use-package fennel-mode
+  :ensure t
+  :mode "\\.fnl\\'")
 
-(defun thing-at-point-or-region (&optional thing prompt)
-  "Customized emacs-bindings-only version of doom-thing-at-point-or-region"
-  (declare (side-effect-free t))
-  (cond ((stringp thing)
-         thing)
-        ((use-region-p)
-         (buffer-substring-no-properties
-          (region-beginning)
-          (region-end)))
-        (thing
-         (thing-at-point thing t))
-        ((require 'xref nil t)
-         (if (memq (xref-find-backend) '(eglot elpy nox))
-             (thing-at-point 'symbol t)
-           (xref-backend-identifier-at-point (xref-find-backend))))
-        (prompt
-         (read-string (if (stringp prompt) prompt "")))))
+(use-package paredit
+  :ensure t
+  :hook ((emacs-lisp-mode . enable-paredit-mode)
+         (lisp-mode . enable-paredit-mode)
+         (ielm-mode . enable-paredit-mode)
+         (fennel-mode . enable-paredit-mode)))
 
-(require 'lib)
-(require 'projection)
-(require 'search)
+(use-package treesit-auto
+  :ensure t
+  :init (setq treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("c7a926ad0e1ca4272c90fce2e1ffa7760494083356f6bb6d72481b879afce1f2" default))
- '(safe-local-variable-values '((git-commit-major-mode . git-commit-elisp-text-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(use-package org
+  :ensure (:host github
+           :repo "emacs-straight/org-mode"
+           :files (:defaults "etc")
+           :autoloads ("lisp/org-loaddefs.el")
+           :main "lisp/org.el"
+           :pre-build ("make")
+           :build t))
+
+(use-package corfu
+  :ensure t
+  :init (global-corfu-mode 1)
+  :config
+  (setq corfu-auto t
+        corfu-auto-delay 0.18
+        corfu-auto-prefix 2
+        global-corfu-modes '((not erc-mode
+                              circe-mode
+                              help-mode
+                              gud-mode
+                              vterm-mode)
+                             t)
+        corfu-cycle t
+        corfu-preselect 'prompt
+        corfu-max-width 120
+        corfu-on-exact-match nil
+        corfu-quit-at-boundary 'separator
+        tab-always-indent 'complete)
+  (add-to-list 'corfu-auto-commands #'lispy-colon))
+
+(use-package cape
+  :ensure t
+  :init
+  (defconst +corfu-buffer-scanning-size-limit (* 1024 1024)) ; 1 MB
+  (add-hook 'prog-mode-hook
+            (defun +corfu-add-cape-file-h ()
+              (add-hook 'completion-at-point-functions #'cape-file -10 t)))
+  (setq cape-dabbrev-check-other-buffers t)
+  (defun +dabbrev-friend-buffer-p (other-buffer)
+    (< (buffer-size other-buffer) +corfu-buffer-scanning-size-limit))
+  (defun +corfu-add-cape-dabbrev-h ()
+    (add-hook 'completion-at-point-functions #'cape-dabbrev 20 t))
+  (with-eval-after-load 'dabbrev
+    (setq dabbrev-friend-buffer-function #'+dabbrev-friend-buffer-p
+          dabbrev-ignored-buffer-regexps
+          '("\\` "
+            "\\(TAGS\\|tags\\|ETAGS\\|etags\\|GTAGS\\|GRTAGS\\|GPATH\\)\\(<[0-9]+>\\)?")
+          dabbrev-upcase-means-case-search t))
+  (add-hook 'prog-mode-hook #'+corfu-add-cape-dabbrev-h)
+  (add-hook 'text-mode-hook #'+corfu-add-cape-dabbrev-h)
+  (add-hook 'conf-mode-hook #'+corfu-add-cape-dabbrev-h)
+  (add-hook 'comint-mode-hook #'+corfu-add-cape-dabbrev-h)
+  (add-hook 'eshell-mode-hook #'+corfu-add-cape-dabbrev-h)
+  (advice-add #'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
+
+(defvar my-prefix-map (make-sparse-keymap)
+  "Keymap for `S-SPC` prefix commands.")
+
+(define-key global-map (kbd "S-SPC") my-prefix-map)
+(define-key my-prefix-map (kbd "f") #'recentf-open)
+(define-key my-prefix-map (kbd "p") #'project-switch-project)
+(define-key my-prefix-map (kbd "b") #'consult-buffer)
+(define-key my-prefix-map (kbd "s") #'consult-line)
+(define-key my-prefix-map (kbd "g") #'consult-ripgrep)

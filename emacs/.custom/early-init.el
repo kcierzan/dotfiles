@@ -12,9 +12,9 @@
 ;; Package-Requires: ((emacs "24.3"))
 ;;
 ;; This file is not part of GNU Emacs.
-(setq package-enable-at-startup nil)
-
 (require 'cl-lib)
+
+(setq package-enable-at-startup nil)
 
 (eval-and-compile
   (setq gc-cons-threshold (* 16 1024 1024)))
