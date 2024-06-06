@@ -2,6 +2,7 @@ export HOMEBREW_ROOT='/opt/homebrew'
 
 typeset -gU path
 path=(
+    "$HOME/.rbenv/bin"
     "$HOME/.local/bin"
     "$HOMEBREW_ROOT/opt/postgresql@15/bin"
     "$HOMEBREW_ROOT/bin"

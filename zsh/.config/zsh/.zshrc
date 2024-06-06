@@ -24,11 +24,6 @@ icd() {
 # initialize direnv
 eval "$(direnv hook zsh)"
 
-# initialize fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-eval "$(fzf --zsh)"
-
 # initialize starship
 eval "$(starship init zsh)"
 

@@ -20,16 +20,19 @@ ifile() {
 }
 
 ikill() {
-    local pid
+  local pids
     # Use a subshell to capture the output of ps piped through fzf into awk to get PIDs
-    pids=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+  pids=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
-    # Check if PID is not empty and not just spaces
-    if [[ -n "$pids" ]]; then
-        for pid in $pids; do
-            kill -9 "$pid"
-        done
-    fi
+  if [[ -n "$pids" ]]; then
+    for pid in $pids; do
+      if [[ -n "$pid" ]]; then
+        echo "${pid}" | xargs kill -9
+      fi
+    done
+  else
+    echo "No PIDs selected"
+  fi
 }
 
 ibranch() {

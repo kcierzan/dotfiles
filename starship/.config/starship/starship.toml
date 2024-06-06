@@ -2,12 +2,18 @@ add_newline = true
 command_timeout = 1000
 
 [character]
-success_symbol = "[](bold green)"
-error_symbol = "[](bold red)"
-vicmd_symbol = "[](bold yellow)"
+success_symbol = "[~>](bold green)"
+error_symbol = "[~>](bold red)"
+vicmd_symbol = "[->](bold yellow)"
 
 [line_break]
 disabled = false
+
+[ruby]
+symbol = "ruby "
+
+[nodejs]
+symbol = "node "
 
 [aws]
 disabled = true
