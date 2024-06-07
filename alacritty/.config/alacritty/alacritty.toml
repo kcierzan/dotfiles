@@ -9,8 +9,9 @@ padding = { x = 6, y = 6 }
 blur = true
 
 [font]
-normal = { family = "IosevkaNeapolitan Nerd Font", style = "Medium" }
-bold = { family = "IosevkaNeapolitan Nerd Font", style = "Bold" }
+normal = { family = "Berkeley Mono", style = "Regular" }
+bold = { family = "Berkeley Mono", style = "Bold" }
+offset = { y = 8 }
 size = 18
 
 [cursor]

@@ -1,16 +1,29 @@
 ;; Hammerspoon fennel config
 
 (fn quit-hyperkey []
-  (-?> (hs.application.find "Hyperkey") (: "kill")))
+  (-?> (hs.application.find :Hyperkey) (: :kill)))
 
 (fn start-hyperkey []
-  (hs.application.open "Hyperkey"))
+  (hs.application.open :Hyperkey))
 
 (fn quit-focused-application []
   (let [focused-app (hs.application.frontmostApplication)]
     (if focused-app
         (focused-app:kill)
         (hs.alert.show "No focused application"))))
+
+(fn create-execute-command [...]
+  "Wrap each argument in double quotes and join with a space."
+  (let [wrapped-elems (icollect [_ s (ipairs [...])]
+                        (.. "\"" s "\""))]
+    (table.concat wrapped-elems " ")))
+
+(fn launch-emacs-dev []
+  (hs.alert.show "got here")
+  (hs.execute (create-execute-command "/Applications/Emacs.app/Contents/MacOS/Emacs"
+                                      "~/.custom/init.el"
+                                      "--init-directory"
+                                      "~/.custom")))
 
 (fn keyboard-connected? []
   (let [devices (hs.usb.attachedDevices)]
@@ -23,10 +36,10 @@
 (fn handle-keyboard-connection [data]
   (when (and data.productName
              (string.match data.productName "Keychron Q1 Pro"))
-    (if (= data.eventType "added")
-          (quit-hyperkey)
-          (= data.eventType "removed")
-          (start-hyperkey))))
+    (if (= data.eventType :added)
+        (quit-hyperkey)
+        (= data.eventType :removed)
+        (start-hyperkey))))
 
 (fn fennel-file? [file]
   (= ".fnl" (string.sub file -4)))
@@ -56,4 +69,5 @@
     (quit-hyperkey)
     (start-hyperkey))
 
-(hs.hotkey.bind ["ctrl" "alt" "cmd"] "C" quit-focused-application)
+(hs.hotkey.bind [:ctrl :alt :cmd] :C quit-focused-application)
+(hs.hotkey.bind [:ctrl :alt :cmd] :T launch-emacs-dev)

@@ -3,6 +3,35 @@
 ;; Copyright (C) 2024  Kyle Cierzan
 
 ;; Author: Kyle Cierzan
+(defconst envvar-file "~/.custom/env")
+
+(defun load-envvars-file (file &optional noerror)
+  "Read and set envvars from FILE.
+If NOERROR is non-nil, don't throw an error if the file doesn't exist or is
+unreadable. Returns the names of envvars that were changed."
+  (if (null (file-exists-p file))
+      (unless noerror
+        (signal 'file-error (list "No envvar file exists" file)))
+    (with-temp-buffer
+      (insert-file-contents file)
+      (when-let (env (read (current-buffer)))
+        (let ((tz (getenv-internal "TZ")))
+          (setq-default
+           process-environment
+           (append env (default-value 'process-environment))
+           exec-path
+           (append (split-string (getenv "PATH") path-separator t)
+                   (list exec-directory))
+           shell-file-name
+           (or (getenv "SHELL")
+               (default-value 'shell-file-name)))
+          (when-let (newtz (getenv-internal "TZ"))
+            (unless (equal tz newtz)
+              (set-time-zone-rule newtz))))
+        env))))
+
+(load-envvars-file envvar-file)
+
 (setq load-prefer-newer noninteractive)
 
 (add-to-list 'load-path "~/.custom/lisp/")
@@ -19,17 +48,20 @@
 (elpaca elpaca-use-package
         (elpaca-use-package-mode))
 
-
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (recentf-mode 1)
 (tooltip-mode -1)
+
 (setq byte-compile-warnings
       '(not free-vars unresolved noruntime lexical make-local))
 
 (setq create-lockfiles nil
       auto-revert-interval 1
       inhibit-startup-message t
+      auto-revert-interval 1
+      inhibit-startup-message t
+      frame-title-format "emacs"
       make-backup-files nil
       global-auto-revert-non-file-buffers t
       auto-revert-verbose nil)
@@ -53,7 +85,7 @@
 (advice-add 'custom-set-variables :override #'ignore)
 (advice-add 'custom-set-faces :override #'ignore)
 
-(set-face-attribute 'default nil :font "MonaspiceNe Nerd Font" :weight 'medium :height 170)
+(set-face-attribute 'default nil :font "Berkeley Mono" :weight 'regular :height 170)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
@@ -180,6 +212,7 @@
   :ensure t
   :hook ((emacs-lisp-mode . enable-paredit-mode)
          (lisp-mode . enable-paredit-mode)
+         (janet-mode . enable-paredit-mode)
          (ielm-mode . enable-paredit-mode)
          (fennel-mode . enable-paredit-mode)))
 
@@ -245,12 +278,45 @@
   (add-hook 'eshell-mode-hook #'+corfu-add-cape-dabbrev-h)
   (advice-add #'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 
+(use-package inf-ruby
+  :ensure t
+  :init
+  ;; switch to inf-ruby when a breakpoint is hit
+  (add-hook 'compilation-filter-hook #'inf-ruby-auto-enter))
+
+(use-package janet-mode
+  :ensure t
+  :mode "\\.janet\\'")
+
+(use-package transient
+  :ensure (:host github
+           :repo "magit/transient"
+           :ref "bf2901927dce31d5522db95c6ab22a93f7738a09"))
+
+(use-package magit
+  :after transient
+  :ensure (:host github
+                 :repo "magit/magit"
+                 :ref "8b2d4b03ecf9635c165d1c0f90cd6f2eb415cafa")
+  :init
+  (setq magit-auto-revert-mode nil)
+  :config
+  (setq transient-default-level
+        magit-diff-refine-hook t
+        magit-save-repository-buffers nil
+        magit-revision-insert-related-refs nil))
+
+(require 'rails)
+
 (defvar my-prefix-map (make-sparse-keymap)
   "Keymap for `S-SPC` prefix commands.")
 
 (define-key global-map (kbd "S-SPC") my-prefix-map)
-(define-key my-prefix-map (kbd "f") #'recentf-open)
+(define-key my-prefix-map (kbd "r") #'recentf-open)
+(define-key my-prefix-map (kbd "f") #'project-find-file)
 (define-key my-prefix-map (kbd "p") #'project-switch-project)
 (define-key my-prefix-map (kbd "b") #'consult-buffer)
 (define-key my-prefix-map (kbd "s") #'consult-line)
+(define-key my-prefix-map (kbd "l") #'consult-goto-line)
 (define-key my-prefix-map (kbd "g") #'consult-ripgrep)
+
