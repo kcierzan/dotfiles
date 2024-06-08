@@ -29,6 +29,12 @@ Thumbs.db
 # Emacs files
 .projectile
 elpa/
+elpaca/
+env
+forge-database.sqlite
+projects
+transient/
+tree-sitter/
 eln-cache/
 auto-save-list/
 recentf
