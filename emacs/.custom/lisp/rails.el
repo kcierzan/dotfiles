@@ -27,7 +27,6 @@
 
 (defun rails-dir-rails-app-p (dir)
   (let ((rails-file (concat dir "/config/application.rb")))
-;;    (message "%s" rails-file)
     (file-exists-p rails-file)))
 
 (defun rails-app-name-from-dir (dir)

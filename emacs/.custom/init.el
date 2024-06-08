@@ -36,7 +36,7 @@ unreadable. Returns the names of envvars that were changed."
 
 (add-to-list 'load-path "~/.custom/lisp/")
 
-;; need this to allow emacs to find libgccjit for native compilation
+;; Emacs requires libgccjit for native compilation
 (setenv "LIBRARY_PATH"
         (string-join
          '("/opt/homebrew/opt/gcc/lib/gcc/14"
@@ -46,7 +46,7 @@ unreadable. Returns the names of envvars that were changed."
 
 (require 'elpaca-bootstrap)
 (elpaca elpaca-use-package
-        (elpaca-use-package-mode))
+  (elpaca-use-package-mode))
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -60,10 +60,12 @@ unreadable. Returns the names of envvars that were changed."
       auto-revert-interval 1
       inhibit-startup-message t
       auto-revert-interval 1
+      auth-sources '("~/.authinfo.gpg")
       inhibit-startup-message t
       frame-title-format "emacs"
       make-backup-files nil
       global-auto-revert-non-file-buffers t
+      use-package-always-ensure t
       auto-revert-verbose nil)
 
 (setq-default ring-bell-function 'ignore
@@ -85,7 +87,7 @@ unreadable. Returns the names of envvars that were changed."
 (advice-add 'custom-set-variables :override #'ignore)
 (advice-add 'custom-set-faces :override #'ignore)
 
-(set-face-attribute 'default nil :font "Berkeley Mono" :weight 'regular :height 170)
+(set-face-attribute 'default nil :font "Berkeley Mono" :weight 'regular :height 180)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
@@ -99,11 +101,9 @@ unreadable. Returns the names of envvars that were changed."
 
 (use-package which-key
   :init (which-key-mode 1)
-  :ensure t
   :config  (setq which-key-idle-delay 0.3))
 
 (use-package vertico
-  :ensure t
   :init
   (setq vertico-resize nil
         vertico-count 17
@@ -117,8 +117,16 @@ unreadable. Returns the names of envvars that were changed."
   (vertico-mode 1))
 
 (use-package consult
-  :ensure t
-  :defer t
+  :commands
+  (consult-bookmark
+   consult-goto-line
+   consult-imenu
+   consult-locate
+   consult-theme
+   consult-man
+   consult-recent-file
+   consult-buffer
+   consult-buffer-yank-pop)
   :preface
   (dolist (mapping '(([remap bookmark-jump] . #'consult-bookmark)
                      ([remap goto-line] . #'consult-goto-line)
@@ -156,7 +164,6 @@ unreadable. Returns the names of envvars that were changed."
                      :preview-key "C-SPC"))
 
 (use-package orderless
-  :ensure t
   :config
   (defun +vertico-orderless-dispatch (pattern _index _total)
     (cond
@@ -189,13 +196,11 @@ unreadable. Returns the names of envvars that were changed."
   (set-face-attribute 'completions-first-difference nil :inherit nil))
 
 (use-package modus-themes
-  :ensure t
   :pin melpa
   :init
   (load-theme 'modus-vivendi-tinted t))
 
 (use-package wgrep
-  :ensure t
   :commands wgrep-change-to-wgrep-mode
   :config (setq wgrep-auto-save-buffer t))
 
@@ -205,11 +210,9 @@ unreadable. Returns the names of envvars that were changed."
            :ref "2e0e09e5bbd6ec576ddbe566ab122575ef051fab"))
 
 (use-package fennel-mode
-  :ensure t
   :mode "\\.fnl\\'")
 
 (use-package paredit
-  :ensure t
   :hook ((emacs-lisp-mode . enable-paredit-mode)
          (lisp-mode . enable-paredit-mode)
          (janet-mode . enable-paredit-mode)
@@ -217,13 +220,13 @@ unreadable. Returns the names of envvars that were changed."
          (fennel-mode . enable-paredit-mode)))
 
 (use-package treesit-auto
-  :ensure t
   :init (setq treesit-auto-install 'prompt)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
 (use-package org
+  :mode ("\\.org\\'")
   :ensure (:host github
            :repo "emacs-straight/org-mode"
            :files (:defaults "etc")
@@ -233,17 +236,16 @@ unreadable. Returns the names of envvars that were changed."
            :build t))
 
 (use-package corfu
-  :ensure t
   :init (global-corfu-mode 1)
   :config
   (setq corfu-auto t
         corfu-auto-delay 0.18
         corfu-auto-prefix 2
         global-corfu-modes '((not erc-mode
-                              circe-mode
-                              help-mode
-                              gud-mode
-                              vterm-mode)
+                                  circe-mode
+                                  help-mode
+                                  gud-mode
+                                  vterm-mode)
                              t)
         corfu-cycle t
         corfu-preselect 'prompt
@@ -254,7 +256,6 @@ unreadable. Returns the names of envvars that were changed."
   (add-to-list 'corfu-auto-commands #'lispy-colon))
 
 (use-package cape
-  :ensure t
   :init
   (defconst +corfu-buffer-scanning-size-limit (* 1024 1024)) ; 1 MB
   (add-hook 'prog-mode-hook
@@ -279,16 +280,16 @@ unreadable. Returns the names of envvars that were changed."
   (advice-add #'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 
 (use-package inf-ruby
-  :ensure t
+  :autoload (inf-ruby-console-run)
   :init
   ;; switch to inf-ruby when a breakpoint is hit
   (add-hook 'compilation-filter-hook #'inf-ruby-auto-enter))
 
 (use-package janet-mode
-  :ensure t
   :mode "\\.janet\\'")
 
 (use-package transient
+  :commands (magit-status magit-blame)
   :ensure (:host github
            :repo "magit/transient"
            :ref "bf2901927dce31d5522db95c6ab22a93f7738a09"))
@@ -296,15 +297,24 @@ unreadable. Returns the names of envvars that were changed."
 (use-package magit
   :after transient
   :ensure (:host github
-                 :repo "magit/magit"
-                 :ref "8b2d4b03ecf9635c165d1c0f90cd6f2eb415cafa")
+           :repo "magit/magit"
+           :ref "8b2d4b03ecf9635c165d1c0f90cd6f2eb415cafa")
   :init
   (setq magit-auto-revert-mode nil)
   :config
-  (setq transient-default-level
+  (setq transient-default-level 5 ; controls how many levels of magit menus we see
         magit-diff-refine-hook t
         magit-save-repository-buffers nil
         magit-revision-insert-related-refs nil))
+
+(use-package forge
+  :after magit
+  :init
+  ;; limit to 100 open topics and zero closed topics
+  (setq forge-topic-list-limit '(100 . 0))
+  :ensure (:host github
+           :repo "magit/forge"
+           :ref "8ab77ca4671d8a7f373f3b829ef94bacaee21b3a"))
 
 (require 'rails)
 
@@ -319,4 +329,3 @@ unreadable. Returns the names of envvars that were changed."
 (define-key my-prefix-map (kbd "s") #'consult-line)
 (define-key my-prefix-map (kbd "l") #'consult-goto-line)
 (define-key my-prefix-map (kbd "g") #'consult-ripgrep)
-
