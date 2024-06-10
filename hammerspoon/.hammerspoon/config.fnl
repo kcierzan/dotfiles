@@ -18,12 +18,18 @@
                         (.. "\"" s "\""))]
     (table.concat wrapped-elems " ")))
 
+(fn make-background-cmd [cmd]
+  (.. cmd " &"))
+
 (fn launch-emacs-dev []
-  (hs.alert.show "got here")
-  (hs.execute (create-execute-command "/Applications/Emacs.app/Contents/MacOS/Emacs"
-                                      "~/.custom/init.el"
-                                      "--init-directory"
-                                      "~/.custom")))
+  (let [cmd (create-execute-command "/Applications/Emacs.app/Contents/MacOS/Emacs"
+                                    "~/.custom/init.el"
+                                    "--init-directory"
+                                    "~/.custom")
+        bg-cmd (make-background-cmd cmd)]
+    (os.execute bg-cmd)
+    (os.execute "sleep 1")
+    (: (hs.appfinder.windowFromWindowTitle :emacs) :focus)))
 
 (fn keyboard-connected? []
   (let [devices (hs.usb.attachedDevices)]
