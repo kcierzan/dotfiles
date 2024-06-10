@@ -41,11 +41,6 @@
   "Get the rails app root for the current buffer file"
   (locate-dominating-file (buffer-file-name) "Gemfile"))
 
-(defun rails-file-in-engine-p ()
-  "Return t if the buffer file is in a rails engine"
-  (when-let ((root-path (rails-app-root-directory)))
-    (rails-dir-rails-engine-p root-path)))
-
 (defun rails-file-in-app-p ()
   (when-let ((root-path (rails-app-root-directory)))
     (file-exists-p (concat root-path "config/application.rb"))))
