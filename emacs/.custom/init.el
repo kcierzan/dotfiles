@@ -3,101 +3,26 @@
 ;; Copyright (C) 2024  Kyle Cierzan
 
 ;; Author: Kyle Cierzan
-(defconst envvar-file "~/.custom/env")
-
-(defun load-envvars-file (file &optional noerror)
-  "Read and set envvars from FILE.
-If NOERROR is non-nil, don't throw an error if the file doesn't exist or is
-unreadable. Returns the names of envvars that were changed."
-  (if (null (file-exists-p file))
-      (unless noerror
-        (signal 'file-error (list "No envvar file exists" file)))
-    (with-temp-buffer
-      (insert-file-contents file)
-      (when-let (env (read (current-buffer)))
-        (let ((tz (getenv-internal "TZ")))
-          (setq-default
-           process-environment
-           (append env (default-value 'process-environment))
-           exec-path
-           (append (split-string (getenv "PATH") path-separator t)
-                   (list exec-directory))
-           shell-file-name
-           (or (getenv "SHELL")
-               (default-value 'shell-file-name)))
-          (when-let (newtz (getenv-internal "TZ"))
-            (unless (equal tz newtz)
-              (set-time-zone-rule newtz))))
-        env))))
-
-(load-envvars-file envvar-file)
-
-(setq load-prefer-newer noninteractive)
-
-(add-to-list 'load-path "~/.custom/lisp/")
-
-;; Emacs requires libgccjit for native compilation
-(setenv "LIBRARY_PATH"
-        (string-join
-         '("/opt/homebrew/opt/gcc/lib/gcc/14"
-           "/opt/homebrew/opt/libgccjit/lib/gcc/14"
-           "/opt/homebrew/opt/gcc/lib/gcc/14/gcc/aarch64-apple-darwin22/14")
-         ":"))
-
-(require 'elpaca-bootstrap)
-(elpaca elpaca-use-package
-  (elpaca-use-package-mode))
-
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
 (recentf-mode 1)
-(tooltip-mode -1)
 
-(setq byte-compile-warnings
-      '(not free-vars unresolved noruntime lexical make-local))
-
-(setq create-lockfiles nil
-      auto-revert-interval 1
-      inhibit-startup-message t
-      auto-revert-interval 1
-      auth-sources '("~/.authinfo.gpg")
-      inhibit-startup-message t
-      frame-title-format "emacs"
-      make-backup-files nil
-      global-auto-revert-non-file-buffers t
-      use-package-always-ensure t
-      auto-revert-verbose nil)
-
-(setq-default ring-bell-function 'ignore
-              idle-update-delay 0.5
-              inhibit-startup-screen t
-              inhibit-startup-echo-area-message user-login-name
-              inhibit-default-init t
-              initial-scratch-message nil
-              indent-tabs-mode nil
-              hl-line-sticky-flag nil
-              sentence-end-double-space nil)
-
-(setq mac-command-modifier 'super
-      mac-option-modifier 'meta)
-
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-(advice-add 'custom-save-all :override #'ignore)
-(advice-add 'custom-set-variables :override #'ignore)
-(advice-add 'custom-set-faces :override #'ignore)
-
-(set-face-attribute 'default nil :font "Berkeley Mono" :weight 'regular :height 180)
-
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
+(set-face-attribute 'default nil :font "BerkeleyMono Nerd Font" :weight 'regular :height 180)
 
 (defun +setup-ielm-bindings ()
   "Configure custom bindings for `ielm-mode'"
   (define-key ielm-map (kbd "C-<return>") #'ielm-return))
 
 (add-hook 'ielm-mode-hook #'+setup-ielm-bindings)
+
+;; up elapaca package manager and enable use-package integration
+(require 'elpaca-bootstrap)
+(elpaca elpaca-use-package
+  (elpaca-use-package-mode))
+
+(use-package gcmh
+  :init (setq gcmh-idle-delay 'auto
+              gcmh-auto-idle-delay-factor 10
+              gcmh-high-cons-threshold (* 32 1024 1024))
+  (gcmh-mode 1))
 
 (use-package which-key
   :init (which-key-mode 1)
@@ -127,6 +52,13 @@ unreadable. Returns the names of envvars that were changed."
    consult-recent-file
    consult-buffer
    consult-buffer-yank-pop)
+  :init
+  (setq consult-ripgrep-args
+          (concat "rg -uu "
+                  "--null --line-buffered --color=never --max-columns=1000 "
+                  "--path-separator /   --smart-case --no-heading "
+                  "--with-filename --line-number --search-zip "
+                  "--hidden -g !.git -g !.svn -g !.hg"))
   :preface
   (dolist (mapping '(([remap bookmark-jump] . #'consult-bookmark)
                      ([remap goto-line] . #'consult-goto-line)
@@ -196,18 +128,14 @@ unreadable. Returns the names of envvars that were changed."
   (set-face-attribute 'completions-first-difference nil :inherit nil))
 
 (use-package modus-themes
-  :pin melpa
+  :ensure (:host github
+           :repo "protesilaos/modus-themes")
   :init
   (load-theme 'modus-vivendi-tinted t))
 
 (use-package wgrep
   :commands wgrep-change-to-wgrep-mode
   :config (setq wgrep-auto-save-buffer t))
-
-(use-package vertico-posframe
-  :ensure (:host github
-           :repo "tumashu/vertico-posframe"
-           :ref "2e0e09e5bbd6ec576ddbe566ab122575ef051fab"))
 
 (use-package fennel-mode
   :mode "\\.fnl\\'")
@@ -226,7 +154,10 @@ unreadable. Returns the names of envvars that were changed."
   (global-treesit-auto-mode))
 
 (use-package org
-  :mode ("\\.org\\'")
+  :mode ("\\.org\\'" . org-mode)
+  :init
+  (setq org-startup-indented t
+        org-hide-leading-stars t)
   :ensure (:host github
            :repo "emacs-straight/org-mode"
            :files (:defaults "etc")
@@ -252,6 +183,7 @@ unreadable. Returns the names of envvars that were changed."
         corfu-max-width 120
         corfu-on-exact-match nil
         corfu-quit-at-boundary 'separator
+        corfu-quit-no-match corfu-quit-at-boundary
         tab-always-indent 'complete)
   (add-to-list 'corfu-auto-commands #'lispy-colon))
 
@@ -316,13 +248,111 @@ unreadable. Returns the names of envvars that were changed."
            :repo "magit/forge"
            :ref "8ab77ca4671d8a7f373f3b829ef94bacaee21b3a"))
 
+(use-package ultra-scroll-mac
+  :if (eq window-system 'mac)
+  :ensure (:host github
+           :repo "jdtsmith/ultra-scroll-mac")
+  :init (setq scroll-conservatively 101
+              scroll-margin 0)
+  :config
+  (ultra-scroll-mac-mode 1))
+
+(use-package dumb-jump
+  :ensure (:host github
+           :repo "jacktasia/dumb-jump")
+  :init
+  (setq dumb-jump-force-searcher 'rg
+        xref-show-definitions-function #'xref-show-definitions-completing-read)
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
+(use-package rspec-mode
+  :ensure (:host github
+           :repo "pezra/rspec-mode")
+  :hook (ruby-ts-mode . rspec-mode)
+  :init (setq compilation-scroll-output t))
+
+(use-package lsp-mode
+  :ensure (:host github
+           :repo "emacs-lsp/lsp-mode")
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-disabled-clients '(semgrep-ls rubocop-ls)
+        lsp-keep-workspace-alive t
+        lsp-enable-folding nil
+        lsp-enable-text-document-color nil
+        lsp-headerline-breadcrumb-enable nil
+        lsp-diagnostics-provider :flymake
+        lsp-completion-provider :none)
+  :hook (ruby-ts-mode . lsp-deferred)
+  :config
+  (with-eval-after-load 'lsp-mode
+    (progn
+      (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
+      (lsp-register-client
+       (make-lsp-client :new-connection (lsp-stdio-connection (list "rubocop" "--lsp"))
+                        :major-modes '(ruby-ts-mode)
+                        :priority 0
+                        :add-on? t
+                        :server-id 'addon-rubocop-ls))
+      (lsp-register-client
+       (make-lsp-client :new-connection (lsp-stdio-connection "ruby-lsp")
+                        :major-modes '(ruby-ts-mode)
+                        :multi-root t
+                        :priority 100
+                        :server-id 'ruby-lsp-ls))))
+  (add-hook 'lsp-mode-hook #'lsp-completion-mode))
+
+(use-package consult-lsp
+  :after 'lsp
+  :init
+  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
+
+;; emacs-lsp-booster
+(defun lsp-booster--advice-json-parse (old-fn &rest args)
+  "Try to parse bytecode instead of json."
+  (or
+   (when (equal (following-char) ?#)
+     (let ((bytecode (read (current-buffer))))
+       (when (byte-code-function-p bytecode)
+         (funcall bytecode))))
+   (apply old-fn args)))
+(advice-add (if (progn (require 'json)
+                       (fboundp 'json-parse-buffer))
+                'json-parse-buffer
+              'json-read)
+            :around
+            #'lsp-booster--advice-json-parse)
+
+(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+  "Prepend emacs-lsp-booster command to lsp CMD."
+  (let ((orig-result (funcall old-fn cmd test?)))
+    (if (and (not test?)                             ;; for check lsp-server-present?
+             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+             lsp-use-plists
+             (not (functionp 'json-rpc-connection))  ;; native json-rpc
+             (executable-find "emacs-lsp-booster"))
+        (progn
+          (message "Using emacs-lsp-booster for %s!" orig-result)
+          (cons "emacs-lsp-booster" orig-result))
+      orig-result)))
+(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+
+(use-package avy
+  :ensure (:host github
+           :repo "abo-abo/avy")
+  :init (global-set-key (kbd "C-'") #'avy-goto-char-timer)
+  (setq avy-timeout-seconds 0.3)
+  :commands (avy-goto-char-timer))
+
 (require 'rails)
 
 (defvar my-prefix-map (make-sparse-keymap)
   "Keymap for `S-SPC` prefix commands.")
 
+;; TODO: There are a few modes where S-SPC is bound... 
 (define-key global-map (kbd "S-SPC") my-prefix-map)
-(define-key my-prefix-map (kbd "r") #'recentf-open)
+(define-key my-prefix-map (kbd "SPC") #'execute-extended-command)
+(define-key my-prefix-map (kbd "r") #'consult-recent-file)
 (define-key my-prefix-map (kbd "f") #'project-find-file)
 (define-key my-prefix-map (kbd "p") #'project-switch-project)
 (define-key my-prefix-map (kbd "b") #'consult-buffer)
