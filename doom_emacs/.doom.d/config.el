@@ -22,7 +22,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 
-(setq doom-font (font-spec :family "Berkeley Mono" :size 18 :weight 'medium)
+(setq doom-font (font-spec :family "BerkeleyMono Nerd Font" :size 18 :weight 'medium)
       doom-variable-pitch-font (font-spec :family "Geist" :size 18 :weight 'medium)
       doom-serif-font (font-spec :family "ETBembo" :size 18 :weight 'medium))
 
