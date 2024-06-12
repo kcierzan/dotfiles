@@ -11,6 +11,9 @@ alias be='bundle exec'
 alias gs='git status'
 alias reload="exec zsh"
 alias lg='lazygit'
+alias ..='cd ..'
+alias ...="cd ../../"
+alias ....="cd ../../../"
 
 emacs-dev() {
     /Applications/Emacs.app/Contents/MacOS/Emacs "$@" --init-directory ~/.custom

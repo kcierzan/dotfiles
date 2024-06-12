@@ -1,11 +1,20 @@
-;;; init.el --- emacs config               -*- lexical-binding: t; -*-
+ ;;; init.el --- emacs config               -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2024  Kyle Cierzan
 
 ;; Author: Kyle Cierzan
-(recentf-mode 1)
+(require 'cl-lib)
 
+(recentf-mode 1)
+(global-auto-revert-mode 1)
 (set-face-attribute 'default nil :font "BerkeleyMono Nerd Font" :weight 'regular :height 180)
+
+(defmacro pushnew! (place &rest values)
+  "Push VALUES sequentially into PLACE, if they aren't already present.
+This is a variadic `cl-pushnew'."
+  (let ((var (make-symbol "result")))
+    `(dolist (,var (list ,@values) (with-no-warnings ,place))
+       (cl-pushnew ,var ,place :test #'equal))))
 
 (defun +setup-ielm-bindings ()
   "Configure custom bindings for `ielm-mode'"
@@ -16,7 +25,7 @@
 ;; up elapaca package manager and enable use-package integration
 (require 'elpaca-bootstrap)
 (elpaca elpaca-use-package
-  (elpaca-use-package-mode))
+        (elpaca-use-package-mode))
 
 (use-package gcmh
   :init (setq gcmh-idle-delay 'auto
@@ -54,11 +63,11 @@
    consult-buffer-yank-pop)
   :init
   (setq consult-ripgrep-args
-          (concat "rg -uu "
-                  "--null --line-buffered --color=never --max-columns=1000 "
-                  "--path-separator /   --smart-case --no-heading "
-                  "--with-filename --line-number --search-zip "
-                  "--hidden -g !.git -g !.svn -g !.hg"))
+        (concat "rg -uu "
+                "--null --line-buffered --color=never --max-columns=1000 "
+                "--path-separator /   --smart-case --no-heading "
+                "--with-filename --line-number --search-zip "
+                "--hidden -g !.git -g !.svn -g !.hg"))
   :preface
   (dolist (mapping '(([remap bookmark-jump] . #'consult-bookmark)
                      ([remap goto-line] . #'consult-goto-line)
@@ -127,6 +136,19 @@
         orderless-component-separator #'orderless-escapable-split-on-space)
   (set-face-attribute 'completions-first-difference nil :inherit nil))
 
+(use-package marginalia
+  :init
+  (define-key minibuffer-local-map (kbd "M-A") #'marginalia-cycle)
+  (marginalia-mode 1)
+  :config
+  (advice-add #'marginalia--project-root :override #'my/project-root)
+  (pushnew! marginalia-command-categories
+            '(my/project-search . project-file)
+            '(my/project-search-from-cwd . project-file)
+            '(project-find-file . project-file)
+            '(project-switch-to-buffer . buffer)
+            '(project-switch-project . project-file)))
+
 (use-package modus-themes
   :ensure (:host github
            :repo "protesilaos/modus-themes")
@@ -164,7 +186,10 @@
            :autoloads ("lisp/org-loaddefs.el")
            :main "lisp/org.el"
            :pre-build ("make")
-           :build t))
+           :build t)
+  :config
+  ;; overrides org-cycle-agenda-files
+  (define-key org-mode-map (kbd "C-'") #'avy-goto-char-timer))
 
 (use-package corfu
   :init (global-corfu-mode 1)
@@ -173,10 +198,10 @@
         corfu-auto-delay 0.18
         corfu-auto-prefix 2
         global-corfu-modes '((not erc-mode
-                                  circe-mode
-                                  help-mode
-                                  gud-mode
-                                  vterm-mode)
+                              circe-mode
+                              help-mode
+                              gud-mode
+                              vterm-mode)
                              t)
         corfu-cycle t
         corfu-preselect 'prompt
@@ -281,8 +306,7 @@
         lsp-enable-folding nil
         lsp-enable-text-document-color nil
         lsp-headerline-breadcrumb-enable nil
-        lsp-diagnostics-provider :flymake
-        lsp-completion-provider :none)
+        lsp-diagnostics-provider :flymake)
   :hook (ruby-ts-mode . lsp-deferred)
   :config
   (with-eval-after-load 'lsp-mode
@@ -344,7 +368,21 @@
   (setq avy-timeout-seconds 0.3)
   :commands (avy-goto-char-timer))
 
+(use-package nerd-icons-completion
+  :ensure (:host github
+           :repo "rainstormstudio/nerd-icons-completion")
+  :after marginalia
+  :config
+  (nerd-icons-completion-mode)
+  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
+
+(use-package pcre2el
+  :ensure (:host github
+           :repo "joddie/pcre2el")
+  :commands (rxt-quote-pcre))
+
 (require 'rails)
+(require 'search)
 
 (defvar my-prefix-map (make-sparse-keymap)
   "Keymap for `S-SPC` prefix commands.")

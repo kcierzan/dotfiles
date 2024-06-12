@@ -26,12 +26,16 @@
       inhibit-startup-message t
       frame-title-format "emacs"
       backup-directory-alist '(("." . "~/.custom/backups/"))
+      auto-save-default t
+      auto-save-include-big-deletions t
+      auto-save-list-file-prefix "~/.custom/autosave/"
+      ;; auto-save-file-name-transforms '((".*" . auto-save-list-file-prefix t))
       make-backup-files nil
       mac-command-modifier 'super
       mac-option-modifier 'meta
       global-auto-revert-non-file-buffers t
-      use-package-always-ensure t
       auto-revert-verbose nil
+      use-package-always-ensure t
       load-prefer-newer noninteractive)
 
 (setq byte-compile-warnings
@@ -75,6 +79,8 @@
   (setq gc-cons-threshold most-positive-fixnum
         file-name-handler-alist nil)
   (add-hook 'emacs-startup-hook #'teardown-init-perf))
+
+(configure-init-perf)
 
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
