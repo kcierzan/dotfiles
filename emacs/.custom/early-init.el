@@ -15,7 +15,7 @@
 
 (setq package-enable-at-startup nil
       create-lockfiles nil
-      read-process-output-max (* 64 1024) ; 64KB
+      read-process-output-max (* 1024 1024) ; 1MB
       redisplay-skip-fontification-on-input t ; helps a little with scrolling
       highlight-nonselected-windows nil
       fast-but-imprecise-scrolling t

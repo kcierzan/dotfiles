@@ -307,7 +307,8 @@ This is a variadic `cl-pushnew'."
         lsp-enable-text-document-color nil
         lsp-headerline-breadcrumb-enable nil
         lsp-diagnostics-provider :flymake)
-  :hook (ruby-ts-mode . lsp-deferred)
+  :hook ((ruby-ts-mode . lsp-deferred)
+         (bash-ts-mode . lsp-deferred))
   :config
   (with-eval-after-load 'lsp-mode
     (progn
@@ -380,6 +381,11 @@ This is a variadic `cl-pushnew'."
   :ensure (:host github
            :repo "joddie/pcre2el")
   :commands (rxt-quote-pcre))
+
+(use-package better-jumper
+  :ensure (:host github
+                 :repo "gilbertw1/better-jumper")
+  :commands (better-jumper-set-jump))
 
 (require 'rails)
 (require 'search)
