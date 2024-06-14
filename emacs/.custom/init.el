@@ -4,28 +4,25 @@
 
 ;; Author: Kyle Cierzan
 (require 'cl-lib)
+(require 'lib)
 
+;; Settings that don't work in early-init
 (recentf-mode 1)
 (global-auto-revert-mode 1)
 (set-face-attribute 'default nil :font "BerkeleyMono Nerd Font" :weight 'regular :height 180)
 
-(defmacro pushnew! (place &rest values)
-  "Push VALUES sequentially into PLACE, if they aren't already present.
-This is a variadic `cl-pushnew'."
-  (let ((var (make-symbol "result")))
-    `(dolist (,var (list ,@values) (with-no-warnings ,place))
-       (cl-pushnew ,var ,place :test #'equal))))
-
-(defun +setup-ielm-bindings ()
-  "Configure custom bindings for `ielm-mode'"
-  (define-key ielm-map (kbd "C-<return>") #'ielm-return))
-
-(add-hook 'ielm-mode-hook #'+setup-ielm-bindings)
-
-;; up elapaca package manager and enable use-package integration
+;; set up elapaca package manager and enable use-package integration
 (require 'elpaca-bootstrap)
 (elpaca elpaca-use-package
         (elpaca-use-package-mode))
+
+(use-package ielm
+  :ensure nil
+  :init
+  (defun my/setup-ielm-bindings ()
+    "Configure custom bindings for `ielm-mode'"
+    (define-key ielm-map (kbd "C-<return>") #'ielm-return))
+  (add-hook 'ielm-mode-hook #'my/setup-ielm-bindings))
 
 (use-package gcmh
   :init (setq gcmh-idle-delay 'auto
@@ -35,7 +32,7 @@ This is a variadic `cl-pushnew'."
 
 (use-package which-key
   :init (which-key-mode 1)
-  :config  (setq which-key-idle-delay 0.3))
+  :config (setq which-key-idle-delay 0.3))
 
 (use-package vertico
   :init
@@ -223,12 +220,15 @@ This is a variadic `cl-pushnew'."
     (< (buffer-size other-buffer) +corfu-buffer-scanning-size-limit))
   (defun +corfu-add-cape-dabbrev-h ()
     (add-hook 'completion-at-point-functions #'cape-dabbrev 20 t))
+  (defun +corfu-add-cape-elisp-symbol-h ()
+    (add-hook 'completion-at-point-functions #'cape-elisp-symbol 0 t))
   (with-eval-after-load 'dabbrev
     (setq dabbrev-friend-buffer-function #'+dabbrev-friend-buffer-p
           dabbrev-ignored-buffer-regexps
           '("\\` "
             "\\(TAGS\\|tags\\|ETAGS\\|etags\\|GTAGS\\|GRTAGS\\|GPATH\\)\\(<[0-9]+>\\)?")
           dabbrev-upcase-means-case-search t))
+  (add-hook 'emacs-lisp-mode-hook #'+corfu-add-cape-elisp-symbol-h)
   (add-hook 'prog-mode-hook #'+corfu-add-cape-dabbrev-h)
   (add-hook 'text-mode-hook #'+corfu-add-cape-dabbrev-h)
   (add-hook 'conf-mode-hook #'+corfu-add-cape-dabbrev-h)
@@ -332,36 +332,6 @@ This is a variadic `cl-pushnew'."
   :init
   (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
 
-;; emacs-lsp-booster
-(defun lsp-booster--advice-json-parse (old-fn &rest args)
-  "Try to parse bytecode instead of json."
-  (or
-   (when (equal (following-char) ?#)
-     (let ((bytecode (read (current-buffer))))
-       (when (byte-code-function-p bytecode)
-         (funcall bytecode))))
-   (apply old-fn args)))
-(advice-add (if (progn (require 'json)
-                       (fboundp 'json-parse-buffer))
-                'json-parse-buffer
-              'json-read)
-            :around
-            #'lsp-booster--advice-json-parse)
-
-(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-  "Prepend emacs-lsp-booster command to lsp CMD."
-  (let ((orig-result (funcall old-fn cmd test?)))
-    (if (and (not test?)                             ;; for check lsp-server-present?
-             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-             lsp-use-plists
-             (not (functionp 'json-rpc-connection))  ;; native json-rpc
-             (executable-find "emacs-lsp-booster"))
-        (progn
-          (message "Using emacs-lsp-booster for %s!" orig-result)
-          (cons "emacs-lsp-booster" orig-result))
-      orig-result)))
-(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
-
 (use-package avy
   :ensure (:host github
            :repo "abo-abo/avy")
@@ -384,9 +354,107 @@ This is a variadic `cl-pushnew'."
 
 (use-package better-jumper
   :ensure (:host github
-                 :repo "gilbertw1/better-jumper")
+           :repo "gilbertw1/better-jumper")
   :commands (better-jumper-set-jump))
 
+(use-package browse-at-remote
+  :ensure (:host github
+           :repo "rmuslimov/browse-at-remote")
+  :commands (browse-at-remote))
+
+(use-package meow
+  :ensure (:host github
+                 :repo "meow-edit/meow")
+  :config
+  (defun meow-setup ()
+    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    (meow-motion-overwrite-define-key
+     '("j" . meow-next)
+     '("k" . meow-prev)
+     '("<escape>" . ignore))
+    (meow-leader-define-key
+     ;; SPC j/k will run the original command in MOTION state.
+     '("j" . "H-j")
+     '("k" . "H-k")
+     ;; Use SPC (0-9) for digit arguments.
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '("/" . meow-keypad-describe-key)
+     '("?" . meow-cheatsheet)) 
+    (meow-normal-define-key
+     '("0" . meow-expand-0)
+     '("9" . meow-expand-9)
+     '("8" . meow-expand-8)
+     '("7" . meow-expand-7)
+     '("6" . meow-expand-6)
+     '("5" . meow-expand-5)
+     '("4" . meow-expand-4)
+     '("3" . meow-expand-3)
+     '("2" . meow-expand-2)
+     '("1" . meow-expand-1)
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("[" . meow-beginning-of-thing)
+     '("]" . meow-end-of-thing)
+     '("a" . meow-append)
+     '("A" . meow-open-below)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-change)
+     '("d" . meow-delete)
+     '("D" . meow-backward-delete)
+     '("e" . meow-next-word)
+     '("E" . meow-next-symbol)
+     '("f" . meow-find)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     '("h" . meow-left)
+     '("H" . meow-left-expand)
+     '("i" . meow-insert)
+     '("I" . meow-open-above)
+     '("j" . meow-next)
+     '("J" . meow-next-expand)
+     '("k" . meow-prev)
+     '("K" . meow-prev-expand)
+     '("l" . meow-right)
+     '("L" . meow-right-expand)
+     '("m" . meow-join)
+     '("n" . meow-search)
+     '("o" . meow-block)
+     '("O" . meow-to-block)
+     '("p" . meow-yank)
+     '("q" . meow-quit)
+     '("Q" . meow-goto-line)
+     '("r" . meow-replace)
+     '("R" . meow-swap-grab)
+     '("s" . meow-kill)
+     '("t" . meow-till)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("v" . meow-visit)
+     '("w" . meow-mark-word)
+     '("W" . meow-mark-symbol)
+     '("x" . meow-line)
+     '("X" . meow-goto-line)
+     '("y" . meow-save)
+     '("Y" . meow-sync-grab)
+     '("z" . meow-pop-selection)
+     '("'" . repeat)
+     '("<escape>" . ignore)))
+  (meow-setup)
+  (meow-global-mode 1))
+
+(require 'lsp-booster)
 (require 'rails)
 (require 'search)
 

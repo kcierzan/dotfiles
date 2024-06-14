@@ -14,10 +14,9 @@
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; Commentary:
+;; A collection of functions for looking things up
 ;;
-;;
-;;
-;;; Code:
+ ;;; Code:
 (defun my/project-root (&optional dir)
   (let* ((target (or dir ""))
          (maybe-root (locate-dominating-file target ".git"))
@@ -268,7 +267,7 @@ Will return nil if neither is available. These require ripgrep to be installed."
       (let ((wconf (current-window-configuration))
             (result (condition-case-unless-debug e
                         (+lookup--run-handler handler identifier)
-                      (error                      
+                      (error
                        'fail))))
         (cond ((eq result 'fail)
                (set-window-configuration wconf)
@@ -284,6 +283,7 @@ Will return nil if neither is available. These require ripgrep to be installed."
      (message "Lookup handler %S: %s" handler e)
      nil)))
 
+;; override M-. in the global map and override in other maps as necessary
 (define-key global-map (kbd "M-.") #'+lookup/definition)
 
 (provide 'search)

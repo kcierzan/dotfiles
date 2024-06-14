@@ -36,6 +36,7 @@
       global-auto-revert-non-file-buffers t
       auto-revert-verbose nil
       use-package-always-ensure t
+      native-comp-async-report-warnings-errors nil
       load-prefer-newer noninteractive)
 
 (setq byte-compile-warnings
