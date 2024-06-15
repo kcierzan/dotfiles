@@ -9,7 +9,7 @@
 ;; Settings that don't work in the early-init.el
 (recentf-mode 1)
 (global-auto-revert-mode 1)
-(set-face-attribute 'default nil :font "BerkeleyMono Nerd Font" :weight 'regular :height 180)
+(set-face-attribute 'default nil :font "BerkeleyMono Nerd Font" :weight 'medium :height (if (featurep :system 'macos) 180 140))
 
 ;; set up elapaca package manager and enable use-package integration
 (require 'elpaca-bootstrap)
