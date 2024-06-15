@@ -36,7 +36,9 @@ eval "$(zoxide init zsh)"
 #shellcheck source=/dev/null
 [ -f ~/.bootstrap/env.sh ] && source "$HOME/.bootstrap/env.sh"
 
-eval "$(rbenv init -)"
+if [[ "$(uname)" = 'Darwin' ]]; then
+    eval "$(rbenv init -)"
+fi
 
 # initialize mise
 eval "$(mise activate zsh)"
