@@ -24,7 +24,7 @@
 
 (setq doom-font (font-spec :family "BerkeleyMono Nerd Font" :size 18 :weight 'medium)
       doom-variable-pitch-font (font-spec :family "Geist" :size 18 :weight 'medium)
-      doom-serif-font (font-spec :family "ETBembo" :size 18 :weight 'medium))
+      doom-serif-font (font-spec :family (if (featurep :system 'macos) "ETBembo" "ETBookOT"):size 18 :weight 'medium))
 
 ;; Don't display the filename in the title bar
 (setq frame-title-format "")
