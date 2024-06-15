@@ -28,7 +28,10 @@
                                     "~/.custom")
         bg-cmd (make-background-cmd cmd)]
     (os.execute bg-cmd)
-    (os.execute "sleep 1")
+    (os.execute "sleep 2")
+    ;; TODO: change this so we get all window IDs before running the bg-cmd
+    ;; then grab all the window IDs after we run the command, focusing the
+    ;; new ID.
     (: (hs.appfinder.windowFromWindowTitle :emacs) :focus)))
 
 (fn keyboard-connected? []

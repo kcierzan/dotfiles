@@ -1,4 +1,4 @@
- ;;; init.el --- emacs config               -*- lexical-binding: t; -*-
+;;; init.el --- emacs config               -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2024  Kyle Cierzan
 
@@ -6,7 +6,7 @@
 (require 'cl-lib)
 (require 'lib)
 
-;; Settings that don't work in early-init
+;; Settings that don't work in the early-init.el
 (recentf-mode 1)
 (global-auto-revert-mode 1)
 (set-face-attribute 'default nil :font "BerkeleyMono Nerd Font" :weight 'regular :height 180)
@@ -364,7 +364,7 @@
 
 (use-package meow
   :ensure (:host github
-                 :repo "meow-edit/meow")
+           :repo "meow-edit/meow")
   :config
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
@@ -452,22 +452,31 @@
      '("'" . repeat)
      '("<escape>" . ignore)))
   (meow-setup)
-  (meow-global-mode 1))
+  (meow-global-mode 1)
+  (defvar my-prefix-map (make-sparse-keymap)
+    "Keymap for consult-based searching commands")
+  (meow-leader-define-key (cons "s" my-prefix-map))
+  (define-key my-prefix-map (kbd "r") #'consult-recent-file)
+  (define-key mode-specific-map (kbd "C-s") my-prefix-map)
+  (define-key my-prefix-map (kbd "r") #'consult-recent-file)
+  (define-key my-prefix-map (kbd "f") #'project-find-file)
+  (define-key my-prefix-map (kbd "p") #'project-switch-project)
+  (define-key my-prefix-map (kbd "b") #'consult-buffer)
+  (define-key my-prefix-map (kbd "s") #'consult-line)
+  (define-key my-prefix-map (kbd "l") #'consult-goto-line)
+  (define-key my-prefix-map (kbd "g") #'consult-ripgrep)
+  (with-eval-after-load 'corfu
+    (advice-add #'meow-insert-exit :after #'corfu-quit)))
+
+(use-package ws-butler
+  :hook (prog-mode . ws-butler-mode))
+
+(use-package super-save
+  :ensure (:host github
+           :repo "bbatsov/super-save")
+  :init (setq super-save-auto-save-when-idle t)
+  :config (super-save-mode 1))
 
 (require 'lsp-booster)
 (require 'rails)
 (require 'search)
-
-(defvar my-prefix-map (make-sparse-keymap)
-  "Keymap for `S-SPC` prefix commands.")
-
-;; TODO: There are a few modes where S-SPC is bound... 
-(define-key global-map (kbd "S-SPC") my-prefix-map)
-(define-key my-prefix-map (kbd "SPC") #'execute-extended-command)
-(define-key my-prefix-map (kbd "r") #'consult-recent-file)
-(define-key my-prefix-map (kbd "f") #'project-find-file)
-(define-key my-prefix-map (kbd "p") #'project-switch-project)
-(define-key my-prefix-map (kbd "b") #'consult-buffer)
-(define-key my-prefix-map (kbd "s") #'consult-line)
-(define-key my-prefix-map (kbd "l") #'consult-goto-line)
-(define-key my-prefix-map (kbd "g") #'consult-ripgrep)

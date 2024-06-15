@@ -10,9 +10,9 @@ export BAT_THEME='base16'
 export CLICOLOR=1
 export FZF_COMPLETION_TRIGGER='**'
 export FZF_DEFAULT_OPTS="--color=fg:-1,bg:-1,fg+:4,bg+:-1,header:3,hl:-1,hl+:3,prompt:4,spinner:5,pointer:5,marker:4,info:4 \
---prompt=▷ \
---pointer=▷ \
---marker=▷"
+--prompt=> \
+--pointer=󰁕 \
+--marker=󰁕"
 export FZF_PREVIEW_COMMAND='bat --style=numbers --color=always {}'
 export GOPATH=$HOME/go
 export HISTFILE="$ZDOTDIR/.zhistory"
