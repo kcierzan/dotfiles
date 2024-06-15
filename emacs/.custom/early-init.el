@@ -24,7 +24,7 @@
       auto-revert-interval 1
       auth-sources '("~/.authinfo.gpg")
       inhibit-startup-message t
-      frame-title-format "emacs"
+      frame-title-format ""
       backup-directory-alist '(("." . "~/.custom/backups/"))
       auto-save-default t
       auto-save-include-big-deletions t

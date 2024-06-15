@@ -26,6 +26,9 @@
       doom-variable-pitch-font (font-spec :family "Geist" :size 18 :weight 'medium)
       doom-serif-font (font-spec :family "ETBembo" :size 18 :weight 'medium))
 
+;; Don't display the filename in the title bar
+(setq frame-title-format "")
+
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
