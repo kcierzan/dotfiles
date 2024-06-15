@@ -69,7 +69,7 @@
                                           file-name-handler-alist
                                           :test #'equal))
   (when (= gc-cons-threshold most-positive-fixnum)
-    (setq gc-cons-threshold original-gc-cons-threshold))
+    (setq gc-cons-threshold original-gc-cons-threshold-backup))
   (setq original-file-name-handler-alist nil
         original-gc-cons-threshold-backup nil))
 
