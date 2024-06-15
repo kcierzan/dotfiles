@@ -15,6 +15,9 @@ symbol = " "
 [nodejs]
 symbol = " "
 
+[python]
+symbol = " "
+
 [aws]
 disabled = true
 
