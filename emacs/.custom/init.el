@@ -1,15 +1,24 @@
-;;; init.el --- emacs config               -*- lexical-binding: t; -*-
+;;; init.el --- Emacs config  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2024  Kyle Cierzan
 
 ;; Author: Kyle Cierzan
+;;; Commentary:
+;; Custom Emacs config
+;;
+;;; Code:
 (require 'cl-lib)
 (require 'lib)
 
 ;; Settings that don't work in the early-init.el
 (recentf-mode 1)
 (global-auto-revert-mode 1)
-(set-face-attribute 'default nil :font "BerkeleyMono Nerd Font" :weight 'medium :height (if (featurep :system 'macos) 180 140))
+(set-face-attribute 'default nil
+                    :font "BerkeleyMono Nerd Font"
+                    :weight 'regular
+                    :height (if (eq system-type 'darwin)
+                                180
+                              130))
 
 ;; set up elapaca package manager and enable use-package integration
 (require 'elpaca-bootstrap)
@@ -477,6 +486,31 @@
   :init (setq super-save-auto-save-when-idle t)
   :config (super-save-mode 1))
 
+(use-package posframe
+  :ensure (:host github
+           :repo "tumashu/posframe"))
+
+(use-package flymake-posframe
+  :ensure (:host github
+           :repo "Ladicle/flymake-posframe")
+  :hook (flymake-mode . flymake-posframe-mode)
+  :config
+  (defun my/flymake-posframe-set-faces ()
+    (set-face-attribute 'flymake-posframe-foreground-face nil
+                        :font (face-attribute 'default :font)
+                        :foreground (face-attribute 'default :foreground)
+                        :background (face-attribute 'default :background))
+    (set-face-attribute 'flymake-posframe-background-face nil
+                        :font (face-attribute 'default :font)
+                        :foreground (face-attribute 'default :foreground)
+                        :background (face-attribute 'default :background)))
+  (add-hook 'flymake-posframe-mode-hook #'my/flymake-posframe-set-faces))
+
+(use-package flymake
+  :ensure nil
+  :hook (prog-mode . flymake-mode))
+
 (require 'lsp-booster)
 (require 'rails)
 (require 'search)
+;;; init.el ends here
