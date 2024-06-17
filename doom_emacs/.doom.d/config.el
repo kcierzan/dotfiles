@@ -22,9 +22,9 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 
-(setq doom-font (font-spec :family "BerkeleyMono Nerd Font" :size 18 :weight 'medium)
+(setq doom-font (font-spec :family "BerkeleyMono Nerd Font" :size 18 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Geist" :size 18 :weight 'medium)
-      doom-serif-font (font-spec :family (if (featurep :system 'macos) "ETBembo" "ETBookOT"):size 18 :weight 'medium))
+      doom-serif-font (font-spec :family (if (featurep :system 'macos) "ETBembo" "ETBookOT"):size 18 :weight 'regular))
 
 ;; Don't display the filename in the title bar
 (setq frame-title-format "")
