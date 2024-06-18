@@ -16,7 +16,7 @@
 ;;; Commentary:
 ;; A collection of functions for looking things up
 ;;
- ;;; Code:
+;;; Code:
 (defun my/project-root (&optional dir)
   (let* ((target (or dir ""))
          (maybe-root (locate-dominating-file target ".git"))
@@ -106,13 +106,6 @@ in some cases."
                    consult-async-split-style 'perlalt))))))
     (consult--grep prompt #'consult--ripgrep-make-builder directory query)))
 
-(defun vertico/project-search (&optional arg initial-query directory)
-  "Performs a live project search from the project root using ripgrep.
-If ARG (universal argument), include all files, even hidden or compressed ones,
-in the search."
-  (interactive "P")
-  (vertico-file-search :query initial-query :in directory :all-files arg))
-
 (defun my/search-project-for-symbol-at-point (symbol dir)
   "Search current project for symbol at point.
 If prefix ARG is set, prompt for a known project to search from."
@@ -123,7 +116,7 @@ If prefix ARG is set, prompt for a known project to search from."
                  (completing-read "Search project: " projects nil t)
                (user-error "There are no known projects"))
            (my/project-root default-directory))))
-  (vertico/project-search nil symbol dir))
+  (my/project-search nil symbol dir))
 
 ;;;###autoload
 (defun my/project-search (&optional arg initial-query directory)
@@ -141,28 +134,30 @@ If ARG (universal argument), include all files, even hidden or compressed ones."
   (my/project-search arg initial-query default-directory))
 
 ;;;###autoload
-(defun +lookup/definition (identifier &optional arg)
+(defun +my/lookup-definition (identifier &optional arg)
   "Jump to the definition of IDENTIFIER (defaults to the symbol at point).
 
-Each function in `+lookup-definition-functions' is tried until one changes the
+Each function in `my/lookup-definition-functions' is tried until one changes the
 point or current buffer. Falls back to dumb-jump, naive
 ripgrep/the_silver_searcher text search, then `evil-goto-definition' if
 evil-mode is active."
   (interactive (list (my/thing-at-point-or-region)
                      current-prefix-arg))
   (cond ((null identifier) (user-error "Nothing under point"))
-        ((+lookup--jump-to :definition identifier nil arg))
+        ((my--jump-to :definition identifier nil arg))
         ((user-error "Couldn't find the definition of %S" (substring-no-properties identifier)))))
 
-(defun +lookup--jump-to (prop identifier &optional display-fn arg)
+(defun my--jump-to (prop identifier &optional display-fn arg)
   (let* ((origin (point-marker))
          (handlers
-          (plist-get (list :definition '+lookup-definition-functions
-                           :implementations '+lookup-implementations-functions
-                           :type-definition '+lookup-type-definition-functions
-                           :references '+lookup-references-functions
-                           :documentation '+lookup-documentation-functions
-                           :file '+lookup-file-functions)
+          (plist-get (list :definition 'my/lookup-definition-functions
+                           ;; TODO: Implement these
+                           ;; :implementations '+lookup-implementations-functions
+                           ;; :type-definition '+lookup-type-definition-functions
+                           ;; :references '+lookup-references-functions
+                           ;; :documentation '+lookup-documentation-functions
+                           ;; :file '+lookup-file-functions
+                           )
                      prop))
          (result
           (if arg
@@ -174,9 +169,9 @@ evil-mode is active."
                                       (remq t (append (symbol-value handlers)
                                                       (default-value handlers))))
                                      nil t)))
-                  (+lookup--run-handlers handler identifier origin)
+                  (my/lookup--run-handlers handler identifier origin)
                 (user-error "No lookup handler selected"))
-            (run-hook-wrapped handlers #'+lookup--run-handlers identifier origin))))
+            (run-hook-wrapped handlers #'my/lookup--run-handlers identifier origin))))
     (unwind-protect
         (when (cond ((null result)
                      (message "No lookup handler could find %S" identifier)
@@ -193,12 +188,12 @@ evil-mode is active."
       (set-marker origin nil))))
 
 
-(defvar +lookup-definition-functions
-  '(+lsp-lookup-definition-handler
-    +lookup-xref-definitions-backend-fn
-    +lookup-dumb-jump-backend-fn
-    +lookup-project-search-backend-fn)
-  "Functions for `+lookup/definition' to try, before resorting to `dumb-jump'.
+(defvar my/lookup-definition-functions
+  '(my--lookup-definition-handler
+    my--xref-definitions-backend-fn
+    my--dumb-jump-backend-fn
+    my--project-search-backend-fn)
+  "Functions for `+my/lookup-definition' to try, before resorting to `dumb-jump'.
 Stops at the first function to return non-nil or change the current
 window/point.
 
@@ -207,13 +202,13 @@ If the argument is interactive (satisfies `commandp'), it is called with
 argument: the identifier at point. See `set-lookup-handlers!' about adding to
 this list.")
 
-(defun +lookup-xref-definitions-backend-fn (identifier)
+(defun my--xref-definitions-backend-fn (identifier)
   "Non-interactive wrapper for `xref-find-definitions'"
   (condition-case _
-      (+lookup--xref-show 'xref-backend-definitions identifier #'xref--show-defs)
+      (my--xref-show 'xref-backend-definitions identifier #'xref--show-defs)
     (cl-no-applicable-method nil)))
 
-(defun +lookup--xref-show (fn identifier &optional show-fn)
+(defun my--xref-show (fn identifier &optional show-fn)
   (let ((xrefs (funcall fn
                         (xref-find-backend)
                         identifier)))
@@ -229,7 +224,7 @@ this list.")
             'deferred
           jumped)))))
 
-(defun +lookup-dumb-jump-backend-fn (_identifier)
+(defun my--dumb-jump-backend-fn (_identifier)
   "Look up the symbol at point (or selection) with `dumb-jump', which conducts a
 project search with ag, rg, pt, or git-grep, combined with extra heuristics to
 reduce false positives.
@@ -239,7 +234,7 @@ This backend prefers \"just working\" over accuracy."
        (dumb-jump-go)))
 
 ;;;###autoload
-(defun +lsp-lookup-definition-handler ()
+(defun my--lookup-definition-handler ()
   "Find definition of the symbol at point using LSP."
   (interactive)
   (when-let (loc (lsp-request "textDocument/definition"
@@ -247,33 +242,28 @@ This backend prefers \"just working\" over accuracy."
     (lsp-show-xrefs (lsp--locations-to-xref-items loc) nil nil)
     'deferred))
 
-(defun +lookup-project-search-backend-fn (identifier)
-  "Conducts a simple project text search for IDENTIFIER.
-
-Uses and requires `+ivy-file-search', `+helm-file-search', or `+vertico-file-search'.
-Will return nil if neither is available. These require ripgrep to be installed."
+(defun my--project-search-backend-fn (identifier)
+  "Conducts a simple project text search for IDENTIFIER."
   (unless identifier
     (let ((query (rxt-quote-pcre identifier)))
       (ignore-errors
         (vertico-file-search :query query)))))
 
-(defun +lookup--run-handler (handler identifier)
+(defun my--run-handler (handler identifier)
   (if (commandp handler)
       (call-interactively handler)
     (funcall handler identifier)))
 
-(defun +lookup--run-handlers (handler identifier origin)
+(defun my/lookup--run-handlers (handler identifier origin)
   (condition-case-unless-debug e
       (let ((wconf (current-window-configuration))
             (result (condition-case-unless-debug e
-                        (+lookup--run-handler handler identifier)
+                        (my--run-handler handler identifier)
                       (error
                        'fail))))
         (cond ((eq result 'fail)
                (set-window-configuration wconf)
                nil)
-              ((or (get handler '+lookup-async)
-                   (eq result 'deferred)))
               ((or result
                    (null origin)
                    (/= (point-marker) origin))
@@ -283,8 +273,14 @@ Will return nil if neither is available. These require ripgrep to be installed."
      (message "Lookup handler %S: %s" handler e)
      nil)))
 
+;;;###autoload
+(defun my/search-for-symbol-at-point ()
+  "Search the open buffers for thing-at-point."
+  (interactive)
+  (consult-line (thing-at-point 'symbol)))
+
 ;; override M-. in the global map and override in other maps as necessary
-(define-key global-map (kbd "M-.") #'+lookup/definition)
+(define-key global-map (kbd "M-.") #'+my/lookup-definition)
 
 (provide 'search)
 ;;; search.el ends here

@@ -1,4 +1,4 @@
-;;; init.el --- Emacs config  -*- lexical-binding: t; -*-
+;;; Init.el --- Emacs config  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2024  Kyle Cierzan
 
@@ -375,6 +375,7 @@
   :ensure (:host github
            :repo "meow-edit/meow")
   :config
+  (setq meow-keypad-ctrl-meta-prefix ?!)
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
     (meow-motion-overwrite-define-key
@@ -397,7 +398,7 @@
      '("9" . meow-digit-argument)
      '("0" . meow-digit-argument)
      '("/" . meow-keypad-describe-key)
-     '("?" . meow-cheatsheet)) 
+     '("?" . meow-cheatsheet))
     (meow-normal-define-key
      '("0" . meow-expand-0)
      '("9" . meow-expand-9)
@@ -462,18 +463,64 @@
      '("<escape>" . ignore)))
   (meow-setup)
   (meow-global-mode 1)
-  (defvar my-prefix-map (make-sparse-keymap)
+
+
+  (defvar my-search-map (make-sparse-keymap)
     "Keymap for consult-based searching commands")
-  (meow-leader-define-key (cons "s" my-prefix-map))
-  (define-key my-prefix-map (kbd "r") #'consult-recent-file)
-  (define-key mode-specific-map (kbd "C-s") my-prefix-map)
-  (define-key my-prefix-map (kbd "r") #'consult-recent-file)
-  (define-key my-prefix-map (kbd "f") #'project-find-file)
-  (define-key my-prefix-map (kbd "p") #'project-switch-project)
-  (define-key my-prefix-map (kbd "b") #'consult-buffer)
-  (define-key my-prefix-map (kbd "s") #'consult-line)
-  (define-key my-prefix-map (kbd "l") #'consult-goto-line)
-  (define-key my-prefix-map (kbd "g") #'consult-ripgrep)
+
+  (meow-leader-define-key (cons "s" my-search-map))
+  (define-key my-search-map (kbd "s") #'consult-line)
+  (define-key my-search-map (kbd "g") #'consult-ripgrep)
+  (define-key my-search-map (kbd "i") #'consult-imenu)
+  (define-key my-search-map (kbd "I") #'consult-imenu-multi)
+
+  (defvar my-project-map (make-sparse-keymap)
+    "Keymap for project commands")
+
+  (meow-leader-define-key (cons "p" my-project-map))
+  (define-key my-project-map (kbd "f") #'project-find-file)
+  (define-key my-project-map (kbd "p") #'project-switch-project)
+  (define-key my-project-map (kbd "b") #'project-switch-to-buffer)
+  (define-key my-project-map (kbd "d") #'project-find-dir)
+  (define-key my-project-map (kbd "g") #'my/project-search)
+  (define-key my-project-map (kbd "D") #'project-remember-projects-under)
+  (define-key my-project-map (kbd "!" ) #'project-shell-command)
+  (define-key my-project-map (kbd "&") #'project-async-shell-command)
+  (define-key my-project-map (kbd "*") #'my/search-project-for-symbol-at-point)
+
+  (defvar my-open-map (make-sparse-keymap)
+    "Keymap for open commands")
+
+  (meow-leader-define-key (cons "o" my-open-map))
+  (define-key my-open-map (kbd "-") #'dired-jump)
+
+  (defvar my-buffer-map (make-sparse-keymap)
+    "Keymap for buffer commands")
+
+  (meow-leader-define-key (cons "b" my-buffer-map))
+  (define-key my-buffer-map (kbd "b") #'consult-buffer)
+  (define-key my-buffer-map (kbd "l") #'consult-goto-line)
+  (define-key my-buffer-map (kbd "d") #'kill-current-buffer)
+  (define-key my-buffer-map (kbd "r") #'revert-buffer)
+  (define-key my-buffer-map (kbd "s") #'basic-save-buffer)
+
+  (defvar my-file-map (make-sparse-keymap)
+    "Keymap for file commands")
+
+  (meow-leader-define-key (cons "f" my-file-map))
+  (define-key my-file-map (kbd "r") #'consult-recent-file)
+  (define-key my-file-map (kbd "y") #'my/yank-buffer-path)
+
+  (defvar my-git-map (make-sparse-keymap)
+    "Keymap for git commands")
+
+  (meow-leader-define-key (cons "g" my-git-map))
+  (define-key my-git-map (kbd "g") #'magit-status)
+  (define-key my-git-map (kbd "F") #'magit-fetch)
+  (define-key my-git-map (kbd "R") #'vc-revert)
+  (define-key my-git-map (kbd "L") #'magit-log-buffer-file)
+  (define-key my-git-map (kbd "b") #'magit-branch-checkout)
+
   (with-eval-after-load 'corfu
     (advice-add #'meow-insert-exit :after #'corfu-quit)))
 
@@ -513,4 +560,5 @@
 (require 'lsp-booster)
 (require 'rails)
 (require 'search)
+(require 'files)
 ;;; init.el ends here
