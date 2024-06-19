@@ -1,3 +1,5 @@
+export ZDOTDIR="$HOME/.config/zsh"
+
 if [ "$(uname)" = 'Darwin' ]; then
     export EDITOR='open -a /Applications/Emacs.app --args'
     export VISUAL='open -a /Applications/Emacs.app --args'
@@ -21,4 +23,3 @@ export LSCOLORS='ExFxBxDxCxegedxbxgxcxd'
 export SAVEHIST=10000
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export ZDOTDIR="$HOME/.config/zsh"
