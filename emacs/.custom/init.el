@@ -13,6 +13,7 @@
 ;; Settings that don't work in the early-init.el
 (recentf-mode 1)
 (global-auto-revert-mode 1)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (set-face-attribute 'default nil
                     :font "BerkeleyMono Nerd Font"
                     :weight 'regular
@@ -464,6 +465,7 @@
   (meow-setup)
   (meow-global-mode 1)
 
+  (meow-normal-define-key '("C-o" . pop-global-mark))
 
   (defvar my-search-map (make-sparse-keymap)
     "Keymap for consult-based searching commands")
