@@ -40,6 +40,10 @@
               gcmh-high-cons-threshold (* 32 1024 1024))
   (gcmh-mode 1))
 
+(use-package no-littering
+  :ensure (:host github
+           :repo "emacscollective/no-littering"))
+
 (use-package which-key
   :init (which-key-mode 1)
   :config (setq which-key-idle-delay 0.3))
@@ -205,10 +209,10 @@
         corfu-auto-delay 0.18
         corfu-auto-prefix 2
         global-corfu-modes '((not erc-mode
-                              circe-mode
-                              help-mode
-                              gud-mode
-                              vterm-mode)
+                                  circe-mode
+                                  help-mode
+                                  gud-mode
+                                  vterm-mode)
                              t)
         corfu-cycle t
         corfu-preselect 'prompt
@@ -217,7 +221,9 @@
         corfu-quit-at-boundary 'separator
         corfu-quit-no-match corfu-quit-at-boundary
         tab-always-indent 'complete)
-  (add-to-list 'corfu-auto-commands #'lispy-colon))
+  (add-to-list 'corfu-auto-commands #'lispy-colon)
+  (define-key corfu-map (kbd "<tab>") #'corfu-next)
+  (define-key corfu-map (kbd "<backtab>") #'corfu-previous))
 
 (use-package cape
   :init
@@ -466,6 +472,8 @@
   (meow-global-mode 1)
 
   (meow-normal-define-key '("C-o" . pop-global-mark))
+  (meow-leader-define-key '(":" .  execute-extended-command))
+  (meow-leader-define-key '(";" .  eval-expression))
 
   (defvar my-search-map (make-sparse-keymap)
     "Keymap for consult-based searching commands")
@@ -524,7 +532,7 @@
   (define-key my-git-map (kbd "b") #'magit-branch-checkout)
 
   (with-eval-after-load 'corfu
-    (advice-add #'meow-insert-exit :after #'corfu-quit)))
+    (add-hook 'meow-insert-exit-hook #'corfu-quit)))
 
 (use-package ws-butler
   :hook (prog-mode . ws-butler-mode))
@@ -562,9 +570,11 @@
 (use-package dtrt-indent
   :ensure (:host github
            :repo "jscheid/dtrt-indent")
-  :init (dtrt-indent-global-mode 1))
+  :hook (prog-mode . dtrt-indent-global-mode))
 
 (use-package yasnippet
+  :hook ((emacs-lisp-mode . yas-minor-mode)
+         (ruby-ts-mode . yas-minor-mode))
   :commands (yas-minor-mode-on
              yas-expand
              yas-expand-snippet
@@ -576,9 +586,11 @@
              yas-deactivate-extra-mode
              yas-maybe-expand-abbrev-key-filter)
   :init
+  (add-hook 'meow-insert-exit-hook #'yas-abort-snippet)
   (defvar yas-verbosity 2))
 
 (use-package doom-snippets
+  :after yasnippet
   :ensure (:host github
            :repo "doomemacs/snippets"
            :files ("*.el" "*")))
