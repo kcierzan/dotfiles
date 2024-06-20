@@ -559,6 +559,30 @@
   :ensure nil
   :hook (prog-mode . flymake-mode))
 
+(use-package dtrt-indent
+  :ensure (:host github
+           :repo "jscheid/dtrt-indent")
+  :init (dtrt-indent-global-mode 1))
+
+(use-package yasnippet
+  :commands (yas-minor-mode-on
+             yas-expand
+             yas-expand-snippet
+             yas-lookup-snippet
+             yas-insert-snippet
+             yas-new-snippet
+             yas-visit-snippet-file
+             yas-activate-extra-mode
+             yas-deactivate-extra-mode
+             yas-maybe-expand-abbrev-key-filter)
+  :init
+  (defvar yas-verbosity 2))
+
+(use-package doom-snippets
+  :ensure (:host github
+           :repo "doomemacs/snippets"
+           :files ("*.el" "*")))
+
 (require 'lsp-booster)
 (require 'rails)
 (require 'search)

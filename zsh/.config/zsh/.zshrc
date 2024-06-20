@@ -44,7 +44,7 @@ fi
 eval "$(mise activate zsh)"
 
 # initialize fzf
-eval "$(fzf --zsh)"
+source <(fzf --zsh)
 
 # load plugin manager
 [ -f "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh" ] && source "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh"
