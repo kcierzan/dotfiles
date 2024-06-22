@@ -10,7 +10,19 @@
 (require 'cl-lib)
 (require 'lib)
 
-;; Settings that don't work in the early-init.el
+;; set up elapaca package manager and enable use-package integration
+(require 'elpaca-bootstrap)
+(elpaca elpaca-use-package
+        (elpaca-use-package-mode))
+
+;; This package must load as soon as possible to set paths
+;; used by other packages to write files to disk
+(use-package no-littering
+  :ensure (:host github
+           :wait t
+           :repo "emacscollective/no-littering"))
+
+;; These settings cannot be set in the early-init.el file.
 (recentf-mode 1)
 (global-auto-revert-mode 1)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -20,11 +32,6 @@
                     :height (if (eq system-type 'darwin)
                                 180
                               130))
-
-;; set up elapaca package manager and enable use-package integration
-(require 'elpaca-bootstrap)
-(elpaca elpaca-use-package
-        (elpaca-use-package-mode))
 
 (use-package ielm
   :ensure nil
@@ -39,10 +46,6 @@
               gcmh-auto-idle-delay-factor 10
               gcmh-high-cons-threshold (* 32 1024 1024))
   (gcmh-mode 1))
-
-(use-package no-littering
-  :ensure (:host github
-           :repo "emacscollective/no-littering"))
 
 (use-package which-key
   :init (which-key-mode 1)
@@ -78,8 +81,8 @@
                 "--null --line-buffered --color=never --max-columns=1000 "
                 "--path-separator /   --smart-case --no-heading "
                 "--with-filename --line-number --search-zip "
-                "--hidden -g !.git -g !.svn -g !.hg"))
-  :preface
+                "--hidden -g !.git -g !.svn -g !.hg")
+        :preface)
   (dolist (mapping '(([remap bookmark-jump] . #'consult-bookmark)
                      ([remap goto-line] . #'consult-goto-line)
                      ([remap imenu] . #'consult-imenu)
@@ -209,10 +212,10 @@
         corfu-auto-delay 0.18
         corfu-auto-prefix 2
         global-corfu-modes '((not erc-mode
-                                  circe-mode
-                                  help-mode
-                                  gud-mode
-                                  vterm-mode)
+                              circe-mode
+                              help-mode
+                              gud-mode
+                              vterm-mode)
                              t)
         corfu-cycle t
         corfu-preselect 'prompt
@@ -230,7 +233,7 @@
   (defconst +corfu-buffer-scanning-size-limit (* 1024 1024)) ; 1 MB
   (add-hook 'prog-mode-hook
             (defun +corfu-add-cape-file-h ()
-              (add-hook 'completion-at-point-functions #'cape-file -10 t)))
+              (add-hook 'completion-at-point-functions #'cape-file 10 t)))
   (setq cape-dabbrev-check-other-buffers t)
   (defun +dabbrev-friend-buffer-p (other-buffer)
     (< (buffer-size other-buffer) +corfu-buffer-scanning-size-limit))
@@ -246,6 +249,7 @@
           dabbrev-upcase-means-case-search t))
   (add-hook 'emacs-lisp-mode-hook #'+corfu-add-cape-elisp-symbol-h)
   (add-hook 'prog-mode-hook #'+corfu-add-cape-dabbrev-h)
+  (add-hook 'prog-mode-hook #'+corfu-add-cape-file-h)
   (add-hook 'text-mode-hook #'+corfu-add-cape-dabbrev-h)
   (add-hook 'conf-mode-hook #'+corfu-add-cape-dabbrev-h)
   (add-hook 'comint-mode-hook #'+corfu-add-cape-dabbrev-h)
@@ -520,6 +524,8 @@
   (meow-leader-define-key (cons "f" my-file-map))
   (define-key my-file-map (kbd "r") #'consult-recent-file)
   (define-key my-file-map (kbd "y") #'my/yank-buffer-path)
+  (define-key my-file-map (kbd "g") #'my/project-search-from-cwd)
+  (define-key my-file-map (kbd "f") #'consult-fd)
 
   (defvar my-git-map (make-sparse-keymap)
     "Keymap for git commands")
@@ -530,6 +536,42 @@
   (define-key my-git-map (kbd "R") #'vc-revert)
   (define-key my-git-map (kbd "L") #'magit-log-buffer-file)
   (define-key my-git-map (kbd "b") #'magit-branch-checkout)
+
+  (defvar my-window-map (make-sparse-keymap)
+    "Keymap for window commands")
+
+  (defun my/split-right-and-select-new-window ()
+    "Split the selected window and move point to the new window."
+    (interactive)
+    (select-window (split-window-right)))
+
+  (defun my/split-down-and-select-new-window ()
+    "Split the selected window vertically and move point to the new window."
+    (interactive)
+    (select-window (split-window-vertically)))
+
+  (meow-leader-define-key (cons "w" my-window-map))
+  (define-key my-window-map (kbd "h") #'windmove-left)
+  (define-key my-window-map (kbd "l") #'windmove-right)
+  (define-key my-window-map (kbd "j") #'windmove-down)
+  (define-key my-window-map (kbd "k") #'windmove-up)
+  (define-key my-window-map (kbd "q") #'delete-window)
+  (define-key my-window-map (kbd "Q") #'kill-buffer-and-window)
+  (define-key my-window-map (kbd "v") #'my/split-right-and-select-new-window)
+  (define-key my-window-map (kbd "s") #'my/split-down-and-select-new-window)
+  (define-key my-window-map (kbd "o") #'delete-other-windows)
+
+  (defun my/really-quit-emacs ()
+    "Quo vadis?"
+    (interactive)
+    (when (y-or-n-p "Really quit Emacs?")
+      (save-buffers-kill-terminal)))
+
+  (defvar my-quit-map (make-sparse-keymap)
+    "Keymap for quitting commands.")
+
+  (meow-leader-define-key (cons "q" my-quit-map))
+  (define-key my-quit-map (kbd "q") #'my/really-quit-emacs)
 
   (with-eval-after-load 'corfu
     (add-hook 'meow-insert-exit-hook #'corfu-quit)))
@@ -577,6 +619,7 @@
          (ruby-ts-mode . yas-minor-mode))
   :commands (yas-minor-mode-on
              yas-expand
+             yas-minor-mode
              yas-expand-snippet
              yas-lookup-snippet
              yas-insert-snippet
@@ -587,13 +630,25 @@
              yas-maybe-expand-abbrev-key-filter)
   :init
   (add-hook 'meow-insert-exit-hook #'yas-abort-snippet)
-  (defvar yas-verbosity 2))
+  (defvar yas-verbosity 2)
+  :config
+  (yas-reload-all))
 
-(use-package doom-snippets
-  :after yasnippet
+(use-package yasnippet-capf
   :ensure (:host github
-           :repo "doomemacs/snippets"
-           :files ("*.el" "*")))
+           :repo "elken/yasnippet-capf")
+  :after cape
+  :config
+  (defun my/add-yas-capf-h ()
+    "Add yas to capfs."
+    (add-hook 'completion-at-point-functions #'yasnippet-capf 10 t))
+  (add-hook 'prog-mode-hook #'my/add-yas-capf-h)
+  (defun my/add-yas-capf ()
+    "Add super lsp capf to `completion-at-point-functions'"
+    (push (cape-capf-super #'yasnippet-capf #'lsp-completion-at-point #'cape-dabbrev)
+          completion-at-point-functions))
+  (with-eval-after-load-all '(cape lsp-mode)
+                            (add-hook 'lsp-completion-mode-hook #'my/add-yas-capf)))
 
 (require 'lsp-booster)
 (require 'rails)

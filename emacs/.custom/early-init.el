@@ -29,7 +29,6 @@
       auto-save-default t
       auto-save-include-big-deletions t
       auto-save-list-file-prefix "~/.custom/autosave/"
-      ;; auto-save-file-name-transforms '((".*" . auto-save-list-file-prefix t))
       make-backup-files nil
       mac-command-modifier 'super
       mac-option-modifier 'meta
