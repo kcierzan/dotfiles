@@ -81,8 +81,8 @@
                 "--null --line-buffered --color=never --max-columns=1000 "
                 "--path-separator /   --smart-case --no-heading "
                 "--with-filename --line-number --search-zip "
-                "--hidden -g !.git -g !.svn -g !.hg")
-        :preface)
+                "--hidden -g !.git -g !.svn -g !.hg"))
+  :preface
   (dolist (mapping '(([remap bookmark-jump] . #'consult-bookmark)
                      ([remap goto-line] . #'consult-goto-line)
                      ([remap imenu] . #'consult-imenu)
