@@ -19,7 +19,7 @@
 ;; used by other packages to write files to disk
 (use-package no-littering
   :ensure (:host github
-           :wait t
+           ;; :wait t
            :repo "emacscollective/no-littering"))
 
 ;; These settings cannot be set in the early-init.el file.
@@ -226,16 +226,19 @@
   (define-key org-mode-map (kbd "C-'") #'avy-goto-char-timer))
 
 (use-package corfu
-  :init (global-corfu-mode 1)
+  :init
+  (global-corfu-mode 1)
+  (corfu-popupinfo-mode 1)
   :config
   (setq corfu-auto t
         corfu-auto-delay 0.18
+        corfu-popupinfo-delay 1
         corfu-auto-prefix 2
         global-corfu-modes '((not erc-mode
-                              circe-mode
-                              help-mode
-                              gud-mode
-                              vterm-mode)
+                                  circe-mode
+                                  help-mode
+                                  gud-mode
+                                  vterm-mode)
                              t)
         corfu-cycle t
         corfu-preselect 'prompt
@@ -669,6 +672,11 @@
           completion-at-point-functions))
   (with-eval-after-load-all '(cape lsp-mode)
                             (add-hook 'lsp-completion-mode-hook #'my/add-yas-capf)))
+
+(use-package vterm
+  :commands (vterm)
+  :init (setq vterm-kill-buffer-on-exit t
+              vterm-max-scrollback 10000))
 
 (require 'lsp-booster)
 (require 'rails)
