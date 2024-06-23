@@ -21,18 +21,17 @@
 (fn make-background-cmd [cmd]
   (.. cmd " &"))
 
-(fn launch-emacs-dev []
+(fn launch-emacs-dev [file]
   (let [cmd (create-execute-command "/Applications/Emacs.app/Contents/MacOS/Emacs"
-                                    "~/.custom/init.el"
+                                    file
                                     "--init-directory"
                                     "~/.custom")
         bg-cmd (make-background-cmd cmd)]
     (os.execute bg-cmd)
     (os.execute "sleep 2")
-    ;; TODO: change this so we get all window IDs before running the bg-cmd
-    ;; then grab all the window IDs after we run the command, focusing the
-    ;; new ID.
-    (: (hs.appfinder.windowFromWindowTitle :emacs) :focus)))
+    (-?> (hs.application.find :org.gnu.Emacs)
+         (: :mainWindow)
+         (: :focus))))
 
 (fn keyboard-connected? []
   (let [devices (hs.usb.attachedDevices)]
@@ -79,4 +78,4 @@
     (start-hyperkey))
 
 (hs.hotkey.bind [:ctrl :alt :cmd] :C quit-focused-application)
-(hs.hotkey.bind [:ctrl :alt :cmd] :T launch-emacs-dev)
+(hs.hotkey.bind [:ctrl :alt :cmd] :T (lambda [] (launch-emacs-dev "~/.custom/init.el")))
