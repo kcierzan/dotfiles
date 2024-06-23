@@ -25,7 +25,27 @@
 ;; These settings cannot be set in the early-init.el file.
 (recentf-mode 1)
 (global-auto-revert-mode 1)
+(setq-default display-line-numbers-width 3)
+(setq auto-window-vscroll nil
+      scroll-preserve-screen-position t
+      indicate-buffer-boundaries nil
+      indicate-empty-lines nil
+      frame-resize-pixelwise t
+      window-resize-pixelwise nil
+      comint-buffer-maximum-size 2048
+      compile-always-kill t
+      compilation-scroll-output 'first-error
+      echo-keystrokes 0.02
+      split-width-threshold 160
+      split-height-threshold nil
+      window-divider-default-places t
+      window-divider-default-bottom-width 1
+      window-divider-default-right-width 1)
+(window-divider-mode 1)
+(tooltip-mode -1)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'conf-mode-hook 'display-line-numbers-mode)
+(add-hook 'compilation-filter-hook #'comint-truncate-buffer)
 (set-face-attribute 'default nil
                     :font "BerkeleyMono Nerd Font"
                     :weight 'regular

@@ -41,7 +41,7 @@
 (setq byte-compile-warnings
       '(not free-vars unresolved noruntime lexical make-local))
 
-(setq-default ring-bell-function 'ignore
+(setq-default ring-bell-function #'ignore
               idle-update-delay 0.5
               inhibit-startup-screen t
               inhibit-startup-echo-area-message user-login-name

@@ -22,11 +22,9 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 
-(setq doom-font (font-spec :family "BerkeleyMono Nerd Font" :size 18 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Geist" :size 18 :weight 'medium)
-      doom-serif-font (font-spec :family (if (featurep :system 'macos)
-                                             "ETBembo"
-                                           "ETBookOT")
+(setq doom-font (font-spec :family "BerkeleyMono Nerd Font" :size 18 :weight 'medium)
+      doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 18 :weight 'regular)
+      doom-serif-font (font-spec :family "IBM Plex Serif"
                                  :size 18
                                  :weight 'regular))
 
@@ -50,6 +48,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
+(setq org-startup-folded t)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
