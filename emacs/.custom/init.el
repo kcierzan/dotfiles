@@ -19,7 +19,7 @@
 ;; used by other packages to write files to disk
 (use-package no-littering
   :ensure (:host github
-           ;; :wait t
+           :wait t
            :repo "emacscollective/no-littering"))
 
 ;; These settings cannot be set in the early-init.el file.
@@ -530,6 +530,7 @@
 
   (meow-leader-define-key (cons "o" my-open-map))
   (define-key my-open-map (kbd "-") #'dired-jump)
+  (define-key my-open-map (kbd "t") #'vterm)
 
   (defvar my-buffer-map (make-sparse-keymap)
     "Keymap for buffer commands")
