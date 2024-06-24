@@ -585,6 +585,17 @@
   (define-key my-window-map (kbd "s") #'my/split-down-and-select-new-window)
   (define-key my-window-map (kbd "o") #'delete-other-windows)
 
+  (defvar my-help-map (make-sparse-keymap)
+    "Keymap for help(ful) commands.")
+
+  (meow-leader-define-key (cons "i" my-help-map))
+  (define-key my-help-map (kbd "f") #'helpful-function)
+  (define-key my-help-map (kbd "c") #'helpful-callable)
+  (define-key my-help-map (kbd "m") #'helpful-macro)
+  (define-key my-help-map (kbd "k") #'helpful-key)
+  (define-key my-help-map (kbd "v") #'helpful-variable)
+  (define-key my-help-map (kbd "p") #'helpful-at-point)
+
   (defun my/really-quit-emacs ()
     "Quo vadis?"
     (interactive)
@@ -678,6 +689,35 @@
   :commands (vterm)
   :init (setq vterm-kill-buffer-on-exit t
               vterm-max-scrollback 10000))
+
+(use-package project
+  :ensure nil
+  :init
+  (defun my/magit-project ()
+    (interactive)
+    (magit-status (project-root (project-current t))))
+  (setq project-switch-commands '((project-find-file "Find file" "f")
+                                  (my/project-search "Search" "s")
+                                  (my/magit-project "Magit" "g"))))
+
+(use-package helpful
+  :ensure (:host github
+           :repo "Wilfred/helpful")
+  :commands (helpful-callable
+             helpful-function
+             helpful-macro
+             helpful-command
+             helpful-key
+             helpful-variable
+             helpful-at-point)
+  :init
+  (setq apropos-do-all t)
+
+  (global-set-key [remap describe-function] #'helpful-callable)
+  (global-set-key [remap describe-command]  #'helpful-command)
+  (global-set-key [remap describe-variable] #'helpful-variable)
+  (global-set-key [remap describe-key]      #'helpful-key)
+  (global-set-key [remap describe-symbol]   #'helpful-symbol))
 
 (require 'lsp-booster)
 (require 'rails)
