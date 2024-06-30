@@ -1,0 +1,14 @@
+user_pref("uc.tweak.hide-tabs", true);
+user_pref("uc.tweak.hide-forward-button", true);
+user_pref("uc.tweak.rounded-corners", true);
+user_pref("uc.tweak.floating-tabs", true);
+user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+user_pref("svg.context-properties.content.enabled", true);
+user_pref("layout.css.color-mix.enabled", true);
+user_pref("layout.css.light-dark.enabled", true);
+user_pref("layout.css.has-selector.enabled", true);
+user_pref("widget.macos.titlebar-blend-mode.behind-window", true);
+user_pref("af.edgyarc.thin-navbar", false);
+user_pref("af.edgyarc.centered-url", true);
+user_pref("af.sidebery.edgyarc-theme", true);
+user_pref("af.edgyarc.show-sidebar-header", false);
