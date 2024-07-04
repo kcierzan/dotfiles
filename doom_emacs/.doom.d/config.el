@@ -22,10 +22,10 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 
-(setq doom-font (font-spec :family "BerkeleyMono Nerd Font" :size 18 :weight 'medium)
-      doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 18 :weight 'regular)
+(setq doom-font (font-spec :family "BerkeleyMono Nerd Font" :size 16 :weight 'medium)
+      doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 16 :weight 'regular)
       doom-serif-font (font-spec :family "IBM Plex Serif"
-                                 :size 18
+                                 :size 16
                                  :weight 'regular))
 
 ;; Don't display the filename in the title bar

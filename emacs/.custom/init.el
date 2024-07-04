@@ -498,7 +498,8 @@
   (meow-setup)
   (meow-global-mode 1)
 
-  (meow-normal-define-key '("C-o" . pop-global-mark))
+  (meow-normal-define-key '("C-o" . better-jumper-jump-backward))
+  (meow-normal-define-key '("C-i" . better-jumper-jump-forward))
   (meow-leader-define-key '(":" .  execute-extended-command))
   (meow-leader-define-key '(";" .  eval-expression))
 
@@ -567,12 +568,14 @@
   (defun my/split-right-and-select-new-window ()
     "Split the selected window and move point to the new window."
     (interactive)
-    (select-window (split-window-right)))
+    (select-window (split-window-right))
+    (balance-windows))
 
   (defun my/split-down-and-select-new-window ()
     "Split the selected window vertically and move point to the new window."
     (interactive)
-    (select-window (split-window-vertically)))
+    (select-window (split-window-vertically))
+    (balance-windows))
 
   (meow-leader-define-key (cons "w" my-window-map))
   (define-key my-window-map (kbd "h") #'windmove-left)
@@ -718,6 +721,23 @@
   (global-set-key [remap describe-variable] #'helpful-variable)
   (global-set-key [remap describe-key]      #'helpful-key)
   (global-set-key [remap describe-symbol]   #'helpful-symbol))
+
+(use-package dired
+  :ensure nil
+  :commands dired-jump
+  :init
+  (setq dired-dwim-target t
+        dired-hide-details-hide-symlink-targets t
+        ;; don't prompt for reverts
+        dired-auto-revert-buffer #'dired-buffer-stale-p
+        ;; copy and delete recursively
+        dired-recursive-copies 'always))
+
+(use-package diff-hl
+  :ensure (:host github
+           :repo "dgutov/diff-hl")
+  :init
+  (global-diff-hl-mode 1))
 
 (require 'lsp-booster)
 (require 'rails)
