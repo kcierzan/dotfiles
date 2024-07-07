@@ -23,7 +23,13 @@
            :repo "emacscollective/no-littering"))
 
 ;; These settings cannot be set in the early-init.el file.
-(recentf-mode 1)
+(use-package recentf
+  :ensure nil
+  :init
+  (setq recentf-max-menu-items 100
+        recentf-max-saved-items 100)
+  (recentf-mode 1))
+
 (global-auto-revert-mode 1)
 (setq-default display-line-numbers-width 3)
 (setq auto-window-vscroll nil
@@ -40,7 +46,8 @@
       split-height-threshold nil
       window-divider-default-places t
       window-divider-default-bottom-width 1
-      window-divider-default-right-width 1)
+      window-divider-default-right-width 1
+      line-spacing 2)
 (window-divider-mode 1)
 (tooltip-mode -1)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -68,8 +75,16 @@
   (gcmh-mode 1))
 
 (use-package which-key
-  :init (which-key-mode 1)
-  :config (setq which-key-idle-delay 0.3))
+  :init
+  (setq which-key-sort-order #'which-key-key-order-alpha
+        which-key-sort-uppercase-first nil
+        which-key-add-column-padding 1
+        which-key-max-display-columns nil
+        which-key-min-display-lines 6)
+  (which-key-mode 1)
+  :config (setq which-key-idle-delay 0.3)
+  (add-hook 'which-key-init-buffer-hook
+            (lambda (&rest _) (setq-local line-spacing 6))))
 
 (use-package vertico
   :init
@@ -408,31 +423,17 @@
 (use-package meow
   :ensure (:host github
            :repo "meow-edit/meow")
+  :after which-key
   :config
-  (setq meow-keypad-ctrl-meta-prefix ?!)
+  (setq meow-keypad-ctrl-meta-prefix ?!
+        meow-use-cursor-position-hack t
+        meow-use-clipboard t)
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
     (meow-motion-overwrite-define-key
      '("j" . meow-next)
      '("k" . meow-prev)
      '("<escape>" . ignore))
-    (meow-leader-define-key
-     ;; SPC j/k will run the original command in MOTION state.
-     '("j" . "H-j")
-     '("k" . "H-k")
-     ;; Use SPC (0-9) for digit arguments.
-     '("1" . meow-digit-argument)
-     '("2" . meow-digit-argument)
-     '("3" . meow-digit-argument)
-     '("4" . meow-digit-argument)
-     '("5" . meow-digit-argument)
-     '("6" . meow-digit-argument)
-     '("7" . meow-digit-argument)
-     '("8" . meow-digit-argument)
-     '("9" . meow-digit-argument)
-     '("0" . meow-digit-argument)
-     '("/" . meow-keypad-describe-key)
-     '("?" . meow-cheatsheet))
     (meow-normal-define-key
      '("0" . meow-expand-0)
      '("9" . meow-expand-9)
@@ -498,73 +499,103 @@
   (meow-setup)
   (meow-global-mode 1)
 
+  ;; Cribbed from doom: this adds a C-i keybind as distict from
+  ;; TAB. Emacs ordinarily considers them to be the same key to
+  ;; avoid breaking compatibility with terminal emacs
+  (define-key key-translation-map [?\C-i]
+              (lambda (&rest _)
+                (interactive)
+                (if (let ((keys (this-single-command-raw-keys)))
+                      (and keys
+                           (not (cl-position 'tab keys))
+                           (not (cl-position 'kp-tab keys))
+                           (display-graphic-p)))
+                    [C-i] [?\C-i])))
+
+  (defvar my-prefix-map (make-sparse-keymap))
+
   (meow-normal-define-key '("C-o" . better-jumper-jump-backward))
-  (meow-normal-define-key '("C-i" . better-jumper-jump-forward))
-  (meow-leader-define-key '(":" .  execute-extended-command))
-  (meow-leader-define-key '(";" .  eval-expression))
+  (meow-normal-define-key '("<C-i>" . better-jumper-jump-forward))
+  (meow-normal-define-key '("C-r" . undo-redo))
+  (define-key my-prefix-map (kbd ":") (cons "M-x" 'execute-extended-command))
+  (define-key my-prefix-map (kbd ";") (cons "eval expression" 'eval-expression))
 
-  (defvar my-search-map (make-sparse-keymap)
-    "Keymap for consult-based searching commands")
+  (setq meow-keypad-meta-prefix nil
+        meow-keypad-ctrl-meta-prefix nil
+        meow-keypad-literal-prefix nil
+        meow-keypad-start-keys nil)
+  (define-key meow-normal-state-keymap (kbd "SPC") my-prefix-map)
+  (define-key meow-motion-state-keymap (kbd "SPC") my-prefix-map)
 
-  (meow-leader-define-key (cons "s" my-search-map))
-  (define-key my-search-map (kbd "s") #'consult-line)
-  (define-key my-search-map (kbd "g") #'consult-ripgrep)
-  (define-key my-search-map (kbd "i") #'consult-imenu)
-  (define-key my-search-map (kbd "I") #'consult-imenu-multi)
 
-  (defvar my-project-map (make-sparse-keymap)
-    "Keymap for project commands")
+  (defmacro bind-leader-keys (&rest args)
+    (let* ((prefix (plist-get args :prefix))
+           (keys (plist-get args :keys))
+           (prefix-keymap (caddr prefix))
+           (prefix-key (car prefix))
+           (prefix-name (cadr prefix)))
+      `(progn
+         (defvar ,prefix-keymap (make-sparse-keymap))
+         (define-key my-prefix-map
+                     (kbd ,prefix-key)
+                     (cons ,prefix-name ,prefix-keymap))
+         ,@(mapcar (lambda (key)
+                     `(define-key ,prefix-keymap
+                                  (kbd ,(car key))
+                                  (cons ,(cadr key) ,(caddr key))))
+                   keys))))
 
-  (meow-leader-define-key (cons "p" my-project-map))
-  (define-key my-project-map (kbd "f") #'project-find-file)
-  (define-key my-project-map (kbd "p") #'project-switch-project)
-  (define-key my-project-map (kbd "b") #'project-switch-to-buffer)
-  (define-key my-project-map (kbd "d") #'project-find-dir)
-  (define-key my-project-map (kbd "g") #'my/project-search)
-  (define-key my-project-map (kbd "D") #'project-remember-projects-under)
-  (define-key my-project-map (kbd "!" ) #'project-shell-command)
-  (define-key my-project-map (kbd "&") #'project-async-shell-command)
-  (define-key my-project-map (kbd "*") #'my/search-project-for-symbol-at-point)
 
-  (defvar my-open-map (make-sparse-keymap)
-    "Keymap for open commands")
+  ;; search
+  (bind-leader-keys :prefix ("s" "search" my-search-map)
+                    :keys (("s" "search lines" #'consult-line)
+                           ("g" "search in files" #'consult-ripgrep)
+                           ("i" "search buffer symbols" #'consult-imenu)
+                           ("I" "search all open buffer symbols" #'consult-imenu-multi)))
 
-  (meow-leader-define-key (cons "o" my-open-map))
-  (define-key my-open-map (kbd "-") #'dired-jump)
-  (define-key my-open-map (kbd "t") #'vterm)
+  ;; project prefix
+  (bind-leader-keys :prefix ("p" "project" my-project-map)
+                    :keys (("f" "find project file" #'project-find-file)
+                           ("p" "switch project" #'project-switch-project)
+                           ("b" "open project buffer" #'project-switch-to-buffer)
+                           ("d" "find project directory" #'project-find-dir)
+                           ("g" "search in project files" #'my/project-search)
+                           ("a" "add project" #'project-remember-projects-under)
+                           ("!" "run shell command in project" #'project-shell-command)
+                           ("&" "run async shell command in project" #'project-async-shell-command)
+                           ("*" "search project for symbol at point" #'my/search-project-for-symbol-at-point)))
 
-  (defvar my-buffer-map (make-sparse-keymap)
-    "Keymap for buffer commands")
+  ;; open prefix
+  (bind-leader-keys :prefix ("o" "open" my-open-map)
+                    :keys (("-" "dired" #'dired-jump)
+                           ("t" "terminal" #'vterm)))
 
-  (meow-leader-define-key (cons "b" my-buffer-map))
-  (define-key my-buffer-map (kbd "b") #'consult-buffer)
-  (define-key my-buffer-map (kbd "l") #'consult-goto-line)
-  (define-key my-buffer-map (kbd "d") #'kill-current-buffer)
-  (define-key my-buffer-map (kbd "r") #'revert-buffer)
-  (define-key my-buffer-map (kbd "s") #'basic-save-buffer)
 
-  (defvar my-file-map (make-sparse-keymap)
-    "Keymap for file commands")
+  ;; buffer prefix
+  (bind-leader-keys :prefix ("b" "buffer" my-buffer-map)
+                    :keys (("b" "open buffers" #'consult-buffer)
+                           ("l" "goto line" #'consult-goto-line)
+                           ("d" "kill current buffer" #'kill-current)
+                           ("r" "revert buffer" #'revert-buffer)
+                           ("s" "save buffer" #'basic-save-buffer)))
+  ;; file prefix
+  (bind-leader-keys :prefix ("f" "files" my-file-map)
+                    :keys (("r" "recent files" #'consult-recent-file)
+                           ("y" "yank path to buffer file" #'my/yank-buffer-path)
+                           ("g" "project search from cwd" #'my/project-search-from-cwd)
+                           ("f" "search files" #'consult-fd)))
 
-  (meow-leader-define-key (cons "f" my-file-map))
-  (define-key my-file-map (kbd "r") #'consult-recent-file)
-  (define-key my-file-map (kbd "y") #'my/yank-buffer-path)
-  (define-key my-file-map (kbd "g") #'my/project-search-from-cwd)
-  (define-key my-file-map (kbd "f") #'consult-fd)
+  ;; git prefix
+  (bind-leader-keys :prefix ("g" "git" my-git-map)
+                    :keys (("g" "status" #'magit-status)
+                           ("F" "fetch" #'magit-fetch)
+                           ("R" "revert" #'vc-revert)
+                           ("L" "log buffer file" #'magit-log-buffer-file)
+                           ("b" "checkout" #'magit-branch-checkout)
+                           ("]" "next hunk" #'diff-hl-next-hunk)
+                           ("[" "previous hunk" #'diff-hl-previous-hunk)))
 
-  (defvar my-git-map (make-sparse-keymap)
-    "Keymap for git commands")
-
-  (meow-leader-define-key (cons "g" my-git-map))
-  (define-key my-git-map (kbd "g") #'magit-status)
-  (define-key my-git-map (kbd "F") #'magit-fetch)
-  (define-key my-git-map (kbd "R") #'vc-revert)
-  (define-key my-git-map (kbd "L") #'magit-log-buffer-file)
-  (define-key my-git-map (kbd "b") #'magit-branch-checkout)
-
-  (defvar my-window-map (make-sparse-keymap)
-    "Keymap for window commands")
-
+  ;; window prefix
   (defun my/split-right-and-select-new-window ()
     "Split the selected window and move point to the new window."
     (interactive)
@@ -577,39 +608,36 @@
     (select-window (split-window-vertically))
     (balance-windows))
 
-  (meow-leader-define-key (cons "w" my-window-map))
-  (define-key my-window-map (kbd "h") #'windmove-left)
-  (define-key my-window-map (kbd "l") #'windmove-right)
-  (define-key my-window-map (kbd "j") #'windmove-down)
-  (define-key my-window-map (kbd "k") #'windmove-up)
-  (define-key my-window-map (kbd "q") #'delete-window)
-  (define-key my-window-map (kbd "Q") #'kill-buffer-and-window)
-  (define-key my-window-map (kbd "v") #'my/split-right-and-select-new-window)
-  (define-key my-window-map (kbd "s") #'my/split-down-and-select-new-window)
-  (define-key my-window-map (kbd "o") #'delete-other-windows)
+  (bind-leader-keys :prefix ("w" "window" my-window-map)
+                    :keys (("h" "move left" #'windmove-left)
+                           ("l" "move right" #'windmove-right)
+                           ("j" "move down" #'windmove-down)
+                           ("k" "move up" #'windmove-up)
+                           ("q" "delete" #'delete-window)
+                           ("D" "kill buffer and window" #'kill-buffer-and-window)
+                           ("v" "split right" #'my/split-right-and-select-new-window)
+                           ("s" "split down" #'my/split-down-and-select-new-window)
+                           ("o" "delete other windows" #'delete-other-windows)
+                           ("=" "balance windows" #'balance-windows)))
 
-  (defvar my-help-map (make-sparse-keymap)
-    "Keymap for help(ful) commands.")
+  ;; help prefix
+  (bind-leader-keys :prefix ("h" "help" my-help-map)
+                    :keys (("f" "function" #'helpful-function)
+                           ("c" "callable" #'helpful-callable)
+                           ("m" "macro" #'helpful-macro)
+                           ("k" "key" #'helpful-key)
+                           ("v" "variable" #'helpful-variable)
+                           ("p" "at point" #'helpful-at-point)))
 
-  (meow-leader-define-key (cons "i" my-help-map))
-  (define-key my-help-map (kbd "f") #'helpful-function)
-  (define-key my-help-map (kbd "c") #'helpful-callable)
-  (define-key my-help-map (kbd "m") #'helpful-macro)
-  (define-key my-help-map (kbd "k") #'helpful-key)
-  (define-key my-help-map (kbd "v") #'helpful-variable)
-  (define-key my-help-map (kbd "p") #'helpful-at-point)
-
+  ;; quit prefix
   (defun my/really-quit-emacs ()
     "Quo vadis?"
     (interactive)
     (when (y-or-n-p "Really quit Emacs?")
       (save-buffers-kill-terminal)))
 
-  (defvar my-quit-map (make-sparse-keymap)
-    "Keymap for quitting commands.")
-
-  (meow-leader-define-key (cons "q" my-quit-map))
-  (define-key my-quit-map (kbd "q") #'my/really-quit-emacs)
+  (bind-leader-keys :prefix ("q" "quit" my-quit-map)
+                    :keys (("q" "quit" #'my/really-quit-emacs)))
 
   (with-eval-after-load 'corfu
     (add-hook 'meow-insert-exit-hook #'corfu-quit)))
@@ -715,7 +743,6 @@
              helpful-at-point)
   :init
   (setq apropos-do-all t)
-
   (global-set-key [remap describe-function] #'helpful-callable)
   (global-set-key [remap describe-command]  #'helpful-command)
   (global-set-key [remap describe-variable] #'helpful-variable)
@@ -738,6 +765,17 @@
            :repo "dgutov/diff-hl")
   :init
   (global-diff-hl-mode 1))
+
+(use-package pulsar
+  :ensure (:host github
+           :repo "protesilaos/pulsar")
+  :init
+  (setq pular-pulse t
+        pulsar-iterations 15)
+  (add-hook 'consult-after-jump-hook #'pulsar-recenter-center)
+  (with-eval-after-load 'meow
+    (advice-add #'meow-visit :after (lambda (&rest _) (pulsar-pulse-line))))
+  (pulsar-global-mode 1))
 
 (require 'lsp-booster)
 (require 'rails)
