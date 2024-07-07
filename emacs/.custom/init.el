@@ -575,7 +575,7 @@
   (bind-leader-keys :prefix ("b" "buffer" my-buffer-map)
                     :keys (("b" "open buffers" #'consult-buffer)
                            ("l" "goto line" #'consult-goto-line)
-                           ("d" "kill current buffer" #'kill-current)
+                           ("d" "kill current buffer" #'kill-current-buffer)
                            ("r" "revert buffer" #'revert-buffer)
                            ("s" "save buffer" #'basic-save-buffer)))
   ;; file prefix
