@@ -777,6 +777,12 @@
     (advice-add #'meow-visit :after (lambda (&rest _) (pulsar-pulse-line))))
   (pulsar-global-mode 1))
 
+(use-package apheleia
+  :ensure (:host github
+           :repo "radian-software/apheleia")
+  :init
+  (apheleia-global-mode 1))
+
 (require 'lsp-booster)
 (require 'rails)
 (require 'search)

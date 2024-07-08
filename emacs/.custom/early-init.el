@@ -14,7 +14,7 @@
 ;; This file is not part of GNU Emacs.
 (setq package-enable-at-startup nil
       create-lockfiles nil
-      read-process-output-max (* 1024 1024) ; 1MB
+      read-process-output-max (* 1024 1024)   ; 1MB
       redisplay-skip-fontification-on-input t ; helps a little with scrolling
       highlight-nonselected-windows nil
       fast-but-imprecise-scrolling t
@@ -35,7 +35,8 @@
       auto-revert-verbose nil
       use-package-always-ensure t
       native-comp-async-report-warnings-errors nil
-      load-prefer-newer noninteractive)
+      load-prefer-newer noninteractive
+      elpaca-core-date '(20231211))
 
 (setq byte-compile-warnings
       '(not free-vars unresolved noruntime lexical make-local))
