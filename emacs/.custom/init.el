@@ -13,14 +13,12 @@
 ;; set up elapaca package manager and enable use-package integration
 (require 'elpaca-bootstrap)
 (elpaca elpaca-use-package
-        (elpaca-use-package-mode))
+  (elpaca-use-package-mode))
 
 ;; This package must load as soon as possible to set paths
 ;; used by other packages to write files to disk
 (use-package no-littering
-  :ensure (:host github
-           :wait t
-           :repo "emacscollective/no-littering"))
+  :ensure (:host github :wait t :repo "emacscollective/no-littering"))
 
 ;; These settings cannot be set in the early-init.el file.
 (use-package recentf
@@ -199,10 +197,12 @@
             '(project-switch-project . project-file)))
 
 (use-package modus-themes
-  :ensure (:host github
-           :repo "protesilaos/modus-themes")
+  :ensure (:host github :repo "protesilaos/modus-themes")
   :init
-  (load-theme 'modus-vivendi-tinted t))
+  (load-theme 'modus-vivendi-tinted t)
+  :config
+  (set-face-background 'line-number (face-background 'default))
+  (set-face-background 'fringe (face-background 'default)))
 
 (use-package wgrep
   :commands wgrep-change-to-wgrep-mode
@@ -228,14 +228,15 @@
   :mode ("\\.org\\'" . org-mode)
   :init
   (setq org-startup-indented t
-        org-hide-leading-stars t)
+        org-hide-leading-stars t
+        org-directory "~/Sync/org")
   :ensure (:host github
-           :repo "emacs-straight/org-mode"
-           :files (:defaults "etc")
-           :autoloads ("lisp/org-loaddefs.el")
-           :main "lisp/org.el"
-           :pre-build ("make")
-           :build t)
+                 :repo "emacs-straight/org-mode"
+                 :files (:defaults "etc")
+                 :autoloads ("lisp/org-loaddefs.el")
+                 :main "lisp/org.el"
+                 :pre-build ("make")
+                 :build t)
   :config
   ;; overrides org-cycle-agenda-files
   (define-key org-mode-map (kbd "C-'") #'avy-goto-char-timer))
@@ -305,15 +306,13 @@
 
 (use-package transient
   :commands (magit-status magit-blame)
-  :ensure (:host github
-           :repo "magit/transient"
-           :ref "bf2901927dce31d5522db95c6ab22a93f7738a09"))
+  :ensure (:host github :repo "magit/transient" :ref "bf2901927dce31d5522db95c6ab22a93f7738a09"))
 
 (use-package magit
   :after transient
   :ensure (:host github
-           :repo "magit/magit"
-           :ref "8b2d4b03ecf9635c165d1c0f90cd6f2eb415cafa")
+                 :repo "magit/magit"
+                 :ref "8b2d4b03ecf9635c165d1c0f90cd6f2eb415cafa")
   :init
   (setq magit-auto-revert-mode nil)
   :config
@@ -327,41 +326,37 @@
   :init
   ;; limit to 100 open topics and zero closed topics
   (setq forge-topic-list-limit '(100 . 0))
-  :ensure (:host github
-           :repo "magit/forge"
-           :ref "8ab77ca4671d8a7f373f3b829ef94bacaee21b3a"))
+  :ensure (:host github :repo "magit/forge" :ref "8ab77ca4671d8a7f373f3b829ef94bacaee21b3a"))
 
 (use-package ultra-scroll-mac
   :if (eq window-system 'mac)
   :ensure (:host github
-           :repo "jdtsmith/ultra-scroll-mac")
+                 :repo "jdtsmith/ultra-scroll-mac")
   :init (setq scroll-conservatively 101
               scroll-margin 0)
   :config
   (ultra-scroll-mac-mode 1))
 
 (use-package dumb-jump
-  :ensure (:host github
-           :repo "jacktasia/dumb-jump")
+  :ensure (:host github :repo "jacktasia/dumb-jump")
   :init
   (setq dumb-jump-force-searcher 'rg
         xref-show-definitions-function #'xref-show-definitions-completing-read)
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 (use-package rspec-mode
-  :ensure (:host github
-           :repo "pezra/rspec-mode")
+  :ensure (:host github :repo "pezra/rspec-mode")
   :hook (ruby-ts-mode . rspec-mode)
   :init (setq compilation-scroll-output t))
 
 (use-package lsp-mode
-  :ensure (:host github
-           :repo "emacs-lsp/lsp-mode")
+  :ensure (:host github :repo "emacs-lsp/lsp-mode")
   :init
   (setq lsp-keymap-prefix "C-c l")
   (setq lsp-disabled-clients '(semgrep-ls rubocop-ls)
         lsp-keep-workspace-alive t
         lsp-enable-folding nil
+        lsp-enable-symbol-highlighting nil
         lsp-enable-text-document-color nil
         lsp-headerline-breadcrumb-enable nil
         lsp-diagnostics-provider :flymake)
@@ -391,38 +386,32 @@
   (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
 
 (use-package avy
-  :ensure (:host github
-           :repo "abo-abo/avy")
+  :ensure (:host github :repo "abo-abo/avy")
   :init (global-set-key (kbd "C-'") #'avy-goto-char-timer)
   (setq avy-timeout-seconds 0.3)
   :commands (avy-goto-char-timer))
 
 (use-package nerd-icons-completion
-  :ensure (:host github
-           :repo "rainstormstudio/nerd-icons-completion")
+  :ensure (:host github :repo "rainstormstudio/nerd-icons-completion")
   :after marginalia
   :config
   (nerd-icons-completion-mode)
   (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
 (use-package pcre2el
-  :ensure (:host github
-           :repo "joddie/pcre2el")
+  :ensure (:host github :repo "joddie/pcre2el")
   :commands (rxt-quote-pcre))
 
 (use-package better-jumper
-  :ensure (:host github
-           :repo "gilbertw1/better-jumper")
+  :ensure (:host github :repo "gilbertw1/better-jumper")
   :commands (better-jumper-set-jump))
 
 (use-package browse-at-remote
-  :ensure (:host github
-           :repo "rmuslimov/browse-at-remote")
+  :ensure (:host github :repo "rmuslimov/browse-at-remote")
   :commands (browse-at-remote))
 
 (use-package meow
-  :ensure (:host github
-           :repo "meow-edit/meow")
+  :ensure (:host github :repo "meow-edit/meow")
   :after which-key
   :config
   (setq meow-keypad-ctrl-meta-prefix ?!
@@ -516,6 +505,8 @@
 
   (meow-normal-define-key '("C-o" . better-jumper-jump-backward))
   (meow-normal-define-key '("<C-i>" . better-jumper-jump-forward))
+  (meow-normal-define-key '("C--" . text-scale-decrease))
+  (meow-normal-define-key '("C-=" . text-scale-increase))
   (meow-normal-define-key '("C-r" . undo-redo))
   (define-key my-prefix-map (kbd ":") (cons "M-x" 'execute-extended-command))
   (define-key my-prefix-map (kbd ";") (cons "eval expression" 'eval-expression))
@@ -526,6 +517,9 @@
         meow-keypad-start-keys nil)
   (define-key meow-normal-state-keymap (kbd "SPC") my-prefix-map)
   (define-key meow-motion-state-keymap (kbd "SPC") my-prefix-map)
+  (advice-add 'avy-goto-char-timer :before (lambda (&rest _) (better-jumper-set-jump)))
+  (advice-add 'avy-goto-char-timer :after (lambda (&rest _) (pulsar-pulse-line)))
+  (define-key my-prefix-map (kbd "SPC") #'avy-goto-char-timer)
 
 
   (defmacro bind-leader-keys (&rest args)
@@ -544,7 +538,6 @@
                                   (kbd ,(car key))
                                   (cons ,(cadr key) ,(caddr key))))
                    keys))))
-
 
   ;; search
   (bind-leader-keys :prefix ("s" "search" my-search-map)
@@ -626,6 +619,7 @@
                            ("c" "callable" #'helpful-callable)
                            ("m" "macro" #'helpful-macro)
                            ("k" "key" #'helpful-key)
+                           ("F" "face" #'describe-face)
                            ("v" "variable" #'helpful-variable)
                            ("p" "at point" #'helpful-at-point)))
 
@@ -646,18 +640,15 @@
   :hook (prog-mode . ws-butler-mode))
 
 (use-package super-save
-  :ensure (:host github
-           :repo "bbatsov/super-save")
+  :ensure (:host github :repo "bbatsov/super-save")
   :init (setq super-save-auto-save-when-idle t)
   :config (super-save-mode 1))
 
 (use-package posframe
-  :ensure (:host github
-           :repo "tumashu/posframe"))
+  :ensure (:host github :repo "tumashu/posframe"))
 
 (use-package flymake-posframe
-  :ensure (:host github
-           :repo "Ladicle/flymake-posframe")
+  :ensure (:host github :repo "Ladicle/flymake-posframe")
   :hook (flymake-mode . flymake-posframe-mode)
   :config
   (defun my/flymake-posframe-set-faces ()
@@ -676,8 +667,7 @@
   :hook (prog-mode . flymake-mode))
 
 (use-package dtrt-indent
-  :ensure (:host github
-           :repo "jscheid/dtrt-indent")
+  :ensure (:host github :repo "jscheid/dtrt-indent")
   :hook (prog-mode . dtrt-indent-global-mode))
 
 (use-package yasnippet
@@ -701,8 +691,7 @@
   (yas-reload-all))
 
 (use-package yasnippet-capf
-  :ensure (:host github
-           :repo "elken/yasnippet-capf")
+  :ensure (:host github :repo "elken/yasnippet-capf")
   :after cape
   :config
   (defun my/add-yas-capf-h ()
@@ -732,8 +721,7 @@
                                   (my/magit-project "Magit" "g"))))
 
 (use-package helpful
-  :ensure (:host github
-           :repo "Wilfred/helpful")
+  :ensure (:host github :repo "Wilfred/helpful")
   :commands (helpful-callable
              helpful-function
              helpful-macro
@@ -761,14 +749,14 @@
         dired-recursive-copies 'always))
 
 (use-package diff-hl
-  :ensure (:host github
-           :repo "dgutov/diff-hl")
+  :ensure (:host github :repo "dgutov/diff-hl")
   :init
+  (setq diff-hl-draw-borders nil)
   (global-diff-hl-mode 1))
 
 (use-package pulsar
-  :ensure (:host github
-           :repo "protesilaos/pulsar")
+  :ensure
+  (:host github :repo "protesilaos/pulsar")
   :init
   (setq pular-pulse t
         pulsar-iterations 15)
@@ -778,10 +766,32 @@
   (pulsar-global-mode 1))
 
 (use-package apheleia
-  :ensure (:host github
-           :repo "radian-software/apheleia")
-  :init
+  :ensure (:host github :repo "radian-software/apheleia")
+  :config
+  ;; (setq apheleia-formatters (assoc-delete-all 'prettier-ruby apheleia-formatters))
+  (setf (alist-get 'rubocop apheleia-formatters)
+        '("rubocop" "--stdin" filepath "--autocorrect" "--stderr" "--format" "quiet" "--fail-level" "fatal"))
+  (setf (alist-get 'ruby-mode apheleia-mode-alist)
+        '(rubocop))
+  (setf (alist-get 'ruby-ts-mode apheleia-mode-alist)
+        '(rubocop))
   (apheleia-global-mode 1))
+
+(use-package markdown-mode
+  :ensure (:host github :repo "jrblevin/markdown-mode" :ref "8aab017f4790f7a1e0d8403239cce989c88412f6")
+  :mode ("/README\\(?:\\.md\\)?\\'" . gfm-mode)
+  :init
+  (setq markdown-italic-underscore t
+        markdown-asymmetric-header t
+        markdown-gfm-additional-languages '("sh")
+        markdown-make-gfm-checkboxes-buttons t
+        markdown-fontify-code-block-natively t
+        markdown-fontify-whole-heading-line t))
+
+(use-package spacious-padding
+  :ensure (:host github :repo "protesilaos/spacious-padding")
+  :init
+  (spacious-padding-mode 1))
 
 (require 'lsp-booster)
 (require 'rails)
