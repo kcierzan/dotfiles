@@ -143,13 +143,24 @@
           "--hidden --exclude .git"))
   (consult-customize consult-ripgrep
                      consult-git-grep
+                     consult-fd
                      consult-grep
+                     consult-imenu
+                     consult-imenu-multi
                      consult-bookmark
                      consult-recent-file
                      consult--source-recent-file
                      consult--source-project-recent-file
                      consult--source-bookmark
-                     :preview-key "C-SPC"))
+                     :preview-key "C-SPC")
+  (consult-customize consult-fd :state (consult--file-preview)))
+
+(use-package consult-project-extra
+  :ensure (:host github :repo "Qkessler/consult-project-extra")
+  :after consult
+  :config
+  ;; TODO: fixme
+  (consult-customize consult-project-extra--source-file :preview-key "C-SPC"))
 
 (use-package orderless
   :config
@@ -202,7 +213,10 @@
   (load-theme 'modus-vivendi-tinted t)
   :config
   (set-face-background 'line-number (face-background 'default))
-  (set-face-background 'fringe (face-background 'default)))
+  (set-face-background 'fringe (face-background 'default))
+  (set-face-foreground 'window-divider (face-background 'default))
+  (set-face-foreground 'window-divider-first-pixel (face-background 'default))
+  (set-face-foreground 'window-divider-last-pixel (face-background 'default)))
 
 (use-package wgrep
   :commands wgrep-change-to-wgrep-mode
@@ -353,9 +367,10 @@
   :ensure (:host github :repo "emacs-lsp/lsp-mode")
   :init
   (setq lsp-keymap-prefix "C-c l")
-  (setq lsp-disabled-clients '(semgrep-ls rubocop-ls)
+  (setq lsp-disabled-clients '(semgrep-ls rubocop-ls ruby-ls sorbet-ls steep-ls typeprof-ls)
         lsp-keep-workspace-alive t
         lsp-enable-folding nil
+        lsp-restart 'ignore
         lsp-enable-symbol-highlighting nil
         lsp-enable-text-document-color nil
         lsp-headerline-breadcrumb-enable nil
@@ -363,21 +378,6 @@
   :hook ((ruby-ts-mode . lsp-deferred)
          (bash-ts-mode . lsp-deferred))
   :config
-  (with-eval-after-load 'lsp-mode
-    (progn
-      (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
-      (lsp-register-client
-       (make-lsp-client :new-connection (lsp-stdio-connection (list "rubocop" "--lsp"))
-                        :major-modes '(ruby-ts-mode)
-                        :priority 0
-                        :add-on? t
-                        :server-id 'addon-rubocop-ls))
-      (lsp-register-client
-       (make-lsp-client :new-connection (lsp-stdio-connection "ruby-lsp")
-                        :major-modes '(ruby-ts-mode)
-                        :multi-root t
-                        :priority 100
-                        :server-id 'ruby-lsp-ls))))
   (add-hook 'lsp-mode-hook #'lsp-completion-mode))
 
 (use-package consult-lsp
@@ -508,6 +508,7 @@
   (meow-normal-define-key '("C--" . text-scale-decrease))
   (meow-normal-define-key '("C-=" . text-scale-increase))
   (meow-normal-define-key '("C-r" . undo-redo))
+  (meow-normal-define-key '("=" . meow-indent))
   (define-key my-prefix-map (kbd ":") (cons "M-x" 'execute-extended-command))
   (define-key my-prefix-map (kbd ";") (cons "eval expression" 'eval-expression))
 
@@ -548,7 +549,7 @@
 
   ;; project prefix
   (bind-leader-keys :prefix ("p" "project" my-project-map)
-                    :keys (("f" "find project file" #'project-find-file)
+                    :keys (("f" "find project file" #'consult-project-extra-find)
                            ("p" "switch project" #'project-switch-project)
                            ("b" "open project buffer" #'project-switch-to-buffer)
                            ("d" "find project directory" #'project-find-dir)
@@ -716,9 +717,10 @@
   (defun my/magit-project ()
     (interactive)
     (magit-status (project-root (project-current t))))
-  (setq project-switch-commands '((project-find-file "Find file" "f")
-                                  (my/project-search "Search" "s")
-                                  (my/magit-project "Magit" "g"))))
+  (with-eval-after-load 'consult-project-extra
+    (setq project-switch-commands '((consult-project-extra-find "Find file" "f")
+                                    (my/project-search "Search" "s")
+                                    (my/magit-project "Magit" "g")))))
 
 (use-package helpful
   :ensure (:host github :repo "Wilfred/helpful")
@@ -742,6 +744,7 @@
   :commands dired-jump
   :init
   (setq dired-dwim-target t
+        dired-do-revert-buffer t
         dired-hide-details-hide-symlink-targets t
         ;; don't prompt for reverts
         dired-auto-revert-buffer #'dired-buffer-stale-p
@@ -770,7 +773,7 @@
   :config
   ;; (setq apheleia-formatters (assoc-delete-all 'prettier-ruby apheleia-formatters))
   (setf (alist-get 'rubocop apheleia-formatters)
-        '("rubocop" "--stdin" filepath "--autocorrect" "--stderr" "--format" "quiet" "--fail-level" "fatal"))
+        '("bundle" "exec" "rubocop" "--stdin" filepath "--autocorrect" "--stderr" "--format" "quiet" "--fail-level" "fatal"))
   (setf (alist-get 'ruby-mode apheleia-mode-alist)
         '(rubocop))
   (setf (alist-get 'ruby-ts-mode apheleia-mode-alist)
@@ -797,4 +800,5 @@
 (require 'rails)
 (require 'search)
 (require 'files)
+(require 'modeline)
 ;;; init.el ends here
