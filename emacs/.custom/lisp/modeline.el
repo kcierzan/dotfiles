@@ -37,7 +37,9 @@
 (defun my/modeline-buffer-name ()
   (let ((name (abbreviate-path (buffer-file-name))))
     (if buffer-read-only
-        (format "%s %s" (char-to-string #xe672) name)
+        (format "%s %s"
+                (char-to-string #xe672)
+                (or name ""))
       name)))
 
 (defvar-local my/modeline-buffer-identification
@@ -59,19 +61,20 @@
 
 (defvar-local my/modeline-major-mode
     '(:eval
-      (concat
-       (my/modeline-major-mode-indicator)
-       " "
-       (propertize
-        (my/modeline-major-mode-name)
-        'face 'shadow
-        'mouse-face 'mode-line-highlight))))
+      (when (mode-line-window-selected-p)
+        (concat
+         (my/modeline-major-mode-indicator)
+         " "
+         (propertize
+          (my/modeline-major-mode-name)
+          'face 'shadow
+          'mouse-face 'mode-line-highlight)))))
 
 (defun my--vc-branch-name (file backend)
   (when-let ((rev (vc-working-revision file backend))
              (branch (or (vc-git--symbolic-ref file)
                          (substring rev 0 7))))
-    (capitalize branch)))
+    branch))
 
 (defvar my/modeline--vc-faces
   '((added . vc-locally-added-state)
@@ -112,18 +115,65 @@
   (my/modeline-string-cut-end
    (my/modeline--vc-text file branch face)))
 
-(defvar-local my/modeline-vc-branch
-    '(:eval
-      (when-let* (((mode-line-window-selected-p))
-                  (file (buffer-file-name))
-                  (backend (vc-backend file))
-                  (branch (my--vc-branch-name file backend))
-                  (face (my-modeline--vc-face file backend)))
-        (my/modeline--vc-details file branch face))))
+(defun my/modeline-branch-name ()
+  (when-let* (((mode-line-window-selected-p))
+              (file (buffer-file-name))
+              (backend (vc-backend file))
+              (branch (my--vc-branch-name file backend))
+              (face (my-modeline--vc-face file backend)))
+    (my/modeline--vc-details file branch face)))
 
+(defvar-local my/modeline-vc-branch
+    '(:eval (my/modeline-branch-name)))
+
+(defun my/modeline-flymake-counter (type)
+  (let ((count 0))
+    (dolist (d (flymake-diagnostics))
+      (when (= (flymake--severity type)
+               (flymake--severity (flymake-diagnostic-type d)))
+        (cl-incf count)))
+    (when (cl-plusp count)
+      (number-to-string count))))
+
+(defun my/modeline-flymake-errors ()
+  (when-let ((count (my/modeline-flymake-counter :error)))
+    (concat
+     (propertize (char-to-string #xea87) 'face 'error)
+     " "
+     (propertize count 'face 'error))))
+
+(defun my/modeline-flymake-warnings ()
+  (when-let ((count (my/modeline-flymake-counter :warning)))
+    (concat
+     (propertize (char-to-string #xea6c) 'face 'warning)
+     " "
+     (propertize count 'face 'warning))))
+
+(defvar-local my/modeline-flymake-status
+    `(:eval
+      (when (and (bound-and-true-p flymake-mode)
+                 (mode-line-window-selected-p))
+        (list
+         '(:eval (my/modeline-flymake-errors))
+         '(:eval (my/modeline-flymake-warnings))))))
+
+(defvar-local my/right-alignment-space
+    `(:eval
+      (propertize " "
+                  'display
+                  '((space :align-to (- right-margin
+                                        ,(+
+                                          4
+                                          (length (my/modeline-branch-name))
+                                          (length (my/modeline-flymake-errors))
+                                          (length (my/modeline-flymake-warnings)))))))))
+
+;; Set all modeline segments to risky local variables
 (dolist (construct '(my/modeline-buffer-identification
                      my/modeline-major-mode
-                     my/modeline-vc-branch))
+                     my/modeline-vc-branch
+                     my/modeline-flymake-status
+                     my/right-alignment-space))
   (put construct 'risky-local-variable t))
 
 (setq-default mode-line-format '("%e"
@@ -131,6 +181,32 @@
                                  my/modeline-buffer-identification
                                  " "
                                  my/modeline-major-mode
+                                 "    "
+                                 my/right-alignment-space
                                  " "
-                                 my/modeline-vc-branch))
+                                 my/modeline-vc-branch
+                                 " "
+                                 my/modeline-flymake-status))
+
+(set-face-attribute 'mode-line-active nil
+                    :background (face-background 'default)
+                    :overline (face-foreground 'default)
+                    :box `(:line-width (1 . 8) :color ,(face-background 'default)))
+(set-face-attribute 'mode-line-inactive nil
+                    :background (face-background 'default)
+                    :overline nil
+                    :box `(:line-width (1 . 8) :color ,(face-background 'default)))
+
+;; (with-eval-after-load 'modus-themes)
+;; (add-hook 'modus-themes-after-load-theme-hook
+;;           (lambda (&rest _)
+;;             (set-face-attribute 'mode-line-active nil
+;;                                 :background (face-background 'default)
+;;                                 :overline (face-foreground 'default)
+;;                                 :box `(:line-width (1 . 8) :color ,(face-background 'default)))
+;;             (set-face-attribute 'mode-line-inactive nil
+;;                                 :background (face-background 'default)
+;;                                 :overline nil
+;;                                 :box `(:line-width (1 . 8) :color ,(face-background 'default)))))
+
 (provide 'modeline)

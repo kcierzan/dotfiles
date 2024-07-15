@@ -214,9 +214,11 @@
   :config
   (set-face-background 'line-number (face-background 'default))
   (set-face-background 'fringe (face-background 'default))
+  (set-face-background 'scroll-bar (face-background 'default)) ; controls the titlebar on emacs-mac
   (set-face-foreground 'window-divider (face-background 'default))
   (set-face-foreground 'window-divider-first-pixel (face-background 'default))
-  (set-face-foreground 'window-divider-last-pixel (face-background 'default)))
+  (set-face-foreground 'window-divider-last-pixel (face-background 'default))
+  (require 'modeline))
 
 (use-package wgrep
   :commands wgrep-change-to-wgrep-mode
@@ -792,13 +794,14 @@
         markdown-fontify-whole-heading-line t))
 
 (use-package spacious-padding
+  :after modus-themes
   :ensure (:host github :repo "protesilaos/spacious-padding")
   :init
+  (setq spacious-padding-subtle-mode-line t)
   (spacious-padding-mode 1))
 
 (require 'lsp-booster)
 (require 'rails)
 (require 'search)
 (require 'files)
-(require 'modeline)
 ;;; init.el ends here
