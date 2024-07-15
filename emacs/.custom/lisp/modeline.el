@@ -157,16 +157,19 @@
          '(:eval (my/modeline-flymake-errors))
          '(:eval (my/modeline-flymake-warnings))))))
 
+(defun length-rhs ()
+  (+ (length (my/modeline-branch-name))
+     (length (my/modeline-flymake-warnings))
+     (length (my/modeline-flymake-errors))
+     1))
+
 (defvar-local my/right-alignment-space
     `(:eval
       (propertize " "
                   'display
-                  '((space :align-to (- right-margin
-                                        ,(+
-                                          4
-                                          (length (my/modeline-branch-name))
-                                          (length (my/modeline-flymake-errors))
-                                          (length (my/modeline-flymake-warnings)))))))))
+                  `((space :align-to (-
+                                      (+ right right-fringe right-margin)
+                                      ,(length-rhs)))))))
 
 ;; Set all modeline segments to risky local variables
 (dolist (construct '(my/modeline-buffer-identification
@@ -183,7 +186,6 @@
                                  my/modeline-major-mode
                                  "    "
                                  my/right-alignment-space
-                                 " "
                                  my/modeline-vc-branch
                                  " "
                                  my/modeline-flymake-status))
@@ -196,17 +198,5 @@
                     :background (face-background 'default)
                     :overline nil
                     :box `(:line-width (1 . 8) :color ,(face-background 'default)))
-
-;; (with-eval-after-load 'modus-themes)
-;; (add-hook 'modus-themes-after-load-theme-hook
-;;           (lambda (&rest _)
-;;             (set-face-attribute 'mode-line-active nil
-;;                                 :background (face-background 'default)
-;;                                 :overline (face-foreground 'default)
-;;                                 :box `(:line-width (1 . 8) :color ,(face-background 'default)))
-;;             (set-face-attribute 'mode-line-inactive nil
-;;                                 :background (face-background 'default)
-;;                                 :overline nil
-;;                                 :box `(:line-width (1 . 8) :color ,(face-background 'default)))))
 
 (provide 'modeline)

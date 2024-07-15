@@ -210,14 +210,14 @@
 (use-package modus-themes
   :ensure (:host github :repo "protesilaos/modus-themes")
   :init
-  (load-theme 'modus-vivendi-tinted t)
+  (load-theme 'modus-operandi-tinted t)
   :config
   (set-face-background 'line-number (face-background 'default))
   (set-face-background 'fringe (face-background 'default))
   (set-face-background 'scroll-bar (face-background 'default)) ; controls the titlebar on emacs-mac
   (set-face-foreground 'window-divider (face-background 'default))
   (set-face-foreground 'window-divider-first-pixel (face-background 'default))
-  (set-face-foreground 'window-divider-last-pixel (face-background 'default))
+  (set-face-foreground 'window-divider-last-pixel (face-foreground 'default))
   (require 'modeline))
 
 (use-package wgrep
