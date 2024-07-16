@@ -149,19 +149,30 @@
      " "
      (propertize count 'face 'warning))))
 
+(defun my/modeline-flymake-notes ()
+  (when-let ((count (my/modeline-flymake-counter :note)))
+    (concat
+     (propertize (char-to-string #xea6c) 'face 'nerd-icons-blue)
+     " "
+     (propertize count 'face 'nerd-icons-blue))))
+
 (defvar-local my/modeline-flymake-status
     `(:eval
       (when (and (bound-and-true-p flymake-mode)
                  (mode-line-window-selected-p))
         (list
          '(:eval (my/modeline-flymake-errors))
-         '(:eval (my/modeline-flymake-warnings))))))
+         " "
+         '(:eval (my/modeline-flymake-warnings))
+         " "
+         '(:eval (my/modeline-flymake-notes))))))
 
 (defun length-rhs ()
   (+ (length (my/modeline-branch-name))
      (length (my/modeline-flymake-warnings))
      (length (my/modeline-flymake-errors))
-     1))
+     (length (my/modeline-flymake-notes))
+     3))
 
 (defvar-local my/right-alignment-space
     `(:eval
@@ -184,7 +195,6 @@
                                  my/modeline-buffer-identification
                                  " "
                                  my/modeline-major-mode
-                                 "    "
                                  my/right-alignment-space
                                  my/modeline-vc-branch
                                  " "

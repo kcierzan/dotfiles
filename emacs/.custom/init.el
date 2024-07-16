@@ -800,6 +800,27 @@
   (setq spacious-padding-subtle-mode-line t)
   (spacious-padding-mode 1))
 
+(use-package smartparens
+  :ensure (:host github :repo "Fuco1/smartparens")
+  :commands (sp-pair sp-local-pair sp-with-modes sp-point-in-comment sp-point-in-string)
+  :init
+  (smartparens-global-mode 1)
+  :config
+  (require 'smartparens-config)
+  (setq sp-highlight-pair-overlay nil
+        sp-highlight-wrap-overlay nil
+        sp-highlight-wrap-tag-overlay nil
+        sp-max-pair-length 4
+        sp-max-prefix-length 25)
+  (add-hook 'eval-expression-minibuffer-setup-hook (defun init-sp-in-eval-expression-h ()
+                                                     (when (smartparens-global-mode (smartparens-mode +1)))))
+  (add-hook 'minibuffer-setup-hook
+            (defun init-in-minibuffer-maybe-h ()
+              (when (smartparens-global-mode)
+                (smartparens-mode +1))))
+  (sp-local-pair '(minibuffer-mode minibuffer-inactive-mode) "'" nil :actions nil)
+  (sp-local-pair '(minibuffer-mode minibuffer-inactive-mode) "`" nil :actions nil))
+
 (require 'lsp-booster)
 (require 'rails)
 (require 'search)

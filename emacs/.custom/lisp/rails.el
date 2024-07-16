@@ -80,5 +80,27 @@
                                                factory-dir)))
     pluralized))
 
+(defun my--current-file-name ()
+  (or (buffer-file-name)
+      (buffer-name (current-buffer))))
+
+(defun my--filename-to-rails-class (filename)
+  (let ((klass (capitalize
+                (file-name-nondirectory
+                 (file-name-sans-extension filename)))))
+    (replace-regexp-in-string "_" "" klass t t)))
+
+(defun my/qualified-rails-class-from-model-file ()
+  (let* ((dirs (split-string (my--current-file-name) "/"))
+         (dirs-from-models (cdr (member "models" dirs)))
+         (file (car (last dirs-from-models)))
+         (namespaces (butlast dirs-from-models))
+         (caps-namespaces (mapcar #'capitalize namespaces)))
+    (mapconcat 'identity
+               (flatten-tree
+                (list caps-namespaces
+                      (my--filename-to-rails-class file)))
+               "::")))
+
 (provide 'rails)
 ;;; rails.el ends here
