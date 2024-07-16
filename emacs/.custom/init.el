@@ -505,6 +505,10 @@
 
   (defvar my-prefix-map (make-sparse-keymap))
 
+  (meow-normal-define-key '("C-S-h" . windmove-left))
+  (meow-normal-define-key '("C-S-l" . windmove-right))
+  (meow-normal-define-key '("C-S-j" . windmove-down))
+  (meow-normal-define-key '("C-S-k" . windmove-up))
   (meow-normal-define-key '("C-o" . better-jumper-jump-backward))
   (meow-normal-define-key '("<C-i>" . better-jumper-jump-forward))
   (meow-normal-define-key '("C--" . text-scale-decrease))
