@@ -532,6 +532,8 @@
   (meow-normal-define-key '("=" . meow-indent))
   (define-key my-prefix-map (kbd ":") (cons "M-x" 'execute-extended-command))
   (define-key my-prefix-map (kbd ";") (cons "eval expression" 'eval-expression))
+  (define-key global-map (kbd "s-v") (cons "paste" #'yank))
+  (define-key global-map (kbd "s-c") (cons "copy" #'kill-ring-save))
 
   (setq meow-keypad-meta-prefix nil
         meow-keypad-ctrl-meta-prefix nil
