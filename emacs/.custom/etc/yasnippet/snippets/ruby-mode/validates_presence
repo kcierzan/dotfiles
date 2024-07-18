@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: validates ... presence: true
+# key: validates_presence
+# contributor: kcierzan <kcierzan@gmail.com>
+# group: validations
+# --
+validates $1, presence: true

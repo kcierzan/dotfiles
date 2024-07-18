@@ -210,9 +210,10 @@
 (use-package modus-themes
   :ensure (:host github :repo "protesilaos/modus-themes")
   :init
-  (load-theme 'modus-operandi-tinted t)
+  (load-theme 'modus-vivendi-tinted t)
   :config
   (set-face-background 'line-number (face-background 'default))
+  (set-face-background 'line-number-current-line (face-background 'default))
   (set-face-background 'fringe (face-background 'default))
   (set-face-background 'scroll-bar (face-background 'default)) ; controls the titlebar on emacs-mac
   (set-face-foreground 'window-divider (face-background 'default))
@@ -376,6 +377,8 @@
         lsp-enable-symbol-highlighting nil
         lsp-enable-text-document-color nil
         lsp-headerline-breadcrumb-enable nil
+        lsp-signature-render-documentation nil
+        lsp-enable-on-type-formatting nil
         lsp-diagnostics-provider :flymake)
   :hook ((ruby-ts-mode . lsp-deferred)
          (bash-ts-mode . lsp-deferred))
@@ -509,10 +512,22 @@
   (meow-normal-define-key '("C-S-l" . windmove-right))
   (meow-normal-define-key '("C-S-j" . windmove-down))
   (meow-normal-define-key '("C-S-k" . windmove-up))
+
+  (meow-motion-overwrite-define-key '("C-S-h" . windmove-left))
+  (meow-motion-overwrite-define-key '("C-S-l" . windmove-right))
+  (meow-motion-overwrite-define-key '("C-S-j" . windmove-down))
+  (meow-motion-overwrite-define-key '("C-S-k" . windmove-up))
+
   (meow-normal-define-key '("C-o" . better-jumper-jump-backward))
   (meow-normal-define-key '("<C-i>" . better-jumper-jump-forward))
+
   (meow-normal-define-key '("C--" . text-scale-decrease))
   (meow-normal-define-key '("C-=" . text-scale-increase))
+
+  (meow-motion-overwrite-define-key '("C--" . text-scale-decrease))
+  (meow-motion-overwrite-define-key '("C-=" . text-scale-increase))
+
+
   (meow-normal-define-key '("C-r" . undo-redo))
   (meow-normal-define-key '("=" . meow-indent))
   (define-key my-prefix-map (kbd ":") (cons "M-x" 'execute-extended-command))
@@ -593,7 +608,8 @@
                            ("L" "log buffer file" #'magit-log-buffer-file)
                            ("b" "checkout" #'magit-branch-checkout)
                            ("]" "next hunk" #'diff-hl-next-hunk)
-                           ("[" "previous hunk" #'diff-hl-previous-hunk)))
+                           ("[" "previous hunk" #'diff-hl-previous-hunk)
+                           ("p" "show hunk" #'diff-hl-show-hunk)))
 
   ;; window prefix
   (defun my/split-right-and-select-new-window ()
@@ -644,7 +660,7 @@
     (add-hook 'meow-insert-exit-hook #'corfu-quit)))
 
 (use-package ws-butler
-  :hook (prog-mode . ws-butler-mode))
+  :hook (text-mode . ws-butler-mode))
 
 (use-package super-save
   :ensure (:host github :repo "bbatsov/super-save")
@@ -656,6 +672,7 @@
 
 (use-package flymake-posframe
   :ensure (:host github :repo "Ladicle/flymake-posframe")
+  :disabled t
   :hook (flymake-mode . flymake-posframe-mode)
   :config
   (defun my/flymake-posframe-set-faces ()
@@ -680,6 +697,8 @@
 (use-package yasnippet
   :hook ((emacs-lisp-mode . yas-minor-mode)
          (ruby-ts-mode . yas-minor-mode))
+  :init
+  (setq yas-indent-line 'fixed)
   :commands (yas-minor-mode-on
              yas-expand
              yas-minor-mode
@@ -709,8 +728,9 @@
     "Add super lsp capf to `completion-at-point-functions'"
     (push (cape-capf-super #'yasnippet-capf #'lsp-completion-at-point #'cape-dabbrev)
           completion-at-point-functions))
-  (with-eval-after-load-all '(cape lsp-mode)
-                            (add-hook 'lsp-completion-mode-hook #'my/add-yas-capf)))
+  (with-eval-after-load-all
+   '(cape lsp-mode)
+   (add-hook 'lsp-completion-mode-hook #'my/add-yas-capf)))
 
 (use-package vterm
   :commands (vterm)
@@ -724,9 +744,10 @@
     (interactive)
     (magit-status (project-root (project-current t))))
   (with-eval-after-load 'consult-project-extra
-    (setq project-switch-commands '((consult-project-extra-find "Find file" "f")
-                                    (my/project-search "Search" "s")
-                                    (my/magit-project "Magit" "g")))))
+    (setq project-switch-commands
+          '((consult-project-extra-find "Find file" "f")
+            (my/project-search "Search" "s")
+            (my/magit-project "Magit" "g")))))
 
 (use-package helpful
   :ensure (:host github :repo "Wilfred/helpful")
@@ -751,6 +772,7 @@
   :init
   (setq dired-dwim-target t
         dired-do-revert-buffer t
+        dired-kill-when-opening-new-dired-buffer t
         dired-hide-details-hide-symlink-targets t
         ;; don't prompt for reverts
         dired-auto-revert-buffer #'dired-buffer-stale-p
@@ -777,9 +799,18 @@
 (use-package apheleia
   :ensure (:host github :repo "radian-software/apheleia")
   :config
-  ;; (setq apheleia-formatters (assoc-delete-all 'prettier-ruby apheleia-formatters))
   (setf (alist-get 'rubocop apheleia-formatters)
-        '("bundle" "exec" "rubocop" "--stdin" filepath "--autocorrect" "--stderr" "--format" "quiet" "--fail-level" "fatal"))
+        '("bundle"
+          "exec"
+          "rubocop"
+          "--stdin"
+          filepath
+          "--autocorrect"
+          "--stderr"
+          "--format"
+          "quiet"
+          "--fail-level"
+          "fatal"))
   (setf (alist-get 'ruby-mode apheleia-mode-alist)
         '(rubocop))
   (setf (alist-get 'ruby-ts-mode apheleia-mode-alist)
@@ -816,8 +847,9 @@
         sp-highlight-wrap-tag-overlay nil
         sp-max-pair-length 4
         sp-max-prefix-length 25)
-  (add-hook 'eval-expression-minibuffer-setup-hook (defun init-sp-in-eval-expression-h ()
-                                                     (when (smartparens-global-mode (smartparens-mode +1)))))
+  (add-hook 'eval-expression-minibuffer-setup-hook
+            (defun init-sp-in-eval-expression-h ()
+              (when (smartparens-global-mode (smartparens-mode +1)))))
   (add-hook 'minibuffer-setup-hook
             (defun init-in-minibuffer-maybe-h ()
               (when (smartparens-global-mode)

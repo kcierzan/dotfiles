@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: FactoryBot.create(:...)
+# key: factorybotc
+# contributor: kcierzan <kcierzan@gmail.com>
+# group: rspec
+# --
+FactoryBot.create(:$1)

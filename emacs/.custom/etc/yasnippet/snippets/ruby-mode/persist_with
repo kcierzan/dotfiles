@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: persist_with do ... end
+# key: persist_with
+# contributor: kcierzan <kcierzan@gmail.com>
+# group: models
+# --
+persist_with do
+  $0
+end

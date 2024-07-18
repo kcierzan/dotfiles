@@ -18,15 +18,14 @@
       redisplay-skip-fontification-on-input t ; helps a little with scrolling
       highlight-nonselected-windows nil
       fast-but-imprecise-scrolling t
-      auto-revert-interval 1
       inhibit-startup-message t
       auto-revert-interval 1
       auth-sources '("~/.authinfo.gpg")
       inhibit-startup-message t
       frame-title-format ""
       backup-directory-alist '(("." . "~/.custom/backups/"))
-      auto-save-default t
-      auto-save-include-big-deletions t
+      auto-save-default nil
+      auto-save-include-big-deletions nil
       auto-save-list-file-prefix "~/.custom/autosave/"
       make-backup-files nil
       mac-command-modifier 'super
