@@ -4,6 +4,6 @@
 # contributor: kylecierzan
 # group: definitions
 # --
-class ${1:`(my/qualified-rails-class-from-model-file)`}${2: < ${3:ApplicationRecord}}
+class ${1:`(rails/qualified-rails-class-from-model-file)`}${2: < ${3:ApplicationRecord}}
   $0
 end

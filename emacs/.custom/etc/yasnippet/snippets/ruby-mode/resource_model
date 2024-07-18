@@ -4,7 +4,7 @@
 # contributor: kcierzan <kcierzan@gmail.com>
 # group: definitions
 # --
-class ${1:`(my/qualified-rails-class-from-model-file)`}
+class ${1:`(rails/qualified-rails-class-from-model-file)`}
   include ResourceModel::Model
 
   $0

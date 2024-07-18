@@ -545,7 +545,6 @@
   (advice-add 'avy-goto-char-timer :after (lambda (&rest _) (pulsar-pulse-line)))
   (define-key my-prefix-map (kbd "SPC") #'avy-goto-char-timer)
 
-
   (defmacro bind-leader-keys (&rest args)
     (let* ((prefix (plist-get args :prefix))
            (keys (plist-get args :keys))
@@ -586,7 +585,6 @@
   (bind-leader-keys :prefix ("o" "open" my-open-map)
                     :keys (("-" "dired" #'dired-jump)
                            ("t" "terminal" #'vterm)))
-
 
   ;; buffer prefix
   (bind-leader-keys :prefix ("b" "buffer" my-buffer-map)

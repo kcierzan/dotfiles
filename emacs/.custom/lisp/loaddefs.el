@@ -10,102 +10,41 @@
 
 ;;; Code:
 
+
 
-;;;### (autoloads nil "elpaca-bootstrap" "elpaca-bootstrap.el" (0
-;;;;;;  0 0 0))
 ;;; Generated autoloads from elpaca-bootstrap.el
 
 (register-definition-prefixes "elpaca-bootstrap" '("elpaca-"))
 
-;;;***
 
-;;;### (autoloads nil "files" "files.el" (0 0 0 0))
 ;;; Generated autoloads from files.el
 
 (autoload 'my/yank-buffer-path "files" "\
 Copy the current buffer's path to the kill ring.
 
-\(fn &optional ROOT)" t)
+(fn &optional ROOT)" t)
 
-;;;***
 
-;;;### (autoloads nil "lib" "lib.el" (0 0 0 0))
 ;;; Generated autoloads from lib.el
 
 (register-definition-prefixes "lib" '("pushnew!" "with-eval-after-load-all"))
 
-;;;***
 
-;;;### (autoloads nil "lsp-booster" "lsp-booster.el" (0 0 0 0))
 ;;; Generated autoloads from lsp-booster.el
 
 (register-definition-prefixes "lsp-booster" '("lsp-booster--advice-"))
 
-;;;***
 
-;;;### (autoloads nil "modeline" "modeline.el" (0 0 0 0))
 ;;; Generated autoloads from modeline.el
 
 (register-definition-prefixes "modeline" '("abbreviate-" "home-directory-path-p" "length-rhs" "my-" "my/" "unexpand-home-path"))
 
-;;;***
 
-;;;### (autoloads nil "rails" "rails.el" (0 0 0 0))
 ;;; Generated autoloads from rails.el
 
-(register-definition-prefixes "rails" '("my--" "my/qualified-rails-class-from-model-file" "rails-"))
-
-;;;***
-
-;;;### (autoloads nil "search" "search.el" (0 0 0 0))
-;;; Generated autoloads from search.el
-
-(autoload 'my/thing-at-point-or-region "search" "\
-Grab the current selection, THING at point, or xref identifier at point.
-
-Returns THING if it is a string. Otherwise, if nothing is found at point and
-PROMPT is non-nil, prompt for a string (if PROMPT is a string it'll be used as
-the prompting string). Returns nil if all else fails.
-
-NOTE: Don't use THING for grabbing symbol-at-point. The xref fallback is smarter
-in some cases.
-
-\(fn &optional THING PROMPT)")
-
-(function-put 'my/thing-at-point-or-region 'side-effect-free 't)
-
-(autoload 'my/project-search "search" "\
-Performs a live project search from the project root using ripgrep.
-If ARG (universal argument), include all files, even hidden or compressed ones,
-in the search.
-
-\(fn &optional ARG INITIAL-QUERY DIRECTORY)" t)
-
-(autoload 'my/project-search-from-cwd "search" "\
-Performs a live project search from the current directory.
-If ARG (universal argument), include all files, even hidden or compressed ones.
-
-\(fn &optional ARG INITIAL-QUERY)" t)
-
-(autoload '+my/lookup-definition "search" "\
-Jump to the definition of IDENTIFIER (defaults to the symbol at point).
-
-Each function in `my/lookup-definition-functions' is tried until one changes the
-point or current buffer. Falls back to dumb-jump, naive
-ripgrep/the_silver_searcher text search, then `evil-goto-definition' if
-evil-mode is active.
-
-\(fn IDENTIFIER &optional ARG)" t)
-
-(autoload 'my--lookup-definition-handler "search" "\
-Find definition of the symbol at point using LSP." t)
-
-(autoload 'my/search-for-symbol-at-point "search" "\
-Search the open buffers for thing-at-point." t)
-
-(register-definition-prefixes "search" '("my--" "my/"))
-
-;;;***
+(autoload 'rails/start-monorepo-console "rails" "\
+Get the path to a valid rails application root for the project." t)
+(register-definition-prefixes "rails" '("rails"))
 
 
 ;;; Generated autoloads from search.el
