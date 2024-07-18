@@ -861,4 +861,5 @@
 (require 'rails)
 (require 'search)
 (require 'files)
+(load "loaddefs.el")
 ;;; init.el ends here

@@ -7,6 +7,5 @@
 class ${1:`(my/qualified-rails-class-from-model-file)`}
   include ResourceModel::Model
 
-  attributes $2, type: $3, public: ${4:$$(yas-choose-value '("true" "false"))}
   $0
 end

@@ -1,5 +1,6 @@
 ;;; files.el --- Files -*- lexical-binding: t; -*-
 
+;;;###autoload
 (defun my/yank-buffer-path (&optional root)
   "Copy the current buffer's path to the kill ring."
   (interactive)

@@ -102,10 +102,11 @@ in some cases."
                                             unless (string-match-p char query)
                                             return char)
                                    "%")
-                     :type perl)
+                              :type perl)
                    consult-async-split-style 'perlalt))))))
     (consult--grep prompt #'consult--ripgrep-make-builder directory query)))
 
+;;;###autoload
 (defun my/search-project-for-symbol-at-point (symbol dir)
   "Search current project for symbol at point.
 If prefix ARG is set, prompt for a known project to search from."
