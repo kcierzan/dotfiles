@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: RSpec.describe ... do
+# key: rspec_describe
+# contributor: kcierzan <kcierzan@gmail.com>
+# group: rspec
+# --
+require 'rails_helper'
+
+RSpec.describe $1, squad: :employee_wellness do
+  $0
+end

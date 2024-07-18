@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: describe '...' do
+# key: describe
+# contributor: kcierzan <kcierzan@gmail.com>
+# group: rspec
+# --
+describe '$1' do
+  $0
+end
