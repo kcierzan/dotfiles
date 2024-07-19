@@ -85,17 +85,24 @@
   (or (buffer-file-name)
       (buffer-name (current-buffer))))
 
+(defun rails--remove-underscores (str)
+  "Remove all underscores in STR."
+  (replace-regexp-in-string "_" "" str t t))
+
 (defun rails--filename-to-rails-class (filename)
   (let ((klass (capitalize
                 (file-name-nondirectory
                  (file-name-sans-extension filename)))))
-    (replace-regexp-in-string "_" "" klass t t)))
+    (rails--remove-underscores klass)))
 
 (defun rails/qualified-rails-class-from-model-file ()
   (let* ((dirs (split-string (rails--current-file-name) "/"))
          (models-directory-child-dirs (cdr (member "models" dirs)))
          (file (car (last models-directory-child-dirs)))
-         (caps-namespaces (mapcar #'capitalize (butlast models-directory-child-dirs))))
+         (caps-namespaces (mapcar
+                           (lambda (dir)
+                             (rails--remove-underscores (capitalize dir)))
+                           (butlast models-directory-child-dirs))))
     (mapconcat 'identity
                (flatten-tree
                 (list caps-namespaces
