@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: subject {...}
+# key: subject
+# contributor: kcierzan <kcierzan@gmail.com>
+# group: rspec
+# --
+subject \{ $0 \}

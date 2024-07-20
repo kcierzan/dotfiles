@@ -333,6 +333,8 @@
   :init
   (setq magit-auto-revert-mode nil)
   :config
+  (transient-put-suffix 'magit-dispatch "d" :key "<backspace>")
+  (define-key magit-mode-map (kbd "<backspace>") #'magit-discard)
   (setq transient-default-level 5 ; controls how many levels of magit menus we see
         magit-diff-refine-hook t
         magit-save-repository-buffers nil
@@ -489,9 +491,39 @@
      '("Y" . meow-sync-grab)
      '("z" . meow-pop-selection)
      '("'" . repeat)
-     '("<escape>" . ignore)))
+     '("<escape>" . ignore)
+     '("C-\\" . meow-paredit-mode)))
   (meow-setup)
   (meow-global-mode 1)
+
+
+  (setq meow-paredit-keymap (make-keymap))
+  (meow-define-state paredit
+    "meow state for interacting with paredit"
+    :lighter " [P]"
+    :keymap meow-paredit-keymap)
+
+  (setq meow-cursor-type-paredit 'hollow)
+
+  (meow-define-keys 'paredit
+    '("<escape>" . meow-normal-mode)
+    '("i" . meow-insert-mode)
+    '("h" . paredit-backward)
+    '("u" . meow-undo)
+    '("j" . paredit-forward-down)
+    '("k" . paredit-backward-up)
+    '("l" . paredit-forward)
+    '("^" . paredit-splice-sexp)
+    '("C-h" . paredit-forward-barf-sexp)
+    '("C-l" . paredit-forward-slurp-sexp)
+    '("C-S-h" . paredit-backward-barf-sexp)
+    '("C-S-l" . paredit-backward-slurp-sexp)
+    '("(" . paredit-wrap-round)
+    '("d" . paredit-forward-kill-word)
+    '("D" . kill-sexp)
+    '("A" . paredit-close-round-and-newline))
+
+  (define-key meow-insert-state-keymap (kbd "C-\\") 'meow-paredit-mode)
 
   ;; Cribbed from doom: this adds a C-i keybind as distict from
   ;; TAB. Emacs ordinarily considers them to be the same key to
@@ -641,10 +673,13 @@
                     :keys (("f" "function" #'helpful-function)
                            ("c" "callable" #'helpful-callable)
                            ("m" "macro" #'helpful-macro)
+                           ("M" "mode" #'describe-mode)
                            ("k" "key" #'helpful-key)
                            ("F" "face" #'describe-face)
                            ("v" "variable" #'helpful-variable)
                            ("p" "at point" #'helpful-at-point)))
+
+  (bind-leader-keys :prefix ("i" "interface" my-interface-map))
 
   ;; quit prefix
   (defun my/really-quit-emacs ()
