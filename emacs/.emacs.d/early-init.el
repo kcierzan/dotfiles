@@ -23,10 +23,10 @@
       auth-sources '("~/.authinfo.gpg")
       inhibit-startup-message t
       frame-title-format ""
-      backup-directory-alist '(("." . "~/.custom/backups/"))
+      backup-directory-alist '(("." . "~/.emacs.d/backups/"))
       auto-save-default nil
       auto-save-include-big-deletions nil
-      auto-save-list-file-prefix "~/.custom/autosave/"
+      auto-save-list-file-prefix "~/.emacs.d/autosave/"
       make-backup-files nil
       mac-command-modifier 'super
       mac-option-modifier 'meta
@@ -53,7 +53,7 @@
 (eval-and-compile
   (setq gc-cons-threshold (* 32 1024 1024)))
 
-(defconst envvar-file "~/.custom/env")
+(defconst envvar-file "~/.emacs.d/env")
 
 (defvar original-gc-cons-threshold-backup nil
   "Variable to hold a backup of `gc-cons-threshold'.")
@@ -117,7 +117,7 @@ unreadable. Returns the names of envvars that were changed."
 
 (load-envvars-file envvar-file)
 
-(add-to-list 'load-path "~/.custom/lisp/")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;; Emacs requires libgccjit for native compilation
 (setenv "LIBRARY_PATH"

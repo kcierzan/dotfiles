@@ -35,10 +35,13 @@ forge-database.sqlite
 projects
 transient/
 tree-sitter/
-eln-cache/
 auto-save-list/
 recentf
 emacs-lsp-booster
+autosave
+eln-cache/
+**/.emacs.d/var
+**/.emacs.d/.cache
 
 # Repo scratch directory
 scratch/

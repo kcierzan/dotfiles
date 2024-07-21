@@ -14,7 +14,7 @@
 (defun abbreviate-path (path)
   (let ((short-path (unexpand-home-path path)))
     (if (abbreviate-p short-path 50)
-        (let* ((full-path (s-split "/" short-path))
+        (let* ((full-path (split-string short-path "/"))
                (file (car (last full-path)))
                (parent (car (last full-path 2)))
                (path-pieces (butlast full-path 2))
@@ -172,7 +172,7 @@
      (length (my/modeline-flymake-warnings))
      (length (my/modeline-flymake-errors))
      (length (my/modeline-flymake-notes))
-     3))
+     4))
 
 (defvar-local my/right-alignment-space
     `(:eval

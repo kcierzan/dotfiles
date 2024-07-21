@@ -207,8 +207,18 @@
             '(project-switch-to-buffer . buffer)
             '(project-switch-project . project-file)))
 
+(use-package doom-themes
+  :ensure (:host github :repo "doomemacs/themes")
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme 'doom-material t)
+  (doom-themes-org-config)
+  (require 'modeline))
+
 (use-package modus-themes
   :ensure (:host github :repo "protesilaos/modus-themes")
+  :disabled t
   :init
   (load-theme 'modus-vivendi-tinted t)
   :config
@@ -496,7 +506,6 @@
   (meow-setup)
   (meow-global-mode 1)
 
-
   (setq meow-paredit-keymap (make-keymap))
   (meow-define-state paredit
     "meow state for interacting with paredit"
@@ -511,7 +520,9 @@
     '("h" . paredit-backward)
     '("u" . meow-undo)
     '("j" . paredit-forward-down)
+    '("J" . paredit-forward-up)
     '("k" . paredit-backward-up)
+    '("K" . paredit-backward-down)
     '("l" . paredit-forward)
     '("^" . paredit-splice-sexp)
     '("C-h" . paredit-forward-barf-sexp)
@@ -519,8 +530,9 @@
     '("C-S-h" . paredit-backward-barf-sexp)
     '("C-S-l" . paredit-backward-slurp-sexp)
     '("(" . paredit-wrap-round)
-    '("d" . paredit-forward-kill-word)
-    '("D" . kill-sexp)
+    '("x" . paredit-forward-kill-word)
+    '("d" . kill-sexp)
+    '("D" . paredit-kill)
     '("A" . paredit-close-round-and-newline))
 
   (define-key meow-insert-state-keymap (kbd "C-\\") 'meow-paredit-mode)
@@ -732,8 +744,6 @@
 (use-package yasnippet
   :hook ((emacs-lisp-mode . yas-minor-mode)
          (ruby-ts-mode . yas-minor-mode))
-  :init
-  (setq yas-indent-line 'fixed)
   :commands (yas-minor-mode-on
              yas-expand
              yas-minor-mode
@@ -746,9 +756,23 @@
              yas-deactivate-extra-mode
              yas-maybe-expand-abbrev-key-filter)
   :init
+  (setq yas-indent-line 'fixed)
   (add-hook 'meow-insert-exit-hook #'yas-abort-snippet)
   (defvar yas-verbosity 2)
   :config
+  (defvar my--expanding-snippet-p nil)
+  (with-eval-after-load 'corfu
+    (add-hook 'yas-before-expand-snippet-hook
+              (defun my--disable-corfu-before-expand-h ()
+                (unless my--expanding-snippet-p
+                  (setq my--expanding-snippet-p t)
+                  (when global-corfu-mode
+                    (global-corfu-mode -1)))))
+
+    (add-hook 'yas-after-exit-snippet-hook
+              (defun my--enable-corfu-after-expand-h ()
+                (setq my--expanding-snippet-p nil)
+                (global-corfu-mode 1))))
   (yas-reload-all))
 
 (use-package yasnippet-capf
