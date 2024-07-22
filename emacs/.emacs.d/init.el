@@ -209,12 +209,12 @@
 
 (use-package doom-themes
   :ensure (:host github :repo "doomemacs/themes")
+  :after overline
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
-  (load-theme 'doom-material t)
-  (doom-themes-org-config)
-  (require 'modeline))
+  (load-theme 'doom-nord-aurora t)
+  (doom-themes-org-config))
 
 (use-package modus-themes
   :ensure (:host github :repo "protesilaos/modus-themes")
@@ -228,8 +228,10 @@
   (set-face-background 'scroll-bar (face-background 'default)) ; controls the titlebar on emacs-mac
   (set-face-foreground 'window-divider (face-background 'default))
   (set-face-foreground 'window-divider-first-pixel (face-background 'default))
-  (set-face-foreground 'window-divider-last-pixel (face-foreground 'default))
-  (require 'modeline))
+  (set-face-foreground 'window-divider-last-pixel (face-foreground 'default)))
+
+(use-package overline
+  :ensure nil)
 
 (use-package wgrep
   :commands wgrep-change-to-wgrep-mode

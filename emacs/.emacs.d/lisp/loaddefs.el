@@ -27,7 +27,7 @@ Copy the current buffer's path to the kill ring.
 
 ;;; Generated autoloads from lib.el
 
-(register-definition-prefixes "lib" '("pushnew!" "with-eval-after-load-all"))
+(register-definition-prefixes "lib" '("my/generate-autoloads" "pushnew!" "with-eval-after-load-all"))
 
 
 ;;; Generated autoloads from lsp-booster.el

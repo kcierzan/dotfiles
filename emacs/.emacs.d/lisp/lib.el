@@ -12,10 +12,12 @@ This is a variadic `cl-pushnew'."
     `(dolist (,var (list ,@values) (with-no-warnings ,place))
        (cl-pushnew ,var ,place :test #'equal))))
 
+;;;###autoload
 (defun my/generate-autoloads ()
   "Opinionated autoload generation for private packages."
   (interactive)
-  (loaddefs-generate "~/.emacs.d/lisp" "~/.emacs.d/lisp/loaddefs.el"))
+  (loaddefs-generate "~/.emacs.d/lisp" "~/.emacs.d/lisp/loaddefs.el")
+  (load "loaddefs.el"))
 
 (defun with-eval-after-load-all (my-features form)
   "Run FORM after all MY-FEATURES are loaded.
