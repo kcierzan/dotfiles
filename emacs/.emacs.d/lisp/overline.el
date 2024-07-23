@@ -36,6 +36,7 @@
                       :overline nil
                       :box `(:line-width (1 . 8) :color ,(face-background 'default))))
 
+(set-face-attribute 'minibuffer-prompt nil :height 1.2 :box `(:line-width (1 . 8) :color ,(face-background 'default)))
 (add-hook 'after-load-theme-hook #'overline/set-mode-line-theme)
 
 (setq-default mode-line-format '("%e"
@@ -101,9 +102,9 @@
              (mode-line-window-selected-p))
     (list
      '(:eval (overline--flymake-errors))
-     " "
+     '(:eval (and (overline--flymake-errors) (overline--flymake-warnings) " "))
      '(:eval (overline--flymake-warnings))
-     " "
+     '(:eval (and (overline--flymake-warnings) (overline--flymake-notes) " "))
      '(:eval (overline--flymake-notes)))))
 
 (defun overline--current-branch ()
@@ -121,7 +122,11 @@
 This is requires to determine an accurate length for the right hand
 side segments."
   (+ (length (overline--current-branch))
-     (length (overline--flymake-status))
+     (length (overline--flymake-errors))
+     (if (and (overline--flymake-errors) (overline--flymake-warnings)) 1 0)
+     (length (overline--flymake-warnings))
+     (if (and (overline--flymake-warnings) (overline--flymake-notes)) 1 0)
+     (length (overline--flymake-notes))
      1))
 
 (defun overline--abbreviate-path (path)

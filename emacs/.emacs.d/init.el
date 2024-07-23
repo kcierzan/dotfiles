@@ -345,7 +345,7 @@
   :init
   (setq magit-auto-revert-mode nil)
   :config
-  (transient-put-suffix 'magit-dispatch "d" :key "<backspace>")
+  (transient-suffix-put 'magit-dispatch "k" :key "<backspace>")
   (define-key magit-mode-map (kbd "<backspace>") #'magit-discard)
   (setq transient-default-level 5 ; controls how many levels of magit menus we see
         magit-diff-refine-hook t
@@ -693,7 +693,9 @@
                            ("v" "variable" #'helpful-variable)
                            ("p" "at point" #'helpful-at-point)))
 
-  (bind-leader-keys :prefix ("i" "interface" my-interface-map))
+  (bind-leader-keys :prefix ("i" "interface" my-interface-map)
+                    :keys (("t" "theme" #'consult-theme)
+                           ("#" "line numbers" 'display-line-numbers-mode)))
 
   ;; quit prefix
   (defun my/really-quit-emacs ()
