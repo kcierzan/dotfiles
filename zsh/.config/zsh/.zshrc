@@ -15,10 +15,6 @@ alias ..='cd ..'
 alias ...="cd ../../"
 alias ....="cd ../../../"
 
-emacs-dev() {
-    /Applications/Emacs.app/Contents/MacOS/Emacs "$@" --init-directory ~/.custom
-}
-
 # interactive cd
 icd() {
     zi && zle reset-prompt

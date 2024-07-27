@@ -1,11 +1,11 @@
 export ZDOTDIR="$HOME/.config/zsh"
 
 if [ "$(uname)" = 'Darwin' ]; then
-    export EDITOR='open -a /Applications/Emacs.app --args'
-    export VISUAL='open -a /Applications/Emacs.app --args'
+    export EDITOR='code'
+    export VISUAL='code'
 else
-    export EDITOR='emacs'
-    export VISUAL='emacs'
+    export EDITOR='code'
+    export VISUAL='code'
 fi
 
 export BAT_THEME='base16'

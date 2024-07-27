@@ -20,19 +20,19 @@ ifile() {
 }
 
 ikill() {
-  local pids
+    local pids
     # Use a subshell to capture the output of ps piped through fzf into awk to get PIDs
-  pids=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+    pids=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
-  if [[ -n "$pids" ]]; then
-    for pid in $pids; do
-      if [[ -n "$pid" ]]; then
-        echo "${pid}" | xargs kill -9
-      fi
-    done
-  else
-    echo "No PIDs selected"
-  fi
+    if [[ -n "$pids" ]]; then
+        for pid in $pids; do
+            if [[ -n "$pid" ]]; then
+                echo "${pid}" | xargs kill -9
+            fi
+        done
+    else
+        echo "No PIDs selected"
+    fi
 }
 
 ibranch() {
@@ -46,36 +46,21 @@ ibranch() {
 }
 
 igrep() {
-    # File exclusions and search command
-    local format_for_editor
-    local linefile
-    local excludes='!.git,!node_modules,*.pyc,!env,*.dmp'
-    local get_files="rg -n --hidden -g \"$excludes\" . 2>/dev/null"
-    local filter_files="fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'fzf-preview {}'"
-
-    case "$EDITOR" in
-        nvim | 'neovide --frame buttonless')
-            format_for_editor='gawk -F: '\''{print "+"$2" "$1}'\'
-            ;;
-        code)
-            format_for_editor='gawk -F: '\''{print "-g "$1":"$2}'\'
-            ;;
-        subl)
-            format_for_editor='gawk -F: '\''{print $1":"$2}'\'
-            ;;
-    esac
-
     # Execute the file search, selection, and parsing
-    linefile=$(eval "$get_files | $filter_files | $format_for_editor")
+    linefile=$(
+        rg -n --hidden -g '!.git,!node_modules,!*.pyc,!env,!*.dmp' . 2>/dev/null | \
+        fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'fzf-preview {}' | \
+        gawk -F: '{print "-g "$1":"$2}'
+    )
 
     if xargs --help 2>&1 | grep -q "\-d"; then
-      xargs_command="xargs"
+        xargs_command="xargs"
     else
-      xargs_command="gxargs"
+        xargs_command="gxargs"
     fi
 
     if [ -n "$linefile" ]; then
-        echo "$linefile" | tr ' ' '\n' | $xargs_command -d '\n' "$EDITOR"
+        echo "$linefile" | tr ' ' '\n' | $xargs_command -d '\n' code
     fi
 }
 
@@ -84,7 +69,7 @@ timeshell() {
     START_TIME_FILE=$(mktemp)
 
     # Record the start time
-    date +%s%N > "$START_TIME_FILE"
+    date +%s%N >"$START_TIME_FILE"
 
     # Start Zsh with a command to measure the end time and calculate the difference
     zsh -i -c "
