@@ -9,7 +9,6 @@ Paste the following in the terminal for a complete system bootstrap:
 ```
 
 This will clone this repository to `~/.dotfiles` and will symlink relevant config directories into `$HOME`.
-
 Subsequent bootstrap runs can performed by running the bootstrap command from any directory:
 
 ```
