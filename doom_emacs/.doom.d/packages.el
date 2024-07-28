@@ -81,3 +81,10 @@
   :disable (not IS-MAC)
   :recipe (:host github
            :repo "jdtsmith/ultra-scroll-mac"))
+
+(package! fennel-mode
+  :recipe (:host sourcehut
+           :repo "technomancy/fennel-mode"))
+
+(package! evil-snipe
+  :disable t)

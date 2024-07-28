@@ -5,8 +5,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "Kyle Cierzan"
+      user-mail-address "")
 
 (setq shell-file-name (executable-find "zsh"))
 
@@ -22,11 +22,15 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 
-(setq doom-font (font-spec :family "IosevkaNeapolitan Nerd Font" :size 16 :weight 'medium)
-      doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16 :weight 'medium)
-      doom-serif-font (font-spec :family "Iosevka Etoile" :size 16 :weight 'medium))
+(setq doom-font (font-spec :family "BerkeleyMono Nerd Font" :size 16 :weight 'medium)
+      doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 16 :weight 'regular)
+      doom-serif-font (font-spec :family "IBM Plex Serif"
+                                 :size 16
+                                 :weight 'regular))
 
-;;
+;; Don't display the filename in the title bar
+(setq frame-title-format "")
+
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
@@ -35,7 +39,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'doom-nord-aurora)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -44,6 +48,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
+(setq org-startup-folded t)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -241,6 +246,7 @@
        (when (byte-code-function-p bytecode)
          (funcall bytecode))))
    (apply old-fn args)))
+
 (advice-add (if (progn (require 'json)
                        (fboundp 'json-parse-buffer))
                 'json-parse-buffer
@@ -260,31 +266,41 @@
           (message "Using emacs-lsp-booster for %s!" orig-result)
           (cons "emacs-lsp-booster" orig-result))
       orig-result)))
+
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
+(add-to-list 'auto-mode-alist '("\\.fnl\\'" . fennel-mode))
+
+(add-to-list 'lispyville-key-theme 'additional-movement)
+(add-to-list 'lispyville-key-theme 'text-objects)
+
+(map! :n "s" #'evil-avy-goto-char-2
+      :n "S" #'evil-avy-goto-char-timer)
+
 ;; org-mode ricing ahead
-(custom-theme-set-faces
- 'user
- '(tree-sitter-hl-face:punctuation ((t (:inherit fixed-pitch))))
- '(org-document-title ((t (:height 2.0 :weight bold))))
- '(org-level-1 ((t (:height 1.75 :inherit outline-1))))
- '(org-level-2 ((t (:height 1.5 :inherit outline-2))))
- '(org-level-3 ((t (:height 1.25 :inherit outline-3))))
- '(org-level-4 ((t (:height 1.1 :inherit outline-4))))
- '(org-level-5 ((t (:inherit outline-5))))
- '(org-level-6 ((t (:inherit outline-6))))
- '(org-level-7 ((t (:inherit outline-7))))
- '(org-level-8 ((t (:inherit outline-8))))
- '(org-block ((t (:inherit fixed-pitch))))
- '(line-number ((t (:inherit fixed-pitch))))
- '(line-number-current-line ((t (:inherit fixed-pitch))))
- '(org-code ((t (:inherit (shadow fixed-pitch)))))
- '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
- '(org-indent ((t (:inherit (shadow fixed-pitch)))))
- '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
- '(org-property-value ((t (:inherit fixed-pitch))) t)
- '(org-table ((t (:inherit fixed-pitch))))
- '(org-todo ((t (:inherit fixed-pitch))))
- '(org-done ((t (:inherit fixed-pitch))))
- '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
- '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
+(after! org
+  (custom-theme-set-faces
+   'user
+   '(tree-sitter-hl-face:punctuation ((t (:inherit fixed-pitch))))
+   '(org-document-title ((t (:height 2.0 :weight bold))))
+   '(org-level-1 ((t (:height 1.75 :inherit outline-1))))
+   '(org-level-2 ((t (:height 1.5 :inherit outline-2 :weight medium))))
+   '(org-level-3 ((t (:height 1.25 :inherit outline-3 :weight medium))))
+   '(org-level-4 ((t (:height 1.1 :inherit outline-4 :weight medium))))
+   '(org-level-5 ((t (:inherit outline-5 :weight medium))))
+   '(org-level-6 ((t (:inherit outline-6 :weight medium))))
+   '(org-level-7 ((t (:inherit outline-7 :weight medium))))
+   '(org-level-8 ((t (:inherit outline-8 :weight medium))))
+   '(org-block ((t (:inherit fixed-pitch))))
+   '(line-number ((t (:inherit fixed-pitch))))
+   '(line-number-current-line ((t (:inherit fixed-pitch))))
+   '(org-code ((t (:inherit (shadow fixed-pitch)))))
+   '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+   '(org-indent ((t (:inherit (shadow fixed-pitch)))))
+   '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-property-value ((t (:inherit fixed-pitch))) t)
+   '(org-table ((t (:inherit fixed-pitch))))
+   '(org-todo ((t (:inherit fixed-pitch))))
+   '(org-done ((t (:inherit fixed-pitch))))
+   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+   '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))))

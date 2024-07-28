@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: ResourceModel
+# key: rsm
+# contributor: kcierzan <kcierzan@gmail.com>
+# group: definitions
+# --
+class ${1:`(rails/qualified-rails-class-from-model-file)`}
+  include ResourceModel::Model
+
+  $0
+end

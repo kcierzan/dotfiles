@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: context '...' do
+# key: context
+# contributor: kcierzan <kcierzan@gmail.com>
+# group: rspec
+# --
+context '$1' do
+  $0
+end

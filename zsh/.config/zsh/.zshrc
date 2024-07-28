@@ -11,10 +11,9 @@ alias be='bundle exec'
 alias gs='git status'
 alias reload="exec zsh"
 alias lg='lazygit'
-
-emacs-dev() {
-    /Applications/Emacs.app/Contents/MacOS/Emacs "$@" --init-directory ~/.custom
-}
+alias ..='cd ..'
+alias ...="cd ../../"
+alias ....="cd ../../../"
 
 # interactive cd
 icd() {
@@ -33,13 +32,15 @@ eval "$(zoxide init zsh)"
 #shellcheck source=/dev/null
 [ -f ~/.bootstrap/env.sh ] && source "$HOME/.bootstrap/env.sh"
 
-eval "$(rbenv init -)"
+if [[ "$(uname)" = 'Darwin' ]]; then
+    eval "$(rbenv init -)"
+fi
 
 # initialize mise
 eval "$(mise activate zsh)"
 
 # initialize fzf
-eval "$(fzf --zsh)"
+source <(fzf --zsh)
 
 # load plugin manager
 [ -f "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh" ] && source "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh"
@@ -64,3 +65,7 @@ bindkey '^[j' icd
 
 bindkey '^p' history-substring-search-up
 bindkey '^n' history-substring-search-down
+
+export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"

@@ -29,10 +29,19 @@ Thumbs.db
 # Emacs files
 .projectile
 elpa/
-eln-cache/
+elpaca/
+env
+forge-database.sqlite
+projects
+transient/
+tree-sitter/
 auto-save-list/
 recentf
 emacs-lsp-booster
+autosave
+eln-cache/
+**/.emacs.d/var
+**/.emacs.d/.cache
 
 # Repo scratch directory
 scratch/

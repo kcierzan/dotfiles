@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: expect(...).to
+# key: expect
+# contributor: kcierzan <kcierzan@gmail.com>
+# group: rspec
+# --
+expect($1).to $0

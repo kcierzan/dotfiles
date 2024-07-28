@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: frozen_string_literal
+# key: fsl
+# contributor: kylecierzan
+# group: pragma
+# --
+# frozen_string_literal: true
+
+$0

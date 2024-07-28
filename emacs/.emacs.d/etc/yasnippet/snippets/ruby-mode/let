@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: let(:...) { ... }
+# key: let
+# contributor: kcierzan <kcierzan@gmail.com>
+# group: rspec
+# --
+let${2:!}(:$1) \{ $0 \}
