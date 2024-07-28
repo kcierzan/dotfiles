@@ -1,6 +1,4 @@
-import = [
-  "~/.config/alacritty/themes/dracula.toml"
-]
+import = ["~/.config/alacritty/themes/tokyo_night.toml"]
 
 [window]
 decorations = "Buttonless"
