@@ -10,7 +10,7 @@ blur = true
 normal = { family = "BerkeleyMono Nerd Font", style = "Regular" }
 bold = { family = "BerkeleyMono Nerd Font", style = "Bold" }
 offset = { y = 8 }
-size = 18
+size = 16
 
 [cursor]
 style = { shape = "Beam", blinking = "Never" }

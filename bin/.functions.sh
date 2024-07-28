@@ -46,21 +46,35 @@ ibranch() {
 }
 
 igrep() {
-    # Execute the file search, selection, and parsing
-    linefile=$(
-        rg -n --hidden -g '!.git,!node_modules,!*.pyc,!env,!*.dmp' . 2>/dev/null | \
-        fzf +m --exit-0 --preview-window=up:80% --delimiter ':' --nth 3.. --preview 'fzf-preview {}' | \
-        gawk -F: '{print "-g "$1":"$2}'
-    )
+    local rg_command="rg -n --hidden --no-ignore"
+    local exclude_dirs=(".git" "node_modules" "env")
+    local exclude_files=("*.pyc" "*.dmp")
 
-    if xargs --help 2>&1 | grep -q "\-d"; then
-        xargs_command="xargs"
-    else
-        xargs_command="gxargs"
-    fi
+    # Build exclude arguments
+    for dir in "${exclude_dirs[@]}"; do
+        rg_command+=" --glob '!$dir'"
+    done
+    for file in "${exclude_files[@]}"; do
+        rg_command+=" --glob '!$file'"
+    done
+    local fzf_command="fzf +m --exit-0 --preview-window=up:80% --delimiter : --nth 3.. --preview 'fzf-preview {}'"
+    local awk_command="awk -F: '{print \"-g \" \$1 \":\" \$2}'"
 
-    if [ -n "$linefile" ]; then
-        echo "$linefile" | tr ' ' '\n' | $xargs_command -d '\n' code
+    # Execute the search and selection in one pipeline
+    local selected_file
+    selected_file=$(eval "$rg_command . 2>/dev/null | $fzf_command | $awk_command")
+
+    if [ -n "$selected_file" ]; then
+        # Determine the appropriate xargs command
+        local xargs_command
+        if xargs --help 2>&1 | grep -q -- "-d"; then
+            xargs_command="xargs -d '\n'"
+        else
+            xargs_command="gxargs -d '\n'"
+        fi
+    
+        # Open the selected file(s) in VS Code
+        echo "$selected_file" | tr ' ' '\n' | eval "$xargs_command code"
     fi
 }
 

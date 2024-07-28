@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if [[ $(uname) = 'Linux' ]]; then
+  /usr/bin/code "$@" 2>/dev/null &
+else
+ /opt/homebrew/bin/code "$@"
+fi

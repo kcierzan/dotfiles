@@ -1,12 +1,7 @@
 export ZDOTDIR="$HOME/.config/zsh"
 
-if [ "$(uname)" = 'Darwin' ]; then
-    export EDITOR='code'
-    export VISUAL='code'
-else
-    export EDITOR='code'
-    export VISUAL='code'
-fi
+export EDITOR='code'
+export VISUAL='code'
 
 export BAT_THEME='base16'
 export CLICOLOR=1
