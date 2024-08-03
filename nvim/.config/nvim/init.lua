@@ -94,21 +94,18 @@ vim.api.nvim_set_keymap(
 )
 
 -- always display the file as it exists on disk
-vim.api.nvim_create_autocmd({ "InsertLeave", "FocusLost" }, {
-  pattern = "*",
-  callback = function()
-    if not vim.g.vscode then
-      if vim.bo.readonly == 0 and vim.fn.filereadable(vim.fn.bufname('%')) == 1 then
-        vim.cmd('silent update')
-      end
-    end
-  end,
-})
+if not vim.g.vscode then
+  vim.api.nvim_create_autocmd({ "InsertLeave", "FocusLost" }, {
+    pattern = "*",
+    command = [[if &readonly==0 && filereadable(bufname('%')) | silent update | endif]],
+  })
+end
+
 -- reset the cursor shape upon exiting neovim
-vim.api.nvim_create_autocmd("VimLeave", {
-  pattern = "*",
-  command = 'set guicursor=a:ver25'
-})
+-- vim.api.nvim_create_autocmd("VimLeave", {
+--   pattern = "*",
+--   command = 'set guicursor=a:ver25'
+-- })
 
 vim.opt.rtp:prepend(lazypath)
 
