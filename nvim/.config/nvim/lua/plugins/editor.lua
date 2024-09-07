@@ -241,28 +241,13 @@ return {
     end,
   },
   {
-    "glepnir/lspsaga.nvim",
-    dependencies = { "neovim/nvim-lspconfig" },
-    enabled = false,
-    branch = "main",
-    event = "LspAttach",
-    config = function()
-      require("lspsaga").setup({
-        outline = {
-          auto_preview = false,
-        },
-        symbols_in_winbar = {
-          in_custom = true,
-        },
-      })
-    end,
-  },
-  {
     "ray-x/guihua.lua",
     build = "cd lua/fzy && make",
+    enabled = false,
   },
   {
     "ray-x/navigator.lua",
+    enabled = false,
     dependencies = { "ray-x/guihua.lua", "neovim/nvim-lspconfig" },
     event = "LspAttach",
     config = function()
@@ -347,35 +332,7 @@ return {
           "vtsls",
         },
       })
-      -- require("mason-lspconfig").setup_handlers({
-      --   -- Will be called for each installed server that doesn't have
-      --   -- a dedicated handler.
-      --   --
-      --   function(server_name) -- default handler (optional)
-      --     -- https://github.com/neovim/nvim-lspconfig/pull/3232
-      --     if server_name == "tsserver" then
-      --       server_name = "ts_ls"
-      --     end
-      --     local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      --     require("lspconfig")[server_name].setup({
-      --
-      --       capabilities = capabilities,
-      --     })
-      --   end,
-      -- })
     end,
-  },
-  {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    enabled = false,
-    event = { "VeryLazy" },
-    version = "*",
-    config = true,
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
   },
   {
     "folke/trouble.nvim",
@@ -386,27 +343,6 @@ return {
       trouble.setup({
         auto_open = false,
         auto_preview = false,
-      })
-    end,
-  },
-  {
-    "nvimtools/none-ls.nvim",
-    event = "LspAttach",
-    enabled = false,
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.stylua,
-          -- null_ls.builtins.diagnostics.ruff,
-          null_ls.builtins.diagnostics.rubocop.with({
-            command = "bundle",
-            args = { "exec", "rubocop", "-f", "json", "--force-exclusion", "--stdin", "$FILENAME" },
-          }),
-          null_ls.builtins.formatting.black,
-          null_ls.builtins.formatting.prettier,
-        },
       })
     end,
   },

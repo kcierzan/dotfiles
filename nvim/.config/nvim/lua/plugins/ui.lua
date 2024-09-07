@@ -102,32 +102,6 @@ return {
     },
   },
   {
-    "akinsho/bufferline.nvim",
-    version = "*",
-    enabled = false,
-    event = { "VeryLazy" },
-    requires = "nvim-tree/nvim-web-devicons",
-    config = function()
-      require("bufferline").setup({
-        options = {
-          show_close_icon = false,
-          show_buffer_close_icons = false,
-          indicator = { style = "none" },
-          -- separator_style = { "", "" },
-          -- separator_style = "slant",
-          offsets = {
-            {
-              filetype = "neo-tree",
-              text = "File Explorer",
-              highlight = "Directory",
-              separator = true,
-            },
-          },
-        },
-      })
-    end,
-  },
-  {
     "nvimdev/dashboard-nvim",
     event = { "VimEnter" },
     dependencies = { "nvim-tree/nvim-web-devicons", "nvim-telescope/telescope.nvim" },

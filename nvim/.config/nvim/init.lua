@@ -107,16 +107,30 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true }
 )
 
--- always display the file as it exists on disk
 if not vim.g.vscode then
+  -- always display the file as it exists on disk
   vim.api.nvim_create_autocmd({ "InsertLeave", "FocusLost" }, {
     pattern = "*",
     command = [[if &readonly==0 && filereadable(bufname('%')) | silent update | endif]],
   })
+  -- reset the cursor to a pipe shape on exit
   vim.api.nvim_create_autocmd("VimLeave", {
     pattern = "*",
     command = "set guicursor=a:ver25",
   })
+end
+
+if vim.g.neovide then
+  vim.g.neovide_scale_factor = 1.0
+  local change_scale_factor = function(delta)
+    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+  end
+  vim.keymap.set("n", "<D-=>", function()
+    change_scale_factor(1.05)
+  end)
+  vim.keymap.set("n", "<D-->", function()
+    change_scale_factor(1 / 1.05)
+  end)
 end
 
 vim.opt.rtp:prepend(lazypath)
