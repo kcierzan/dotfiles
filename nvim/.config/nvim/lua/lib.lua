@@ -13,7 +13,15 @@ function M.tmap(key, command)
 end
 
 function M.omap(key, command)
-  vim.api.nvim_set_keymap("o", key, command, { noremap = true, silent = true})
+  vim.api.nvim_set_keymap("o", key, command, { noremap = true, silent = true })
+end
+
+function M.imap(key, command)
+  vim.api.nvim_set_keymap("i", key, command, { noremap = true, silent = true })
+end
+
+function M.cmap(key, command)
+  vim.api.nvim_set_keymap("c", key, command, { noremap = true, silent = true })
 end
 
 function M.ex_cmd(command)

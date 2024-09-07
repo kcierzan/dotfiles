@@ -39,6 +39,7 @@ vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
+vim.o.linespace = 10
 vim.o.timeout = true
 vim.o.timeoutlen = 300
 vim.opt.undodir = os.getenv("HOME") .. "/.undo"
@@ -52,6 +53,10 @@ vim.g.mapleader = " "
 lib.nmap("+", "<Nop>")
 vim.g.maplocalleader = "+"
 
+vim.g.neovide_input_macos_option_key_is_meta = "both"
+vim.g.neovide_cursor_animation_length = 0.06
+vim.g.neovide_refresh_rate = 120
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -64,12 +69,13 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 
--- lib.tmap("<Esc>", "<C-\\><C-n>")
+-- these don't do anything useful
 lib.nmap("L", "<Nop>")
 lib.nmap("H", "<Nop>")
 lib.xmap("L", "<Nop>")
 lib.xmap("H", "<Nop>")
 
+-- shift + hl replaces ^ and g_
 lib.nmap("L", "g_")
 lib.nmap("H", "^")
 lib.xmap("L", "g_")
@@ -77,13 +83,21 @@ lib.xmap("H", "^")
 lib.omap("H", "^")
 lib.omap("L", "g_")
 
+-- ctrl + hl to cycle buffers
 lib.nmap("<C-l>", lib.ex_cmd("bnext"))
 lib.nmap("<C-h>", lib.ex_cmd("bprev"))
 
+-- alt + hjkl moves between splits
 lib.nmap("<A-h>", "<C-w>h")
 lib.nmap("<A-j>", "<C-w>j")
 lib.nmap("<A-k>", "<C-w>k")
 lib.nmap("<A-l>", "<C-w>l")
+
+-- cmd + v is paste in gui
+lib.imap("<D-v>", "<C-r>+")
+lib.cmap("<D-v>", "<C-r>+")
+lib.tmap("<D-v>", "<C-r>+")
+lib.nmap("<D-v>", '"+p')
 
 vim.api.nvim_set_keymap("i", "<C-,>", "<Nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
@@ -99,13 +113,11 @@ if not vim.g.vscode then
     pattern = "*",
     command = [[if &readonly==0 && filereadable(bufname('%')) | silent update | endif]],
   })
+  vim.api.nvim_create_autocmd("VimLeave", {
+    pattern = "*",
+    command = "set guicursor=a:ver25",
+  })
 end
-
--- reset the cursor shape upon exiting neovim
--- vim.api.nvim_create_autocmd("VimLeave", {
---   pattern = "*",
---   command = 'set guicursor=a:ver25'
--- })
 
 vim.opt.rtp:prepend(lazypath)
 

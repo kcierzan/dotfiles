@@ -2,11 +2,11 @@ return {
   {
     "rebelot/kanagawa.nvim",
     lazy = false,
-    enabled = false,
+    enabled = true,
     priority = 1000,
     config = function()
       require("kanagawa").setup({
-        -- compile = true,
+        compile = true,
         colors = {
           theme = {
             all = {
@@ -17,6 +17,9 @@ return {
           },
         },
         overrides = function(colors)
+          if vim.g.neovide then
+            return {}
+          end
           return {
             Normal = { bg = "None", fg = colors.theme.ui.fg },
           }
@@ -40,12 +43,11 @@ return {
   {
     "folke/tokyonight.nvim",
     lazy = false,
-    enabled = true,
+    enabled = false,
     priority = 1000,
     config = function()
       require("tokyonight").setup({
-        style = "storm",
-        transparent = true,
+        style = "moon",
       })
       vim.cmd("colorscheme tokyonight")
     end,
@@ -71,7 +73,7 @@ return {
       })
 
       vim.cmd("colorscheme monokai-pro")
-    end
+    end,
   },
   {
     "Mofiqul/dracula.nvim",
@@ -80,7 +82,7 @@ return {
     priority = 1000,
     config = function()
       require("dracula").setup({
-        transparent_bg = true
+        transparent_bg = true,
       })
       vim.cmd.colorscheme("dracula")
     end,
