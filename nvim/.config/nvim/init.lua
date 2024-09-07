@@ -13,7 +13,7 @@ vim.opt.autowriteall = true
 vim.opt.hidden = true
 vim.opt.backup = false
 vim.opt.clipboard = "unnamedplus"
-vim.opt.cmdheight = 1
+vim.opt.cmdheight = 0
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.conceallevel = 0
 vim.opt.cursorline = false
@@ -39,7 +39,7 @@ vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
-vim.o.linespace = 10
+vim.o.linespace = 0
 vim.o.timeout = true
 vim.o.timeoutlen = 300
 vim.opt.undodir = os.getenv("HOME") .. "/.undo"
@@ -132,6 +132,15 @@ if vim.g.neovide then
     change_scale_factor(1 / 1.05)
   end)
 end
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.cmd("startinsert")
+  end,
+})
 
 vim.opt.rtp:prepend(lazypath)
 

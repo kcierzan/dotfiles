@@ -36,7 +36,7 @@ return {
   },
   {
     "rcarriga/nvim-notify",
-    enabled = false,
+    enabled = true,
     config = function()
       local lib = require("lib")
       require("notify").setup({
@@ -48,7 +48,8 @@ return {
   },
   {
     "folke/noice.nvim",
-    enabled = false,
+    commit = "d9328ef",
+    enabled = true,
     event = { "VeryLazy" },
     dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
     opts = {

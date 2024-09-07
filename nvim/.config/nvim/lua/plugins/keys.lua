@@ -171,11 +171,11 @@ return {
           lib.ex_cmd('silent exec "!bundle exec rubocop -A %:p"'),
           desc = "run rubocop on buffer",
         },
-        {
-          "<leader>bm",
-          lib.open_in_rubymine,
-          desc = "open in rubymine",
-        },
+        -- {
+        --   "<leader>bm",
+        --   lib.open_in_rubymine,
+        --   desc = "open in rubymine",
+        -- },
         { "<leader>br", lib.ex_cmd("edit!"), desc = "reload" },
         { "<leader>bs", lib.ex_cmd("silent! w"), desc = "write" },
         {
