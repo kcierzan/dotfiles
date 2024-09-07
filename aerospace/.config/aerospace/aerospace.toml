@@ -1,7 +1,7 @@
 # Reference: https://github.com/i3/i3/blob/next/etc/config
 
 enable-normalization-flatten-containers = true
-enable-normalization-opposite-orientation-for-nested-containers = false
+enable-normalization-opposite-orientation-for-nested-containers = true
 after-startup-command = [
     'exec-and-forget /opt/homebrew/opt/borders/bin/borders',
 ]
@@ -18,6 +18,10 @@ cmd-ctrl-alt-shift-k = 'move up'
 cmd-ctrl-alt-shift-l = 'move right'
 
 ctrl-cmd-alt-f = 'fullscreen'
+cmd-ctrl-alt-up = 'join-with up'
+cmd-ctrl-alt-down = 'join-with down'
+cmd-ctrl-alt-left = 'join-with left'
+cmd-ctrl-alt-right = 'join-with right'
 
 cmd-ctrl-alt-s = 'layout v_accordion'               # 'layout stacking' in i3
 cmd-ctrl-alt-w = 'layout h_accordion'               # 'layout tabbed' in i3
