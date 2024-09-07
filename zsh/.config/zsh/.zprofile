@@ -19,3 +19,20 @@ path=(
 
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY='YES'
 export LSP_USE_PLISTS='t'
+
+export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
+
+# initialize direnv
+eval "$(direnv hook zsh)"
+
+#shellcheck source=/dev/null
+[ -f ~/.bootstrap/env.sh ] && source "$HOME/.bootstrap/env.sh"
+
+if [[ "$(uname)" = 'Darwin' ]]; then
+    eval "$(rbenv init -)"
+fi
+
+# initialize mise
+eval "$(mise activate zsh)"
