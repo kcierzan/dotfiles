@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: erb-render
-# uuid:
-# key: erbr
-# expand_env: ((yas-indent-line 'auto))
-# condition: t
-# --
-<%= $0 %>

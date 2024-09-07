@@ -1,7 +1,7 @@
 export ZDOTDIR="$HOME/.config/zsh"
 
-export EDITOR='code'
-export VISUAL='code'
+export EDITOR='neovide'
+export VISUAL='neovide'
 
 export BAT_THEME='base16'
 export CLICOLOR=1
