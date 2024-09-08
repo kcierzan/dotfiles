@@ -15,3 +15,4 @@ export LSCOLORS='ExFxBxDxCxegedxbxgxcxd'
 export SAVEHIST=10000
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+export MOZ_ENABLE_WAYLAND=1

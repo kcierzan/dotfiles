@@ -1,11 +1,11 @@
 fork = true
-frame = "transparent"
+frame = "none"
 tabs = false
 title-hidden = true
 vsync = false
 
 [font]
 normal = { family = "BerkeleyMono Nerd Font" }
-size = 18
+size = 14
 edging = "subpixelantialias"
 hinting = "full"

@@ -1,7 +1,7 @@
 return {
   {
     "folke/which-key.nvim",
-    keys = { " ", "<Space>", "<leader>", "g", "]", "[" },
+    event = "VeryLazy",
     dependencies = { "echasnovski/mini.icons" },
     config = function()
       local wk = require("which-key")
@@ -235,7 +235,7 @@ return {
         { "<leader>i", group = "+interface" },
         {
           "<leader>iF",
-          lib.ex_cmd("Neotree reveal"),
+          lib.ex_cmd("NvimTreeFindFile"),
           desc = "show current file in tree",
         },
         {
@@ -270,7 +270,7 @@ return {
         },
         {
           "<leader>if",
-          lib.ex_cmd("Neotree toggle=true"),
+          lib.ex_cmd("NvimTreeToggle"),
           desc = "toggle tree",
         },
         {
@@ -297,23 +297,13 @@ return {
         },
         {
           "<leader>ot",
-          lib.ex_cmd("Neotree focus filesystem reveal left"),
+          lib.ex_cmd("NvimTreeFindFile"),
           desc = "show file in tree",
         },
         {
           "<leader>oo",
-          lib.ex_cmd("Neotree show filesystem left"),
+          lib.ex_cmd("NvimTreeToggle"),
           desc = "open filetree",
-        },
-        {
-          "<leader>og",
-          lib.ex_cmd("Neotree git_status left"),
-          desc = "git status tree",
-        },
-        {
-          "<leader>ob",
-          lib.ex_cmd("Neotree buffers"),
-          desc = "open buffers tree",
         },
         -- Test
         { "<leader>t", group = "+test" },

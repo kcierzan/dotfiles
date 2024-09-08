@@ -131,6 +131,7 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
+    enabled = false,
     dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
     cmd = { "Neotree" },
     config = function()
@@ -148,6 +149,28 @@ return {
         },
       })
     end,
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile" },
+    enabled = true,
+    opts = {
+      sync_root_with_cwd = true,
+      renderer = {
+        indent_markers = {
+          enable = true,
+        },
+      },
+      update_focused_file = {
+        enable = true,
+        update_root = true,
+      },
+      filters = {
+        custom = {
+          "^.git$",
+        },
+      },
+    },
   },
   {
     "nvim-pack/nvim-spectre",
@@ -499,8 +522,18 @@ return {
         return vim.bo.ft == "TelescopePrompt"
       end
 
+      local function neotree_buffer()
+        local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+        local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+        return buftype == "nofile" and filetype == "neo-tree"
+      end
+
       local function popup_buffer()
         return string.find(vim.api.nvim_buf_get_name(0), "s_popup:/")
+      end
+
+      local function nui_buffer()
+        return string.find(vim.api.nvim_buf_get_name(0), "nui:/")
       end
 
       local function comment()
@@ -559,7 +592,11 @@ return {
         mapping = mapping,
         sources = sources,
         enabled = function()
-          return not telescope_buffer() and not popup_buffer() and not comment()
+          return not telescope_buffer()
+            and not popup_buffer()
+            and not comment()
+            and not neotree_buffer()
+            and not nui_buffer()
         end,
         formatting = {
           fields = { "abbr", "kind", "menu" },

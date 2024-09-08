@@ -15,6 +15,10 @@ alias ...="cd ../../"
 alias ....="cd ../../../"
 alias vim='nvim'
 
+if [[ "$(uname)" = 'Linux' ]]; then
+    alias zed="zeditor"
+fi
+
 # interactive cd
 icd() {
     zi && zle reset-prompt
@@ -23,6 +27,9 @@ icd() {
 lg() {
     lazygit && zle reset-prompt
 }
+
+# initialize direnv
+eval "$(direnv hook zsh)"
 
 # initialize starship
 eval "$(starship init zsh)"

@@ -42,7 +42,7 @@ return {
       require("notify").setup({
         timeout = 800,
         background_colour = lib.get_hl_group_colors("CursorLine").bg,
-        fps = 60,
+        fps = 120,
       })
     end,
   },
@@ -53,6 +53,14 @@ return {
     event = { "VeryLazy" },
     dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
     opts = {
+      messages = {
+        enabled = true,
+        view = "mini",
+        view_error = "mini",
+        view_warn = "mini",
+        view_history = "messages",
+        view_search = "virtualtext",
+      },
       lsp = {
         hover = {
           enabled = false,
