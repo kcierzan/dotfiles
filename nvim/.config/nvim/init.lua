@@ -58,7 +58,13 @@ vim.g.maplocalleader = "+"
 
 vim.g.neovide_input_macos_option_key_is_meta = "both"
 vim.g.neovide_cursor_animation_length = 0.06
+vim.g.neovide_position_animation_length = 0.1
+vim.g.neovide_scroll_animation_length = 0.1
 vim.g.neovide_refresh_rate = 120
+vim.g.neovide_padding_top = 20
+vim.g.neovide_padding_bottom = 20
+vim.g.neovide_padding_right = 20
+vim.g.neovide_padding_left = 20
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -101,6 +107,20 @@ lib.imap("<D-v>", "<C-r>+")
 lib.cmap("<D-v>", "<C-r>+")
 lib.tmap("<D-v>", "<C-r>+")
 lib.nmap("<D-v>", '"+p')
+
+-- TODO: add descriptions via table arg to nvim_set_keymap()
+lib.nmap("gh", lib.ex_cmd("lua vim.lsp.buf.hover()"))
+lib.nmap("gd", lib.ex_cmd("lua vim.lsp.buf.definition()"))
+lib.nmap("gD", lib.ex_cmd("lua vim.lsp.buf.incoming_calls()"))
+lib.nmap("gr", lib.ex_cmd("lua require('navigator.reference').reference()"))
+lib.nmap("gW", lib.ex_cmd("lua require('navigator.workspace').workspace_symbol_live()"))
+lib.nmap("gp", lib.ex_cmd("lua require('navigator.definition').definition_preview()"))
+lib.nmap("gi", lib.ex_cmd("lua vim.lsp.buf.implementation()"))
+lib.nmap("gL", lib.ex_cmd("lua require('navigator.diagnostics').show_diagnostics()"))
+lib.nmap("]e", lib.ex_cmd("lua vim.diagnostic.goto_next()"))
+lib.nmap("[e", lib.ex_cmd("lua vim.diagnostic.goto_prev()"))
+lib.nmap("]g", lib.ex_cmd("Gitsigns next_hunk"))
+lib.nmap("[g", lib.ex_cmd("Gitsigns prev_hunk"))
 
 vim.api.nvim_set_keymap("i", "<C-,>", "<Nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
