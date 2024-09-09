@@ -28,9 +28,6 @@ lg() {
     lazygit && zle reset-prompt
 }
 
-# initialize direnv
-eval "$(direnv hook zsh)"
-
 # initialize starship
 eval "$(starship init zsh)"
 
