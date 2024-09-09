@@ -57,28 +57,26 @@ return {
     "stevearc/conform.nvim",
     enabled = true,
     event = "LspAttach",
-    config = function()
-      require("conform").setup({
-        default_format_opts = {
-          async = true,
+    opts = {
+      default_format_opts = {
+        async = true,
+      },
+      formatters = {
+        rubocop = {
+          args = { "--auto-correct-all", "--stderr", "--force-exclusion", "--stdin", "$FILENAME" },
         },
-        formatters = {
-          rubocop = {
-            args = { "--auto-correct-all", "--stderr", "--force-exclusion", "--stdin", "$FILENAME" },
-          },
-        },
-        format_on_save = {
-          timeout_ms = 5000,
-          lsp_format = "fallback",
-        },
-        formatters_by_ft = {
-          lua = { "stylua" },
-          ruby = { "rubocop" },
-          eruby = { "erb-format" },
-          python = { "isort", "black" },
-        },
-      })
-    end,
+      },
+      format_on_save = {
+        timeout_ms = 5000,
+        lsp_format = "fallback",
+      },
+      formatters_by_ft = {
+        lua = { "stylua" },
+        ruby = { "rubocop" },
+        eruby = { "erb-format" },
+        python = { "isort", "black" },
+      },
+    },
   },
   {
     "mfussenegger/nvim-dap",
@@ -329,45 +327,38 @@ return {
     "williamboman/mason.nvim",
     build = ":MasonUpdate",
     cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
-    config = function()
-      require("mason").setup({
-        ensure_installed = { "stylua", "erb-lint", "erb-formatter" },
-      })
-    end,
+    opts = {
+      ensure_installed = { "stylua", "erb-lint", "erb-formatter" },
+    },
   },
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     -- event = "VeryLazy",
     lazy = false,
-    config = function()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "bashls",
-          "elixirls",
-          "emmet_ls",
-          "jsonls",
-          "lua_ls",
-          "pyright",
-          "rust_analyzer",
-          "tailwindcss",
-          "svelte",
-          "vtsls",
-        },
-      })
-    end,
+    opts = {
+      ensure_installed = {
+        "bashls",
+        "elixirls",
+        "emmet_ls",
+        "jsonls",
+        "lua_ls",
+        "pyright",
+        "rust_analyzer",
+        "tailwindcss",
+        "svelte",
+        "vtsls",
+      },
+    },
   },
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "LspAttach",
-    config = function()
-      local trouble = require("trouble")
-      trouble.setup({
-        auto_open = false,
-        auto_preview = false,
-      })
-    end,
+    opts = {
+      auto_open = false,
+      auto_preview = false,
+    },
   },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -377,46 +368,44 @@ return {
     build = ":TSUpdate",
     cond = true,
     event = "BufReadPre",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "bash",
-          "c",
-          "cmake",
-          "cpp",
-          "css",
-          "fish",
-          "dockerfile",
-          "eex",
-          "erlang",
-          "elixir",
-          "go",
-          "haskell",
-          "heex",
-          "html",
-          "hyprlang",
-          "java",
-          "javascript",
-          "julia",
-          "lua",
-          "make",
-          "markdown",
-          "php",
-          "python",
-          "ruby",
-          "rust",
-          "scss",
-          "surface",
-          "svelte",
-          "typescript",
-          "vim",
-          "yaml",
-        },
-        sync_install = false,
-        highlight = { enable = true },
-        endwise = { enable = true },
-      })
-    end,
+    opts = {
+      ensure_installed = {
+        "bash",
+        "c",
+        "cmake",
+        "cpp",
+        "css",
+        "fish",
+        "dockerfile",
+        "eex",
+        "erlang",
+        "elixir",
+        "go",
+        "haskell",
+        "heex",
+        "html",
+        "hyprlang",
+        "java",
+        "javascript",
+        "julia",
+        "lua",
+        "make",
+        "markdown",
+        "php",
+        "python",
+        "ruby",
+        "rust",
+        "scss",
+        "surface",
+        "svelte",
+        "typescript",
+        "vim",
+        "yaml",
+      },
+      sync_install = false,
+      highlight = { enable = true },
+      endwise = { enable = true },
+    },
   },
   {
     "L3MON4D3/LuaSnip",

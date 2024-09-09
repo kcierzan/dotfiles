@@ -67,6 +67,21 @@ function M.fast_find_file()
   end
 end
 
+function M.search_visual_selection()
+  -- yank the visual selection to the z register
+  vim.cmd([[normal! "zy]])
+
+  -- get the contents fo the z register
+  local selection = vim.fn.getreg("z")
+
+  local telescope = require("telescope.builtin")
+  telescope.live_grep({
+    default_text = selection,
+    silent = true,
+    glob_pattern = "!**/spec/**/*",
+  })
+end
+
 local function run_test_from_engine(test_func)
   return function()
     local current_file_path = vim.api.nvim_buf_get_name(0)

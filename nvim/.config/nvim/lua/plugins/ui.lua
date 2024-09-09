@@ -56,8 +56,8 @@ return {
       messages = {
         enabled = true,
         view = "mini",
-        view_error = "mini",
-        view_warn = "mini",
+        view_error = "notify",
+        view_warn = "notify",
         view_history = "messages",
         view_search = "virtualtext",
       },
@@ -106,6 +106,12 @@ return {
             warning = true,
           },
           opts = { skip = true },
+        },
+        {
+          view = "mini",
+          filter = {
+            find = "Directory changed to",
+          },
         },
       },
     },
