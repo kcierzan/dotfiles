@@ -53,6 +53,7 @@ vim.opt.writebackup = false
 vim.opt.guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor"
 vim.opt.shortmess = "astWAcCFSo"
 vim.g.mapleader = " "
+
 lib.nmap("+", "<Nop>")
 vim.g.maplocalleader = "+"
 
@@ -112,15 +113,20 @@ lib.nmap("<D-v>", '"+p')
 lib.nmap("gh", lib.ex_cmd("lua vim.lsp.buf.hover()"))
 lib.nmap("gd", lib.ex_cmd("lua vim.lsp.buf.definition()"))
 lib.nmap("gD", lib.ex_cmd("lua vim.lsp.buf.incoming_calls()"))
-lib.nmap("gr", lib.ex_cmd("lua require('navigator.reference').reference()"))
-lib.nmap("gW", lib.ex_cmd("lua require('navigator.workspace').workspace_symbol_live()"))
-lib.nmap("gp", lib.ex_cmd("lua require('navigator.definition').definition_preview()"))
+-- lib.nmap("gr", lib.ex_cmd("lua require('navigator.reference').reference()"))
+-- lib.nmap("gW", lib.ex_cmd("lua require('navigator.workspace').workspace_symbol_live()"))
+-- lib.nmap("gp", lib.ex_cmd("lua require('navigator.definition').definition_preview()"))
 lib.nmap("gi", lib.ex_cmd("lua vim.lsp.buf.implementation()"))
-lib.nmap("gL", lib.ex_cmd("lua require('navigator.diagnostics').show_diagnostics()"))
+-- lib.nmap("gL", lib.ex_cmd("lua require('navigator.diagnostics').show_diagnostics()"))
 lib.nmap("]e", lib.ex_cmd("lua vim.diagnostic.goto_next()"))
 lib.nmap("[e", lib.ex_cmd("lua vim.diagnostic.goto_prev()"))
 lib.nmap("]g", lib.ex_cmd("Gitsigns next_hunk"))
 lib.nmap("[g", lib.ex_cmd("Gitsigns prev_hunk"))
+
+vim.api.nvim_set_keymap("t", "<D-v>", [[<C-\><C-n>:lua require('lib').paste_in_gui_terminal()<CR>]], {
+  noremap = true,
+  silent = true,
+})
 
 vim.api.nvim_set_keymap("i", "<C-,>", "<Nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
@@ -162,6 +168,15 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.opt_local.number = false
     vim.opt_local.relativenumber = false
     vim.cmd("startinsert")
+  end,
+})
+
+local macro_group = vim.api.nvim_create_augroup("MacroRecording", { clear = true })
+vim.api.nvim_create_autocmd("RecordingLeave", {
+  group = macro_group,
+  callback = function()
+    -- Display a message when macro recording stops
+    print("Macro recording stopped")
   end,
 })
 

@@ -4,16 +4,6 @@ local lib = require("lib")
 
 M.normal_mode_mappings = {
   {
-    "<leader>:",
-    lib.ex_cmd("ToggleTerm direction=horizontal"),
-    desc = "toggle terminal drawer",
-  },
-  {
-    "<leader>Q",
-    lib.ex_cmd("silent q!"),
-    desc = "quit without saving",
-  },
-  {
     "<leader>q",
     lib.ex_cmd("silent wq"),
     desc = "save and quit",
@@ -29,13 +19,8 @@ M.normal_mode_mappings = {
   { "<leader>lL", lib.ex_cmd("LspLog"), desc = "log" },
   {
     "<leader>la",
-    lib.ex_cmd("lua require('navigator.codeAction').code_action()"),
+    lib.ex_cmd("lua vim.lsp.buf.code_action()"),
     desc = "code action",
-  },
-  {
-    "<leader>le",
-    lib.ex_cmd("Trouble"),
-    desc = "show errors and warnings",
   },
   {
     "<leader>lo",
@@ -64,7 +49,6 @@ M.normal_mode_mappings = {
     lib.fast_find_file,
     desc = "files in repo",
   },
-  { "<leader>fR", lib.ex_cmd("Spectre"), desc = "replace" },
   {
     "<leader>fg",
     lib.live_grep_from_git_root,
@@ -229,11 +213,11 @@ M.normal_mode_mappings = {
     lib.ex_cmd("TSHighlightCapturesUnderCursor"),
     desc = "show highlights under cursor",
   },
-  {
-    "<leader>it",
-    lib.ex_cmd("ToggleTerm direction=float"),
-    desc = "toggle floating terminal",
-  },
+  -- {
+  --   "<leader>it",
+  --   lib.ex_cmd("ToggleTerm direction=float"),
+  --   desc = "toggle floating terminal",
+  -- },
   {
     "<leader>iT",
     lib.ex_cmd("ToggleTerm direction=horizontal"),

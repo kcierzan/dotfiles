@@ -75,7 +75,7 @@ return {
           opts = { skip = true },
         },
         {
-          view = "notify",
+          view = "mini",
           filter = {
             event = "msg_showmode",
           },
@@ -312,29 +312,28 @@ return {
       local function get_buffer_lsp(clients, buf_ft)
         for _, client in ipairs(clients) do
           local filetypes = client.config.filetypes
-          local buffer_for_ft = vim.fn.index(filetypes, buf_ft) ~= -1
-
-          if filetypes and buffer_for_ft then
+          if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
             return client.name
           end
         end
-        return "NONE"
       end
 
       local function lsp_name()
-        local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-        local clients = vim.lsp.get_active_clients()
-        local clients_exist = function(clnts)
-          return next(clnts) ~= nil and clnts
-        end
+        local buf_ft = vim.bo.filetype
+        local clients = vim.lsp.get_active_clients({ bufnr = 0 })
 
-        if clients_exist(clients) then
-          return get_buffer_lsp(buf_ft)
+        if next(clients) then
+          return get_buffer_lsp(clients, buf_ft) or "NONE"
         end
       end
 
+      local function location()
+        return "[" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~") .. "]"
+      end
+
       local function should_show_lsp_info()
-        local clients = vim.lsp.get_active_clients()
+        local buf_number = vim.api.nvim_get_current_buf()
+        local clients = vim.lsp.get_clients({ bufnr = buf_number })
 
         return is_wide_window() and next(clients) ~= nil
       end
@@ -387,7 +386,13 @@ return {
       left_insert({
         edit_mode,
         color = edit_mode_colors,
-        padding = { left = 0, right = 2 },
+        padding = { left = 0, right = 1 },
+      })
+
+      left_insert({
+        location,
+        color = { fg = colors.orange, gui = "bold" },
+        padding = { right = 1 },
       })
 
       left_insert({

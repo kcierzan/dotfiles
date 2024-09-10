@@ -235,4 +235,9 @@ function M.get_hl_group_colors(group)
   return { fg = fg, bg = bg }
 end
 
+function M.paste_in_gui_terminal()
+  local keys = vim.api.nvim_replace_termcodes('<C-\\><C-N>"+pi', true, false, true)
+  vim.api.nvim_feedkeys(keys, "n", false)
+end
+
 return M

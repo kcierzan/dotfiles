@@ -1,3 +1,5 @@
+local lib = require("lib")
+
 return {
   {
     "tpope/vim-projectionist",
@@ -5,7 +7,24 @@ return {
   },
   {
     "akinsho/toggleterm.nvim",
-    keys = { "<C-;>" },
+    keys = {
+      "<C-;>",
+      {
+        "<leader>it",
+        lib.ex_cmd("ToggleTerm direction=float"),
+        desc = "toggle floating terminal",
+      },
+      {
+        "<leader>Q",
+        lib.ex_cmd("silent q!"),
+        desc = "quit without saving",
+      },
+      {
+        "<leader>:",
+        lib.ex_cmd("ToggleTerm direction=horizontal"),
+        desc = "toggle terminal drawer",
+      },
+    },
     cmd = { "ToggleTerm", "TermExec" },
     opts = {
       open_mapping = "<C-;>",
@@ -172,6 +191,9 @@ return {
   },
   {
     "nvim-pack/nvim-spectre",
+    keys = {
+      { "<leader>fR", lib.ex_cmd("Spectre"), desc = "replace" },
+    },
     cmd = { "Spectre" },
     config = true,
   },
@@ -354,11 +376,22 @@ return {
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    event = "LspAttach",
+    keys = {
+      {
+        "<leader>le",
+        lib.ex_cmd("Trouble diagnostics toggle filter.buf=0"),
+        desc = "show errors and warnings",
+      },
+    },
     opts = {
       auto_open = false,
       auto_preview = false,
     },
+  },
+  {
+    "RRethy/nvim-treesitter-endwise",
+    event = "VeryLazy",
+    -- opts = {},
   },
   {
     "nvim-treesitter/nvim-treesitter",
