@@ -3,6 +3,9 @@ local lib = require("lib")
 return {
   {
     "tpope/vim-projectionist",
+    keys = {
+      { "<leader>tg", lib.ex_cmd("A"), desc = "show test file" },
+    },
     lazy = false,
   },
   {
@@ -24,6 +27,12 @@ return {
         lib.ex_cmd("ToggleTerm direction=horizontal"),
         desc = "toggle terminal drawer",
       },
+      {
+        "<leader>iT",
+        lib.ex_cmd("ToggleTerm direction=horizontal"),
+        desc = "toggle drawer terminal",
+      },
+      { "<leader>gl", lib.ex_cmd("TermExec direction=float cmd=lazygit"), desc = "open lazygit" },
     },
     cmd = { "ToggleTerm", "TermExec" },
     opts = {
@@ -38,6 +47,25 @@ return {
   {
     "nvim-neotest/neotest",
     enabled = true,
+    keys = {
+
+      { "<leader>tb", lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b')"), desc = "b4b suite" },
+      {
+        "<leader>tc",
+        lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/clinic')"),
+        desc = "clinic suite",
+      },
+      { "<leader>tf", lib.test_file_from_engine_root, desc = "file" },
+      {
+        "<leader>tm",
+        lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b_core')"),
+        desc = "b4b_core suite",
+      },
+      { "<leader>to", lib.ex_cmd("lua require('neotest').output_panel.toggle()"), desc = "toggle output" },
+
+      { "<leader>tt", lib.test_test_from_engine_root, desc = "test" },
+      { "<leader>ts", lib.stop_test, desc = "stop test run" },
+    },
     dependencies = {
       "olimorris/neotest-rspec",
       "jfpedroza/neotest-elixir",
@@ -60,6 +88,17 @@ return {
   {
     "tpope/vim-fugitive",
     dependencies = { "tpope/vim-rhubarb" },
+    keys = {
+      { "<leader>go", lib.ex_cmd("'<,'>GBrowse"), desc = "open in github", mode = "v" },
+      {
+        "<leader>gd",
+        lib.ex_cmd("Gvdiffsplit"),
+        desc = "diff staged & working tree",
+      },
+      { "<leader>gc", lib.ex_cmd("Gvdiffsplit!"), desc = "3 way merge" },
+      { "<leader>go", lib.ex_cmd("GBrowse"), desc = "open in github" },
+      { "<leader>gs", lib.ex_cmd("Git"), desc = "status" },
+    },
     cmd = {
       "Git",
       "GBrowse",
@@ -85,8 +124,8 @@ return {
           args = { "--auto-correct-all", "--stderr", "--force-exclusion", "--stdin", "$FILENAME" },
         },
       },
-      format_on_save = {
-        timeout_ms = 5000,
+      format_after_save = {
+        -- timeout_ms = 5000,
         lsp_format = "fallback",
       },
       formatters_by_ft = {
@@ -99,6 +138,21 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
+    keys = {
+      { "<leader>db", lib.ex_cmd("lua require('dap').toggle_breakpoint()"), desc = "toggle breakpoint" },
+      { "<leader>dc", lib.ex_cmd("lua require('dap').continue()"), desc = "continue" },
+      { "<leader>do", lib.ex_cmd("lua require('dap').step_over()"), desc = "step over" },
+      { "<leader>di", lib.ex_cmd("lua require('dap').step_into()"), desc = "step into" },
+      { "<leader>du", lib.ex_cmd("lua require('dapui').toggle()"), desc = "toggle UI" },
+      { "<leader>dr", lib.ex_cmd("lua require('dap').repl.toggle()"), desc = "toggle repl" },
+      {
+        "<leader>df",
+        lib.ex_cmd(
+          "lua require('dapui').float_element('repl', { height = 40, width = 140, position = 'center', enter = true })"
+        ),
+        desc = "toggle floating repl",
+      },
+    },
     config = function()
       local lib = require("lib")
       local red = lib.get_hl_group_colors("Error").fg
@@ -170,6 +224,23 @@ return {
   {
     "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile" },
+    keys = {
+      {
+        "<leader>if",
+        lib.ex_cmd("NvimTreeToggle"),
+        desc = "toggle tree",
+      },
+      {
+        "<leader>oo",
+        lib.ex_cmd("NvimTreeToggle"),
+        desc = "open filetree",
+      },
+      {
+        "<leader>ot",
+        lib.ex_cmd("NvimTreeFindFile"),
+        desc = "show file in tree",
+      },
+    },
     enabled = true,
     opts = {
       sync_root_with_cwd = true,
@@ -185,6 +256,7 @@ return {
       filters = {
         custom = {
           "^.git$",
+          "^.DS_STORE$",
         },
       },
     },
@@ -389,15 +461,11 @@ return {
     },
   },
   {
-    "RRethy/nvim-treesitter-endwise",
-    event = "VeryLazy",
-    -- opts = {},
+    "tpope/vim-endwise",
+    event = "BufReadPre",
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "RRethy/nvim-treesitter-endwise",
-    },
     build = ":TSUpdate",
     cond = true,
     event = "BufReadPre",
@@ -437,7 +505,6 @@ return {
       },
       sync_install = false,
       highlight = { enable = true },
-      endwise = { enable = true },
     },
   },
   {

@@ -1,12 +1,32 @@
+local lib = require("lib")
+
 return {
   {
     "lewis6991/gitsigns.nvim",
+    keys = {
+
+      { "<leader>gp", lib.ex_cmd("Gitsigns preview_hunk"), desc = "preview hunk" },
+      { "<leader>gr", lib.ex_cmd("Gitsigns reset_hunk"), desc = "reset hunk" },
+      { "<leader>gB", lib.ex_cmd("Gitsigns stage_buffer"), desc = "stage buffer" },
+      { "<leader>gR", lib.ex_cmd("Gitsigns reset_buffer"), desc = "reset bufffer" },
+      { "<leader>gb", lib.ex_cmd("Gitsigns toggle_current_line_blame"), desc = "toggle blame" },
+      { "<leader>gh", lib.ex_cmd("Gitsigns stage_hunk"), desc = "stage hunk", mode = "v" },
+      { "<leader>gr", lib.ex_cmd("'<,'>Gitsigns reset_hunk"), desc = "reset hunk", mode = "v" },
+      { "<leader>gh", lib.ex_cmd("Gitsigns stage_hunk"), desc = "stage hunk" },
+    },
     event = "VeryLazy",
     config = true,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
     event = "VeryLazy",
+    keys = {
+      {
+        "<leader>il",
+        lib.ex_cmd("IBLToggle"),
+        desc = "toggle indentation lines",
+      },
+    },
     main = "ibl",
     opts = {
       exclude = {
@@ -22,6 +42,9 @@ return {
   },
   {
     "famiu/bufdelete.nvim",
+    keys = {
+      { "<leader>bd", lib.ex_cmd("Bdelete"), desc = "delete" },
+    },
     cmd = { "Bdelete" },
   },
   {
@@ -32,6 +55,13 @@ return {
   {
     "NvChad/nvim-colorizer.lua",
     event = "VeryLazy",
+    keys = {
+      {
+        "<leader>ih",
+        lib.ex_cmd("ColorizerAttachToBuffer"),
+        desc = "colorize buffer",
+      },
+    },
     config = true,
   },
   {

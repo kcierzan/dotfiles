@@ -61,7 +61,7 @@ vim.g.neovide_input_macos_option_key_is_meta = "both"
 vim.g.neovide_cursor_animation_length = 0.06
 vim.g.neovide_position_animation_length = 0.1
 vim.g.neovide_scroll_animation_length = 0.1
-vim.g.neovide_refresh_rate = 120
+vim.g.neovide_refresh_rate = 60
 vim.g.neovide_padding_top = 20
 vim.g.neovide_padding_bottom = 20
 vim.g.neovide_padding_right = 20
@@ -106,7 +106,7 @@ lib.nmap("<A-l>", "<C-w>l")
 -- cmd + v is paste in gui
 lib.imap("<D-v>", "<C-r>+")
 lib.cmap("<D-v>", "<C-r>+")
-lib.tmap("<D-v>", "<C-r>+")
+-- lib.tmap("<D-v>", "<C-r>+")
 lib.nmap("<D-v>", '"+p')
 
 -- TODO: add descriptions via table arg to nvim_set_keymap()
@@ -150,6 +150,7 @@ if not vim.g.vscode then
 end
 
 if vim.g.neovide then
+  -- map cmd + =/- to increase the neovide text size
   vim.g.neovide_scale_factor = 1.0
   local change_scale_factor = function(delta)
     vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
@@ -162,6 +163,7 @@ if vim.g.neovide then
   end)
 end
 
+-- start terminals in insert mode
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
   callback = function()
@@ -171,11 +173,11 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
+-- display a message when macro recording stops
 local macro_group = vim.api.nvim_create_augroup("MacroRecording", { clear = true })
 vim.api.nvim_create_autocmd("RecordingLeave", {
   group = macro_group,
   callback = function()
-    -- Display a message when macro recording stops
     print("Macro recording stopped")
   end,
 })
