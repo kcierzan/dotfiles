@@ -6,9 +6,9 @@ return {
     opts = {},
   },
   {
-    -- TODO: This doesn't appear to recognize the new style of which-key keybindings
     "mrjones2014/legendary.nvim",
     dependencies = { "stevearc/dressing.nvim" },
+    cmd = { "Legendary" },
     keys = {
       {
         "<leader>?",
@@ -17,12 +17,13 @@ return {
       },
     },
     enabled = true,
-    lazy = false,
-    priority = 10000,
+    -- lazy = false,
+    -- priority = 10000,
     config = function()
       require("legendary").setup({
         extensions = {
           lazy_nvim = true,
+          codecompanion = true,
         },
       })
     end,
@@ -34,13 +35,22 @@ return {
     config = function()
       local wk = require("which-key")
       local normal_mode_mappings = {
+        { "<leader>a", group = "+ai" },
+        { "<leader>b", group = "+buffer" },
+        { "<leader>d", group = "+debug" },
+        { "<leader>f", group = "+find" },
+        { "<leader>g", group = "+git" },
+        { "<leader>i", group = "+interface" },
+        { "<leader>l", group = "+lsp" },
+        { "<leader>o", group = "+filetree" },
+        { "<leader>t", group = "+test" },
+        { "<leader>v", group = "+vim" },
+        { "<leader>w", group = "+window" },
         {
           "<leader>q",
           lib.ex_cmd("silent wq"),
           desc = "save and quit",
         },
-        -- LSP
-        { "<leader>l", group = "+lsp" },
         {
           "<leader>lF",
           vim.lsp.buf.format,
@@ -61,20 +71,12 @@ return {
         { "<leader>lq", lib.ex_cmd("LspRestart"), desc = "restart" },
         { "<leader>lr", lib.ex_cmd("lua vim.lsp.buf.rename()"), desc = "rename" },
         { "<leader>ls", lib.ex_cmd("LspStart"), desc = "start" },
-        -- Find
-        { "<leader>f", group = "+find" },
-        -- Find -> Rails
-        -- Vim
-        { "<leader>v", group = "+vim" },
         {
           "<leader>ve",
           lib.ex_cmd("edit ~/.config/nvim/init.lua"),
           desc = "edit init.lua",
         },
         { "<leader>vp", lib.ex_cmd("Lazy"), desc = "plugins" },
-        { "<leader>vt", lib.ex_cmd("Mason"), desc = "tools" },
-        -- Buffer
-        { "<leader>b", desc = "+buffer" },
         { "<leader>bC", lib.ex_cmd("window diffoff"), desc = "diff off" },
         { "<leader>bc", lib.ex_cmd("window diffthis"), desc = "diff on" },
         {
@@ -90,8 +92,6 @@ return {
           desc = "trim trailing whitespace",
         },
         { "<leader>by", lib.ex_cmd('let @+ = expand("%:p")'), desc = "yank name" },
-        -- Window
-        { "<leader>w", group = "+window" },
         {
           "<leader>wS",
           "<C-w>J",
@@ -142,8 +142,6 @@ return {
           "<C-w>q",
           desc = "close split",
         },
-        -- Interface
-        { "<leader>i", group = "+interface" },
         {
           "<leader>iF",
           lib.ex_cmd("NvimTreeFindFile"),
@@ -174,19 +172,11 @@ return {
           lib.ex_cmd("set cursorline"),
           desc = "toggle cursorline",
         },
-        -- Filetree
-        { "<leader>o", group = "+filetree" },
         {
           "<leader>iL",
           lib.ex_cmd("set cursorline"),
           desc = "toggle cursorline",
         },
-        -- Test
-        { "<leader>t", group = "+test" },
-        -- Git
-        { "<leader>g", group = "+git" },
-        -- Debug
-        { "<leader>d", group = "+debug" },
       }
       wk.add(normal_mode_mappings)
       wk.setup({

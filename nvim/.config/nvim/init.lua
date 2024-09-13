@@ -58,7 +58,7 @@ lib.nmap("+", "<Nop>")
 vim.g.maplocalleader = "+"
 
 vim.g.neovide_input_macos_option_key_is_meta = "both"
-vim.g.neovide_cursor_animation_length = 0.06
+vim.g.neovide_cursor_animation_length = 0.02
 vim.g.neovide_position_animation_length = 0.1
 vim.g.neovide_scroll_animation_length = 0.1
 vim.g.neovide_refresh_rate = 60
@@ -106,7 +106,6 @@ lib.nmap("<A-l>", "<C-w>l")
 -- cmd + v is paste in gui
 lib.imap("<D-v>", "<C-r>+")
 lib.cmap("<D-v>", "<C-r>+")
--- lib.tmap("<D-v>", "<C-r>+")
 lib.nmap("<D-v>", '"+p')
 
 -- TODO: add descriptions via table arg to nvim_set_keymap()
@@ -128,6 +127,7 @@ vim.api.nvim_set_keymap("t", "<D-v>", [[<C-\><C-n>:lua require('lib').paste_in_g
   silent = true,
 })
 
+-- TODO: move this into luasnip config
 vim.api.nvim_set_keymap("i", "<C-,>", "<Nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
   "i",

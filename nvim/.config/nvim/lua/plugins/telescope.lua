@@ -101,6 +101,9 @@ return {
         defaults = {
           prompt_prefix = " ",
           selection_caret = " ",
+          preview = {
+            treesitter = false,
+          },
           vimgrep_arguments = {
             "rg",
             "--no-heading",
@@ -113,6 +116,8 @@ return {
             "--trim",
             "--glob",
             "!.git/",
+            "--glob",
+            "!*.lock",
           },
           layout_strategy = "vertical",
           layout_config = {
