@@ -333,6 +333,7 @@ return {
       ensure_installed = {
         "bash",
         "c",
+        "clojure",
         "cmake",
         "cpp",
         "css",
@@ -341,6 +342,7 @@ return {
         "eex",
         "erlang",
         "elixir",
+        "fennel",
         "go",
         "haskell",
         "heex",
@@ -1416,5 +1418,24 @@ return {
       },
     },
     opts = {},
+  },
+  {
+    "julienvincent/nvim-paredit",
+    opts = {},
+  },
+  {
+    "Olical/conjure",
+    ft = { "clojure", "fennel", "janet" },
+    dependencies = { "PaterJason/cmp-conjure" },
+  },
+  {
+    "PaterJason/cmp-conjure",
+    event = "VeryLazy",
+    config = function()
+      local cmp = require("cmp")
+      local config = cmp.get_config()
+      table.insert(config.sources, { name = "conjure", priorty = 850 })
+      return cmp.setup(config)
+    end,
   },
 }
