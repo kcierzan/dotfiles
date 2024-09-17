@@ -10,6 +10,7 @@ return {
   },
   {
     "akinsho/toggleterm.nvim",
+    version = "*",
     keys = {
       "<C-;>",
       {
@@ -46,7 +47,7 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    enabled = true,
+    enabled = false,
     keys = {
 
       { "<leader>tb", lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b')"), desc = "b4b suite" },
@@ -65,12 +66,14 @@ return {
 
       { "<leader>tt", lib.test_test_from_engine_root, desc = "test" },
       { "<leader>ts", lib.stop_test, desc = "stop test run" },
+      { "<leader>tr", lib.run_rspec_in_toggleterm, desc = "run current in toggleterm" },
     },
     dependencies = {
       "olimorris/neotest-rspec",
       "jfpedroza/neotest-elixir",
       "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/nvim-nio",
+      "mfussenegger/nvim-dap",
     },
     config = function()
       require("neotest").setup({
@@ -138,6 +141,7 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
+    dependencies = { "suketa/nvim-dap-ruby" },
     keys = {
       { "<leader>db", lib.ex_cmd("lua require('dap').toggle_breakpoint()"), desc = "toggle breakpoint" },
       { "<leader>dc", lib.ex_cmd("lua require('dap').continue()"), desc = "continue" },
@@ -145,6 +149,7 @@ return {
       { "<leader>di", lib.ex_cmd("lua require('dap').step_into()"), desc = "step into" },
       { "<leader>du", lib.ex_cmd("lua require('dapui').toggle()"), desc = "toggle UI" },
       { "<leader>dr", lib.ex_cmd("lua require('dap').repl.toggle()"), desc = "toggle repl" },
+      { "<leader>dt", lib.ex_cmd("lua require('neotest').run.run({ strategy = 'dap'})"), desc = "debug test" },
       {
         "<leader>df",
         lib.ex_cmd(
@@ -154,6 +159,7 @@ return {
       },
     },
     config = function()
+      require("dap-ruby").setup()
       local red = lib.get_hl_group_colors("Error").fg
       local bg_dark = lib.get_hl_group_colors("Cursorline").bg
       local blue = lib.get_hl_group_colors("@function").fg
@@ -187,15 +193,8 @@ return {
   },
   {
     "rcarriga/nvim-dap-ui",
-    enabled = false,
+    enabled = true,
     dependencies = { "mfussenegger/nvim-dap" },
-    config = true,
-  },
-  {
-    "suketa/nvim-dap-ruby",
-    enabled = false,
-    dependencies = { "mfussenegger/nvim-dap" },
-    ft = { "ruby", "eruby" },
     config = true,
   },
   {
@@ -222,6 +221,7 @@ return {
   },
   {
     "nvim-tree/nvim-tree.lua",
+    enabled = false,
     cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile" },
     keys = {
       {
@@ -240,7 +240,6 @@ return {
         desc = "show file in tree",
       },
     },
-    enabled = true,
     opts = {
       sync_root_with_cwd = true,
       renderer = {
@@ -878,6 +877,11 @@ return {
     },
   },
   {
+    "stevearc/dressing.nvim",
+    event = { "BufReadPre" },
+    opts = {},
+  },
+  {
     "olimorris/codecompanion.nvim",
     cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionToggle", "CodeCompanionActions", "CodeCompanionAdd" },
     keys = {
@@ -921,6 +925,7 @@ return {
   },
   {
     "stevearc/oil.nvim",
+    cmd = { "Oil" },
     opts = {},
     dependencies = { { "echasnovski/mini.icons", opts = {} } },
   },

@@ -1,5 +1,11 @@
 local M = {}
 
+local live_grep_excludes = {
+  "!**/.rubocop_todo.yml",
+  "!**/*.ignore",
+  "!**/doc/*",
+}
+
 function M.nmap(key, command)
   vim.api.nvim_set_keymap("n", key, command, { noremap = true, silent = true })
 end
@@ -25,11 +31,12 @@ function M.cmap(key, command)
 end
 
 function M.ex_cmd(command)
-  return "<cmd>" .. command .. "<cr>"
+  return string.format("<cmd>%s<cr>", command)
 end
 
 function M.telescope_builtin(method)
-  return M.ex_cmd("lua require('telescope.builtin')." .. method .. "()")
+  local telescope_command = string.format("lua require('telescope.builtin').%s()", method)
+  return M.ex_cmd(telescope_command)
 end
 
 local function parent_git_dir()
@@ -88,17 +95,42 @@ function M.search_visual_selection()
   })
 end
 
+local function current_path_and_line_number()
+  local current_file_path = vim.api.nvim_buf_get_name(0)
+  local current_line_number = vim.api.nvim_win_get_cursor(0)[1]
+
+  return current_file_path, current_line_number
+end
+
+local function create_term_rspec_command(path, line_number, cwd)
+  local test_cmd = string.format("bundle exec rspec %s:%d", path, line_number)
+  return string.format('2TermExec direction=float cmd="%s" dir="%s"', test_cmd, cwd)
+end
+
+local function rails_engine_root(path)
+  -- TODO: be much smarter about this
+  local spec_dir = path:match(".+/spec")
+  return spec_dir and spec_dir:sub(1, #spec_dir - 5)
+end
+
+function M.run_rspec_in_toggleterm()
+  local path, line_number = current_path_and_line_number()
+  local rails_engine_path = rails_engine_root(path)
+  local toggle_term_cmd = create_term_rspec_command(path, line_number, rails_engine_path)
+
+  vim.cmd(toggle_term_cmd)
+end
+
 local function run_test_from_engine(test_func)
   return function()
     local current_file_path = vim.api.nvim_buf_get_name(0)
     if current_file_path == "" then
       return
     end
-    local spec_dir = current_file_path:match(".+/spec")
+    local rails_engine_path = rails_engine_root(current_file_path)
 
-    if spec_dir ~= nil then
-      local engine_dir = spec_dir:sub(1, #spec_dir - 5)
-      vim.fn.chdir(engine_dir)
+    if rails_engine_path ~= nil then
+      vim.fn.chdir(rails_engine_path)
     end
     test_func()
   end
@@ -129,6 +161,7 @@ function M.live_grep_rails_app_files()
       "!.Gemfile.lock",
       "!**/spec/**/*",
       "!**/*migration*/**/*",
+      "!**/*.ignore",
       "!**/vendor/**/*",
       "!**/migrate/**/*",
       "!**/doc/**/*",
@@ -214,7 +247,7 @@ end
 
 function M.live_grep_from_git_root()
   local tscope = require("telescope.builtin")
-  tscope.live_grep({ cwd = parent_git_dir_or_cwd() })
+  tscope.live_grep({ cwd = parent_git_dir_or_cwd(), glob_pattern = live_grep_excludes })
 end
 
 function M.lsp_document_symbols()

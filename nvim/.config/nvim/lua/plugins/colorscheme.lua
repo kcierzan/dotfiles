@@ -95,7 +95,7 @@ return {
     priority = 1000,
     enabled = true,
     config = function()
-      vim.opt.background = "dark"
+      vim.opt.background = "light"
 
       local base = {
         red = "#ff657a",
@@ -138,7 +138,7 @@ return {
         },
         term_colors = true,
         background = {
-          dark = "frappe",
+          dark = "macchiato",
           light = "latte",
         },
         -- color_overrides = {

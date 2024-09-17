@@ -51,14 +51,14 @@ vim.opt.updatetime = 100
 vim.opt.wrap = true
 vim.opt.writebackup = false
 vim.opt.guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor"
-vim.opt.shortmess = "astWAcCFSo"
+vim.opt.shortmess = "astWAcCFo"
 vim.g.mapleader = " "
 
 lib.nmap("+", "<Nop>")
 vim.g.maplocalleader = "+"
 
 vim.g.neovide_input_macos_option_key_is_meta = "both"
-vim.g.neovide_cursor_animation_length = 0.02
+vim.g.neovide_cursor_animation_length = 0
 vim.g.neovide_position_animation_length = 0.1
 vim.g.neovide_scroll_animation_length = 0.1
 vim.g.neovide_refresh_rate = 60
