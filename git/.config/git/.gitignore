@@ -15,3 +15,5 @@ lsp.rb
 .zsh_history
 .zsh_plugins.zsh
 .zhistory
+.zed
+.continueignore
