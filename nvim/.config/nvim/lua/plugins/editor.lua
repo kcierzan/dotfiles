@@ -290,6 +290,7 @@ return {
         "bashls",
         "emmet_ls",
         "elixirls",
+        "gopls",
         "jsonls",
         "lua_ls",
         "pyright",
@@ -375,6 +376,7 @@ return {
         "bashls",
         "elixirls",
         "emmet_ls",
+        "gopls",
         "jsonls",
         "lua_ls",
         "pyright",
@@ -391,7 +393,7 @@ return {
     keys = {
       {
         "<leader>le",
-        lib.ex_cmd("Trouble diagnostics toggle filter.buf=0"),
+        lib.ex_cmd("Trouble diagnostics toggle filter.buf=0 focus=true"),
         desc = "show errors and warnings",
       },
     },
@@ -442,6 +444,7 @@ return {
       },
       sync_install = false,
       highlight = { enable = true },
+      indent = { enable = true, disable = "ruby" },
     },
   },
   {

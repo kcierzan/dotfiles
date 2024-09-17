@@ -40,9 +40,15 @@ end
 local function create_rails_fd_command(directory)
   local top_level = "app/"
   local excludes = { ".git/", "node_modules", "**/*migration*/**/*", "**/vendor/**/*", "**/migrate/**/*" }
+
   if directory == "spec" then
     top_level = ""
   end
+
+  if directory == "factories" then
+    top_level = "spec/"
+  end
+
   return {
     "fd",
     "--type",
@@ -178,6 +184,14 @@ function M.find_specs()
     cwd = parent_git_dir_or_cwd(),
     find_command = create_rails_fd_command("spec"),
     prompt_prefix = "🧪",
+  })
+end
+
+function M.find_factories()
+  require("telescope.builtin").find_files({
+    cwd = parent_git_dir_or_cwd(),
+    find_command = create_rails_fd_command("factories"),
+    prompt_prefix = "🏭",
   })
 end
 

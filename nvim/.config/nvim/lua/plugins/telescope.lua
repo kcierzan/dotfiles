@@ -74,6 +74,7 @@ return {
       },
       { "<leader>frv", lib.find_rails_view, desc = "views" },
       { "<leader>frs", lib.find_specs, desc = "specs" },
+      { "<leader>frF", lib.find_factories, desc = "factories" },
       {
         "<leader>frg",
         lib.live_grep_rails_app_files,
