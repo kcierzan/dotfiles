@@ -95,30 +95,10 @@ function M.search_visual_selection()
   })
 end
 
-local function current_path_and_line_number()
-  local current_file_path = vim.api.nvim_buf_get_name(0)
-  local current_line_number = vim.api.nvim_win_get_cursor(0)[1]
-
-  return current_file_path, current_line_number
-end
-
-local function create_term_rspec_command(path, line_number, cwd)
-  local test_cmd = string.format("bundle exec rspec %s:%d", path, line_number)
-  return string.format('2TermExec direction=float cmd="%s" dir="%s"', test_cmd, cwd)
-end
-
 local function rails_engine_root(path)
   -- TODO: be much smarter about this
   local spec_dir = path:match(".+/spec")
   return spec_dir and spec_dir:sub(1, #spec_dir - 5)
-end
-
-function M.run_rspec_in_toggleterm()
-  local path, line_number = current_path_and_line_number()
-  local rails_engine_path = rails_engine_root(path)
-  local toggle_term_cmd = create_term_rspec_command(path, line_number, rails_engine_path)
-
-  vim.cmd(toggle_term_cmd)
 end
 
 local function run_test_from_engine(test_func)

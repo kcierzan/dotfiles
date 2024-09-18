@@ -1,4 +1,5 @@
 local lib = require("lib")
+local rails = require("rails")
 
 return {
   {
@@ -34,6 +35,7 @@ return {
         desc = "toggle drawer terminal",
       },
       { "<leader>gl", lib.ex_cmd("TermExec direction=float cmd=lazygit"), desc = "open lazygit" },
+      { "<leader>tr", rails.run_rspec_in_toggleterm, desc = "run current in toggleterm" },
     },
     cmd = { "ToggleTerm", "TermExec" },
     opts = {
@@ -66,7 +68,6 @@ return {
 
       { "<leader>tt", lib.test_test_from_engine_root, desc = "test" },
       { "<leader>ts", lib.stop_test, desc = "stop test run" },
-      { "<leader>tr", lib.run_rspec_in_toggleterm, desc = "run current in toggleterm" },
     },
     dependencies = {
       "olimorris/neotest-rspec",
@@ -290,6 +291,7 @@ return {
         "emmet_ls",
         "elixirls",
         "gopls",
+        "golangci_lint_ls",
         "jsonls",
         "lua_ls",
         "pyright",
@@ -376,6 +378,7 @@ return {
         "elixirls",
         "emmet_ls",
         "gopls",
+        "golangci_lint_ls",
         "jsonls",
         "lua_ls",
         "pyright",
