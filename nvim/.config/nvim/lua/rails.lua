@@ -101,11 +101,16 @@ local function current_path_and_line_number()
 end
 
 local function create_term_rspec_command(path, line_number, cwd)
-  local test_cmd = string.format("bundle exec rspec %s:%d", path, line_number)
+  local test_cmd = string.format("bundle exec rspec %s", path)
+
+  if line_number ~= nil then
+    test_cmd = string.format("%s:%d", test_cmd, line_number)
+  end
+
   return string.format('2TermExec direction=float name=rspec cmd="%s" dir="%s"', test_cmd, cwd)
 end
 
-function M.run_rspec_in_toggleterm()
+function M.run_rspec_thing_at_point_in_toggleterm()
   local path, line_number = current_path_and_line_number()
   local rails_dir = top_level_rails_dir(path)
 
@@ -115,6 +120,20 @@ function M.run_rspec_in_toggleterm()
   end
 
   local toggle_term_cmd = create_term_rspec_command(path, line_number, rails_dir)
+
+  vim.cmd(toggle_term_cmd)
+end
+
+function M.run_rspec_file_in_toggleterm()
+  local path, _ = current_path_and_line_number()
+  local rails_dir = top_level_rails_dir(path)
+
+  if not rails_dir then
+    print("Rails directory not found!")
+    return nil
+  end
+
+  local toggle_term_cmd = create_term_rspec_command(path, nil, rails_dir)
 
   vim.cmd(toggle_term_cmd)
 end

@@ -16,7 +16,7 @@ return {
       "<C-;>",
       {
         "<leader>it",
-        lib.ex_cmd("ToggleTerm direction=float"),
+        lib.ex_cmd("ToggleTerm direction=float name='zsh'"),
         desc = "toggle floating terminal",
       },
       {
@@ -26,7 +26,7 @@ return {
       },
       {
         "<leader>:",
-        lib.ex_cmd("ToggleTerm direction=horizontal"),
+        lib.ex_cmd("ToggleTerm direction=horizontal name='zsh'"),
         desc = "toggle terminal drawer",
       },
       {
@@ -35,7 +35,8 @@ return {
         desc = "toggle drawer terminal",
       },
       { "<leader>gl", lib.ex_cmd("TermExec direction=float cmd=lazygit"), desc = "open lazygit" },
-      { "<leader>tr", rails.run_rspec_in_toggleterm, desc = "run current in toggleterm" },
+      { "<leader>tt", rails.run_rspec_thing_at_point_in_toggleterm, desc = "run rspec test" },
+      { "<leader>tf", rails.run_rspec_file_in_toggleterm, desc = "run rspec file" },
     },
     cmd = { "ToggleTerm", "TermExec" },
     opts = {
@@ -197,28 +198,6 @@ return {
     enabled = true,
     dependencies = { "mfussenegger/nvim-dap" },
     config = true,
-  },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    enabled = false,
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
-    cmd = { "Neotree" },
-    config = function()
-      vim.g.neo_tree_remove_legacy_commands = 1
-      require("neo-tree").setup({
-        close_if_last_window = true,
-        popup_border_style = "rounded",
-        sort_case_insensitive = true,
-        filesystem = {
-          filtered_items = {
-            hide_dotfiles = false,
-            hide_by_name = { "node_modules" },
-            never_show = { ".DS_STORE" },
-          },
-        },
-      })
-    end,
   },
   {
     "nvim-tree/nvim-tree.lua",
@@ -459,6 +438,58 @@ return {
     cmd = { "Telescope", "Telescope luasnip" },
   },
   {
+    "onsails/lspkind.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("lspkind").init({
+        symbol_map = {
+          Array = "[]",
+          Boolean = "",
+          Calendar = "",
+          Class = "󰠱",
+          Codeium = "",
+          Color = "󰏘",
+          Constant = "󰏿",
+          Constructor = "",
+          Copilot = "",
+          Enum = "",
+          EnumMember = "",
+          Event = "",
+          Field = "󰜢",
+          File = "󰈚",
+          Folder = "󰉋",
+          Function = "󰆧",
+          Interface = "",
+          Keyword = "󰌋",
+          Method = "󰆧",
+          Module = "",
+          Namespace = "󰌗",
+          Null = "󰟢",
+          Number = "",
+          Object = "󰅩",
+          Operator = "󰆕",
+          Package = "",
+          Property = "󰜢",
+          Reference = "󰈇",
+          Snippet = "",
+          String = "󰉿",
+          StringSpecialSymbol = "󰙴",
+          Struct = "󰙅",
+          Supermaven = "",
+          TabNine = "",
+          Table = "",
+          Tag = "",
+          Text = "󰉿",
+          TypeParameter = "󰊄",
+          Unit = "󰑭",
+          Value = "󰎠",
+          Variable = "󰀫",
+          Watch = "󰥔",
+        },
+      })
+    end,
+  },
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "onsails/lspkind.nvim",
@@ -565,50 +596,6 @@ return {
         local context = require("cmp.config.context")
         return context.in_treesitter_capture("comment") or context.in_syntax_group("Comment")
       end
-
-      local icons = {
-        Namespace = "󰌗",
-        Text = "󰉿",
-        Method = "󰆧",
-        Function = "󰆧",
-        Constructor = "",
-        Field = "󰜢",
-        Variable = "󰀫",
-        Class = "󰠱",
-        Interface = "",
-        Module = "",
-        Property = "󰜢",
-        Unit = "󰑭",
-        Value = "󰎠",
-        Enum = "",
-        Keyword = "󰌋",
-        Snippet = "",
-        Color = "󰏘",
-        File = "󰈚",
-        Reference = "󰈇",
-        Folder = "󰉋",
-        EnumMember = "",
-        Constant = "󰏿",
-        Struct = "󰙅",
-        Event = "",
-        Operator = "󰆕",
-        TypeParameter = "󰊄",
-        Table = "",
-        Object = "󰅩",
-        Tag = "",
-        Array = "[]",
-        Boolean = "",
-        Number = "",
-        Null = "󰟢",
-        Supermaven = "",
-        String = "󰉿",
-        Calendar = "",
-        Watch = "󰥔",
-        Package = "",
-        Copilot = "",
-        Codeium = "",
-        TabNine = "",
-      }
 
       local sources = {
         {
@@ -929,6 +916,9 @@ return {
   {
     "stevearc/oil.nvim",
     cmd = { "Oil" },
+    keys = {
+      { "<leader>if", lib.ex_cmd("Oil"), desc = "open parent dir" },
+    },
     opts = {},
     dependencies = { { "echasnovski/mini.icons", opts = {} } },
   },
