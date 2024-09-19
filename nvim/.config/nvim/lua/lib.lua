@@ -95,39 +95,6 @@ function M.search_visual_selection()
   })
 end
 
-local function rails_engine_root(path)
-  -- TODO: be much smarter about this
-  local spec_dir = path:match(".+/spec")
-  return spec_dir and spec_dir:sub(1, #spec_dir - 5)
-end
-
-local function run_test_from_engine(test_func)
-  return function()
-    local current_file_path = vim.api.nvim_buf_get_name(0)
-    if current_file_path == "" then
-      return
-    end
-    local rails_engine_path = rails_engine_root(current_file_path)
-
-    if rails_engine_path ~= nil then
-      vim.fn.chdir(rails_engine_path)
-    end
-    test_func()
-  end
-end
-
-M.test_file_from_engine_root = run_test_from_engine(function()
-  require("neotest").run.run(vim.fn.expand("%"))
-end)
-
-M.test_test_from_engine_root = run_test_from_engine(function()
-  require("neotest").run.run()
-end)
-
-M.stop_test = run_test_from_engine(function()
-  require("neotest").run.stop()
-end)
-
 local function parent_git_dir_or_cwd()
   local in_git_dir, git_dir = parent_git_dir()
   return in_git_dir and git_dir or vim.fn.getcwd()

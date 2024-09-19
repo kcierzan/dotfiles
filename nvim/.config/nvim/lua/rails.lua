@@ -102,12 +102,13 @@ end
 
 local function create_term_rspec_command(path, line_number, cwd)
   local test_cmd = string.format("bundle exec rspec %s", path)
+  local term_name = string.format("rspec - %s", vim.fn.fnamemodify(cwd, ":t"))
 
   if line_number ~= nil then
     test_cmd = string.format("%s:%d", test_cmd, line_number)
   end
 
-  return string.format('2TermExec direction=float name=rspec cmd="%s" dir="%s"', test_cmd, cwd)
+  return string.format('TermExec direction=float name="%s" cmd="%s" dir="%s"', term_name, test_cmd, cwd)
 end
 
 function M.run_rspec_thing_at_point_in_toggleterm()
