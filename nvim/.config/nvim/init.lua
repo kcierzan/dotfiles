@@ -182,6 +182,14 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
   end,
 })
 
+vim.api.nvim_create_autocmd("VimEnter", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("TSEnable highlight")
+    vim.cmd("TSEnable endwise")
+  end,
+})
+
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {

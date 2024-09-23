@@ -49,48 +49,6 @@ return {
     },
   },
   {
-    "nvim-neotest/neotest",
-    enabled = false,
-    keys = {
-
-      { "<leader>tb", lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b')"), desc = "b4b suite" },
-      {
-        "<leader>tc",
-        lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/clinic')"),
-        desc = "clinic suite",
-      },
-      { "<leader>tf", lib.test_file_from_engine_root, desc = "file" },
-      {
-        "<leader>tm",
-        lib.ex_cmd("lua require('neotest').run.run(vim.fn.getcwd() .. '/b4b_core')"),
-        desc = "b4b_core suite",
-      },
-      { "<leader>to", lib.ex_cmd("lua require('neotest').output_panel.toggle()"), desc = "toggle output" },
-
-      { "<leader>tt", lib.test_test_from_engine_root, desc = "test" },
-      { "<leader>ts", lib.stop_test, desc = "stop test run" },
-    },
-    dependencies = {
-      "olimorris/neotest-rspec",
-      "jfpedroza/neotest-elixir",
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-neotest/nvim-nio",
-      "mfussenegger/nvim-dap",
-    },
-    config = function()
-      require("neotest").setup({
-        adapters = { require("neotest-rspec"), require("neotest-elixir") },
-        output = {
-          open_on_run = false,
-        },
-        status = {
-          signs = false,
-          virtual_text = true,
-        },
-      })
-    end,
-  },
-  {
     "tpope/vim-fugitive",
     dependencies = { "tpope/vim-rhubarb" },
     keys = {
@@ -198,46 +156,6 @@ return {
     enabled = true,
     dependencies = { "mfussenegger/nvim-dap" },
     config = true,
-  },
-  {
-    "nvim-tree/nvim-tree.lua",
-    enabled = false,
-    cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile" },
-    keys = {
-      {
-        "<leader>if",
-        lib.ex_cmd("NvimTreeToggle"),
-        desc = "toggle tree",
-      },
-      {
-        "<leader>oo",
-        lib.ex_cmd("NvimTreeToggle"),
-        desc = "open filetree",
-      },
-      {
-        "<leader>ot",
-        lib.ex_cmd("NvimTreeFindFile"),
-        desc = "show file in tree",
-      },
-    },
-    opts = {
-      sync_root_with_cwd = true,
-      renderer = {
-        indent_markers = {
-          enable = true,
-        },
-      },
-      update_focused_file = {
-        enable = true,
-        update_root = true,
-      },
-      filters = {
-        custom = {
-          "^.git$",
-          "^.DS_STORE$",
-        },
-      },
-    },
   },
   {
     "nvim-pack/nvim-spectre",
@@ -349,7 +267,6 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
-    -- event = "VeryLazy",
     lazy = false,
     opts = {
       ensure_installed = {
@@ -424,7 +341,10 @@ return {
         "yaml",
       },
       sync_install = false,
-      highlight = { enable = true },
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+      },
       indent = { enable = true, disable = "ruby" },
     },
   },
@@ -472,6 +392,7 @@ return {
           Property = "󰜢",
           Reference = "󰈇",
           Snippet = "",
+          Spell = "",
           String = "󰉿",
           StringSpecialSymbol = "󰙴",
           Struct = "󰙅",
@@ -484,6 +405,7 @@ return {
           Unit = "󰑭",
           Value = "󰎠",
           Variable = "󰀫",
+          VariableMember = "󰀫",
           Watch = "󰥔",
         },
       })
@@ -578,12 +500,6 @@ return {
         return vim.bo.ft == "TelescopePrompt"
       end
 
-      local function neotree_buffer()
-        local buftype = vim.api.nvim_buf_get_option(0, "buftype")
-        local filetype = vim.api.nvim_buf_get_option(0, "filetype")
-        return buftype == "nofile" and filetype == "neo-tree"
-      end
-
       local function popup_buffer()
         return string.find(vim.api.nvim_buf_get_name(0), "s_popup:/")
       end
@@ -651,11 +567,7 @@ return {
         mapping = mapping,
         sources = sources,
         enabled = function()
-          return not telescope_buffer()
-            and not popup_buffer()
-            and not comment()
-            and not neotree_buffer()
-            and not nui_buffer()
+          return not telescope_buffer() and not popup_buffer() and not comment() and not nui_buffer()
         end,
         formatting = {
           fields = { "kind", "abbr", "menu" },
@@ -712,12 +624,71 @@ return {
   },
   {
     "numToStr/Comment.nvim",
+    enabled = false,
     keys = { "gc", "v", "V" },
     cond = true,
     config = true,
   },
   {
+    "echasnovski/mini.comment",
+    keys = { "gc", "v", "V" },
+    version = false,
+    opts = {},
+  },
+  {
+    "echasnovski/mini.surround",
+    version = false,
+    event = "BufReadPre",
+    keys = {
+      {
+        "S",
+        mode = { "x" },
+        function()
+          require("mini.surround").add("visual")
+        end,
+      },
+    },
+    opts = {
+      mappings = {
+        add = "ys",
+        delete = "ds",
+        find = "",
+        find_left = "",
+        highlight = "",
+        replace = "cs",
+        update_n_lines = "",
+      },
+    },
+  },
+  {
+    "echasnovski/mini.operators",
+    keys = { "g=", "gx", "gm", "gr", "gs" },
+    version = false,
+    opts = {},
+  },
+  {
+    "echasnovski/mini.ai",
+    version = false,
+    keys = { "a", "i", "g" },
+    opts = {},
+  },
+  {
+    "echasnovski/mini.pairs",
+    version = false,
+    event = "InsertEnter",
+    opts = {},
+  },
+  {
+    "echasnovski/mini.indentscope",
+    version = false,
+    event = "BufReadPre",
+    opts = {
+      symbol = "▎",
+    },
+  },
+  {
     "kylechui/nvim-surround",
+    enabled = false,
     keys = { "ys", "ds", "cs", "v", "V" },
     cond = true,
     config = true,
@@ -737,7 +708,7 @@ return {
       },
       {
         "S",
-        mode = { "n", "o", "x" },
+        mode = { "n", "o" },
         function()
           require("flash").treesitter()
         end,
@@ -769,26 +740,19 @@ return {
       },
     },
   },
-  -- {
-  --   "windwp/nvim-autopairs",
-  --   event = "InsertEnter",
-  --   cond = true,
-  --   opts = {
-  --     disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
-  --   },
-  -- },
-  {
-    "echasnovski/mini.pairs",
-    event = "InsertEnter",
-    opts = {},
-  },
   {
     "tpope/vim-repeat",
+    enabled = false,
     cond = true,
     keys = { "." },
   },
   {
+    "RRethy/nvim-treesitter-endwise",
+    event = "BufReadPre",
+  },
+  {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    enabled = false,
     dependencies = { "nvim-treesitter/nvim-treesitter", "RRethy/nvim-treesitter-endwise" },
     cond = true,
     event = "BufReadPre",
@@ -877,7 +841,7 @@ return {
     keys = {
       { "<leader>ac", lib.ex_cmd("CodeCompanionChat"), desc = "open chat" },
       { "<leader>at", lib.ex_cmd("CodeCompanionToggle"), desc = "toggle chat" },
-      { "<leader>aa", lib.ex_cmd("CodeCompanionToggle"), desc = "actions" },
+      { "<leader>aa", lib.ex_cmd("CodeCompanionActions"), desc = "actions" },
       { "<leader>av", lib.ex_cmd("CodeCompanionAdd"), desc = "add selection to chat", mode = "v" },
     },
     dependencies = {
@@ -926,7 +890,7 @@ return {
     "lewis6991/gitsigns.nvim",
     keys = {
 
-      { "<leader>gp", lib.ex_cmd("Gitsigns preview_hunk"), desc = "preview hunk" },
+      { "<leader>gP", lib.ex_cmd("Gitsigns preview_hunk"), desc = "preview hunk" },
       { "<leader>gr", lib.ex_cmd("Gitsigns reset_hunk"), desc = "reset hunk" },
       { "<leader>gB", lib.ex_cmd("Gitsigns stage_buffer"), desc = "stage buffer" },
       { "<leader>gR", lib.ex_cmd("Gitsigns reset_buffer"), desc = "reset bufffer" },
@@ -934,12 +898,15 @@ return {
       { "<leader>gh", lib.ex_cmd("Gitsigns stage_hunk"), desc = "stage hunk", mode = "v" },
       { "<leader>gr", lib.ex_cmd("'<,'>Gitsigns reset_hunk"), desc = "reset hunk", mode = "v" },
       { "<leader>gh", lib.ex_cmd("Gitsigns stage_hunk"), desc = "stage hunk" },
+      { "<leader>gp", lib.ex_cmd("Gitsigns nav_hunk next"), desc = "next hunk" },
+      { "<leader>gn", lib.ex_cmd("Gitsigns nav_hunk prev"), desc = "prev hunk" },
     },
     event = "VeryLazy",
     config = true,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
+    enabled = false,
     event = "VeryLazy",
     keys = {
       {
@@ -1114,21 +1081,56 @@ return {
             { desc = "Help", key = "h", group = "@boolean", action = telescope.help_tags },
             { desc = "Quit", key = "q", group = "@variable.builtin", action = "q!" },
           },
+          -- header = {
+          --   "",
+          --   "⠀⠀⢀⣤⣤⣤⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+          --   "⠀⠀⢸⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀",
+          --   "⠀⠀⠘⠉⠉⠙⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀ ",
+          --   "⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀",
+          --   "⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀",
+          --   "⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀",
+          --   "⠀⠀⠀⠀⣴⣿⣿⣿⠟⣿⣿⣿⣷⠀⠀⠀⠀",
+          --   "⠀⠀⠀⣰⣿⣿⣿⡏⠀⠸⣿⣿⣿⣇⠀⠀⠀",
+          --   "⠀⠀⢠⣿⣿⣿⡟⠀⠀⠀⢻⣿⣿⣿⡆⠀⠀",
+          --   "⠀⢠⣿⣿⣿⡿⠀⠀⠀⠀⠀⢿⣿⣿⣷⣤⡄",
+          --   "⢀⣾⣿⣿⣿⠁⠀⠀⠀⠀⠀⠈⠿⣿⣿⣿⡇",
+          --   "",
+          -- },
           header = {
             "",
-            "⠀⠀⢀⣤⣤⣤⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-            "⠀⠀⢸⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀",
-            "⠀⠀⠘⠉⠉⠙⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀ ",
-            "⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀",
-            "⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀",
-            "⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀",
-            "⠀⠀⠀⠀⣴⣿⣿⣿⠟⣿⣿⣿⣷⠀⠀⠀⠀",
-            "⠀⠀⠀⣰⣿⣿⣿⡏⠀⠸⣿⣿⣿⣇⠀⠀⠀",
-            "⠀⠀⢠⣿⣿⣿⡟⠀⠀⠀⢻⣿⣿⣿⡆⠀⠀",
-            "⠀⢠⣿⣿⣿⡿⠀⠀⠀⠀⠀⢿⣿⣿⣷⣤⡄",
-            "⢀⣾⣿⣿⣿⠁⠀⠀⠀⠀⠀⠈⠿⣿⣿⣿⡇",
+            "            ____            ",
+            "          /\\   \\          ",
+            "         /  \\   \\         ",
+            "        /    \\   \\        ",
+            "       /      \\   \\       ",
+            "     /   /\\   \\   \\      ",
+            "    /   /  \\   \\   \\     ",
+            "   /   /    \\   \\   \\    ",
+            "  /   /    / \\   \\   \\   ",
+            " /   /    /   \\   \\   \\  ",
+            " /   /    /---------'   \\  ",
+            "/   /    /_______________\\ ",
+            "\\  /                     / ",
+            " \\/_____________________/  ",
             "",
           },
+          -- header = {
+          --   "",
+          --   "  ____________",
+          --   "  /\\  ________ \\",
+          --   " /  \\ \\______/\\ \\",
+          --   "  / /\\ \\ \\  / /\\ \\ \\",
+          --   " / / /\\ \\ \\/ / /\\ \\ \\",
+          --   " / / /__\\_\\/ / /__\\_\\ \\",
+          --   " / /_/_______/ /________\\",
+          --   " \\ \\ \\______ \\ \\______  /",
+          --   " \\ \\ \\  / /\\ \\ \\  / / /",
+          --   " \\ \\ \\/ / /\\ \\ \\/ / /",
+          --   " \\ \\/ / /__\\_\\/ / /",
+          --   " \\  / /______\\/ /",
+          --   " \\/___________/",
+          --   "",
+          -- },
           footer = {
             "",
             "",

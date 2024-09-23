@@ -138,7 +138,7 @@ return {
         },
         term_colors = true,
         background = {
-          dark = "macchiato",
+          dark = "mocha",
           light = "latte",
         },
         -- color_overrides = {

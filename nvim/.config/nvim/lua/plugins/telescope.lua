@@ -8,6 +8,7 @@ return {
       "nvim-telescope/telescope-fzf-native.nvim",
       "jvgrootveld/telescope-zoxide",
       "benfowler/telescope-luasnip.nvim",
+      "nvim-telescope/telescope-frecency.nvim",
     },
     keys = {
       {
@@ -98,10 +99,11 @@ return {
       { "<leader>vc", lib.telescope_builtin("highlights"), desc = "highlights" },
     },
     config = function()
-      require("telescope").setup({
+      local telescope = require("telescope")
+      telescope.setup({
         defaults = {
-          prompt_prefix = " ",
-          selection_caret = " ",
+          prompt_prefix = "❯ ",
+          selection_caret = "❯ ",
           preview = {
             treesitter = false,
           },
@@ -152,9 +154,10 @@ return {
           },
         },
       })
-      require("telescope").load_extension("fzf")
-      require("telescope").load_extension("zoxide")
-      require("telescope").load_extension("luasnip")
+      telescope.load_extension("fzf")
+      telescope.load_extension("zoxide")
+      telescope.load_extension("luasnip")
+      telescope.load_extension("frecency")
     end,
   },
   {
