@@ -46,7 +46,7 @@ ibranch() {
 }
 
 igrep() {
-  local rg_command="rg -n --hidden --no-ignore"
+  local rg_command="rg -n --hidden"
   local exclude_dirs=(".git" "node_modules" "env")
   local exclude_files=("*.pyc" "*.dmp")
 
@@ -78,7 +78,9 @@ igrep() {
     # echo "$selected_file" | tr ' ' '\n' | eval "$xargs_command code"
 
     # Open the selected file(s) in neovim
-    echo "$selected_file" | tr ' ' '\n' | eval "$xargs_command nvim +'{2}' '{1}'"
+    echo "$selected_file" | while IFS=: read -r file line; do
+      nvim "+$line" "$file"
+    done
   fi
 }
 
