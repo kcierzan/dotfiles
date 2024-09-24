@@ -142,16 +142,12 @@ return {
           "<C-w>q",
           desc = "close split",
         },
-        {
-          "<leader>iF",
-          lib.ex_cmd("NvimTreeFindFile"),
-          desc = "show current file in tree",
-        },
-        {
-          "<leader>iH",
-          lib.ex_cmd("TSHighlightCapturesUnderCursor"),
-          desc = "show highlights under cursor",
-        },
+        -- FIXME: requires ts playground?
+        -- {
+        --   "<leader>iH",
+        --   lib.ex_cmd("TSHighlightCapturesUnderCursor"),
+        --   desc = "show highlights under cursor",
+        -- },
         {
           "<leader>i#",
           lib.ex_cmd("set invnumber"),

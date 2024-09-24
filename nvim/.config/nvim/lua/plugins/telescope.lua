@@ -10,6 +10,7 @@ return {
       "benfowler/telescope-luasnip.nvim",
       "nvim-telescope/telescope-frecency.nvim",
     },
+    event = { "VeryLazy" },
     keys = {
       {
         "<leader>fG",

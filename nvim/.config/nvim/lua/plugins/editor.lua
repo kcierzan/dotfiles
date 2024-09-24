@@ -167,12 +167,36 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    event = "VeryLazy",
-    commit = "0ef64599b8aa0187ee5f6d92cb39c951f348f041",
+    -- event = { "VeryLazy" },
+    -- commit = "0ef64599b8aa0187ee5f6d92cb39c951f348f041",
+    ft = {
+      "ruby",
+      "eruby",
+      "markdown",
+      "bash",
+      "sh",
+      "zsh",
+      "typescript",
+      "go",
+      "json",
+      "python",
+      "rust",
+      "css",
+      "heex",
+      "html",
+      "elixir",
+      "lua",
+    },
     dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
+      -- force loading these first
+      require("mason")
+      require("mason-lspconfig")
+
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -266,8 +290,8 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    dependencies = { "williamboman/mason.nvim" },
-    lazy = false,
+    -- dependencies = { "williamboman/mason.nvim" },
+    -- lazy = false,
     opts = {
       ensure_installed = {
         "bashls",
@@ -381,6 +405,7 @@ return {
           Function = "󰆧",
           Interface = "",
           Keyword = "󰌋",
+          KeywordOperator = "󰌋",
           KeywordConditional = "",
           Method = "󰆧",
           Module = "",
@@ -624,13 +649,6 @@ return {
     end,
   },
   {
-    "numToStr/Comment.nvim",
-    enabled = false,
-    keys = { "gc", "v", "V" },
-    cond = true,
-    config = true,
-  },
-  {
     "echasnovski/mini.comment",
     keys = { "gc", "v", "V" },
     version = false,
@@ -639,7 +657,7 @@ return {
   {
     "echasnovski/mini.surround",
     version = false,
-    event = "BufReadPre",
+    event = "InsertEnter",
     keys = {
       {
         "S",
@@ -686,13 +704,6 @@ return {
     opts = {
       symbol = "▎",
     },
-  },
-  {
-    "kylechui/nvim-surround",
-    enabled = false,
-    keys = { "ys", "ds", "cs", "v", "V" },
-    cond = true,
-    config = true,
   },
   {
     "folke/flash.nvim",
@@ -742,47 +753,8 @@ return {
     },
   },
   {
-    "tpope/vim-repeat",
-    enabled = false,
-    cond = true,
-    keys = { "." },
-  },
-  {
     "RRethy/nvim-treesitter-endwise",
     event = "BufReadPre",
-  },
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    enabled = false,
-    dependencies = { "nvim-treesitter/nvim-treesitter", "RRethy/nvim-treesitter-endwise" },
-    cond = true,
-    event = "BufReadPre",
-    -- event = "VeryLazy",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        textobjects = {
-          select = {
-            enable = true,
-            -- automatically jump forward to textobj
-            lookahead = true,
-            keymaps = {
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ab"] = "@block.outer",
-              ["ib"] = "@block.inner",
-            },
-          },
-        },
-        highlight = {
-          enable = true,
-        },
-        endwise = {
-          enable = true,
-        },
-      })
-    end,
   },
   {
     "windwp/nvim-ts-autotag",
@@ -906,26 +878,6 @@ return {
     config = true,
   },
   {
-    "lukas-reineke/indent-blankline.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    keys = {
-      {
-        "<leader>il",
-        lib.ex_cmd("IBLToggle"),
-        desc = "toggle indentation lines",
-      },
-    },
-    main = "ibl",
-    opts = {
-      exclude = {
-        filetypes = { "alpha" },
-        buftypes = { "terminal" },
-      },
-      enabled = false,
-    },
-  },
-  {
     "nvim-tree/nvim-web-devicons",
     config = true,
   },
@@ -1040,7 +992,7 @@ return {
   {
     "nvimdev/dashboard-nvim",
     event = { "VimEnter" },
-    dependencies = { "nvim-tree/nvim-web-devicons", "nvim-telescope/telescope.nvim" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       local telescope = require("telescope.builtin")
       local generate_nerd_quote = function()
@@ -1118,19 +1070,19 @@ return {
           },
           -- header = {
           --   "",
-          --   "  ____________",
-          --   "  /\\  ________ \\",
-          --   " /  \\ \\______/\\ \\",
-          --   "  / /\\ \\ \\  / /\\ \\ \\",
-          --   " / / /\\ \\ \\/ / /\\ \\ \\",
-          --   " / / /__\\_\\/ / /__\\_\\ \\",
+          --   "       ____________",
+          --   "      /\\  ________ \\",
+          --   "     /  \\ \\______/\\ \\",
+          --   "    / /\\ \\ \\  / /\\ \\ \\",
+          --   "   / / /\\ \\ \\/ / /\\ \\ \\",
+          --   "  / / /__\\_\\/ / /__\\_\\ \\",
           --   " / /_/_______/ /________\\",
           --   " \\ \\ \\______ \\ \\______  /",
-          --   " \\ \\ \\  / /\\ \\ \\  / / /",
-          --   " \\ \\ \\/ / /\\ \\ \\/ / /",
-          --   " \\ \\/ / /__\\_\\/ / /",
-          --   " \\  / /______\\/ /",
-          --   " \\/___________/",
+          --   "  \\ \\ \\  / /\\ \\ \\  / / /",
+          --   "   \\ \\ \\/ / /\\ \\ \\/ / /",
+          --   "    \\ \\/ / /__\\_\\/ / /",
+          --   "     \\  / /______\\/ /",
+          --   "      \\/___________/",
           --   "",
           -- },
           footer = {
@@ -1261,7 +1213,7 @@ return {
           mode_string = hex_full
         end
 
-        return mode_string .. "  " .. modes[mode]
+        return mode_string .. " " .. modes[mode]
       end
 
       local function get_buffer_lsp(clients, buf_ft)
@@ -1348,7 +1300,7 @@ return {
         "filetype",
         icon_only = true,
         colored = true,
-        padding = { left = 0, right = 1 },
+        padding = { left = 0, right = 0 },
       })
 
       left_insert({
@@ -1445,7 +1397,8 @@ return {
   },
   {
     "karb94/neoscroll.nvim",
-    event = "BufReadPre",
+    -- event = "BufReadPre",
+    keys = { "<C-d>", "<C-u>", "<C-y>", "<C-e>" },
     opts = {},
   },
   {
