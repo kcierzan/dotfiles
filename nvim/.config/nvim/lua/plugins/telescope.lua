@@ -33,7 +33,7 @@ return {
         lib.live_grep_from_git_root,
         desc = "text in git files",
       },
-      { "<leader>fh", lib.telescope_builtin("oldfiles"), desc = "oldfiles" },
+      { "<leader>fh", lib.ex_cmd("Telescope frecency"), desc = "oldfiles" },
       {
         "<leader>fi",
         lib.telescope_builtin("lsp_implementations"),
