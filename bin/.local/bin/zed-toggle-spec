@@ -1,0 +1,30 @@
+#!/bin/bash
+
+zed_file="$1"
+zed_workspace_root="$2"
+
+# Function to get the relative path
+get_relative_path() {
+    echo "${1#$2/}"
+}
+
+# Get the relative path
+relative_path=$(get_relative_path "$zed_file" "$zed_workspace_root")
+
+# Check if the file is a Rails file (either spec or app)
+if [[ ! "$relative_path" =~ (app|spec)/.*\.rb$ ]]; then
+    exit 0
+fi
+
+if [[ "$relative_path" == *_spec.rb ]]; then
+    # It's a spec file, so convert to app file
+    app_path=$(echo "$relative_path" | sed 's|spec/|app/|; s|_spec\.rb$|.rb|')
+    target_file="$zed_workspace_root/$app_path"
+else
+    # It's an app file (or other), so convert to spec file
+    spec_path=$(echo "$relative_path" | sed 's|app/|spec/|; s|\.rb$|_spec.rb|')
+    target_file="$zed_workspace_root/$spec_path"
+fi
+
+# Open the target file
+zed "$target_file"
