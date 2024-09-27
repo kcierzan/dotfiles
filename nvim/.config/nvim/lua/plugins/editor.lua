@@ -394,6 +394,7 @@ return {
           Calendar = "",
           Class = "󰠱",
           Codeium = "",
+          Comment = "",
           Color = "󰏘",
           Constant = "󰏿",
           Constructor = "",
@@ -407,8 +408,9 @@ return {
           Function = "󰆧",
           Interface = "",
           Keyword = "󰌋",
+          KeywordFunction = "󰌋",
           KeywordOperator = "󰌋",
-          KeywordConditional = "",
+          KeywordConditional = "",
           Method = "󰆧",
           Module = "",
           Namespace = "󰌗",
@@ -858,7 +860,11 @@ return {
     keys = {
       { "<leader>if", lib.ex_cmd("Oil"), desc = "open parent dir" },
     },
-    opts = {},
+    opts = {
+      view_options = {
+        show_hidden = true,
+      },
+    },
     dependencies = { { "echasnovski/mini.icons", opts = {} } },
   },
   {
@@ -884,11 +890,9 @@ return {
     config = true,
   },
   {
-    "famiu/bufdelete.nvim",
-    keys = {
-      { "<leader>bd", lib.ex_cmd("Bdelete"), desc = "delete" },
-    },
-    cmd = { "Bdelete" },
+    "echasnovski/mini.bufremove",
+    keys = { { "<leader>bd", lib.ex_cmd("bd"), desc = "delete" } },
+    opts = {},
   },
   {
     "folke/todo-comments.nvim",
