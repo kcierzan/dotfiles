@@ -923,7 +923,7 @@ return {
     "folke/noice.nvim",
     -- there is a bug in later versions that causes cursor jumping
     -- TODO: fix this after folke comes back from vacation
-    commit = "d9328ef",
+    -- commit = "d9328ef",
     enabled = true,
     event = { "VeryLazy" },
     dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
@@ -994,6 +994,9 @@ return {
   {
     "nvimdev/dashboard-nvim",
     event = { "VimEnter" },
+    cond = function()
+      return vim.fn.argc() == 0
+    end,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       local telescope = require("telescope.builtin")
@@ -1070,23 +1073,6 @@ return {
             "",
             "",
           },
-          -- header = {
-          --   "",
-          --   "       ____________",
-          --   "      /\\  ________ \\",
-          --   "     /  \\ \\______/\\ \\",
-          --   "    / /\\ \\ \\  / /\\ \\ \\",
-          --   "   / / /\\ \\ \\/ / /\\ \\ \\",
-          --   "  / / /__\\_\\/ / /__\\_\\ \\",
-          --   " / /_/_______/ /________\\",
-          --   " \\ \\ \\______ \\ \\______  /",
-          --   "  \\ \\ \\  / /\\ \\ \\  / / /",
-          --   "   \\ \\ \\/ / /\\ \\ \\/ / /",
-          --   "    \\ \\/ / /__\\_\\/ / /",
-          --   "     \\  / /______\\/ /",
-          --   "      \\/___________/",
-          --   "",
-          -- },
           footer = {
             "",
             "",
@@ -1099,7 +1085,7 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
-    event = "BufReadPre",
+    event = "VeryLazy",
     config = function()
       local lualine = require("lualine")
 
@@ -1399,7 +1385,6 @@ return {
   },
   {
     "karb94/neoscroll.nvim",
-    -- event = "BufReadPre",
     keys = { "<C-d>", "<C-u>", "<C-y>", "<C-e>" },
     opts = {},
   },
@@ -1430,11 +1415,11 @@ return {
   },
   {
     "PaterJason/cmp-conjure",
-    event = "VeryLazy",
+    ft = { "clojure", "janet", "fennel" },
     config = function()
       local cmp = require("cmp")
       local config = cmp.get_config()
-      table.insert(config.sources, { name = "conjure", priorty = 850 })
+      table.insert(config.sources, { name = "conjure", priority = 850 })
       return cmp.setup(config)
     end,
   },

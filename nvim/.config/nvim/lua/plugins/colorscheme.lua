@@ -95,7 +95,7 @@ return {
     priority = 1000,
     enabled = true,
     config = function()
-      vim.opt.background = "light"
+      vim.opt.background = "dark"
 
       local base = {
         red = "#ff657a",
