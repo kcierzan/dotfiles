@@ -758,7 +758,7 @@ return {
   },
   {
     "RRethy/nvim-treesitter-endwise",
-    event = "BufReadPre",
+    event = "VeryLazy",
   },
   {
     "windwp/nvim-ts-autotag",
