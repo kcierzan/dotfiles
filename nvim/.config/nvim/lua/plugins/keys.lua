@@ -149,6 +149,11 @@ return {
         --   desc = "show highlights under cursor",
         -- },
         {
+          "<leader>ii",
+          lib.ex_cmd("Inspect"),
+          desc = "show highlight under cursor",
+        },
+        {
           "<leader>i#",
           lib.ex_cmd("set invnumber"),
           desc = "toggle line numbers",
@@ -177,7 +182,8 @@ return {
       wk.add(normal_mode_mappings)
       wk.setup({
         win = {
-          border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+          -- border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+          border = "none",
         },
       })
     end,

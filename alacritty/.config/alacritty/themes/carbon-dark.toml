@@ -1,0 +1,41 @@
+[colors]
+# Carbon Alacritty Colors
+# Default colors
+[colors.primary]
+background = '#161616'
+foreground = '#f4f4f4'
+
+[colors.cursor]
+cursor = '#c6c6c6'
+text = '#161616'
+
+# Normal colors
+[colors.normal]
+black = '#000000'
+red = '#ff8389'
+green = '#6fdc8c'
+yellow = '#fddc69'
+blue = '#a6c8ff'
+magenta = '#ff7eb6'
+cyan = '#82cfff'
+white = '#ffffff'
+
+# # Bright colors
+[colors.bright]
+black = '#393939'
+red = '#fa4d56'
+green = '#24a148'
+yellow = '#d2a106'
+blue = '#4589ff'
+magenta = '#d02679'
+cyan = '#1192e8'
+white = '#c6c6c6'
+
+# # Indexed Colors
+[[colors.indexed_colors]]
+index = 16
+color = '#ffb784'
+
+[[colors.indexed_colors]]
+index = 17
+color = '#da1e28'
