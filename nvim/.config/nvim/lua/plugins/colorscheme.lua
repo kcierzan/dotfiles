@@ -255,6 +255,7 @@ return {
               TSConstructor = { fg = colors.text },
               Conditional = { fg = colors.flamingo },
               TSFuncBuiltin = { fg = colors.flamingo },
+              MiniIndentscopeSymbol = { fg = colors.surface2 },
               TelescopeNormal = { bg = colors.base },
               TelescopeSelection = { bg = colors.surface2, fg = colors.text },
               TelescopeMatching = { fg = colors.flamingo },
