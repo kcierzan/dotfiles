@@ -1,99 +1,10 @@
 return {
   {
-    "rebelot/kanagawa.nvim",
-    lazy = false,
-    enabled = false,
-    priority = 1000,
-    config = function()
-      require("kanagawa").setup({
-        compile = true,
-        colors = {
-          theme = {
-            all = {
-              ui = {
-                bg_gutter = "none",
-              },
-            },
-          },
-        },
-        overrides = function(colors)
-          if vim.g.neovide then
-            return {}
-          end
-          return {
-            Normal = { bg = "None", fg = colors.theme.ui.fg },
-          }
-        end,
-      })
-      vim.cmd("colorscheme kanagawa-wave")
-    end,
-  },
-  {
-    "AlexvZyl/nordic.nvim",
-    lazy = false,
-    priority = 1000,
-    enabled = false,
-    config = function()
-      require("nordic").setup({
-        transparent_bg = false,
-      })
-      require("nordic").load()
-    end,
-  },
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    enabled = false,
-    priority = 1000,
-    config = function()
-      require("tokyonight").setup({
-        style = "moon",
-      })
-      vim.cmd("colorscheme tokyonight")
-    end,
-  },
-  {
-    "nyoom-engineering/oxocarbon.nvim",
-    lazy = false,
-    enabled = false,
-    priority = 1000,
-    config = function()
-      vim.opt.background = "dark"
-      vim.cmd.colorscheme("oxocarbon")
-    end,
-  },
-  {
-    "loctvl842/monokai-pro.nvim",
-    lazy = false,
-    enabled = false,
-    config = function()
-      require("monokai-pro").setup({
-        transparent_background = false,
-        -- filter = "octagon",
-        filter = "pro",
-      })
-
-      vim.cmd("colorscheme monokai-pro")
-    end,
-  },
-  {
-    "Mofiqul/dracula.nvim",
-    lazy = false,
-    enabled = false,
-    priority = 1000,
-    config = function()
-      require("dracula").setup({
-        transparent_bg = true,
-      })
-      vim.cmd.colorscheme("dracula")
-    end,
-  },
-  {
     "catppuccin/nvim",
     name = "catppuccin",
+    enabled = false,
     lazy = false,
     priority = 1000,
-    enabled = true,
     config = function()
       vim.opt.background = "dark"
 
@@ -242,45 +153,57 @@ return {
         highlight_overrides = {
           all = function(colors)
             return {
-              Operator = { fg = colors.overlay2 },
-              TSFunction = { fg = colors.flamingo },
-              ["@variable"] = { fg = colors.blue },
-              ["@property"] = { fg = colors.text },
-              ["@module"] = { fg = colors.teal },
-              ["@variable.parameter"] = { fg = colors.sky },
-              ["@parameter"] = { fg = colors.sky },
-              ["@lsp.type.method.ruby"] = { fg = colors.lavender },
-              ["@lsp.type.class.ruby"] = { fg = colors.teal },
-              ["@constructor.lua"] = { fg = colors.overlay2 },
-              TSConstructor = { fg = colors.text },
+              Comment = { fg = colors.peach, style = { "italic" } },
+              Boolean = { fg = colors.sky },
               Conditional = { fg = colors.flamingo },
-              TSFuncBuiltin = { fg = colors.flamingo },
+              CursorLine = { bg = colors.mantle },
+              Function = { fg = colors.sky, style = { "bold" } },
+              LineNr = { fg = colors.overlay1 },
               MiniIndentscopeSymbol = { fg = colors.surface2 },
+              Operator = { fg = colors.overlay2 },
+              PreProc = { fg = colors.blue },
+              String = { fg = colors.sky },
+              TSConstructor = { fg = colors.text },
+              TSFuncBuiltin = { fg = colors.flamingo },
+              TSFunction = { fg = colors.flamingo },
+              TSParameter = { fg = colors.text },
+              TSVariableBuiltin = { fg = colors.flamingo },
+              TelescopeBorder = { bg = colors.base, fg = colors.base },
+              TelescopeMatching = { fg = colors.sapphire },
               TelescopeNormal = { bg = colors.base },
               TelescopeSelection = { bg = colors.surface2, fg = colors.text },
-              TelescopeMatching = { fg = colors.flamingo },
-              TelescopeBorder = { bg = colors.base, fg = colors.base },
-              ["@function.builtin"] = { fg = colors.flamingo },
-              TSVariableBuiltin = { fg = colors.flamingo },
-              Type = { fg = colors.peach },
-              TSParameter = { fg = colors.text },
-              String = { fg = colors.lavender },
-              Boolean = { fg = colors.sky },
-              TodoBgTODO = { fg = colors.surface0, bg = colors.green },
+              TodoBgTODO = { fg = colors.base, bg = colors.green },
+              TodoFgTODO = { fg = colors.green },
+              Type = { fg = colors.blue },
+              Variable = { fg = colors.text },
+              ["@constructor.lua"] = { fg = colors.overlay2 },
+              ["@constant.ruby"] = { fg = colors.blue },
+              ["@function.builtin"] = { fg = colors.flamingo, style = { "bold" } },
+              ["@function.call.ruby"] = { fg = colors.teal },
+              ["@lsp.type.method.ruby"] = { fg = colors.sky, style = { "bold" } },
+              ["@function.ruby"] = { fg = colors.sky, style = { "bold" } },
+              ["@keyword.function.ruby"] = { fg = colors.teal },
+              ["@keyword.function.lua"] = { fg = colors.mauve },
+              ["@lsp.type.class.ruby"] = { fg = colors.blue, style = { "bold" } },
+              ["@module"] = { fg = colors.peach, style = { "bold", "italic" } },
+              ["@parameter"] = { fg = colors.flamingo },
+              ["@property"] = { fg = colors.text },
+              ["@string.special.symbol.ruby"] = { fg = colors.lavender },
+              ["@variable"] = { fg = colors.text },
+              ["@variable.parameter"] = { fg = colors.flamingo },
             }
           end,
         },
-        -- TODO:
         color_overrides = {
           mocha = {
             rosewater = carbon.red30,
-            flamingo = carbon.magenta50,
+            flamingo = carbon.magenta40,
             red = carbon.red50,
             maroon = carbon.red30,
             pink = carbon.magenta30,
             mauve = carbon.purple50,
             peach = carbon.orange40,
-            yellow = carbon.yellow20,
+            yellow = carbon.yellow30,
             green = carbon.green40,
             teal = carbon.teal40,
             sky = carbon.cyan30,

@@ -16,7 +16,6 @@ vim.opt.autowriteall = true
 vim.opt.hidden = true
 vim.opt.backup = false
 vim.opt.clipboard = "unnamedplus"
-vim.opt.cmdheight = 0
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.conceallevel = 0
 vim.opt.cursorline = false
@@ -53,6 +52,7 @@ vim.opt.writebackup = false
 vim.opt.guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor"
 vim.opt.shortmess = "astWAcCFo"
 vim.g.mapleader = " "
+vim.highlight.priorities.semantic_tokens = 95
 
 lib.nmap("+", "<Nop>")
 vim.g.maplocalleader = "+"
@@ -192,6 +192,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
+
 require("lazy").setup("plugins", {
   defaults = {
     lazy = true,
@@ -203,3 +205,14 @@ require("lazy").setup("plugins", {
     },
   },
 })
+
+dofile(vim.g.base46_cache .. "defaults")
+dofile(vim.g.base46_cache .. "statusline")
+dofile(vim.g.base46_cache .. "syntax")
+dofile(vim.g.base46_cache .. "treesitter")
+dofile(vim.g.base46_cache .. "term")
+dofile(vim.g.base46_cache .. "mason")
+dofile(vim.g.base46_cache .. "lsp")
+dofile(vim.g.base46_cache .. "whichkey")
+dofile(vim.g.base46_cache .. "cmp")
+dofile(vim.g.base46_cache .. "devicons")

@@ -77,7 +77,7 @@ return {
   {
     "stevearc/conform.nvim",
     enabled = true,
-    event = "LspAttach",
+    event = "VeryLazy",
     opts = {
       default_format_opts = {
         async = true,
@@ -167,8 +167,6 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    -- event = { "VeryLazy" },
-    -- commit = "0ef64599b8aa0187ee5f6d92cb39c951f348f041",
     ft = {
       "ruby",
       "eruby",
@@ -290,8 +288,6 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    -- dependencies = { "williamboman/mason.nvim" },
-    -- lazy = false,
     opts = {
       ensure_installed = {
         "bashls",
@@ -465,6 +461,7 @@ return {
       "ray-x/cmp-treesitter",
       "rafamadriz/friendly-snippets",
       "L3MON4D3/LuaSnip",
+      "nvchad/ui",
     },
     event = "InsertEnter",
     config = function()
@@ -588,13 +585,13 @@ return {
         },
       }
 
-      cmp.setup({
+      local options = {
         window = {
           completion = {
-            border = border,
-            winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Pmenu,Search:None",
+            -- border = border,
+            -- winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Pmenu,Search:None",
             scrollbar = false,
-            col_offset = -4,
+            col_offset = -3,
             side_padding = 0,
           },
           documentation = cmp.config.window.bordered(),
@@ -609,17 +606,17 @@ return {
         enabled = function()
           return not telescope_buffer() and not popup_buffer() and not comment() and not nui_buffer()
         end,
-        formatting = {
-          fields = { "kind", "abbr", "menu" },
-          format = function(entry, vim_item)
-            local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
-            local strings = vim.split(kind.kind, "%s", { trimempty = true })
-            kind.kind = " " .. (strings[1] or "") .. " "
-            kind.menu = "    (" .. (strings[2] or "") .. ")"
-
-            return kind
-          end,
-        },
+        -- formatting = {
+        --   fields = { "kind", "abbr", "menu" },
+        --   format = function(entry, vim_item)
+        --     local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+        --     local strings = vim.split(kind.kind, "%s", { trimempty = true })
+        --     kind.kind = " " .. (strings[1] or "") .. " "
+        --     kind.menu = "    (" .. (strings[2] or "") .. ")"
+        --
+        --     return kind
+        --   end,
+        -- },
         sorting = {
           priority_weight = 1.0,
           comparators = {
@@ -631,7 +628,9 @@ return {
           },
         },
         experimental = { ghost_text = false },
-      })
+      }
+
+      options = vim.tbl_deep_extend("force", require("nvchad.cmp"), options)
 
       cmp.setup.cmdline(":", {
         sources = {
@@ -659,7 +658,9 @@ return {
         mapping = mapping,
       })
 
+      require("cmp").setup(options)
       require("luasnip.loaders.from_vscode").lazy_load()
+      dofile(vim.g.base46_cache .. "cmp")
     end,
   },
   {
@@ -834,12 +835,12 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "hrsh7th/nvim-cmp", -- Optional: For using slash commands and variables in the chat buffer
+      "hrsh7th/nvim-cmp",
       {
-        "stevearc/dressing.nvim", -- Optional: Improves the default Neovim UI
+        "stevearc/dressing.nvim",
         opts = {},
       },
-      "nvim-telescope/telescope.nvim", -- Optional: For using slash commands
+      "nvim-telescope/telescope.nvim",
     },
     opts = {
       adapters = {
@@ -866,6 +867,7 @@ return {
   },
   {
     "stevearc/oil.nvim",
+    event = "VeryLazy",
     cmd = { "Oil" },
     keys = {
       { "<leader>if", lib.ex_cmd("Oil"), desc = "open parent dir" },
@@ -911,7 +913,6 @@ return {
   },
   {
     "NvChad/nvim-colorizer.lua",
-    -- event = "VeryLazy",
     keys = {
       {
         "<leader>ih",
@@ -927,6 +928,7 @@ return {
   },
   {
     "rcarriga/nvim-notify",
+    enabled = true,
     opts = {
       timeout = 800,
       fps = 60,
@@ -935,9 +937,6 @@ return {
   },
   {
     "folke/noice.nvim",
-    -- there is a bug in later versions that causes cursor jumping
-    -- TODO: fix this after folke comes back from vacation
-    -- commit = "d9328ef",
     enabled = true,
     event = { "VeryLazy" },
     dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
@@ -952,6 +951,12 @@ return {
       },
       lsp = {
         hover = {
+          enabled = false,
+        },
+        progress = {
+          enabled = false,
+        },
+        signature = {
           enabled = false,
         },
       },
@@ -1007,6 +1012,7 @@ return {
   },
   {
     "nvimdev/dashboard-nvim",
+    enabled = false,
     event = { "VimEnter" },
     cond = function()
       return vim.fn.argc() == 0
@@ -1099,6 +1105,7 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
+    enabled = false,
     event = "VeryLazy",
     config = function()
       local lualine = require("lualine")
@@ -1435,6 +1442,20 @@ return {
       local config = cmp.get_config()
       table.insert(config.sources, { name = "conjure", priority = 850 })
       return cmp.setup(config)
+    end,
+  },
+  {
+    "nvchad/ui",
+    lazy = false,
+    config = function()
+      require("nvchad")
+    end,
+  },
+  {
+    "nvchad/base46",
+    lazy = true,
+    build = function()
+      require("base46").load_all_highlights()
     end,
   },
 }

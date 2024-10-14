@@ -75,22 +75,23 @@ config.colors = {
   },
 }
 
-config.font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Regular" })
-config.font_rules = {
-  {
-    italic = false,
-    intensity = "Normal",
-    font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Regular" }),
-  },
-  {
-    intensity = "Bold",
-    font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Bold" }),
-  },
-  {
-    italic = true,
-    font = wezterm.font("MonaspiceRn Nerd Font", { style = "Italic", weight = "Bold" }),
-  },
-}
+config.font = wezterm.font("0xProto Nerd Font")
+-- config.font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Regular" })
+-- config.font_rules = {
+--   {
+--     italic = false,
+--     intensity = "Normal",
+--     font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Regular" }),
+--   },
+--   {
+--     intensity = "Bold",
+--     font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Bold" }),
+--   },
+--   {
+--     italic = true,
+--     font = wezterm.font("MonaspiceRn Nerd Font", { style = "Italic" }),
+--   },
+-- }
 
 config.window_padding = {
   bottom = 0,
