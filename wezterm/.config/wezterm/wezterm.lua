@@ -1,5 +1,6 @@
 -- foobar
 local wezterm = require("wezterm")
+local is_linux <const> = wezterm.target_triple:find("linux")
 local config = {}
 
 local carbon = {
@@ -106,6 +107,106 @@ config.font_size = 16.0
 config.line_height = 1.2
 config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = false
-config.window_decorations = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
+
+local SOLID_RIGHT_ARROW = wezterm.nerdfonts.pl_left_hard_divider
+
+config.tab_bar_style = {
+  new_tab = wezterm.format({
+    { Background = { Color = carbon.gray100 } },
+    { Foreground = { Color = carbon.blue_bright } },
+    { Text = " " },
+  }),
+  new_tab_hover = wezterm.format({
+    { Background = { Color = carbon.gray100 } },
+    { Foreground = { Color = carbon.yellow } },
+    { Text = " " },
+  }),
+}
+
+local function tab_title(tab)
+  local title = tab.tab_title
+  if title and #title > 0 then
+    return title
+  end
+  return tab.active_pane.title
+end
+
+local function last_tab(tab, tabs)
+  return tab.tab_index + 1 == #tabs
+end
+
+local function first_tab(tab)
+  return tab.tab_index == 0
+end
+
+local function active_tab_index(tabs)
+  for _, tab in ipairs(tabs) do
+    if tab.is_active then
+      return tab.tab_index
+    end
+  end
+end
+
+local function active_tab_before(tab, tabs)
+  if active_tab_index(tabs) + 1 == tab.tab_index then
+    return true
+  end
+  return false
+end
+
+local function insert_tab_body(sections, tab)
+  table.insert(sections, "ResetAttributes")
+  if tab.is_active then
+    table.insert(sections, { Background = { Color = carbon.blue_bright } })
+    table.insert(sections, { Foreground = { Color = carbon.gray100 } })
+  else
+    table.insert(sections, { Background = { Color = carbon.gray80 } })
+    table.insert(sections, { Foreground = { Color = carbon.gray40 } })
+  end
+  table.insert(sections, { Text = " " .. tab.tab_index + 1 .. ": " .. tab_title(tab) .. " " })
+end
+
+local function insert_left_separator(sections, tab, tabs)
+  table.insert(sections, "ResetAttributes")
+  if not first_tab(tab) then
+    if tab.is_active then
+      table.insert(sections, { Background = { Color = carbon.blue_bright } })
+      table.insert(sections, { Foreground = { Color = carbon.gray80 } })
+    elseif active_tab_before(tab, tabs) then
+      table.insert(sections, { Background = { Color = carbon.gray80 } })
+      table.insert(sections, { Foreground = { Color = carbon.blue_bright } })
+    else
+      table.insert(sections, { Background = { Color = carbon.gray80 } })
+      table.insert(sections, { Foreground = { Color = carbon.gray80 } })
+    end
+    table.insert(sections, { Text = SOLID_RIGHT_ARROW })
+  end
+end
+
+local function insert_right_separator(sections, tab, tabs)
+  table.insert(sections, "ResetAttributes")
+  if last_tab(tab, tabs) then
+    if tab.is_active then
+      table.insert(sections, { Background = { Color = carbon.gray100 } })
+      table.insert(sections, { Foreground = { Color = carbon.blue_bright } })
+    else
+      table.insert(sections, { Background = { Color = carbon.gray100 } })
+      table.insert(sections, { Foreground = { Color = carbon.gray80 } })
+    end
+    table.insert(sections, { Text = SOLID_RIGHT_ARROW })
+  end
+end
+
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+  local sections = {}
+  insert_left_separator(sections, tab, tabs)
+  insert_tab_body(sections, tab)
+  insert_right_separator(sections, tab, tabs)
+  return sections
+end)
+
+if not is_linux then
+  config.window_decorations = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
+end
 
 return config
