@@ -356,6 +356,7 @@ return {
         "ruby",
         "rust",
         "scss",
+        "sql",
         "surface",
         "svelte",
         "typescript",
@@ -764,6 +765,14 @@ return {
           require("flash").toggle()
         end,
         desc = "Toggle Flash Search",
+      },
+    },
+    opts = {
+      highlight = {
+        groups = {
+          -- Defaults to FlashLabel which is linked to Substitute which doesn't look great in nvchad themes
+          label = "@comment.note",
+        },
       },
     },
   },

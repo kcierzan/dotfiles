@@ -41,6 +41,11 @@ return {
         desc = "implementations",
       },
       {
+        "<leader>fq",
+        lib.telescope_builtin("quickfix"),
+        desc = "quickfix",
+      },
+      {
         "<leader>fj",
         lib.ex_cmd(":lua require('telescope').extensions.zoxide.list()"),
         desc = "recent dirs",
@@ -90,6 +95,11 @@ return {
         "<leader>vo",
         lib.telescope_builtin("vim_options"),
         desc = "vim options",
+      },
+      {
+        "<leader>vs",
+        lib.ex_cmd("Telescope themes"),
+        desc = "colorschemes",
       },
       { "<leader>ff", lib.search_visual_selection, desc = "search visual selection", mode = "v" },
       {

@@ -76,7 +76,7 @@ config.colors = {
   },
 }
 
-config.font = wezterm.font("0xProto Nerd Font")
+config.font = wezterm.font("BerkeleyMono Nerd Font")
 -- config.font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Regular" })
 -- config.font_rules = {
 --   {
