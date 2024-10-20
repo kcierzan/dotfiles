@@ -1,8 +1,8 @@
 local config = {}
 
 config.base46 = {
-  theme = "oxocarbon",
-  theme_toggle = { "oxocarbon", "rosepine-dawn" },
+  theme = "gruvchad",
+  theme_toggle = { "gruvchad", "gruvbox_light" },
 }
 
 config.ui = {
