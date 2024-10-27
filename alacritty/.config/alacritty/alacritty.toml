@@ -7,9 +7,9 @@ padding = { x = 6, y = 6 }
 blur = true
 
 [font]
-normal = { family = "BlexMono Nerd Font", style = "Text" }
-bold = { family = "BlexMono Nerd Font", style = "Bold" }
-italic = { family = "BlexMono Nerd Font", style = "Text Italic"}
+normal = { family = "BerkeleyMono Nerd Font", style = "Text" }
+bold = { family = "BerkeleyMono Nerd Font", style = "Bold" }
+italic = { family = "BerkeleyMono Nerd Font", style = "Text Italic"}
 offset = { y = 0, x = 1 }
 size = 16
 
