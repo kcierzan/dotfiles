@@ -3,7 +3,7 @@ local wezterm = require("wezterm")
 local is_linux <const> = wezterm.target_triple:find("linux")
 local config = {}
 
-local theme_name = "gruvchad"
+local theme_name = "catpuccin"
 local theme = require("themes/" .. theme_name)
 
 config.colors = theme.wezterm_colors
@@ -35,7 +35,7 @@ config.window_padding = {
 
 config.front_end = "WebGpu"
 config.freetype_load_target = "Light"
-config.font_size = 16.0
+config.font_size = 14.0
 config.line_height = 1.2
 config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = false
