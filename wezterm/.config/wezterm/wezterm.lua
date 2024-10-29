@@ -8,7 +8,7 @@ local theme = require("themes/" .. theme_name)
 
 config.colors = theme.wezterm_colors
 
-config.font = wezterm.font("BerkeleyMono Nerd Font")
+config.font = wezterm.font("Input Mono")
 -- config.font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Regular" })
 -- config.font_rules = {
 --   {
