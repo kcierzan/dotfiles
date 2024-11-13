@@ -4,6 +4,10 @@ bindkey -e
 # do not write duplicate events to the history file
 setopt HIST_SAVE_NO_DUPS
 
+setopt SHARE_HISTORY
+
+export HISTFILE="$ZDOTDIR/.zsh_history"
+
 # set up aliases
 alias g='git'
 alias la='lsd -lah'
@@ -60,3 +64,5 @@ bindkey '^[j' icd
 
 bindkey '^p' history-substring-search-up
 bindkey '^n' history-substring-search-down
+
+# source "$HOME/.bootstrap/env.sh"

@@ -3,12 +3,14 @@ local wezterm = require("wezterm")
 local is_linux <const> = wezterm.target_triple:find("linux")
 local config = {}
 
-local theme_name = "catpuccin"
+local theme_name = "kanagawa"
 local theme = require("themes/" .. theme_name)
 
 config.colors = theme.wezterm_colors
+config.window_background_opacity = 1
+config.harfbuzz_features = { "calt=1", "clig=1", "liga=1", "dlig=1" }
 
-config.font = wezterm.font("Input Mono")
+config.font = wezterm.font("CaskaydiaCove Nerd Font")
 -- config.font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Regular" })
 -- config.font_rules = {
 --   {
@@ -24,7 +26,14 @@ config.font = wezterm.font("Input Mono")
 --     italic = true,
 --     font = wezterm.font("MonaspiceRn Nerd Font", { style = "Italic" }),
 --   },
--- }
+--
+config.keys = {
+  {
+    key = "]",
+    mods = "CMD|SHIFT",
+    action = wezterm.action.ToggleAlwaysOnTop,
+  },
+}
 
 config.window_padding = {
   bottom = 0,
@@ -142,6 +151,7 @@ end)
 
 if not is_linux then
   config.window_decorations = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
+  config.macos_window_background_blur = 30
 end
 
 return config

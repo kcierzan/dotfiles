@@ -1,55 +1,55 @@
 local M = {}
+
 local base_30 = {
-  white = "#D9E0EE",
-  darker_black = "#191828",
-  black = "#1E1D2D", --  nvim bg
-  black2 = "#252434",
-  one_bg = "#2d2c3c", -- real bg of onedark
-  one_bg2 = "#363545",
-  one_bg3 = "#3e3d4d",
-  grey = "#474656",
-  grey_fg = "#4e4d5d",
-  grey_fg2 = "#555464",
-  light_grey = "#605f6f",
-  red = "#F38BA8",
-  baby_pink = "#ffa5c3",
-  pink = "#F5C2E7",
-  line = "#383747", -- for lines like vertsplit
-  green = "#ABE9B3",
-  vibrant_green = "#b6f4be",
-  nord_blue = "#8bc2f0",
-  blue = "#89B4FA",
-  yellow = "#FAE3B0",
-  sun = "#ffe9b6",
-  purple = "#d0a9e5",
-  dark_purple = "#c7a0dc",
-  teal = "#B5E8E0",
-  orange = "#F8BD96",
-  cyan = "#89DCEB",
-  statusline_bg = "#232232",
-  lightbg = "#2f2e3e",
-  pmenu_bg = "#ABE9B3",
-  folder_bg = "#89B4FA",
-  lavender = "#c7d1ff",
+  white = "#DCD7BA",
+  darker_black = "#191922",
+  black = "#1F1F28", --  nvim bg
+  black2 = "#25252e",
+  one_bg = "#272730",
+  one_bg2 = "#2f2f38",
+  one_bg3 = "#363646",
+  grey = "#43434c",
+  grey_fg = "#4c4c55",
+  grey_fg2 = "#53535c",
+  light_grey = "#5c5c65",
+  red = "#d8616b",
+  baby_pink = "#D27E99",
+  pink = "#c8748f",
+  line = "#31313a", -- for lines like vertsplit
+  green = "#98BB6C",
+  vibrant_green = "#a3c677",
+  nord_blue = "#7E9CD8",
+  blue = "#7FB4CA",
+  yellow = "#FF9E3B",
+  sun = "#FFA066",
+  purple = "#a48ec7",
+  dark_purple = "#9c86bf",
+  teal = "#7AA89F",
+  orange = "#fa9b61",
+  cyan = "#A3D4D5",
+  statusline_bg = "#24242d",
+  lightbg = "#33333c",
+  pmenu_bg = "#a48ec7",
+  folder_bg = "#7E9CD8",
 }
 
 local base_16 = {
-  base00 = "#1E1D2D",
-  base01 = "#282737",
-  base02 = "#2f2e3e",
-  base03 = "#383747",
-  base04 = "#414050",
-  base05 = "#bfc6d4",
-  base06 = "#ccd3e1",
-  base07 = "#D9E0EE",
-  base08 = "#F38BA8",
-  base09 = "#F8BD96",
-  base0A = "#FAE3B0",
-  base0B = "#ABE9B3",
-  base0C = "#89DCEB",
-  base0D = "#89B4FA",
-  base0E = "#CBA6F7",
-  base0F = "#F38BA8",
+  base00 = "#1f1f28",
+  base01 = "#2a2a37",
+  base02 = "#223249",
+  base03 = "#363646",
+  base04 = "#4c4c55",
+  base05 = "#c8c3a6",
+  base06 = "#d2cdb0",
+  base07 = "#DCD7BA",
+  base08 = "#d8616b",
+  base09 = "#ffa066",
+  base0A = "#dca561",
+  base0B = "#98bb6c",
+  base0C = "#7fb4ca",
+  base0D = "#7e9cd8",
+  base0E = "#9c86bf",
+  base0F = "#d8616b",
 }
 
 M.wezterm_colors = {
@@ -66,7 +66,7 @@ M.wezterm_colors = {
     base_16.base0D,
     base_16.base0E,
     base_16.base0B,
-    base_16.base05,
+    base_16.base04,
   },
   brights = {
     base_16.base00,
@@ -76,13 +76,14 @@ M.wezterm_colors = {
     base_16.base0D,
     base_16.base0E,
     base_16.base0B,
-    base_16.base05,
+    base_16.base04,
   },
 
   tab_bar = {
     background = base_30.statusline_bg,
   },
 }
+
 M.tab_colors = {
   tab = {
     active = {

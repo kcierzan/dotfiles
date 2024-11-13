@@ -15,7 +15,6 @@ set noswapfile
 set nowrap
 set nonumber
 set scrolloff=3
-set shell=/usr/local/bin/fish
 set shiftround
 set shiftwidth=2
 set showcmd

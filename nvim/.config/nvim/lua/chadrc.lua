@@ -1,8 +1,21 @@
 local config = {}
 
 config.base46 = {
-  theme = "catppuccin",
-  theme_toggle = { "catppuccin", "gruvbox_light" },
+  theme = "kanagawa",
+  theme_toggle = { "kanagawa", "gruvbox_light" },
+  hl_override = {
+    Visual = { bg = "grey_fg2" },
+    -- Normal = { bg = "NONE" },
+    Comment = { fg = "purple" },
+    ["@comment"] = { fg = "light_grey" },
+    TelescopeNormal = { bg = "NONE" },
+    TelescopePromptNormal = { bg = "NONE" },
+    TelescopePromptPrefix = { bg = "NONE" },
+    TelescopeBorder = { bg = "NONE" },
+    TelescopePromptBorder = { bg = "NONE" },
+    TelescopeResultsTitle = { bg = "purple" },
+    NotifyBackground = { bg = "one_bg" },
+  },
 }
 
 config.ui = {
