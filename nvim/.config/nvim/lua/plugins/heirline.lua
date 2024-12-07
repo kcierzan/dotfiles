@@ -1,14 +1,76 @@
+local lib = require("lib")
+
 return {
   "rebelot/heirline.nvim",
   lazy = false,
   dependencies = { "rebelot/kanagawa.nvim" },
   config = function()
+    local separator = "round"
+    local segment_bg = "sumiInk4"
     local utils = require("heirline.utils")
     local conditions = require("heirline.conditions")
     local colors = require("kanagawa.colors").setup()
 
+    local separators = {
+      pixels_left = " ",
+      pixels_right = "",
+      slant_up_left = "",
+      slant_up_right = "",
+      slant_down_left = "",
+      slant_down_right = "",
+      round_left = "",
+      round_right = "",
+      trapezoid_left = "",
+      trapezoid_right = "",
+    }
     local Space = { provider = " " }
     local Align = { provider = "%=" }
+
+    local function segment(...)
+      local left_sep = separators[separator .. "_left"]
+      local right_sep = separators[separator .. "_right"]
+      local padding = {
+        Space,
+        hl = { bg = segment_bg, force = true },
+        condition = function()
+          return separator == "slant_up" or separator == "slant_down"
+        end,
+      }
+
+      local function override_bg_highlight(component)
+        local hl = component.hl
+        local hl_type = type(hl)
+
+        if hl_type == "function" then
+          local original_hl = hl
+          component.hl = function(self)
+            return lib.merge(original_hl(self), { bg = segment_bg, force = true })
+          end
+        else
+          component.hl = lib.merge(hl_type == "table" and hl or {}, { bg = segment_bg, force = true })
+        end
+      end
+
+      for _, component in ipairs(...) do
+        override_bg_highlight(component)
+      end
+
+      return {
+        Space,
+        {
+          provider = left_sep,
+          hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
+        },
+        padding,
+        ...,
+        padding,
+        {
+          provider = right_sep,
+          hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
+        },
+      }
+    end
+
     local ViMode = {
       static = {
         mode_names = {
@@ -173,7 +235,6 @@ return {
     -- let's add the children to our FileNameBlock component
     FileNameBlock = utils.insert(
       FileNameBlock,
-      Space,
       FileIcon,
       utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
       FileFlags,
@@ -227,13 +288,13 @@ return {
       hl = { fg = "waveRed", bold = true },
     }
 
+    local Mode = segment(ViMode)
+    local File = segment(FileNameBlock)
+
     require("heirline").setup({
       statusline = {
-        Space,
-        ViMode,
-        Space,
-        FileNameBlock,
-        Space,
+        Mode,
+        File,
         MacroRec,
         Align,
         LSPActive,
