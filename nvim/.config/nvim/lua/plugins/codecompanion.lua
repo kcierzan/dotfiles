@@ -12,7 +12,6 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
-    -- "hrsh7th/nvim-cmp",
     {
       "stevearc/dressing.nvim",
       opts = {},
