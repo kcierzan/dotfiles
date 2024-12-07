@@ -27,23 +27,25 @@ return {
       end,
     },
     sources = {
-      enabled_providers = {
-        "lsp",
-        "path",
-        "luasnip",
-        "snippets",
-        "buffer",
-        "ripgrep",
+      completion = {
+        enabled_providers = {
+          "lsp",
+          "path",
+          "luasnip",
+          "snippets",
+          "buffer",
+          "ripgrep",
+        },
       },
-    },
-    providers = {
-      ripgrep = {
-        module = "blink-ripgrep",
-        name = "Ripgrep",
-        opts = {
-          prefix_min_length = 3,
-          context_size = 5,
-          max_filesize = "1M",
+      providers = {
+        ripgrep = {
+          module = "blink-ripgrep",
+          name = "Ripgrep",
+          opts = {
+            prefix_min_length = 3,
+            context_size = 5,
+            max_filesize = "1M",
+          },
         },
       },
     },
