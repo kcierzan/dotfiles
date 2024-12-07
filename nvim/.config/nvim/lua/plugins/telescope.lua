@@ -169,7 +169,6 @@ return {
       telescope.load_extension("zoxide")
       telescope.load_extension("luasnip")
       telescope.load_extension("frecency")
-      dofile(vim.g.base46_cache .. "telescope")
     end,
   },
   {

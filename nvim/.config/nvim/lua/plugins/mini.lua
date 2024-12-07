@@ -1,0 +1,66 @@
+local lib = require("lib")
+
+return {
+  {
+    "echasnovski/mini.comment",
+    keys = { "gc", "v", "V" },
+    version = false,
+    opts = {},
+  },
+  {
+    "echasnovski/mini.surround",
+    version = false,
+    event = "InsertEnter",
+    keys = {
+      {
+        "S",
+        mode = { "x" },
+        function()
+          require("mini.surround").add("visual")
+        end,
+      },
+    },
+    opts = {
+      mappings = {
+        add = "ys",
+        delete = "ds",
+        find = "",
+        find_left = "",
+        highlight = "",
+        replace = "cs",
+        update_n_lines = "",
+      },
+    },
+  },
+  {
+    "echasnovski/mini.operators",
+    keys = { "g=", "gx", "gm", "gr", "gs" },
+    version = false,
+    opts = {},
+  },
+  {
+    "echasnovski/mini.ai",
+    version = false,
+    keys = { "a", "i", "g" },
+    opts = {},
+  },
+  {
+    "echasnovski/mini.pairs",
+    version = false,
+    event = "InsertEnter",
+    opts = {},
+  },
+  {
+    "echasnovski/mini.indentscope",
+    version = false,
+    event = "BufReadPre",
+    opts = {
+      symbol = "▎",
+    },
+  },
+  {
+    "echasnovski/mini.bufremove",
+    keys = { { "<leader>bd", lib.ex_cmd("bd"), desc = "delete" } },
+    opts = {},
+  },
+}
