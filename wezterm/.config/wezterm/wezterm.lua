@@ -1,4 +1,3 @@
--- foobar
 local wezterm = require("wezterm")
 local is_linux <const> = wezterm.target_triple:find("linux")
 local config = {}
@@ -8,25 +7,9 @@ local theme = require("themes/" .. theme_name)
 
 config.colors = theme.wezterm_colors
 config.window_background_opacity = 1
-config.harfbuzz_features = { "calt=1", "clig=1", "liga=1", "dlig=1" }
+config.harfbuzz_features = { "calt=1", "clig=1", "liga=1", "dlig=1", "ss01=1" }
 
-config.font = wezterm.font("CaskaydiaCove Nerd Font")
--- config.font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Regular" })
--- config.font_rules = {
---   {
---     italic = false,
---     intensity = "Normal",
---     font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Regular" }),
---   },
---   {
---     intensity = "Bold",
---     font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Bold" }),
---   },
---   {
---     italic = true,
---     font = wezterm.font("MonaspiceRn Nerd Font", { style = "Italic" }),
---   },
---
+config.font = wezterm.font("CommitMono Nerd Font")
 config.keys = {
   {
     key = "]",
