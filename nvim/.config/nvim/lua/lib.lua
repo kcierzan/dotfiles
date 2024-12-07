@@ -234,4 +234,36 @@ function M.paste_in_gui_terminal()
   vim.api.nvim_feedkeys(keys, "n", false)
 end
 
+function M.merge(t1, t2)
+  local result = {}
+
+  t1 = t1 or {}
+  t2 = t2 or {}
+
+  -- Copy array part first to maintain sequence
+  local maxIndex = math.max(#t1, #t2)
+  for i = 1, maxIndex do
+    if t1[i] ~= nil then
+      result[i] = t1[i]
+    end
+    if t2[i] ~= nil then
+      result[i] = t2[i]
+    end
+  end
+
+  -- Copy hash part
+  for k, v in pairs(t1) do
+    if type(k) ~= "number" or k > maxIndex then
+      result[k] = v
+    end
+  end
+  for k, v in pairs(t2) do
+    if type(k) ~= "number" or k > maxIndex then
+      result[k] = v
+    end
+  end
+
+  return result
+end
+
 return M
