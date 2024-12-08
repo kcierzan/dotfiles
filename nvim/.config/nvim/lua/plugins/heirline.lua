@@ -193,7 +193,7 @@ return {
         condition = function()
           return not vim.bo.modifiable or vim.bo.readonly
         end,
-        provider = "",
+        provider = " ",
         hl = { fg = "orange" },
       },
     }
@@ -210,13 +210,6 @@ return {
           return { fg = "springBlue", bold = true, force = true }
         end
       end,
-    }
-
-    local FileType = {
-      provider = function()
-        return string.upper(vim.bo.filetype)
-      end,
-      hl = { fg = utils.get_highlight("Type").fg, bold = true },
     }
 
     local FileEncoding = {
@@ -289,6 +282,8 @@ return {
       hl = { fg = "waveRed", bold = true },
     }
 
+    WorkDir = segment(WorkDir)
+
     local VisualWords = {
       provider = function()
         local wc = vim.api.nvim_eval("wordcount()")
@@ -304,6 +299,7 @@ return {
 
     local Mode = segment(ViMode)
     local File = segment(FileNameBlock)
+
     VisualWords = {
       segment(VisualWords),
       condition = function()
@@ -317,16 +313,26 @@ return {
       condition = conditions.lsp_attached,
     }
 
+    local function is_regular_buffer()
+      return not conditions.buffer_matches({ buftype = { "terminal", "TelescopePrompt", "quickfix", "help" } })
+    end
+
+    ActiveStatusLine = {
+      Mode,
+      { File, VisualWords, MacroRec, Align, LSPActive, WorkDir, condition = is_regular_buffer },
+      Space,
+      condition = conditions.is_active,
+    }
+
+    InactiveStatusLine = {
+      File,
+    }
+
     require("heirline").setup({
       statusline = {
-        Mode,
-        File,
-        VisualWords,
-        MacroRec,
-        Align,
-        LSPActive,
-        segment(WorkDir),
-        Space,
+        ActiveStatusLine,
+        InactiveStatusLine,
+        fallthrough = false,
       },
       opts = {
         colors = colors.palette,
