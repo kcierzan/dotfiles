@@ -39,6 +39,15 @@ return {
     opts = {},
   },
   {
+    "echasnovski/mini.icons",
+    lazy = false,
+    version = false,
+    config = function()
+      require("mini.icons").setup({})
+      require("mini.icons").mock_nvim_web_devicons()
+    end,
+  },
+  {
     "echasnovski/mini.ai",
     version = false,
     keys = { "a", "i", "g" },

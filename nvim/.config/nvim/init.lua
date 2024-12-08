@@ -112,11 +112,7 @@ lib.nmap("<D-v>", '"+p')
 lib.nmap("gh", lib.ex_cmd("lua vim.lsp.buf.hover()"))
 lib.nmap("gd", lib.ex_cmd("lua vim.lsp.buf.definition()"))
 lib.nmap("gD", lib.ex_cmd("lua vim.lsp.buf.incoming_calls()"))
--- lib.nmap("gr", lib.ex_cmd("lua require('navigator.reference').reference()"))
--- lib.nmap("gW", lib.ex_cmd("lua require('navigator.workspace').workspace_symbol_live()"))
--- lib.nmap("gp", lib.ex_cmd("lua require('navigator.definition').definition_preview()"))
 lib.nmap("gi", lib.ex_cmd("lua vim.lsp.buf.implementation()"))
--- lib.nmap("gL", lib.ex_cmd("lua require('navigator.diagnostics').show_diagnostics()"))
 lib.nmap("]e", lib.ex_cmd("lua vim.diagnostic.goto_next()"))
 lib.nmap("[e", lib.ex_cmd("lua vim.diagnostic.goto_prev()"))
 lib.nmap("]g", lib.ex_cmd("Gitsigns next_hunk"))
@@ -149,8 +145,8 @@ if not vim.g.vscode then
   })
 end
 
+-- map cmd + =/- to increase the neovide text size
 if vim.g.neovide then
-  -- map cmd + =/- to increase the neovide text size
   vim.g.neovide_scale_factor = 1.0
   local change_scale_factor = function(delta)
     vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
@@ -182,6 +178,8 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
   end,
 })
 
+-- TODO: determine if this is still needed
+-- turn on treesitter highlighting and automatic end-delimiter insertion
 vim.api.nvim_create_autocmd("VimEnter", {
   pattern = "*",
   callback = function()

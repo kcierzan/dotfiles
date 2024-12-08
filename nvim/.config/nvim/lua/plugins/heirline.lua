@@ -3,7 +3,7 @@ local lib = require("lib")
 return {
   "rebelot/heirline.nvim",
   lazy = false,
-  dependencies = { "rebelot/kanagawa.nvim" },
+  dependencies = { "rebelot/kanagawa.nvim", "echanovski/mini.icons" },
   config = function()
     local separator = "round"
     local segment_bg = "sumiInk4"
@@ -27,6 +27,9 @@ return {
     local Align = { provider = "%=" }
 
     local function segment(...)
+      -- each usage of ... is a copy of the arguments so we
+      -- capture them in a table here
+      local components = { ... }
       local left_sep = separators[separator .. "_left"]
       local right_sep = separators[separator .. "_right"]
       local padding = {
@@ -51,7 +54,7 @@ return {
         end
       end
 
-      for _, component in ipairs(...) do
+      for _, component in ipairs(components) do
         override_bg_highlight(component)
       end
 
@@ -62,7 +65,7 @@ return {
           hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
         },
         padding,
-        ...,
+        unpack(components),
         padding,
         {
           provider = right_sep,
@@ -111,10 +114,10 @@ return {
         },
         mode_colors = {
           n = "crystalBlue",
-          i = "green",
-          v = "cyan",
-          V = "cyan",
-          ["\22"] = "cyan",
+          i = "springGreen",
+          v = "springBlue",
+          V = "springBlue",
+          ["\22"] = "springBlue",
           c = "orange",
           s = "purple",
           S = "purple",
@@ -153,15 +156,13 @@ return {
     local FileIcon = {
       init = function(self)
         local filename = self.filename
-        local extension = vim.fn.fnamemodify(filename, ":e")
-        self.icon, self.icon_color =
-          require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
+        self.icon, self.icon_color = require("mini.icons").get("file", filename)
       end,
       provider = function(self)
         return self.icon and (self.icon .. " ")
       end,
       hl = function(self)
-        return { fg = self.icon_color }
+        return { fg = utils.get_highlight(self.icon_color).fg }
       end,
     }
 
@@ -185,8 +186,8 @@ return {
         condition = function()
           return vim.bo.modified
         end,
-        provider = "[+]",
-        hl = { fg = "green" },
+        provider = " 󰧞",
+        hl = { fg = "roninYellow" },
       },
       {
         condition = function()
@@ -206,7 +207,7 @@ return {
       hl = function()
         if vim.bo.modified then
           -- use `force` because we need to override the child's hl foreground
-          return { fg = "cyan", bold = true, force = true }
+          return { fg = "springBlue", bold = true, force = true }
         end
       end,
     }
@@ -263,22 +264,22 @@ return {
     }
 
     local LSPActive = {
-      condition = conditions.lsp_attached,
       update = { "LspAttach", "LspDetach" },
       provider = function()
         local names = {}
         for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
           table.insert(names, server.name)
         end
-        return " [" .. table.concat(names, " ") .. "]"
+        return " " .. table.concat(names, " ")
       end,
-      hl = { fg = "green", bold = true },
+      hl = { fg = "springGreen", bold = true },
     }
 
     local WorkDir = {
       provider = function()
-        local icon = (vim.fn.haslocaldir(0) == 1 and "[local]" or "") .. " " .. " "
         local cwd = vim.fn.getcwd(0)
+        local icon = require("mini.icons").get("directory", cwd)
+        icon = (vim.fn.haslocaldir(0) == 1 and "[local] " or "") .. icon .. " "
         cwd = vim.fn.fnamemodify(cwd, ":~")
         if not conditions.width_percent_below(#cwd, 0.25) then
           cwd = vim.fn.pathshorten(cwd)
@@ -288,18 +289,43 @@ return {
       hl = { fg = "waveRed", bold = true },
     }
 
+    local VisualWords = {
+      provider = function()
+        local wc = vim.api.nvim_eval("wordcount()")
+        if wc["visual_words"] then
+          return wc["visual_words"] .. " words"
+        else
+          return wc["words"] .. " words"
+        end
+      end,
+      update = { "CursorMoved" },
+      hl = { fg = "oniViolet", bold = true },
+    }
+
     local Mode = segment(ViMode)
     local File = segment(FileNameBlock)
+    VisualWords = {
+      segment(VisualWords),
+      condition = function()
+        local mode = vim.fn.mode()
+        return mode == "v" or mode == "V"
+      end,
+    }
+
+    LSPActive = {
+      segment(LSPActive),
+      condition = conditions.lsp_attached,
+    }
 
     require("heirline").setup({
       statusline = {
         Mode,
         File,
+        VisualWords,
         MacroRec,
         Align,
         LSPActive,
-        Space,
-        WorkDir,
+        segment(WorkDir),
         Space,
       },
       opts = {

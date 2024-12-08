@@ -65,4 +65,4 @@ bindkey '^[j' icd
 bindkey '^p' history-substring-search-up
 bindkey '^n' history-substring-search-down
 
-# source "$HOME/.bootstrap/env.sh"
+[ -f ~/.bootstrap/env.sh ] && source "$HOME/.bootstrap/env.sh"

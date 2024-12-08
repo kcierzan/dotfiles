@@ -236,7 +236,6 @@ end
 
 function M.merge(t1, t2)
   local result = {}
-
   t1 = t1 or {}
   t2 = t2 or {}
 
