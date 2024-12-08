@@ -127,10 +127,10 @@ local palette = {
 }
 
 M.wezterm_colors = {
-  background = palette.sumiInk3,
+  background = palette.sumiInk2,
   foreground = palette.fujiWhite,
   cursor_bg = palette.autumnYellow,
-  cursor_fg = palette.sumiInk3,
+  cursor_fg = palette.sumiInk2,
   cursor_border = palette.autumnYellow,
   ansi = {
     palette.sumiInk0,
@@ -143,7 +143,7 @@ M.wezterm_colors = {
     palette.dragonWhite,
   },
   brights = {
-    palette.sumiInk4,
+    palette.sumiInk6,
     palette.waveRed,
     palette.springGreen,
     palette.autumnYellow,
