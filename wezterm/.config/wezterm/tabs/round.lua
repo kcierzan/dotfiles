@@ -20,45 +20,36 @@ function RoundTabLine.new(args)
   end
 
   instance.insert_separator = function(tab, direction)
-    table.insert(instance.sections, "ResetAttributes")
-    if tab.is_active then
-      table.insert(instance.sections, {
-        Background = { Color = instance.theme.tab_colors.statusline_bg },
-      })
-      table.insert(instance.sections, {
-        Foreground = { Color = instance.theme.tab_colors.active },
-      })
-    else
-      table.insert(instance.sections, {
-        Background = { Color = instance.theme.tab_colors.statusline_bg },
-      })
-      table.insert(instance.sections, {
-        Foreground = { Color = instance.theme.tab_colors.segment_bg },
-      })
-    end
+    local sections = instance.sections
+    local theme = instance.theme.tab_colors
     local separator = direction == "right" and RIGHT_SEPARATOR or LEFT_SEPARATOR
-    table.insert(instance.sections, { Text = separator })
+
+    table.insert(sections, "ResetAttributes")
+    table.insert(sections, {
+      Background = { Color = theme.statusline_bg },
+    })
+    table.insert(sections, {
+      Foreground = { Color = tab.is_active and theme.active or theme.segment_bg },
+    })
+    table.insert(sections, { Text = separator })
   end
 
   instance.insert_tab_body = function(tab)
-    table.insert(instance.sections, "ResetAttributes")
-    if tab.is_active then
-      table.insert(instance.sections, {
-        Background = { Color = instance.theme.tab_colors.active },
-      })
-      table.insert(instance.sections, {
-        Foreground = { Color = instance.theme.tab_colors.statusline_bg },
-      })
-    else
-      table.insert(instance.sections, {
-        Background = { Color = instance.theme.tab_colors.segment_bg },
-      })
-      table.insert(instance.sections, {
-        Foreground = { Color = instance.theme.tab_colors.active },
-      })
-    end
-    table.insert(instance.sections, { Attribute = { Intensity = "Bold" } })
-    table.insert(instance.sections, { Text = tab.tab_index + 1 .. ": " .. tab_title(tab) })
+    local sections = instance.sections
+    local theme = instance.theme.tab_colors
+    local is_active = tab.is_active
+    local bg_color = is_active and theme.active or theme.segment_bg
+    local fg_color = is_active and theme.statusline_bg or theme.active
+
+    table.insert(sections, "ResetAttributes")
+    table.insert(sections, {
+      Background = { Color = bg_color },
+    })
+    table.insert(sections, {
+      Foreground = { Color = fg_color },
+    })
+    table.insert(sections, { Attribute = { Intensity = "Bold" } })
+    table.insert(sections, { Text = tab.tab_index + 1 .. ": " .. tab_title(tab) })
   end
 
   instance.clear_sections = function()

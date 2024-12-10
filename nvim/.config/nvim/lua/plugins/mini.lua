@@ -68,6 +68,12 @@ return {
     },
   },
   {
+    "echasnovski/mini.diff",
+    version = false,
+    event = "VeryLazy",
+    opts = {},
+  },
+  {
     "echasnovski/mini.bufremove",
     keys = { { "<leader>bd", lib.ex_cmd("bd"), desc = "delete" } },
     opts = {},

@@ -2,7 +2,7 @@ local lib = require("lib")
 
 return {
   "rebelot/heirline.nvim",
-  lazy = false,
+  event = "VeryLazy",
   dependencies = { "rebelot/kanagawa.nvim", "echanovski/mini.icons" },
   config = function()
     local separator = "round"
@@ -166,19 +166,27 @@ return {
       end,
     }
 
+    local FilePath = {
+      provider = function(self)
+        local path = vim.fn.fnamemodify(self.filename, ":~:.:h")
+
+        if not conditions.width_percent_below(#path, 0.25) then
+          path = vim.fn.pathshorten(path)
+        end
+        return path .. "/"
+      end,
+      hl = { fg = utils.get_highlight("Directory").fg },
+    }
+
     local FileName = {
       provider = function(self)
-        local filename = vim.fn.fnamemodify(self.filename, ":.")
+        local filename = vim.fn.fnamemodify(self.filename, ":t")
         if filename == "" then
-          return "[No Name]"
-        end
-
-        if not conditions.width_percent_below(#filename, 0.25) then
-          filename = vim.fn.pathshorten(filename)
+          filename = "[No Name]"
         end
         return filename
       end,
-      hl = { fg = utils.get_highlight("Directory").fg },
+      hl = { fg = utils.get_highlight("Boolean").fg, bold = true },
     }
 
     local FileFlags = {
@@ -230,7 +238,7 @@ return {
     FileNameBlock = utils.insert(
       FileNameBlock,
       FileIcon,
-      utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
+      utils.insert(FileNameModifer, { FilePath, FileName }), -- a new table where FileName is a child of FileNameModifier
       FileFlags,
       -- FileType,
       FileEncoding,

@@ -32,6 +32,9 @@ lg() {
     lazygit && zle reset-prompt
 }
 
+# initialize mise
+eval "$(mise activate zsh)"
+
 # initialize starship
 eval "$(starship init zsh)"
 

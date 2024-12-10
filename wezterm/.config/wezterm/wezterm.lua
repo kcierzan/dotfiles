@@ -12,6 +12,7 @@ config.font = wezterm.font("RecMonoDuotone Nerd Font")
 config.colors = theme.wezterm_colors
 config.window_background_opacity = 1
 config.harfbuzz_features = { "calt=1", "clig=1", "liga=1", "dlig=1", "ss01=1" }
+config.max_fps = 120
 
 config.window_padding = {
   bottom = 0,

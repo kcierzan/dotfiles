@@ -7,6 +7,7 @@ return {
     completion = {
       menu = {
         draw = {
+          -- styled to look mostly like nvim-cmp
           columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
         },
       },

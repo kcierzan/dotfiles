@@ -30,6 +30,3 @@ eval "$(direnv hook zsh)"
 if [[ "$(uname)" = 'Darwin' ]]; then
     eval "$(rbenv init -)"
 fi
-
-# initialize mise
-eval "$(mise activate zsh)"

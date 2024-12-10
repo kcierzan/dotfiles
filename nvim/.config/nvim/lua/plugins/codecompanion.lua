@@ -4,6 +4,8 @@ local function explain()
   require("codecompanion").prompt("explain")
 end
 
+vim.cmd.cab("cc", "CodeCompanion")
+
 return {
   "olimorris/codecompanion.nvim",
   cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionToggle", "CodeCompanionActions", "CodeCompanionAdd" },
@@ -24,6 +26,11 @@ return {
     "nvim-telescope/telescope.nvim",
   },
   opts = {
+    -- display = {
+    --   diff = {
+    --     provider = "mini_diff", -- default|mini_diff
+    --   },
+    -- },
     adapters = {
       anthropic = function()
         return require("codecompanion.adapters").extend("anthropic", {
@@ -39,6 +46,8 @@ return {
         keymaps = {
           completion = {
             modes = {
+              -- codecompanion does not yet play nicely with blink.cmp
+              -- so completion must be triggered manually
               i = "<Tab>",
             },
           },
