@@ -9,7 +9,9 @@ return {
       },
       formatters = {
         rubocop = {
-          args = { "--auto-correct-all", "--stderr", "--force-exclusion", "--stdin", "$FILENAME" },
+          command = "bundle",
+          args = { "exec", "rubocop", "--autocorrect-all", "--stderr", "--force-exclusion", "--stdin", "$FILENAME" },
+          cwd = require("conform.util").root_file({ "Gemfile" }),
         },
       },
       format_after_save = {

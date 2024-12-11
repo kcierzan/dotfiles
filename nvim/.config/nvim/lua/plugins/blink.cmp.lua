@@ -1,7 +1,12 @@
 return {
   "saghen/blink.cmp",
   lazy = false, -- lazy loading is handled by the plugin
-  dependencies = { "rafamadriz/friendly-snippets", "mikavilpas/blink-ripgrep.nvim", "L3MON4D3/LuaSnip" },
+  dependencies = {
+    "rafamadriz/friendly-snippets",
+    "mikavilpas/blink-ripgrep.nvim",
+    "L3MON4D3/LuaSnip",
+    "olimorris/codecompanion.nvim",
+  },
   version = "v0.*",
   opts = {
     completion = {
@@ -30,6 +35,7 @@ return {
     sources = {
       completion = {
         enabled_providers = {
+          "codecompanion",
           "lsp",
           "path",
           "luasnip",
@@ -47,6 +53,11 @@ return {
             context_size = 5,
             max_filesize = "1M",
           },
+        },
+        codecompanion = {
+          name = "CodeCompanion",
+          module = "codecompanion.providers.completion.blink",
+          enabled = true,
         },
       },
     },
