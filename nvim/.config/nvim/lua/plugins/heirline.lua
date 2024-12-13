@@ -77,40 +77,40 @@ return {
     local ViMode = {
       static = {
         mode_names = {
-          n = "N",
-          no = "N?",
-          nov = "N?",
-          noV = "N?",
-          ["no\22"] = "N?",
-          niI = "Ni",
-          niR = "Nr",
-          niV = "Nv",
-          nt = "Nt",
-          v = "V",
-          vs = "Vs",
-          V = "V_",
-          Vs = "Vs",
-          ["\22"] = "^V",
-          ["\22s"] = "^V",
-          s = "S",
-          S = "S_",
-          ["\19"] = "^S",
-          i = "I",
-          ic = "Ic",
-          ix = "Ix",
-          R = "R",
-          Rc = "Rc",
-          Rx = "Rx",
-          Rv = "Rv",
-          Rvc = "Rv",
-          Rvx = "Rv",
-          c = "C",
-          cv = "Ex",
-          r = "...",
-          rm = "M",
-          ["r?"] = "?",
-          ["!"] = "!",
-          t = "T",
+          n = "NORMAL",
+          no = "NORMAL (OPERATOR PENDING)",
+          nov = "NORMAL (OPERATOR PENDING)",
+          noV = "NORMAL (OPERATOR PENDING)",
+          ["no\22"] = "NORMAL (OPERATOR PENDING)",
+          niI = "NORMAL (INSERT)",
+          niR = "NORMAL (REPLACE)",
+          niV = "NORMAL (VIRTUAL)",
+          nt = "NORMAL (TERMINAL)",
+          v = "VISUAL",
+          vs = "VISUAL (SELECT)",
+          V = "VISUAL LINE",
+          Vs = "VISUAL LINE (SELECT)",
+          ["\22"] = "VISUAL BLOCK",
+          ["\22s"] = "VISUAL BLOCK (SELECT)",
+          s = "SELECT",
+          S = "SELECT LINE",
+          ["\19"] = "SELECT BLOCK",
+          i = "INSERT",
+          ic = "INSERT (COMPLETION)",
+          ix = "INSERT (CTRL-X)",
+          R = "REPLACE",
+          Rc = "REPLACE (COMPLETION)",
+          Rx = "REPLACE (CTRL-X)",
+          Rv = "REPLACE VIRTUAL",
+          Rvc = "REPLACE VIRTUAL (COMPLETION)",
+          Rvx = "REPLACE VIRTUAL (CTRL-X)",
+          c = "COMMAND",
+          cv = "EX",
+          r = "PROMPT",
+          rm = "MORE",
+          ["r?"] = "CONFIRM",
+          ["!"] = "SHELL",
+          t = "TERMINAL",
         },
         mode_colors = {
           n = "crystalBlue",
@@ -132,7 +132,7 @@ return {
         self.mode = vim.fn.mode(1)
       end,
       provider = function(self)
-        return "%2( [" .. self.mode_names[self.mode] .. "]%)"
+        return "%2(" .. self.mode_names[self.mode] .. "%)"
       end,
       hl = function(self)
         local mode = self.mode:sub(1, 1) -- only the first character
@@ -150,6 +150,7 @@ return {
     local FileNameBlock = {
       init = function(self)
         self.filename = vim.api.nvim_buf_get_name(0)
+        self.filetype = vim.api.nvim_buf_get_option(0, "filetype")
       end,
     }
 
@@ -168,6 +169,12 @@ return {
 
     local FilePath = {
       provider = function(self)
+        local filename = vim.fn.fnamemodify(self.filename, ":t")
+
+        if not filename then
+          return ""
+        end
+
         local path = vim.fn.fnamemodify(self.filename, ":~:.:h")
 
         if not conditions.width_percent_below(#path, 0.25) then
@@ -181,6 +188,11 @@ return {
     local FileName = {
       provider = function(self)
         local filename = vim.fn.fnamemodify(self.filename, ":t")
+
+        if self.filetype == "oil" then
+          return ""
+        end
+
         if filename == "" then
           filename = "[No Name]"
         end
