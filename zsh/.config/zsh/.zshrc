@@ -5,7 +5,8 @@ bindkey -e
 setopt HIST_SAVE_NO_DUPS
 
 setopt SHARE_HISTORY
-
+export HISTSIZE=100000
+export SAVEHIST=100000
 export HISTFILE="$ZDOTDIR/.zsh_history"
 
 # set up aliases
