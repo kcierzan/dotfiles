@@ -5,7 +5,6 @@ return {
     "rafamadriz/friendly-snippets",
     "mikavilpas/blink-ripgrep.nvim",
     "L3MON4D3/LuaSnip",
-    "olimorris/codecompanion.nvim",
   },
   version = "v0.*",
   opts = {
@@ -16,8 +15,40 @@ return {
           columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
         },
       },
+      list = {
+        selection = "auto_insert",
+      },
     },
-    keymap = { preset = "super-tab" },
+    keymap = {
+      ["<Tab>"] = {
+        function(cmp)
+          if cmp.snippet_active() then
+            return cmp.select_and_accept()
+          else
+            return cmp.select_next()
+          end
+        end,
+        "snippet_forward",
+        "fallback",
+      },
+      ["<CR>"] = { "accept", "fallback" },
+      ["<C-c>"] = {
+        "cancel",
+        "fallback",
+      },
+      ["<S-Tab>"] = {
+        function(cmp)
+          if cmp.snippet_active() then
+            return cmp.snippet_backward()
+          else
+            return cmp.select_prev()
+          end
+        end,
+        "snippet_backward",
+        "fallback",
+      },
+      ["<C-k>"] = { "show", "show_docmentation", "hide_documentation" },
+    },
     snippets = {
       expand = function(snippet)
         require("luasnip").lsp_expand(snippet)
