@@ -12,6 +12,7 @@ return {
       "cpp",
       "css",
       "c_sharp",
+      "fsharp",
       "fish",
       "dockerfile",
       "eex",

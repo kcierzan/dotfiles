@@ -1,5 +1,12 @@
 return {
   "stevearc/dressing.nvim",
   event = { "BufReadPre" },
-  opts = {},
+  opts = {
+    select = {
+      enabled = true,
+    },
+    input = {
+      enabled = false,
+    },
+  },
 }

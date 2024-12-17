@@ -61,6 +61,7 @@ return {
   },
   {
     "echasnovski/mini.indentscope",
+    enabled = false,
     version = false,
     event = "BufReadPre",
     opts = {
@@ -69,12 +70,14 @@ return {
   },
   {
     "echasnovski/mini.diff",
+    enabled = false,
     version = false,
     event = "VeryLazy",
     opts = {},
   },
   {
     "echasnovski/mini.bufremove",
+    enabled = false,
     keys = { { "<leader>bd", lib.ex_cmd("bd"), desc = "delete" } },
     opts = {},
   },

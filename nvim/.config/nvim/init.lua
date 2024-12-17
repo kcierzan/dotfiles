@@ -4,13 +4,17 @@ ___(_)_________(_)_  /____  /___  _______ _
 __  /__  __ \_  /_  __/__  /_  / / /  __ `/
 _  / _  / / /  / / /____  / / /_/ // /_/ /
 /_/  /_/ /_//_/  \__/(_)_/  \__,_/ \__,_/
-gotta go fast...
 ]]
 --
+_G.dd = function(...)
+  Snacks.debug.inspect(...)
+end
+
 local lib = require("lib")
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.opt.background = "dark"
 
 vim.opt.autowriteall = true
 vim.opt.hidden = true

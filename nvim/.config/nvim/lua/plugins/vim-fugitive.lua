@@ -1,6 +1,7 @@
 local lib = require("lib")
 
 return {
+  enabled = false,
   "tpope/vim-fugitive",
   dependencies = { "tpope/vim-rhubarb" },
   keys = {

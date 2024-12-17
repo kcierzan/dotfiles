@@ -99,7 +99,7 @@ return {
         opts.settings = {
           Lua = {
             diagnostics = {
-              globals = { "vim", "awesome", "hs" },
+              globals = { "vim", "awesome", "hs", "Snacks" },
             },
           },
         }

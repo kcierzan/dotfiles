@@ -32,7 +32,7 @@ local function find_rails_root(path)
   return nil
 end
 
-local function top_level_rails_dir(path)
+function M.top_level_rails_dir(path)
   local current_path = path
   while current_path ~= home_directory do
     if is_rails_app(current_path) or is_rails_engine(current_path) then
@@ -40,6 +40,7 @@ local function top_level_rails_dir(path)
     end
     current_path = vim.fn.fnamemodify(current_path, ":h")
   end
+  print("Rails directory not found!")
   return nil
 end
 
@@ -93,50 +94,20 @@ local function rails_engine_or_app_root(path)
   return nil
 end
 
-local function current_path_and_line_number()
+function M.current_path_and_line_number()
   local current_file_path = vim.api.nvim_buf_get_name(0)
   local current_line_number = vim.api.nvim_win_get_cursor(0)[1]
 
   return current_file_path, current_line_number
 end
 
-local function create_term_rspec_command(path, line_number, cwd)
+function M.generate_test_command(path, line_number)
   local test_cmd = string.format("bundle exec rspec %s", path)
-  local term_name = string.format("rspec - %s", vim.fn.fnamemodify(cwd, ":t"))
-
   if line_number ~= nil then
     test_cmd = string.format("%s:%d", test_cmd, line_number)
   end
 
-  return string.format('TermExec direction=float name="%s" cmd="%s" dir="%s"', term_name, test_cmd, cwd)
-end
-
-function M.run_rspec_thing_at_point_in_toggleterm()
-  local path, line_number = current_path_and_line_number()
-  local rails_dir = top_level_rails_dir(path)
-
-  if not rails_dir then
-    print("Rails directory not found!")
-    return nil
-  end
-
-  local toggle_term_cmd = create_term_rspec_command(path, line_number, rails_dir)
-
-  vim.cmd(toggle_term_cmd)
-end
-
-function M.run_rspec_file_in_toggleterm()
-  local path, _ = current_path_and_line_number()
-  local rails_dir = top_level_rails_dir(path)
-
-  if not rails_dir then
-    print("Rails directory not found!")
-    return nil
-  end
-
-  local toggle_term_cmd = create_term_rspec_command(path, nil, rails_dir)
-
-  vim.cmd(toggle_term_cmd)
+  return test_cmd
 end
 
 return M
