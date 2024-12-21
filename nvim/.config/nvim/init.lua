@@ -70,6 +70,7 @@ vim.g.neovide_padding_top = 20
 vim.g.neovide_padding_bottom = 20
 vim.g.neovide_padding_right = 20
 vim.g.neovide_padding_left = 20
+vim.opt.linespace = 2
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then

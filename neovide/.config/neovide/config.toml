@@ -1,11 +1,11 @@
 fork = true
-frame = "none"
+frame = "transparent"
 tabs = false
 title-hidden = true
 vsync = false
 
 [font]
 normal = { family = "RecMonoDuotone Nerd Font" }
-size = 14
+size = 20
 edging = "subpixelantialias"
 hinting = "full"

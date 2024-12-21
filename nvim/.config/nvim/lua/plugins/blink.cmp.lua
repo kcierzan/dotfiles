@@ -80,9 +80,9 @@ return {
           module = "blink-ripgrep",
           name = "Ripgrep",
           opts = {
-            prefix_min_length = 3,
+            prefix_min_length = 4,
             context_size = 5,
-            max_filesize = "1M",
+            max_filesize = "200k",
           },
         },
         codecompanion = {

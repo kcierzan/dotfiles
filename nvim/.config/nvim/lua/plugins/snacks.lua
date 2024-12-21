@@ -5,14 +5,14 @@ local function run_rspec_file()
   local path, _ = rails.current_path_and_line_number()
   local cwd = rails.top_level_rails_dir(path)
   local command = rails.generate_test_command(path)
-  Snacks.terminal.get(command, { cwd = cwd })
+  Snacks.terminal.toggle(command, { cwd = cwd, win = { position = "bottom" } })
 end
 
 local function run_rspec_thing_at_point()
   local path, line_number = rails.current_path_and_line_number()
   local cwd = rails.top_level_rails_dir(path)
   local command = rails.generate_test_command(path, line_number)
-  Snacks.terminal.get(command, { cwd = cwd })
+  Snacks.terminal.toggle(command, { cwd = cwd, win = { position = "bottom" } })
 end
 
 return {

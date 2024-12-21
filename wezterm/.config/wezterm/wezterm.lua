@@ -13,6 +13,24 @@ config.colors = theme.wezterm_colors
 config.window_background_opacity = 1
 config.harfbuzz_features = { "calt=1", "clig=1", "liga=1", "dlig=1", "ss01=1" }
 config.max_fps = 120
+config.leader = { key = " ", mods = "CTRL", timeout_milliseconds = 1000 }
+config.keys = {
+  {
+    key = "v",
+    mods = "LEADER",
+    action = wezterm.action.SplitHorizontal,
+  },
+  {
+    key = "s",
+    mods = "LEADER",
+    action = wezterm.action.SplitVertical,
+  },
+  {
+    key = " ",
+    mods = "LEADER",
+    action = wezterm.action.ActivateCommandPalette,
+  },
+}
 
 config.window_padding = {
   bottom = 0,
