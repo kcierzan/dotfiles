@@ -47,7 +47,7 @@ return {
         "snippet_backward",
         "fallback",
       },
-      ["<C-k>"] = { "show", "show_docmentation", "hide_documentation" },
+      ["<C-k>"] = { "show", "show_documentation", "hide_documentation" },
     },
     snippets = {
       expand = function(snippet)
@@ -64,16 +64,14 @@ return {
       end,
     },
     sources = {
-      completion = {
-        enabled_providers = {
-          "codecompanion",
-          "lsp",
-          "path",
-          "luasnip",
-          "snippets",
-          "buffer",
-          "ripgrep",
-        },
+      default = {
+        "codecompanion",
+        "lsp",
+        "path",
+        "luasnip",
+        "snippets",
+        "buffer",
+        "ripgrep",
       },
       providers = {
         ripgrep = {
