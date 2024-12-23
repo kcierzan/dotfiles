@@ -2,13 +2,15 @@ local wezterm = require("wezterm")
 local is_linux <const> = wezterm.target_triple:find("linux")
 local config = {}
 
-local theme_name = "kanagawa" -- kanagawa
-local tab_theme_name = "round" -- round, arrows
+local theme_name = "oxocarbon_dark" -- kanagawa
+-- local font = "RecMonoDuotone Nerd Font"
+local font = "BerkeleyMono Nerd Font"
+local tab_theme_name = "gradient" -- round, arrows
 
 local theme = require("themes/" .. theme_name)
 local tab_theme = require("tabs/" .. tab_theme_name).new({ theme = theme })
 
-config.font = wezterm.font("RecMonoDuotone Nerd Font")
+config.font = wezterm.font(font)
 config.colors = theme.wezterm_colors
 config.window_background_opacity = 1
 config.harfbuzz_features = { "calt=1", "clig=1", "liga=1", "dlig=1", "ss01=1" }
