@@ -5,11 +5,24 @@ return {
   event = "VeryLazy",
   dependencies = { "rebelot/kanagawa.nvim", "echanovski/mini.icons" },
   config = function()
-    local separator = "round"
-    local segment_bg = "sumiInk4"
+    local separator = "gradient"
+    -- local segment_bg = "sumiInk4"
+    local segment_bg = "#262626"
     local utils = require("heirline.utils")
     local conditions = require("heirline.conditions")
-    local colors = require("kanagawa.colors").setup()
+    -- local colors = require("kanagawa.colors").setup()
+    -- temporary oxocarbon colors
+    local colors = {
+      orange = "#33b1ff",
+      roninYellow = "#ffe97b",
+      crystalBlue = "#ffffff",
+      springGreen = "#42be65",
+      springBlue = "#3ddbd9",
+      red = "#ee5396",
+      waveRed = "#ee5396",
+      purple = "#ff7eb6",
+      oniViolet = "#ff7eb6",
+    }
 
     local separators = {
       pixels_left = " ",
@@ -22,6 +35,8 @@ return {
       round_right = "",
       trapezoid_left = "",
       trapezoid_right = "",
+      gradient_left = "░▒▓",
+      gradient_right = "▓▒░",
     }
     local Space = { provider = " " }
     local Align = { provider = "%=" }
@@ -355,7 +370,7 @@ return {
         fallthrough = false,
       },
       opts = {
-        colors = colors.palette,
+        colors = colors,
       },
     })
   end,
