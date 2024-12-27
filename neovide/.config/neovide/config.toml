@@ -5,7 +5,7 @@ title-hidden = true
 vsync = false
 
 [font]
-normal = { family = "RecMonoDuotone Nerd Font" }
+normal = { family = "BerkeleyMono Nerd Font" }
 size = 20
 edging = "subpixelantialias"
 hinting = "full"
