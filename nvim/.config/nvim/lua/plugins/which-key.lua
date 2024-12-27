@@ -115,12 +115,6 @@ return {
           "<C-w>q",
           desc = "close split",
         },
-        -- FIXME: requires ts playground?
-        -- {
-        --   "<leader>iH",
-        --   lib.ex_cmd("TSHighlightCapturesUnderCursor"),
-        --   desc = "show highlights under cursor",
-        -- },
         {
           "<leader>ii",
           lib.ex_cmd("Inspect"),
@@ -150,6 +144,11 @@ return {
           "<leader>iL",
           lib.ex_cmd("set cursorline"),
           desc = "toggle cursorline",
+        },
+        {
+          "<leader>vR",
+          lib.ex_cmd("Lazy reload armonk"),
+          desc = "reload armonk colorscheme",
         },
       }
       wk.add(normal_mode_mappings)
