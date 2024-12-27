@@ -44,12 +44,5 @@ return {
       desc = "Toggle Flash Search",
     },
   },
-  opts = {
-    highlight = {
-      groups = {
-        -- Defaults to FlashLabel which is linked to Substitute which doesn't look great in nvchad themes
-        label = "@comment.note",
-      },
-    },
-  },
+  config = true,
 }
