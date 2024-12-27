@@ -3,26 +3,15 @@ local lib = require("lib")
 return {
   "rebelot/heirline.nvim",
   event = "VeryLazy",
-  dependencies = { "rebelot/kanagawa.nvim", "echanovski/mini.icons" },
+  dependencies = {
+    "echanovski/mini.icons",
+    "lewis6991/gitsigns.nvim",
+  },
   config = function()
     local separator = "gradient"
-    -- local segment_bg = "sumiInk4"
-    local segment_bg = "#262626"
     local utils = require("heirline.utils")
+    local segment_bg = utils.get_highlight("ColorColumn").bg
     local conditions = require("heirline.conditions")
-    -- local colors = require("kanagawa.colors").setup()
-    -- temporary oxocarbon colors
-    local colors = {
-      orange = "#33b1ff",
-      roninYellow = "#ffe97b",
-      crystalBlue = "#ffffff",
-      springGreen = "#42be65",
-      springBlue = "#3ddbd9",
-      red = "#ee5396",
-      waveRed = "#ee5396",
-      purple = "#ff7eb6",
-      oniViolet = "#ff7eb6",
-    }
 
     local separators = {
       pixels_left = " ",
@@ -128,19 +117,19 @@ return {
           t = "TERMINAL",
         },
         mode_colors = {
-          n = "crystalBlue",
-          i = "springGreen",
-          v = "springBlue",
-          V = "springBlue",
-          ["\22"] = "springBlue",
-          c = "orange",
-          s = "purple",
-          S = "purple",
-          ["\19"] = "purple",
-          R = "orange",
-          r = "orange",
-          ["!"] = "red",
-          t = "red",
+          n = utils.get_highlight("SpecialKey").fg,
+          i = utils.get_highlight("Boolean").fg,
+          v = utils.get_highlight("Function").fg,
+          V = utils.get_highlight("Function").fg,
+          ["\22"] = utils.get_highlight("SpecialKey").fg,
+          c = utils.get_highlight("Boolean").fg,
+          s = utils.get_highlight("String").fg,
+          S = utils.get_highlight("String").fg,
+          ["\19"] = utils.get_highlight("Function").fg,
+          R = utils.get_highlight("String").fg,
+          r = utils.get_highlight("String").fg,
+          ["!"] = utils.get_highlight("DiagnosticError").fg,
+          t = utils.get_highlight("DiagnosticError").fg,
         },
       },
       init = function(self)
@@ -197,7 +186,7 @@ return {
         end
         return path .. "/"
       end,
-      hl = { fg = utils.get_highlight("Directory").fg },
+      hl = { fg = utils.get_highlight("Keyword").fg },
     }
 
     local FileName = {
@@ -213,7 +202,7 @@ return {
         end
         return filename
       end,
-      hl = { fg = utils.get_highlight("Boolean").fg, bold = true },
+      hl = { fg = utils.get_highlight("Type").fg, bold = true },
     }
 
     local FileFlags = {
@@ -222,14 +211,14 @@ return {
           return vim.bo.modified
         end,
         provider = " 󰧞",
-        hl = { fg = "roninYellow" },
+        hl = { fg = utils.get_highlight("Comment").fg },
       },
       {
         condition = function()
           return not vim.bo.modifiable or vim.bo.readonly
         end,
-        provider = " ",
-        hl = { fg = "orange" },
+        provider = "󰌾",
+        hl = { fg = utils.get_highlight("Comment").fg },
       },
     }
 
@@ -242,7 +231,7 @@ return {
       hl = function()
         if vim.bo.modified then
           -- use `force` because we need to override the child's hl foreground
-          return { fg = "springBlue", bold = true, force = true }
+          return { fg = utils.get_highlight("Boolean").fg, bold = true, force = true }
         end
       end,
     }
@@ -267,7 +256,6 @@ return {
       FileIcon,
       utils.insert(FileNameModifer, { FilePath, FileName }), -- a new table where FileName is a child of FileNameModifier
       FileFlags,
-      -- FileType,
       FileEncoding,
       FileFormat,
       { provider = "%<" } -- this means that the statusline is cut here when there's not enough space
@@ -278,12 +266,12 @@ return {
         return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
       end,
       provider = "󰑋 ",
-      hl = { fg = "waveRed" },
+      hl = { fg = utils.get_highlight("DiagnosticError").fg },
       utils.surround({ "[", "]" }, nil, {
         provider = function()
           return vim.fn.reg_recording()
         end,
-        hl = { fg = "springGreen" },
+        hl = { fg = utils.get_highlight("Delimiter").fg },
       }),
       update = {
         "RecordingEnter",
@@ -298,9 +286,9 @@ return {
         for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
           table.insert(names, server.name)
         end
-        return " " .. table.concat(names, " ")
+        return " " .. table.concat(names, " ")
       end,
-      hl = { fg = "springGreen", bold = true },
+      hl = { fg = utils.get_highlight("SpecialKey").fg, bold = true },
     }
 
     local WorkDir = {
@@ -314,7 +302,7 @@ return {
         end
         return icon .. cwd
       end,
-      hl = { fg = "waveRed", bold = true },
+      hl = { fg = utils.get_highlight("Normal").fg, bold = true },
     }
 
     WorkDir = segment(WorkDir)
@@ -329,7 +317,7 @@ return {
         end
       end,
       update = { "CursorMoved" },
-      hl = { fg = "oniViolet", bold = true },
+      hl = { fg = utils.get_highlight("Function").fg, bold = true },
     }
 
     local Mode = segment(ViMode)
@@ -352,8 +340,28 @@ return {
       return not conditions.buffer_matches({ buftype = { "terminal", "TelescopePrompt", "quickfix", "help" } })
     end
 
+    local Git = {
+      init = function(self)
+        self.status_dict = vim.b.gitsigns_status_dict
+        self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
+      end,
+
+      hl = { fg = utils.get_highlight("Normal").fg },
+      {
+        provider = function(self)
+          return "󰘬 " .. self.status_dict.head
+        end,
+      },
+    }
+
+    Git = {
+      segment(Git),
+      condition = conditions.is_git_repo,
+    }
+
     ActiveStatusLine = {
       Mode,
+      Git,
       { File, VisualWords, MacroRec, Align, LSPActive, WorkDir, condition = is_regular_buffer },
       Space,
       condition = conditions.is_active,
@@ -368,9 +376,6 @@ return {
         ActiveStatusLine,
         InactiveStatusLine,
         fallthrough = false,
-      },
-      opts = {
-        colors = colors,
       },
     })
   end,
