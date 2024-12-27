@@ -10,6 +10,9 @@ _G.dd = function(...)
   Snacks.debug.inspect(...)
 end
 
+-- https://github.com/neovim/neovim/issues/31675
+vim.hl = vim.highlight
+
 local lib = require("lib")
 
 vim.g.loaded_netrw = 1
@@ -56,6 +59,7 @@ vim.opt.writebackup = false
 vim.opt.guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor"
 vim.opt.shortmess = "astWAcCFo"
 vim.g.mapleader = " "
+
 vim.highlight.priorities.semantic_tokens = 95
 
 lib.nmap("+", "<Nop>")
@@ -71,6 +75,17 @@ vim.g.neovide_padding_bottom = 20
 vim.g.neovide_padding_right = 20
 vim.g.neovide_padding_left = 20
 vim.opt.linespace = 2
+
+local signs = {
+  { name = "DiagnosticSignError", text = "" },
+  { name = "DiagnosticSignWarn", text = "" },
+  { name = "DiagnosticSignHint", text = "" },
+  { name = "DiagnosticSignInfo", text = "" },
+}
+
+for _, sign in ipairs(signs) do
+  vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
+end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -183,9 +198,8 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
   end,
 })
 
--- TODO: determine if this is still needed
--- turn on treesitter highlighting and automatic end-delimiter insertion
-vim.api.nvim_create_autocmd("VimEnter", {
+-- enable TS features explicitly (these used to be flaky)
+vim.api.nvim_create_autocmd({ "VimEnter", "BufNew" }, {
   pattern = "*",
   callback = function()
     vim.cmd("TSEnable highlight")
