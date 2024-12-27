@@ -15,6 +15,14 @@ local function run_rspec_thing_at_point()
   Snacks.terminal.toggle(command, { cwd = cwd, win = { position = "bottom" } })
 end
 
+local function toggle_indent()
+  if Snacks.indent.enabled then
+    Snacks.indent.disable()
+  else
+    Snacks.indent.enable()
+  end
+end
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -88,6 +96,18 @@ return {
       desc = "toggle terminal",
       mode = "t",
     },
+    {
+      "<leader>vi",
+      function()
+        Snacks.notifier.show_history()
+      end,
+      desc = "show notification history",
+    },
+    {
+      "<leader>iI",
+      toggle_indent,
+      desc = "toggle indent markers",
+    },
   },
   --@type snacks.Config
   opts = {
@@ -95,7 +115,6 @@ return {
     bigfile = { enabled = true },
     bufdelete = { enabled = true },
     gitbrowse = { enabled = true },
-    -- replace dashboard.nvim
     dashboard = { enabled = true },
     debug = { enabled = true },
     indent = {
@@ -111,11 +130,9 @@ return {
       blank = {
         char = "▎",
       },
-      enabled = true,
+      enabled = false,
     },
-    -- TODO: replace dressing.nvim
     input = { enabled = true },
-    -- TODO: replace toggleterm implementation
     lazygit = { enabled = true },
     notifier = { enabled = true },
     quickfile = { enabled = true },
@@ -124,10 +141,8 @@ return {
       char = "▎",
     },
     scratch = { enabled = true },
-    -- TODO: disable neoscroll
     scroll = { enabled = true },
     statuscolumn = { enabled = true },
-    -- TODO: look into replacing toggleterm
     terminal = { enabled = true },
     words = { enabled = true },
     zen = { enabled = true },
