@@ -10,7 +10,7 @@ return {
   config = function()
     local separator = "gradient"
     local utils = require("heirline.utils")
-    local segment_bg = utils.get_highlight("ColorColumn").bg
+    local segment_bg = utils.get_highlight("CursorColumn").bg
     local conditions = require("heirline.conditions")
 
     local separators = {
@@ -140,7 +140,7 @@ return {
       end,
       hl = function(self)
         local mode = self.mode:sub(1, 1) -- only the first character
-        return { fg = self.mode_colors[mode], bold = true }
+        return { fg = self.mode_colors[mode] }
       end,
       update = {
         "ModeChanged",
@@ -288,7 +288,7 @@ return {
         end
         return " " .. table.concat(names, " ")
       end,
-      hl = { fg = utils.get_highlight("SpecialKey").fg, bold = true },
+      hl = { fg = utils.get_highlight("SpecialKey").fg },
     }
 
     local WorkDir = {
@@ -302,7 +302,7 @@ return {
         end
         return icon .. cwd
       end,
-      hl = { fg = utils.get_highlight("Normal").fg, bold = true },
+      hl = { fg = utils.get_highlight("Normal").fg },
     }
 
     WorkDir = segment(WorkDir)
@@ -317,7 +317,7 @@ return {
         end
       end,
       update = { "CursorMoved" },
-      hl = { fg = utils.get_highlight("Function").fg, bold = true },
+      hl = { fg = utils.get_highlight("Function").fg },
     }
 
     local Mode = segment(ViMode)

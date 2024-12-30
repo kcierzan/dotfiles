@@ -4,6 +4,7 @@ local live_grep_excludes = {
   "!**/.rubocop_todo.yml",
   "!**/*.ignore",
   "!**/doc/*",
+  "!**/*.rbi",
 }
 
 function M.nmap(key, command)
@@ -35,7 +36,7 @@ function M.ex_cmd(command)
 end
 
 function M.telescope_builtin(method)
-  local telescope_command = string.format("lua require('telescope.builtin').%s()", method)
+  local telescope_command = string.format("Telescope %s", method)
   return M.ex_cmd(telescope_command)
 end
 

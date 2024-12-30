@@ -118,6 +118,12 @@ return {
           preview = {
             treesitter = false,
           },
+          file_ignore_patterns = {
+            "%.rbi",
+            "%.png",
+            "%.ttf",
+            "%.pdf",
+          },
           vimgrep_arguments = {
             "rg",
             "--no-heading",

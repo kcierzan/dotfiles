@@ -48,6 +48,11 @@ return {
         "fallback",
       },
       ["<C-k>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-space>"] = {
+        function(cmp)
+          cmp.show({ providers = { "ripgrep" } })
+        end,
+      },
     },
     snippets = {
       expand = function(snippet)
@@ -71,17 +76,17 @@ return {
         "luasnip",
         "snippets",
         "buffer",
-        "ripgrep",
       },
       providers = {
         ripgrep = {
           module = "blink-ripgrep",
           name = "Ripgrep",
           opts = {
-            prefix_min_length = 4,
+            prefix_min_length = 3,
             context_size = 5,
-            max_filesize = "200k",
+            max_filesize = "300K",
           },
+          enabled = true,
         },
         codecompanion = {
           name = "CodeCompanion",
