@@ -19,6 +19,7 @@ alias ..='cd ..'
 alias ...="cd ../../"
 alias ....="cd ../../../"
 alias vim='nvim'
+alias cm='chezmoi'
 
 if [[ "$(uname)" = 'Linux' ]]; then
     alias zed="zeditor"
