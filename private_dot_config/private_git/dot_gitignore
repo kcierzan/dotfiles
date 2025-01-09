@@ -1,0 +1,19 @@
+# solargraph definitions
+definitions.rb
+prepare.sh
+tags
+.yardoc
+.projections.json
+.DS_STORE
+.projectile
+lsp.sh
+lsp.rb
+.solargraph.yml
+.null-ls-root
+.zcompcache
+.zcompdump
+.zsh_history
+.zsh_plugins.zsh
+.zhistory
+.zed
+.continueignore
