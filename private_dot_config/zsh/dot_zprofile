@@ -1,0 +1,33 @@
+export HOMEBREW_ROOT='/opt/homebrew'
+
+typeset -gU path
+path=(
+    "$HOME/.rbenv/bin"
+    "$HOME/.local/bin-jetbrains"
+    "$HOME/.local/bin"
+    "$HOMEBREW_ROOT/opt/postgresql@15/bin"
+    "$HOMEBREW_ROOT/bin"
+    /usr/local/bin
+    /usr/local/sbin
+    /usr/bin
+    /usr/sbin
+    /sbin
+    "$HOME/.emacs.d/bin"
+    "$HOMEBREW_ROOT/opt/coreutils/libexec/gnubin"
+    "$HOME/.cargo/bin"
+    $path
+)
+
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY='YES'
+export LSP_USE_PLISTS='t'
+
+export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
+
+# initialize direnv
+eval "$(direnv hook zsh)"
+
+if [[ "$(uname)" = 'Darwin' ]]; then
+    eval "$(rbenv init -)"
+fi

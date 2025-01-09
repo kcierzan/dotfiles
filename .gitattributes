@@ -1,0 +1,1 @@
+private_dot_local/share/fonts/**/*.age filter=lfs diff=lfs merge=lfs -text

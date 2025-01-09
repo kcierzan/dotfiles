@@ -1,0 +1,84 @@
+local lib = require("lib")
+
+return {
+  {
+    "echasnovski/mini.comment",
+    keys = { "gc", "v", "V" },
+    version = false,
+    opts = {},
+  },
+  {
+    "echasnovski/mini.surround",
+    version = false,
+    event = "InsertEnter",
+    keys = {
+      {
+        "S",
+        mode = { "x" },
+        function()
+          require("mini.surround").add("visual")
+        end,
+      },
+    },
+    opts = {
+      mappings = {
+        add = "ys",
+        delete = "ds",
+        find = "",
+        find_left = "",
+        highlight = "",
+        replace = "cs",
+        update_n_lines = "",
+      },
+    },
+  },
+  {
+    "echasnovski/mini.operators",
+    keys = { "g=", "gx", "gm", "gr", "gs" },
+    version = false,
+    opts = {},
+  },
+  {
+    "echasnovski/mini.icons",
+    lazy = false,
+    version = false,
+    config = function()
+      require("mini.icons").setup({})
+      require("mini.icons").mock_nvim_web_devicons()
+    end,
+  },
+  {
+    "echasnovski/mini.ai",
+    version = false,
+    keys = { "a", "i", "g" },
+    opts = {},
+  },
+  {
+    "echasnovski/mini.pairs",
+    version = false,
+    event = "InsertEnter",
+    opts = {},
+  },
+  {
+    "echasnovski/mini.indentscope",
+    enabled = false,
+    version = false,
+    event = "BufReadPre",
+    opts = {
+      symbol = "▎",
+    },
+  },
+  {
+    "echasnovski/mini.diff",
+    enabled = false,
+    version = false,
+    event = "VeryLazy",
+    opts = {},
+  },
+  {
+    "echasnovski/mini.bufremove",
+    enabled = false,
+    keys = { { "<leader>bd", lib.ex_cmd("bd"), desc = "delete" } },
+    opts = {},
+  },
+}

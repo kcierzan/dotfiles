@@ -1,0 +1,11 @@
+user: cyan
+group: dark_cyan
+size:
+  none: 244
+  small: 246
+  medium: 248
+  large: red
+date:
+  hour-old: 10
+  day-old: 2
+  older: 6
