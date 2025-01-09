@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+file="$1"
+
+if file --mime "$file" | rg -q 'binary'; then
+    echo "File is a binary file"
+    exit 0
+fi
+
+if command -v preview > /dev/null 2>&1; then
+    preview "$file" 2>/dev/null | head -n 250
+else
+    head -n 250 "$file"
+fi

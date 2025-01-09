@@ -1,0 +1,229 @@
+let mapleader = " "
+scriptencoding utf-8
+set autoindent
+set completeopt-=preview
+set conceallevel=2
+set expandtab
+set gdefault
+set hidden
+set ignorecase
+set visualbell
+set noerrorbells
+set nolazyredraw
+set noshowmode
+set noswapfile
+set nowrap
+set nonumber
+set scrolloff=3
+set shiftround
+set shiftwidth=2
+set showcmd
+set smartcase
+set smartindent
+set softtabstop=2
+set splitbelow
+set splitright
+set tabstop=2
+set textwidth=0
+set timeoutlen=5000
+set ttimeoutlen=0
+set autoread
+set undodir=~/.undo
+set undofile
+set undolevels=100000
+set foldlevelstart=20
+set showtabline=0
+set clipboard+=unnamed
+
+set commentary
+set easymotion
+set surround
+set which-key
+
+let g:EasyMotion_do_mapping=0
+" nnoremap <Space> <Nop>
+
+map s <Plug>(easymotion-s2)
+
+let g:WhichKeyDesc_everywhere = "<leader><Space> search everywhere"
+map <leader><leader> <Action>(SearchEverywhere)
+
+" --------------------------------- Windows -----------------------------
+let g:WhichKeyDesc_window = "<leader>w window"
+
+" alt + hjkl to move around splits
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-h> <C-w>h
+nnoremap <A-l> <C-w>l
+
+nnoremap H ^
+nnoremap L g_
+
+" split editor and focus
+let g:WhichKeyDesc_vertical_split = "<leader>wv split vertical"
+nnoremap <leader>wv <C-w>v<C-w>l
+
+let g:WhichKeyDesc_horizontal_split = "<leader>ws split horizontal"
+nnoremap <leader>ws <C-w>s<C-w>j
+
+let g:WhichKeyDesc_close_all_editors = "<leader>q close all editors"
+map <leader>q <Action>(CloseAllEditors)
+
+map <C-l> <Action>(NextTab)
+map <C-h> <Action>(PreviousTab)
+
+let g:WhichKeyDesc_close_all_but_active = "<leader>wo close other editors"
+map <leader>wo <Action>(CloseAllEditorsButActive)
+
+" --------------------------------- Files -----------------------------
+let g:WhichKeyDesc_find = "<leader>f find"
+
+let g:WhichKeyDesc_find_recent = "<leader>fh recent file"
+map <leader>fh <Action>(RecentFiles)
+
+let g:WhichKeyDesc_find_files = "<leader>ff file"
+map <leader>ff <Action>(GotoFile)
+
+let g:WhichKeyDesc_find_in_files = "<leader>fg grep"
+map <leader>fg <Action>(FindInPath)
+
+let g:WhichKeyDesc_find_symbol = "<leader>fo symbol"
+map <leader>fo <Action>(GotoSymbol)
+
+let g:WhichKeyDesc_find_action = "<leader>fa action"
+map <leader>fa <Action>(GotoAction)
+
+let g:WhichKeyDesc_go_to_class = "<leader>fc class"
+map <leader>fc <Action>(GotoClass)
+
+" --------------------------------- Ideavim -----------------------------
+let g:WhichKeyDesc_vim = "<leader>v vim"
+
+let g:WhichKeyDesc_vim_source = "<leader>vr source .ideavimrc"
+nnoremap <leader>vr :source ~/.ideavimrc<CR>
+
+let g:WhichKeyDesc_quit = "<leader>Q quit"
+map <leader>Q <Action>(Exit)
+
+let g:WhichKeyDesc_action = "<leader>: action"
+map <leader>: <Action>(GotoAction)
+
+let g:WhichKeyDesc_vim_edit = "<leader>ve edit .ideavimrc"
+noremap <leader>ve :e ~/.ideavimrc<CR>
+
+" --------------------------------- Buffer --------------------------------
+let g:WhichKeyDesc_buffer = "<leader>b buffer"
+
+let g:WhichKeyDesc_select_in = "<leader>bt select in"
+map <leader>bt <Action>(SelectIn)
+
+let g:WhichKeyDesc_close_content = "<leader>bd close"
+map <leader>bd <Action>(CloseContent)
+
+let g:WhichKeyDesc_open_in_opposite_group = "<leader>bo open in opposite group"
+map <leader>bo <Action>(MoveEditorToOppositeTabGroup)
+
+let g:WhichKeyDesc_copy_absolute_path = "<leader>by copy absolute file path"
+map <leader>by <Action>(CopyAbsolutePath)
+
+let g:WhichKeyDesc_save_all = "<leader>bs save buffer"
+map <leader>bs <Action>(SaveAll)
+
+" --------------------------------- Interface -----------------------------
+let g:WhichKeyDesc_interface = "<leader>i interface"
+
+let g:WhichKeyDesc_zen = "<leader>iz zen mode"
+map <leader>iz <Action>(ToggleDistractionFreeMode)
+
+let g:WhichKeyDesc_indent_lines = "<leader>il toggle indent lines"
+map <leader>il <Action>(EditorToggleShowIndentLines)
+
+let g:WhichKeyDesc_show_whitespace = "<leader>iw toggle show whitespace"
+map <leader>iw <Action>(EditorToggleShowWhitespaces)
+
+let g:WhichKeyDesc_toggle_use_soft_wrap = "<leader>it toggle wrap"
+map <leader>it <Action>(EditorToggleUseSoftWraps)
+
+let g:WhichKeyDesc_increase_font_size = "<leader>iu increase font size"
+map <leader>iu <Action>(EditorIncreaseFontSize)
+
+let g:WhichKeyDesc_decrease_font_size = "<leader>id decrease font size"
+map <leader>id <Action>(EditorDecreaseFontSize)
+
+let g:WhichKeyDesc_clear_search = "<leader>ic clear search highlight"
+map <leader>ic :nohlsearch<CR>
+
+" --------------------------------- Refactoring -----------------------------
+let g:WhichKeyDesc_code = "<leader>c code"
+
+let g:WhichKeyDesc_rename_element = "<leader>cr rename"
+map <leader>cr <Action>(RenameElement)
+
+let g:WhichKeyDesc_highligh_usages = "<leader>ch highlight usages in file"
+map <leader>ch <Action>(HighlightUsagesInFile)
+
+let g:WhichKeyDesc_find_usages = "<leader>cu find usages"
+map <leader>cu <Action>(FindUsages)
+
+let g:WhichKeyDesc_insert_live_template = "<leader>cs insert template"
+map <leader>cs <Action>(InsertLiveTemplate)
+
+" --------------------------------- Git -----------------------------
+let g:WhichKeyDesc_git = "<leader>g git"
+
+let g:WhichKeyDesc_next_change = "<leader>gn next change"
+map <leader>gn <Action>(JumpToNextChange)
+
+let g:WhichKeyDesc_previous_change = "<leader>gp previous change"
+map <leader>gp <Action>(JumpToPreviousChange)
+
+let g:WhichKeyDesc_switch_to_header = "<leader>gs switch to header source"
+map <leader>gs <Action>(CIDR.Lang.SwitchHeaderSource)
+
+let g:WhichKeyDesc_show_log = "<leader>gL log"
+map <leader>gL <Action>(Vcs.Show.Log)
+
+let g:WhichKeyDesc_file_history = "<leader>gl file history"
+map <leader>gl <Action>(Vcs.ShowTabbedFileHistory)
+
+let g:WhichKeyDesc_local_change = "<leader>gd local changes"
+map <leader>gd <Action>(Vcs.Show.Local.Changes)
+
+let g:WhichKeyDesc_annotation = "<leader>gb annotations"
+map <leader>gb <Action>(Annotate)
+
+" --------------------------------- Errors -----------------------------
+let g:WhichKeyDesc_errors = "<leader>e errors"
+
+let g:WhichKeyDesc_show_error_description = "gh show error description"
+map gh <Action>(ShowErrorDescription)
+
+let g:WhichKeyDesc_next_error = "<leader>en next error"
+map <leader>en <Action>(GotoNextError)
+
+let g:WhichKeyDesc_previous_error = "<leader>ep previous error"
+map <leader>ep <Action>(GotoPreviousError)
+
+let g:WhichKeyDesc_show_inspection = "<leader>ei show inspection"
+map <leader>ei <Action>(CodeInspection.OnEditor)
+
+let g:WhichKeyDesc_run_inspection = "<leader>eI run inspection"
+map <leader>eI <Action>(RunInspection)
+
+" ------------------------------ Terminal ---------------------------
+
+let g:WhichKeyDesc_terminal = "<leader>t terminal"
+map <leader>t <Action>(ActivateTerminalToolWindow)
+
+" --------------------------------- Run -----------------------------
+let g:WhichKeyDesc_run = "<leader>r run"
+
+let g:WhichKeyDesc_run_debug = "<leader>rd debug"
+map <leader>rd <Action>(Debug)
+
+let g:WhichKeyDesc_run_run = "<leader>rr run"
+map <leader>rr <Action>(Run)
+
+let g:WhichKeyDesc_run_build = "<leader>rb build"
+map <leader>rb <Action>(Build)
