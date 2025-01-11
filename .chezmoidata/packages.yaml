@@ -13,7 +13,6 @@ packages:
       - cmake
       - cmatrix
       - coreutils
-      - cowsay
       - direnv
       - docker
       - exercism
@@ -37,7 +36,6 @@ packages:
       - gzip
       - htop
       - imagemagick
-      - jenv
       - jq
       - juliaup
       - lazygit
@@ -56,15 +54,12 @@ packages:
       - mosh
       - mydumper
       - neovim
-      - nodenv
       - openssh
       - pandoc
-      - perl
       - pnpm
       - postgresql@15
       - prettier
       - pv
-      - pyenv
       - rename
       - ripgrep
       - saml2aws
@@ -74,7 +69,6 @@ packages:
       - shellcheck
       - shfmt
       - starship
-      - stow
       - subversion
       - tilt
       - tree

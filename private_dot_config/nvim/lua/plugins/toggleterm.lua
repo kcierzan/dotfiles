@@ -22,7 +22,7 @@ end
 
 return {
   "akinsho/toggleterm.nvim",
-  enabled = false,
+  enabled = true,
   version = "*",
   keys = {
     "<C-;>",
