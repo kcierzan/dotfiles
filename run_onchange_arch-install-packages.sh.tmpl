@@ -1,0 +1,15 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+
+{{ if .packages.arch.official -}}
+echo "installing official packages..."
+official_packages=({{ range .packages.arch.official }} {{ . | quote }}{{ end }})
+sudo pacman -S --needed --noconfirm "${official_packages[@]}"
+{{ end -}}
+
+{{ if .packages.arch.aur -}}
+echo "installing aur packages..."
+aur_packages=({{ range .packages.arch.aur }} {{ . | quote }}{{ end }})
+paru -S --needed --noconfirm "${aur_packages[@]}"
+{{ end -}}
+{{ end -}}
