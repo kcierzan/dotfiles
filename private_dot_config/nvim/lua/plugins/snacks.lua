@@ -71,31 +71,31 @@ return {
       end,
       desc = "select a scratch buffer",
     },
-    {
-      "<leader>tf",
-      run_rspec_file,
-      desc = "run rspec file",
-    },
-    {
-      "<leader>tt",
-      run_rspec_thing_at_point,
-      desc = "run rspec test at cursor",
-    },
-    {
-      "<C-;>",
-      function()
-        Snacks.terminal.toggle()
-      end,
-      desc = "toggle terminal",
-    },
-    {
-      "<C-;>",
-      function()
-        Snacks.terminal.toggle()
-      end,
-      desc = "toggle terminal",
-      mode = "t",
-    },
+    -- {
+    --   "<leader>tf",
+    --   run_rspec_file,
+    --   desc = "run rspec file",
+    -- },
+    -- {
+    --   "<leader>tt",
+    --   run_rspec_thing_at_point,
+    --   desc = "run rspec test at cursor",
+    -- },
+    -- {
+    --   "<C-;>",
+    --   function()
+    --     Snacks.terminal.toggle()
+    --   end,
+    --   desc = "toggle terminal",
+    -- },
+    -- {
+    --   "<C-;>",
+    --   function()
+    --     Snacks.terminal.toggle()
+    --   end,
+    --   desc = "toggle terminal",
+    --   mode = "t",
+    -- },
     {
       "<leader>vi",
       function()
@@ -143,7 +143,7 @@ return {
     scratch = { enabled = true },
     scroll = { enabled = true },
     statuscolumn = { enabled = true },
-    terminal = { enabled = true },
+    terminal = { enabled = false },
     words = { enabled = true },
     zen = { enabled = true },
   },
