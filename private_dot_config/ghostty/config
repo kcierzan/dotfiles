@@ -1,6 +1,8 @@
 theme = Oxocarbon
 font-family = TX-02
 adjust-cursor-thickness = 3
+font-thicken = true
+
 # custom-shader = /Users/kylecierzan/git/ghostty-shaders/bettercrt.glsl
 # custom-shader = /Users/kylecierzan/git/ghostty-shaders/bloom.glsl
 # custom-shader = /Users/kylecierzan/git/ghostty-shaders/glow-rgbsplit-twitchy.glsl
