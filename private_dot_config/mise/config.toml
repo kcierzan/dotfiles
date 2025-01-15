@@ -1,0 +1,9 @@
+[tools]
+usage = "latest"
+python = "3.12.2"
+node = "20.4.0"
+erlang = "27.0.1"
+elixir = "1.17.2-otp-27"
+bun = "1.1.4"
+java = "temurin-21.0.4+7.0.LTS"
+dotnet = "8.0.404"
