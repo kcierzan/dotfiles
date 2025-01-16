@@ -1,7 +1,20 @@
 ifile() {
   local file
   local get_files
-  local excludes=(.git node_modules '*.pyc' tmp)
+  local excludes=(
+    "*.jpg"
+    ".git"
+    ".idea"
+    ".keep"
+    ".vscode"
+    "node_modules"
+    "tmp"
+    '*.map'
+    '*.pdf'
+    '*.png'
+    '*.pyc'
+    '*.rbi'
+  )
 
   get_files="fd . --no-ignore --strip-cwd-prefix --hidden --type f"
 
@@ -13,9 +26,9 @@ ifile() {
   local cmd="$get_files 2>/dev/null | $filter_files"
 
   file=$(eval "$cmd")
-
-  if [ -n "$file" ]; then
-    eval "$EDITOR" "$file"
+  if [[ -n "$file" ]]; then
+    files=("${(f)file}") # forbidden zsh syntax to read into an array
+    "$EDITOR" -- "${files[@]}"
   fi
 }
 

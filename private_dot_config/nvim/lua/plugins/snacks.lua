@@ -136,6 +136,32 @@ return {
     lazygit = { enabled = true },
     notifier = { enabled = true },
     quickfile = { enabled = true },
+    picker = {
+      enabled = true,
+      formatters = {
+        file = {
+          filename_first = true,
+        },
+      },
+      layout = {
+        layout = {
+          box = "vertical",
+          backdrop = false,
+          row = -1,
+          width = 0,
+          height = 0.5,
+          border = "top",
+          title = " {source} {live}",
+          title_pos = "left",
+          { win = "input", height = 1, border = "bottom" },
+          {
+            box = "horizontal",
+            { win = "list", border = "none" },
+            { win = "preview", width = 0.6, border = "left" },
+          },
+        },
+      },
+    },
     scope = {
       enabled = true,
       char = "▎",
