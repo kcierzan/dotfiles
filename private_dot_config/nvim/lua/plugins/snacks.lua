@@ -108,6 +108,147 @@ return {
       toggle_indent,
       desc = "toggle indent markers",
     },
+    {
+      "<leader>fd",
+      function()
+        Snacks.picker.lsp_definitions()
+      end,
+      desc = "definitions",
+    },
+    {
+      "<leader>ff",
+      function()
+        Snacks.picker.git_files()
+      end,
+      desc = "files in repo",
+    },
+    {
+      "<leader>fg",
+      function()
+        Snacks.picker.grep()
+      end,
+      desc = "text in git files",
+    },
+    {
+      "<leader>fh",
+      function()
+        Snacks.picker.recent()
+      end,
+      desc = "frecent files",
+    },
+    {
+      "<leader>fi",
+      function()
+        Snacks.picker.lsp_implementations()
+      end,
+      desc = "implementations",
+    },
+    {
+      "<leader>fq",
+      function()
+        Snacks.picker.qflist()
+      end,
+      desc = "quickfix",
+    },
+    {
+      "<leader>fj",
+      function()
+        Snacks.picker.zoxide()
+      end,
+      desc = "recent dirs",
+    },
+    {
+      "<leader>fl",
+      function()
+        Snacks.picker.lines()
+      end,
+      desc = "line in buffer",
+    },
+    {
+      "<leader>fo",
+      function()
+        Snacks.picker.lsp_symbols()
+      end,
+      desc = "workspace symbols",
+    },
+    {
+      "<leader>fu",
+      function()
+        Snacks.picker.lsp_references()
+      end,
+      desc = "usages",
+    },
+    {
+      "<leader>fw",
+      function()
+        Snacks.picker.grep_word()
+      end,
+      desc = "word under cursor",
+    },
+    -- TODO:
+    -- { "<leader>fr", group = "+rails" },
+    -- { "<leader>frf", lib.find_rails_app_file, desc = "app files" },
+    -- { "<leader>frm", lib.find_rails_model, desc = "models" },
+    -- {
+    --   "<leader>frc",
+    --   lib.find_rails_controller,
+    --   desc = "controllers",
+    -- },
+    -- { "<leader>frv", lib.find_rails_view, desc = "views" },
+    -- { "<leader>frs", lib.find_specs, desc = "specs" },
+    -- { "<leader>frF", lib.find_factories, desc = "factories" },
+    -- {
+    --   "<leader>frg",
+    --   lib.live_grep_rails_app_files,
+    --   desc = "find in app files",
+    -- },
+    -- { "<leader>vT", lib.telescope_builtin("filetypes"), desc = "filetypes" },
+    {
+      "<leader>vh",
+      function()
+        Snacks.picker.help()
+      end,
+      desc = "help tags",
+    },
+    {
+      "<leader>vk",
+      function()
+        Snacks.picker.keymaps()
+      end,
+      desc = "keymaps",
+    },
+    {
+      "<leader>vm",
+      function()
+        Snacks.picker.man()
+      end,
+      desc = "man pages",
+    },
+    -- {
+    --   "<leader>vo",
+    --   lib.telescope_builtin("vim_options"),
+    --   desc = "vim options",
+    -- },
+    -- {
+    --   "<leader>vs",
+    --   lib.ex_cmd("Telescope themes"),
+    --   desc = "colorschemes",
+    -- },
+    -- { "<leader>ff", lib.search_visual_selection, desc = "search visual selection", mode = "v" },
+    {
+      "<leader>va",
+      function()
+        Snacks.picker.autocommands()
+      end,
+      desc = "autocommands",
+    },
+    {
+      "<leader>vc",
+      function()
+        Snacks.picker.highlights()
+      end,
+      desc = "highlights",
+    },
   },
   --@type snacks.Config
   opts = {
