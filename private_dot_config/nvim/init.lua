@@ -10,9 +10,6 @@ _G.dd = function(...)
   Snacks.debug.inspect(...)
 end
 
--- https://github.com/neovim/neovim/issues/31675
-vim.hl = vim.highlight
-
 local lib = require("lib")
 
 vim.g.loaded_netrw = 1

@@ -97,6 +97,13 @@ return {
     --   mode = "t",
     -- },
     {
+      "<leader> ",
+      function()
+        Snacks.picker()
+      end,
+      desc = "pickers",
+    },
+    {
       "<leader>vi",
       function()
         Snacks.notifier.show_history()
@@ -177,6 +184,13 @@ return {
         Snacks.picker.lsp_references()
       end,
       desc = "usages",
+    },
+    {
+      "<leader>fb",
+      function()
+        Snacks.picker.buffers()
+      end,
+      desc = "open buffers",
     },
     {
       "<leader>fw",
@@ -290,7 +304,7 @@ return {
           backdrop = false,
           row = -1,
           width = 0,
-          height = 0.5,
+          height = 0.4,
           border = "top",
           title = " {source} {live}",
           title_pos = "left",
