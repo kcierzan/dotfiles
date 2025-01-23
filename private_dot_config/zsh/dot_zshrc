@@ -21,9 +21,9 @@ alias ....="cd ../../../"
 alias vim='nvim'
 alias cm='chezmoi'
 
-if [[ "$(uname)" = 'Linux' ]]; then
-    alias zed="zeditor"
-fi
+[ -f "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh" ] && source "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh"
+[ -f "/usr/share/zsh-antidote/antidote.zsh" ] && source "/usr/share/zsh-antidote/antidote.zsh"
+antidote load ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
 
 # interactive cd
 icd() {
@@ -40,21 +40,21 @@ eval "$(mise activate zsh)"
 # initialize starship
 eval "$(starship init zsh)"
 
-# initialize zoxide
-eval "$(zoxide init zsh)"
-#
-# initialize fzf
-source <(fzf --zsh)
+_load_interactive_scripts() {
+  # initialize zoxide
+  eval "$(zoxide init zsh)"
+
+  # initialize fzf
+  source <(fzf --zsh)
+}
+
+# zsh-defer _load_interactive_scripts
+_load_interactive_scripts
 
 # load shell functions
 source "$HOME/.functions.sh"
 
 source "$ZDOTDIR/zsh_highlight_styles.zsh"
-
-# load plugin manager
-[ -f "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh" ] && source "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh"
-[ -f "/usr/share/zsh-antidote/antidote.zsh" ] && source "/usr/share/zsh-antidote/antidote.zsh"
-antidote load ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
 
 # load zsh completion system
 source "$ZDOTDIR/completion.zsh"

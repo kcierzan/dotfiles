@@ -31,6 +31,7 @@ return {
       "make",
       "markdown",
       "markdown_inline",
+      "nu",
       "php",
       "python",
       "ruby",

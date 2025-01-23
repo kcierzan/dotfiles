@@ -24,29 +24,31 @@ return {
     },
     keymap = {
       ["<Tab>"] = {
-        function(cmp)
-          if cmp.snippet_active() then
-            return cmp.select_and_accept()
-          else
-            return cmp.select_next()
-          end
-        end,
+        -- function(cmp)
+        --   if cmp.snippet_active() then
+        --     return cmp.select_and_accept()
+        --   else
+        --     return cmp.select_next()
+        --   end
+        -- end,
+        "accept",
         "snippet_forward",
         "fallback",
       },
-      ["<CR>"] = { "accept", "fallback" },
+      ["<CR>"] = { "fallback" },
       ["<C-c>"] = {
         "cancel",
         "fallback",
       },
       ["<S-Tab>"] = {
-        function(cmp)
-          if cmp.snippet_active() then
-            return cmp.snippet_backward()
-          else
-            return cmp.select_prev()
-          end
-        end,
+        -- function(cmp)
+        --   if cmp.snippet_active() then
+        --     return cmp.snippet_backward()
+        --   else
+        --     return cmp.select_prev()
+        --   end
+        -- end,
+        "cancel",
         "snippet_backward",
         "fallback",
       },
