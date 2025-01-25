@@ -78,6 +78,7 @@ packages:
       - exercism-bin
       - google-chrome
       - mise-bin
+      - nushell
       - otf-bitter
       - otf-et-book
       - paru
