@@ -149,6 +149,7 @@ packages:
       - mydumper
       - neovim
       - openssh
+      - oh-my-posh
       - pandoc
       - pnpm
       - postgresql@15
