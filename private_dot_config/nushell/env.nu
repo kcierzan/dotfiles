@@ -16,3 +16,6 @@
 #
 # You can remove these comments if you want or leave
 # them for future reference.
+zoxide init nushell | save -f ~/.zoxide.nu
+oh-my-posh init nu --config ~/.config/oh-my-posh/config.omp.json
+

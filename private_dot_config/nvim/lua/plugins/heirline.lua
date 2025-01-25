@@ -6,14 +6,19 @@ return {
   dependencies = {
     "echanovski/mini.icons",
     "lewis6991/gitsigns.nvim",
+    "kcierzan/armonk",
   },
   config = function()
-    local separator = "gradient"
+    local separator = "none"
+    local palette = require("armonk.colors.palette")
+
     local utils = require("heirline.utils")
-    local segment_bg = utils.get_highlight("CursorColumn").bg
+    local segment_bg = palette.gray90
     local conditions = require("heirline.conditions")
 
     local separators = {
+      none_left = " ",
+      none_right = " ",
       pixels_left = " ",
       pixels_right = "",
       slant_up_left = "",
@@ -65,15 +70,19 @@ return {
       return {
         Space,
         {
-          provider = left_sep,
-          hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
-        },
-        padding,
-        unpack(components),
-        padding,
-        {
-          provider = right_sep,
-          hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
+          {
+            provider = left_sep,
+            -- hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
+            hl = { bg = segment_bg },
+          },
+          padding,
+          unpack(components),
+          padding,
+          {
+            provider = right_sep,
+            hl = { bg = segment_bg },
+          },
+          hl = { underline = true, sp = palette.gray40, force = true },
         },
       }
     end
@@ -117,8 +126,8 @@ return {
           t = "TERMINAL",
         },
         mode_colors = {
-          n = utils.get_highlight("SpecialKey").fg,
-          i = utils.get_highlight("Boolean").fg,
+          n = palette.gray50,
+          i = palette.blue60,
           v = utils.get_highlight("Function").fg,
           V = utils.get_highlight("Function").fg,
           ["\22"] = utils.get_highlight("SpecialKey").fg,
@@ -140,7 +149,7 @@ return {
       end,
       hl = function(self)
         local mode = self.mode:sub(1, 1) -- only the first character
-        return { fg = self.mode_colors[mode] }
+        return { fg = self.mode_colors[mode], bold = true }
       end,
       update = {
         "ModeChanged",
@@ -186,7 +195,7 @@ return {
         end
         return path .. "/"
       end,
-      hl = { fg = utils.get_highlight("Keyword").fg },
+      hl = { fg = palette.gray40 },
     }
 
     local FileName = {
@@ -202,7 +211,7 @@ return {
         end
         return filename
       end,
-      hl = { fg = utils.get_highlight("Type").fg, bold = true },
+      hl = { fg = palette.white, bold = true },
     }
 
     local FileFlags = {
@@ -288,7 +297,7 @@ return {
         end
         return " " .. table.concat(names, " ")
       end,
-      hl = { fg = utils.get_highlight("SpecialKey").fg },
+      hl = { fg = palette.purple50 },
     }
 
     local WorkDir = {
@@ -302,7 +311,7 @@ return {
         end
         return icon .. cwd
       end,
-      hl = { fg = utils.get_highlight("Normal").fg },
+      hl = { fg = palette.gray30 },
     }
 
     WorkDir = segment(WorkDir)
@@ -346,7 +355,7 @@ return {
         self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
       end,
 
-      hl = { fg = utils.get_highlight("Normal").fg },
+      hl = { fg = palette.gray50 },
       {
         provider = function(self)
           return "󰘬 " .. self.status_dict.head
