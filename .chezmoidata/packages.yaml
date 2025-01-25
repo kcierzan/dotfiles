@@ -79,6 +79,7 @@ packages:
       - google-chrome
       - mise-bin
       - nushell
+      - oh-my-posh-bin
       - otf-bitter
       - otf-et-book
       - paru
