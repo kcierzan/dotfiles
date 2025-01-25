@@ -1,5 +1,5 @@
 return {
-  "kcierzan/armonk",
+  dir = "~/git/armonk",
   lazy = false,
   priority = 1000,
   config = function()
