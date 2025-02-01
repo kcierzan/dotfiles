@@ -23,6 +23,8 @@ local function toggle_indent()
   end
 end
 
+local excludes = { ".git/", "node_modules", "**/*migration*/**/*", "**/vendor/**/*", "**/migrate/**/*" }
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -71,31 +73,6 @@ return {
       end,
       desc = "select a scratch buffer",
     },
-    -- {
-    --   "<leader>tf",
-    --   run_rspec_file,
-    --   desc = "run rspec file",
-    -- },
-    -- {
-    --   "<leader>tt",
-    --   run_rspec_thing_at_point,
-    --   desc = "run rspec test at cursor",
-    -- },
-    -- {
-    --   "<C-;>",
-    --   function()
-    --     Snacks.terminal.toggle()
-    --   end,
-    --   desc = "toggle terminal",
-    -- },
-    -- {
-    --   "<C-;>",
-    --   function()
-    --     Snacks.terminal.toggle()
-    --   end,
-    --   desc = "toggle terminal",
-    --   mode = "t",
-    -- },
     {
       "<leader> ",
       function()
@@ -199,24 +176,109 @@ return {
       end,
       desc = "word under cursor",
     },
-    -- TODO:
-    -- { "<leader>fr", group = "+rails" },
-    -- { "<leader>frf", lib.find_rails_app_file, desc = "app files" },
-    -- { "<leader>frm", lib.find_rails_model, desc = "models" },
-    -- {
-    --   "<leader>frc",
-    --   lib.find_rails_controller,
-    --   desc = "controllers",
-    -- },
-    -- { "<leader>frv", lib.find_rails_view, desc = "views" },
-    -- { "<leader>frs", lib.find_specs, desc = "specs" },
-    -- { "<leader>frF", lib.find_factories, desc = "factories" },
-    -- {
-    --   "<leader>frg",
-    --   lib.live_grep_rails_app_files,
-    --   desc = "find in app files",
-    -- },
-    -- { "<leader>vT", lib.telescope_builtin("filetypes"), desc = "filetypes" },
+    {
+      "<leader>ff",
+      lib.search_visual_selection,
+      desc = "search visual selection",
+      mode = "v",
+    },
+    { "<leader>fr", group = "+rails" },
+    {
+      "<leader>frm",
+      function()
+        local picker = require("snacks").picker
+        picker.files({
+          args = {
+            "--full-path",
+            "--glob",
+            "**/app/models/**/*.{erb,rb}",
+            "-E",
+            table.concat(excludes, ","),
+          },
+        })
+      end,
+      desc = "models",
+    },
+    {
+      "<leader>frf",
+      function()
+        local picker = require("snacks").picker
+        picker.files({
+          args = {
+            "--full-path",
+            "--glob",
+            "**/app/**/*.{erb,rb}",
+            "-E",
+            table.concat(excludes, ","),
+          },
+        })
+      end,
+      desc = "app files",
+    },
+    {
+      "<leader>frc",
+      function()
+        local picker = require("snacks").picker
+        picker.files({
+          args = {
+            "--full-path",
+            "--glob",
+            "**/app/controllers/**/*.{erb,rb}",
+            "-E",
+            table.concat(excludes, ","),
+          },
+        })
+      end,
+      desc = "controllers",
+    },
+    {
+      "<leader>frv",
+      function()
+        local picker = require("snacks").picker
+        picker.files({
+          args = {
+            "--full-path",
+            "--glob",
+            "**/app/views/**/*.{erb,rb}",
+            "-E",
+            table.concat(excludes, ","),
+          },
+        })
+      end,
+      desc = "views",
+    },
+    {
+      "<leader>frs",
+      function()
+        local picker = require("snacks").picker
+        picker.files({
+          args = {
+            "--full-path",
+            "--glob",
+            "**/app/views/**/*.{erb,rb}",
+            "-E",
+            table.concat(excludes, ","),
+          },
+        })
+      end,
+      desc = "specs",
+    },
+    {
+      "<leader>frF",
+      function()
+        local picker = require("snacks").picker
+        picker.files({
+          args = {
+            "--full-path",
+            "--glob",
+            "**/spec/factories/**/*.{erb,rb}",
+            "-E",
+            table.concat(excludes, ","),
+          },
+        })
+      end,
+      desc = "factories",
+    },
     {
       "<leader>vh",
       function()
@@ -238,17 +300,6 @@ return {
       end,
       desc = "man pages",
     },
-    -- {
-    --   "<leader>vo",
-    --   lib.telescope_builtin("vim_options"),
-    --   desc = "vim options",
-    -- },
-    -- {
-    --   "<leader>vs",
-    --   lib.ex_cmd("Telescope themes"),
-    --   desc = "colorschemes",
-    -- },
-    -- { "<leader>ff", lib.search_visual_selection, desc = "search visual selection", mode = "v" },
     {
       "<leader>va",
       function()
@@ -262,6 +313,13 @@ return {
         Snacks.picker.highlights()
       end,
       desc = "highlights",
+    },
+    {
+      "<leader><CR>",
+      function()
+        Snacks.picker.resume()
+      end,
+      desc = "resume picker",
     },
   },
   --@type snacks.Config

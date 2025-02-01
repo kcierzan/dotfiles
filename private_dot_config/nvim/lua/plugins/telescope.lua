@@ -11,6 +11,7 @@ return {
       "nvim-telescope/telescope-frecency.nvim",
     },
     event = { "VeryLazy" },
+    enabled = false,
     keys = {
       {
         "<leader>fG",
@@ -60,11 +61,11 @@ return {
       --   lib.telescope_builtin("lsp_workspace_symbols"),
       --   desc = "workspace symbols",
       -- },
-      {
-        "<leader>fs",
-        lib.lsp_document_symbols,
-        desc = "buffer symbols",
-      },
+      -- {
+      --   "<leader>fs",
+      --   lib.lsp_document_symbols,
+      --   desc = "buffer symbols",
+      -- },
       -- {
       --   "<leader>fu",
       --   lib.telescope_builtin("lsp_references"),
@@ -77,7 +78,7 @@ return {
       -- },
       { "<leader>fr", group = "+rails" },
       { "<leader>frf", lib.find_rails_app_file, desc = "app files" },
-      { "<leader>frm", lib.find_rails_model, desc = "models" },
+      -- { "<leader>frm", lib.find_rails_model, desc = "models" },
       {
         "<leader>frc",
         lib.find_rails_controller,
@@ -95,22 +96,22 @@ return {
       -- { "<leader>vh", lib.telescope_builtin("help_tags"), desc = "help tags" },
       -- { "<leader>vk", lib.telescope_builtin("keymaps"), desc = "keymaps" },
       -- { "<leader>vm", lib.telescope_builtin("man_pages"), desc = "man pages" },
-      {
-        "<leader>vo",
-        lib.telescope_builtin("vim_options"),
-        desc = "vim options",
-      },
+      -- {
+      --   "<leader>vo",
+      --   lib.telescope_builtin("vim_options"),
+      --   desc = "vim options",
+      -- },
       -- {
       --   "<leader>vs",
       --   lib.ex_cmd("Telescope themes"),
       --   desc = "colorschemes",
       -- },
-      {
-        "<leader>ff",
-        lib.search_visual_selection,
-        desc = "search visual selection",
-        mode = "v",
-      },
+      -- {
+      --   "<leader>ff",
+      --   lib.search_visual_selection,
+      --   desc = "search visual selection",
+      --   mode = "v",
+      -- },
       {
         "<leader>va",
         lib.telescope_builtin("autocommands"),

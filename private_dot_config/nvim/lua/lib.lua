@@ -86,13 +86,14 @@ function M.search_visual_selection()
   vim.cmd([[normal! "zy]])
 
   -- get the contents fo the z register
-  local selection = vim.fn.getreg("z")
+  local picker = require("snacks").picker
 
-  local telescope = require("telescope.builtin")
-  telescope.live_grep({
-    default_text = selection,
-    silent = true,
-    glob_pattern = "!**/spec/**/*",
+  picker.grep_word({
+    search = function()
+      -- return the contents of the z register
+      return vim.fn.getreg("z")
+    end,
+    glob = "!**/spec/**/*",
   })
 end
 
