@@ -1,8 +1,9 @@
-theme = Oxocarbon
+theme = rose-pine-dawn
 font-family = TX-02
 adjust-cursor-thickness = 3
-font-thicken = false
+font-thicken = true
 adjust-underline-position = 40%
+command = /opt/homebrew/bin/nu --config="~/.config/nushell/config.nu"
 
 # custom-shader = /Users/kylecierzan/git/ghostty-shaders/bettercrt.glsl
 # custom-shader = /Users/kylecierzan/git/ghostty-shaders/bloom.glsl

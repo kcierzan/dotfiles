@@ -6,14 +6,14 @@ return {
   dependencies = {
     "echanovski/mini.icons",
     "lewis6991/gitsigns.nvim",
-    "kcierzan/armonk",
+    "neovim/rose-pine",
   },
   config = function()
-    local separator = "none"
-    local palette = require("armonk.colors.palette")
+    local separator = "gradient"
+    local palette = require("rose-pine.palette")
 
     local utils = require("heirline.utils")
-    local segment_bg = palette.gray90
+    local segment_bg = palette.base
     local conditions = require("heirline.conditions")
 
     local separators = {
@@ -72,17 +72,18 @@ return {
         {
           {
             provider = left_sep,
-            -- hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
-            hl = { bg = segment_bg },
+            hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
+            -- hl = { bg = segment_bg },
           },
           padding,
           unpack(components),
           padding,
           {
             provider = right_sep,
-            hl = { bg = segment_bg },
+            -- hl = { bg = segment_bg },
+            hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
           },
-          hl = { underline = true, sp = palette.gray40, force = true },
+          hl = { underline = false, sp = palette.higlight_high, force = true },
         },
       }
     end
@@ -126,8 +127,8 @@ return {
           t = "TERMINAL",
         },
         mode_colors = {
-          n = palette.gray50,
-          i = palette.blue60,
+          n = palette.pine,
+          i = palette.gold,
           v = utils.get_highlight("Function").fg,
           V = utils.get_highlight("Function").fg,
           ["\22"] = utils.get_highlight("SpecialKey").fg,
@@ -195,7 +196,7 @@ return {
         end
         return path .. "/"
       end,
-      hl = { fg = palette.gray40 },
+      hl = { fg = palette.muted },
     }
 
     local FileName = {
@@ -211,7 +212,7 @@ return {
         end
         return filename
       end,
-      hl = { fg = palette.white, bold = true },
+      hl = { fg = palette.text, bold = true },
     }
 
     local FileFlags = {
@@ -220,7 +221,7 @@ return {
           return vim.bo.modified
         end,
         provider = " 󰧞",
-        hl = { fg = utils.get_highlight("Comment").fg },
+        hl = { fg = palette.gold },
       },
       {
         condition = function()
@@ -297,7 +298,7 @@ return {
         end
         return " " .. table.concat(names, " ")
       end,
-      hl = { fg = palette.purple50 },
+      hl = { fg = palette.gold },
     }
 
     local WorkDir = {
@@ -311,7 +312,7 @@ return {
         end
         return icon .. cwd
       end,
-      hl = { fg = palette.gray30 },
+      hl = { fg = palette.iris },
     }
 
     WorkDir = segment(WorkDir)
@@ -355,7 +356,7 @@ return {
         self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
       end,
 
-      hl = { fg = palette.gray50 },
+      hl = { fg = palette.foam },
       {
         provider = function(self)
           return "󰘬 " .. self.status_dict.head
