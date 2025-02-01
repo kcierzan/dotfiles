@@ -14,7 +14,7 @@ local lib = require("lib")
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.opt.background = "light"
+vim.opt.background = "dark"
 
 vim.opt.autowriteall = true
 vim.opt.hidden = true
@@ -33,6 +33,7 @@ vim.opt.numberwidth = 4
 vim.opt.pumheight = 10
 vim.opt.relativenumber = false
 vim.opt.scrolloff = 8
+vim.opt.shell = "/opt/homebrew/bin/nu --config='~/.config/nushell/config.nu'"
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 2
 vim.opt.showmode = false
