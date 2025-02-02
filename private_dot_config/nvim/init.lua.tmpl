@@ -10,6 +10,10 @@ _G.dd = function(...)
   Snacks.debug.inspect(...)
 end
 
+-- https://github.com/neovim/neovim/issues/31675
+-- "show higlight at point" doesn't work without this for now
+vim.hl = vim.highlight
+
 local lib = require("lib")
 
 vim.g.loaded_netrw = 1
@@ -32,8 +36,12 @@ vim.opt.number = true
 vim.opt.numberwidth = 4
 vim.opt.pumheight = 10
 vim.opt.relativenumber = false
+{{- if eq .chezmoi.os "darwin" }}
+vim.opt.shell = '/usr/opt/homebrew/nu --config="~/.config/nushell/config.nu"'
+{{- else if eq .chezmoi.os "linux" }}
+vim.opt.shell = '/usr/bin/nu --config="~/.config/nushell/config.nu"'
+{{- end }}
 vim.opt.scrolloff = 8
-vim.opt.shell = "/opt/homebrew/bin/nu --config='~/.config/nushell/config.nu'"
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 2
 vim.opt.showmode = false

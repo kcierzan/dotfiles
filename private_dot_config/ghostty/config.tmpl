@@ -3,7 +3,11 @@ font-family = TX-02
 adjust-cursor-thickness = 3
 font-thicken = true
 adjust-underline-position = 40%
+{{- if eq .chezmoi.os "darwin" }}
 command = /opt/homebrew/bin/nu --config="~/.config/nushell/config.nu"
+{{- else if eq .chezmoi.os "linux" }}
+command = /usr/bin/nu --config="~/.config/nushell/config.nu"
+{{- end }}
 
 # custom-shader = /Users/kylecierzan/git/ghostty-shaders/bettercrt.glsl
 # custom-shader = /Users/kylecierzan/git/ghostty-shaders/bloom.glsl
