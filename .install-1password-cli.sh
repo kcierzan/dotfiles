@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 type op >/dev/null 2>&1 && exit
 
