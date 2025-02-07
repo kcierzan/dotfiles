@@ -102,7 +102,7 @@ return {
     {
       "<leader>ff",
       function()
-        Snacks.picker.git_files()
+        Snacks.picker.git_files({ untracked = true })
       end,
       desc = "files in repo",
     },

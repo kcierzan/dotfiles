@@ -18,7 +18,9 @@ local lib = require("lib")
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.opt.background = "dark"
+
+vim.fn.system("ghostty +show-config | rg -q rose-pine-dawn")
+vim.opt.background = vim.v.shell_error == 0 and "light" or "dark"
 
 vim.opt.autowriteall = true
 vim.opt.hidden = true
