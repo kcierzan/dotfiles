@@ -60,6 +60,9 @@ return {
       },
     },
     snippets = { preset = "luasnip" },
+    cmdline = {
+      sources = {},
+    },
     sources = {
       default = {
         "codecompanion",
@@ -68,7 +71,6 @@ return {
         "snippets",
         "buffer",
       },
-      cmdline = {},
       providers = {
         ripgrep = {
           module = "blink-ripgrep",

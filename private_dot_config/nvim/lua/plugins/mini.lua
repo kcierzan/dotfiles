@@ -21,6 +21,15 @@ return {
       },
     },
     opts = {
+      custom_surroundings = {
+        d = {
+          input = { "%b{}" },
+          output = {
+            left = "do\n",
+            right = "\nend",
+          },
+        },
+      },
       mappings = {
         add = "ys",
         delete = "ds",
