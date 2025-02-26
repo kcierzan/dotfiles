@@ -38,11 +38,6 @@ vim.opt.number = true
 vim.opt.numberwidth = 4
 vim.opt.pumheight = 10
 vim.opt.relativenumber = false
-{{- if eq .chezmoi.os "darwin" }}
-vim.opt.shell = '/opt/homebrew/bin/nu --config="~/.config/nushell/config.nu"'
-{{- else if eq .chezmoi.os "linux" }}
-vim.opt.shell = '/usr/bin/nu --config="~/.config/nushell/config.nu"'
-{{- end }}
 vim.opt.scrolloff = 8
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 2

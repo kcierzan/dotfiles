@@ -22,7 +22,7 @@ ifile() {
     get_files+=" --exclude='$exclude'"
   done
 
-  local filter_files="fzf -m --exit-0 --preview-window=up:80% --preview 'fzf-preview {}'"
+  local filter_files="fzf -m --exit-0 --preview-window=right:60% --preview 'fzf-preview {}'"
   local cmd="$get_files 2>/dev/null | $filter_files"
 
   file=$(eval "$cmd")
