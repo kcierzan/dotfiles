@@ -30,6 +30,7 @@ packages:
       - go
       - grub
       - htop
+      - hyperfine
       - inotify-tools
       - jq
       - kcharselect
@@ -128,6 +129,7 @@ packages:
       - grep
       - gzip
       - htop
+      - hyperfine
       - imagemagick
       - jq
       - juliaup
