@@ -68,6 +68,7 @@ packages:
       - wget
       - wl-clipboard
       - xdg-desktop-portal-gtk
+      - zed
       - zip
       - zoxide
       - zsh
@@ -176,7 +177,6 @@ packages:
     casks:
       - 1password
       - 1password-cli
-      - aerospace
       - docker
       - betterdisplay
       - font-atkinson-hyperlegible
@@ -185,5 +185,5 @@ packages:
       - jetbrains-toolbox
       - raycast
       - syncthing
+      - zed
       - zen-browser
-
