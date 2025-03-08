@@ -78,7 +78,7 @@ packages:
       - ddcci-driver-linux-dkms-git
       - exercism-bin
       - google-chrome
-      - mise-bin
+      - mise
       - nushell
       - oh-my-posh-bin
       - otf-bitter
@@ -88,7 +88,6 @@ packages:
       - rar
       - snapd
       - sxiv-git
-      - syncthingtray
       - ttf-merriweather
       - wev-git
       - zen-browser-bin
