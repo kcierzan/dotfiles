@@ -28,8 +28,8 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
 export MISE_LOG_LEVEL='error'
 
 # initialize direnv
-eval "$(direnv hook zsh)"
+# eval "$(direnv hook zsh)"
 
-if [[ "$(uname)" = 'Darwin' ]]; then
-    eval "$(rbenv init -)"
-fi
+# if [[ "$(uname)" = 'Darwin' ]]; then
+#     eval "$(rbenv init -)"
+# fi
