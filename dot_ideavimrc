@@ -39,14 +39,19 @@ set commentary
 set easymotion
 set surround
 set which-key
+set multiple-cursors
 
 let g:EasyMotion_do_mapping=0
-" nnoremap <Space> <Nop>
 
 map s <Plug>(easymotion-s2)
 
 let g:WhichKeyDesc_everywhere = "<leader><Space> search everywhere"
+let g:WhichKey_FontFamily = "TX-02"
+let g:WhichKey_PrefixStyle = "bold"
 map <leader><leader> <Action>(SearchEverywhere)
+
+map / <Action>(Find)
+map <C-w>t <Action>(CloseEditor)
 
 " --------------------------------- Windows -----------------------------
 let g:WhichKeyDesc_window = "<leader>w window"
@@ -160,7 +165,7 @@ let g:WhichKeyDesc_code = "<leader>c code"
 let g:WhichKeyDesc_rename_element = "<leader>cr rename"
 map <leader>cr <Action>(RenameElement)
 
-let g:WhichKeyDesc_highligh_usages = "<leader>ch highlight usages in file"
+let g:WhichKeyDesc_highlight_usages = "<leader>ch highlight usages in file"
 map <leader>ch <Action>(HighlightUsagesInFile)
 
 let g:WhichKeyDesc_find_usages = "<leader>cu find usages"
@@ -213,8 +218,8 @@ map <leader>eI <Action>(RunInspection)
 
 " ------------------------------ Terminal ---------------------------
 
-let g:WhichKeyDesc_terminal = "<leader>t terminal"
-map <leader>t <Action>(ActivateTerminalToolWindow)
+let g:WhichKeyDesc_terminal = "<leader>: terminal"
+map <leader>: <Action>(ActivateTerminalToolWindow)
 
 " --------------------------------- Run -----------------------------
 let g:WhichKeyDesc_run = "<leader>r run"
@@ -227,3 +232,13 @@ map <leader>rr <Action>(Run)
 
 let g:WhichKeyDesc_run_build = "<leader>rb build"
 map <leader>rb <Action>(Build)
+
+" --------------------------------- Test -----------------------------
+
+let g:WhichKeyDesc_terminal = "<leader>t test"
+
+let g:WhichKeyDesc_test_run = "<leader>tt test"
+map <leader>tt <Action>(RunContextGroup)
+
+let g:WhichKeyDesc_test_jump = "<leader>tg go to test"
+map <leader>tg <Action>(GotoTest)
