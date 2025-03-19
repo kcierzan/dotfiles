@@ -68,4 +68,4 @@ eval "$(mise activate zsh)"
 bindkey '^p' history-substring-search-up
 bindkey '^n' history-substring-search-down
 
-# [ -f ~/.bootstrap/env.sh ] && source "$HOME/.bootstrap/env.sh"
+[ -f ~/.bootstrap/env.sh ] && source "$HOME/.bootstrap/env.sh"
