@@ -8,6 +8,9 @@ return {
   },
   version = "*",
   opts = {
+    fuzzy = {
+      implementation = "prefer_rust",
+    },
     completion = {
       menu = {
         draw = {

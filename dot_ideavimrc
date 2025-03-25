@@ -13,7 +13,7 @@ set nolazyredraw
 set noshowmode
 set noswapfile
 set nowrap
-set nonumber
+set number
 set scrolloff=3
 set shiftround
 set shiftwidth=2
@@ -51,7 +51,6 @@ let g:WhichKey_PrefixStyle = "bold"
 map <leader><leader> <Action>(SearchEverywhere)
 
 map / <Action>(Find)
-map <C-w>t <Action>(CloseEditor)
 
 " --------------------------------- Windows -----------------------------
 let g:WhichKeyDesc_window = "<leader>w window"
