@@ -10,10 +10,10 @@ return {
   },
   config = function()
     local separator = "gradient"
-    local palette = require("rose-pine.palette")
+    local palette = require("catppuccin.palettes").get_palette("mocha")
 
     local utils = require("heirline.utils")
-    local segment_bg = palette.base
+    local segment_bg = palette.mantle
     local conditions = require("heirline.conditions")
 
     local separators = {
@@ -83,7 +83,7 @@ return {
             -- hl = { bg = segment_bg },
             hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
           },
-          hl = { underline = false, sp = palette.higlight_high, force = true },
+          hl = { underline = false, sp = palette.surface2, force = true },
         },
       }
     end
@@ -127,8 +127,8 @@ return {
           t = "TERMINAL",
         },
         mode_colors = {
-          n = palette.pine,
-          i = palette.gold,
+          n = palette.green,
+          i = palette.yellow,
           v = utils.get_highlight("Function").fg,
           V = utils.get_highlight("Function").fg,
           ["\22"] = utils.get_highlight("SpecialKey").fg,
@@ -196,7 +196,7 @@ return {
         end
         return path .. "/"
       end,
-      hl = { fg = palette.muted },
+      hl = { fg = palette.surface2 },
     }
 
     local FileName = {
@@ -221,7 +221,7 @@ return {
           return vim.bo.modified
         end,
         provider = " 󰧞",
-        hl = { fg = palette.gold },
+        hl = { fg = palette.yellow },
       },
       {
         condition = function()
@@ -298,7 +298,7 @@ return {
         end
         return " " .. table.concat(names, " ")
       end,
-      hl = { fg = palette.gold },
+      hl = { fg = palette.yellow },
     }
 
     local WorkDir = {
@@ -312,7 +312,7 @@ return {
         end
         return icon .. cwd
       end,
-      hl = { fg = palette.iris },
+      hl = { fg = palette.mauve },
     }
 
     WorkDir = segment(WorkDir)
@@ -356,7 +356,7 @@ return {
         self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
       end,
 
-      hl = { fg = palette.foam },
+      hl = { fg = palette.cyan },
       {
         provider = function(self)
           return "󰘬 " .. self.status_dict.head

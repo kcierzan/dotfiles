@@ -1,6 +1,7 @@
 return {
   "rose-pine/neovim",
   lazy = false,
+  enabled = false,
   priority = 1000,
   name = "rose-pine",
   config = function()
