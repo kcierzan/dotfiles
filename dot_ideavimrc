@@ -46,7 +46,7 @@ let g:EasyMotion_do_mapping=0
 map s <Plug>(easymotion-s2)
 
 let g:WhichKeyDesc_everywhere = "<leader><Space> search everywhere"
-let g:WhichKey_FontFamily = "TX-02"
+let g:WhichKey_FontFamily = "GeistMono Nerd Font"
 let g:WhichKey_PrefixStyle = "bold"
 map <leader><leader> <Action>(SearchEverywhere)
 
