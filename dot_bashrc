@@ -15,6 +15,6 @@ alias gs='git status'
 alias reload='source ~/.bash_profile'
 
 #shellcheck source=/dev/null
-[ -f "$HOME/.boostrap/env.sh" ] && source "$HOME/.bootstrap/env.sh"
+[ -f "$HOME/.bootstrap/resources/env.d/betterment.sh" ] && source "$HOME/.bootstrap/resources/env.d/betterment.sh"
 
 # source ~/.functions.sh
