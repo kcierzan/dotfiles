@@ -40,6 +40,7 @@ return {
       "sql",
       "surface",
       "svelte",
+      "templ",
       "typescript",
       "vim",
       "yaml",
