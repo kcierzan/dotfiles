@@ -44,7 +44,6 @@ packages:
       - mpv
       - neovim
       - networkmanager
-      - otf-atkinson-hyperlegible
       - postgresql
       - plasma-meta
       - plocate
@@ -79,7 +78,8 @@ packages:
       - nushell
       - oh-my-posh-bin
       - otf-bitter
-      - otf-et-book
+      - otf-geist
+      - otf-geist-mono-nerd
       - paru
       - pgloader
       - rar
@@ -88,7 +88,6 @@ packages:
       - ttf-merriweather
       - wev-git
       - zen-browser-bin
-      - zsh-antidote
   darwin:
     brews:
       - age
@@ -115,7 +114,6 @@ packages:
       - git
       - git-delta
       - git-lfs
-      - glow
       - gnu-sed
       - gnu-tar
       - gnu-which
