@@ -18,10 +18,11 @@ return {
       ensure_installed = {
         "bashls",
         "elixirls",
-        "emmet_ls",
+        "emmet_language_server",
         "gopls",
         "golangci_lint_ls",
         "jsonls",
+        "html",
         "lua_ls",
         "pyright",
         "rust_analyzer",
