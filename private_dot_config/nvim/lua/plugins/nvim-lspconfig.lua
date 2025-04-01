@@ -41,6 +41,7 @@ return {
 
     local servers = {
       "clangd",
+      "cssls",
       "bashls",
       "emmet_language_server",
       "elixirls",
@@ -55,6 +56,7 @@ return {
       "rust_analyzer",
       "svelte",
       "templ",
+      "typos_lsp",
       "tailwindcss",
       "sorbet",
       "vtsls",
