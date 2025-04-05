@@ -23,7 +23,6 @@ return {
       "stevearc/dressing.nvim",
       opts = {},
     },
-    "nvim-telescope/telescope.nvim",
   },
   opts = {
     -- display = {

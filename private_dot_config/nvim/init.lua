@@ -11,7 +11,7 @@ _G.dd = function(...)
 end
 
 -- https://github.com/neovim/neovim/issues/31675
--- "show higlight at point" doesn't work without this for now
+-- "show highlight at point" doesn't work without this for now
 vim.hl = vim.highlight
 
 local lib = require("lib")
@@ -79,17 +79,6 @@ vim.g.neovide_padding_bottom = 20
 vim.g.neovide_padding_right = 20
 vim.g.neovide_padding_left = 20
 vim.opt.linespace = 2
-
-local signs = {
-  { name = "DiagnosticSignError", text = "" },
-  { name = "DiagnosticSignWarn", text = "" },
-  { name = "DiagnosticSignHint", text = "" },
-  { name = "DiagnosticSignInfo", text = "" },
-}
-
-for _, sign in ipairs(signs) do
-  vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
