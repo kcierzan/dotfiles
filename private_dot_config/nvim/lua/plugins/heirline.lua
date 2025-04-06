@@ -13,7 +13,7 @@ return {
     local palette = require("catppuccin.palettes").get_palette("mocha")
 
     local utils = require("heirline.utils")
-    local segment_bg = palette.mantle
+    local segment_bg = palette.surface0
     local conditions = require("heirline.conditions")
 
     local separators = {
@@ -196,7 +196,7 @@ return {
         end
         return path .. "/"
       end,
-      hl = { fg = palette.surface2 },
+      hl = { fg = palette.overlay1 },
     }
 
     local FileName = {
