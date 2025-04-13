@@ -19,10 +19,11 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
-    {
-      "stevearc/dressing.nvim",
-      opts = {},
-    },
+    "folke/snacks.nvim",
+    -- {
+    --   "stevearc/dressing.nvim",
+    --   opts = {},
+    -- },
   },
   opts = {
     -- display = {
@@ -48,6 +49,18 @@ return {
               -- codecompanion does not yet play nicely with blink.cmp
               -- so completion must be triggered manually
               i = "<Tab>",
+            },
+          },
+        },
+        slash_commands = {
+          ["file"] = {
+            opts = {
+              provider = "snacks",
+            },
+          },
+          ["buffer"] = {
+            opts = {
+              provider = "snacks",
             },
           },
         },

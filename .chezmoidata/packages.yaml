@@ -64,7 +64,6 @@ packages:
       - wget
       - wl-clipboard
       - xdg-desktop-portal-gtk
-      - zed
       - zip
       - zoxide
     aur:
