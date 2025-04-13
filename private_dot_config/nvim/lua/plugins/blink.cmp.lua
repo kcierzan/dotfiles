@@ -1,41 +1,3 @@
-local origin_keymap = {
-  ["<Tab>"] = {
-    -- function(cmp)
-    --   if cmp.snippet_active() then
-    --     return cmp.select_and_accept()
-    --   else
-    --     return cmp.select_next()
-    --   end
-    -- end,
-    "accept",
-    "snippet_forward",
-    "fallback",
-  },
-  ["<CR>"] = { "fallback" },
-  ["<C-c>"] = {
-    "cancel",
-    "fallback",
-  },
-  ["<S-Tab>"] = {
-    -- function(cmp)
-    --   if cmp.snippet_active() then
-    --     return cmp.snippet_backward()
-    --   else
-    --     return cmp.select_prev()
-    --   end
-    -- end,
-    "cancel",
-    "snippet_backward",
-    "fallback",
-  },
-  ["<C-k>"] = { "show", "show_documentation", "hide_documentation" },
-  ["<C-space>"] = {
-    function(cmp)
-      cmp.show({ providers = { "ripgrep" } })
-    end,
-  },
-}
-
 return {
   "saghen/blink.cmp",
   lazy = false, -- lazy loading is handled by the plugin
@@ -65,27 +27,13 @@ return {
     },
     keymap = {
       ["<Tab>"] = {
-        -- function(cmp)
-        --   if cmp.snippet_active() then
-        --     return cmp.snippet_forward()
-        --   else
-        --     return cmp.select_next()
-        --   end
-        -- end,
-        "snippet_forward",
         "select_next",
+        "snippet_forward",
         "fallback",
       },
       ["<S-Tab>"] = {
-        -- function(cmp)
-        --   if cmp.snippet_active() then
-        --     return cmp.snippet_backward()
-        --   else
-        --     return cmp.select_prev()
-        --   end
-        -- end,
-        "snippet_backward",
         "select_prev",
+        "snippet_backward",
         "fallback",
       },
       ["<C-k>"] = { "show", "show_documentation", "hide_documentation" },

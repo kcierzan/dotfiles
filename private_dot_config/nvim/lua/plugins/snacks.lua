@@ -351,10 +351,14 @@ return {
     quickfile = { enabled = true },
     picker = {
       enabled = true,
+      ui_select = true,
       formatters = {
         file = {
           filename_first = true,
         },
+      },
+      matcher = {
+        frecency = true,
       },
       layout = {
         layout = {
