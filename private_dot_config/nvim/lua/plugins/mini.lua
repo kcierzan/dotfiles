@@ -4,13 +4,15 @@ return {
   {
     "echasnovski/mini.comment",
     keys = { "gc", "v", "V" },
+    cond = true,
     version = false,
     opts = {},
   },
   {
     "echasnovski/mini.surround",
     version = false,
-    event = "InsertEnter",
+    cond = true,
+    event = "VeryLazy",
     keys = {
       {
         "S",
@@ -59,12 +61,14 @@ return {
   {
     "echasnovski/mini.ai",
     version = false,
+    cond = true,
     keys = { "a", "i", "g" },
     opts = {},
   },
   {
     "echasnovski/mini.pairs",
     version = false,
+    cond = true,
     event = "InsertEnter",
     opts = {},
   },

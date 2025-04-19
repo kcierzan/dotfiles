@@ -6,7 +6,7 @@ return {
   dependencies = {
     "echanovski/mini.icons",
     "lewis6991/gitsigns.nvim",
-    "neovim/rose-pine",
+    "catppuccin/nvim",
   },
   config = function()
     local separator = "gradient"
@@ -237,7 +237,7 @@ return {
     -- but we'll see how easy it is to alter existing components using a "modifier"
     -- component
 
-    local FileNameModifer = {
+    local FileNameModifier = {
       hl = function()
         if vim.bo.modified then
           -- use `force` because we need to override the child's hl foreground
@@ -264,7 +264,7 @@ return {
     FileNameBlock = utils.insert(
       FileNameBlock,
       FileIcon,
-      utils.insert(FileNameModifer, { FilePath, FileName }), -- a new table where FileName is a child of FileNameModifier
+      utils.insert(FileNameModifier, { FilePath, FileName }), -- a new table where FileName is a child of FileNameModifier
       FileFlags,
       FileEncoding,
       FileFormat,

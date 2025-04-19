@@ -19,8 +19,8 @@ local lib = require("lib")
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.fn.system("ghostty +show-config | rg -q rose-pine-dawn")
-vim.opt.background = vim.v.shell_error == 0 and "light" or "dark"
+vim.fn.system("ghostty +show-config | rg -q xcodedark")
+vim.opt.background = vim.v.shell_error == 0 and "dark" or "light"
 
 vim.opt.autowriteall = true
 vim.opt.hidden = true
@@ -53,7 +53,7 @@ vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.o.linespace = 0
 vim.o.timeout = true
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 500
 vim.opt.undodir = os.getenv("HOME") .. "/.undo"
 vim.opt.undolevels = 100000
 vim.opt.updatetime = 100
@@ -199,6 +199,20 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufNew" }, {
     vim.cmd("TSEnable endwise")
   end,
 })
+
+-- communicate the full mode to vscode
+if vim.g.vscode then
+  local vscode = require("vscode")
+
+  vim.api.nvim_create_autocmd({ "VimEnter", "ModeChanged" }, {
+    callback = function()
+      vscode.call("setContext", {
+        args = { "neovim.fullMode", vim.fn.mode(1) },
+      })
+    end,
+  })
+  -- any other vscode-neovim settings ...
+end
 
 vim.opt.rtp:prepend(lazypath)
 

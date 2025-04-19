@@ -1,7 +1,7 @@
 eval "$(direnv hook bash)"
 eval "$(mise activate bash)"
 
-# command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
 
 eval "$(zoxide init bash)"
 
@@ -16,5 +16,3 @@ alias reload='source ~/.bash_profile'
 
 #shellcheck source=/dev/null
 [ -f "$HOME/.bootstrap/resources/env.d/betterment.sh" ] && source "$HOME/.bootstrap/resources/env.d/betterment.sh"
-
-# source ~/.functions.sh
