@@ -2,7 +2,7 @@ local lib = require("lib")
 
 return {
   "mrjones2014/legendary.nvim",
-  dependencies = { "stevearc/dressing.nvim" },
+  -- dependencies = { "stevearc/dressing.nvim" },
   cmd = { "Legendary" },
   keys = {
     {

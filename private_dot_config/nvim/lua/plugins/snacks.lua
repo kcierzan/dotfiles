@@ -324,12 +324,12 @@ return {
   },
   --@type snacks.Config
   opts = {
-    animate = { enabled = true, fps = 120, easing = "expo", duration = 10 },
+    animate = { enabled = not vim.g.vscode, fps = 120, easing = "expo", duration = 10 },
     bigfile = { enabled = true },
-    bufdelete = { enabled = true },
-    gitbrowse = { enabled = true },
-    dashboard = { enabled = true },
-    debug = { enabled = true },
+    bufdelete = { enabled = not vim.g.vscode },
+    gitbrowse = { enabled = not vim.g.vscode },
+    dashboard = { enabled = not vim.g.vscode },
+    debug = { enabled = not vim.g.vscode },
     indent = {
       indent = {
         only_scope = true,
@@ -345,12 +345,12 @@ return {
       },
       enabled = false,
     },
-    input = { enabled = true },
-    lazygit = { enabled = true },
-    notifier = { enabled = true },
+    input = { enabled = not vim.g.vscode },
+    lazygit = { enabled = not vim.g.vscode },
+    notifier = { enabled = not vim.g.vscode },
     quickfile = { enabled = true },
     picker = {
-      enabled = true,
+      enabled = not vim.g.vscode,
       ui_select = true,
       formatters = {
         file = {
@@ -380,14 +380,14 @@ return {
       },
     },
     scope = {
-      enabled = true,
+      enabled = not vim.g.vscode,
       char = "▎",
     },
-    scratch = { enabled = true },
-    scroll = { enabled = true },
-    statuscolumn = { enabled = true },
+    scratch = { enabled = not vim.g.vscode },
+    scroll = { enabled = not vim.g.vscode },
+    statuscolumn = { enabled = not vim.g.vscode },
     terminal = { enabled = false },
-    words = { enabled = true },
-    zen = { enabled = true },
+    words = { enabled = not vim.g.vscode },
+    zen = { enabled = not vim.g.vscode },
   },
 }

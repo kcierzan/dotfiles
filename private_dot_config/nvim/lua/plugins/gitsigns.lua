@@ -8,7 +8,7 @@ return {
     { "<leader>gP", lib.ex_cmd("Gitsigns preview_hunk"), desc = "preview hunk" },
     { "<leader>gr", lib.ex_cmd("Gitsigns reset_hunk"), desc = "reset hunk" },
     { "<leader>gB", lib.ex_cmd("Gitsigns stage_buffer"), desc = "stage buffer" },
-    { "<leader>gR", lib.ex_cmd("Gitsigns reset_buffer"), desc = "reset bufffer" },
+    { "<leader>gR", lib.ex_cmd("Gitsigns reset_buffer"), desc = "reset buffer" },
     { "<leader>gb", lib.ex_cmd("Gitsigns toggle_current_line_blame"), desc = "toggle blame" },
     { "<leader>gh", lib.ex_cmd("Gitsigns stage_hunk"), desc = "stage hunk", mode = "v" },
     { "<leader>gr", lib.ex_cmd("'<,'>Gitsigns reset_hunk"), desc = "reset hunk", mode = "v" },
