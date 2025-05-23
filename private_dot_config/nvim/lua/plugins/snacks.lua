@@ -352,23 +352,32 @@ return {
     picker = {
       enabled = not vim.g.vscode,
       ui_select = true,
+      win = {
+        input = {
+          keys = {
+            ["<a-Up>"] = { "history_back", mode = { "i", "n" } },
+            ["<a-Down>"] = { "history_forward", mode = { "i", "n" } },
+          },
+        },
+      },
       formatters = {
         file = {
-          filename_first = true,
+          filename_first = false,
         },
       },
       matcher = {
         frecency = true,
       },
       layout = {
+        preview = "main",
         layout = {
           box = "vertical",
           backdrop = false,
           row = -1,
           width = 0,
-          height = 0.4,
+          height = 0.35,
           border = "top",
-          title = " {source} {live}",
+          title = "{title} {live} {flags}",
           title_pos = "left",
           { win = "input", height = 1, border = "bottom" },
           {

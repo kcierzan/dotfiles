@@ -13,6 +13,14 @@ return {
           args = { "exec", "rubocop", "--autocorrect-all", "--stderr", "--force-exclusion", "--stdin", "$FILENAME" },
           cwd = require("conform.util").root_file({ "Gemfile" }),
         },
+        sqlfluff = {
+          command = "sqlfluff",
+          args = { "format", "--dialect=postgres", "-" },
+          stdin = true,
+          cwd = function()
+            return vim.fn.getcwd()
+          end,
+        },
       },
       format_after_save = {
         -- timeout_ms = 5000,
@@ -22,6 +30,7 @@ return {
         lua = { "stylua" },
         ruby = { "rubocop" },
         eruby = { "erb-format" },
+        sql = { "sqlfluff" },
         python = { "isort", "black" },
       },
     })

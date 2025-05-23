@@ -153,9 +153,9 @@ return {
       }
       wk.add(normal_mode_mappings)
       wk.setup({
+        preset = "helix",
         win = {
-          -- border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
-          border = "none",
+          border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
         },
       })
     end,
