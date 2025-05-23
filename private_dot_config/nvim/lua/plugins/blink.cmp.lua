@@ -48,7 +48,8 @@ return {
     },
     snippets = { preset = "luasnip" },
     cmdline = {
-      sources = {},
+      keymap = { preset = "inherit" },
+      completion = { menu = { auto_show = true } },
     },
     sources = {
       default = {
