@@ -19,6 +19,7 @@ local lib = require("lib")
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- TODO: make a table of dark/light ghostty themes
 vim.fn.system("ghostty +show-config | rg -q kanso-ink")
 vim.opt.background = vim.v.shell_error == 0 and "dark" or "light"
 
@@ -192,13 +193,13 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
 })
 
 -- enable TS features explicitly (these used to be flaky)
-vim.api.nvim_create_autocmd({ "VimEnter", "BufNew" }, {
-  pattern = "*",
-  callback = function()
-    vim.cmd("TSEnable highlight")
-    vim.cmd("TSEnable endwise")
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "VimEnter", "BufNew" }, {
+--   pattern = "*",
+--   callback = function()
+--     vim.cmd("TSEnable highlight")
+--     vim.cmd("TSEnable endwise")
+--   end,
+-- })
 
 -- communicate the full mode to vscode
 if vim.g.vscode then
