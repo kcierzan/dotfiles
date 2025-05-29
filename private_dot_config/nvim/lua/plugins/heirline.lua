@@ -143,7 +143,7 @@ return {
     "echanovski/mini.icons",
     "lewis6991/gitsigns.nvim",
     -- "catppuccin/nvim",
-    "webhooked/kanso",
+    "webhooked/kanso.nvim",
   },
   config = function()
     local separator = "none"
@@ -474,7 +474,7 @@ return {
     }
 
     local LSPActive = {
-      update = { "LspAttach", "LspDetach" },
+      update = { "LspAttach", "LspDetach", "BufEnter", "WinEnter" },
       provider = function()
         local lsp_icons = {
           typos_lsp = "󰓆 ",
@@ -488,6 +488,7 @@ return {
           templ = "{} ",
           html = " ",
           nushell = " ",
+          copilot = " ",
         }
         local names = {}
         for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
