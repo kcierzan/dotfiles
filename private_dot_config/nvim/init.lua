@@ -127,6 +127,7 @@ lib.nmap("gh", lib.ex_cmd("lua vim.lsp.buf.hover()"))
 lib.nmap("gd", lib.ex_cmd("lua vim.lsp.buf.definition()"))
 lib.nmap("gD", lib.ex_cmd("lua vim.lsp.buf.incoming_calls()"))
 lib.nmap("gi", lib.ex_cmd("lua vim.lsp.buf.implementation()"))
+lib.nmap("gr", lib.ex_cmd("lua vim.lsp.buf.references()"))
 lib.nmap("]e", lib.ex_cmd("lua vim.diagnostic.goto_next()"))
 lib.nmap("[e", lib.ex_cmd("lua vim.diagnostic.goto_prev()"))
 lib.nmap("]g", lib.ex_cmd("Gitsigns next_hunk"))
@@ -193,13 +194,27 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
 })
 
 -- enable TS features explicitly (these used to be flaky)
--- vim.api.nvim_create_autocmd({ "VimEnter", "BufNew" }, {
---   pattern = "*",
---   callback = function()
---     vim.cmd("TSEnable highlight")
---     vim.cmd("TSEnable endwise")
---   end,
--- })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "c",
+    "cpp",
+    "eruby",
+    "go",
+    "html",
+    "javascript",
+    "lua",
+    "python",
+    "ruby",
+    "rust",
+    "svelte",
+    "typescript",
+    "yaml",
+  },
+  callback = function()
+    vim.cmd("TSBufEnable highlight")
+    vim.cmd("TSBufEnable endwise")
+  end,
+})
 
 -- communicate the full mode to vscode
 if vim.g.vscode then
@@ -214,6 +229,21 @@ if vim.g.vscode then
   })
   -- any other vscode-neovim settings ...
 end
+
+-- configure codecompanion chat buffers
+-- TODO: move this to the codecompanion configuration
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "\\[CodeCompanion\\]*",
+  callback = function()
+    -- vim.opt_local.filetype = "markdown"
+    vim.cmd("TSBufEnable highlight")
+    -- disable completion
+    -- vim.opt_local.completefunc = ""
+    -- vim.opt_local.omnifunc = ""
+    -- vim.opt_local.completeopt = ""
+    -- vim.b.completion = false
+  end,
+})
 
 vim.opt.rtp:prepend(lazypath)
 
