@@ -1,24 +1,205 @@
 local lib = require("lib")
 
+local function load_catppuccin_mocha()
+  return require("catppuccin.palettes").get_palette("mocha")
+end
+
+local function load_kanso_ink()
+  return require("kanso.colors").setup({ theme = "ink" }).palette
+end
+
+local function load_scheme_colors()
+  local loaders = { load_catppuccin_mocha, load_kanso_ink }
+  for _, loader in ipairs(loaders) do
+    local success, colors = pcall(loader)
+    if success then
+      return colors
+    end
+  end
+  error("Colorscheme is not heirline compatible!")
+end
+
+local colors = {
+  -- Bg Shades
+  zen0 = "#090E13",
+  zen1 = "#1C1E25",
+  zen2 = "#24262D",
+  zen3 = "#393B42",
+
+  -- Popup and Floats
+  zenBlue1 = "#223249",
+  zenBlue2 = "#2D4F67",
+
+  -- Diff and Git
+  winterGreen = "#2B3328",
+  winterYellow = "#49443C",
+  winterRed = "#43242B",
+  winterBlue = "#252535",
+  autumnGreen = "#76946A",
+  autumnRed = "#C34043",
+  autumnYellow = "#DCA561",
+
+  -- Diag
+  samuraiRed = "#E82424",
+  roninYellow = "#FF9E3B",
+  zenAqua1 = "#6A9589",
+  inkBlue = "#658594",
+
+  -- Fg and Comments
+  oldWhite = "#C5C9C7",
+  fujiWhite = "#f2f1ef",
+  fujiGray = "#727169",
+
+  oniViolet = "#957FB8",
+  oniViolet2 = "#b8b4d0",
+  crystalBlue = "#7E9CD8",
+  springViolet1 = "#938AA9",
+  springViolet2 = "#9CABCA",
+  springBlue = "#7FB4CA",
+  lightBlue = "#A3D4D5",
+  zenAqua2 = "#7AA89F",
+
+  springGreen = "#98BB6C",
+  boatYellow1 = "#938056",
+  boatYellow2 = "#C0A36E",
+  carpYellow = "#E6C384",
+
+  sakuraPink = "#D27E99",
+  zenRed = "#E46876",
+  peachRed = "#FF5D62",
+  surimiOrange = "#FFA066",
+  katanaGray = "#717C7C",
+
+  inkBlack0 = "#14171d",
+  inkBlack1 = "#1f1f26",
+  inkBlack2 = "#24262D",
+  inkBlack3 = "#393B42",
+
+  inkWhite = "#C5C9C7",
+  inkGreen = "#87a987",
+  inkGreen2 = "#8a9a7b",
+  inkPink = "#a292a3",
+  inkOrange = "#b6927b",
+  inkOrange2 = "#b98d7b",
+  inkGray = "#A4A7A4",
+  inkGray1 = "#9E9B93",
+  inkGray2 = "#75797f",
+  inkGray3 = "#5C6066",
+  inkBlue2 = "#8ba4b0",
+  inkViolet = "#8992a7",
+  inkRed = "#c4746e",
+  inkAqua = "#8ea4a2",
+  inkAsh = "#5C6066",
+  inkTeal = "#949fb5",
+  inkYellow = "#c4b28a", --"#a99c8b",
+  -- "#8a9aa3",
+
+  pearlInk0 = "#24262D",
+  pearlInk1 = "#545464",
+  pearlInk2 = "#43436c",
+  pearlGray = "#e2e1df",
+  pearlGray2 = "#5C6068",
+  pearlGray3 = "#6D6D69",
+  pearlGray4 = "#9F9F99",
+
+  pearlWhite0 = "#f2f1ef",
+  pearlWhite1 = "#e2e1df",
+  pearlWhite2 = "#dddddb",
+  pearlViolet1 = "#a09cac",
+  pearlViolet2 = "#766b90",
+  pearlViolet3 = "#c9cbd1",
+  pearlViolet4 = "#624c83",
+  pearlBlue1 = "#c7d7e0",
+  pearlBlue2 = "#b5cbd2",
+  pearlBlue3 = "#9fb5c9",
+  pearlBlue4 = "#4d699b",
+  pearlBlue5 = "#5d57a3",
+  pearlGreen = "#6f894e",
+  pearlGreen2 = "#6e915f",
+  pearlGreen3 = "#b7d0ae",
+  pearlPink = "#b35b79",
+  pearlOrange = "#cc6d00",
+  pearlOrange2 = "#e98a00",
+  pearlYellow = "#77713f",
+  pearlYellow2 = "#836f4a",
+  pearlYellow3 = "#de9800",
+  pearlYellow4 = "#f9d791",
+  pearlRed = "#c84053",
+  pearlRed2 = "#d7474b",
+  pearlRed3 = "#e82424",
+  pearlRed4 = "#d9a594",
+  pearlAqua = "#597b75",
+  pearlAqua2 = "#5e857a",
+  pearlTeal1 = "#4e8ca2",
+  pearlTeal2 = "#6693bf",
+  pearlTeal3 = "#5a7785",
+  pearlCyan = "#d7e3d8",
+}
+
 return {
   "rebelot/heirline.nvim",
   event = "VeryLazy",
   dependencies = {
     "echanovski/mini.icons",
     "lewis6991/gitsigns.nvim",
-    "neovim/rose-pine",
+    -- "catppuccin/nvim",
+    "webhooked/kanso.nvim",
   },
   config = function()
-    local separator = "gradient"
-    local palette = require("rose-pine.palette")
+    local separator = "none"
+    local colorscheme = vim.g.colors_name
+    local scheme_colors = load_scheme_colors()
+
+    local palettes = {
+      -- works with catppuccin xcode
+      catppuccin = {
+        segment_bg = scheme_colors.surface0,
+        normal_mode_fg = scheme_colors.green,
+        insert_mode_fg = scheme_colors.yellow,
+        file_path_fg = scheme_colors.overlay1,
+        file_name_fg = scheme_colors.text,
+        modified_light_fg = scheme_colors.yellow,
+        lsp_fg = scheme_colors.yellow,
+        cwd_fg = scheme_colors.mauve,
+        branch_fg = scheme_colors.cyan,
+        override_sp = scheme_colors.surface2,
+      },
+      kanso = {
+        segment_bg = scheme_colors.inkBlack2,
+        insert_mode_fg = scheme_colors.inkGreen2,
+        normal_mode_fg = scheme_colors.inkBlue2,
+        file_path_fg = scheme_colors.fujiGray,
+        file_name_fg = scheme_colors.oldWhite,
+        modified_light_fg = scheme_colors.roninYellow,
+        lsp_fg = scheme_colors.inkViolet,
+        cwd_fg = scheme_colors.inkPink,
+        branch_fg = scheme_colors.inkTeal,
+        override_sp = scheme_colors.fujiGray,
+      },
+    }
+
+    -- TODO: come up with a better case statement here
+    local palette = palettes.catppuccin
+    if colorscheme == "kanso" then
+      palette = palettes.kanso
+    end
 
     local utils = require("heirline.utils")
-    local segment_bg = palette.base
+
+    local function set_statusline_bg()
+      local statusline_bg = utils.get_highlight("StatusLine").bg
+      for _, pal in pairs(palettes) do
+        pal.statusline_bg = statusline_bg
+      end
+    end
+
+    set_statusline_bg()
+
     local conditions = require("heirline.conditions")
 
     local separators = {
-      none_left = " ",
-      none_right = " ",
+      none_left = "█",
+      none_right = "█",
       pixels_left = " ",
       pixels_right = "",
       slant_up_left = "",
@@ -43,7 +224,7 @@ return {
       local right_sep = separators[separator .. "_right"]
       local padding = {
         Space,
-        hl = { bg = segment_bg, force = true },
+        hl = { bg = palette.segment_bg, force = true },
         condition = function()
           return separator == "slant_up" or separator == "slant_down"
         end,
@@ -56,10 +237,10 @@ return {
         if hl_type == "function" then
           local original_hl = hl
           component.hl = function(self)
-            return lib.merge(original_hl(self), { bg = segment_bg, force = true })
+            return lib.merge(original_hl(self), { bg = palette.segment_bg, force = true })
           end
         else
-          component.hl = lib.merge(hl_type == "table" and hl or {}, { bg = segment_bg, force = true })
+          component.hl = lib.merge(hl_type == "table" and hl or {}, { bg = palette.segment_bg, force = true })
         end
       end
 
@@ -72,7 +253,7 @@ return {
         {
           {
             provider = left_sep,
-            hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
+            hl = { fg = palette.segment_bg, bg = palette.statusline_bg },
             -- hl = { bg = segment_bg },
           },
           padding,
@@ -81,9 +262,9 @@ return {
           {
             provider = right_sep,
             -- hl = { bg = segment_bg },
-            hl = { fg = segment_bg, bg = utils.get_highlight("StatusLine").bg },
+            hl = { fg = palette.segment_bg, bg = palette.statusline_bg },
           },
-          hl = { underline = false, sp = palette.higlight_high, force = true },
+          hl = { underline = false, sp = scheme_colors.override_sp, force = true },
         },
       }
     end
@@ -127,14 +308,14 @@ return {
           t = "TERMINAL",
         },
         mode_colors = {
-          n = palette.pine,
-          i = palette.gold,
+          n = palette.normal_mode_fg,
+          i = palette.insert_mode_fg,
           v = utils.get_highlight("Function").fg,
           V = utils.get_highlight("Function").fg,
           ["\22"] = utils.get_highlight("SpecialKey").fg,
           c = utils.get_highlight("Boolean").fg,
-          s = utils.get_highlight("String").fg,
           S = utils.get_highlight("String").fg,
+          s = utils.get_highlight("String").fg,
           ["\19"] = utils.get_highlight("Function").fg,
           R = utils.get_highlight("String").fg,
           r = utils.get_highlight("String").fg,
@@ -189,14 +370,17 @@ return {
           return ""
         end
 
-        local path = vim.fn.fnamemodify(self.filename, ":~:.:h")
+        local full_path = vim.fn.fnamemodify(self.filename, ":~:.:h")
 
-        if not conditions.width_percent_below(#path, 0.25) then
-          path = vim.fn.pathshorten(path)
+        if full_path == "." then
+          return "./"
         end
-        return path .. "/"
+
+        local parent_dir = vim.fn.fnamemodify(full_path, ":t")
+
+        return parent_dir .. "/"
       end,
-      hl = { fg = palette.muted },
+      hl = { fg = palette.file_path_fg },
     }
 
     local FileName = {
@@ -212,7 +396,7 @@ return {
         end
         return filename
       end,
-      hl = { fg = palette.text, bold = true },
+      hl = { fg = palette.file_name_fg, bold = true },
     }
 
     local FileFlags = {
@@ -221,7 +405,7 @@ return {
           return vim.bo.modified
         end,
         provider = " 󰧞",
-        hl = { fg = palette.gold },
+        hl = { fg = palette.modified_light_fg },
       },
       {
         condition = function()
@@ -237,7 +421,7 @@ return {
     -- but we'll see how easy it is to alter existing components using a "modifier"
     -- component
 
-    local FileNameModifer = {
+    local FileNameModifier = {
       hl = function()
         if vim.bo.modified then
           -- use `force` because we need to override the child's hl foreground
@@ -264,7 +448,7 @@ return {
     FileNameBlock = utils.insert(
       FileNameBlock,
       FileIcon,
-      utils.insert(FileNameModifer, { FilePath, FileName }), -- a new table where FileName is a child of FileNameModifier
+      utils.insert(FileNameModifier, { FilePath, FileName }), -- a new table where FileName is a child of FileNameModifier
       FileFlags,
       FileEncoding,
       FileFormat,
@@ -290,15 +474,29 @@ return {
     }
 
     local LSPActive = {
-      update = { "LspAttach", "LspDetach" },
+      update = { "LspAttach", "LspDetach", "BufEnter", "WinEnter" },
       provider = function()
+        local lsp_icons = {
+          typos_lsp = "󰓆 ",
+          lua_ls = " ",
+          ruby_lsp = " ",
+          sorbet = " ",
+          gopls = " ",
+          golangci_lint_ls = " ",
+          postgres_lsp = " ",
+          emmet_language_server = " ",
+          templ = "{} ",
+          html = " ",
+          nushell = " ",
+          copilot = " ",
+        }
         local names = {}
         for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
-          table.insert(names, server.name)
+          table.insert(names, lsp_icons[server.name] or server.name)
         end
-        return " " .. table.concat(names, " ")
+        return table.concat(names, ":: ")
       end,
-      hl = { fg = palette.gold },
+      hl = { fg = palette.modified_light_fg },
     }
 
     local WorkDir = {
@@ -312,7 +510,7 @@ return {
         end
         return icon .. cwd
       end,
-      hl = { fg = palette.iris },
+      hl = { fg = palette.cwd_fg },
     }
 
     WorkDir = segment(WorkDir)
@@ -356,7 +554,7 @@ return {
         self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
       end,
 
-      hl = { fg = palette.foam },
+      hl = { fg = palette.branch_fg },
       {
         provider = function(self)
           return "󰘬 " .. self.status_dict.head

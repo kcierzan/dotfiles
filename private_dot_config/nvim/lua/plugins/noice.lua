@@ -14,13 +14,13 @@ return {
     },
     lsp = {
       hover = {
-        enabled = false,
+        enabled = true,
       },
       progress = {
-        enabled = false,
+        enabled = true,
       },
       signature = {
-        enabled = false,
+        enabled = true,
       },
     },
     routes = {

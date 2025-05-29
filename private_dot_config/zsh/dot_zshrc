@@ -21,9 +21,9 @@ alias ....="cd ../../../"
 alias vim='nvim'
 alias cm='chezmoi'
 
-[ -f "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh" ] && source "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh"
-[ -f "/usr/share/zsh-antidote/antidote.zsh" ] && source "/usr/share/zsh-antidote/antidote.zsh"
-antidote load ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
+# [ -f "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh" ] && source "$HOMEBREW_ROOT/opt/antidote/share/antidote/antidote.zsh"
+# [ -f "/usr/share/zsh-antidote/antidote.zsh" ] && source "/usr/share/zsh-antidote/antidote.zsh"
+# antidote load ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
 
 # interactive cd
 icd() {
@@ -38,36 +38,32 @@ lg() {
 eval "$(mise activate zsh)"
 
 # initialize starship
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
-_load_interactive_scripts() {
-  # initialize zoxide
-  eval "$(zoxide init zsh)"
+# initialize zoxide
+# eval "$(zoxide init zsh)"
 
-  # initialize fzf
-  source <(fzf --zsh)
-}
+# initialize fzf
+# source <(fzf --zsh)
 
-# zsh-defer _load_interactive_scripts
-_load_interactive_scripts
 
 # load shell functions
-source "$HOME/.functions.sh"
+# source "$HOME/.functions.sh"
 
-source "$ZDOTDIR/zsh_highlight_styles.zsh"
+# source "$ZDOTDIR/zsh_highlight_styles.zsh"
 
 # load zsh completion system
-source "$ZDOTDIR/completion.zsh"
+# source "$ZDOTDIR/completion.zsh"
 
-zle -N ifile
-zle -N igrep
-zle -N lg
-zle -N icd
-
-bindkey '^[p' ifile
-bindkey '^[g' igrep
-bindkey '^[v' lg
-bindkey '^[j' icd
+# zle -N ifile
+# zle -N igrep
+# zle -N lg
+# zle -N icd
+#
+# bindkey '^[p' ifile
+# bindkey '^[g' igrep
+# bindkey '^[v' lg
+# bindkey '^[j' icd
 
 bindkey '^p' history-substring-search-up
 bindkey '^n' history-substring-search-down

@@ -11,7 +11,7 @@ _G.dd = function(...)
 end
 
 -- https://github.com/neovim/neovim/issues/31675
--- "show higlight at point" doesn't work without this for now
+-- "show highlight at point" doesn't work without this for now
 vim.hl = vim.highlight
 
 local lib = require("lib")
@@ -19,8 +19,9 @@ local lib = require("lib")
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.fn.system("ghostty +show-config | rg -q rose-pine-dawn")
-vim.opt.background = vim.v.shell_error == 0 and "light" or "dark"
+-- TODO: make a table of dark/light ghostty themes
+vim.fn.system("ghostty +show-config | rg -q kanso-ink")
+vim.opt.background = vim.v.shell_error == 0 and "dark" or "light"
 
 vim.opt.autowriteall = true
 vim.opt.hidden = true
@@ -53,7 +54,7 @@ vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.o.linespace = 0
 vim.o.timeout = true
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 500
 vim.opt.undodir = os.getenv("HOME") .. "/.undo"
 vim.opt.undolevels = 100000
 vim.opt.updatetime = 100
@@ -61,6 +62,7 @@ vim.opt.wrap = true
 vim.opt.writebackup = false
 vim.opt.guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor"
 vim.opt.shortmess = "astWAcCFo"
+vim.opt.shell = "nu"
 vim.g.mapleader = " "
 
 vim.highlight.priorities.semantic_tokens = 95
@@ -78,17 +80,6 @@ vim.g.neovide_padding_bottom = 20
 vim.g.neovide_padding_right = 20
 vim.g.neovide_padding_left = 20
 vim.opt.linespace = 2
-
-local signs = {
-  { name = "DiagnosticSignError", text = "" },
-  { name = "DiagnosticSignWarn", text = "" },
-  { name = "DiagnosticSignHint", text = "" },
-  { name = "DiagnosticSignInfo", text = "" },
-}
-
-for _, sign in ipairs(signs) do
-  vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -136,6 +127,7 @@ lib.nmap("gh", lib.ex_cmd("lua vim.lsp.buf.hover()"))
 lib.nmap("gd", lib.ex_cmd("lua vim.lsp.buf.definition()"))
 lib.nmap("gD", lib.ex_cmd("lua vim.lsp.buf.incoming_calls()"))
 lib.nmap("gi", lib.ex_cmd("lua vim.lsp.buf.implementation()"))
+lib.nmap("gr", lib.ex_cmd("lua vim.lsp.buf.references()"))
 lib.nmap("]e", lib.ex_cmd("lua vim.diagnostic.goto_next()"))
 lib.nmap("[e", lib.ex_cmd("lua vim.diagnostic.goto_prev()"))
 lib.nmap("]g", lib.ex_cmd("Gitsigns next_hunk"))
@@ -202,11 +194,54 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
 })
 
 -- enable TS features explicitly (these used to be flaky)
-vim.api.nvim_create_autocmd({ "VimEnter", "BufNew" }, {
-  pattern = "*",
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "c",
+    "cpp",
+    "eruby",
+    "go",
+    "html",
+    "javascript",
+    "lua",
+    "python",
+    "ruby",
+    "rust",
+    "svelte",
+    "typescript",
+    "yaml",
+  },
   callback = function()
-    vim.cmd("TSEnable highlight")
-    vim.cmd("TSEnable endwise")
+    vim.cmd("TSBufEnable highlight")
+    vim.cmd("TSBufEnable endwise")
+  end,
+})
+
+-- communicate the full mode to vscode
+if vim.g.vscode then
+  local vscode = require("vscode")
+
+  vim.api.nvim_create_autocmd({ "VimEnter", "ModeChanged" }, {
+    callback = function()
+      vscode.call("setContext", {
+        args = { "neovim.fullMode", vim.fn.mode(1) },
+      })
+    end,
+  })
+  -- any other vscode-neovim settings ...
+end
+
+-- configure codecompanion chat buffers
+-- TODO: move this to the codecompanion configuration
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "\\[CodeCompanion\\]*",
+  callback = function()
+    -- vim.opt_local.filetype = "markdown"
+    vim.cmd("TSBufEnable highlight")
+    -- disable completion
+    -- vim.opt_local.completefunc = ""
+    -- vim.opt_local.omnifunc = ""
+    -- vim.opt_local.completeopt = ""
+    -- vim.b.completion = false
   end,
 })
 
