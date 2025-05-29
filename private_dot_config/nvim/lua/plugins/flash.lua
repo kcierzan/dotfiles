@@ -44,5 +44,11 @@ return {
       desc = "Toggle Flash Search",
     },
   },
-  config = true,
+  opts = {
+    modes = {
+      char = {
+        enabled = false
+      }
+    }
+  },
 }

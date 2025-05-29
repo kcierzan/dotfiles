@@ -27,18 +27,16 @@ packages:
       - git
       - git-lfs
       - gnome-keyring
-      - go
       - grub
       - htop
+      - hyperfine
       - inotify-tools
-      - jq
       - kcharselect
       - kwalletmanager
       - lazygit
       - linux
       - linux-firmware
       - linux-headers
-      - lsd
       - lvm2
       - magic-wormhole
       - mako
@@ -46,7 +44,6 @@ packages:
       - mpv
       - neovim
       - networkmanager
-      - otf-atkinson-hyperlegible
       - postgresql
       - plasma-meta
       - plocate
@@ -59,7 +56,6 @@ packages:
       - riscv64-elf-binutils
       - rscv64-elf-gcc
       - seahorse
-      - starship
       - syncthing
       - tree-sitter
       - ttf-joypixels
@@ -68,10 +64,8 @@ packages:
       - wget
       - wl-clipboard
       - xdg-desktop-portal-gtk
-      - zed
       - zip
       - zoxide
-      - zsh
     aur:
       - 1password
       - 1password-cli
@@ -82,7 +76,8 @@ packages:
       - nushell
       - oh-my-posh-bin
       - otf-bitter
-      - otf-et-book
+      - otf-geist
+      - otf-geist-mono-nerd
       - paru
       - pgloader
       - rar
@@ -91,11 +86,9 @@ packages:
       - ttf-merriweather
       - wev-git
       - zen-browser-bin
-      - zsh-antidote
   darwin:
     brews:
       - age
-      - antidote
       - awscli
       - bat
       - bottom
@@ -110,7 +103,6 @@ packages:
       - docker
       - exercism
       - fd
-      - felixkratz/formulae/borders
       - figlet
       - findutils
       - fortune
@@ -120,7 +112,6 @@ packages:
       - git
       - git-delta
       - git-lfs
-      - glow
       - gnu-sed
       - gnu-tar
       - gnu-which
@@ -128,15 +119,14 @@ packages:
       - grep
       - gzip
       - htop
+      - hyperfine
       - imagemagick
-      - jq
       - juliaup
       - lazygit
       - leveldb
       - libffi
       - libgccjit
       - libpq
-      - lsd
       - ltex-ls
       - luarocks
       - magic-wormhole
@@ -158,21 +148,17 @@ packages:
       - ripgrep
       - saml2aws
       - sassc
-      - saulpw/vd/visidata
       - semgrep
       - shellcheck
       - shfmt
-      - starship
       - subversion
       - tilt
       - tree
       - uv
       - watchman
       - wget
-      - xh
       - yarn
       - zoxide
-      - zsh
     casks:
       - 1password
       - 1password-cli

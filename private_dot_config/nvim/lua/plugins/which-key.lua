@@ -11,6 +11,7 @@ return {
         { "<leader>a", group = "+ai" },
         { "<leader>b", group = "+buffer" },
         { "<leader>d", group = "+debug" },
+        { "<leader>r", group = "+run" },
         { "<leader>f", group = "+find" },
         { "<leader>g", group = "+git" },
         { "<leader>i", group = "+interface" },
@@ -153,9 +154,9 @@ return {
       }
       wk.add(normal_mode_mappings)
       wk.setup({
+        preset = "helix",
         win = {
-          -- border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
-          border = "none",
+          border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
         },
       })
     end,
