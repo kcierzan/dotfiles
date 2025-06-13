@@ -72,6 +72,8 @@ return {
         "ripgrep",
       },
       providers = {
+        lsp = { async = true, fallbacks = { "ripgrep" } },
+        snippets = { async = true, score_offset = 50 },
         ripgrep = {
           module = "blink-ripgrep",
           name = "Ripgrep",
@@ -92,6 +94,7 @@ return {
             },
           },
           enabled = true,
+          score_offset = -50,
         },
         codecompanion = {
           name = "CodeCompanion",

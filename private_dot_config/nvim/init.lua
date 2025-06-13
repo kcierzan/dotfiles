@@ -15,14 +15,26 @@ end
 vim.hl = vim.highlight
 
 local lib = require("lib")
-
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- TODO: make a table of dark/light ghostty themes
-vim.fn.system("ghostty +show-config | rg -q kanso-ink")
-vim.opt.background = vim.v.shell_error == 0 and "dark" or "light"
+local theme_shades = {
+  ["kanso-ink"] = "dark",
+  ["kanso-mist"] = "dark",
+  ["kanso-zen"] = "dark",
+  ["kanso-pearl"] = "light",
+}
 
+local res = vim
+  .system({
+    "nu",
+    "-c",
+    "ghostty +show-config | find theme | split row ' = ' | get 1 | ansi strip | str trim",
+  })
+  :wait()
+local theme_name = res.stdout:gsub("\n", "")
+
+vim.opt.background = theme_shades[theme_name]
 vim.opt.autowriteall = true
 vim.opt.hidden = true
 vim.opt.backup = false
@@ -54,7 +66,7 @@ vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.o.linespace = 0
 vim.o.timeout = true
-vim.o.timeoutlen = 500
+vim.o.timeoutlen = 400
 vim.opt.undodir = os.getenv("HOME") .. "/.undo"
 vim.opt.undolevels = 100000
 vim.opt.updatetime = 100
@@ -71,15 +83,16 @@ lib.nmap("+", "<Nop>")
 vim.g.maplocalleader = "+"
 
 vim.g.neovide_input_macos_option_key_is_meta = "both"
-vim.g.neovide_cursor_animation_length = 0
+vim.g.neovide_cursor_animation_length = 0.2
 vim.g.neovide_position_animation_length = 0.1
 vim.g.neovide_scroll_animation_length = 0.1
-vim.g.neovide_refresh_rate = 60
+vim.g.neovide_refresh_rate = 100
+vim.g.neovide_floating_corner_radius = 0.3
 vim.g.neovide_padding_top = 20
 vim.g.neovide_padding_bottom = 20
 vim.g.neovide_padding_right = 20
 vim.g.neovide_padding_left = 20
-vim.opt.linespace = 2
+vim.opt.linespace = 4
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -235,13 +248,7 @@ end
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "\\[CodeCompanion\\]*",
   callback = function()
-    -- vim.opt_local.filetype = "markdown"
     vim.cmd("TSBufEnable highlight")
-    -- disable completion
-    -- vim.opt_local.completefunc = ""
-    -- vim.opt_local.omnifunc = ""
-    -- vim.opt_local.completeopt = ""
-    -- vim.b.completion = false
   end,
 })
 
