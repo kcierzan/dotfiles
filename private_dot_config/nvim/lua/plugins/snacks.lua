@@ -109,7 +109,9 @@ return {
     {
       "<leader>fg",
       function()
-        Snacks.picker.grep()
+        Snacks.picker.grep({
+          exclude = { "**/*.rbi" },
+        })
       end,
       desc = "text in git files",
     },
