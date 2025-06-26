@@ -75,10 +75,18 @@ vim.opt.writebackup = false
 vim.opt.guicursor = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-r-cr:ver25-Cursor/lCursor"
 vim.opt.shortmess = "astWAcCFo"
 vim.opt.shell = "nu"
-vim.g.mapleader = " "
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldenable = false
+vim.opt.foldlevel = 99
+vim.opt.foldnestmax = 3
+vim.opt.foldminlines = 1
+vim.opt.foldcolumn = "1"
+vim.opt.autoread = true
 
 vim.highlight.priorities.semantic_tokens = 95
 
+vim.g.mapleader = " "
 lib.nmap("+", "<Nop>")
 vim.g.maplocalleader = "+"
 
@@ -92,7 +100,7 @@ vim.g.neovide_padding_top = 20
 vim.g.neovide_padding_bottom = 20
 vim.g.neovide_padding_right = 20
 vim.g.neovide_padding_left = 20
-vim.opt.linespace = 4
+vim.opt.linespace = 12
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -250,6 +258,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = function()
     vim.cmd("TSBufEnable highlight")
   end,
+})
+
+-- automatically reload buffers if files changed on disk
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+  pattern = "*",
+  command = "silent! checktime",
 })
 
 vim.opt.rtp:prepend(lazypath)

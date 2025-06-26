@@ -477,18 +477,19 @@ return {
       update = { "LspAttach", "LspDetach", "BufEnter", "WinEnter" },
       provider = function()
         local lsp_icons = {
-          typos_lsp = "󰓆 ",
+          bashls = " ",
+          copilot = " ",
+          emmet_language_server = " ",
+          golangci_lint_ls = " ",
+          gopls = " ",
+          html = " ",
           lua_ls = " ",
+          nushell = " ",
+          postgres_lsp = " ",
           ruby_lsp = " ",
           sorbet = " ",
-          gopls = " ",
-          golangci_lint_ls = " ",
-          postgres_lsp = " ",
-          emmet_language_server = " ",
           templ = "{} ",
-          html = " ",
-          nushell = " ",
-          copilot = " ",
+          typos_lsp = "󰓆 ",
         }
         local names = {}
         for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
