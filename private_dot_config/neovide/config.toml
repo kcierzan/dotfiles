@@ -1,0 +1,11 @@
+fork = true
+frame = "transparent"
+tabs = false
+title-hidden = true
+vsync = false
+
+[font]
+normal = { family = "CommitMono Nerd Font" }
+size = 20
+edging = "subpixelantialias"
+hinting = "full"
