@@ -28,7 +28,7 @@ return {
     "<C-;>",
     {
       "<leader>it",
-      lib.ex_cmd("ToggleTerm direction=float name='zsh'"),
+      lib.ex_cmd("ToggleTerm direction=float name='nu'"),
       desc = "toggle floating terminal",
     },
     {
@@ -38,7 +38,7 @@ return {
     },
     {
       "<leader>:",
-      lib.ex_cmd("ToggleTerm direction=horizontal name='zsh'"),
+      lib.ex_cmd("ToggleTerm direction=horizontal name='nu'"),
       desc = "toggle terminal drawer",
     },
     {

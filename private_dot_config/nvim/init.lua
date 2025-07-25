@@ -18,23 +18,34 @@ local lib = require("lib")
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-local theme_shades = {
-  ["kanso-ink"] = "dark",
-  ["kanso-mist"] = "dark",
-  ["kanso-zen"] = "dark",
-  ["kanso-pearl"] = "light",
-}
+local function set_shade_from_ghostty_theme()
+  local theme_shades = {
+    ["kanso-ink"] = "dark",
+    ["kanso-mist"] = "dark",
+    ["kanso-zen"] = "dark",
+    ["kanso-pearl"] = "light",
+    ["catppuccin-mocha"] = "dark",
+    ["catppuccin-xcode"] = "dark",
+  }
 
-local res = vim
-  .system({
-    "nu",
-    "-c",
-    "ghostty +show-config | find theme | split row ' = ' | get 1 | ansi strip | str trim",
-  })
-  :wait()
-local theme_name = res.stdout:gsub("\n", "")
+  local function get_ghostty_theme_name()
+    local ghostty_config = vim.system({ "ghostty", "+show-config" }):wait()
+    if ghostty_config.code == 0 then
+      for line in ghostty_config.stdout:gmatch("[^\r\n]+") do
+        local theme_match = line:match("theme%s*=%s*(.+)")
+        if theme_match then
+          return theme_match:gsub("%s+", ""):gsub("\27%[[0-9;]*m", "") -- trim whitespace and strip ANSI codes
+        end
+      end
+    end
+  end
 
-vim.opt.background = theme_shades[theme_name]
+  vim.g.ghostty_theme_name = get_ghostty_theme_name()
+  vim.opt.background = theme_shades[vim.g.ghostty_theme_name] or "dark"
+end
+
+set_shade_from_ghostty_theme()
+
 vim.opt.autowriteall = true
 vim.opt.hidden = true
 vim.opt.backup = false

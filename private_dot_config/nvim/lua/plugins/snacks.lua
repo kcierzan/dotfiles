@@ -1,6 +1,8 @@
 local lib = require("lib")
 local rails = require("rails")
+local ignore_pickers = require("dynamic_ignore_pickers")
 
+-- snacks terminal not working great for running specs
 local function run_rspec_file()
   local path, _ = rails.current_path_and_line_number()
   local cwd = rails.top_level_rails_dir(path)
@@ -51,7 +53,7 @@ return {
       end,
       desc = "open lazygit log for current file",
     },
-    { "<leader>go", lib.ex_cmd("'<,'>lua Snacks.gitbrowse()"), desc = "open in github", mode = "v" },
+    { "<leader>go", lib.ex_cmd("'<,'>lua Snacks.gitbrowse()"), desc = "open in github", mode = "x" },
     {
       "<leader>go",
       function()
@@ -100,26 +102,23 @@ return {
       desc = "definitions",
     },
     {
+      "<leader>fs",
+      ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.smart, { use_pattern = true }),
+      desc = "smart files",
+    },
+    {
       "<leader>ff",
-      function()
-        Snacks.picker.git_files({ untracked = true })
-      end,
+      ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.files, { use_pattern = true }),
       desc = "files in repo",
     },
     {
       "<leader>fg",
-      function()
-        Snacks.picker.grep({
-          exclude = { "**/*.rbi" },
-        })
-      end,
+      ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.grep),
       desc = "text in git files",
     },
     {
       "<leader>fh",
-      function()
-        Snacks.picker.recent()
-      end,
+      ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.recent, { use_pattern = true }),
       desc = "frecent files",
     },
     {
@@ -167,20 +166,19 @@ return {
     {
       "<leader>fb",
       function()
-        Snacks.picker.buffers()
+        Snacks.picker.buffers({ focus = "list" })
       end,
       desc = "open buffers",
     },
     {
       "<leader>fw",
-      function()
-        Snacks.picker.grep_word()
-      end,
+      ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.grep_word),
       desc = "word under cursor",
+      mode = { "n", "x" },
     },
     {
       "<leader>ff",
-      lib.search_visual_selection,
+      ignore_pickers.with_dynamic_ignore_patterns(lib.search_visual_selection),
       desc = "search visual selection",
       mode = "v",
     },
@@ -364,6 +362,7 @@ return {
       },
       formatters = {
         file = {
+          truncate = 120, -- shorten the file path to roughly this length
           filename_first = false,
         },
       },

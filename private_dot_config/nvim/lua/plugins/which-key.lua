@@ -66,6 +66,7 @@ return {
           desc = "trim trailing whitespace",
         },
         { "<leader>by", lib.ex_cmd('let @+ = expand("%:p")'), desc = "yank name" },
+        { "<leader>bD", lib.ex_cmd("wa | %bd | e#"), desc = "close other buffers" },
         {
           "<leader>wS",
           "<C-w>J",
