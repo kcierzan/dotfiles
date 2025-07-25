@@ -7,7 +7,7 @@ return {
     require("kanso").setup({
       theme = "pearl",
       background = {
-        dark = "mist",
+        dark = "ink",
         light = "pearl",
       },
       overrides = function(colors)

@@ -91,7 +91,9 @@ return {
   {
     "echasnovski/mini.bufremove",
     enabled = false,
-    keys = { { "<leader>bd", lib.ex_cmd("bd"), desc = "delete" } },
+    keys = {
+      { "<leader>bd", lib.ex_cmd("bd"), desc = "delete" },
+    },
     opts = {},
   },
 }
