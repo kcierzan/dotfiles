@@ -5,7 +5,7 @@ return {
   priority = 1000,
   config = function()
     require("kanso").setup({
-      theme = "pearl",
+      -- theme = "pearl",
       background = {
         dark = "ink",
         light = "pearl",

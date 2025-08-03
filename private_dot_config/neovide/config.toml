@@ -5,7 +5,7 @@ title-hidden = true
 vsync = false
 
 [font]
-normal = { family = "CommitMono Nerd Font" }
+normal = { family = "TX-02" }
 size = 20
 edging = "subpixelantialias"
 hinting = "full"
