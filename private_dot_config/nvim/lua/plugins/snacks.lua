@@ -1,6 +1,7 @@
 local lib = require("lib")
 local rails = require("rails")
-local ignore_pickers = require("dynamic_ignore_pickers")
+-- local ignore_pickers = require("dynamic_ignore_pickers")
+local pickers = require("pickers")
 
 -- snacks terminal not working great for running specs
 local function run_rspec_file()
@@ -103,22 +104,36 @@ return {
     },
     {
       "<leader>fs",
-      ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.smart, { use_pattern = true }),
+      pickers.with_dynamic_excludes({
+        picker_func = require("snacks").picker.smart,
+        use_pattern = true,
+      }),
       desc = "smart files",
     },
     {
       "<leader>ff",
-      ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.files, { use_pattern = true }),
+      -- ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.files, { use_pattern = true }),
+      pickers.with_dynamic_excludes({
+        picker_func = require("snacks").picker.files,
+        use_pattern = true,
+      }),
       desc = "files in repo",
     },
     {
       "<leader>fg",
-      ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.grep),
+      -- ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.grep),
+      pickers.with_dynamic_excludes({
+        picker_func = require("snacks").picker.grep,
+      }),
       desc = "text in git files",
     },
     {
       "<leader>fh",
-      ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.recent, { use_pattern = true }),
+      -- ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.recent, { use_pattern = true }),
+      pickers.with_dynamic_excludes({
+        picker_func = require("snacks").picker.recent,
+        use_pattern = true,
+      }),
       desc = "frecent files",
     },
     {
@@ -172,13 +187,19 @@ return {
     },
     {
       "<leader>fw",
-      ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.grep_word),
+      -- ignore_pickers.with_dynamic_ignore_patterns(require("snacks").picker.grep_word),
+      pickers.with_dynamic_excludes({
+        picker_func = require("snacks").picker.grep_word,
+      }),
       desc = "word under cursor",
       mode = { "n", "x" },
     },
     {
       "<leader>ff",
-      ignore_pickers.with_dynamic_ignore_patterns(lib.search_visual_selection),
+      -- ignore_pickers.with_dynamic_ignore_patterns(lib.search_visual_selection),
+      pickers.with_dynamic_excludes({
+        picker_func = lib.search_visual_selection,
+      }),
       desc = "search visual selection",
       mode = "v",
     },

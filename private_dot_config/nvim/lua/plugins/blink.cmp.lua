@@ -81,15 +81,15 @@ return {
           max_items = 3,
           opts = {
             prefix_min_length = 5,
-            context_size = 5,
-            max_filesize = "300K",
-            ignore_paths = {
-              "~/",
-            },
-            future_features = {
-              backend = {
-                -- gitgrep may be faster for large repositories
-                use = "ripgrep",
+            backend = {
+              -- gitgrep may be faster for large repositories
+              use = "ripgrep",
+              context_size = 5,
+              ripgrep = {
+                max_filesize = "300K",
+                ignore_paths = {
+                  "~/",
+                },
               },
             },
           },

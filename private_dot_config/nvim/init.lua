@@ -277,6 +277,13 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
   command = "silent! checktime",
 })
 
+-- see if this helps the templ filetype get detected
+vim.filetype.add({
+  extension = {
+    templ = "templ",
+  },
+})
+
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {
