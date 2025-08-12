@@ -4,10 +4,16 @@ return {
   name = "kanso",
   priority = 1000,
   config = function()
+    local theme_from_ghostty = vim.split(vim.g.ghostty_theme_name, "-")[2]
+    local dark_theme = "zen"
+    if vim.tbl_contains({ "zen", "ink", "mist" }, theme_from_ghostty) then
+      dark_theme = theme_from_ghostty
+    end
+
     require("kanso").setup({
       -- theme = "pearl",
       background = {
-        dark = "ink",
+        dark = dark_theme,
         light = "pearl",
       },
       overrides = function(colors)
@@ -46,7 +52,7 @@ return {
           PmenuSel = { bg = theme.ui.bg_search },
         }
         if vim.opt.background._value == "light" then
-          overrides["Cursor"] = { bg = colors.palette.inkBlack0, fg = colors.palette.fujiWhite }
+          overrides["Cursor"] = { bg = theme.ui.fg, fg = theme.ui.bg }
         end
 
         return overrides

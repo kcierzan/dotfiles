@@ -7,7 +7,7 @@ elixir = "1.17.2-otp-27"
 bun = "1.1.4"
 java = "temurin-21.0.4+7.0.LTS"
 dotnet = "9.0.201"
-go = "1.24.1"
+go = "1.24.5"
 ruby = "3.2.3"
 
 [settings]

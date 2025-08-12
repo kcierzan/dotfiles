@@ -6,6 +6,14 @@ end
 
 vim.cmd.cab("cc", "CodeCompanion")
 
+-- configure codecompanion chat buffers
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "\\[CodeCompanion\\]*",
+  callback = function()
+    vim.cmd("TSBufEnable highlight")
+  end,
+})
+
 return {
   "olimorris/codecompanion.nvim",
   cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionToggle", "CodeCompanionActions", "CodeCompanionAdd" },

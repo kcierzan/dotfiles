@@ -4,8 +4,6 @@ return {
   dependencies = {
     "rafamadriz/friendly-snippets",
     "mikavilpas/blink-ripgrep.nvim",
-    -- FIXME: this shouldn't depend on a colorscheme
-    "webhooked/kanso.nvim",
     "fang2hou/blink-copilot",
     { "L3MON4D3/LuaSnip", version = "v2.*" },
   },
