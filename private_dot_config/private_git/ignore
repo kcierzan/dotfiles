@@ -17,3 +17,6 @@ lsp.rb
 .zhistory
 .zed
 .continueignore
+.serena
+
+**/.claude/settings.local.json

@@ -1,5 +1,3 @@
-local overrides = require("catppuccin_xcode")
-
 return {
   "catppuccin/nvim",
   name = "catppuccin",
@@ -7,6 +5,8 @@ return {
   priority = 1000,
   lazy = false,
   config = function()
+    local overrides = require("catppuccin-themes.catppuccin_xcode")
+
     require("catppuccin").setup({
       custom_highlights = function(colors)
         return {

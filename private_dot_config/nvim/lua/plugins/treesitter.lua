@@ -41,6 +41,7 @@ return {
       "surface",
       "svelte",
       "templ",
+      "tsx",
       "typescript",
       "vim",
       "yaml",
