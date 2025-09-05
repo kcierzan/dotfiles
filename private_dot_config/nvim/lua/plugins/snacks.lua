@@ -91,6 +91,11 @@ return {
       desc = "show notification history",
     },
     {
+      "<leader>vT",
+      pickers.switch_theme,
+      desc = "switch ghostty theme",
+    },
+    {
       "<leader>iI",
       toggle_indent,
       desc = "toggle indent markers",

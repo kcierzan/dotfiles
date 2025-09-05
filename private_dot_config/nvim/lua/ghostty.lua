@@ -13,6 +13,10 @@ local THEME_SHADES = {
 
 ---@return string?
 local function get_ghostty_theme_name()
+  if vim.g.vscode then
+    return
+  end
+
   local ghostty_config = vim.system({ "ghostty", "+show-config" }):wait()
   if ghostty_config.code == 0 then
     for line in ghostty_config.stdout:gmatch("[^\r\n]+") do
