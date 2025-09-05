@@ -63,8 +63,10 @@ end
 function M.setup()
   start_terminals_in_insert()
   display_macro_recording_indicator()
-  force_treesitter_start()
   show_buffers_on_disk()
+  if not vim.g.vscode then
+    force_treesitter_start()
+  end
 end
 
 return M

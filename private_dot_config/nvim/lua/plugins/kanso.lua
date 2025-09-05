@@ -53,6 +53,7 @@ return {
         }
         if vim.opt.background._value == "light" then
           overrides["Cursor"] = { bg = theme.ui.fg, fg = theme.ui.bg }
+          overrides["Substitute"] = { bg = theme.term[2], fg = theme.ui.bg }
         end
 
         return overrides

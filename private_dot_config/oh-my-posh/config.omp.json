@@ -80,5 +80,9 @@
     ],
     "template": "\u276f "
   },
+  "upgrade": {
+    "notice": false,
+    "auto": false
+  },
   "version": 3
 }
