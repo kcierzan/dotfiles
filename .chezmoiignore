@@ -4,3 +4,6 @@
 .zcompcache
 .zsh_sessions
 chezmoi-key.txt.age
+{{- if eq .chezmoi.os "linux" }}
+.hammerspoon
+{{- end}}
