@@ -42,7 +42,6 @@ packages:
       - mako
       - man-db
       - mpv
-      - neovim
       - networkmanager
       - postgresql
       - plasma-meta
@@ -72,10 +71,10 @@ packages:
       - ddcci-driver-linux-dkms-git
       - exercism-bin
       - google-chrome
+      - micro
       - mise
       - nushell
       - oh-my-posh-bin
-      - otf-bitter
       - otf-geist
       - otf-geist-mono-nerd
       - paru
@@ -133,10 +132,10 @@ packages:
       - make
       - mas
       - mdformat
+      - micro
       - mise
       - mosh
       - mydumper
-      - neovim
       - openssh
       - oh-my-posh
       - pandoc
@@ -164,7 +163,8 @@ packages:
       - 1password-cli
       - docker
       - betterdisplay
-      - font-atkinson-hyperlegible
+      - font-geist
+      - font-geist-mono-nerd-font
       - hammerspoon
       - hyperkey
       - jetbrains-toolbox
