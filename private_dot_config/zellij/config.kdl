@@ -1,0 +1,3 @@
+cursor_style "bar"
+default_mode "locked"
+theme "catppuccin-frappe"

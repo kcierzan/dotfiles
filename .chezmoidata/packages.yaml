@@ -99,7 +99,6 @@ packages:
       - cmatrix
       - coreutils
       - direnv
-      - docker
       - exercism
       - fd
       - figlet
@@ -145,7 +144,6 @@ packages:
       - pv
       - rename
       - ripgrep
-      - saml2aws
       - sassc
       - semgrep
       - shellcheck
@@ -161,7 +159,6 @@ packages:
     casks:
       - 1password
       - 1password-cli
-      - docker
       - betterdisplay
       - font-geist
       - font-geist-mono-nerd-font

@@ -1,0 +1,297 @@
+# ~/.zshrc - Interactive shell configuration
+# High-performance zsh setup with zinit, starship, zoxide, fzf, mise
+
+if [ -n "${ZSH_DEBUGRC+1}" ]; then
+    zmodload zsh/zprof
+fi
+# =============================================================================
+# ZINIT SETUP
+# =============================================================================
+
+# Install zinit if not present
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+if [[ ! -f $ZINIT_HOME/zinit.zsh ]]; then
+    print -P "%F{14}[INFO]%f Installing zinit..."
+    command mkdir -p "$(dirname $ZINIT_HOME)"
+    command git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+
+# Load zinit
+source "$ZINIT_HOME/zinit.zsh"
+
+# =============================================================================
+# ESSENTIAL TOOLS (Load Early)
+# =============================================================================
+
+# fzf - fuzzy finder (load immediately for key bindings)
+zinit ice from"gh-r" as"program"
+zinit load junegunn/fzf
+
+# Load fzf key bindings and completions immediately
+if [[ -f ~/.fzf.zsh ]]; then
+    source ~/.fzf.zsh
+elif command -v fzf >/dev/null 2>&1; then
+    # Manual key bindings if fzf doesn't create the file
+    bindkey '^R' fzf-history-widget
+    bindkey '^T' fzf-file-widget
+    bindkey '^[c' fzf-cd-widget
+fi
+
+# History substring search (load immediately for better UX)
+zinit ice wait'1' lucid
+zinit light zsh-users/zsh-history-substring-search
+
+# =============================================================================
+# CORE PLUGINS
+# =============================================================================
+
+# Autosuggestions
+zinit ice wait'1' lucid
+zinit light zsh-users/zsh-autosuggestions
+
+# Syntax highlighting
+zinit ice wait'1' lucid
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+# =============================================================================
+# PRODUCTIVITY TOOLS (Lazy Loaded)
+# =============================================================================
+
+# fd - better find
+zinit ice wait lucid from"gh-r" as"program" mv"fd* -> fd" pick"fd/fd"
+zinit load sharkdp/fd
+
+# bat - better cat
+zinit ice wait lucid from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat"
+zinit load sharkdp/bat
+
+# eza - better ls
+zinit ice wait lucid from"gh-r" as"program"
+zinit load eza-community/eza
+
+# ripgrep - better grep
+zinit ice wait lucid from"gh-r" as"program" mv"ripgrep* -> rg" pick"rg/rg"
+zinit load BurntSushi/ripgrep
+
+# =============================================================================
+# NAVIGATION TOOLS
+# =============================================================================
+
+# zoxide - smart cd
+zinit ice wait lucid from"gh-r" as"program" \
+    atclone"./zoxide init zsh > init.zsh" \
+    atpull"%atclone" src"init.zsh" nocompile'!'
+zinit load ajeetdsouza/zoxide
+
+# fzf cd
+zinit ice wait'1' lucid
+zinit load changyuheng/zsh-interactive-cd
+
+# =============================================================================
+# COMPLETIONS
+# =============================================================================
+
+# Modern completions
+zinit ice blockf
+zinit light zsh-users/zsh-completions
+
+# Git completions and aliases
+zinit ice wait'1' lucid
+zinit snippet OMZL::git.zsh
+
+zinit ice wait'1' lucid
+zinit snippet OMZP::git
+
+# Docker completions (lazy load this one)
+zinit ice wait"2" lucid as"completion"
+zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
+
+# =============================================================================
+# DEVELOPMENT TOOLS
+# =============================================================================
+if command -v mise >/dev/null 2>&1; then
+    zinit ice wait'!' lucid \
+        atload'eval "$(mise activate zsh)"'
+    zinit load zdharma-continuum/null
+fi
+
+# direnv integration
+if command -v direnv >/dev/null 2>&1; then
+    zinit ice wait lucid \
+        atload'eval "$(direnv hook zsh)"'
+    zinit load zdharma-continuum/null
+fi
+
+# =============================================================================
+# PROMPT (Load Last)
+# =============================================================================
+
+# Starship prompt
+# zinit ice wait'!' lucid \
+#     atload'eval "$(starship init zsh)"'
+# zinit load starship/starship
+
+eval "$(starship init zsh)"
+# =============================================================================
+# SHELL OPTIONS
+# =============================================================================
+
+# History
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_VERIFY
+setopt SHARE_HISTORY
+
+# Directory navigation
+setopt AUTO_CD
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
+
+# Completion behavior
+setopt COMPLETE_IN_WORD
+setopt ALWAYS_TO_END
+setopt PATH_DIRS
+setopt AUTO_MENU
+setopt AUTO_LIST
+setopt AUTO_PARAM_SLASH
+
+# Other options
+setopt CORRECT
+setopt INTERACTIVE_COMMENTS
+setopt MULTIOS
+setopt NO_BEEP
+setopt PROMPT_SUBST
+
+# =============================================================================
+# KEY BINDINGS
+# =============================================================================
+
+# Use emacs key bindings
+bindkey -e
+
+# History search with arrows (requires history-substring-search)
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
+
+# Better word navigation
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+
+# =============================================================================
+# ALIASES
+# =============================================================================
+
+alias ls='eza --color=always --group-directories-first'
+alias ll='eza -la --color=always --group-directories-first'
+alias la='eza -a --color=always --group-directories-first'
+alias lt='eza -T --color=always --group-directories-first'
+
+alias cat='bat --paging=never'
+alias less='bat --paging=always'
+alias grep='rg'
+alias find='fd'
+alias cd='z'
+alias cdi='zi'
+
+zinit ice wait lucid
+zinit snippet "$HOME/.bootstrap/resources/env.d/betterment.sh"
+
+# Git aliases
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gaa='git add --all'
+alias gc='git commit -v'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gd='git diff'
+alias gl='git pull'
+alias gp='git push'
+alias gst='git status'
+alias glog='git log --oneline --decorate --graph'
+
+# Utility aliases
+alias reload='source ~/.zshrc'
+alias myip='curl -4 ifconfig.co'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias mkdir='mkdir -pv'
+
+# Tool aliases
+alias cm='chezmoi'
+alias lg='lazygit'
+
+# =============================================================================
+# FUNCTIONS
+# =============================================================================
+
+# Create directory and cd
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# Extract archives
+extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2)   tar xjf "$1"     ;;
+            *.tar.gz)    tar xzf "$1"     ;;
+            *.bz2)       bunzip2 "$1"     ;;
+            *.rar)       unrar e "$1"     ;;
+            *.gz)        gunzip "$1"      ;;
+            *.tar)       tar xf "$1"      ;;
+            *.tbz2)      tar xjf "$1"     ;;
+            *.tgz)       tar xzf "$1"     ;;
+            *.zip)       unzip "$1"       ;;
+            *.Z)         uncompress "$1"  ;;
+            *.7z)        7z x "$1"        ;;
+            *)           echo "'$1' cannot be extracted" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# =============================================================================
+# COMPLETIONS SETUP
+# =============================================================================
+
+# Ensure cache directory exists
+[[ -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh" ]] || mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+
+# Completion styling
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+zstyle ':completion:*:warnings' format '%F{red}-- no matches found --%f'
+
+# Initialize completion system with better caching
+autoload -Uz compinit
+# Only rebuild completions if dump is older than 24 hours
+if [[ -n "${ZDOTDIR:-$HOME}"/.zcompdump(#qN.mh+24) ]]; then
+    compinit -C
+else
+    compinit
+fi
+
+zinit cdreplay -q
+
+# Load local customizations
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+if [ -n "${ZSH_DEBUGRC+1}" ]; then
+    zprof
+fi
