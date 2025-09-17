@@ -1,4 +1,10 @@
+{{- if eq .chezmoi.os "darwin" }}
 theme = "Catppuccin Frappe"
+{{- end }}
+
+{{- if eq .chezmoi.os "linux" }}
+theme = "catppuccin-frappe"
+{{- end }}
 font-family = "GeistMono Nerd Font"
 cursor-style = "bar"
 adjust-cursor-thickness = 3
