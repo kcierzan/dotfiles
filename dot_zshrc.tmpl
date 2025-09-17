@@ -202,8 +202,10 @@ alias find='fd'
 alias cd='z'
 alias cdi='zi'
 
-zinit ice wait lucid
-zinit snippet "$HOME/.bootstrap/resources/env.d/betterment.sh"
+if [[ -f "$HOME/.bootstrap/resources/env.d/betterment.sh" ]]; then
+    zinit ice wait lucid
+    zinit snippet "$HOME/.bootstrap/resources/env.d/betterment.sh"
+fi
 
 # Git aliases
 alias g='git'
