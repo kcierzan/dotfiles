@@ -71,20 +71,19 @@ packages:
       - ddcci-driver-linux-dkms-git
       - exercism-bin
       - google-chrome
-      - micro
+      - helix
       - mise
+      - mosh
       - nushell
-      - oh-my-posh-bin
       - otf-geist
       - otf-geist-mono-nerd
       - paru
       - pgloader
       - rar
-      - snapd
+      - starship
       - sxiv-git
-      - ttf-merriweather
-      - wev-git
       - zen-browser-bin
+      - zed
   darwin:
     brews:
       - age
@@ -116,6 +115,7 @@ packages:
       - golangci-lint
       - grep
       - gzip
+      - helix
       - htop
       - hyperfine
       - imagemagick
@@ -145,16 +145,17 @@ packages:
       - rename
       - ripgrep
       - sassc
+      - starship
       - semgrep
       - shellcheck
       - shfmt
       - subversion
       - tilt
-      - tree
       - uv
       - watchman
       - wget
       - yarn
+      - yazi
       - zoxide
     casks:
       - 1password
