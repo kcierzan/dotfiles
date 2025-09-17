@@ -20,3 +20,4 @@ lsp.rb
 .serena
 
 **/.claude/settings.local.json
+**/ruby-lsp-rspec/
