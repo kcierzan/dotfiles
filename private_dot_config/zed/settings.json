@@ -1,0 +1,163 @@
+{
+  "tabs": {
+    "show_diagnostics": "errors"
+  },
+  "which_key": {
+    "enabled": true
+  },
+  "base_keymap": "SublimeText",
+  "buffer_font_weight": 400.0,
+  "edit_predictions": {
+    "provider": "zed",
+    "mode": "subtle",
+    "copilot": {
+      "proxy": null,
+      "proxy_no_verify": null,
+      "enterprise_uri": null
+    },
+    "enabled_in_text_threads": false
+  },
+  "icon_theme": "Material Icon Theme",
+  "agent": {
+    "tool_permissions": {
+      "default": "allow"
+    },
+    "inline_assistant_model": {
+      "provider": "copilot_chat",
+      "model": "claude-sonnet-4.5"
+    },
+    "default_view": "thread",
+    "default_profile": "ask",
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4.1"
+    }
+  },
+  "vim": {
+    "use_system_clipboard": "always"
+  },
+  "helix_mode": false,
+  "vim_mode": true,
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+  "lsp": {
+    "typos": {
+      "binary": {
+        "path_lookup": true
+      }
+    },
+    "rubocop": {
+      "initialization_options": {
+        "safeAutocorrect": true
+      }
+    },
+    "basedpyright": {
+      "binary": {
+        "path": ".venv/bin/basedpyright-langserver",
+        "arguments": ["--stdio"]
+      }
+    },
+    "rust-analyzer": {
+      "initialization_options": {
+        "check": {
+          "command": "clippy"
+        }
+      }
+    },
+    "nil": {
+      "settings": {
+        "nix": {
+          "flake": {
+            "autoArchive": true
+          }
+        }
+      }
+    }
+  },
+  "ui_font_size": 16.0,
+  "buffer_font_size": 16.0,
+  "ui_font_family": "Inter",
+  "buffer_font_family": "CommitMono Nerd Font",
+  "buffer_font_features": {
+    "ss01": false,
+    "ss02": false,
+    "ss03": false,
+    "ss04": false,
+    "ss05": false,
+    "ss06": false,
+    "ss07": false,
+    "ss08": false,
+    "ss09": false,
+    "ss10": false,
+    "liga": false
+  },
+  "terminal": {
+    "font_family": "CommitMono Nerd Font",
+    "option_as_meta": true,
+    "line_height": {
+      "custom": 1.3
+    },
+    "shell": {
+      "with_arguments": {
+        "program": "/etc/profiles/per-user/kylecierzan/bin/nu",
+        "args": [
+          "--login",
+          "--env-config",
+          "/Users/kylecierzan/.config/nushell/env.nu",
+          "--config",
+          "/Users/kylecierzan/.config/nushell/config.nu"
+        ]
+      }
+    }
+  },
+  "theme": "stylix",
+  "languages": {
+    "Ruby": {
+      "language_servers": ["sorbet", "ruby-lsp", "!solargraph", "typos"]
+    },
+    "Python": {
+      "language_servers": ["pyright", "typos"],
+      "format_on_save": "on"
+    },
+    "Nix": {
+      "language_servers": ["nil", "typos"],
+      "formatter": {
+        "external": {
+          "command": "nixfmt"
+        }
+      }
+    },
+    "Go": {
+      "format_on_save": "on",
+      "language_servers": ["gopls", "typos"]
+    },
+    "JavaScript": {
+      "format_on_save": "on",
+      "language_servers": ["typescript-language-server", "typos"]
+    },
+    "Rust": {
+      "format_on_save": "on",
+      "language_servers": ["rust-analyzer", "typos"]
+    },
+    "TypeScript": {
+      "format_on_save": "on",
+      "language_servers": ["typescript-language-server", "typos"]
+    },
+    "Zig": {
+      "language_servers": ["zls", "typos"]
+    }
+  },
+  "experimental.theme_overrides": {},
+  "file_scan_exclusions": ["**/vendor/*"],
+  "auto_update": true,
+  "format_on_save": "on",
+  "hard_tabs": false,
+  "tab_size": 2,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  }
+}

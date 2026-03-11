@@ -4,7 +4,7 @@ return {
   "NvChad/nvim-colorizer.lua",
   keys = {
     {
-      "<leader>ih",
+      "<leader>vH",
       lib.ex_cmd("ColorizerAttachToBuffer"),
       desc = "colorize buffer",
     },

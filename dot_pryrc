@@ -1,0 +1,8 @@
+if ENV['INSIDE_EMACS']
+  Pry.config.pager = false
+  Pry.config.correct_indent = false
+  Pry.config.auto_indent = false
+  # Disable Reline to prevent character-by-character echo in comint
+  # Emacs comint handles line editing, so Reline is redundant
+  Pry.config.input = STDIN
+end

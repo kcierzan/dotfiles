@@ -7,6 +7,9 @@ local THEME_SHADES = {
   ["kanso-mist"] = "dark",
   ["kanso-zen"] = "dark",
   ["kanso-pearl"] = "light",
+  ["kanagawa-dragon"] = "dark",
+  ["kanagawa-wave"] = "dark",
+  ["kanagawa-lotus"] = "dark",
   ["catppuccin-mocha"] = "dark",
   ["catppuccin-xcode"] = "dark",
 }
@@ -17,9 +20,19 @@ local function get_ghostty_theme_name()
     return
   end
 
-  local ghostty_config = vim.system({ "ghostty", "+show-config" }):wait()
-  if ghostty_config.code == 0 then
-    for line in ghostty_config.stdout:gmatch("[^\r\n]+") do
+  local ok, result = pcall(function()
+    return vim.system({ "ghostty", "+show-config" }):wait()
+  end)
+
+  if not ok then
+    vim.schedule(function()
+      vim.notify("ghostty: CLI not found in $PATH", vim.log.levels.WARN)
+    end)
+    return
+  end
+
+  if result.code == 0 then
+    for line in result.stdout:gmatch("[^\r\n]+") do
       local theme_match = line:match("theme%s*=%s*(.+)")
       if theme_match then
         return theme_match:gsub("%s+", ""):gsub("\27%[[0-9;]*m", "") -- trim whitespace and strip ANSI codes

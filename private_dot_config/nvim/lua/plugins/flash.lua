@@ -27,6 +27,8 @@ return {
       end,
       desc = "Remote Flash",
     },
+    -- use in operator pending mode to execute the operation on the treesitter node
+    -- eg. yR -> type for match -> type label for ts node -> result: yanks the node
     {
       "R",
       mode = { "o", "x" },
@@ -47,7 +49,7 @@ return {
   opts = {
     modes = {
       char = {
-        enabled = false
+        enabled = true
       }
     }
   },

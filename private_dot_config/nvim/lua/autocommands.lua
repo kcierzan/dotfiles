@@ -21,38 +21,6 @@ local function display_macro_recording_indicator()
   })
 end
 
-local function force_treesitter_start()
-  -- enable TS features explicitly (these used to be flaky)
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = {
-      "c",
-      "cpp",
-      "eruby",
-      "go",
-      "html",
-      "javascript",
-      "lua",
-      "python",
-      "ruby",
-      "rust",
-      "svelte",
-      "typescript",
-      "yaml",
-    },
-    callback = function()
-      vim.cmd("TSBufEnable highlight")
-      vim.cmd("TSBufEnable endwise")
-    end,
-  })
-
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "templ", "typescriptreact" },
-    callback = function()
-      vim.treesitter.start()
-    end,
-  })
-end
-
 local function show_buffers_on_disk()
   vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
     pattern = "*",
@@ -64,9 +32,7 @@ function M.setup()
   start_terminals_in_insert()
   display_macro_recording_indicator()
   show_buffers_on_disk()
-  if not vim.g.vscode then
-    force_treesitter_start()
-  end
+  -- Treesitter highlighting is now handled in lua/plugins/treesitter.lua
 end
 
 return M

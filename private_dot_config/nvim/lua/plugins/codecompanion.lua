@@ -15,6 +15,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 return {
+  enabled = false,
   "olimorris/codecompanion.nvim",
   cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionToggle", "CodeCompanionActions", "CodeCompanionAdd" },
   keys = {
@@ -31,17 +32,28 @@ return {
   },
   opts = {
     adapters = {
-      anthropic = function()
-        return require("codecompanion.adapters").extend("anthropic", {
-          env = {
-            api_key = "ANTHROPIC_API_KEY",
-          },
-        })
-      end,
+      http = {
+        anthropic = function()
+          return require("codecompanion.adapters").extend("anthropic", {
+            env = {
+              api_key = "ANTHROPIC_API_KEY",
+            },
+          })
+        end,
+      },
+      acp = {
+        claude_code = function()
+          return require("codecompanion.adapters").extend("claude_code", {
+            env = {
+              CLAUDE_CODE_OAUTH_TOKEN = "cmd:op read op://personal/claude-pro-token/credential --no-newline",
+            },
+          })
+        end,
+      },
     },
     strategies = {
       chat = {
-        adapter = "anthropic",
+        adapter = "claude_code",
         keymaps = {
           completion = {
             modes = {

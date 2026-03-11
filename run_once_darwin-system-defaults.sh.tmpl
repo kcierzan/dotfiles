@@ -1,0 +1,66 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Configuring macOS system defaults..."
+
+# =============================================================================
+# DOCK
+# =============================================================================
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide-delay -float 0.0
+defaults write com.apple.dock autohide-time-modifier -float 0.2
+defaults write com.apple.dock orientation -string "bottom"
+defaults write com.apple.dock tilesize -int 48
+defaults write com.apple.dock minimize-to-application -bool true
+defaults write com.apple.dock show-recents -bool false
+
+# =============================================================================
+# FINDER
+# =============================================================================
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+# =============================================================================
+# KEYBOARD
+# =============================================================================
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+# =============================================================================
+# INTERFACE
+# =============================================================================
+defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
+defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool false
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+# =============================================================================
+# TRACKPAD
+# =============================================================================
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults write NSGlobalDomain com.apple.trackpad.forceClick -bool true
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+
+# =============================================================================
+# MOUSE — disable acceleration (flat profile)
+# =============================================================================
+defaults write NSGlobalDomain com.apple.mouse.scaling -float -1.0
+
+# =============================================================================
+# WINDOW MANAGER
+# =============================================================================
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+
+# =============================================================================
+# APPLY CHANGES
+# =============================================================================
+killall Dock 2>/dev/null || true
+killall Finder 2>/dev/null || true
+
+echo "macOS defaults configured. Some changes may require logout."
+{{ end -}}

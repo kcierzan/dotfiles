@@ -8,6 +8,7 @@ function M.setup()
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
   vim.highlight.priorities.semantic_tokens = 95
+  vim.g.copilot_nes_debounce = 500
 end
 
 return M

@@ -1,5 +1,6 @@
 return {
   "webhooked/kanso.nvim",
+  enabled = true,
   lazy = false,
   name = "kanso",
   priority = 1000,

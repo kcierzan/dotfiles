@@ -5,18 +5,12 @@ return {
   priority = 1000,
   lazy = false,
   config = function()
-    local overrides = require("catppuccin-themes.catppuccin_xcode")
-
     require("catppuccin").setup({
-      custom_highlights = function(colors)
-        return {
-          SnacksPickerBorder = { bg = colors.mantle },
-          Visual = { bg = colors.surface0 },
-        }
-      end,
-      color_overrides = overrides.color_overrides,
+      background = {
+        light = "latte",
+        dark = "mocha",
+      },
     })
-
     vim.cmd.colorscheme("catppuccin")
   end,
 }

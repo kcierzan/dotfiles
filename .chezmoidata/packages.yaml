@@ -1,4 +1,153 @@
 packages:
+  darwin:
+    taps:
+      - nikitabobko/tap
+      - FelixKratz/formulae
+      - homebrew/cask-fonts
+
+    # Shared brews — installed on all darwin machines
+    brews:
+      # Shells
+      - bash
+      - nushell
+
+      # Core CLI tools
+      - age
+      - ast-grep
+      - atuin
+      - awscli
+      - bat
+      - btop
+      - carapace
+      - chezmoi
+      - claude-code
+      - cmake
+      - coreutils
+      - curl
+      - devenv
+      - direnv
+      - eza
+      - fastfetch
+      - fd
+      - findutils
+      - fzf
+      - gawk
+      - gh
+      - git
+      - git-delta
+      - git-lfs
+      - gnu-sed
+      - gnu-tar
+      - gnu-which
+      - gnumake
+      - grep
+      - gzip
+      - harper
+      - htop
+      - hyperfine
+      - imagemagick
+      - jq
+      - lazygit
+      - magic-wormhole-rs
+      - mdformat
+      - mise
+      - mosh
+      - neovim
+      - openssh
+      - pandoc
+      - ripgrep
+      - shellcheck
+      - shfmt
+      - starship
+      - tailscale
+      - television
+      - tree
+      - tree-sitter
+      - unrar
+      - uv
+      - vivid
+      - watchman
+      - wget
+      - yazi
+      - zellij
+      - zoxide
+
+      # Build/dev dependencies
+      - libyaml
+      - openssl
+      - libsodium
+
+      # Language runtimes/tools
+      - go
+      - zig
+      - zls
+
+    # Work-only brews — only when profile == "work"
+    work_brews:
+      - Betterment/betterbrew/coach
+      - Betterment/betterbrew/sopsorific
+      - Betterment/betterbrew/testtrack-cli
+      - bruno-cli
+      - cloudflared
+      - gpgme
+      - jira-cli
+      - juliaup
+      - libffi
+      - mas
+      - perl
+      - pkg-config
+      - pnpm
+      - postgresql@15
+      - raggi/ale/openssl-osx-ca
+      - readline
+      - semgrep
+      - sops
+      - shared-mime-info
+      - sqlite
+      - tilt
+      - usage
+
+    # Work-only taps
+    work_taps:
+      - betterment/betterbrew
+      - raggi/ale
+
+    # Shared casks
+    casks:
+      - 1password
+      - 1password-cli
+      - chatgpt
+      - docker-desktop
+      - figma
+      - ghostty
+      - hammerspoon
+      - homerow
+      - hyperkey
+      - linearmouse
+      - meetingbar
+      - monitorcontrol
+      - mos
+      - raycast
+      - syncthing
+      - visual-studio-code
+      - zed
+      - zen-browser
+
+    # Font casks
+    font_casks:
+      # Nerd fonts
+      - font-symbols-only-nerd-font
+      - font-geist-mono-nerd-font
+      - font-commit-mono-nerd-font
+      - font-roboto-mono-nerd-font
+      # System/display fonts
+      - font-crimson-pro
+      - font-roboto
+      - font-inter
+      - font-geist
+      - font-eb-garamond
+      - font-merriweather
+
   arch:
     official:
       - age
@@ -84,89 +233,3 @@ packages:
       - sxiv-git
       - zen-browser-bin
       - zed
-  darwin:
-    brews:
-      - age
-      - awscli
-      - bat
-      - bottom
-      - boxes
-      - btop
-      - chezmoi
-      - cling
-      - cmake
-      - cmatrix
-      - coreutils
-      - direnv
-      - exercism
-      - fd
-      - figlet
-      - findutils
-      - fortune
-      - fzf
-      - gawk
-      - gcc
-      - git
-      - git-delta
-      - git-lfs
-      - gnu-sed
-      - gnu-tar
-      - gnu-which
-      - golangci-lint
-      - grep
-      - gzip
-      - helix
-      - htop
-      - hyperfine
-      - imagemagick
-      - juliaup
-      - lazygit
-      - leveldb
-      - libffi
-      - libgccjit
-      - libpq
-      - ltex-ls
-      - luarocks
-      - magic-wormhole
-      - make
-      - mas
-      - mdformat
-      - micro
-      - mise
-      - mosh
-      - mydumper
-      - openssh
-      - oh-my-posh
-      - pandoc
-      - pnpm
-      - postgresql@15
-      - prettier
-      - pv
-      - rename
-      - ripgrep
-      - sassc
-      - starship
-      - semgrep
-      - shellcheck
-      - shfmt
-      - subversion
-      - tilt
-      - uv
-      - watchman
-      - wget
-      - yarn
-      - yazi
-      - zoxide
-    casks:
-      - 1password
-      - 1password-cli
-      - betterdisplay
-      - font-geist
-      - font-geist-mono-nerd-font
-      - hammerspoon
-      - hyperkey
-      - jetbrains-toolbox
-      - raycast
-      - syncthing
-      - zed
-      - zen-browser

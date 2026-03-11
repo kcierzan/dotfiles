@@ -1,12 +1,14 @@
 return {
   "saghen/blink.cmp",
-  lazy = false, -- lazy loading is handled by the plugin
+  lazy = true,
   dependencies = {
     "rafamadriz/friendly-snippets",
     "mikavilpas/blink-ripgrep.nvim",
     "fang2hou/blink-copilot",
+    "folke/sidekick.nvim",
     { "L3MON4D3/LuaSnip", version = "v2.*" },
   },
+  event = "VeryLazy",
   version = "*",
   opts = {
     fuzzy = {
@@ -37,12 +39,15 @@ return {
     keymap = {
       ["<Tab>"] = {
         "select_next",
-        "snippet_forward",
+        -- "snippet_forward", --disabling this for now to let luasnippet handling jumping (pmenu must be closed!)
+        function()
+          require("sidekick").nes_jump_or_apply()
+        end,
         "fallback",
       },
       ["<S-Tab>"] = {
         "select_prev",
-        "snippet_backward",
+        -- "snippet_backward", -- disabling this for now to let luasnippet handling jumping (pmenu must be closed!)
         "fallback",
       },
       ["<C-k>"] = { "show", "show_documentation", "hide_documentation" },
@@ -61,7 +66,7 @@ return {
     },
     sources = {
       default = {
-        "codecompanion",
+        -- "codecompanion",
         "copilot",
         "lsp",
         "path",
@@ -94,11 +99,11 @@ return {
           enabled = true,
           score_offset = -50,
         },
-        codecompanion = {
-          name = "CodeCompanion",
-          module = "codecompanion.providers.completion.blink",
-          enabled = true,
-        },
+        -- codecompanion = {
+        --   name = "CodeCompanion",
+        --   module = "codecompanion.providers.completion.blink",
+        --   enabled = false,
+        -- },
         copilot = {
           name = "copilot",
           module = "blink-copilot",

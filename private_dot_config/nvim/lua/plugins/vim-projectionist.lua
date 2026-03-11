@@ -1,9 +1,5 @@
-local lib = require("lib")
-
 return {
   "tpope/vim-projectionist",
-  keys = {
-    { "<leader>tg", lib.ex_cmd("A"), desc = "show test file" },
-  },
+  keys = require("keymaps").for_plugin("projectionist"),
   lazy = false,
 }

@@ -1,0 +1,23 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Build custom Go tools from source
+# These are personal repos that provide fzf preview and rspec file switching
+
+if ! command -v go >/dev/null 2>&1; then
+  echo "go not found, skipping Go tool builds"
+  exit 0
+fi
+
+GOBIN="${HOME}/.local/bin"
+mkdir -p "$GOBIN"
+
+echo "Building go-preview..."
+GOBIN="$GOBIN" go install github.com/kcierzan/go-preview@latest
+
+echo "Building go-rspec-switcher..."
+GOBIN="$GOBIN" go install github.com/kcierzan/go-rspec-switcher@latest
+
+echo "Go tools installed to $GOBIN"
+{{ end -}}

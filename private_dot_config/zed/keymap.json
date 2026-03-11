@@ -1,0 +1,90 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {},
+  },
+  {
+    "bindings": {
+      "alt-h": "workspace::ActivatePaneLeft",
+      "alt-j": "workspace::ActivatePaneDown",
+      "alt-k": "workspace::ActivatePaneUp",
+      "alt-l": "workspace::ActivatePaneRight",
+    },
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-o": "pane::GoBack",
+      "ctrl-i": "pane::GoForward",
+      "alt-h": "workspace::ActivatePaneLeft",
+      "alt-j": "workspace::ActivatePaneDown",
+      "alt-k": "workspace::ActivatePaneUp",
+      "alt-l": "workspace::ActivatePaneRight",
+      "ctrl-'": "terminal_panel::ToggleFocus",
+      "ctrl-space": "workspace::ToggleBottomDock",
+      "alt-y": [
+        "task::Spawn",
+        { "task_name": "switch between rails file and spec" },
+      ],
+    },
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "space": null,
+    },
+  },
+  {
+    "context": "Editor && (vim_mode == normal || vim_mode == visual)",
+    "bindings": {
+      "space": null, // for which key
+      "space b": "tab_switcher::Toggle",
+      "space o": "projects::OpenRecent",
+      "space E": "project_panel::ToggleFocus",
+      "space f": "file_finder::Toggle",
+      "space r": "file_finder::Toggle",
+      "space s": "outline::Toggle",
+      "space S": "project_symbols::Toggle",
+      "space y": "workspace::CopyRelativePath",
+      "space /": "pane::DeploySearch",
+      "space ;": "task::Spawn",
+      "space t f": [
+        "task::Spawn",
+        { "task_name": "Run rspec tests for current file" },
+      ],
+      "space d d": "debugger::Start",
+      "space d b": "editor::ToggleBreakpoint",
+      "space d c": "debugger::Continue",
+      "space d n": "debugger::StepOver",
+      "space d i": "debugger::StepInto",
+      "space d o": "debugger::StepOut",
+      "space d x": "debugger::Stop",
+      "space d r": "debugger::Restart",
+    },
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-space": "workspace::ToggleBottomDock",
+      "ctrl-;": "workspace::ToggleZoom",
+    },
+  },
+  {
+    "context": "vim_mode == normal || vim_mode == visual",
+    "bindings": {
+      "s": ["vim::PushSneak", {}],
+      "S": ["vim::PushSneakBackward", {}],
+    },
+  },
+  {
+    "bindings": {
+      "ctrl-shift-w": "editor::WrapSelectionsInTag",
+    },
+  },
+  // {
+  //   "context": "Editor",
+  //   "bindings": {
+  //     "ctrl-o": "editor::SwapSelectionEnds",
+  //   },
+  // },
+]

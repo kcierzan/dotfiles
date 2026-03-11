@@ -1,11 +1,35 @@
 {{ if eq .chezmoi.os "darwin" -}}
 #!/usr/bin/env bash
+set -euo pipefail
 
-brew bundle --file=/dev/stdin <<EOF
+brew bundle --no-lock --file=/dev/stdin <<EOF
+# Taps
+{{ range .packages.darwin.taps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{ if eq .profile "work" -}}
+{{ range .packages.darwin.work_taps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{ end -}}
+
+# Brews
 {{ range .packages.darwin.brews -}}
 brew {{ . | quote }}
 {{ end -}}
+{{ if eq .profile "work" -}}
+{{ range .packages.darwin.work_brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ end -}}
+
+# Casks
 {{ range .packages.darwin.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+
+# Fonts
+{{ range .packages.darwin.font_casks -}}
 cask {{ . | quote }}
 {{ end -}}
 EOF

@@ -1,9 +1,12 @@
-.DS_STORE
-.zsh_history
-.zhistory
-.zcompcache
-.zsh_sessions
+.DS_Store
 chezmoi-key.txt.age
+MIGRATION.md
+
 {{- if eq .chezmoi.os "linux" }}
 .hammerspoon
-{{- end}}
+.config/linearmouse
+.config/zed
+{{- end }}
+
+{{- if eq .chezmoi.os "darwin" }}
+{{- end }}

@@ -1,18 +1,208 @@
-eval "$(direnv hook bash)"
-eval "$(mise activate bash)"
+# ~/.bashrc — Interactive bash configuration
+# Sourced on every interactive shell. Aliases, functions, tool integrations.
 
+# Exit early if non-interactive
+[[ $- != *i* ]] && return
+
+# =============================================================================
+# SHELL OPTIONS
+# =============================================================================
+
+shopt -s histappend extglob globstar checkjobs cdspell dirspell cmdhist autocd checkwinsize
+
+# =============================================================================
+# ALIASES
+# =============================================================================
+
+# Modern replacements
+alias ls='eza --color=always --group-directories-first'
+alias ll='eza -la --color=always --group-directories-first'
+alias la='eza -lah --color=always --group-directories-first'
+alias lt='eza -T --color=always --group-directories-first'
+alias less='bat --paging=always'
+alias cat='bat --paging=never'
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias mkdir='mkdir -pv'
+
+# Git
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gaa='git add --all'
+alias gc='git commit -v'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gd='git diff'
+alias gl='git pull'
+alias gp='git push'
+alias glog='git log --oneline --decorate --graph'
+
+# Utilities
+alias lg='lazygit'
+alias be='bundle exec'
+alias reload='source ~/.bash_profile'
+alias myip='curl -4 ifconfig.co'
+alias cm='chezmoi'
+alias tiltup='tilt up'
+
+# =============================================================================
+# FUNCTIONS
+# =============================================================================
+
+# Create directory and cd into it
+mkcd() { mkdir -p "$1" && cd "$1"; }
+
+# Extract archives
+extract() {
+  if [ -f "$1" ]; then
+    case "$1" in
+      *.tar.bz2)   tar xjf "$1"     ;;
+      *.tar.gz)    tar xzf "$1"     ;;
+      *.bz2)       bunzip2 "$1"     ;;
+      *.rar)       unrar e "$1"     ;;
+      *.gz)        gunzip "$1"      ;;
+      *.tar)       tar xf "$1"      ;;
+      *.tbz2)      tar xjf "$1"     ;;
+      *.tgz)       tar xzf "$1"     ;;
+      *.zip)       unzip "$1"       ;;
+      *.Z)         uncompress "$1"  ;;
+      *.7z)        7z x "$1"        ;;
+      *)           echo "'$1' cannot be extracted" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+# Open file at specific line in $EDITOR
+open_file_at_line() {
+  local file="$1" line="$2"
+  if [[ -n "$file" && -n "$line" ]]; then
+    local editor
+    editor=$(echo "$EDITOR" | tr '[:upper:]' '[:lower:]')
+    if [[ "$editor" == *"nvim"* || "$editor" == *"micro"* ]]; then
+      eval "$EDITOR +$line $file"
+    else
+      eval "$EDITOR $file:$line"
+    fi
+  fi
+}
+
+# Fuzzy grep files — search file contents
+# Enter: open in $EDITOR, Alt-Enter: open in Zed
+fuzzy_grep_files() {
+  local exclude_dirs=(".git" "node_modules" "env")
+  local exclude_files=("*.pyc" "*.dmp" "*.rbi")
+  local globs=()
+
+  for dir in "${exclude_dirs[@]}"; do globs+=(--glob "!$dir"); done
+  for file in "${exclude_files[@]}"; do globs+=(--glob "!$file"); done
+
+  local selected
+  selected=$(rg -n --hidden "${globs[@]}" "" \
+    | fzf +m --exit-0 --delimiter ":" --nth "3.." \
+        --preview "go-preview {}" \
+        --bind 'alt-enter:execute(zed {1}:{2})+abort')
+
+  [[ -z "$selected" ]] && return
+
+  local file line
+  file=$(echo "$selected" | cut -d: -f1)
+  line=$(echo "$selected" | cut -d: -f2)
+  open_file_at_line "$file" "$line"
+}
+
+# Fuzzy find files — search file names
+# Enter: open in $EDITOR, Alt-Enter: open in Zed
+fuzzy_find_files() {
+  local excludes=(
+    "*.jpg" ".git" ".idea" ".keep" ".vscode"
+    "node_modules" "tmp" "*.map" "*.pdf" "*.png" "*.pyc" "*.rbi"
+  )
+  local exclude_args=()
+  for pattern in "${excludes[@]}"; do exclude_args+=(--exclude "$pattern"); done
+
+  local files
+  files=$(fd --strip-cwd-prefix --hidden --type f "${exclude_args[@]}" "." \
+    | fzf --multi --exit-0 \
+        --preview "go-preview {}" \
+        --bind 'alt-enter:execute(zed {})+abort')
+
+  [[ -z "$files" ]] && return
+  eval "$EDITOR $files"
+}
+
+# Fuzzy kill processes
+fkill() {
+  local pids
+  pids=$(ps -ef | sed 1d | fzf --multi \
+    --preview 'echo {}' --preview-window=up:3:wrap \
+    --header 'Enter: SIGTERM | Alt-Enter: SIGKILL' \
+    --expect=alt-enter)
+
+  [[ -z "$pids" ]] && return
+  local key selections pid_list
+  key=$(head -1 <<< "$pids")
+  selections=$(tail -n +2 <<< "$pids")
+  [[ -z "$selections" ]] && return
+  pid_list=$(awk '{print $2}' <<< "$selections" | tr '\n' ' ')
+
+  if [[ "$key" == "alt-enter" ]]; then
+    echo "Force killing (SIGKILL): $pid_list"
+    echo "$pid_list" | xargs kill -9
+  else
+    echo "Killing (SIGTERM): $pid_list"
+    echo "$pid_list" | xargs kill
+  fi
+}
+
+# Jira wrapper with 1Password token
+jira() {
+  if [ -z "$JIRA_API_TOKEN" ]; then
+    export JIRA_API_TOKEN="$(op --account E2AT3Z6NBVDHLLH477TOQTPAUU read op://Employee/jira-token/credential)"
+  fi
+  export JIRA_PAGER="less -+F"
+  /opt/homebrew/bin/jira "$@"
+}
+
+# =============================================================================
+# TOOL INTEGRATIONS
+# =============================================================================
+
+# Direnv
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
+
+# Mise
+command -v mise >/dev/null 2>&1 && eval "$(mise activate bash)"
+
+# FZF
 command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
 
-eval "$(zoxide init bash)"
+# Zoxide
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init bash)"
 
-alias g='git'
-alias gr='grepfiles'
-alias lg='lazygit'
-alias ff='findfile'
-alias la='lsd -lah'
-alias be='bundle exec'
-alias gs='git status'
-alias reload='source ~/.bash_profile'
+# Atuin (shell history)
+command -v atuin >/dev/null 2>&1 && eval "$(atuin init bash)"
 
-#shellcheck source=/dev/null
-[ -f "$HOME/.bootstrap/resources/env.d/betterment.sh" ] && source "$HOME/.bootstrap/resources/env.d/betterment.sh"
+# Starship prompt
+command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
+
+# Vivid LS_COLORS
+command -v vivid >/dev/null 2>&1 && export LS_COLORS="$(vivid generate molokai)"
+
+# Carapace completions
+command -v carapace >/dev/null 2>&1 && {
+  export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+  source <(carapace _carapace bash)
+}
+
+# =============================================================================
+# WORK BOOTSTRAP
+# =============================================================================
+
+[[ -f "$HOME/.bootstrap/env.sh" ]] && source "$HOME/.bootstrap/env.sh"
+[[ -f "$HOME/.bootstrap/resources/env.d/betterment.sh" ]] && source "$HOME/.bootstrap/resources/env.d/betterment.sh"

@@ -4,6 +4,14 @@ return {
   event = { "VeryLazy" },
   dependencies = { "MunifTanjim/nui.nvim" },
   opts = {
+    cmdline = {
+      enabled = true,
+      -- view = "cmdline_popup",
+      view = "cmdline",
+    },
+    presets = {
+      long_message_to_split = true,
+    },
     messages = {
       enabled = true,
       view = "notify",
@@ -23,7 +31,29 @@ return {
         enabled = true,
       },
     },
+    redirect = {
+      view = "popup",
+      filter = { event = "msg_show" },
+    },
     routes = {
+      {
+        filter = { event = 'msg_show', kind = { 'shell_out', 'shell_err' } },
+        view = 'split',
+        opts = {
+          level = 'info',
+          skip = false,
+          replace = false,
+        },
+      },
+      -- Send long shell command output to a split
+      {
+        view = "split",
+        filter = {
+          event = "msg_show",
+          kind = "",
+          min_height = 4,
+        },
+      },
       {
         filter = {
           warning = true,
@@ -54,13 +84,6 @@ return {
       {
         filter = {
           find = "go up one level",
-        },
-        opts = { skip = true },
-      },
-      {
-        filter = {
-          find = "quit with exit code",
-          warning = true,
         },
         opts = { skip = true },
       },

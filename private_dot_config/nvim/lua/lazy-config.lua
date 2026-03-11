@@ -28,6 +28,7 @@ function M.load_plugins()
         enabled = true,
       },
     },
+    lockfile = vim.fn.stdpath("state") .. "/lazy-lock.json"
   })
 end
 

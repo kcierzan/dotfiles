@@ -1,0 +1,25 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Install licensed fonts to ~/Library/Fonts (macOS font directory)
+# Fonts are decrypted by chezmoi to ~/.local/share/fonts/, this script
+# copies them to where macOS can discover them.
+
+FONT_SRC="$HOME/.local/share/fonts"
+FONT_DST="$HOME/Library/Fonts"
+
+mkdir -p "$FONT_DST"
+
+if [ -d "$FONT_SRC/BerkeleyMono" ]; then
+  echo "Installing Berkeley Mono fonts..."
+  cp -f "$FONT_SRC/BerkeleyMono"/*.otf "$FONT_DST/"
+fi
+
+if [ -d "$FONT_SRC/PragmataPro" ]; then
+  echo "Installing PragmataPro fonts..."
+  cp -f "$FONT_SRC/PragmataPro"/*.ttf "$FONT_DST/"
+fi
+
+echo "Licensed fonts installed to $FONT_DST"
+{{ end -}}

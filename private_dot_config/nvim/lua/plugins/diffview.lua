@@ -1,18 +1,9 @@
-local lib = require("lib")
-
 return {
   "sindrets/diffview.nvim",
-  keys = {
-    {
-      "<leader>gD",
-      lib.ex_cmd("DiffviewOpen"),
-      desc = "open index diff",
-    },
-    {
-      "<leader>gH",
-      lib.ex_cmd("DiffviewFileHistory %"),
-      desc = "open file history",
-    },
+  cmd = {
+    "DiffviewOpen",
+    "DiffviewFileHistory",
   },
+  keys = require("keymaps").for_plugin("diffview"),
   opts = {},
 }

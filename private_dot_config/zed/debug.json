@@ -1,0 +1,29 @@
+[
+  {
+    "label": "Debug spec file",
+    "adapter": "rdbg",
+    "request": "launch",
+    "command": "bundle",
+    "args": ["exec", "rspec", "$ZED_FILE"],
+    "cwd": "$ZED_WORKTREE_ROOT"
+  },
+  {
+    "label": "Debug spec at cursor",
+    "adapter": "rdbg",
+    "request": "launch",
+    "command": "bundle",
+    "args": ["exec", "rspec", "$ZED_FILE:$ZED_ROW"],
+    "cwd": "$ZED_WORKTREE_ROOT"
+  },
+  {
+    "label": "Debug Rails server",
+    "adapter": "rdbg",
+    "request": "launch",
+    "command": "bundle",
+    "args": ["exec", "rails", "server"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "env": {
+      "RUBY_DEBUG_OPEN": "true"
+    }
+  }
+]

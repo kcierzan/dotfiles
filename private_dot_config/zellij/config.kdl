@@ -1,3 +1,122 @@
-cursor_style "bar"
+// Zellij configuration — managed by chezmoi
+// Theme colors are handled by zjstatus plugin + theme file
+
+theme "default"
 default_mode "locked"
-theme "catppuccin-frappe"
+default_shell "/opt/homebrew/bin/nu"
+default_layout "default"
+simplified_ui false
+pane_frames true
+mouse_mode true
+
+ui {
+  pane_frames {
+    rounded_corners true
+  }
+}
+
+plugins {
+  zjstatus-hints location="https://github.com/b0o/zjstatus-hints/releases/latest/download/zjstatus-hints.wasm" {
+    max_length 0
+    overflow_str "..."
+    pipe_name "zjstatus_hints"
+    hide_in_base_mode true
+  }
+}
+
+load_plugins {
+  zjstatus-hints
+}
+
+keybinds {
+  unbind "Ctrl g"
+
+  locked {
+    bind "Ctrl Space" { SwitchToMode "normal"; }
+  }
+
+  normal clear-defaults=true {
+    bind "Esc" { SwitchToMode "locked"; }
+    bind "Ctrl Space" { SwitchToMode "locked"; }
+
+    // Mode switching
+    bind "p" { SwitchToMode "pane"; }
+    bind "t" { SwitchToMode "tab"; }
+    bind "r" { SwitchToMode "resize"; }
+    bind "s" { SwitchToMode "scroll"; }
+    bind "o" { SwitchToMode "session"; }
+    bind "m" { SwitchToMode "move"; }
+    bind "g" { SwitchToMode "tmux"; }
+
+    // Direct pane navigation
+    bind "h" { MoveFocus "left"; }
+    bind "j" { MoveFocus "down"; }
+    bind "k" { MoveFocus "up"; }
+    bind "l" { MoveFocus "right"; }
+
+    // Quick actions
+    bind "n" { NewPane; }
+    bind "x" { CloseFocus; }
+    bind "f" { ToggleFocusFullscreen; }
+    bind "z" { TogglePaneFrames; }
+    bind "w" { ToggleFloatingPanes; }
+    bind "e" { EditScrollback; }
+    bind "d" { Detach; }
+    bind "q" { Quit; }
+
+    // Layout
+    bind "[" { PreviousSwapLayout; }
+    bind "]" { NextSwapLayout; }
+
+    // Search
+    bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
+  }
+
+  tmux clear-defaults=true {
+    bind "Esc" { SwitchToMode "normal"; }
+    bind "g" {
+      Run "lazygit" {
+        floating true
+        close_on_exit true
+        x "5%"; y "5%"; width "90%"; height "90%"
+      }
+      SwitchToMode "locked"
+    }
+    bind "r" {
+      Run "nu" "-l" "-c" "switch" {
+        floating true
+        close_on_exit false
+        x "15%"; y "30%"; width "66%"; height "40%"
+      }
+      SwitchToMode "locked"
+    }
+    bind "t" {
+      Run "nu" "-l" "-c" "jira issue list" {
+        floating true
+        close_on_exit true
+        x "4%"; y "5%"; width "90%"; height "90%"
+      }
+      SwitchToMode "locked"
+    }
+    bind "c" {
+      Run "claude" {
+        floating true
+        close_on_exit true
+        x "66%"; y "0"; width "33%"; height "100%"
+      }
+      SwitchToMode "locked"
+    }
+    bind "m" {
+      Run "nu" "-l" "-c" "run-task" {
+        floating true
+        close_on_exit true
+        x "15%"; y "20%"; width "70%"; height "60%"
+      }
+      SwitchToMode "locked"
+    }
+  }
+
+  shared_except "locked" {
+    bind "Ctrl Space" { SwitchToMode "locked"; }
+  }
+}

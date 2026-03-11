@@ -1,0 +1,9 @@
+[metadata]
+name = "mise-apps"
+description = "Select an app directory in the Rails monorepo"
+
+[source]
+command = ["echo 'b4b\nb4b_core\nbetter_mfa\nclinic\ngm-b4b\nimpersonate'"]
+
+[preview]
+command = "ls -1 {}"

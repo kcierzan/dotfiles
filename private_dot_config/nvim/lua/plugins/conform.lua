@@ -31,7 +31,8 @@ return {
         ruby = { "rubocop" },
         eruby = { "erb-format" },
         sql = { "sqlfluff" },
-        python = { "isort", "black" },
+        python = { "ruff_fix", "ruff_format" },
+        nix = { "nixfmt" },
       },
     })
     vim.api.nvim_create_user_command("FormatDisable", function(args)
