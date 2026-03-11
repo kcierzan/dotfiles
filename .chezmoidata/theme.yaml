@@ -1,0 +1,15 @@
+# Global theme selector
+# Change this value to switch the active color theme across all managed apps.
+# Available themes are defined in themes.yaml (ported from nix-darwin themes/).
+# Run `chezmoi apply` after changing to regenerate all themed config files.
+#
+# Example values:
+#   oxocarbon-dark, oxocarbon-light
+#   tokyo-night-moon
+#   gruvbox-material-dark-medium, gruvbox-material-light-medium
+#   everforest-dark-medium
+#   doom-one, doom-dracula, doom-gruvbox, doom-nord, doom-monokai-pro
+#   dracula, dracula-pro
+#   monokai-pro, monokai-classic
+#   modus-vivendi-dark, modus-vivendi-tinted, modus-operandi-tinted
+theme: oxocarbon-dark

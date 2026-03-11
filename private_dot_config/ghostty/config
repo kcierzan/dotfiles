@@ -10,4 +10,4 @@ freetype-load-flags=no-hinting,no-force-autohint,no-monochrome,no-autohint
 keybind=shift+enter=text:\n
 font-family=CommitMono Nerd Font
 command=/opt/homebrew/bin/nu --login --config ~/.config/nushell/config.nu --env-config ~/.config/nushell/env.nu
-theme=kanso-zen
+theme=base16

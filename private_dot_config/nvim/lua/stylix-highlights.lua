@@ -22,9 +22,11 @@ function M.create_base16_hl_groups()
     return nil
   end
 
-  -- create foreground groups
+  -- create foreground groups (skip non-color metadata keys like "variant")
   for name, value in pairs(colors) do
-    vim.api.nvim_set_hl(0, "b16_" .. name, { fg = value })
+    if type(value) == "string" and value:match("^#%x%x%x%x%x%x$") then
+      vim.api.nvim_set_hl(0, "b16_" .. name, { fg = value })
+    end
   end
 end
 

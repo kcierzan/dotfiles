@@ -14,6 +14,18 @@ local THEME_SHADES = {
   ["catppuccin-xcode"] = "dark",
 }
 
+--- Read the variant ("dark" or "light") from the chezmoi-generated colors file.
+--- This is used when the active ghostty theme is "base16" (managed by chezmoi).
+---@return "light" | "dark"
+local function get_base16_variant()
+  local colors_path = vim.fn.stdpath("data") .. "/stylix-colors.lua"
+  local ok, palette = pcall(dofile, colors_path)
+  if ok and palette and palette.variant then
+    return palette.variant == "light" and "light" or "dark"
+  end
+  return "dark"
+end
+
 ---@return string?
 local function get_ghostty_theme_name()
   if vim.g.vscode then
@@ -44,7 +56,15 @@ end
 ---@return nil
 local function set_shade_from_ghostty_theme()
   vim.g.ghostty_theme_name = get_ghostty_theme_name()
-  vim.opt.background = THEME_SHADES[vim.g.ghostty_theme_name] or "dark"
+  local shade = THEME_SHADES[vim.g.ghostty_theme_name]
+  if shade then
+    vim.opt.background = shade
+  elseif vim.g.ghostty_theme_name == "base16" then
+    -- base16 theme is managed by chezmoi; read variant from generated colors file
+    vim.opt.background = get_base16_variant()
+  else
+    vim.opt.background = "dark"
+  end
 end
 
 ---@return nil

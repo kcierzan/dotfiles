@@ -2,7 +2,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-brew bundle --no-lock --file=/dev/stdin <<EOF
+brew bundle --file=/dev/stdin <<EOF
 # Taps
 {{ range .packages.darwin.taps -}}
 tap {{ . | quote }}

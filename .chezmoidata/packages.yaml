@@ -3,7 +3,6 @@ packages:
     taps:
       - nikitabobko/tap
       - FelixKratz/formulae
-      - homebrew/cask-fonts
 
     # Shared brews — installed on all darwin machines
     brews:
@@ -20,11 +19,9 @@ packages:
       - btop
       - carapace
       - chezmoi
-      - claude-code
       - cmake
       - coreutils
       - curl
-      - devenv
       - direnv
       - eza
       - fastfetch
@@ -39,7 +36,7 @@ packages:
       - gnu-sed
       - gnu-tar
       - gnu-which
-      - gnumake
+      - make
       - grep
       - gzip
       - harper
@@ -48,7 +45,7 @@ packages:
       - imagemagick
       - jq
       - lazygit
-      - magic-wormhole-rs
+      - magic-wormhole.rs
       - mdformat
       - mise
       - mosh
@@ -63,7 +60,7 @@ packages:
       - television
       - tree
       - tree-sitter
-      - unrar
+      - unar
       - uv
       - vivid
       - watchman
@@ -117,6 +114,7 @@ packages:
       - 1password
       - 1password-cli
       - chatgpt
+      - claude-code
       - docker-desktop
       - figma
       - ghostty
@@ -131,7 +129,7 @@ packages:
       - syncthing
       - visual-studio-code
       - zed
-      - zen-browser
+      - zen
 
     # Font casks
     font_casks:
@@ -204,7 +202,7 @@ packages:
       - riscv64-elf-binutils
       - rscv64-elf-gcc
       - seahorse
-      - syncthing
+      - syncthing-app
       - tree-sitter
       - ttf-joypixels
       - unzip
