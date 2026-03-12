@@ -206,3 +206,28 @@ command -v carapace >/dev/null 2>&1 && {
 
 [[ -f "$HOME/.bootstrap/env.sh" ]] && source "$HOME/.bootstrap/env.sh"
 [[ -f "$HOME/.bootstrap/resources/env.d/betterment.sh" ]] && source "$HOME/.bootstrap/resources/env.d/betterment.sh"
+
+# Homebrew shell environment — this line is intentionally kept here so that
+# bootstrap/install scripts which grep for it do not re-append it on every run.
+# brew shellenv prepends Homebrew paths to PATH, which would place them ahead of
+# mise shims. The explicit PATH re-assertion below immediately corrects that.
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Re-assert canonical PATH — mise shims must lead Homebrew paths.
+# This is the single source of truth for PATH order; ~/.bash_profile mirrors it.
+export PATH="\
+$HOME/.local/share/mise/shims:\
+$HOME/.local/bin:\
+$HOME/bin:\
+$HOME/go/bin:\
+/opt/homebrew/opt/postgresql@15/bin:\
+/opt/homebrew/opt/coreutils/libexec/gnubin:\
+/opt/homebrew/bin:\
+/opt/homebrew/sbin:\
+/usr/local/bin:\
+/usr/local/sbin:\
+/usr/bin:\
+/usr/sbin:\
+/bin:\
+/sbin:\
+$HOME/.cargo/bin"

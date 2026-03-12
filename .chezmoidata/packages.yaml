@@ -3,11 +3,13 @@ packages:
     taps:
       - nikitabobko/tap
       - FelixKratz/formulae
+      - shaunsingh/SFMono-Nerd-Font-Ligaturized
 
     # Shared brews — installed on all darwin machines
     brews:
       # Shells
       - bash
+      - bash-language-server
       - nushell
 
       # Core CLI tools
@@ -45,6 +47,8 @@ packages:
       - imagemagick
       - jq
       - lazygit
+      - lua-language-server
+      - marksman
       - magic-wormhole.rs
       - mdformat
       - mise
@@ -52,6 +56,8 @@ packages:
       - neovim
       - openssh
       - pandoc
+      - postgres-language-server
+      - typos-lsp
       - ripgrep
       - shellcheck
       - shfmt
@@ -63,6 +69,7 @@ packages:
       - unar
       - uv
       - vivid
+      - vtsls
       - watchman
       - wget
       - yazi
@@ -117,6 +124,7 @@ packages:
       - claude-code
       - docker-desktop
       - figma
+      - font-sf-mono-nerd-font-ligaturized
       - ghostty
       - hammerspoon
       - homerow

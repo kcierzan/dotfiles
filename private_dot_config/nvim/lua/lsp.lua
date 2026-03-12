@@ -129,7 +129,7 @@ function M.setup()
       if gemfile_root then
         vim.lsp.start({
           name = "ruby_lsp",
-          cmd = { "mise", "x", "-C", gemfile_root, "--", "ruby-lsp" },
+          cmd = { "mise", "x", "-C", gemfile_root, "--", "ruby", "-S", "ruby-lsp" },
           root_dir = gemfile_root,
           init_options = { formatter = "auto" },
         }, { bufnr = bufnr })
@@ -147,7 +147,7 @@ function M.setup()
       if sorbet_root then
         vim.lsp.start({
           name = "sorbet",
-          cmd = { "mise", "x", "-C", sorbet_root, "--", "bundle", "exec", "srb", "typecheck", "--lsp" },
+          cmd = { "mise", "x", "-C", sorbet_root, "--", "ruby", "-S", "bundle", "exec", "srb", "typecheck", "--lsp" },
           root_dir = sorbet_root,
 
         }, { bufnr = bufnr })

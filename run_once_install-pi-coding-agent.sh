@@ -7,3 +7,4 @@ if ! command -v npm &>/dev/null; then
 fi
 
 npm install -g @mariozechner/pi-coding-agent
+npm install -g vscode-langservers-extracted

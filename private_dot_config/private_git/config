@@ -74,6 +74,7 @@
 	followTags = true
 [init]
 	defaultBranch = main
+	templatedir = /Users/kylecierzan/.git-templates
 [pack]
 	window = 1
 
@@ -94,9 +95,11 @@
 	insteadOf = gist:
 
 [credential "https://github.com"]
-	helper = !gh auth git-credential
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = !gh auth git-credential
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gitlab.com"]
 	username = kcierzan
 

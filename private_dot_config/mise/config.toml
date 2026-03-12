@@ -11,4 +11,8 @@ go = "1.24.5"
 ruby = "3.2.3"
 
 [settings]
-idiomatic_version_file_enable_tools = ["[]"]
+idiomatic_version_file_enable_tools = ["[]", "java", "node", "python", "ruby"]
+experimental = true
+
+[settings.ruby]
+compile = true

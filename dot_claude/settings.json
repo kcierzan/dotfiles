@@ -1,4 +1,5 @@
 {
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -14,6 +15,5 @@
   },
   "enabledPlugins": {},
   "alwaysThinkingEnabled": true,
-  "effortLevel": "medium",
-  "model": "opus"
+  "effortLevel": "medium"
 }

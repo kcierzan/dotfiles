@@ -1,0 +1,135 @@
+# ~/.bash_profile — Login shell configuration
+# Loaded once per login session. Sets up PATH, exports, and secrets.
+
+# =============================================================================
+# Development tool homes — must be set before PATH so $HOME/go/bin etc. resolve
+# =============================================================================
+
+export GOPATH="$HOME/go"
+export CARGO_HOME="$HOME/.cargo"
+export RUSTUP_HOME="$HOME/.rustup"
+
+# =============================================================================
+# PATH
+# =============================================================================
+# Canonical PATH order. Mise shims must come first so mise-managed runtimes
+# take priority over Homebrew-installed versions.
+# NOTE: ~/.bashrc runs `eval "$(brew shellenv)"` for script compatibility, but
+# re-asserts this exact PATH immediately after to preserve the ordering below.
+
+export PATH="\
+$HOME/.local/share/mise/shims:\
+$HOME/.local/bin:\
+$HOME/bin:\
+$HOME/go/bin:\
+/opt/homebrew/opt/postgresql@15/bin:\
+/opt/homebrew/opt/coreutils/libexec/gnubin:\
+/opt/homebrew/bin:\
+/opt/homebrew/sbin:\
+/usr/local/bin:\
+/usr/local/sbin:\
+/usr/bin:\
+/usr/sbin:\
+/bin:\
+/sbin:\
+$HOME/.cargo/bin"
+
+# =============================================================================
+# Homebrew environment (non-PATH vars)
+# =============================================================================
+# Set these explicitly so login shells have them without relying on brew shellenv.
+# brew shellenv is still called in ~/.bashrc for interactive shell compatibility.
+{{ if eq .chezmoi.os "darwin" -}}
+export HOMEBREW_PREFIX="/opt/homebrew"
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+export HOMEBREW_REPOSITORY="/opt/homebrew"
+export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:"
+export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
+{{ end -}}
+
+# =============================================================================
+# XDG Base Directories
+# =============================================================================
+
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+
+# =============================================================================
+# Core Environment
+# =============================================================================
+
+export EDITOR="nvim"
+export VISUAL="nvim"
+export PAGER="less"
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+{{ if eq .chezmoi.os "darwin" -}}
+export BROWSER="open"
+{{ end -}}
+
+# =============================================================================
+# Terminal & Tools
+# =============================================================================
+
+export CLICOLOR=1
+export LESS="-F -g -i -M -R -S -w -X"
+export LSCOLORS="ExFxBxDxCxegedxbxgxcxd"
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+export MOZ_ENABLE_WAYLAND=1
+export BAT_THEME="base16"
+export FZF_PREVIEW_COMMAND="bat --style=numbers --color=always {}"
+export FZF_COMPLETION_TRIGGER="**"
+export MISE_LOG_LEVEL="error"
+export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY="YES"
+export LSP_USE_PLISTS="t"
+
+# =============================================================================
+# History
+# =============================================================================
+
+export HISTSIZE=50000
+export HISTFILESIZE=100000
+export HISTCONTROL="ignoredups:ignorespace:erasedups"
+export HISTIGNORE="ls:cd:exit:clear:bg:fg"
+
+# =============================================================================
+# FZF
+# =============================================================================
+
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git"
+export FZF_DEFAULT_OPTS="--border --height=100% --inline-info --prompt='> ' --pointer='> ' --marker='* ' --bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down --preview-window='right,border-left,<70(up,66%,border-bottom)'"
+
+# =============================================================================
+# Build flags (macOS homebrew libffi, etc.)
+# =============================================================================
+{{ if eq .chezmoi.os "darwin" -}}
+export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
+{{ end -}}
+
+# =============================================================================
+# Secrets
+# =============================================================================
+
+# API keys and other sensitive values are stored in a separate age-encrypted
+# file managed by chezmoi. Source it here if present.
+[ -f ~/.bash_secrets ] && source ~/.bash_secrets
+
+# GitHub tokens (lazy — only if gh is available)
+if command -v gh >/dev/null 2>&1; then
+  if [ -z "$GITHUB_TOKEN" ]; then
+    GITHUB_TOKEN="$(gh auth token 2>/dev/null)" && export GITHUB_TOKEN
+  fi
+  if [ -z "$HOMEBREW_GITHUB_API_TOKEN" ]; then
+    HOMEBREW_GITHUB_API_TOKEN="$(gh auth token 2>/dev/null)" && export HOMEBREW_GITHUB_API_TOKEN
+  fi
+fi
+
+# =============================================================================
+# Source interactive config
+# =============================================================================
+
+[ -f ~/.bashrc ] && source ~/.bashrc
