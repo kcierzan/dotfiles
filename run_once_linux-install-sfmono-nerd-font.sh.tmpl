@@ -1,0 +1,28 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+FONT_DIR="$HOME/.local/share/fonts"
+FONT_MARKER="$FONT_DIR/SFMonoNerdFontLigaturized-Regular.otf"
+
+if [ -f "$FONT_MARKER" ]; then
+  echo "Liga SFMono Nerd Font already installed, skipping"
+  exit 0
+fi
+
+echo "Installing Liga SFMono Nerd Font..."
+
+TMPDIR="$(mktemp -d)"
+trap 'rm -rf "$TMPDIR"' EXIT
+
+git clone --depth=1 https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git "$TMPDIR/SFMono-Nerd-Font-Ligaturized"
+
+mkdir -p "$FONT_DIR"
+cp "$TMPDIR/SFMono-Nerd-Font-Ligaturized/"*.otf "$FONT_DIR/"
+
+if command -v fc-cache >/dev/null 2>&1; then
+  fc-cache -f "$FONT_DIR"
+fi
+
+echo "Liga SFMono Nerd Font installed to $FONT_DIR"
+{{ end -}}

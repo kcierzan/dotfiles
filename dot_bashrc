@@ -2,7 +2,7 @@
 # Sourced on every interactive shell. Aliases, functions, tool integrations.
 
 # Exit early if non-interactive
-[[ $- != *i* ]] && return
+# [[ $- != *i* ]] && return
 
 # =============================================================================
 # SHELL OPTIONS
