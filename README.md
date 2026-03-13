@@ -59,7 +59,7 @@ chezmoi init --apply https://github.com/kcierzan/dotfiles.git
 
 This will:
 1. Clone the repo to `~/.local/share/chezmoi`
-2. Prompt for the **age passphrase** to decrypt the private encryption key (see [Encryption](#encryption) below)
+2. Fetch the **age private key** from 1Password automatically (no passphrase prompt — see [Encryption](#encryption))
 3. On macOS, install Homebrew if missing
 4. Run `brew bundle` to install all packages
 5. Apply all dotfiles and run one-time setup scripts
@@ -81,17 +81,47 @@ Then re-run `chezmoi apply` to pick up profile-specific packages and configs.
 
 ## Encryption
 
-Sensitive files (`.bash_profile`, `nushell/config.nu`) are encrypted with [age](https://age-encryption.org) and committed to the repo as `.age` files.
+Sensitive files (shell secrets, fonts) are encrypted with [age](https://age-encryption.org) and committed to the repo as `.age` files.
 
 ### How it works
 
-- The **age private key** itself is stored encrypted in the repo as `chezmoi-key.txt.age`, locked with a **passphrase** (not a key file).
-- On first apply, chezmoi runs `run_once_before_decrypt-private-key.sh.tmpl`, which prompts for that passphrase and decrypts the private key to `~/.config/chezmoi/chezmoi-key.txt`.
-- All subsequent decryption of secrets happens automatically using that key.
+This repo uses **asymmetric age encryption**:
 
-### First-time passphrase
+- An age keypair is generated once: `age-keygen`. The **public key** (recipient) lives in `~/.config/chezmoi/chezmoi.toml`. The **private key** lives only in 1Password — it is never committed to the repo.
+- On first apply, `run_once_before_decrypt-private-key.sh.tmpl` fetches the private key from 1Password (`op://personal/chezmoi-age-key/private-key`) and writes it to `~/.config/chezmoi/chezmoi-key.txt` (mode `600`).
+- All subsequent decryption happens automatically using that key. No passphrase is ever prompted.
 
-The passphrase for `chezmoi-key.txt.age` is stored in **1Password**. Retrieve it from your vault before running `chezmoi init`.
+This means the repo can be public without enabling offline attacks: there is no key material in the repo at all, only ciphertext and a public key.
+
+### Bootstrap a new machine
+
+The key prerequisite is that the 1Password CLI is authenticated **before** `chezmoi init` runs:
+
+```sh
+# 1. Install 1Password CLI
+brew install 1password-cli   # macOS
+# paru -S 1password-cli      # Arch
+
+# 2. Sign in — this must succeed before chezmoi init
+op signin
+
+# 3. chezmoi fetches the age key automatically, then applies everything
+chezmoi init --apply https://github.com/kcierzan/dotfiles.git
+```
+
+If `op` is not signed in when chezmoi runs, the bootstrap script exits with a clear error.
+
+### Storing the private key in 1Password
+
+The private key must exist at `op://personal/chezmoi-age-key/private-key` before bootstrapping a new machine. To store it:
+
+```sh
+# View your existing private key
+cat ~/.config/chezmoi/chezmoi-key.txt
+
+# In 1Password: create a new item called "chezmoi-age-key" in your Personal vault.
+# Add a password field named "private-key" and paste the key contents there.
+```
 
 ### Adding a new encrypted file
 
@@ -100,16 +130,16 @@ The passphrase for `chezmoi-key.txt.age` is stored in **1Password**. Retrieve it
 chezmoi add --encrypt ~/path/to/secret-file
 
 # Edit an already-encrypted file
-chezmoi edit ~/.bash_profile
+chezmoi edit ~/.bash_secrets
 ```
 
 ### Rotating the key
 
-1. Generate a new age key: `age-keygen -o new-key.txt`
-2. Re-encrypt `chezmoi-key.txt.age` with the new passphrase: `age -p -o chezmoi-key.txt.age new-key.txt`
-3. Re-encrypt all `.age` secrets in the repo with the new recipient.
-4. Update `recipient` in `~/.config/chezmoi/chezmoi.toml`.
-5. Store the new passphrase in 1Password.
+1. Generate a new age key: `age-keygen -o ~/.config/chezmoi/chezmoi-key.txt`
+2. Update `recipient` in `~/.config/chezmoi/chezmoi.toml` with the new public key printed by `age-keygen`.
+3. Re-encrypt all `.age` secrets: for each file, run `chezmoi edit <target>` (chezmoi re-encrypts with the new recipient on save) or manually: `chezmoi decrypt <src.age> | chezmoi encrypt > <new-src.age>`.
+4. Update the stored private key in 1Password.
+5. Push the updated `.age` files and `chezmoi.toml` recipient.
 
 ---
 

@@ -269,9 +269,11 @@ def fkill [] {
 def ff [] { fuzzy_find_files }
 def fg [] { fuzzy_grep_files }
 
+# JIRA_OP_PATH must be set in secrets.nu, e.g.:
+#   $env.JIRA_OP_PATH = "op://Employee/jira-token/credential"
 def --env --wrapped jira [...args] {
   if ($env.JIRA_API_TOKEN? | is-empty) {
-    $env.JIRA_API_TOKEN = (op --account E2AT3Z6NBVDHLLH477TOQTPAUU read op://Employee/jira-token/credential | str trim)
+    $env.JIRA_API_TOKEN = (op read $env.JIRA_OP_PATH | str trim)
   }
   $env.JIRA_PAGER = "less -+F"
   ^jira ...$args

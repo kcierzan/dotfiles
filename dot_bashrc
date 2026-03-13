@@ -161,9 +161,11 @@ fkill() {
 }
 
 # Jira wrapper with 1Password token
+# JIRA_OP_PATH must be set in ~/.bash_secrets, e.g.:
+#   export JIRA_OP_PATH="op://Employee/jira-token/credential"
 jira() {
   if [ -z "$JIRA_API_TOKEN" ]; then
-    export JIRA_API_TOKEN="$(op --account E2AT3Z6NBVDHLLH477TOQTPAUU read op://Employee/jira-token/credential)"
+    export JIRA_API_TOKEN="$(op read "${JIRA_OP_PATH}")"
   fi
   export JIRA_PAGER="less -+F"
   /opt/homebrew/bin/jira "$@"

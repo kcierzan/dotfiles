@@ -1,5 +1,4 @@
 .DS_Store
-chezmoi-key.txt.age
 MIGRATION.md
 
 {{- if eq .chezmoi.os "linux" }}

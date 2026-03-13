@@ -1,7 +1,32 @@
 #!/bin/sh
+# Bootstrap the age private key from 1Password.
+#
+# The private key is NOT stored in the repo. It lives in 1Password at:
+#   op://personal/chezmoi-age-key/private-key
+#
+# Prerequisites on a fresh machine:
+#   1. Install the 1Password CLI  →  brew install 1password-cli  (or paru -S 1password-cli)
+#   2. Sign in                    →  op signin
+#   3. Run chezmoi init --apply   →  this script fires automatically
+#
+# The key is written to ~/.config/chezmoi/chezmoi-key.txt (mode 600) and
+# never leaves that location. chezmoi reads it from there for all subsequent
+# decryption operations.
 
-if [ ! -f "{{ .chezmoi.destDir }}/.config/chezmoi/chezmoi-key.txt" ]; then
-    mkdir -p "{{ .chezmoi.destDir }}/.config/chezmoi"
-    chezmoi age decrypt --output "{{ .chezmoi.destDir }}/.config/chezmoi/chezmoi-key.txt" --passphrase "{{ .chezmoi.sourceDir }}/chezmoi-key.txt.age"
-    chmod 600 "{{ .chezmoi.destDir }}/.config/chezmoi/chezmoi-key.txt"
+KEY_PATH="{{ .chezmoi.destDir }}/.config/chezmoi/chezmoi-key.txt"
+
+if [ -f "$KEY_PATH" ]; then
+  exit 0
 fi
+
+if ! command -v op >/dev/null 2>&1; then
+  echo "ERROR: 1Password CLI (op) is required to bootstrap this dotfiles repo." >&2
+  echo "  macOS:      brew install 1password-cli && op signin" >&2
+  echo "  Arch Linux: paru -S 1password-cli && op signin" >&2
+  exit 1
+fi
+
+mkdir -p "{{ .chezmoi.destDir }}/.config/chezmoi"
+op read "op://personal/chezmoi-age-key/private-key" > "$KEY_PATH"
+chmod 600 "$KEY_PATH"
+echo "Age private key installed from 1Password."

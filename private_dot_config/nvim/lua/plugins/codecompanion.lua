@@ -45,7 +45,9 @@ return {
         claude_code = function()
           return require("codecompanion.adapters").extend("claude_code", {
             env = {
-              CLAUDE_CODE_OAUTH_TOKEN = "cmd:op read op://personal/claude-pro-token/credential --no-newline",
+              -- CLAUDE_CODE_OP_PATH must be set in ~/.bash_secrets, e.g.:
+              --   export CLAUDE_CODE_OP_PATH="op://personal/claude-pro-token/credential"
+              CLAUDE_CODE_OAUTH_TOKEN = "cmd:op read \"$CLAUDE_CODE_OP_PATH\" --no-newline",
             },
           })
         end,
