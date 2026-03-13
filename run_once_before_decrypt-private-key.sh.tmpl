@@ -2,7 +2,7 @@
 # Bootstrap the age private key from 1Password.
 #
 # The private key is NOT stored in the repo. It lives in 1Password at:
-#   op://personal/chezmoi-age-key/private-key
+#   op://personal/chezmoi-age-key/password
 #
 # Prerequisites on a fresh machine:
 #   1. Install the 1Password CLI  →  brew install 1password-cli  (or paru -S 1password-cli)
@@ -27,6 +27,6 @@ if ! command -v op >/dev/null 2>&1; then
 fi
 
 mkdir -p "{{ .chezmoi.destDir }}/.config/chezmoi"
-op read "op://personal/chezmoi-age-key/private-key" > "$KEY_PATH"
+op read "op://personal/chezmoi-age-key/password" > "$KEY_PATH"
 chmod 600 "$KEY_PATH"
 echo "Age private key installed from 1Password."

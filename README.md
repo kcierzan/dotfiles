@@ -88,7 +88,7 @@ Sensitive files (shell secrets, fonts) are encrypted with [age](https://age-encr
 This repo uses **asymmetric age encryption**:
 
 - An age keypair is generated once: `age-keygen`. The **public key** (recipient) lives in `~/.config/chezmoi/chezmoi.toml`. The **private key** lives only in 1Password — it is never committed to the repo.
-- On first apply, `run_once_before_decrypt-private-key.sh.tmpl` fetches the private key from 1Password (`op://personal/chezmoi-age-key/private-key`) and writes it to `~/.config/chezmoi/chezmoi-key.txt` (mode `600`).
+- On first apply, `run_once_before_decrypt-private-key.sh.tmpl` fetches the private key from 1Password (`op://personal/chezmoi-age-key/password`) and writes it to `~/.config/chezmoi/chezmoi-key.txt` (mode `600`).
 - All subsequent decryption happens automatically using that key. No passphrase is ever prompted.
 
 This means the repo can be public without enabling offline attacks: there is no key material in the repo at all, only ciphertext and a public key.
@@ -120,7 +120,7 @@ The private key must exist at `op://personal/chezmoi-age-key/private-key` before
 cat ~/.config/chezmoi/chezmoi-key.txt
 
 # In 1Password: create a new item called "chezmoi-age-key" in your Personal vault.
-# Add a password field named "private-key" and paste the key contents there.
+# The default "password" field should contain only the AGE-SECRET-KEY-... line.
 ```
 
 ### Adding a new encrypted file
