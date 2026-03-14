@@ -1,7 +1,7 @@
 return {
   "zbirenbaum/copilot.lua",
   dependencies = { "copilotlsp-nvim/copilot-lsp" },
-  enabled = false,
+  enabled = true,
   event = "VeryLazy",
   cmd = "Copilot",
   opts = {

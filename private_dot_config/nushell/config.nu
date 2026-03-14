@@ -135,7 +135,7 @@ $env.config = {
       modifier: control
       keycode: char_t
       mode: [emacs, vi_insert, vi_normal]
-      event: [{ send: ExecuteHostCommand, cmd: "commandline edit --insert (fd --type f --hidden --exclude .git | fzf --height=40% --preview 'go-preview {}' | str trim)" }]
+      event: [{ send: ExecuteHostCommand, cmd: "commandline edit --insert (fd --type f --hidden --exclude .git | fzf --height=40% --preview 'bat --color=always --style=numbers,changes {}' | str trim)" }]
     }
     {
       name: fuzzy_directory
@@ -149,14 +149,14 @@ $env.config = {
       modifier: alt
       keycode: char_g
       mode: [emacs, vi_insert, vi_normal]
-      event: [{ send: ExecuteHostCommand, cmd: "tv text" }]
+      event: [{ send: ExecuteHostCommand, cmd: "fuzzy_grep_files" }]
     }
     {
       name: fuzzy_find_files
       modifier: alt
       keycode: char_p
       mode: [emacs, vi_insert, vi_normal]
-      event: [{ send: ExecuteHostCommand, cmd: "tv files" }]
+      event: [{ send: ExecuteHostCommand, cmd: "fuzzy_find_files" }]
     }
     {
       name: fuzzy_recent_dir
@@ -221,7 +221,7 @@ def open_file_at_line [file: string, line: int] {
 def fuzzy_grep_files [] {
   let selected = (
     rg -n --hidden --glob "!.git" --glob "!node_modules" --glob "!env" --glob "!*.pyc" --glob "!*.dmp" --glob "!*.rbi" ""
-    | fzf +m --exit-0 --delimiter ":" --nth "3.." --preview "go-preview {}" --preview-window "right,border-left,<70(up,66%,border-bottom)" --bind "alt-enter:execute(zed {1}:{2})+abort"
+    | fzf +m --exit-0 --delimiter ":" --nth "3.." --preview "bat --color=always --style=numbers --highlight-line {2} {1}" --preview-window "right,border-left,<70(up,66%,border-bottom)" --bind "alt-enter:execute(zed {1}:{2})+abort"
     | str trim
   )
   if ($selected | is-not-empty) {
@@ -233,9 +233,12 @@ def fuzzy_grep_files [] {
 }
 
 def fuzzy_find_files [] {
+  let bat_preview = "bat --color=always --style=numbers,changes {}"
+  # ctrl-h toggles hidden files on/off; state is tracked via the prompt text
+  let toggle_hidden = "ctrl-h:transform:if echo {fzf_prompt} | grep -q '(all)'; then echo 'reload(fd --strip-cwd-prefix --type f --no-hidden --exclude .git --exclude node_modules --exclude tmp --exclude .idea --exclude .vscode --exclude .keep .)+change-prompt(files> )'; else echo 'reload(fd --strip-cwd-prefix --type f --hidden --exclude .git --exclude node_modules --exclude tmp --exclude .idea --exclude .vscode --exclude .keep .)+change-prompt(files (all)> )'; fi"
   let files = (
     fd --strip-cwd-prefix --hidden --type f --exclude "*.jpg" --exclude ".git" --exclude ".idea" --exclude ".keep" --exclude ".vscode" --exclude "node_modules" --exclude "tmp" --exclude "*.map" --exclude "*.pdf" --exclude "*.png" --exclude "*.pyc" --exclude "*.rbi" "."
-    | fzf --multi --exit-0 --preview "go-preview {}" --preview-window "right,border-left,<70(up,66%,border-bottom)" --bind "alt-enter:execute(zed {})+abort"
+    | fzf --multi --exit-0 --prompt "files (all)> " --preview $bat_preview --preview-window "right,border-left,<70(up,66%,border-bottom)" --bind $toggle_hidden --bind "alt-enter:execute(zed {})+abort"
     | str trim
   )
   if ($files | is-not-empty) {
@@ -281,14 +284,41 @@ def --env --wrapped jira [...args] {
 
 const monorepo_path = "~/src/for_business"
 
+# Fuzzy-pick a Rails app in the monorepo (identified by Gemfile presence).
+# Must be called from within $monorepo_path.
+def fuzzy_mise_apps []: nothing -> string {
+  fd --max-depth 2 --type f -g "Gemfile" .
+  | lines
+  | each { |p| $p | path dirname | path basename }
+  | sort
+  | str join (char newline)
+  | fzf --ansi --prompt "app> "
+      --preview "eza -1 --color=always {}"
+      --preview-window "right,border-left,<70(up,66%,border-bottom)"
+  | str trim
+}
+
+# Fuzzy-pick a mise task. Preview shows the task's TOML definition via bat.
+# Must be called from within $monorepo_path.
+def fuzzy_mise_tasks []: nothing -> string {
+  # --delimiter '\s\s+' splits on 2+ spaces so {1}=name, {2}=description
+  mise tasks
+  | fzf --ansi --prompt "task> " --delimiter "\\s\\s+" --nth 1
+      --preview "grep -A 8 -E '^\\[tasks\\.\"?{1}\"?\\]' $HOME/src/for_business/mise.local.toml | bat --color=always --style=plain --language=toml"
+      --preview-window "right,border-left,<70(up,66%,border-bottom)"
+  | str trim
+  | split words
+  | first
+}
+
 def run-task [--all, --watch] {
   cd $monorepo_path
   let app = if $all { null } else {
-    let picked = (tv mise-apps | str trim)
+    let picked = (fuzzy_mise_apps)
     if ($picked | is-empty) { return }
     $picked
   }
-  let task = (tv mise-tasks | str trim)
+  let task = (fuzzy_mise_tasks)
   if ($task | is-empty) { return }
   let cmd = if $watch { "watch" } else { "run" }
   if $app != null {
@@ -300,11 +330,11 @@ def run-task [--all, --watch] {
   }
 }
 
-def tasks [] { cd $monorepo_path; tv mise-tasks }
+def tasks [] { cd $monorepo_path; fuzzy_mise_tasks }
 
 def checks [] {
   cd $monorepo_path
-  let app = (tv mise-apps | str trim)
+  let app = (fuzzy_mise_apps)
   if ($app | is-empty) { return }
   with-env { APP: $app } { zellij --layout checks }
 }

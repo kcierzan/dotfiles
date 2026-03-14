@@ -1,0 +1,18 @@
+encryption = "age"
+
+[age]
+    identity = "~/.config/chezmoi/chezmoi-key.txt"
+    recipient = "age1h70epannavmg58f2ptjelwqx0lpm47w6z8qwp2dwh76fe7sr3f4ssta0hw"
+
+[hooks.read-source-state.pre]
+    command = ".local/share/chezmoi/.install-1password-cli.sh"
+
+[data]
+{{- if eq .chezmoi.os "darwin" }}
+    bin_directory = "/opt/homebrew/bin"
+    zed_binary = "zed"
+{{- else }}
+    bin_directory = "/usr/bin"
+    zed_binary = "zeditor"
+{{- end }}
+    profile = "{{ promptStringOnce . "profile" "Profile (work/personal)" }}"
