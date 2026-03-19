@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Only run on macOS — Hammerspoon is Darwin-only
+[[ "$(uname)" == "Darwin" ]] || exit 0
+
 # Download Hammerspoon Spoons from GitHub
 SPOONS_DIR="$HOME/.hammerspoon/Spoons"
 mkdir -p "$SPOONS_DIR"

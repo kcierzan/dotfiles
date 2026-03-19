@@ -63,7 +63,6 @@ packages:
       - shfmt
       - starship
       - tailscale
-      - television
       - tree
       - tree-sitter
       - unar
@@ -182,7 +181,6 @@ packages:
       - git
       - git-lfs
       - gnome-keyring
-      - grub
       - htop
       - hyperfine
       - inotify-tools
@@ -194,7 +192,6 @@ packages:
       - linux-headers
       - lvm2
       - magic-wormhole
-      - mako
       - man-db
       - mpv
       - networkmanager
@@ -212,6 +209,7 @@ packages:
       - seahorse
       - syncthing-app
       - tree-sitter
+      - tree-sitter-cli
       - ttf-joypixels
       - unzip
       - vulkan-radeon
@@ -226,7 +224,6 @@ packages:
       - ddcci-driver-linux-dkms-git
       - exercism-bin
       - google-chrome
-      - helix
       - mise
       - mosh
       - nushell
@@ -237,5 +234,6 @@ packages:
       - rar
       - starship
       - sxiv-git
+      - zig
       - zen-browser-bin
       - zed

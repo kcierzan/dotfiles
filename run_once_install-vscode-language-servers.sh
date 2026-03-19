@@ -7,8 +7,7 @@ if ! command -v npm &>/dev/null; then
 fi
 
 if [[ "$(uname)" == "Linux" ]]; then
-  sudo npm install -g @mariozechner/pi-coding-agent --force
+  sudo npm install -g vscode-langservers-extracted
 else
-  npm install -g @mariozechner/pi-coding-agent
+  npm install -g vscode-langservers-extracted
 fi
-

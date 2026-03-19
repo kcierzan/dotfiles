@@ -74,7 +74,7 @@
 	followTags = true
 [init]
 	defaultBranch = main
-	templatedir = /Users/kylecierzan/.git-templates
+	templatedir = {{ .chezmoi.homeDir }}/.git-templates
 [pack]
 	window = 1
 
@@ -96,10 +96,10 @@
 
 [credential "https://github.com"]
 	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = !{{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/gh{{ else }}/usr/bin/gh{{ end }} auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = !{{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/gh{{ else }}/usr/bin/gh{{ end }} auth git-credential
 [credential "https://gitlab.com"]
 	username = kcierzan
 

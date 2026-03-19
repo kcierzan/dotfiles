@@ -287,28 +287,32 @@ const monorepo_path = "~/src/for_business"
 # Fuzzy-pick a Rails app in the monorepo (identified by Gemfile presence).
 # Must be called from within $monorepo_path.
 def fuzzy_mise_apps []: nothing -> string {
-  fd --max-depth 2 --type f -g "Gemfile" .
-  | lines
-  | each { |p| $p | path dirname | path basename }
-  | sort
-  | str join (char newline)
-  | fzf --ansi --prompt "app> "
-      --preview "eza -1 --color=always {}"
-      --preview-window "right,border-left,<70(up,66%,border-bottom)"
-  | str trim
+  (
+    fd --max-depth 2 --type f -g "Gemfile" .
+    | lines
+    | each { |p| $p | path dirname | path basename }
+    | sort
+    | str join (char newline)
+    | fzf --ansi --prompt "app> "
+        --preview "eza -1 --color=always {}"
+        --preview-window "right,border-left,<70(up,66%,border-bottom)"
+    | str trim
+  )
 }
 
 # Fuzzy-pick a mise task. Preview shows the task's TOML definition via bat.
 # Must be called from within $monorepo_path.
 def fuzzy_mise_tasks []: nothing -> string {
   # --delimiter '\s\s+' splits on 2+ spaces so {1}=name, {2}=description
-  mise tasks
-  | fzf --ansi --prompt "task> " --delimiter "\\s\\s+" --nth 1
-      --preview "grep -A 8 -E '^\\[tasks\\.\"?{1}\"?\\]' $HOME/src/for_business/mise.local.toml | bat --color=always --style=plain --language=toml"
-      --preview-window "right,border-left,<70(up,66%,border-bottom)"
-  | str trim
-  | split words
-  | first
+  (
+    mise tasks
+    | fzf --ansi --prompt "task> " --delimiter "\\s\\s+" --nth 1
+        --preview "grep -A 8 -E '^\\[tasks\\.\"?{1}\"?\\]' $HOME/src/for_business/mise.local.toml | bat --color=always --style=plain --language=toml"
+        --preview-window "right,border-left,<70(up,66%,border-bottom)"
+    | str trim
+    | split words
+    | first
+  )
 }
 
 def run-task [--all, --watch] {
@@ -337,6 +341,59 @@ def checks [] {
   let app = (fuzzy_mise_apps)
   if ($app | is-empty) { return }
   with-env { APP: $app } { zellij --layout checks }
+}
+
+# Switch the active chezmoi color theme interactively via fzf.
+# Reads available themes from ~/.local/share/chezmoi/.chezmoidata/themes.yaml,
+# prompts with fzf, writes the selection to theme.yaml, then runs chezmoi apply.
+def theme-switch [] {
+  let themes_file = ($env.HOME | path join ".local/share/chezmoi/.chezmoidata/themes.yaml")
+  let theme_file  = ($env.HOME | path join ".local/share/chezmoi/.chezmoidata/theme.yaml")
+
+  # Build a list of "key  |  Display Name" lines for fzf
+  let themes = (open $themes_file | get themes | transpose key value
+    | each { |row| $"($row.key)\t($row.value.name)" })
+
+  # Prompt with fzf; display "Name  (key)" in the menu
+  let selection = (
+    $themes
+    | to text
+    | fzf
+        --with-nth 2..
+        --delimiter "\t"
+        --prompt "Theme > "
+        --no-preview
+    | str trim
+  )
+
+  if ($selection | is-empty) {
+    print "No theme selected."
+    return
+  }
+
+  let theme_key = ($selection | split column "\t" key name | get key.0)
+
+  # Re-write theme.yaml, preserving the comment header
+  let header = "# Global theme selector
+# Change this value to switch the active color theme across all managed apps.
+# Available themes are defined in themes.yaml (ported from nix-darwin themes/).
+# Run `chezmoi apply` after changing to regenerate all themed config files.
+#
+# Example values:
+#   oxocarbon-dark, oxocarbon-light
+#   tokyo-night-moon
+#   gruvbox-material-dark-medium, gruvbox-material-light-medium
+#   everforest-dark-medium
+#   doom-one, doom-dracula, doom-gruvbox, doom-nord, doom-monokai-pro
+#   dracula, dracula-pro
+#   monokai-pro, monokai-classic
+#   modus-vivendi-dark, modus-vivendi-tinted, modus-operandi-tinted"
+
+  $"($header)\ntheme: ($theme_key)\n" | save --force $theme_file
+
+  print $"(ansi green)Theme set to:(ansi reset) ($theme_key)"
+  print $"(ansi cyan)Running chezmoi apply…(ansi reset)"
+  chezmoi apply
 }
 
 source ~/.config/nushell/zoxide.nu

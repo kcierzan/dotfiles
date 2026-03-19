@@ -210,7 +210,9 @@ command -v carapace >/dev/null 2>&1 && {
 # bootstrap/install scripts which grep for it do not re-append it on every run.
 # brew shellenv prepends Homebrew paths to PATH, which would place them ahead of
 # mise shims. The explicit PATH re-assertion below immediately corrects that.
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [[ "$(uname)" == "Darwin" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # Re-assert canonical PATH — mise shims must lead Homebrew paths.
 # This is the single source of truth for PATH order; ~/.bash_profile mirrors it.
