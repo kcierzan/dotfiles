@@ -30,8 +30,19 @@ alias zen = ^open -a "Zen Browser (Beta)" --args -P default
 
 use secrets.nu
 
+let fzf_options = [
+    "--border",
+    "--height=100%",
+    "--inline-info",
+    "--prompt='> '",
+    "--pointer='> '",
+    "--marker='* '",
+    "--bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down",
+    "--preview-window='right,border-left,<70(up,66%,border-bottom)'"
+  ]
+
 # FZF
-$env.FZF_DEFAULT_OPTS = "--border --height=100% --inline-info --prompt='> ' --pointer='> ' --marker='* ' --bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down --preview-window='right,border-left,<70(up,66%,border-bottom)'"
+$env.FZF_DEFAULT_OPTS = $fzf_options | str join " "
 
 # Lazy-load GitHub token
 def --env ensure_github_token [] {
@@ -307,8 +318,8 @@ def fuzzy_mise_tasks []: nothing -> string {
   (
     mise tasks
     | fzf --ansi --prompt "task> " --delimiter "\\s\\s+" --nth 1
-        --preview "grep -A 8 -E '^\\[tasks\\.\"?{1}\"?\\]' $HOME/src/for_business/mise.local.toml | bat --color=always --style=plain --language=toml"
-        --preview-window "right,border-left,<70(up,66%,border-bottom)"
+          --preview "grep -A 8 -E '^\\[tasks\\.\"?{1}\"?\\]' $HOME/src/for_business/mise.local.toml | bat --color=always --style=plain --language=toml"
+          --preview-window "right,border-left,<70(up,66%,border-bottom)"
     | str trim
     | split words
     | first

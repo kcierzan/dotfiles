@@ -11,6 +11,7 @@ function M.setup()
     "emmet_language_server",
     "golangci_lint_ls",
     "gopls",
+    "harper-ls",
     "html",
     -- "jsonls",
     "lua_ls",
@@ -24,7 +25,7 @@ function M.setup()
     "tailwindcss",
     "templ",
     "ty",
-    "typos_lsp",
+    -- "typos_lsp",
     "vtsls",
     "vscode-html-language-server",
     "vscode-css-language-server",
@@ -83,6 +84,10 @@ function M.setup()
       documentFormattingProvider = false,
       documentRangeFormattingProvider = false,
     },
+  })
+  vim.lsp.config("harper-ls", {
+    filetypes = { "markdown" },
+    cmd = { "harper-ls", "--stdio" },
   })
   vim.lsp.config("lua_ls", {
     settings = {

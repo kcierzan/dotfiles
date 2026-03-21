@@ -34,7 +34,23 @@ sh -c "$(curl -fsLS get.chezmoi.io)"
 pacman -S chezmoi git
 ```
 
-### 2. Install 1Password CLI
+### 2. Install Git LFS
+
+Encrypted font files are tracked with Git LFS. It must be installed **before** `chezmoi init` so the clone smudges LFS pointers into real files.
+
+**macOS:**
+```sh
+brew install git-lfs
+git lfs install
+```
+
+**Arch Linux:**
+```sh
+pacman -S git-lfs
+git lfs install
+```
+
+### 3. Install 1Password CLI
 
 Secrets are pulled from 1Password at apply time. Install the CLI before initializing chezmoi so the pre-read hook can run.
 
@@ -51,7 +67,7 @@ paru -S 1password-cli
 op signin
 ```
 
-### 3. Initialize and apply
+### 4. Initialize and apply
 
 ```sh
 chezmoi init --apply https://github.com/kcierzan/dotfiles.git
@@ -65,17 +81,6 @@ This will:
 5. Apply all dotfiles and run one-time setup scripts
 
 > **Note:** The full apply can take a while on a fresh machine — Homebrew and all packages need to install first.
-
-### 4. Set the work/personal profile
-
-Package installs and some configs are gated on a `profile` data key. After initializing, edit `~/.config/chezmoi/chezmoi.toml` and set:
-
-```toml
-[data]
-  profile = "work"   # or "personal"
-```
-
-Then re-run `chezmoi apply` to pick up profile-specific packages and configs.
 
 ---
 

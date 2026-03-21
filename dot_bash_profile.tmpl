@@ -97,9 +97,26 @@ export HISTIGNORE="ls:cd:exit:clear:bg:fg"
 # =============================================================================
 # FZF
 # =============================================================================
+fzf_ops=(
+  --border
+  --height=100%
+  --inline-info
+  --prompt='> '
+  --pointer='> '
+  --marker='* '
+  --bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down
+  --preview-window='right,border-left,<70(up,66%,border-bottom)'
+)
 
-export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git"
-export FZF_DEFAULT_OPTS="--border --height=100% --inline-info --prompt='> ' --pointer='> ' --marker='* ' --bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down --preview-window='right,border-left,<70(up,66%,border-bottom)'"
+fzf_default_command=(
+  fd
+  --type f
+  --hidden
+  --exclude .git
+)
+
+export FZF_DEFAULT_COMMAND="${fzf_default_command[@]}"
+export FZF_DEFAULT_OPTS="${fzf_ops[@]}"
 
 # =============================================================================
 # Build flags (macOS homebrew libffi, etc.)

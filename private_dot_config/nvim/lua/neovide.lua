@@ -15,6 +15,7 @@ local function set_config_vars()
   vim.g.neovide_padding_right = 20
   vim.g.neovide_padding_left = 20
   vim.opt.linespace = 12
+  vim.opt.guifont = "Liga SFMono Nerd Font"
 end
 
 local function set_keybinds()

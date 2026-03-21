@@ -31,6 +31,7 @@ function M.new(palette)
         templ = "{} ",
         ty = " ",
         typos_lsp = "󰓆 ",
+        ["harper-ls"] = " ",
         vtsls = " ",
         zls = " ",
       }
