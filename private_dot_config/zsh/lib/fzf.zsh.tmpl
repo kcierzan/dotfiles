@@ -11,9 +11,9 @@ if (( $+commands[fzf] )); then
     --border
     --height=100%
     --inline-info
-    --prompt='\> '
-    --pointer='\> '
-    --marker='* '
+    --prompt='❯ '
+    --pointer='❯ '
+    --marker='✔ '
     --bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down
     --preview-window='right,border-left,<70(up,66%,border-bottom)'
   )
@@ -54,6 +54,7 @@ if (( $+commands[fzf] )); then
       fzf +m --exit-0 --delimiter ":" --nth "3.." \
         --preview 'bat --color=always --style=numbers --highlight-line {2} {1}' \
         --preview-window 'right,border-left,<70(up,66%,border-bottom)' \
+        --prompt 'text ❯ ' \
         --bind 'alt-enter:execute(zed {1}:{2})+abort')
 
     [[ -z "$selected" ]] && return
@@ -83,12 +84,12 @@ if (( $+commands[fzf] )); then
     local fd_visible="$fd_base --no-hidden ."
     local fd_hidden="$fd_base --hidden ."
 
-    local toggle_hidden="ctrl-h:transform:if printf %s \"\$FZF_PROMPT\" | grep -Fq '[hidden]'; then echo 'reload($fd_visible)+change-prompt(files> )'; else echo 'reload($fd_hidden)+change-prompt(files [hidden]> )'; fi"
+    local toggle_hidden="ctrl-h:transform:if printf %s \"\$FZF_PROMPT\" | grep -Fq '[hidden]'; then echo 'reload($fd_visible)+change-prompt(files ❯ )'; else echo 'reload($fd_hidden)+change-prompt(files [hidden] ❯ )'; fi"
 
     local files
     files=$(fd --strip-cwd-prefix --type f "${exclude_args[@]}" --no-hidden . |
       fzf --multi --exit-0 \
-        --prompt 'files> ' \
+        --prompt 'files ❯ ' \
         --header 'ctrl-h: toggle hidden files' \
         --preview 'bat --color=always --style=numbers,changes {}' \
         --preview-window 'right,border-left,<70(up,66%,border-bottom)' \
@@ -105,6 +106,7 @@ if (( $+commands[fzf] )); then
     pids=$(ps -ef | sed 1d | fzf --multi \
       --preview 'echo {}' --preview-window=up:3:wrap \
       --header 'Enter: SIGTERM | Alt-Enter: SIGKILL' \
+      --prompt 'processes ❯ ' \
       --expect=alt-enter)
 
     [[ -z "$pids" ]] && return
