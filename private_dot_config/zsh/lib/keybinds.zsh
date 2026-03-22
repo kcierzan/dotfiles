@@ -1,4 +1,5 @@
-  bindkey -e
+  bindkey -e  # use emacs keybinds
+
   bindkey '^[[1;5C' forward-word
   bindkey '^[[1;5D' backward-word
   bindkey '^[[Z' reverse-menu-complete
@@ -12,3 +13,6 @@
   bindkey '^[p' fuzzy-find-files-widget   # Alt-p: fuzzy find files
   bindkey '^[g' fuzzy-grep-files-widget   # Alt-g: fuzzy grep
   bindkey '^[v' lazygit-widget            # Alt-v: lazygit
+
+  zle -N _zoxide-zi-widget
+  bindkey '^[j' _zoxide-zi-widget

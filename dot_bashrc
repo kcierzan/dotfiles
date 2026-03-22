@@ -14,14 +14,6 @@ shopt -s histappend extglob globstar checkjobs cdspell dirspell cmdhist autocd c
 # ALIASES
 # =============================================================================
 
-# Modern replacements
-alias ls='eza --color=always --group-directories-first'
-alias ll='eza -la --color=always --group-directories-first'
-alias la='eza -lah --color=always --group-directories-first'
-alias lt='eza -T --color=always --group-directories-first'
-alias less='bat --paging=always'
-alias cat='bat --paging=never'
-
 # Navigation
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -242,19 +234,8 @@ bind TAB:menu-complete
 command -v direnv &>/dev/null && \
   eval "$(direnv hook bash)"
 
-# Mise — activated once here. We set __MISE_ALREADY_ACTIVATED to prevent
-# betterment.sh from double-activating.
-command -v mise &>/dev/null && {
-  eval "$(mise activate bash)"
-  export __MISE_ALREADY_ACTIVATED=1
-}
-
 # FZF
 command -v fzf &>/dev/null && eval "$(fzf --bash)"
-
-# Starship prompt (must come before atuin)
-# command -v starship &>/dev/null && \
-#   eval "$(starship init bash)"
 
 # Atuin shell history
 command -v atuin &>/dev/null && \

@@ -10,7 +10,6 @@ packages:
       # Shells
       - bash
       - bash-language-server
-      - nushell
 
       # Core CLI tools
       - age
@@ -25,7 +24,6 @@ packages:
       - coreutils
       - curl
       - direnv
-      - eza
       - fastfetch
       - fd
       - findutils
@@ -61,7 +59,6 @@ packages:
       - ripgrep
       - shellcheck
       - shfmt
-      - starship
       - tailscale
       - tree
       - tree-sitter

@@ -3,10 +3,10 @@ if (( $+commands[zoxide] )); then
 
   function _zoxide-zi-widget() {
     zle -I
-    local result
-    result="$(zoxide query --interactive </dev/tty)" && builtin cd -- "${result}"
+    zi
     zle reset-prompt
   }
+
   zle -N _zoxide-zi-widget
   bindkey '^[j' _zoxide-zi-widget
 fi

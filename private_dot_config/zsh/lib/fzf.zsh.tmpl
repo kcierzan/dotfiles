@@ -11,8 +11,8 @@ if (( $+commands[fzf] )); then
     --border
     --height=100%
     --inline-info
-    --prompt='> '
-    --pointer='> '
+    --prompt='\> '
+    --pointer='\> '
     --marker='* '
     --bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down
     --preview-window='right,border-left,<70(up,66%,border-bottom)'
@@ -131,6 +131,6 @@ if (( $+commands[fzf] )); then
   zle -N fuzzy-grep-files-widget
   zle -N lazygit-widget
 
-  export FZF_DEFAULT_OPTS="${fzf_ops[*]}"
-  export FZF_DEFAULT_COMMAND="${fzf_default_command[*]}"
+  export FZF_DEFAULT_OPTS="${fzf_ops[@]}"
+  export FZF_DEFAULT_COMMAND="${fzf_default_command[@]}"
 fi

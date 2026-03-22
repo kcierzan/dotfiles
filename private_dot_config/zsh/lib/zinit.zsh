@@ -20,3 +20,6 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 
 zinit ice wait lucid
 zinit light zsh-users/zsh-completions
+
+# conflicts with zoxide interactive binding
+unalias zi

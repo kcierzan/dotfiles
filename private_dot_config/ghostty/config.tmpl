@@ -8,11 +8,6 @@ custom-shader=~/.config/ghostty/shaders/cursor-blaze.glsl
 font-style=Regular
 freetype-load-flags=no-hinting,no-force-autohint,no-monochrome,no-autohint
 keybind=shift+enter=text:\n
-font-family=Liga SFMono Nerd Font
-{{- if eq .chezmoi.os "darwin" }}
-command=/opt/homebrew/bin/nu --login --config ~/.config/nushell/config.nu --env-config ~/.config/nushell/env.nu
-{{- else if eq .chezmoi.os "linux" }}
-command=/usr/bin/nu --login --config ~/.config/nushell/config.nu --env-config ~/.config/nushell/env.nu
-{{- end }}
+font-family=PragmataPro Mono Liga
 theme=base16
 
