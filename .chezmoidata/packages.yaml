@@ -1,8 +1,6 @@
 packages:
   darwin:
     taps:
-      - nikitabobko/tap
-      - FelixKratz/formulae
       - shaunsingh/SFMono-Nerd-Font-Ligaturized
 
     # Shared brews — installed on all darwin machines
@@ -131,7 +129,6 @@ packages:
       - mos
       - raycast
       - syncthing
-      - visual-studio-code
       - zed
       - zen
 
@@ -188,7 +185,6 @@ packages:
       - linux-firmware
       - linux-headers
       - lvm2
-      - magic-wormhole
       - man-db
       - mpv
       - networkmanager
@@ -223,7 +219,6 @@ packages:
       - google-chrome
       - mise
       - mosh
-      - nushell
       - otf-geist
       - otf-geist-mono-nerd
       - paru

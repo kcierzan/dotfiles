@@ -60,7 +60,7 @@ _prompt_precmd() {
 
   # ── Assemble prompt ────────────────────────────────────────────────────
   local host=''
-  [[ -n $SSH_CONNECTION ]] && host='%F{3}%m%f%F{8}:%f'
+  [[ -n $SSH_CONNECTION ]] && host='%F{3}%m%f%F{8}: %f'
 
   PROMPT="${host}%F{4}%~%f"$'\n'"%F{$(( ec ? 1 : 2 ))}${_pc}%f "
   RPROMPT="${git_info}"
