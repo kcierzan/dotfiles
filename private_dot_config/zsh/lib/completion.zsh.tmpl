@@ -50,8 +50,8 @@ zstyle ':completion:*' completer _complete _ignored _approximate
 # Allow up to 1 error for approximate/fuzzy matching; also accept numeric corrections
 zstyle ':completion:*:approximate:*' max-errors 1 numeric
 
-# Include . and .. as completion candidates for directory navigation
-zstyle ':completion:*' special-dirs true
+# Exclude . and .. as completion candidates for directory navigation
+zstyle ':completion:*' special-dirs false
 
 # For `cd`, prioritize local dirs, then the directory stack, then dirs from PATH
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
