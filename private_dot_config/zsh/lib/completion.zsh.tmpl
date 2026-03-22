@@ -16,6 +16,14 @@ fi
 # on subsequent shell startups. Only recompiles if the source is newer than the .zwc.
 { [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]] && zcompile "$zcompdump" } &!
 
+# Carapace
+
+if (( $+commands[carapace] )); then
+  export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+  zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+  source <(carapace _carapace)
+fi
+
 # -- Completion Styling --
 
 # Enable an interactive, arrow-key-navigable completion menu
