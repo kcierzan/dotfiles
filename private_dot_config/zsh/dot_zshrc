@@ -14,3 +14,8 @@ source "$ZDOTDIR/lib/lscolors.zsh"
 source "$ZDOTDIR/lib/zinit.zsh"
 source "$ZDOTDIR/lib/zoxide.zsh"
 source "$ZDOTDIR/lib/keybinds.zsh"
+
+# We already set up $PATH correctly for homebrew. This line is required to appease the bootstrap script which will add this line on every run if it is not detected in .zshrc.
+# eval "$(/opt/homebrew/bin/brew shellenv)"
+
+[[ -d "$HOME/.bootstrap" ]] && source "$HOME/.bootstrap/env.sh"
