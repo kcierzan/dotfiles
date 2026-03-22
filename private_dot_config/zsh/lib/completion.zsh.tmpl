@@ -1,0 +1,49 @@
+# Load compinit — the zsh completion system initialization function.
+# -U: suppress alias expansion. -z: force zsh-style autoloading.
+autoload -Uz compinit
+
+# Only regenerate the completion dump file once per day for faster shell startup.
+# If the dump file exists and was modified today, use compinit -C (skip security check
+# and reuse cached completions). Otherwise, regenerate it from scratch.
+zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+if [[ -f "$zcompdump" && "$(date +'%j')" == "$({{ .stat_mtime_day_cmd }})" ]]; then
+  compinit -C -d "$zcompdump"
+else
+  compinit -d "$zcompdump"
+fi
+
+# Compile the dump file to bytecode (.zwc) in a background job for faster loading
+# on subsequent shell startups. Only recompiles if the source is newer than the .zwc.
+{ [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]] && zcompile "$zcompdump" } &!
+
+# -- Completion Styling --
+
+# Enable an interactive, arrow-key-navigable completion menu
+zstyle ':completion:*' menu select
+
+# Case-insensitive matching, then partial-word matching (on . _ -), then substring matching
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+# Colorize completion candidates using the same colors as `ls`
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# Group completions by their type (files, options, etc.) under separate headings
+zstyle ':completion:*' group-name ''
+
+# Display a yellow header describing each completion group
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+
+# Show a red message when no completions are found
+zstyle ':completion:*:warnings' format '%F{red}-- No Matches Found --%f'
+
+# Try exact completion first, then previously ignored matches, then approximate (fuzzy) matches
+zstyle ':completion:*' completer _complete _ignored _approximate
+
+# Allow up to 1 error for approximate/fuzzy matching; also accept numeric corrections
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+# Include . and .. as completion candidates for directory navigation
+zstyle ':completion:*' special-dirs true
+
+# For `cd`, prioritize local dirs, then the directory stack, then dirs from PATH
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories

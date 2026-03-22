@@ -135,13 +135,30 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
 # file managed by chezmoi. Source it here if present.
 [ -f ~/.bash_secrets ] && source ~/.bash_secrets
 
-# GitHub tokens (lazy — only if gh is available)
+# GitHub tokens — truly lazy, resolved on first access via function wrapper.
+# `gh auth token` takes ~30ms per call; running it twice at login wastes ~60ms.
+# The wrapper resolves the token once, exports it, then removes itself.
 if command -v gh >/dev/null 2>&1; then
+  _resolve_gh_token() {
+    local token
+    token="$(gh auth token 2>/dev/null)" || return
+    export GITHUB_TOKEN="$token"
+    export HOMEBREW_GITHUB_API_TOKEN="$token"
+    unset -f _resolve_gh_token
+  }
+  # Only set up the lazy resolver if tokens aren't already present
   if [ -z "$GITHUB_TOKEN" ]; then
-    GITHUB_TOKEN="$(gh auth token 2>/dev/null)" && export GITHUB_TOKEN
-  fi
-  if [ -z "$HOMEBREW_GITHUB_API_TOKEN" ]; then
-    HOMEBREW_GITHUB_API_TOKEN="$(gh auth token 2>/dev/null)" && export HOMEBREW_GITHUB_API_TOKEN
+    # Resolve on first use of git push/pull, brew, or explicit call
+    git() {
+      _resolve_gh_token 2>/dev/null
+      unset -f git
+      command git "$@"
+    }
+    brew() {
+      _resolve_gh_token 2>/dev/null
+      unset -f brew
+      command brew "$@"
+    }
   fi
 fi
 

@@ -17,6 +17,7 @@ return {
         { "<leader>cd", group = "Debug" },
         { "<leader>g",  group = "Git" },
         { "<leader>t",  group = "Test" },
+        { "<leader>u",  group = "Toggle" },
         { "<leader>v",  group = "Neovim" },
         { "<leader>w",  group = "Window" },
       })

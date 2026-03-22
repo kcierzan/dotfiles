@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+zed_binary="{{ .zed_binary }}"
+editor="${EDITOR:-vi}"
+
+preview_cmd='bat --color=always --style=numbers,changes {}'
+
+fd_base_args=(
+  --strip-cwd-prefix
+  --type f
+  --exclude .git
+  --exclude .idea
+  --exclude .keep
+  --exclude .vscode
+  --exclude node_modules
+  --exclude tmp
+)
+fd_file_excludes=(
+  --exclude '*.jpg'
+  --exclude '*.map'
+  --exclude '*.pdf'
+  --exclude '*.png'
+  --exclude '*.pyc'
+  --exclude '*.rbi'
+)
+visible_fd_cmd=(fd "${fd_base_args[@]}" "${fd_file_excludes[@]}" --no-hidden .)
+hidden_fd_cmd=(fd "${fd_base_args[@]}" "${fd_file_excludes[@]}" --hidden .)
+
+quote_cmd() {
+  printf '%q ' "$@"
+}
+
+visible_reload="reload($(quote_cmd "${visible_fd_cmd[@]}") )+change-prompt(files> )"
+hidden_reload="reload($(quote_cmd "${hidden_fd_cmd[@]}") )+change-prompt(files [hidden]> )"
+toggle_hidden="ctrl-h:transform:if printf %s \"\$FZF_PROMPT\" | grep -Fq '[hidden]'; then echo '$visible_reload'; else echo '$hidden_reload'; fi"
+
+fzf_args=(
+  --multi
+  --exit-0
+  --prompt 'files> '
+  --header 'ctrl-h: toggle hidden files'
+  --preview "$preview_cmd"
+  --preview-window 'right,border-left,<70(up,66%,border-bottom)'
+  --bind "$toggle_hidden"
+)
+
+if command -v "$zed_binary" >/dev/null 2>&1; then
+  fzf_args+=(--bind "alt-enter:execute($zed_binary {})+abort")
+fi
+
+selected="$({
+  "${visible_fd_cmd[@]}" 2>/dev/null || true
+} | SHELL=/bin/sh fzf "${fzf_args[@]}")"
+
+[[ -z "${selected//[$'\t\r\n ']/}" ]] && exit 0
+
+mapfile -t files <<< "$selected"
+eval "$editor $(printf '%q ' "${files[@]}")"

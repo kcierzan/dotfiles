@@ -1,0 +1,8 @@
+alias be="bundle exec"
+alias reload="source ~/.config/zsh/.zshrc"
+{{- if eq .chezmoi.os "darwin" }}
+alias tiltup="{{ .homebrew_prefix }}/bin/tilt up"
+{{- end }}
+alias cm="chezmoi"
+alias gs="git status"
+alias la="lsd -lah"

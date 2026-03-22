@@ -11,8 +11,15 @@ encryption = "age"
 {{- if eq .chezmoi.os "darwin" }}
     bin_directory = "/opt/homebrew/bin"
     zed_binary = "zed"
+    homebrew_prefix = "/opt/homebrew"
+    fzf_shell_dir = "/opt/homebrew/opt/fzf/shell"
+    stat_mtime_day_cmd = "stat -f '%Sm' -t '%j' \"$zcompdump\" 2>/dev/null || echo \"\""
+    postgresql_bin_path = "/opt/homebrew/opt/postgresql@15/bin"
+    coreutils_gnubin_path = "/opt/homebrew/opt/coreutils/libexec/gnubin"
 {{- else }}
     bin_directory = "/usr/bin"
     zed_binary = "zeditor"
+    fzf_shell_dir = "/usr/share/fzf"
+    stat_mtime_day_cmd = "date -d @$(stat -c '%Y' \"$zcompdump\" 2>/dev/null || echo 0) +'%j' 2>/dev/null || echo \"\""
 {{- end }}
     profile = "{{ promptStringOnce . "profile" "Profile (work/personal)" }}"

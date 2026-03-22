@@ -230,11 +230,33 @@ def open_file_at_line [file: string, line: int] {
 }
 
 def fuzzy_grep_files [] {
+  let rg_args = [
+    "-n"
+    "--hidden"
+    "--glob" "!.git"
+    "--glob" "!node_modules"
+    "--glob" "!env"
+    "--glob" "!*.pyc"
+    "--glob" "!*.dmp"
+    "--glob" "!*.rbi"
+    ""
+  ]
+  let fzf_args = [
+    "+m"
+    "--exit-0"
+    "--delimiter" ":"
+    "--nth" "3.."
+    "--preview" "bat --color=always --style=numbers --highlight-line {2} {1}"
+    "--preview-window" "right,border-left,<70(up,66%,border-bottom)"
+    "--bind" "alt-enter:execute(zed {1}:{2})+abort"
+  ]
+
   let selected = (
-    rg -n --hidden --glob "!.git" --glob "!node_modules" --glob "!env" --glob "!*.pyc" --glob "!*.dmp" --glob "!*.rbi" ""
-    | fzf +m --exit-0 --delimiter ":" --nth "3.." --preview "bat --color=always --style=numbers --highlight-line {2} {1}" --preview-window "right,border-left,<70(up,66%,border-bottom)" --bind "alt-enter:execute(zed {1}:{2})+abort"
+    ^rg ...$rg_args
+    | ^fzf ...$fzf_args
     | str trim
   )
+
   if ($selected | is-not-empty) {
     let parts = ($selected | split column ":" | first)
     let file = ($parts | get column0)
@@ -244,14 +266,78 @@ def fuzzy_grep_files [] {
 }
 
 def fuzzy_find_files [] {
-  let bat_preview = "bat --color=always --style=numbers,changes {}"
-  # ctrl-h toggles hidden files on/off; state is tracked via the prompt text
-  let toggle_hidden = "ctrl-h:transform:if echo {fzf_prompt} | grep -q '(all)'; then echo 'reload(fd --strip-cwd-prefix --type f --no-hidden --exclude .git --exclude node_modules --exclude tmp --exclude .idea --exclude .vscode --exclude .keep .)+change-prompt(files> )'; else echo 'reload(fd --strip-cwd-prefix --type f --hidden --exclude .git --exclude node_modules --exclude tmp --exclude .idea --exclude .vscode --exclude .keep .)+change-prompt(files (all)> )'; fi"
-  let files = (
-    fd --strip-cwd-prefix --hidden --type f --exclude "*.jpg" --exclude ".git" --exclude ".idea" --exclude ".keep" --exclude ".vscode" --exclude "node_modules" --exclude "tmp" --exclude "*.map" --exclude "*.pdf" --exclude "*.png" --exclude "*.pyc" --exclude "*.rbi" "."
-    | fzf --multi --exit-0 --prompt "files (all)> " --preview $bat_preview --preview-window "right,border-left,<70(up,66%,border-bottom)" --bind $toggle_hidden --bind "alt-enter:execute(zed {})+abort"
-    | str trim
+  let fd_base_args = [
+    "--strip-cwd-prefix"
+    "--type" "f"
+    "--exclude" ".git"
+    "--exclude" ".idea"
+    "--exclude" ".keep"
+    "--exclude" ".vscode"
+    "--exclude" "node_modules"
+    "--exclude" "tmp"
+  ]
+  let fd_file_excludes = [
+    "--exclude" "*.jpg"
+    "--exclude" "*.map"
+    "--exclude" "*.pdf"
+    "--exclude" "*.png"
+    "--exclude" "*.pyc"
+    "--exclude" "*.rbi"
+  ]
+  let hidden_fd_args = [
+    ...$fd_base_args
+    ...$fd_file_excludes
+    "--hidden"
+    "."
+  ]
+  let visible_fd_args = [
+    ...$fd_base_args
+    ...$fd_file_excludes
+    "--no-hidden"
+    "."
+  ]
+
+  let preview = "bat --color=always --style=numbers,changes {}"
+
+  # Build reload commands from the same arg lists, so we avoid duplicated long strings.
+  let fd_reload_common = (
+    [...$fd_base_args ...$fd_file_excludes]
+    | each { |arg| $'"($arg)"' }
+    | str join " "
   )
+  let hidden_fd_cmd = ("fd " + $fd_reload_common + " --hidden .")
+  let visible_fd_cmd = ("fd " + $fd_reload_common + " --no-hidden .")
+  let hidden_reload = ("reload(" + $hidden_fd_cmd + ")+change-prompt(files [hidden]> )")
+  let visible_reload = ("reload(" + $visible_fd_cmd + ")+change-prompt(files> )")
+
+  # fzf exposes current state via env vars like $FZF_PROMPT.
+  let toggle_hidden = (
+    "ctrl-h:transform:if printf %s \"$FZF_PROMPT\" | grep -Fq '[hidden]'; then echo '"
+    + $visible_reload
+    + "'; else echo '"
+    + $hidden_reload
+    + "'; fi"
+  )
+
+  let fzf_args = [
+    "--multi"
+    "--exit-0"
+    "--prompt" "files> "
+    "--header" "ctrl-h: toggle hidden files"
+    "--preview" $preview
+    "--preview-window" "right,border-left,<70(up,66%,border-bottom)"
+    "--bind" $toggle_hidden
+    "--bind" "alt-enter:execute(zed {})+abort"
+  ]
+
+  let files = (
+    with-env { SHELL: "/bin/sh" } {
+      ^fd ...$visible_fd_args
+      | ^fzf ...$fzf_args
+      | str trim
+    }
+  )
+
   if ($files | is-not-empty) {
     ^$env.EDITOR ...($files | lines)
   }
@@ -314,12 +400,20 @@ def fuzzy_mise_apps []: nothing -> string {
 # Fuzzy-pick a mise task. Preview shows the task's TOML definition via bat.
 # Must be called from within $monorepo_path.
 def fuzzy_mise_tasks []: nothing -> string {
-  # --delimiter '\s\s+' splits on 2+ spaces so {1}=name, {2}=description
+  let preview = "grep -A 8 -E '^\\[tasks\\.\"?{1}\"?\\]' $HOME/src/for_business/mise.local.toml | bat --color=always --style=plain --language=toml"
+  let fzf_args = [
+    "--ansi"
+    "--prompt" "task> "
+    # --delimiter '\s\s+' splits on 2+ spaces so {1}=name, {2}=description
+    "--delimiter" "\\s\\s+"
+    "--nth" "1"
+    "--preview" $preview
+    "--preview-window" "right,border-left,<70(up,66%,border-bottom)"
+  ]
+
   (
     mise tasks
-    | fzf --ansi --prompt "task> " --delimiter "\\s\\s+" --nth 1
-          --preview "grep -A 8 -E '^\\[tasks\\.\"?{1}\"?\\]' $HOME/src/for_business/mise.local.toml | bat --color=always --style=plain --language=toml"
-          --preview-window "right,border-left,<70(up,66%,border-bottom)"
+    | ^fzf ...$fzf_args
     | str trim
     | split words
     | first

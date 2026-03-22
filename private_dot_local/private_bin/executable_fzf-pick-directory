@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+preview_cmd='eza -1 --color=always {}'
+if ! command -v eza >/dev/null 2>&1; then
+  preview_cmd='ls -1 {}'
+fi
+
+selection="$({
+  fd --strip-cwd-prefix --type d --hidden --exclude .git . 2>/dev/null || true
+} | SHELL=/bin/sh fzf \
+  --height=40% \
+  --preview "$preview_cmd" \
+  --preview-window 'right,border-left,<70(up,66%,border-bottom)')"
+
+printf '%s' "$selection"
