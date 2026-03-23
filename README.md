@@ -4,10 +4,10 @@ Personal dotfiles managed with [chezmoi](https://chezmoi.io). Supports macOS (pr
 
 ## What's included
 
-- Shell configs: `bash`, `fish`, `nushell`
+- Shell configs: `zsh`
 - Editor: `neovim`, `zed`
 - Terminal: `ghostty`, `zellij`
-- CLI tools: `fzf`, `ripgrep`, `lazygit`, `yazi`, `starship`, `atuin`, `television`, `zoxide`, `bat`, `eza`, and more
+- CLI tools: `fzf`, `ripgrep`, `lazygit`, `yazi`, `atuin`, `zoxide`, `bat`, `lsd`, and more
 - macOS: Hammerspoon, LinearMouse, Raycast, system defaults
 - Package management via `brew bundle` (macOS) or `paru` (Arch)
 - A theming system that propagates a single color scheme across all managed apps

@@ -10,7 +10,7 @@
 # ── Icons (Nerd Font Powerline) ─────────────────────────────────────────────
 
 typeset -g _pc="λ"
-typeset -g _gb=$'\ue0a0'   # U+E0A0  branch icon
+typeset -g _gb=$'\ue0a0' # U+E0A0  branch icon
 
 # ── Precmd: rebuild prompt each cycle ───────────────────────────────────────
 
@@ -22,16 +22,21 @@ _prompt_precmd() {
   local raw
   if raw=$(command git status --porcelain -b 2>/dev/null); then
     local -a lines=("${(@f)raw}")
-    if (( ${#lines} )); then
+    if ((${#lines})); then
       # Branch name
       local hdr=${lines[1]#\#\# } branch
       case $hdr in
-        'HEAD (no branch)')
-          branch=":$(command git rev-parse --short HEAD 2>/dev/null || echo '?')" ;;
-        'No commits yet on '*)
-          branch=${hdr#No commits yet on }; branch=${branch%%...*} ;;
-        *)
-          branch=${hdr%%...*}; branch=${branch%%\ \[*} ;;
+      'HEAD (no branch)')
+        branch=":$(command git rev-parse --short HEAD 2>/dev/null || echo '?')"
+        ;;
+      'No commits yet on '*)
+        branch=${hdr#No commits yet on }
+        branch=${branch%%...*}
+        ;;
+      *)
+        branch=${hdr%%...*}
+        branch=${branch%%\ \[*}
+        ;;
       esac
 
       # Count staged / modified / untracked (pure zsh, no forks)
@@ -39,19 +44,22 @@ _prompt_precmd() {
       for ln in "${lines[@]:1}"; do
         [[ -z $ln ]] && continue
         case ${ln[1]} in
-          \?) (( u++ )); continue ;;
-          ' '|!) ;;
-          *)  (( s++ )) ;;
+        \?)
+          ((u++))
+          continue
+          ;;
+        ' ' | !) ;;
+        *) ((s++)) ;;
         esac
-        [[ ${ln[2]} != ' ' ]] && (( m++ ))
+        [[ ${ln[2]} != ' ' ]] && ((m++))
       done
 
       # Assemble git string
       git_info=" %F{5}${_gb} ${branch}%f"
-      if (( s + m + u )); then
-        (( s )) && git_info+=" %F{2}+${s}%f"
-        (( m )) && git_info+=" %F{3}!${m}%f"
-        (( u )) && git_info+=" %F{1}?${u}%f"
+      if ((s + m + u)); then
+        ((s)) && git_info+=" %F{2}+${s}%f"
+        ((m)) && git_info+=" %F{3}!${m}%f"
+        ((u)) && git_info+=" %F{1}?${u}%f"
       else
         git_info+=" %F{2}✔%f"
       fi
@@ -62,7 +70,7 @@ _prompt_precmd() {
   local host=''
   [[ -n $SSH_CONNECTION ]] && host='%F{3}%m%f%F{8}: %f'
 
-  PROMPT="${host}%F{4}%~%f"$'\n'"%F{$(( ec ? 1 : 2 ))}${_pc}%f "
+  PROMPT="${host}%F{4}%~%f"$'\n'"%F{$((ec ? 1 : 2))}${_pc}%f "
   RPROMPT="${git_info}"
 }
 
