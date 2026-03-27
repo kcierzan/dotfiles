@@ -22,4 +22,4 @@ zinit ice wait lucid
 zinit light zsh-users/zsh-completions
 
 # conflicts with zoxide interactive binding
-unalias zi
+unalias zi 2>/dev/null || true
