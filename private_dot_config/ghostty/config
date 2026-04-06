@@ -8,6 +8,6 @@ custom-shader=~/.config/ghostty/shaders/cursor-blaze.glsl
 font-style=Regular
 freetype-load-flags=no-hinting,no-force-autohint,no-monochrome,no-autohint
 keybind=shift+enter=text:\n
-font-family=PragmataPro Mono Liga
+font-family=Liga SFMono Nerd Font
 theme=base16
 

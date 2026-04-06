@@ -16,3 +16,16 @@
 
   zle -N _zoxide-zi-widget
   bindkey '^[j' _zoxide-zi-widget
+
+  # Rationalise dot — typing ... expands to ../.. inline
+  function rationalise-dot() {
+    local MATCH MBEGIN MEND
+    if [[ $LBUFFER =~ '(^|/| |	)\.\.$' ]]; then
+      LBUFFER+='/..'
+    else
+      zle self-insert
+    fi
+  }
+  zle -N rationalise-dot
+  bindkey '.' rationalise-dot
+  bindkey -M isearch '.' self-insert

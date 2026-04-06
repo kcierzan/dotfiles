@@ -118,8 +118,8 @@ function M.setup()
     settings = {
       zls = {
         enable_build_on_save = true,
-      }
-    }
+      },
+    },
   })
   -- Ruby LSPs with mise - started manually via autocommand
   vim.api.nvim_create_autocmd("FileType", {
@@ -154,12 +154,10 @@ function M.setup()
           name = "sorbet",
           cmd = { "mise", "x", "-C", sorbet_root, "--", "ruby", "-S", "bundle", "exec", "srb", "typecheck", "--lsp" },
           root_dir = sorbet_root,
-
         }, { bufnr = bufnr })
       end
-    end
+    end,
   })
-
 
   vim.lsp.config("templ", {
     cmd = { "go", "tool", "templ", "lsp" },
@@ -176,7 +174,20 @@ function M.setup()
   })
 
   vim.lsp.config("copilot", {
-    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "lua", "python", "go", "rust", "html", "css", "ruby", "eruby" },
+    filetypes = {
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+      "lua",
+      "python",
+      "go",
+      "rust",
+      "html",
+      "css",
+      "ruby",
+      "eruby",
+    },
   })
 
   -- enable the LSP servers
@@ -188,7 +199,7 @@ function M.setup()
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(event)
       local client = vim.lsp.get_client_by_id(event.data.client_id)
-      if client.supports_method("textDocument/inlayHint") then
+      if client:supports_method("textDocument/inlayHint") then
         vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
       end
     end,
