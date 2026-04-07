@@ -28,7 +28,7 @@ function M.setup()
   vim.opt.ignorecase = true
   vim.opt.laststatus = 3 -- only one statusline
   vim.opt.mouse = "a"
-  vim.opt.number = false
+  vim.opt.number = true
   vim.opt.numberwidth = 4
   vim.opt.pumheight = 10
   vim.opt.relativenumber = false

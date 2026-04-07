@@ -38,7 +38,12 @@
       "Bash(git blame:*)",
       "Bash(bundle exec rspec:*)",
       "Bash(bin/typecheck:*)",
-      "Bash(mise:*)"
+      "Bash(mise:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr status:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr checks:*)"
     ]
   },
   "hooks": {
