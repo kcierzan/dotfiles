@@ -27,6 +27,7 @@
       "Bash(uname:*)",
       "Bash(pwd:*)",
       "Bash(cd:*)",
+      "Bash(ls:*)",
       "Bash(git status:*)",
       "Bash(git log:*)",
       "Bash(git diff:*)",
@@ -60,7 +61,16 @@
     ]
   },
   "enabledPlugins": {
-    "lua-lsp@claude-plugins-official": true
+    "lua-lsp@claude-plugins-official": true,
+    "worktrunk@worktrunk": true
+  },
+  "extraKnownMarketplaces": {
+    "worktrunk": {
+      "source": {
+        "source": "github",
+        "repo": "max-sixty/worktrunk"
+      }
+    }
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "medium"

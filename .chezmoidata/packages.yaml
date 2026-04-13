@@ -66,6 +66,7 @@ packages:
       - vtsls
       - watchman
       - wget
+      - worktrunk
       - yazi
       - zellij
       - zoxide
