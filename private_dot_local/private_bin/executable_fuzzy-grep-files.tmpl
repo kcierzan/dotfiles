@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+zed_binary="{{ .zed_binary }}"
+editor="${EDITOR:-vi}"
+
+open_file_at_line() {
+  local file="$1" line="$2" editor_lc
+  editor_lc=$(printf '%s' "$editor" | tr '[:upper:]' '[:lower:]')
+
+  if [[ "$editor_lc" == *nvim* || "$editor_lc" == *micro* ]]; then
+    eval "$editor +$line $(printf '%q' "$file")"
+  else
+    eval "$editor $(printf '%q' "$file:$line")"
+  fi
+}
+
+preview_cmd='bat --color=always --style=numbers --highlight-line {2} {1}'
+if command -v preview >/dev/null 2>&1; then
+  preview_cmd='preview {1}:{2}'
+fi
+
+fzf_args=(
+  +m
+  --exit-0
+  --delimiter :
+  --nth 3..
+  --preview "$preview_cmd"
+  --preview-window 'right,border-left,<70(up,66%,border-bottom)'
+)
+
+if command -v "$zed_binary" >/dev/null 2>&1; then
+  fzf_args+=(--bind "alt-enter:execute($zed_binary {1}:{2})+abort")
+fi
+
+selected="$({
+  rg -n \
+    --hidden \
+    --glob '!.git' \
+    --glob '!node_modules' \
+    --glob '!env' \
+    --glob '!*.pyc' \
+    --glob '!*.dmp' \
+    --glob '!*.rbi' \
+    '' 2>/dev/null || true
+} | SHELL=/bin/sh fzf "${fzf_args[@]}")"
+
+[[ -z "${selected//[$'\t\r\n ']/}" ]] && exit 0
+
+file="${selected%%:*}"
+rest="${selected#*:}"
+line="${rest%%:*}"
+
+open_file_at_line "$file" "$line"

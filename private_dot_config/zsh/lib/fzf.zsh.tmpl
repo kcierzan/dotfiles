@@ -1,0 +1,151 @@
+if (( $+commands[fzf] )); then
+
+  for f in \
+    {{ .fzf_shell_dir }}/key-bindings.zsh \
+    {{ .fzf_shell_dir }}/completion.zsh
+  do
+    [ -f "$f" ] && source "$f"
+  done
+
+  fzf_ops=(
+    --border
+    --height=100%
+    --inline-info
+    --prompt='❯ '
+    --pointer='❯ '
+    --marker='✔ '
+    --color='fg:white'
+    --color='bg:black'
+    --color='gutter:black'
+    --color='current-fg:white'
+    --color='current-bg:black'
+    --color='selected-fg:green'
+    --color='marker:green'
+    --color='pointer:blue'
+    --color='hl:yellow'
+    --color='current-hl:magenta'
+    --color='info:bright-black'
+    --color='selected-bg:black'
+    --color='footer:green'
+    --bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down
+    --preview-window='right,border-left,<70(up,66%,border-bottom)'
+  )
+
+  fzf_default_command=(
+    fd
+    --type f
+    --hidden
+    --exclude .git
+  )
+
+  # Open file at specific line in $EDITOR
+  open_file_at_line() {
+    local file="$1" line="$2"
+    if [[ -n "$file" && -n "$line" ]]; then
+      local editor
+      editor=$(echo "$EDITOR" | tr '[:upper:]' '[:lower:]')
+      if [[ "$editor" == *"nvim"* || "$editor" == *"micro"* ]]; then
+        eval "$EDITOR +$line $file"
+      else
+        eval "$EDITOR $file:$line"
+      fi
+    fi
+  }
+
+  # Fuzzy grep files — search file contents
+  # Enter: open in $EDITOR, Alt-Enter: open in Zed
+  fuzzy_grep_files() {
+    local exclude_dirs=(".git" "node_modules" "env")
+    local exclude_files=("*.pyc" "*.dmp" "*.rbi")
+    local globs=()
+
+    for dir in "${exclude_dirs[@]}"; do globs+=(--glob "!$dir"); done
+    for file in "${exclude_files[@]}"; do globs+=(--glob "!$file"); done
+
+    local selected
+    selected=$(rg -n --hidden "${globs[@]}" "" |
+      fzf +m --exit-0 --delimiter ":" --nth "3.." \
+        --preview 'bat --color=always --style=numbers --highlight-line {2} {1}' \
+        --preview-window 'right,border-left,<70(up,66%,border-bottom)' \
+        --prompt 'text ❯ ' \
+        --bind 'alt-enter:execute(zed {1}:{2})+abort')
+
+    [[ -z "$selected" ]] && return
+
+    local file line
+    file=$(echo "$selected" | cut -d: -f1)
+    line=$(echo "$selected" | cut -d: -f2)
+    open_file_at_line "$file" "$line"
+  }
+
+  # Fuzzy find files — search file names
+  # Enter: open in $EDITOR, Alt-Enter: open in Zed, Ctrl-h: toggle hidden files
+  fuzzy_find_files() {
+    local excludes=(
+      .git .idea .keep .vscode node_modules tmp
+      '*.jpg' '*.map' '*.pdf' '*.png' '*.pyc' '*.rbi'
+    )
+
+    # Build exclude args for direct fd invocation
+    local exclude_args=()
+    for p in "${excludes[@]}"; do exclude_args+=(--exclude "$p"); done
+
+    # Build fd command strings for fzf reload (double-quote each pattern for sh -c)
+    local fd_base="fd --strip-cwd-prefix --type f"
+    for p in "${excludes[@]}"; do fd_base+=" --exclude \"$p\""; done
+
+    local fd_visible="$fd_base --no-hidden ."
+    local fd_hidden="$fd_base --hidden ."
+
+    local toggle_hidden="ctrl-h:transform:if printf %s \"\$FZF_PROMPT\" | grep -Fq '[hidden]'; then echo 'reload($fd_visible)+change-prompt(files ❯ )'; else echo 'reload($fd_hidden)+change-prompt(files [hidden] ❯ )'; fi"
+
+    local files
+    files=$(fd --strip-cwd-prefix --type f "${exclude_args[@]}" --no-hidden . |
+      fzf --multi --exit-0 \
+        --prompt 'files ❯ ' \
+        --header 'ctrl-h: toggle hidden files' \
+        --preview 'bat --color=always --style=numbers,changes {}' \
+        --preview-window 'right,border-left,<70(up,66%,border-bottom)' \
+        --bind "$toggle_hidden" \
+        --bind 'alt-enter:execute(zed {})+abort')
+
+    [[ -z "$files" ]] && return
+    eval "$EDITOR $files"
+  }
+
+  # Fuzzy kill processes
+  fkill() {
+    local pids
+    pids=$(ps -ef | sed 1d | fzf --multi \
+      --preview 'echo {}' --preview-window=up:3:wrap \
+      --header 'Enter: SIGTERM | Alt-Enter: SIGKILL' \
+      --prompt 'processes ❯ ' \
+      --expect=alt-enter)
+
+    [[ -z "$pids" ]] && return
+    local key selections pid_list
+    key=$(head -1 <<<"$pids")
+    selections=$(tail -n +2 <<<"$pids")
+    [[ -z "$selections" ]] && return
+    pid_list=$(awk '{print $2}' <<<"$selections" | tr '\n' ' ')
+
+    if [[ "$key" == "alt-enter" ]]; then
+      echo "Force killing (SIGKILL): $pid_list"
+      echo "$pid_list" | xargs kill -9
+    else
+      echo "Killing (SIGTERM): $pid_list"
+      echo "$pid_list" | xargs kill
+    fi
+  }
+
+  # ZLE wrappers for fzf functions
+  fuzzy-find-files-widget() { fuzzy_find_files; zle reset-prompt; }
+  fuzzy-grep-files-widget() { fuzzy_grep_files; zle reset-prompt; }
+  lazygit-widget() { lazygit; zle reset-prompt; }
+  zle -N fuzzy-find-files-widget
+  zle -N fuzzy-grep-files-widget
+  zle -N lazygit-widget
+
+  export FZF_DEFAULT_OPTS="${fzf_ops[@]}"
+  export FZF_DEFAULT_COMMAND="${fzf_default_command[@]}"
+fi

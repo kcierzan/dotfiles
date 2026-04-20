@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+selection="$({
+  ps -eo pid=,comm=,%cpu=,%mem= \
+    | awk '{printf "%-8s %-30s CPU:%s%% MEM:%s\n", $1, $2, $3, $4}'
+} | SHELL=/bin/sh fzf \
+  --multi \
+  --preview-window 'up:3:wrap' \
+  --header 'Enter: SIGTERM | Alt-Enter: SIGKILL' \
+  --expect=alt-enter)"
+
+[[ -z "${selection//[$'\t\r\n ']/}" ]] && exit 0
+
+mapfile -t lines <<< "$selection"
+key="${lines[0]}"
+start_index=0
+if [[ "$key" == 'alt-enter' ]]; then
+  start_index=1
+fi
+
+pids=()
+for line in "${lines[@]:$start_index}"; do
+  [[ -z "${line//[$'\t\r\n ']/}" ]] && continue
+  pids+=("${line%% *}")
+done
+
+((${#pids[@]})) || exit 0
+
+if [[ "$key" == 'alt-enter' ]]; then
+  echo "Force killing (SIGKILL): ${pids[*]}"
+  kill -9 "${pids[@]}"
+else
+  echo "Killing (SIGTERM): ${pids[*]}"
+  kill "${pids[@]}"
+fi

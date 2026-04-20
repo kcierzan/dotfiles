@@ -1,0 +1,22 @@
+typeset -U path PATH
+path=(
+  "$HOME/.local/share/mise/shims"
+  "$HOME/.local/bin"
+  "$HOME/bin"
+  "$HOME/go/bin"
+{{- if eq .chezmoi.os "darwin" }}
+  "{{ .postgresql_bin_path }}"
+  "{{ .coreutils_gnubin_path }}"
+  "{{ .homebrew_prefix }}/bin"
+  "{{ .homebrew_prefix }}/sbin"
+{{- end }}
+  "/usr/local/bin"
+  "/usr/local/sbin"
+  "/usr/bin"
+  "/usr/sbin"
+  "/bin"
+  "/sbin"
+  "$HOME/.cargo/bin"
+  $path
+)
+export PATH

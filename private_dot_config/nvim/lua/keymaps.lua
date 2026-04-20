@@ -118,9 +118,6 @@ M.windows = {
   { "<leader>ve", lib.ex_cmd("edit ~/.config/nvim/init.lua"), mode = { "n" }, desc = "edit init.lua" },
   { "<leader>vp", lib.ex_cmd("Lazy"),                         mode = { "n" }, desc = "plugins" },
   { "<leader>vI", lib.ex_cmd("Inspect"),                      mode = { "n" }, desc = "show highlight under cursor" },
-  { "<leader>vL", lib.ex_cmd("set cursorline"),               mode = { "n" }, desc = "toggle cursorline" },
-  { "<leader>v#", lib.ex_cmd("set invnumber"),                mode = { "n" }, desc = "toggle line numbers" },
-  { "<leader>v%", lib.ex_cmd("set invrelativenumber"),        mode = { "n" }, desc = "toggle relative line numbers" },
 }
 
 -- ── Git — gitsigns ────────────────────────────────────────────────────────────
@@ -192,13 +189,13 @@ M.treesj = {
 M.toggleterm = {
   {
     "<leader>:",
-    lib.ex_cmd("ToggleTerm direction=float name='nu'"),
+    lib.ex_cmd("ToggleTerm direction=float name='zsh'"),
     mode = { "n" },
     desc = "toggle floating terminal",
   },
   {
     "<leader>;",
-    lib.ex_cmd("ToggleTerm direction=horizontal name='nu'"),
+    lib.ex_cmd("ToggleTerm direction=horizontal name='zsh'"),
     mode = { "n" },
     desc = "toggle terminal drawer",
   },
@@ -502,14 +499,6 @@ M.sniprun = {
 -- Consumed by lua/plugins/snacks.lua
 -- Snacks is eager (lazy = false), so no lazy-load concerns here.
 
-local function toggle_indent()
-  if Snacks.indent.enabled then
-    Snacks.indent.disable()
-  else
-    Snacks.indent.enable()
-  end
-end
-
 M.snacks = {
   -- Buffer management
   {
@@ -676,12 +665,6 @@ M.snacks = {
     function() Snacks.notifier.show_history() end,
     mode = { "n" },
     desc = "show notification history",
-  },
-  {
-    "<leader>v|",
-    toggle_indent,
-    mode = { "n" },
-    desc = "toggle indent markers",
   },
   {
     "<leader>vh",

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+preview_cmd='bat --color=always --style=numbers,changes {}'
+if command -v fzf-preview >/dev/null 2>&1; then
+  preview_cmd='fzf-preview {}'
+fi
+
+selection="$({
+  fd --strip-cwd-prefix --type f --hidden --exclude .git . 2>/dev/null || true
+} | SHELL=/bin/sh fzf \
+  --height=40% \
+  --preview "$preview_cmd" \
+  --preview-window 'right,border-left,<70(up,66%,border-bottom)')"
+
+printf '%s' "$selection"

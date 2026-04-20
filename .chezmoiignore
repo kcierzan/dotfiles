@@ -1,5 +1,7 @@
 .DS_Store
 MIGRATION.md
+.config/zsh/.zcompdump
+.config/zsh/.zcompdump.zwc
 
 {{- if eq .chezmoi.os "linux" }}
 .hammerspoon

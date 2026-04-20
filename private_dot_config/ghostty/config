@@ -9,10 +9,5 @@ font-style=Regular
 freetype-load-flags=no-hinting,no-force-autohint,no-monochrome,no-autohint
 keybind=shift+enter=text:\n
 font-family=Liga SFMono Nerd Font
-{{- if eq .chezmoi.os "darwin" }}
-command=/opt/homebrew/bin/nu --login --config ~/.config/nushell/config.nu --env-config ~/.config/nushell/env.nu
-{{- else if eq .chezmoi.os "linux" }}
-command=/usr/bin/nu --login --config ~/.config/nushell/config.nu --env-config ~/.config/nushell/env.nu
-{{- end }}
 theme=base16
 

@@ -1,0 +1,23 @@
+# source this on interactive use only
+[[ -o interactive ]] || return 0
+
+source "$ZDOTDIR/lib/aliases.zsh"
+source "$ZDOTDIR/lib/secrets.zsh"
+source "$ZDOTDIR/lib/options.zsh"
+source "$ZDOTDIR/lib/completion.zsh"
+source "$ZDOTDIR/lib/history.zsh"
+source "$ZDOTDIR/lib/fzf.zsh"
+source "$ZDOTDIR/lib/mise.zsh"
+source "$ZDOTDIR/lib/atuin.zsh"
+source "$ZDOTDIR/lib/prompt.zsh"
+source "$ZDOTDIR/lib/lscolors.zsh"
+source "$ZDOTDIR/lib/zinit.zsh"
+source "$ZDOTDIR/lib/zoxide.zsh"
+source "$ZDOTDIR/lib/keybinds.zsh"
+
+# We already set up $PATH correctly for homebrew. This line is required to appease the bootstrap script which will add this line on every run if it is not detected in .zshrc.
+# eval "$(/opt/homebrew/bin/brew shellenv)"
+
+[[ -d "$HOME/.bootstrap" ]] && source "$HOME/.bootstrap/env.sh" || true
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi

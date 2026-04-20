@@ -14,14 +14,6 @@ shopt -s histappend extglob globstar checkjobs cdspell dirspell cmdhist autocd c
 # ALIASES
 # =============================================================================
 
-# Modern replacements
-alias ls='eza --color=always --group-directories-first'
-alias ll='eza -la --color=always --group-directories-first'
-alias la='eza -lah --color=always --group-directories-first'
-alias lt='eza -T --color=always --group-directories-first'
-alias less='bat --paging=always'
-alias cat='bat --paging=never'
-
 # Navigation
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -105,7 +97,8 @@ fuzzy_grep_files() {
   local selected
   selected=$(rg -n --hidden "${globs[@]}" "" |
     fzf +m --exit-0 --delimiter ":" --nth "3.." \
-      --preview "go-preview {}" \
+      --preview 'bat --color=always --style=numbers --highlight-line {2} {1}' \
+      --preview-window 'right,border-left,<70(up,66%,border-bottom)' \
       --bind 'alt-enter:execute(zed {1}:{2})+abort')
 
   [[ -z "$selected" ]] && return
@@ -117,19 +110,34 @@ fuzzy_grep_files() {
 }
 
 # Fuzzy find files — search file names
-# Enter: open in $EDITOR, Alt-Enter: open in Zed
+# Enter: open in $EDITOR, Alt-Enter: open in Zed, Ctrl-h: toggle hidden files
 fuzzy_find_files() {
   local excludes=(
-    "*.jpg" ".git" ".idea" ".keep" ".vscode"
-    "node_modules" "tmp" "*.map" "*.pdf" "*.png" "*.pyc" "*.rbi"
+    .git .idea .keep .vscode node_modules tmp
+    '*.jpg' '*.map' '*.pdf' '*.png' '*.pyc' '*.rbi'
   )
+
+  # Build exclude args for direct fd invocation
   local exclude_args=()
-  for pattern in "${excludes[@]}"; do exclude_args+=(--exclude "$pattern"); done
+  for p in "${excludes[@]}"; do exclude_args+=(--exclude "$p"); done
+
+  # Build fd command strings for fzf reload (double-quote each pattern for sh -c)
+  local fd_base="fd --strip-cwd-prefix --type f"
+  for p in "${excludes[@]}"; do fd_base+=" --exclude \"$p\""; done
+
+  local fd_visible="$fd_base --no-hidden ."
+  local fd_hidden="$fd_base --hidden ."
+
+  local toggle_hidden="ctrl-h:transform:if printf %s \"\$FZF_PROMPT\" | grep -Fq '[hidden]'; then echo 'reload($fd_visible)+change-prompt(files> )'; else echo 'reload($fd_hidden)+change-prompt(files [hidden]> )'; fi"
 
   local files
-  files=$(fd --strip-cwd-prefix --hidden --type f "${exclude_args[@]}" "." |
+  files=$(fd --strip-cwd-prefix --type f "${exclude_args[@]}" --no-hidden . |
     fzf --multi --exit-0 \
-      --preview "go-preview {}" \
+      --prompt 'files> ' \
+      --header 'ctrl-h: toggle hidden files' \
+      --preview 'bat --color=always --style=numbers,changes {}' \
+      --preview-window 'right,border-left,<70(up,66%,border-bottom)' \
+      --bind "$toggle_hidden" \
       --bind 'alt-enter:execute(zed {})+abort')
 
   [[ -z "$files" ]] && return
@@ -171,50 +179,18 @@ jira() {
   /opt/homebrew/bin/jira "$@"
 }
 
-# =============================================================================
-# TOOL INTEGRATIONS
-# =============================================================================
-
-# Direnv
-command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
-
-# Mise
-command -v mise >/dev/null 2>&1 && eval "$(mise activate bash)"
-
-# FZF
-command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
-
-# Zoxide
-command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init bash)"
-
-# Atuin (shell history)
-command -v atuin >/dev/null 2>&1 && eval "$(atuin init bash)"
-
-# Starship prompt
-command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
-
-# Vivid LS_COLORS
-command -v vivid >/dev/null 2>&1 && export LS_COLORS="$(vivid generate molokai)"
-
-# Carapace completions
-command -v carapace >/dev/null 2>&1 && {
-  export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
-  source <(carapace _carapace bash)
-}
-
-# =============================================================================
-# WORK BOOTSTRAP
-# =============================================================================
-
 # Homebrew shell environment — this line is intentionally kept here so that
 # bootstrap/install scripts which grep for it do not re-append it on every run.
-# brew shellenv prepends Homebrew paths to PATH, which would place them ahead of
-# mise shims. The explicit PATH re-assertion below immediately corrects that.
-if [[ "$(uname)" == "Darwin" ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+# brew shellenv is NOT actually called: bash_profile already sets all Homebrew
+# vars (HOMEBREW_PREFIX, CELLAR, REPOSITORY, MANPATH, INFOPATH) and the PATH
+# below is the single source of truth. Running brew shellenv would just invoke
+# /usr/libexec/path_helper for ~70ms of wasted work.
+#
+# ⚠️  DO NOT REMOVE the following commented-out line — bootstrap scripts grep
+# for "brew shellenv" to decide whether to append it:
+# eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Re-assert canonical PATH — mise shims must lead Homebrew paths.
+# Canonical PATH — mise shims must lead Homebrew paths.
 # This is the single source of truth for PATH order; ~/.bash_profile mirrors it.
 export PATH="\
 $HOME/.local/share/mise/shims:\
@@ -233,5 +209,48 @@ $HOME/go/bin:\
 /sbin:\
 $HOME/.cargo/bin"
 
+# =============================================================================
+# KEYBINDINGS
+# =============================================================================
+
+bind -x '"\ep": fuzzy_find_files'   # Alt-p — fuzzy find files
+bind -x '"\eg": fuzzy_grep_files'   # Alt-g — fuzzy grep
+bind -x '"\ev": lazygit'            # Alt-v — lazygit
+
+bind TAB:menu-complete
+
+# =============================================================================
+# TOOL INTEGRATIONS
+# =============================================================================
+# Ordering matters:
+#   1. Environment tools (vivid, direnv, mise) — no readline interaction
+#   2. FZF
+#   3. Starship — sets PROMPT_COMMAND (must precede atuin)
+#   4. Atuin — shell history
+#   5. Carapace — completions
+#   6. Zoxide — cd replacement
+
+# Direnv
+command -v direnv &>/dev/null && \
+  eval "$(direnv hook bash)"
+
+# FZF
+command -v fzf &>/dev/null && eval "$(fzf --bash)"
+
+# Atuin shell history
+command -v atuin &>/dev/null && \
+  eval "$(atuin init bash)"
+
+# Zoxide
+command -v zoxide &>/dev/null && \
+  eval "$(zoxide init bash)"
+
+# mise
+command -v mise &>/dev/null && \
+  [[ ! -f "$HOME/.bootstrap/env.sh" ]] && \
+  eval "$(mise activate bash)"
+
+# =============================================================================
+# WORK BOOTSTRAP
+# =============================================================================
 [[ -f "$HOME/.bootstrap/env.sh" ]] && source "$HOME/.bootstrap/env.sh"
-[[ -f "$HOME/.bootstrap/resources/env.d/betterment.sh" ]] && source "$HOME/.bootstrap/resources/env.d/betterment.sh"

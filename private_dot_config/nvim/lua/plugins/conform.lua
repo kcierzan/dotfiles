@@ -30,6 +30,8 @@ return {
         lua = { "stylua" },
         ruby = { "rubocop" },
         eruby = { "erb-format" },
+        zsh = { "shfmt" },
+        bash = { "shfmt" },
         sql = { "sqlfluff" },
         python = { "ruff_fix", "ruff_format" },
         nix = { "nixfmt" },
