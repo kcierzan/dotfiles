@@ -4,4 +4,8 @@ export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
+# set up mise shims for noninteractive shells
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+
 export EDITOR="nvim"
+export USE_PG_EPHEMERAL=1

@@ -75,6 +75,32 @@
       "scrolling" : {
         "reverse" : false
       }
+    },
+    {
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0xd048",
+          "productName" : "Keychron M5 8K",
+          "vendorID" : "0x3434"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 1.3,
+        "disableAcceleration" : true,
+        "speed" : 0.2
+      },
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 4
+        },
+        "reverse" : {
+          "vertical" : true
+        },
+        "speed" : {
+          "vertical" : 40
+        }
+      }
     }
   ]
 }

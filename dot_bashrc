@@ -254,3 +254,5 @@ command -v mise &>/dev/null && \
 # WORK BOOTSTRAP
 # =============================================================================
 [[ -f "$HOME/.bootstrap/env.sh" ]] && source "$HOME/.bootstrap/env.sh"
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init bash)"; fi

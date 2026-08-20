@@ -1,0 +1,173 @@
+{
+  "semantic_tokens": "combined",
+  "cli_default_open_behavior": "new_window",
+  "agent_servers": {
+    "pi-acp": {
+      "default_config_options": {
+        "thought_level": "low",
+        "model": "openai-codex/gpt-5.6-terra"
+      },
+      "type": "registry"
+    },
+    "codex-acp": {
+      "default_config_options": {
+        "collaboration_mode": "default",
+        "reasoning_effort": "high",
+        "fast-mode": false,
+        "model": "gpt-5.6-terra"
+      },
+      "type": "registry"
+    },
+    "claude-acp": {
+      "default_config_options": {
+        "mode": "auto",
+        "effort": "medium",
+      },
+      "type": "registry",
+    },
+  },
+  "project_panel": {
+    "dock": "right",
+  },
+  "outline_panel": {
+    "dock": "right",
+  },
+  "collaboration_panel": {
+    "dock": "right",
+  },
+  "git_panel": {
+    "tree_view": true,
+    "dock": "right",
+  },
+  "tabs": {
+    "show_diagnostics": "errors",
+  },
+  "which_key": {
+    "enabled": true,
+  },
+  "base_keymap": "SublimeText",
+  "buffer_font_weight": 400.0,
+  "edit_predictions": {
+    "provider": "zed",
+    "mode": "subtle",
+    "copilot": {
+      "proxy": null,
+      "proxy_no_verify": null,
+      "enterprise_uri": null,
+    },
+  },
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Material Icon Theme",
+    "dark": "Material Icon Theme",
+  },
+  "agent": {
+    "dock": "left",
+    "tool_permissions": {
+      "default": "allow",
+    },
+    "inline_assistant_model": {
+      "provider": "copilot_chat",
+      "model": "claude-sonnet-4.5",
+    },
+    "default_profile": "ask",
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4.1",
+    },
+  },
+  "vim": {
+    "use_system_clipboard": "always",
+  },
+  "helix_mode": false,
+  "vim_mode": false,
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000,
+    },
+  },
+  "lsp": {
+    "ruby-lsp": {
+      "settings": {
+        "use_bundler": false,
+      },
+    },
+    "rubocop": {
+      "initialization_options": {
+        "safeAutocorrect": true,
+      },
+    },
+    "basedpyright": {
+      "binary": {
+        "path": ".venv/bin/basedpyright-langserver",
+        "arguments": ["--stdio"],
+      },
+    },
+    "rust-analyzer": {
+      "initialization_options": {
+        "check": {
+          "command": "clippy",
+        },
+      },
+    },
+  },
+  "ui_font_size": 16.0,
+  "buffer_font_size": 16.0,
+  "ui_font_family": "Inter",
+  "buffer_font_family": "PragmataPro Liga",
+  "buffer_font_features": {
+    "liga": true,
+  },
+  "terminal": {
+    "option_as_meta": true,
+    "line_height": {
+      "custom": 1.3,
+    },
+  },
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "One Dark",
+  },
+  "languages": {
+    "Odin": {
+      "tab_size": 4
+    },
+    "Ruby": {
+      "language_servers": ["sorbet", "ruby-lsp", "!solargraph", "typos"],
+    },
+    "Python": {
+      "language_servers": ["pyright", "typos"],
+      "format_on_save": "on",
+    },
+    "Go": {
+      "format_on_save": "on",
+      "language_servers": ["gopls", "typos"],
+    },
+    "JavaScript": {
+      "format_on_save": "on",
+      "language_servers": ["typescript-language-server", "typos"],
+    },
+    "Rust": {
+      "format_on_save": "on",
+      "language_servers": ["rust-analyzer", "typos"],
+    },
+    "TypeScript": {
+      "format_on_save": "on",
+      "language_servers": ["typescript-language-server", "typos"],
+    },
+    "Zig": {
+      "language_servers": ["zls", "typos"],
+    },
+  },
+  "experimental.theme_overrides": {},
+  "file_scan_exclusions": ["**/vendor/*"],
+  "auto_update": true,
+  "format_on_save": "off",
+  "hard_tabs": false,
+  "tab_size": 2,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+}

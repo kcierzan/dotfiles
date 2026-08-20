@@ -73,7 +73,12 @@ M.lsp = {
   -- <leader>c* LSP commands
   { "<leader>ca", vim.lsp.buf.code_action,     mode = { "n" }, desc = "code action" }, -- alias of ga
   { "<leader>cr", vim.lsp.buf.rename,          mode = { "n" }, desc = "rename" },      -- alias of gR
-  { "<leader>cF", vim.lsp.buf.format,          mode = { "n" }, desc = "format buffer" },
+  {
+    "<leader>cF",
+    function() require("conform").format({ async = true, lsp_format = "fallback" }) end,
+    mode = { "n" },
+    desc = "format buffer",
+  },
   { "<leader>cI", lib.ex_cmd("LspInfo"),       mode = { "n" }, desc = "info" },
   { "<leader>cL", lib.ex_cmd("LspLog"),        mode = { "n" }, desc = "log" },
   { "<leader>cq", lib.ex_cmd("LspRestart"),    mode = { "n" }, desc = "restart" },

@@ -22,10 +22,16 @@ return {
           end,
         },
       },
-      format_after_save = {
-        -- timeout_ms = 5000,
-        lsp_format = "fallback",
-      },
+      format_after_save = function(bufnr)
+        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+          return
+        end
+
+        return {
+          -- timeout_ms = 5000,
+          lsp_format = "fallback",
+        }
+      end,
       formatters_by_ft = {
         lua = { "stylua" },
         ruby = { "rubocop" },
@@ -37,6 +43,20 @@ return {
         nix = { "nixfmt" },
       },
     })
+
+    -- Auto-formatting is opt-in. The Snacks toggle updates the global state,
+    -- while the buffer-local variable can still override it when needed.
+    vim.g.disable_autoformat = true
+    Snacks.toggle({
+      name = "Auto Format",
+      get = function()
+        return not vim.g.disable_autoformat
+      end,
+      set = function(enabled)
+        vim.g.disable_autoformat = not enabled
+      end,
+    }):map("<leader>uf")
+
     vim.api.nvim_create_user_command("FormatDisable", function(args)
       if args.bang then
         -- FormatDisable! will disable formatting just for this buffer

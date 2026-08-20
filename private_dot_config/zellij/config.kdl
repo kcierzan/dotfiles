@@ -1,9 +1,8 @@
 // Zellij configuration — managed by chezmoi
 // Theme colors are handled by zjstatus plugin + theme file
 
-theme "default"
+theme "kanagawa"
 default_mode "locked"
-default_shell "/opt/homebrew/bin/nu"
 default_layout "default"
 simplified_ui false
 pane_frames true
@@ -15,18 +14,18 @@ ui {
   }
 }
 
-plugins {
-  zjstatus-hints location="https://github.com/b0o/zjstatus-hints/releases/latest/download/zjstatus-hints.wasm" {
-    max_length 0
-    overflow_str "..."
-    pipe_name "zjstatus_hints"
-    hide_in_base_mode true
-  }
-}
+// plugins {
+//   zjstatus-hints location="https://github.com/b0o/zjstatus-hints/releases/latest/download/zjstatus-hints.wasm" {
+//     max_length 0
+//     overflow_str "..."
+//     pipe_name "zjstatus_hints"
+//     hide_in_base_mode true
+//   }
+// }
 
-load_plugins {
-  zjstatus-hints
-}
+// load_plugins {
+//   zjstatus-hints
+// }
 
 keybinds {
   unbind "Ctrl g"
@@ -74,6 +73,7 @@ keybinds {
 
   tmux clear-defaults=true {
     bind "Esc" { SwitchToMode "normal"; }
+    bind "[" { SwitchToMode "scroll"; }
     bind "g" {
       Run "lazygit" {
         floating true
