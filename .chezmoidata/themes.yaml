@@ -1959,3 +1959,143 @@ themes:
       base0E: '#fca7ea'
       base0F: '#c53b53'
     variant: dark
+  zenbones-dark:
+    name: Zenbones Dark
+    palette:
+      base00: '#1c1917'
+      base01: '#252220'
+      base02: '#3d4042'
+      base03: '#403833'
+      base04: '#888f94'
+      base05: '#b4bdc3'
+      base06: '#c4cacf'
+      base07: '#f0edec'
+      base08: '#de6e7c'
+      base09: '#b77e64'
+      base0A: '#d68c67'
+      base0B: '#819b69'
+      base0C: '#66a5ad'
+      base0D: '#6099c0'
+      base0E: '#b279a7'
+      base0F: '#65435e'
+    variant: dark
+  zenbones-light:
+    name: Zenbones Light
+    palette:
+      base00: '#f0edec'
+      base01: '#e5e0de'
+      base02: '#cbd9e3'
+      base03: '#cfc1ba'
+      base04: '#4f5e68'
+      base05: '#2c363c'
+      base06: '#1f262b'
+      base07: '#15191d'
+      base08: '#a8334c'
+      base09: '#944927'
+      base0A: '#803d1c'
+      base0B: '#4f6c31'
+      base0C: '#3b8992'
+      base0D: '#286486'
+      base0E: '#88507d'
+      base0F: '#deb9d6'
+    variant: light
+  forestbones-dark:
+    name: Forestbones Dark
+    palette:
+      base00: '#2c343a'
+      base01: '#353d43'
+      base02: '#615b51'
+      base03: '#45525c'
+      base04: '#b2a790'
+      base05: '#e7dcc4'
+      base06: '#ebe2cf'
+      base07: '#faf3e1'
+      base08: '#e67c7f'
+      base09: '#ddbd7f'
+      base0A: '#edc77a'
+      base0B: '#a9c181'
+      base0C: '#83c193'
+      base0D: '#7fbcb4'
+      base0E: '#d69ab7'
+      base0F: '#9e5179'
+    variant: dark
+  forestbones-light:
+    name: Forestbones Light
+    palette:
+      base00: '#faf3e1'
+      base01: '#f2ebd8'
+      base02: '#d3dfe6'
+      base03: '#dbc988'
+      base04: '#6e7f88'
+      base05: '#4f5b62'
+      base06: '#3d474d'
+      base07: '#2c343a'
+      base08: '#f85550'
+      base09: '#dea000'
+      base0A: '#b98500'
+      base0B: '#8da200'
+      base0C: '#36a87e'
+      base0D: '#3a94c4'
+      base0E: '#df69ba'
+      base0F: '#eebadb'
+    variant: light
+  zenburned:
+    name: Zenburned
+    palette:
+      base00: '#404040'
+      base01: '#4a4a4a'
+      base02: '#746956'
+      base03: '#625a5b'
+      base04: '#c0ab86'
+      base05: '#f0e4cf'
+      base06: '#f3eadb'
+      base07: '#ffffff'
+      base08: '#e3716e'
+      base09: '#b77e64'
+      base0A: '#d68c67'
+      base0B: '#819b69'
+      base0C: '#66a5ad'
+      base0D: '#6099c0'
+      base0E: '#b279a7'
+      base0F: '#9c6992'
+    variant: dark
+  tokyobones-dark:
+    name: Tokyobones Dark
+    palette:
+      base00: '#1a1b26'
+      base01: '#24283b'
+      base02: '#2c4075'
+      base03: '#36384d'
+      base04: '#7e98eb'
+      base05: '#c0caf5'
+      base06: '#ced6f7'
+      base07: '#ffffff'
+      base08: '#f77890'
+      base09: '#e1b068'
+      base0A: '#f2ba64'
+      base0B: '#74dbcb'
+      base0C: '#2bc4de'
+      base0D: '#7ba2f7'
+      base0E: '#bb9bf7'
+      base0F: '#6e20bd'
+    variant: dark
+  tokyobones-light:
+    name: Tokyobones Light
+    palette:
+      base00: '#d6d7dc'
+      base01: '#c9cad0'
+      base02: '#bbc0d8'
+      base03: '#adb0bd'
+      base04: '#56618d'
+      base05: '#333a57'
+      base06: '#232842'
+      base07: '#1a1b26'
+      base08: '#8b4351'
+      base09: '#8f5e14'
+      base0A: '#794e0d'
+      base0B: '#34645d'
+      base0C: '#176775'
+      base0D: '#34548c'
+      base0E: '#5a4a79'
+      base0F: '#b3a9c9'
+    variant: light
