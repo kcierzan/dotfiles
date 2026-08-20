@@ -1,145 +1,71 @@
 ---
 name: ast-grep
-description: Structural code search and rewriting using AST patterns with ast-grep (sg). Use when searching for code patterns across a codebase, refactoring by pattern, finding all usages of a construct, or performing structural find-and-replace that grep/regex cannot handle reliably.
+description: Use ast-grep for syntax-aware code search, usage discovery, and verified structural refactors when text search is insufficient.
 ---
 
 # ast-grep
 
-`sg` (ast-grep) performs structural code search and rewriting. Unlike regex, it understands syntax trees, so patterns match regardless of whitespace or formatting, and won't match inside strings or comments.
+Use `ast-grep`, not the deprecated `sg` alias. It matches syntax trees, so it is appropriate for code constructs but not ordinary text or comments.
 
-## Quick Reference
+## Search
+
+Start with the narrowest relevant path and an explicit language:
 
 ```bash
-# Search for a pattern
-sg run -p 'console.log($$$ARGS)' --lang js
-
-# Search in a specific directory
-sg run -p 'console.log($$$ARGS)' --lang js src/
-
-# Rewrite: replace console.log with logger.info
-sg run -p 'console.log($$$ARGS)' -r 'logger.info($$$ARGS)' --lang js
-
-# Run a rule file
-sg scan -r rules/no-console.yml
-
-# Run all rules in a directory
-sg scan -r rules/
-
-# Interactive rewrite (prompts before each replacement)
-sg run -p 'PATTERN' -r 'REPLACEMENT' --lang LANG --interactive
+ast-grep run -p 'console.log($$$ARGS)' --lang js src/
+ast-grep run -p '$OBJ.$METHOD($$$ARGS)' --lang ts src/
+ast-grep run -p 'await $EXPR' --lang ts src/
 ```
 
-## Pattern Syntax
-
-Patterns are code snippets with special metavariables:
+Patterns are valid code snippets. Metavariables must be uppercase:
 
 | Metavariable | Matches |
 |---|---|
-| `$VAR` | Any single AST node (and captures it) |
-| `$_` | Any single AST node (unnamed capture) |
-| `$$$ARGS` | Zero or more AST nodes (rest/variadic) |
-| `$$VAR` | One or more nodes (experimental) |
+| `$VAR` | one AST node, captured |
+| `$_` | one AST node, not captured |
+| `$$$ARGS` | zero or more nodes, captured |
 
-### Examples by Language
+Use normal text search for comments, prose, exact identifiers embedded within another identifier, and other non-syntactic queries. Do not assume an AST pattern matched: inspect its results before acting.
 
-**JavaScript/TypeScript:**
-```
-console.log($$$ARGS)              # any console.log call
-await $PROMISE                    # any await expression
-import $NAME from '$MODULE'       # named import
-const $VAR = useState($INIT)      # React useState
-$OBJ?.[$KEY]                      # optional chaining
+## Rewrite safely
+
+First search without a rewrite. Then preview the exact rewrite on a narrow path:
+
+```bash
+ast-grep run -p 'oldFunction($$$ARGS)' -r 'newFunction($$$ARGS)' --lang ts src/
 ```
 
-**Python:**
-```
-print($$$ARGS)                    # any print call
-def $NAME($$$PARAMS): $$$BODY     # any function definition
-import $MODULE                    # simple import
-$VAR = $EXPR                      # assignment
+Apply only after reviewing the preview:
+
+```bash
+ast-grep run -p 'oldFunction($$$ARGS)' -r 'newFunction($$$ARGS)' --lang ts src/ --interactive
+# Or apply every reviewed match:
+ast-grep run -p 'oldFunction($$$ARGS)' -r 'newFunction($$$ARGS)' --lang ts src/ --update-all
 ```
 
-**Ruby:**
-```
-puts $$$ARGS                      # puts call
-def $NAME($$$PARAMS)\n  $$$BODY\nend   # method definition
-$VAR.map { |$ITEM| $$$BODY }      # map block
-```
+Run the relevant formatter, type check, and tests after an applied rewrite.
 
-## YAML Rule Format
+## Reusable rules
 
-For reusable, shareable rules (save as `.yml` in a rules directory):
+Use a YAML rule for a reusable check. Run one standalone rule with `--rule`; use `scan` without `--rule` only when the repository has an `sgconfig.yml` that discovers its rules.
 
 ```yaml
 id: no-console-log
 language: JavaScript
 rule:
   pattern: console.log($$$ARGS)
-message: "Avoid console.log in production code"
+message: Avoid console.log in production code
 severity: warning
-note: "Use a proper logger instead"
 fix: logger.info($$$ARGS)
 ```
 
-### Composite Rules
-
-```yaml
-id: prefer-strict-equality
-language: JavaScript
-rule:
-  any:
-    - pattern: $A == $B
-    - pattern: $A != $B
-message: "Use === and !== instead of == and !="
+```bash
+ast-grep scan --rule rules/no-console-log.yml src/
+ast-grep scan src/ # uses the repository's sgconfig.yml
 ```
 
-### Rules with Constraints
-
-```yaml
-id: no-empty-catch
-language: JavaScript
-rule:
-  pattern: |
-    try { $$$TRY } catch ($E) {}
-message: "Empty catch block swallows errors"
-```
-
-## Supported Languages
-
-`--lang` flag values: `js`, `ts`, `jsx`, `tsx`, `python`, `rust`, `go`, `ruby`, `java`, `c`, `cpp`, `cs`, `html`, `css`, `json`, `yaml`, `toml`, `nix`, `bash`, `lua`, `kotlin`, `swift`, `scala`, `php`
-
-## Common Workflows
-
-### 1. Find All Usages of a Pattern
+For uncertain patterns, inspect parsing instead of guessing:
 
 ```bash
-# Find all .unwrap() calls in Rust
-sg run -p '.unwrap()' --lang rust
-
-# Find all React hooks
-sg run -p 'use$HOOK($$$ARGS)' --lang tsx src/
-
-# Find all TODO comments (structural)
-sg run -p '// TODO: $$$TEXT' --lang js
+ast-grep run -p 'PATTERN' --lang ts --debug-query=ast
 ```
-
-### 2. Safe Refactoring
-
-```bash
-# Rename a function call throughout the codebase
-sg run -p 'oldFunction($$$ARGS)' -r 'newFunction($$$ARGS)' --lang ts --interactive
-
-# Convert .then() chains to async/await (identify first)
-sg run -p '$PROMISE.then($$$CALLBACKS)' --lang js
-
-# Update import paths
-sg run -p "import $NAME from 'old-module'" -r "import $NAME from 'new-module'" --lang ts
-```
-
-## Tips
-
-- **Multi-line patterns**: Use `|` in YAML or newlines in shell with quotes for multi-line patterns
-- **Case sensitivity**: Patterns are case-sensitive by default
-- **Strictness**: `sg run` is lenient; YAML rules can use `strictness` field
-- **Performance**: `sg scan` runs rules in parallel; much faster than sequential grep
-- **Dry run**: Omit `-r` (rewrite) to preview matches before committing a rewrite
