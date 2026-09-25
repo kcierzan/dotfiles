@@ -1,7 +1,7 @@
 # Global theme selector
 # Change this value to switch the active color theme across all managed apps.
 # Available themes are defined in themes.yaml (ported from nix-darwin themes/).
-# Run `chezmoi apply` after changing to regenerate all themed config files.
+# Run `theme-switch` to choose and apply a theme from a shell or Neovim.
 #
 # Example values:
 #   oxocarbon-dark, oxocarbon-light
@@ -12,4 +12,4 @@
 #   dracula, dracula-pro
 #   monokai-pro, monokai-classic
 #   modus-vivendi-dark, modus-vivendi-tinted, modus-operandi-tinted
-theme: doom-one
+theme: doom-peacock
