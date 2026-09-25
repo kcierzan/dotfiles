@@ -1,14 +1,13 @@
 local M = {}
 
 function M.setup()
-  _G.dd = function(...)
-    Snacks.debug.inspect(...)
-  end
+	_G.dd = function(...)
+		Snacks.debug.inspect(...)
+	end
 
-  vim.g.loaded_netrw = 1
-  vim.g.loaded_netrwPlugin = 1
-  vim.hl.priorities.semantic_tokens = 95
-  vim.g.copilot_nes_debounce = 500
+	vim.g.loaded_netrw = 1
+	vim.g.loaded_netrwPlugin = 1
+	vim.g.copilot_nes_debounce = 500
 end
 
 return M
