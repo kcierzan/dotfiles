@@ -263,8 +263,8 @@ themes:
     name: Doom Earl Grey
     palette:
       base00: '#FCFBF9'
-      base01: '#F7F3EE'
-      base02: '#ECEBE8'
+      base01: '#F0ECE6'
+      base02: '#DDD7D0'
       base03: '#8F8880'
       base04: '#706A63'
       base05: '#605A52'
