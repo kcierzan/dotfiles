@@ -1,6 +1,6 @@
 return {
-  "MagicDuck/grug-far.nvim",
-  keys = require("keymaps").for_plugin("grugfar"),
-  cmd = "GrugFar",
-  opts = {},
+	"MagicDuck/grug-far.nvim",
+	keys = require("keymaps").for_plugin("grugfar"),
+	cmd = "GrugFar",
+	opts = {},
 }

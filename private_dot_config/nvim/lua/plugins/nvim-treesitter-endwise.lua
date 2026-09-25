@@ -1,4 +1,4 @@
 return {
-  "RRethy/nvim-treesitter-endwise",
-  event = "BufReadPre",
+	"RRethy/nvim-treesitter-endwise",
+	event = "BufReadPre",
 }

@@ -1,6 +1,6 @@
 return {
-  "windwp/nvim-autopairs",
-  lazy = true,
-  event = "InsertEnter",
-  config = true
+	"windwp/nvim-autopairs",
+	lazy = true,
+	event = "InsertEnter",
+	config = true,
 }
