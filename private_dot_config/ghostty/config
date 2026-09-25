@@ -9,5 +9,5 @@ font-style=Regular
 freetype-load-flags=no-hinting,no-force-autohint,no-monochrome,no-autohint
 keybind=shift+enter=text:\n
 macos-option-as-alt=left
-font-family=PragmataPro Mono Liga
+font-family=TX-02
 theme=base16
