@@ -1,0 +1,17 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+set -euo pipefail
+
+# Package Control reads the tracked installed_packages setting on Sublime Text
+# startup and installs any packages that are missing.
+installed_packages="$HOME/Library/Application Support/Sublime Text/Installed Packages"
+package_control="$installed_packages/Package Control.sublime-package"
+
+if [[ ! -f "$package_control" ]]; then
+  echo "Installing Sublime Text Package Control..."
+  mkdir -p "$installed_packages"
+  curl --fail --location --silent --show-error \
+    https://packagecontrol.io/Package%20Control.sublime-package \
+    --output "$package_control"
+fi
+{{ end -}}

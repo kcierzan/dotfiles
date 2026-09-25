@@ -1,0 +1,29 @@
+{
+	"font_size": 19,
+	"font_face": "GoogleSansCode Nerd Font",
+	"font_options": ["dlig"],
+	"line_padding_top": 2,
+	"line_padding_bottom": 2,
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"color_scheme": "Mariana.sublime-color-scheme",
+	"binary_file_patterns": [
+	"*.jpg",
+	 "*.jpeg",
+	 "*.png",
+	 "*.gif",
+	 "*.ttf",
+	 "*.tga",
+	 "*.dds",
+	 "*.ico",
+	 "*.eot",
+	 "*.pdf",
+	 "*.swf",
+	 "*.jar",
+	 "*.zip",
+	 "*.rbi"
+	],
+	"index_files": false,
+}
