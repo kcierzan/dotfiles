@@ -8,8 +8,9 @@ bun = "1.1.4"
 java = "temurin-21.0.4+7.0.LTS"
 dotnet = "9.0.201"
 go = "1.24.5"
-ruby = "3.4.8"
-odin = "dev-2026-07"
+ruby = "3.4.10"
+odin = "dev-2026-09"
+ols = { version = "dev-2026-08", rename_exe = { "odinfmt-*" = "odinfmt", "ols-*" = "ols" } }
 
 [settings]
 idiomatic_version_file_enable_tools = ["[]", "java", "node", "python", "ruby"]
@@ -21,3 +22,6 @@ credential_command = "gh auth token"
 
 [settings.ruby]
 compile = true
+
+[hooks]
+postinstall = "/Users/kylecierzan/.bootstrap/resources/mise_hooks/postinstall"
