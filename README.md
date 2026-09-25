@@ -5,8 +5,8 @@ Personal dotfiles managed with [chezmoi](https://chezmoi.io). Supports macOS (pr
 ## What's included
 
 - Shell configs: `zsh`
-- Editor: `neovim`, `zed`
-- Terminal: `ghostty`, `zellij`
+- Editor: `subl`, `nvim`, `zed`
+- Terminal: `ghostty`
 - CLI tools: `fzf`, `ripgrep`, `lazygit`, `yazi`, `atuin`, `zoxide`, `bat`, `lsd`, and more
 - macOS: Hammerspoon, LinearMouse, Raycast, system defaults
 - Package management via `brew bundle` (macOS) or `paru` (Arch)
@@ -150,13 +150,13 @@ chezmoi edit ~/.bash_secrets
 
 ## Theming
 
-A single value in `.chezmoidata/theme.yaml` controls the color scheme across all managed apps (Ghostty, Neovim, Zellij, Starship, bat, etc.):
+A single value in `.chezmoidata/theme.yaml` selects the Base16 colors used by Ghostty, Neovim, and btop:
 
 ```yaml
 theme: doom-xcode
 ```
 
-To switch themes, edit that file and run `chezmoi apply`. Available themes are defined in `.chezmoidata/themes.yaml`.
+Run `theme-switch` in a shell or press `<leader>vt` in Neovim or Neovide to choose from `.chezmoidata/themes.yaml`. `theme-switch --list` shows every choice, `theme-switch --current` prints the saved ID, and `theme-switch --set THEME_ID` selects one directly. The switch updates only the three themed files and refreshes open Ghostty and Neovim windows.
 
 ---
 
