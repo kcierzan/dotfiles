@@ -1,7 +1,12 @@
 [
   {
     "context": "Workspace",
-    "bindings": {},
+    "bindings": {
+      "alt-v": [
+        "task::Spawn",
+        { "task_name": "Open lazygit", "reveal_target": "center" }
+      ]
+    },
   },
   {
     "bindings": {

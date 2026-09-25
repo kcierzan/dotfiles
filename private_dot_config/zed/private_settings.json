@@ -1,11 +1,12 @@
 {
+  "show_wrap_guides": true,
   "semantic_tokens": "combined",
   "cli_default_open_behavior": "new_window",
   "agent_servers": {
     "pi-acp": {
       "default_config_options": {
-        "thought_level": "low",
-        "model": "openai-codex/gpt-5.6-terra"
+        "thought_level": "high",
+        "model": "openai-codex/gpt-5.6-sol"
       },
       "type": "registry"
     },
@@ -20,24 +21,26 @@
     },
     "claude-acp": {
       "default_config_options": {
-        "mode": "auto",
+        "fast": false,
+        "model": "opus[1m]",
+        "mode": "plan",
         "effort": "medium",
       },
       "type": "registry",
     },
   },
   "project_panel": {
-    "dock": "right",
+    "dock": "left",
   },
   "outline_panel": {
-    "dock": "right",
+    "dock": "left",
   },
   "collaboration_panel": {
     "dock": "right",
   },
   "git_panel": {
-    "tree_view": true,
-    "dock": "right",
+    "tree_view": false,
+    "dock": "left",
   },
   "tabs": {
     "show_diagnostics": "errors",
@@ -62,7 +65,8 @@
     "dark": "Material Icon Theme",
   },
   "agent": {
-    "dock": "left",
+    "sidebar_side": "right",
+    "dock": "right",
     "tool_permissions": {
       "default": "allow",
     },
@@ -114,7 +118,7 @@
   "ui_font_size": 16.0,
   "buffer_font_size": 16.0,
   "ui_font_family": "Inter",
-  "buffer_font_family": "PragmataPro Liga",
+  "buffer_font_family": "GoogleSansCode Nerd Font",
   "buffer_font_features": {
     "liga": true,
   },
@@ -127,10 +131,11 @@
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "One Dark",
+    "dark": "Sublime Mariana",
   },
   "languages": {
     "Odin": {
+      "show_edit_predictions": false,
       "tab_size": 4
     },
     "Ruby": {
