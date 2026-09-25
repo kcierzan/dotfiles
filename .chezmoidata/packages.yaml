@@ -22,6 +22,7 @@ packages:
       - coreutils
       - curl
       - direnv
+      - dust
       - fastfetch
       - fd
       - findutils
@@ -53,7 +54,6 @@ packages:
       - openssh
       - pandoc
       - postgres-language-server
-      - typos-lsp
       - ripgrep
       - shellcheck
       - shfmt
@@ -67,8 +67,8 @@ packages:
       - watchman
       - wget
       - yazi
-      - zellij
       - zoxide
+      - zsh
 
       # Build/dev dependencies
       - libyaml
@@ -76,9 +76,6 @@ packages:
       - libsodium
 
       # Language runtimes/tools
-      - go
-      - zig
-      - zls
 
     # Work-only brews — only when profile == "work"
     work_brews:
@@ -116,8 +113,10 @@ packages:
       - 1password-cli
       - chatgpt
       - codex
+      - claude-code@latest
       - docker-desktop
       - figma
+      - fluidvoice
       - font-sf-mono-nerd-font-ligaturized
       - ghostty
       - hammerspoon
@@ -127,8 +126,10 @@ packages:
       - meetingbar
       - monitorcontrol
       - mos
+      - neovide-app
       - raycast
-      - syncthing
+      - sublime-text
+      - syncthing-app
       - zed
       - zen
 
@@ -139,6 +140,7 @@ packages:
       - font-geist-mono-nerd-font
       - font-commit-mono-nerd-font
       - font-roboto-mono-nerd-font
+      - font-jetbrains-mono-nerd-font
       # System/display fonts
       - font-crimson-pro
       - font-roboto
@@ -178,6 +180,7 @@ packages:
       - htop
       - hyperfine
       - inotify-tools
+      - jq
       - kcharselect
       - kwalletmanager
       - lazygit
