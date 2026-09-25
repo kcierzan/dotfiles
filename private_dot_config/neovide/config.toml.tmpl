@@ -1,0 +1,11 @@
+frame = "full"
+maximized = true
+system-native-tabs = true
+title-hidden = false
+{{- if eq .chezmoi.os "darwin" }}
+icon = "{{ .chezmoi.homeDir }}/.local/share/neovide/neovim.icns"
+{{- end }}
+
+[font]
+normal = ["TX-02"]
+size = 16.0
