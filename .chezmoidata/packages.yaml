@@ -46,7 +46,6 @@ packages:
       - lazygit
       - lua-language-server
       - marksman
-      - magic-wormhole.rs
       - mdformat
       - mise
       - mosh
@@ -57,7 +56,6 @@ packages:
       - ripgrep
       - shellcheck
       - shfmt
-      - tailscale
       - tree
       - tree-sitter
       - unar
@@ -129,7 +127,6 @@ packages:
       - neovide-app
       - raycast
       - sublime-text
-      - syncthing-app
       - zed
       - zen
 
@@ -138,6 +135,7 @@ packages:
       # Nerd fonts
       - font-symbols-only-nerd-font
       - font-geist-mono-nerd-font
+      - font-ioskeley-mono
       - font-commit-mono-nerd-font
       - font-roboto-mono-nerd-font
       - font-jetbrains-mono-nerd-font

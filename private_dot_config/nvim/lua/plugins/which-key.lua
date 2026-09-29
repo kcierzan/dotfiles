@@ -16,7 +16,7 @@ return {
 				{ "<leader>c", group = "Code / LSP" },
 				{ "<leader>cd", group = "Debug" },
 				{ "<leader>g", group = "Git" },
-				{ "<leader>t", group = "Test" },
+				{ "<leader>t", group = "Tasks" },
 				{ "<leader>u", group = "Toggle" },
 				{ "<leader>v", group = "Neovim" },
 				{ "<leader>w", group = "Window" },

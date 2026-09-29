@@ -191,90 +191,70 @@ M.treesj = {
 	},
 }
 
--- ── Test — neotest ────────────────────────────────────────────────────────────
--- Consumed by lua/plugins/neotest.lua
+-- ── Tasks — overseer ──────────────────────────────────────────────────────────
+-- Consumed by lua/plugins/overseer.lua
 
-M.neotest = {
-	{
-		"<leader>tf",
-		function()
-			require("neotest").run.run(vim.fn.expand("%"))
-		end,
-		mode = { "n" },
-		desc = "run tests for file",
-	},
+M.overseer = {
 	{
 		"<leader>tt",
 		function()
-			require("neotest").run.run()
+			require("tasks").run_rspec(true)
 		end,
 		mode = { "n" },
-		desc = "run nearest test",
+		desc = "run RSpec at line",
 	},
 	{
-		"<leader>ts",
+		"<leader>t,",
 		function()
-			require("neotest").run.stop()
+			require("tasks").run_rspec(true)
 		end,
 		mode = { "n" },
-		desc = "stop test",
+		desc = "run RSpec at line",
 	},
 	{
-		"<leader>td",
+		"<leader>tf",
 		function()
-			require("neotest").run.run({ strategy = "dap" })
+			require("tasks").run_rspec(false)
 		end,
 		mode = { "n" },
-		desc = "debug nearest test",
+		desc = "run RSpec file",
 	},
 	{
-		"<leader>tD",
+		"<leader>t;",
 		function()
-			require("neotest").run.run({ vim.fn.expand("%"), strategy = "dap" })
+			require("tasks").run_rspec(false)
 		end,
 		mode = { "n" },
-		desc = "debug tests for file",
-	},
-	{
-		"<leader>to",
-		function()
-			require("neotest").output.open({ enter = true, auto_close = true })
-		end,
-		mode = { "n" },
-		desc = "show test output",
-	},
-	{
-		"<leader>tO",
-		function()
-			require("neotest").output_panel.toggle()
-		end,
-		mode = { "n" },
-		desc = "toggle output panel",
-	},
-	{
-		"<leader>tS",
-		function()
-			require("neotest").summary.toggle()
-		end,
-		mode = { "n" },
-		desc = "toggle summary",
+		desc = "run RSpec file",
 	},
 	{
 		"<leader>tl",
 		function()
-			require("neotest").run.run_last()
+			require("tasks").restart_last()
 		end,
 		mode = { "n" },
-		desc = "run last test",
+		desc = "restart last task",
 	},
 	{
-		"<leader>tL",
+		"<leader>ts",
 		function()
-			require("neotest").run.run_last({ strategy = "dap" })
+			require("tasks").stop_last()
 		end,
 		mode = { "n" },
-		desc = "debug last test",
+		desc = "stop last running task",
 	},
+	{
+		"<leader>to",
+		function()
+			require("tasks").open_last_output()
+		end,
+		mode = { "n" },
+		desc = "open last task output",
+	},
+	{ "<leader>tO", lib.ex_cmd("OverseerToggle"), mode = { "n" }, desc = "toggle task list" },
+	{ "<leader>tS", lib.ex_cmd("OverseerTaskAction"), mode = { "n" }, desc = "select task action" },
+	{ "<leader>tr", lib.ex_cmd("OverseerRun"), mode = { "n" }, desc = "run task" },
+	{ "<leader>tc", lib.ex_cmd("OverseerShell"), mode = { "n" }, desc = "run shell command" },
 }
 
 -- ── Test — vim-projectionist ──────────────────────────────────────────────────
@@ -288,6 +268,32 @@ M.projectionist = {
 -- Consumed by lua/plugins/nvim-dap.lua
 
 M.dap = {
+	-- RSpec debugging
+	{
+		"<leader>td",
+		function()
+			require("tasks").debug_rspec(true)
+		end,
+		mode = { "n" },
+		desc = "debug RSpec at line",
+	},
+	{
+		"<leader>tD",
+		function()
+			require("tasks").debug_rspec(false)
+		end,
+		mode = { "n" },
+		desc = "debug RSpec file",
+	},
+	{
+		"<leader>tL",
+		function()
+			require("dap").run_last()
+		end,
+		mode = { "n" },
+		desc = "repeat last debug session",
+	},
+
 	-- Breakpoints
 	{
 		"<leader>cdb",
@@ -528,14 +534,6 @@ M.sidekick = {
 
 M.legendary = {
 	{ "<leader>?", lib.ex_cmd("Legendary"), mode = { "n" }, desc = "search commands" },
-}
-
--- ── Neovim meta — sniprun ─────────────────────────────────────────────────────
--- Consumed by lua/plugins/sniprun.lua
-
-M.sniprun = {
-	{ "<leader>vr", lib.ex_cmd("Sniprun"), mode = { "n" }, desc = "run line" },
-	{ "<leader>vr", lib.ex_cmd("'<,'>Sniprun"), mode = { "v" }, desc = "run block" },
 }
 
 -- ── Snacks — all snacks.nvim bindings ────────────────────────────────────────
@@ -819,22 +817,6 @@ M.snacks = {
 		pickers.terminals,
 		mode = { "n" },
 		desc = "pick a terminal",
-	},
-	{
-		"<leader>t,",
-		function()
-			require("rails").Spec.new():run({ at_point = true })
-		end,
-		mode = { "n" },
-		desc = "run rspec test at point",
-	},
-	{
-		"<leader>t;",
-		function()
-			require("rails").Spec.new():run({ at_point = false })
-		end,
-		mode = { "n" },
-		desc = "run rspec file",
 	},
 }
 
