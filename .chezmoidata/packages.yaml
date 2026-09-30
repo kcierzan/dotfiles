@@ -1,7 +1,7 @@
 packages:
   darwin:
     taps:
-      - shaunsingh/SFMono-Nerd-Font-Ligaturized
+    #   - shaunsingh/SFMono-Nerd-Font-Ligaturized
 
     # Shared brews — installed on all darwin machines
     brews:
@@ -11,17 +11,14 @@ packages:
 
       # Core CLI tools
       - age
-      - ast-grep
       - atuin
       - awscli
       - bat
       - btop
       - carapace
       - chezmoi
-      - cmake
       - coreutils
       - curl
-      - direnv
       - dust
       - fastfetch
       - fd
@@ -39,8 +36,6 @@ packages:
       - grep
       - gzip
       - harper
-      - htop
-      - hyperfine
       - imagemagick
       - jq
       - lazygit
@@ -48,7 +43,6 @@ packages:
       - marksman
       - mdformat
       - mise
-      - mosh
       - neovim
       - openssh
       - pandoc
@@ -83,8 +77,6 @@ packages:
       - bruno-cli
       - cloudflared
       - gpgme
-      - jira-cli
-      - juliaup
       - libffi
       - mas
       - perl
@@ -115,7 +107,7 @@ packages:
       - docker-desktop
       - figma
       - fluidvoice
-      - font-sf-mono-nerd-font-ligaturized
+      # - font-sf-mono-nerd-font-ligaturized
       - ghostty
       - hammerspoon
       - homerow
@@ -123,7 +115,6 @@ packages:
       - linearmouse
       - meetingbar
       - monitorcontrol
-      - mos
       - neovide-app
       - raycast
       - sublime-text
@@ -137,7 +128,6 @@ packages:
       - font-geist-mono-nerd-font
       - font-ioskeley-mono
       - font-commit-mono-nerd-font
-      - font-roboto-mono-nerd-font
       - font-jetbrains-mono-nerd-font
       # System/display fonts
       - font-crimson-pro
@@ -162,7 +152,6 @@ packages:
       - chezmoi
       - copyq
       - ddcutil
-      - direnv
       - docker
       - docker-compose
       - dolphin

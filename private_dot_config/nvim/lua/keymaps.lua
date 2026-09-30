@@ -748,6 +748,12 @@ M.snacks = {
 		desc = "switch theme",
 	},
 	{
+		"<leader>vs",
+		pickers.switch_syntax,
+		mode = { "n" },
+		desc = "switch syntax profile",
+	},
+	{
 		"<leader>vi",
 		function()
 			Snacks.notifier.show_history()

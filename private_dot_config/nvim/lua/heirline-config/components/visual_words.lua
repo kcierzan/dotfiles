@@ -13,7 +13,7 @@ function M.new()
 			end
 		end,
 		update = { "CursorMoved" },
-		hl = { fg = utils.get_highlight("Function").fg },
+		hl = { fg = utils.get_highlight("b16_base0D").fg },
 	}
 end
 

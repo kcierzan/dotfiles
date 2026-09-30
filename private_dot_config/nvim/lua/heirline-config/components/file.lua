@@ -58,14 +58,14 @@ function M.new(palette)
 				return not vim.bo.modifiable or vim.bo.readonly
 			end,
 			provider = "󰌾",
-			hl = { fg = utils.get_highlight("Comment").fg },
+			hl = { fg = utils.get_highlight("b16_base03").fg },
 		},
 	}
 
 	local FileNameModifier = {
 		hl = function()
 			if vim.bo.modified then
-				return { fg = utils.get_highlight("Boolean").fg, bold = true, force = true }
+				return { fg = utils.get_highlight("b16_base09").fg, bold = true, force = true }
 			end
 		end,
 	}

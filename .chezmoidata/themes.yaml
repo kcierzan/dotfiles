@@ -1549,7 +1549,7 @@ themes:
       base04: '#7970a9'
       base05: '#22212c'
       base06: '#17161d'
-      base07: '#000000'
+      base07: '#3a3a3a'
       base08: '#9d3635'
       base09: '#9d6535'
       base0A: '#8e8d1e'
@@ -1999,6 +1999,86 @@ themes:
       base0E: '#88507d'
       base0F: '#deb9d6'
     variant: light
+  zenwritten-dark:
+    name: Zenwritten Dark
+    palette:
+      base00: '#191919'
+      base01: '#222222'
+      base02: '#404040'
+      base03: '#3d3839'
+      base04: '#8e8e8e'
+      base05: '#bbbbbb'
+      base06: '#c9c9c9'
+      base07: '#eeeeee'
+      base08: '#de6e7c'
+      base09: '#b77e64'
+      base0A: '#d68c67'
+      base0B: '#819b69'
+      base0C: '#66a5ad'
+      base0D: '#6099c0'
+      base0E: '#b279a7'
+      base0F: '#65435e'
+    variant: dark
+  zenwritten-light:
+    name: Zenwritten Light
+    palette:
+      base00: '#eeeeee'
+      base01: '#e5e5e5'
+      base02: '#d7d7d7'
+      base03: '#c6c3c3'
+      base04: '#5c5c5c'
+      base05: '#353535'
+      base06: '#262626'
+      base07: '#191919'
+      base08: '#a8334c'
+      base09: '#944927'
+      base0A: '#803d1c'
+      base0B: '#4f6c31'
+      base0C: '#3b8992'
+      base0D: '#286486'
+      base0E: '#88507d'
+      base0F: '#deb9d6'
+    variant: light
+  neobones-dark:
+    name: Neobones Dark
+    palette:
+      base00: '#0f191f'
+      base01: '#152128'
+      base02: '#3a3e3d'
+      base03: '#263945'
+      base04: '#98a39e'
+      base05: '#c6d5cf'
+      base06: '#ceddd7'
+      base07: '#e5ede6'
+      base08: '#de6e7c'
+      base09: '#b77e64'
+      base0A: '#d68c67'
+      base0B: '#90ff6b'
+      base0C: '#66a5ad'
+      base0D: '#8190d4'
+      base0E: '#b279a7'
+      base0F: '#65435e'
+    variant: dark
+  neobones-light:
+    name: Neobones Light
+    palette:
+      base00: '#e5ede6'
+      base01: '#dae5db'
+      base02: '#ade48c'
+      base03: '#b3c6b6'
+      base04: '#415934'
+      base05: '#202e18'
+      base06: '#172311'
+      base07: '#0f191f'
+      base08: '#a8334c'
+      base09: '#944927'
+      base0A: '#803d1c'
+      base0B: '#567a30'
+      base0C: '#3b8992'
+      base0D: '#286486'
+      base0E: '#88507d'
+      base0F: '#deb9d6'
+    variant: light
   forestbones-dark:
     name: Forestbones Dark
     palette:
@@ -2098,4 +2178,224 @@ themes:
       base0D: '#34548c'
       base0E: '#5a4a79'
       base0F: '#b3a9c9'
+    variant: light
+  kanagawa-wave:
+    name: Kanagawa Wave
+    palette:
+      base00: '#1F1F28'
+      base01: '#16161D'
+      base02: '#223249'
+      base03: '#54546D'
+      base04: '#727169'
+      base05: '#DCD7BA'
+      base06: '#C8C093'
+      base07: '#717C7C'
+      base08: '#C34043'
+      base09: '#FFA066'
+      base0A: '#C0A36E'
+      base0B: '#76946A'
+      base0C: '#6A9589'
+      base0D: '#7E9CD8'
+      base0E: '#957FB8'
+      base0F: '#D27E99'
+    variant: dark
+  kanagawa-dragon:
+    name: Kanagawa Dragon
+    palette:
+      base00: '#181616'
+      base01: '#282727'
+      base02: '#393836'
+      base03: '#625e5a'
+      base04: '#737c73'
+      base05: '#c5c9c5'
+      base06: '#c8c093'
+      base07: '#c5c9c5'
+      base08: '#c4746e'
+      base09: '#b6927b'
+      base0A: '#c4b28a'
+      base0B: '#8a9a7b'
+      base0C: '#8ea4a2'
+      base0D: '#8ba4b0'
+      base0E: '#a292a3'
+      base0F: '#b98d7b'
+    variant: dark
+  kanagawa-lotus:
+    name: Kanagawa Lotus
+    palette:
+      base00: '#f2ecbc'
+      base01: '#e7dba0'
+      base02: '#c9cbd1'
+      base03: '#8a8980'
+      base04: '#716e61'
+      base05: '#545464'
+      base06: '#43436c'
+      base07: '#1F1F28'
+      base08: '#c84053'
+      base09: '#cc6d00'
+      base0A: '#77713f'
+      base0B: '#6f894e'
+      base0C: '#597b75'
+      base0D: '#4d699b'
+      base0E: '#624c83'
+      base0F: '#b35b79'
+    variant: light
+  catppuccin-latte:
+    name: Catppuccin Latte
+    palette:
+      base00: '#eff1f5'
+      base01: '#e6e9ef'
+      base02: '#ccd0da'
+      base03: '#bcc0cc'
+      base04: '#acb0be'
+      base05: '#4c4f69'
+      base06: '#dc8a78'
+      base07: '#7287fd'
+      base08: '#d20f39'
+      base09: '#fe640b'
+      base0A: '#df8e1d'
+      base0B: '#40a02b'
+      base0C: '#179299'
+      base0D: '#1e66f5'
+      base0E: '#8839ef'
+      base0F: '#dd7878'
+    variant: light
+  catppuccin-frappe:
+    name: Catppuccin Frappé
+    palette:
+      base00: '#303446'
+      base01: '#292c3c'
+      base02: '#414559'
+      base03: '#51576d'
+      base04: '#626880'
+      base05: '#c6d0f5'
+      base06: '#f2d5cf'
+      base07: '#babbf1'
+      base08: '#e78284'
+      base09: '#ef9f76'
+      base0A: '#e5c890'
+      base0B: '#a6d189'
+      base0C: '#81c8be'
+      base0D: '#8caaee'
+      base0E: '#ca9ee6'
+      base0F: '#eebebe'
+    variant: dark
+  catppuccin-macchiato:
+    name: Catppuccin Macchiato
+    palette:
+      base00: '#24273a'
+      base01: '#1e2030'
+      base02: '#363a4f'
+      base03: '#494d64'
+      base04: '#5b6078'
+      base05: '#cad3f5'
+      base06: '#f4dbd6'
+      base07: '#b7bdf8'
+      base08: '#ed8796'
+      base09: '#f5a97f'
+      base0A: '#eed49f'
+      base0B: '#a6da95'
+      base0C: '#8bd5ca'
+      base0D: '#8aadf4'
+      base0E: '#c6a0f6'
+      base0F: '#f0c6c6'
+    variant: dark
+  catppuccin-mocha:
+    name: Catppuccin Mocha
+    palette:
+      base00: '#1e1e2e'
+      base01: '#181825'
+      base02: '#313244'
+      base03: '#45475a'
+      base04: '#585b70'
+      base05: '#cdd6f4'
+      base06: '#f5e0dc'
+      base07: '#b4befe'
+      base08: '#f38ba8'
+      base09: '#fab387'
+      base0A: '#f9e2af'
+      base0B: '#a6e3a1'
+      base0C: '#94e2d5'
+      base0D: '#89b4fa'
+      base0E: '#cba6f7'
+      base0F: '#f2cdcd'
+    variant: dark
+  rose-pine-moon:
+    name: Rosé Pine Moon
+    palette:
+      base00: '#232136'
+      base01: '#2a273f'
+      base02: '#393552'
+      base03: '#6e6a86'
+      base04: '#908caa'
+      base05: '#e0def4'
+      base06: '#e0def4'
+      base07: '#56526e'
+      base08: '#eb6f92'
+      base09: '#f6c177'
+      base0A: '#ea9a97'
+      base0B: '#3e8fb0'
+      base0C: '#9ccfd8'
+      base0D: '#c4a7e7'
+      base0E: '#f6c177'
+      base0F: '#56526e'
+    variant: dark
+  flexoki-light:
+    name: Flexoki Light
+    palette:
+      base00: '#FFFCF0'
+      base01: '#F2F0E5'
+      base02: '#E6E4D9'
+      base03: '#B7B5AC'
+      base04: '#6F6E69'
+      base05: '#403E3C'
+      base06: '#282726'
+      base07: '#100F0F'
+      base08: '#AF3029'
+      base09: '#BC5215'
+      base0A: '#AD8301'
+      base0B: '#66800B'
+      base0C: '#24837B'
+      base0D: '#205EA6'
+      base0E: '#5E409D'
+      base0F: '#A02F6F'
+    variant: light
+  moe-dark:
+    name: Moe Dark
+    palette:
+      base00: '#303030'
+      base01: '#3a3a3a'
+      base02: '#4e4e4e'
+      base03: '#6c6c6c'
+      base04: '#8a8a8a'
+      base05: '#c6c6c6'
+      base06: '#eeeeee'
+      base07: '#fdfde7'
+      base08: '#ef2929'
+      base09: '#ff8700'
+      base0A: '#ffd700'
+      base0B: '#a1db00'
+      base0C: '#00d7af'
+      base0D: '#5fafd7'
+      base0E: '#ff4ea3'
+      base0F: '#d18aff'
+    variant: dark
+  moe-light:
+    name: Moe Light
+    palette:
+      base00: '#fdfdf6'
+      base01: '#eeeeee'
+      base02: '#dadada'
+      base03: '#b2b2b2'
+      base04: '#8a8a8a'
+      base05: '#5f5f5f'
+      base06: '#3a3a3a'
+      base07: '#000000'
+      base08: '#ef2929'
+      base09: '#ff8700'
+      base0A: '#c4a000'
+      base0B: '#00af00'
+      base0C: '#18b2b2'
+      base0D: '#1f5bff'
+      base0E: '#ff1f8b'
+      base0F: '#b218b2'
     variant: light

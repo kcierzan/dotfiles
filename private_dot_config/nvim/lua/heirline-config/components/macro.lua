@@ -13,7 +13,7 @@ function M.new()
 			provider = function()
 				return vim.fn.reg_recording()
 			end,
-			hl = { fg = utils.get_highlight("Delimiter").fg },
+			hl = { fg = utils.get_highlight("b16_base04").fg },
 		}),
 		update = {
 			"RecordingEnter",

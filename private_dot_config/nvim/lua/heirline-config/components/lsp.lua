@@ -28,7 +28,6 @@ function M.new(palette)
 				ruby_lsp = " ",
 				rust_analyzer = " ",
 				sorbet = " ",
-				tailwindcss = "󱏿 ",
 				templ = "{} ",
 				ty = " ",
 				typos_lsp = "󰓆 ",

@@ -21,7 +21,6 @@ function M.setup()
 		-- "basedpyright",
 		"rust_analyzer",
 		"svelte",
-		"tailwindcss",
 		"templ",
 		"ty",
 		-- "typos_lsp",

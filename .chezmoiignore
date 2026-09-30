@@ -12,3 +12,6 @@ MIGRATION.md
 
 {{- if eq .chezmoi.os "darwin" }}
 {{- end }}
+
+tests
+SYNTAX_PROFILES.md
