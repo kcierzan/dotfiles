@@ -1,6 +1,0 @@
-- Implement the simplest complete solution for current requirements. Avoid speculative abstractions, configuration, and indirection.
-- Build incrementally: keep the product working end to end, then add one verified capability at a time.
-- Remove obsolete code and paths; do not add compatibility layers, fallbacks, or migrations unless explicitly required.
-- Keep concerns separated and use existing dependencies when they genuinely reduce complexity. Check installed APIs, types, and documentation before adding or reimplementing a dependency.
-- Before declaring work complete, inspect the affected code and run the narrowest relevant validation (tests, type checks, lint, or build). Report anything not run or failing.
-- Never create a commit unless the user explicitly instructs you to do so. Otherwise, leave all changes for the user to review and commit.
