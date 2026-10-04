@@ -32,6 +32,8 @@ local function set_keybinds()
 	lib.imap("<D-v>", "<C-r>+")
 	lib.cmap("<D-v>", "<C-r>+")
 	lib.nmap("<D-v>", '"+p')
+    lib.nmap("<D-s>", ":w<CR>")
+    lib.nmap("<D-w>", ":bd<CR>")
 
 	if vim.g.neovide then
 		-- map cmd + =/- to increase the neovide text size

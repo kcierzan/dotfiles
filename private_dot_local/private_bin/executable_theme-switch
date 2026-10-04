@@ -94,6 +94,7 @@ case ${1:-} in
     target_dir=$(chezmoi target-path)
     if ! chezmoi apply --force --parent-dirs \
       "$target_dir/.config/ghostty/themes/base16" \
+      "$target_dir/.config/vivid/themes/base16.yml" \
       "$target_dir/.local/share/nvim/base16-colors.lua" \
       "$target_dir/.config/btop/themes/base16.theme"; then
       die 'chezmoi apply failed; theme selection was saved but apps were not reloaded'

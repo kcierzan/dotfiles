@@ -2,6 +2,7 @@ return {
 	"esmuellert/vscode-diff.nvim",
 	dependencies = { "MunifTanjim/nui.nvim" },
 	cmd = "CodeDiff",
+    keys = require("keymaps").for_plugin("codediff"),
 	opts = {
 		highlights = {
 			-- mini.base16 gives DiffAdd and DiffDelete the same background and

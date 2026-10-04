@@ -78,7 +78,6 @@ packages:
       - cloudflared
       - gpgme
       - libffi
-      - mas
       - perl
       - pkg-config
       - pnpm
@@ -107,7 +106,6 @@ packages:
       - docker-desktop
       - figma
       - fluidvoice
-      # - font-sf-mono-nerd-font-ligaturized
       - ghostty
       - hammerspoon
       - homerow
@@ -118,22 +116,19 @@ packages:
       - neovide-app
       - raycast
       - sublime-text
-      - zed
       - zen
 
     # Font casks
     font_casks:
       # Nerd fonts
       - font-symbols-only-nerd-font
-      - font-geist-mono-nerd-font
-      - font-ioskeley-mono
-      - font-commit-mono-nerd-font
-      - font-jetbrains-mono-nerd-font
+      - font-adwaita-mono-nerd-font
+      - font-recursive-desktop
+      - font-hack-nerd-font
       # System/display fonts
       - font-crimson-pro
       - font-roboto
       - font-inter
-      - font-geist
       - font-eb-garamond
       - font-merriweather
 
@@ -218,4 +213,3 @@ packages:
       - sxiv-git
       - zig
       - zen-browser-bin
-      - zed

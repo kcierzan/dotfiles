@@ -150,13 +150,13 @@ chezmoi edit ~/.bash_secrets
 
 ## Theming
 
-A single value in `.chezmoidata/theme.yaml` selects the Base16 colors used by Ghostty, Neovim, and btop:
+A single value in `.chezmoidata/theme.yaml` selects the Base16 colors used by Ghostty, Neovim, btop, and vivid-generated `LS_COLORS`:
 
 ```yaml
 theme: doom-xcode
 ```
 
-Run `theme-switch` in a shell or press `<leader>vt` in Neovim or Neovide to choose from `.chezmoidata/themes.yaml`. `theme-switch --list` shows every choice, `theme-switch --current` prints the saved ID, and `theme-switch --set THEME_ID` selects one directly. The switch updates only the three themed files and refreshes open Ghostty and Neovim windows.
+Run `theme-switch` in a shell or press `<leader>vt` in Neovim or Neovide to choose from `.chezmoidata/themes.yaml`. `theme-switch --list` shows every choice, `theme-switch --current` prints the saved ID, and `theme-switch --set THEME_ID` selects one directly. The switch updates only the four themed files and refreshes open Ghostty and Neovim windows. Running it from zsh also refreshes that shell's `LS_COLORS`; reload other existing shells to pick up the selected palette.
 
 ---
 

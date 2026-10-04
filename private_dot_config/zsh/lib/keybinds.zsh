@@ -12,6 +12,7 @@
 
   bindkey '^[p' fuzzy-find-files-widget   # Alt-p: fuzzy find files
   bindkey '^[g' fuzzy-grep-files-widget   # Alt-g: fuzzy grep
+  bindkey '^Xb' fuzzy-git-branch-widget   # Ctrl-x b: fuzzy switch Git branches
   bindkey '^[v' lazygit-widget            # Alt-v: lazygit
 
   zle -N _zoxide-zi-widget

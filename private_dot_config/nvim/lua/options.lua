@@ -33,7 +33,7 @@ function M.setup()
 	vim.opt.numberwidth = 4
 	vim.opt.pumheight = 10
 	vim.opt.relativenumber = false
-	vim.opt.scrolloff = 8
+	vim.opt.scrolloff = 2
 	-- Nushell configuration
 	-- See: https://www.kiils.dk/en/blog/2024-06-22-using-nushell-in-neovim/
 	-- vim.opt.shell = "nu"

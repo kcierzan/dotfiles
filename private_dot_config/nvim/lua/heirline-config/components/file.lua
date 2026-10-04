@@ -1,5 +1,6 @@
 local M = {}
 
+local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
 
 function M.new(palette)
@@ -23,10 +24,13 @@ function M.new(palette)
 			if rel_path == "." then
 				return "./"
 			end
+			if not conditions.width_percent_below(vim.fn.strdisplaywidth(rel_path .. "/" .. filename), 0.25) then
+				rel_path = vim.fn.pathshorten(rel_path)
+			end
 
 			return rel_path .. "/"
 		end,
-		hl = { fg = palette.file_path_fg },
+		hl = { fg = palette.statusline_bg },
 	}
 
 	local FileName = {
@@ -42,7 +46,7 @@ function M.new(palette)
 			end
 			return filename
 		end,
-		hl = { fg = palette.file_name_fg, bold = true },
+		hl = { fg = palette.statusline_bg, bold = true },
 	}
 
 	local FileFlags = {
@@ -86,12 +90,14 @@ function M.new(palette)
 
 	return utils.insert(
 		FileNameBlock,
-		utils.insert(FileNameModifier, { FilePath, FileName }),
+        FilePath,
+		utils.insert(FileNameModifier, { FileName }),
 		FileFlags,
 		FileEncoding,
 		FileFormat,
 		{ provider = "%<" }
 	)
+
 end
 
 return M

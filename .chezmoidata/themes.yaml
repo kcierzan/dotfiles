@@ -2399,3 +2399,23 @@ themes:
       base0E: '#ff1f8b'
       base0F: '#b218b2'
     variant: light
+  xero-miasma:
+    name: Xero Miasma
+    palette:
+      base00: '#222222'
+      base01: '#1c1c1c'
+      base02: '#43492a'
+      base03: '#666666'
+      base04: '#c2c2b0'
+      base05: '#d7c483'
+      base06: '#c2c2b0'
+      base07: '#d7c483'
+      base08: '#b36d43'
+      base09: '#bb7744'
+      base0A: '#c9a554'
+      base0B: '#5f875f'
+      base0C: '#c9a554'
+      base0D: '#78824b'
+      base0E: '#bb7744'
+      base0F: '#685742'
+    variant: dark

@@ -113,6 +113,25 @@ if (( $+commands[fzf] )); then
     eval "$EDITOR $files"
   }
 
+  # Fuzzy switch local Git branches
+  fuzzy_git_branch() {
+    git rev-parse --git-dir &>/dev/null || {
+      print -u2 "Not inside a Git repository"
+      return 1
+    }
+
+    local branch
+    branch=$(git for-each-ref --sort=-committerdate \
+      --format='%(refname:short)' refs/heads |
+      fzf --exit-0 \
+        --prompt 'branches ❯ ' \
+        --preview 'git log --color=always --graph --date=short --format="%C(auto)%h%d %s %C(black)%C(bold)%cd %an%C(reset)" {}' \
+        --preview-window 'right,border-left,<70(up,66%,border-bottom)')
+
+    [[ -z "$branch" ]] && return
+    git switch "$branch"
+  }
+
   # Fuzzy kill processes
   fkill() {
     local pids
@@ -141,9 +160,11 @@ if (( $+commands[fzf] )); then
   # ZLE wrappers for fzf functions
   fuzzy-find-files-widget() { fuzzy_find_files; zle reset-prompt; }
   fuzzy-grep-files-widget() { fuzzy_grep_files; zle reset-prompt; }
+  fuzzy-git-branch-widget() { fuzzy_git_branch; _prompt_precmd; zle reset-prompt; }
   lazygit-widget() { lazygit; zle reset-prompt; }
   zle -N fuzzy-find-files-widget
   zle -N fuzzy-grep-files-widget
+  zle -N fuzzy-git-branch-widget
   zle -N lazygit-widget
 
   export FZF_DEFAULT_OPTS="${fzf_ops[@]}"

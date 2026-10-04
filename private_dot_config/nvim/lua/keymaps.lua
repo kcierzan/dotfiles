@@ -88,6 +88,19 @@ M.lsp = {
 	{ "<leader>cw", lib.ex_cmd("%s/\\s\\+$//e"), mode = { "n" }, desc = "trim trailing whitespace" },
 }
 
+-- Emmet
+
+M.emmet = {
+	{
+		"<leader>xe",
+		function()
+			require("nvim-emmet").wrap_with_abbreviation()
+		end,
+		mode = { "n", "x" },
+		desc = "wrap with Emmet abbreviation",
+	},
+}
+
 -- ── Windows ───────────────────────────────────────────────────────────────────
 -- Registered at startup by keys.lua.
 -- Includes quit/save shortcuts, window layout, and Neovim meta bindings.
@@ -146,12 +159,12 @@ M.gitsigns = {
 	{ "[g", lib.ex_cmd("Gitsigns nav_hunk prev"), mode = { "n" }, desc = "prev git hunk" },
 }
 
--- ── Git — diffview ────────────────────────────────────────────────────────────
--- Consumed by lua/plugins/diffview.lua
+-- ── Git — CodeDiff ────────────────────────────────────────────────────────────
+-- Consumed by lua/plugins/vscode-diff.lua
 
-M.diffview = {
-	{ "<leader>gD", lib.ex_cmd("DiffviewOpen"), mode = { "n" }, desc = "open index diff" },
-	{ "<leader>gH", lib.ex_cmd("DiffviewFileHistory %"), mode = { "n" }, desc = "open file history" },
+M.codediff = {
+	{ "<leader>gD", lib.ex_cmd("CodeDiff"), mode = { "n" }, desc = "open index diff" },
+	{ "<leader>gH", lib.ex_cmd("CodeDiff history"), mode = { "n" }, desc = "open file history" },
 }
 
 -- ── Files — oil ───────────────────────────────────────────────────────────────
@@ -752,6 +765,12 @@ M.snacks = {
 		pickers.switch_syntax,
 		mode = { "n" },
 		desc = "switch syntax profile",
+	},
+	{
+		"<leader>vS",
+		pickers.switch_separator,
+		mode = { "n" },
+		desc = "switch statusline separators",
 	},
 	{
 		"<leader>vi",

@@ -6,6 +6,20 @@
 
 local M = {}
 
+local function contrasting_text(background)
+	local function channel(offset)
+		local value = tonumber(background:sub(offset, offset + 1), 16) / 255
+		return value <= 0.04045 and value / 12.92 or ((value + 0.055) / 1.055) ^ 2.4
+	end
+
+	local luminance = 0.2126 * channel(2) + 0.7152 * channel(4) + 0.0722 * channel(6)
+	return luminance > 0.179 and "#000000" or "#ffffff"
+end
+
+local function completion_kind(background)
+	return { bg = background, fg = contrasting_text(background) }
+end
+
 function M.create_base16_hl_groups(colors)
 	-- create foreground groups (skip non-color metadata keys like "variant")
 	for name, value in pairs(colors) do
@@ -64,17 +78,34 @@ function M.get_overrides(colors)
 		DiagnosticFloatingError = { bg = "NONE", fg = colors.base08 },
 
 		-- blink.cmp completion
+		BlinkCmpLabelMatch = { link = "BlinkCmpLabel" },
 		BlinkCmpMenuSelection = { bg = colors.base03, bold = true },
-		BlinkCmpKind = { bg = colors.base04, fg = colors.base00 },
-		BlinkCmpKindSnippet = { bg = colors.base0A, fg = colors.base00 },
-		BlinkCmpKindFunction = { bg = colors.base0D, fg = colors.base00 },
-		BlinkCmpKindField = { bg = colors.base0D, fg = colors.base00 },
-		BlinkCmpKindFolder = { bg = colors.base0C, fg = colors.base00 },
-		BlinkCmpKindClass = { bg = colors.base09, fg = colors.base00 },
-		BlinkCmpKindConstant = { bg = colors.base09, fg = colors.base00 },
-		BlinkCmpKindStruct = { bg = colors.base09, fg = colors.base00 },
-		BlinkCmpKindKeyword = { bg = colors.base0E, fg = colors.base00 },
-		BlinkCmpKindText = { bg = colors.base0B, fg = colors.base00 },
+		BlinkCmpKind = completion_kind(colors.base04),
+		BlinkCmpKindText = completion_kind(colors.base0B),
+		BlinkCmpKindMethod = completion_kind(colors.base0D),
+		BlinkCmpKindFunction = completion_kind(colors.base0D),
+		BlinkCmpKindConstructor = completion_kind(colors.base0A),
+		BlinkCmpKindField = completion_kind(colors.base0C),
+		BlinkCmpKindVariable = completion_kind(colors.base08),
+		BlinkCmpKindClass = completion_kind(colors.base09),
+		BlinkCmpKindInterface = completion_kind(colors.base0A),
+		BlinkCmpKindModule = completion_kind(colors.base0C),
+		BlinkCmpKindProperty = completion_kind(colors.base0C),
+		BlinkCmpKindUnit = completion_kind(colors.base0E),
+		BlinkCmpKindValue = completion_kind(colors.base09),
+		BlinkCmpKindEnum = completion_kind(colors.base09),
+		BlinkCmpKindKeyword = completion_kind(colors.base0E),
+		BlinkCmpKindSnippet = completion_kind(colors.base0A),
+		BlinkCmpKindColor = completion_kind(colors.base08),
+		BlinkCmpKindFile = completion_kind(colors.base0B),
+		BlinkCmpKindReference = completion_kind(colors.base0C),
+		BlinkCmpKindFolder = completion_kind(colors.base0C),
+		BlinkCmpKindEnumMember = completion_kind(colors.base09),
+		BlinkCmpKindConstant = completion_kind(colors.base09),
+		BlinkCmpKindStruct = completion_kind(colors.base09),
+		BlinkCmpKindEvent = completion_kind(colors.base08),
+		BlinkCmpKindOperator = completion_kind(colors.base0E),
+		BlinkCmpKindTypeParameter = completion_kind(colors.base0A),
 	}
 end
 

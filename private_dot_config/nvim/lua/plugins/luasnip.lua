@@ -6,14 +6,12 @@ return {
 	"L3MON4D3/LuaSnip",
 	version = "2.*",
 	build = "make install_jsregexp",
-	-- dependencies = { "rafamadriz/friendly-snippets" },
 	config = function()
-		require("luasnip.loaders.from_vscode").lazy_load({
-			-- exclude = { "ruby", "rails" },
-			paths = { "./snippets" },
-		})
+		-- Discover VS Code snippets on the runtime path, including
+		-- friendly-snippets. A paths option here would disable that discovery.
+		require("luasnip.loaders.from_vscode").lazy_load()
 		require("luasnip.loaders.from_lua").lazy_load({
-			paths = { "./snippets" },
+			paths = { vim.fn.stdpath("config") .. "/snippets" },
 		})
 
 		-- Register snippet navigation keymaps now that luasnip is loaded.

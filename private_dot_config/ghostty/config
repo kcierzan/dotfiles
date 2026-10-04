@@ -1,13 +1,65 @@
 cursor-style=bar
 adjust-cursor-thickness=3
 adjust-cell-height=8
-font-thicken=true
+font-thicken=false
 adjust-underline-position=10%
 custom-shader-animation=true
 custom-shader=~/.config/ghostty/shaders/cursor-blaze.glsl
+# custom-shader=~/.config/ghostty/shaders/twitchy.glsl
+# custom-shader=~/.config/ghostty/shaders/tft.glsl
+# custom-shader=~/.config/ghostty/shaders/bloom.glsl
+# custom-shader=~/.config/ghostty/shaders/crt.glsl
+# custom-shader=~/.config/ghostty/shaders/lofi.glsl
 font-style=Regular
 freetype-load-flags=no-hinting,no-force-autohint,no-monochrome,no-autohint
 keybind=shift+enter=text:\n
 macos-option-as-alt=left
-font-family=PragmataPro Mono Liga
+font-family=Recursive
+font-synthetic-style=false
+font-variation = MONO=1
+font-variation = CASL=0.1
+font-variation = CRSV=0
+font-variation = wght=450
+
+font-variation-bold = MONO=1
+font-variation-bold = CASL=0.45
+font-variation-bold = wght=750
+font-variation-bold = slnt=0
+font-variation-bold = CRSV=0
+
+font-variation-italic = MONO=1
+font-variation-italic = CASL=1
+font-variation-italic = wght=450
+font-variation-italic = slnt=-12
+font-variation-italic = CRSV=1
+
+font-variation-bold-italic = MONO=1
+font-variation-bold-italic = CASL=1
+font-variation-bold-italic = wght=750
+font-variation-bold-italic = slnt=-12
+font-variation-bold-italic = CRSV=1
+
+font-feature = +calt
+font-feature = +dlig
+
+# single story a
+font-feature = +ss01
+
+# single story g
+font-feature = +ss02
+
+# simplified f
+font-feature = +ss03
+
+# simplified l
+font-feature = +ss05
+
+# simplified r
+font-feature = +ss06
+
+# simplified @
+font-feature = +ss12
+
+font-family=Symbols Nerd Font Mono
+
 theme=base16

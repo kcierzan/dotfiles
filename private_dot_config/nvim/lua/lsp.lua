@@ -1,6 +1,13 @@
 local M = {}
 
 function M.setup()
+	-- Advertise snippet and completion support before any language server starts.
+	-- The HTML/CSS language servers require snippetSupport for their richer
+	-- completions, and blink.cmp expands the resulting text edits via LuaSnip.
+	vim.lsp.config("*", {
+		capabilities = require("blink.cmp").get_lsp_capabilities(),
+	})
+
 	local enabled_lsp_servers = {
 		"bashls",
 		"clangd",
@@ -25,20 +32,8 @@ function M.setup()
 		"ty",
 		-- "typos_lsp",
 		"vtsls",
-		"vscode-html-language-server",
-		"vscode-css-language-server",
 		"vscode-json-language-server",
 	}
-
-	vim.lsp.config("vscode-html-language-server", {
-		cmd = { "vscode-html-language-server", "--stdio" },
-		filetypes = { "html", "templ", "eruby" },
-	})
-
-	vim.lsp.config("vscode-html-css-language-server", {
-		cmd = { "vscode-css-language-server", "--stdio" },
-		filetypes = { "css", "scss", "less" },
-	})
 
 	vim.lsp.config("vscode-json-language-server", {
 		cmd = { "vscode-json-language-server", "--stdio" },
@@ -74,13 +69,18 @@ function M.setup()
 			"pug",
 			"templ",
 		},
+		init_options = {
+			includeLanguages = {
+				javascript = "javascriptreact",
+				templ = "html",
+			},
+			showAbbreviationSuggestions = true,
+			showExpandedAbbreviation = "always",
+			showSuggestionsAsSnippets = true,
+		},
 	})
 	vim.lsp.config("html", {
-		filetypes = { "html", "templ" },
-		capabilities = {
-			documentFormattingProvider = false,
-			documentRangeFormattingProvider = false,
-		},
+		filetypes = { "html", "templ", "eruby" },
 	})
 	vim.lsp.config("harper-ls", {
 		filetypes = { "markdown" },
