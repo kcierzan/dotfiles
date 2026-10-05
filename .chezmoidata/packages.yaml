@@ -1,7 +1,6 @@
 packages:
   darwin:
     taps:
-    #   - shaunsingh/SFMono-Nerd-Font-Ligaturized
 
     # Shared brews — installed on all darwin machines
     brews:
