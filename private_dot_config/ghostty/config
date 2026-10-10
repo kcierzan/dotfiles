@@ -1,7 +1,7 @@
 cursor-style=bar
 adjust-cursor-thickness=3
 adjust-cell-height=8
-font-thicken=false
+font-thicken=true
 adjust-underline-position=10%
 custom-shader-animation=true
 custom-shader=~/.config/ghostty/shaders/cursor-blaze.glsl
@@ -14,12 +14,13 @@ font-style=Regular
 freetype-load-flags=no-hinting,no-force-autohint,no-monochrome,no-autohint
 keybind=shift+enter=text:\n
 macos-option-as-alt=left
-font-family=Recursive
+
+font-family=Lilex Nerd Font
 font-synthetic-style=false
 font-variation = MONO=1
 font-variation = CASL=0.1
 font-variation = CRSV=0
-font-variation = wght=450
+font-variation = wght=400
 
 font-variation-bold = MONO=1
 font-variation-bold = CASL=0.45

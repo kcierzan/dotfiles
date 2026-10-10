@@ -1,2 +1,5 @@
+gui:
+  screenMode: half
+
 os:
   openLink: /usr/bin/open {{link}}

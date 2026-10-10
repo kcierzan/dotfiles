@@ -33,6 +33,9 @@ function M.apply()
 	for group, attrs in pairs(highlights.get_overrides(palette)) do
 		vim.api.nvim_set_hl(0, group, attrs)
 	end
+	if package.loaded["codediff.ui.highlights"] then
+		require("codediff.ui.highlights").setup()
+	end
 
 	syntax.apply(palette)
 

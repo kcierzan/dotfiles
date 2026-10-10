@@ -23,6 +23,7 @@ return {
 		return {
 			legacy_commands = false,
 			workspaces = workspaces_by_host[hostname] or {},
+            ui = { enable = false },
 		}
 	end,
 }

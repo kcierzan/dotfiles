@@ -30,6 +30,9 @@ function M.create_base16_hl_groups(colors)
 end
 
 function M.get_overrides(colors)
+	local codediff_line_insert = colors.variant == "light" and "#d8f3dc" or "#34402f"
+	local codediff_line_delete = colors.variant == "light" and "#f8d7da" or "#482e31"
+
 	-- Highlight group overrides
 	-- Value types:
 	--   "NONE"           : transparent/no color
@@ -76,6 +79,10 @@ function M.get_overrides(colors)
 		DiagnosticFloatingHint = { bg = "NONE", fg = colors.base0D },
 		DiagnosticFloatingInfo = { bg = "NONE", fg = colors.base0D },
 		DiagnosticFloatingError = { bg = "NONE", fg = colors.base08 },
+
+		-- CodeDiff uses these backgrounds while preserving syntax foregrounds.
+		CodeDiffThemeLineInsert = { bg = codediff_line_insert },
+		CodeDiffThemeLineDelete = { bg = codediff_line_delete },
 
 		-- blink.cmp completion
 		BlinkCmpLabelMatch = { link = "BlinkCmpLabel" },

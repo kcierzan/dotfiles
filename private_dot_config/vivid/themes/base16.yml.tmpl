@@ -23,8 +23,10 @@ colors:
   base0F: '{{ trimPrefix "#" $p.base0F }}'
 
 core:
-  normal_text: {}
-  regular_file: {}
+  normal_text:
+    foreground: base05
+  regular_file:
+    foreground: base05
   reset_to_normal: {}
   directory:
     foreground: base0D
@@ -85,29 +87,57 @@ text:
     foreground: base0A
     font-style: bold
   licenses:
+{{- if eq $t.variant "light" }}
+    foreground: base04
+{{- else }}
     foreground: base03
+{{- end }}
   configuration:
     foreground: base0A
+{{- if eq $t.variant "light" }}
+    font-style: bold
+{{- end }}
   other:
     foreground: base0A
+{{- if eq $t.variant "light" }}
+    font-style: bold
+{{- end }}
 
 markup:
   foreground: base0A
+{{- if eq $t.variant "light" }}
+  font-style: bold
+{{- end }}
 
 programming:
   source:
     foreground: base0B
+{{- if eq $t.variant "light" }}
+    font-style: bold
+{{- end }}
   tooling:
     foreground: base0B
+{{- if eq $t.variant "light" }}
+    font-style: bold
+{{- end }}
 
 continuous-integration:
   foreground: base0B
+{{- if eq $t.variant "light" }}
+  font-style: bold
+{{- end }}
 
 media:
   foreground: base0E
+{{- if eq $t.variant "light" }}
+  font-style: bold
+{{- end }}
 
 office:
   foreground: base08
+{{- if eq $t.variant "light" }}
+  font-style: bold
+{{- end }}
 
 archives:
   foreground: base0C
@@ -118,4 +148,8 @@ executable:
   font-style: bold
 
 unimportant:
+{{- if eq $t.variant "light" }}
+  foreground: base04
+{{- else }}
   foreground: base03
+{{- end }}

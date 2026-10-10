@@ -1,6 +1,13 @@
 return {
 	"stevearc/overseer.nvim",
-	lazy = false,
+	cmd = {
+		"OverseerOpen",
+		"OverseerClose",
+		"OverseerToggle",
+		"OverseerRun",
+		"OverseerShell",
+		"OverseerTaskAction",
+	},
 	keys = require("keymaps").for_plugin("overseer"),
 	opts = {
 		dap = true,

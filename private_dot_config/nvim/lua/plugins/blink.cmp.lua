@@ -104,6 +104,14 @@ return {
 				draw = {
 					padding = { 0, 1 },
 					components = {
+						label = {
+							width = { fill = true, max = 40 },
+							ellipsis = true,
+						},
+						label_description = {
+							width = { max = 15 },
+							ellipsis = true,
+						},
 						kind_icon = {
 							text = function(ctx)
 								return " " .. ctx.kind_icon .. ctx.icon_gap .. " "
@@ -196,13 +204,15 @@ return {
 				end,
 			},
 		},
-		snippets = { preset = "luasnip" },
+		snippets = {
+			preset = "luasnip",
+			score_offset = -3,
+		},
 		cmdline = {
 			keymap = { preset = "cmdline" },
 		},
 		sources = {
 			default = {
-				-- "codecompanion",
 				"lsp",
 				"path",
 				"snippets",
@@ -211,7 +221,13 @@ return {
 			},
 			providers = {
 				lsp = { async = true, fallbacks = { "ripgrep" } },
-				snippets = { async = true, score_offset = 50 },
+				snippets = {
+					async = true,
+					score_offset = -5,
+					min_keyword_length = function(ctx)
+						return ctx.trigger.initial_kind == "manual" and 0 or 1
+					end,
+				},
 				ripgrep = {
 					module = "blink-ripgrep",
 					name = "Ripgrep",
@@ -234,11 +250,6 @@ return {
 					enabled = true,
 					score_offset = -50,
 				},
-				-- codecompanion = {
-				--   name = "CodeCompanion",
-				--   module = "codecompanion.providers.completion.blink",
-				--   enabled = false,
-				-- },
 			},
 		},
 	},

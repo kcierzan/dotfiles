@@ -83,8 +83,8 @@ M.lsp = {
 	},
 	{ "<leader>cI", lib.ex_cmd("LspInfo"), mode = { "n" }, desc = "info" },
 	{ "<leader>cL", lib.ex_cmd("LspLog"), mode = { "n" }, desc = "log" },
-	{ "<leader>cq", lib.ex_cmd("LspRestart"), mode = { "n" }, desc = "restart" },
-	{ "<leader>cs", lib.ex_cmd("LspStart"), mode = { "n" }, desc = "start" },
+	{ "<leader>cq", lib.ex_cmd("lsp restart"), mode = { "n" }, desc = "restart" },
+	{ "<leader>cs", lib.ex_cmd("lsp enable"), mode = { "n" }, desc = "start" },
 	{ "<leader>cw", lib.ex_cmd("%s/\\s\\+$//e"), mode = { "n" }, desc = "trim trailing whitespace" },
 }
 

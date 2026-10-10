@@ -121,9 +121,9 @@ packages:
     font_casks:
       # Nerd fonts
       - font-symbols-only-nerd-font
-      - font-adwaita-mono-nerd-font
       - font-recursive-desktop
       - font-hack-nerd-font
+      - font-lilex-nerd-font
       # System/display fonts
       - font-crimson-pro
       - font-roboto
@@ -203,12 +203,11 @@ packages:
       - google-chrome
       - mise
       - mosh
-      - otf-geist
-      - otf-geist-mono-nerd
+      - otf-recursive
       - paru
       - pgloader
       - rar
       - starship
       - sxiv-git
-      - zig
+      - ttf-juliamono
       - zen-browser-bin

@@ -15,8 +15,11 @@
   bindkey '^Xb' fuzzy-git-branch-widget   # Ctrl-x b: fuzzy switch Git branches
   bindkey '^[v' lazygit-widget            # Alt-v: lazygit
 
+  # _prompt_pre is required to refresh the right git prompt
   zle -N _zoxide-zi-widget
-  bindkey '^[j' _zoxide-zi-widget
+  _mycd() { _zoxide-zi-widget; _prompt_precmd; zle reset-prompt; }
+  zle -N _mycd
+  bindkey '^[j' _mycd
 
   # Rationalise dot — typing ... expands to ../.. inline
   function rationalise-dot() {
