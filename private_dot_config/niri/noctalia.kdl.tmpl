@@ -1,0 +1,32 @@
+{{- $p := (index .themes .theme).palette -}}
+// Base16 colors managed by chezmoi. Change them with `theme-switch`.
+layout {
+    focus-ring {
+        active-color "{{ $p.base0D }}"
+        inactive-color "{{ $p.base01 }}"
+        urgent-color "{{ $p.base08 }}"
+    }
+
+    border {
+        active-color "{{ $p.base0D }}"
+        inactive-color "{{ $p.base01 }}"
+        urgent-color "{{ $p.base08 }}"
+    }
+
+    tab-indicator {
+        active-color "{{ $p.base0D }}"
+        inactive-color "{{ $p.base02 }}"
+        urgent-color "{{ $p.base08 }}"
+    }
+
+    insert-hint {
+        color "{{ $p.base0D }}80"
+    }
+}
+
+recent-windows {
+    highlight {
+        active-color "{{ $p.base0D }}"
+        urgent-color "{{ $p.base08 }}"
+    }
+}
