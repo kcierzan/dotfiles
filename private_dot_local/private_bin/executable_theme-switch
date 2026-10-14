@@ -97,7 +97,8 @@ case ${1:-} in
       "$target_dir/.config/vivid/themes/base16.yml" \
       "$target_dir/.config/lsd/colors.yaml" \
       "$target_dir/.local/share/nvim/base16-colors.lua" \
-      "$target_dir/.config/btop/themes/base16.theme"; then
+      "$target_dir/.config/btop/themes/base16.theme" \
+      "$target_dir/.config/lazygit/config.yml"; then
       die 'chezmoi apply failed; theme selection was saved but apps were not reloaded'
     fi
 
