@@ -1,3 +1,15 @@
+local function parse_rspec_summary(line)
+	local summary, _, failures = line:match("((%d+) examples?, (%d+) failures?)")
+	if not summary then
+		return nil
+	end
+
+	return {
+		text = summary,
+		type = tonumber(failures) == 0 and "I" or "E",
+	}
+end
+
 return {
 	condition = {
 		filetype = "ruby",
@@ -38,6 +50,11 @@ return {
 						cmd = "bundle",
 						args = args,
 						cwd = root,
+						components = {
+							{ "on_output_parse", parser = parse_rspec_summary },
+							{ "open_output", direction = "float", on_result = "if_diagnostics" },
+							"default",
+						},
 					}
 				end,
 			},
