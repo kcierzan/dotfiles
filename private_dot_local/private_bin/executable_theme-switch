@@ -53,6 +53,69 @@ preview_theme() {
   done
 }
 
+persist_noctalia_theme() {
+  local variant=$1
+  local state_home=${XDG_STATE_HOME:-${HOME:?}/.local/state}
+  local settings=$state_home/noctalia/settings.toml
+  local settings_tmp
+
+  # Noctalia's runtime state overrides config.toml after its first launch.
+  # If it is not running, keep just the theme-owned state in sync so the
+  # selected palette is active the next time it starts.
+  [[ -f $settings ]] || return 0
+  settings_tmp=$(mktemp "$settings.XXXXXX") || return 1
+  if ! awk -v mode="$variant" '
+    function missing_keys() {
+      if (!source_seen) print "source = \"custom\""
+      if (!palette_seen) print "custom_palette = \"Base16\""
+      if (!mode_seen) print "mode = \"" mode "\""
+    }
+    /^\[theme\]$/ {
+      if (in_theme) missing_keys()
+      in_theme=1
+      found_theme=1
+      source_seen=palette_seen=mode_seen=0
+      print
+      next
+    }
+    /^\[/ {
+      if (in_theme) missing_keys()
+      in_theme=0
+    }
+    in_theme && /^[[:space:]]*source[[:space:]]*=/ {
+      print "source = \"custom\""
+      source_seen=1
+      next
+    }
+    in_theme && /^[[:space:]]*custom_palette[[:space:]]*=/ {
+      print "custom_palette = \"Base16\""
+      palette_seen=1
+      next
+    }
+    in_theme && /^[[:space:]]*mode[[:space:]]*=/ {
+      print "mode = \"" mode "\""
+      mode_seen=1
+      next
+    }
+    { print }
+    END {
+      if (in_theme) missing_keys()
+      if (!found_theme) {
+        print ""
+        print "[theme]"
+        print "source = \"custom\""
+        print "custom_palette = \"Base16\""
+        print "mode = \"" mode "\""
+      }
+    }
+  ' "$settings" >"$settings_tmp"; then
+    rm -f "$settings_tmp"
+    return 1
+  fi
+  chmod --reference="$settings" "$settings_tmp"
+  mv "$settings_tmp" "$settings"
+}
+
 case ${1:-} in
   --preview)
     [[ $# == 2 ]] || die 'usage: theme-switch --preview THEME_ID'
@@ -83,7 +146,6 @@ case ${1:-} in
     fi
 
     jq -e --arg id "$selected" '.themes | has($id)' <<<"$data" >/dev/null || die "unknown theme: $selected"
-    [[ $selected != "$current" ]] || exit 0
 
     tmp=$(mktemp "$theme_file.XXXXXX") || die 'could not create temporary theme file'
     trap 'rm -f "$tmp"' EXIT
@@ -97,8 +159,7 @@ case ${1:-} in
       "$target_dir/.config/vivid/themes/base16.yml" \
       "$target_dir/.config/lsd/colors.yaml" \
       "$target_dir/.local/share/nvim/base16-colors.lua" \
-      "$target_dir/.config/btop/themes/base16.theme" \
-      "$target_dir/.config/lazygit/config.yml"; then
+      "$target_dir/.config/btop/themes/base16.theme"; then
       die 'chezmoi apply failed; theme selection was saved but apps were not reloaded'
     fi
 
@@ -113,7 +174,29 @@ case ${1:-} in
           -e 'end if' >/dev/null || die 'Ghostty reload failed; check macOS Automation permission for Ghostty'
         ;;
       Linux)
-        systemctl reload --user app-com.mitchellh.ghostty.service || die 'Ghostty reload failed; launch Ghostty through its systemd user service (app-com.mitchellh.ghostty.service)'
+        variant=$(jq -r --arg id "$selected" '.themes[$id].variant' <<<"$data")
+        if command -v noctalia >/dev/null && noctalia msg status >/dev/null 2>&1; then
+          noctalia msg color-scheme-set custom Base16 >/dev/null || die 'Noctalia palette reload failed'
+          noctalia msg theme-mode-set "$variant" >/dev/null || die 'Noctalia theme mode reload failed'
+        else
+          persist_noctalia_theme "$variant" || die 'could not persist the Noctalia theme selection'
+        fi
+
+        # Noctalia's template hooks can overwrite this managed include when
+        # its palette changes, so restore it before asking Niri to reload.
+        chezmoi apply --force --parent-dirs "$target_dir/.config/niri/noctalia.kdl" || die 'could not restore the managed Niri theme'
+        if command -v niri >/dev/null && niri msg version >/dev/null 2>&1; then
+          niri msg action load-config-file >/dev/null || die 'Niri theme reload failed'
+        fi
+
+        # Ghostty handles SIGUSR2 as a config reload. Signal every instance
+        # directly so this also works when a desktop launcher starts Ghostty
+        # instead of its optional systemd user service.
+        command -v pgrep >/dev/null || die 'pgrep is required to reload Ghostty'
+        mapfile -t ghostty_pids < <(pgrep -u "$UID" -x ghostty || true)
+        for ghostty_pid in "${ghostty_pids[@]}"; do
+          kill -USR2 "$ghostty_pid" 2>/dev/null || [[ ! -e /proc/$ghostty_pid ]] || die "Ghostty reload failed for process $ghostty_pid"
+        done
         ;;
     esac
     printf 'Theme: %s\n' "$selected"
