@@ -1,0 +1,16 @@
+/* Loaded after Noctalia's community Zen Browser theme. */
+
+#urlbar,
+#urlbar-input-container,
+#urlbar-input {
+  --toolbar-field-color: var(--text) !important;
+  --toolbar-field-focus-color: var(--text) !important;
+  --toolbar-field-text-color: var(--text) !important;
+  --toolbar-field-text-color-focus: var(--text) !important;
+  color: var(--text) !important;
+}
+
+#urlbar-input::placeholder {
+  color: var(--subtle) !important;
+  opacity: 1 !important;
+}
