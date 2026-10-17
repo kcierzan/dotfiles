@@ -208,6 +208,5 @@ packages:
       - pgloader
       - rar
       - starship
-      - sxiv-git
       - ttf-juliamono
       - zen-browser-bin
