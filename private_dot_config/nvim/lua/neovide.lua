@@ -1,7 +1,5 @@
 local Neovide = {}
 
-local lib = require("lib")
-
 local function set_config_vars()
 	-- TODO: move this to neovide
 	vim.g.neovide_input_macos_option_key_is_meta = "both"
@@ -28,12 +26,6 @@ local function set_keybinds()
 		noremap = true,
 		silent = true,
 	})
-	-- make command + v work for paste
-	lib.imap("<D-v>", "<C-r>+")
-	lib.cmap("<D-v>", "<C-r>+")
-	lib.nmap("<D-v>", '"+p')
-    lib.nmap("<D-s>", ":w<CR>")
-    lib.nmap("<D-w>", ":bd<CR>")
 
 	if vim.g.neovide then
 		-- map cmd + =/- to increase the neovide text size

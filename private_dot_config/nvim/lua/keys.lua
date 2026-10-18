@@ -11,7 +11,7 @@ function M.setup()
 	local km = require("keymaps")
 
 	-- Groups that have no plugin dependency and must be available immediately.
-	local core_groups = { km.core, km.lsp, km.windows }
+	local core_groups = { km.core, km.lsp, km.windows, km.sublime }
 
 	for _, group in ipairs(core_groups) do
 		for _, mapping in ipairs(group) do

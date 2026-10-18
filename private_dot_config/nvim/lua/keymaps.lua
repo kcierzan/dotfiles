@@ -5,7 +5,7 @@
 -- vim.keymap.set loops). No vim.keymap.set calls here — pure data.
 --
 -- Conflict resolutions applied here:
---   <C-l>      → nohlsearch only; buffer cycle moved to ]b / [b
+--   <C-l>      → native multicursor clearing; nohlsearch moved to <leader>h
 --   <leader>Q  → lives here in `windows`
 --   <leader>R  → lives in `grugfar`, removed from which-key
 --   ga / <leader>ca  → both kept (intentional aliases)
@@ -17,6 +17,10 @@ local lib = require("lib")
 local pickers = require("pickers")
 
 local M = {}
+
+-- Sublime-style editing lives in its own module; this file remains the
+-- registry that exposes every keymap group to keys.lua.
+M.sublime = require("sublime")
 
 -- ── Core ──────────────────────────────────────────────────────────────────────
 -- Registered at startup by keys.lua (no plugin dependency).
@@ -39,8 +43,8 @@ M.core = {
 	-- Insert-mode digraph (replaces <C-q> → <C-k>)
 	{ "<C-q>", "<C-k>", mode = { "i" }, desc = "insert digraph" },
 
-	-- Clear search highlight (<C-l> — nohlsearch wins; bnext moved to ]b)
-	{ "<C-l>", lib.ex_cmd("nohlsearch"), mode = { "n" }, desc = "clear search highlight" },
+	-- Clear search highlighting without taking Neovim's native multicursor key.
+	{ "<leader>h", lib.ex_cmd("nohlsearch"), mode = { "n" }, desc = "clear search highlight" },
 
 	-- Buffer-level save / close (no plugin needed)
 	{ "<C-s>", lib.ex_cmd("w"), mode = { "n" }, desc = "write buffer" },
