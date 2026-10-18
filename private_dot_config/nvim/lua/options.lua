@@ -12,7 +12,7 @@ function M.setup()
 	vim.opt.colorcolumn = "0"
 	vim.opt.completeopt = { "menu", "menuone", "noselect" }
 	vim.opt.conceallevel = 2
-	vim.opt.cursorline = false
+	vim.opt.cursorline = true
 	vim.opt.expandtab = true
 	vim.opt.fileencoding = "utf-8"
 	vim.opt.foldcolumn = "1"
