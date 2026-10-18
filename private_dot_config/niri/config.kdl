@@ -58,7 +58,7 @@ binds {
     Mod+Space { spawn-sh "noctalia msg panel-toggle launcher"; }
     Ctrl+Alt+Mod+S { spawn-sh "noctalia msg panel-toggle control-center"; }
     Ctrl+Alt+Mod+Comma { spawn-sh "noctalia msg settings-toggle"; }
-    Ctrl+Alt+Mod+Shift+L { spawn-sh "noctalia msg session lock"; }
+    Ctrl+Alt+Mod+Shift+Q { spawn-sh "noctalia msg session lock"; }
     Alt+Tab { spawn-sh "noctalia msg window-switcher"; }
 
     // Keep hardware controls working through PipeWire/WirePlumber and Noctalia.
@@ -79,14 +79,14 @@ binds {
     Ctrl+Alt+Mod+L { focus-column-right; }
 
     // Move columns sideways and reorder windows within a column.
-    Ctrl+Alt+Mod+Shift+Left { move-column-left; }
-    Ctrl+Alt+Mod+Shift+Down { move-window-down; }
-    Ctrl+Alt+Mod+Shift+Up { move-window-up; }
-    Ctrl+Alt+Mod+Shift+Right { move-column-right; }
+    Ctrl+Alt+Mod+Shift+H { move-column-left; }
+    Ctrl+Alt+Mod+Shift+J { move-window-down; }
+    Ctrl+Alt+Mod+Shift+K { move-window-up; }
+    Ctrl+Alt+Mod+Shift+L { move-column-right; }
 
-    Ctrl+Alt+Mod+Shift+H { focus-monitor-left; }
-    Ctrl+Alt+Mod+Shift+J { focus-monitor-down; }
-    Ctrl+Alt+Mod+Shift+K { focus-monitor-up; }
+    // Ctrl+Alt+Mod+Shift+H { focus-monitor-left; }
+    // Ctrl+Alt+Mod+Shift+J { focus-monitor-down; }
+    // Ctrl+Alt+Mod+Shift+K { focus-monitor-up; }
     Ctrl+Alt+Mod+Shift+Semicolon { focus-monitor-right; }
 
     Ctrl+Alt+Mod+V { toggle-window-floating; }
