@@ -9,16 +9,16 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # defer noncritical plugins
-zinit ice wait lucid
+zinit ice wait'1' lucid
 zinit light zsh-users/zsh-autosuggestions
 
-zinit ice wait lucid
+zinit ice wait'1' lucid
 zinit light zsh-users/zsh-history-substring-search
 
-zinit ice wait lucid
+zinit ice wait'1' lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
 
-zinit ice wait lucid
+zinit ice wait'1' lucid
 zinit light zsh-users/zsh-completions
 
 # conflicts with zoxide interactive binding

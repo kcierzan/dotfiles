@@ -160,7 +160,7 @@ if (( $+commands[fzf] )); then
   # ZLE wrappers for fzf functions
   fuzzy-find-files-widget() { fuzzy_find_files; zle reset-prompt; }
   fuzzy-grep-files-widget() { fuzzy_grep_files; zle reset-prompt; }
-  fuzzy-git-branch-widget() { fuzzy_git_branch; _prompt_precmd; zle reset-prompt; }
+  fuzzy-git-branch-widget() { fuzzy_git_branch; zle reset-prompt; }
   lazygit-widget() { lazygit; zle reset-prompt; }
   zle -N fuzzy-find-files-widget
   zle -N fuzzy-grep-files-widget

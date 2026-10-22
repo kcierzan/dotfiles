@@ -1,5 +1,45 @@
-# Starship prompt configuration
-# Nerd Font symbols for language/tool indicators
+# Two-line prompt styled after the previous Zsh prompt. Named ANSI colors use
+# the active terminal theme's Base16 palette.
+format = "$hostname$directory$fill$git_branch$git_status$line_break$character"
 
 add_newline = false
 command_timeout = 1000
+
+[hostname]
+ssh_only = true
+format = "[$hostname](yellow)[: ](bright-black)"
+
+[directory]
+format = "[$path](blue)"
+style = "blue"
+truncation_length = 0
+truncate_to_repo = false
+read_only = " "
+read_only_style = "red"
+
+[fill]
+symbol = " "
+
+[git_branch]
+format = "[$symbol$branch](purple)"
+symbol = " "
+
+[git_status]
+use_git_executable = true
+format = "([$staged](green)[$modified$deleted$renamed$typechanged](yellow)[$untracked$conflicted](red)[$stashed](blue)[$ahead_behind](cyan))"
+staged = " +${count}"
+modified = " !${count}"
+deleted = " ${count}"
+renamed = " 󰑕${count}"
+typechanged = " 󰉺${count}"
+untracked = " ?${count}"
+conflicted = " 󰞇${count}"
+stashed = " 󰏗${count}"
+ahead = " ⇡${count}"
+behind = " ⇣${count}"
+diverged = " ⇕⇡${ahead_count}⇣${behind_count}"
+up_to_date = ""
+
+[character]
+success_symbol = "[λ](green)"
+error_symbol = "[λ](red)"

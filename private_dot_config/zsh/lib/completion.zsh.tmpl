@@ -6,7 +6,12 @@ autoload -Uz compinit
 # If the dump file exists and was modified today, use compinit -C (skip security check
 # and reuse cached completions). Otherwise, regenerate it from scratch.
 zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
-if [[ -f "$zcompdump" && "$(date +'%j')" == "$({{ .stat_mtime_day_cmd }})" ]]; then
+{{- if eq .chezmoi.os "darwin" }}
+zcompdump_mtime_day=$(/usr/bin/stat -f '%Sm' -t '%j' "$zcompdump" 2>/dev/null)
+{{- else }}
+zcompdump_mtime_day=$(date -d @$(stat -c '%Y' "$zcompdump" 2>/dev/null || echo 0) +'%j' 2>/dev/null)
+{{- end }}
+if [[ -f "$zcompdump" && "$(date +'%j')" == "$zcompdump_mtime_day" ]]; then
   compinit -C -d "$zcompdump"
 else
   compinit -d "$zcompdump"
