@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Rebuild when the implementation, tests, build recipe, or pinned Odin version changes.
+# main.odin: {{ include ".chezmoitemplates/theme-switch/main.odin" | sha256sum }}
+# main_test.odin: {{ include ".chezmoitemplates/theme-switch/main_test.odin" | sha256sum }}
+# mise config: {{ include "private_dot_config/mise/config.toml.tmpl" | sha256sum }}
+
+if ! command -v mise >/dev/null 2>&1; then
+  echo "mise not found; cannot build theme-switch" >&2
+  exit 1
+fi
+
+source_dir={{ .chezmoi.sourceDir | quote }}
+project_dir="$source_dir/.chezmoitemplates/theme-switch"
+destination="${HOME:?}/.local/bin/theme-switch"
+temporary=$(mktemp "${destination}.XXXXXX")
+trap 'rm -f "$temporary"' EXIT
+
+mise exec odin@{{ .odin_version }} -- odin test "$project_dir"
+mise exec odin@{{ .odin_version }} -- odin build "$project_dir" -o:speed -out:"$temporary"
+chmod 755 "$temporary"
+mv "$temporary" "$destination"
+trap - EXIT

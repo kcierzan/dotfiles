@@ -158,6 +158,8 @@ theme: doom-xcode
 
 Run `theme-switch` in a shell or press `<leader>vt` in Neovim or Neovide to choose from `.chezmoidata/themes.yaml`. `theme-switch --list` shows every choice, `theme-switch --current` prints the saved ID, and `theme-switch --set THEME_ID` selects one directly. The switch updates the managed theme files and refreshes open Ghostty, Neovim, Noctalia, and Niri sessions. Running it from zsh also refreshes that shell's `LS_COLORS`; reload other existing shells to pick up the selected palette.
 
+The command is implemented in Odin under `.chezmoitemplates/theme-switch/`. A chezmoi `run_onchange` hook tests and rebuilds `~/.local/bin/theme-switch` whenever its source or Odin toolchain configuration changes, so `chezmoi apply` is the normal rebuild command.
+
 ---
 
 ## Day-to-day usage
