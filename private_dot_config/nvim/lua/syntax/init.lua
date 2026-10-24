@@ -10,6 +10,8 @@ M.profiles = {
 	(require("syntax.profiles.mariana")),
 	require("syntax.profiles.catppuccin"),
 	require("syntax.profiles.moe"),
+	require("syntax.profiles.sublime-monokai"),
+	require("syntax.profiles.atom-one"),
 }
 
 local state_path = vim.fn.stdpath("state") .. "/syntax-profile.json"
