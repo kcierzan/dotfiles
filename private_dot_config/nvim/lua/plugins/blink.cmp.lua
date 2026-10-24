@@ -100,6 +100,8 @@ return {
 		},
 		completion = {
 			menu = {
+              max_height = 6,
+              auto_show_delay_ms = 250,
 				-- border = "rounded",
 				draw = {
 					padding = { 0, 1 },
@@ -130,7 +132,7 @@ return {
 				end,
 			},
 			list = {
-				max_items = 100,
+				max_items = 16,
 				selection = { preselect = false, auto_insert = true },
 			},
 		},

@@ -7,7 +7,7 @@ using the latest palette. The dot marks the confirmed selection.
 
 `:SyntaxProfile {id}` selects and saves directly. IDs are `current`,
 `zenbones`, `flatwhite-simple`, `flatwhite-full`, `noctis`, `oxocarbon`, `mariana`,
-`catppuccin`, and `moe`.
+`catppuccin`, `moe`, `sublime-monokai`, and `atom-one`.
 Completion is available. Current is the default. The state file contains only a
 JSON string at `stdpath("state") .. "/syntax-profile.json"`. Invalid state warns
 and selects Current. Preview never writes state; a failed save restores the last
@@ -127,6 +127,26 @@ dark variant and red in the light variant, matching the respective originals.
 Moe's multiple shades per hue collapse to one Base16 accent; its specialized
 mode-line, Org, completion, and pastel background treatments remain outside the
 syntax profile.
+
+**Sublime Monokai** follows the scope rules from the Monokai color scheme bundled
+with Sublime Text. Yellow maps to `base0A`, purple to `base0E`, pink/red to
+`base08`, orange to `base09`, green to `base0B`, blue to `base0C`, ordinary text
+to `base05`, and comments to `base03`. This retains yellow strings, purple
+numbers and language constants, pink keywords/storage/tags/operators, green
+definitions and attributes, blue calls and built-in types, and italic orange
+parameters and language variables. Pair it with `monokai-classic` for the
+original Sublime colors. Monokai's secondary orange, white, and yellow shades
+collapse onto their nearest Base16 roles.
+
+**Atom One** follows the shared base scope rules from Atom's One Dark and One
+Light syntax themes. Green maps to `base0B`, orange and gold to `base09` and
+`base0A`, blue to `base0D`, cyan to `base0C`, purple to `base0E`, red to
+`base08`, ordinary text to `base05`, and comments to `base03`. This retains
+green strings, orange constants, blue function definitions and calls, cyan
+regexes and support functions, purple keywords and primitive types, gold named
+types, red variables/tags, neutral parameters/operators, and italic comments.
+Use `doom-one` or `doom-one-light` for the corresponding dark or light palette.
+Atom's two red shades collapse to `base08`.
 
 ## Grammar and semantic limits
 

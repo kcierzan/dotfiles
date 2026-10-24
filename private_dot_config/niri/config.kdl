@@ -1,0 +1,111 @@
+// Niri is the compositor; Noctalia supplies the shell, bar, launcher, lock screen,
+// notifications, network, and audio controls.
+
+// Run the 163-PPI 4K panel at 120 Hz and scale it to 150% for comfortably
+// sized, sharply rendered text.
+output "DP-3" {
+    mode "3840x2160@120.000"
+    scale 1.5
+}
+
+input {
+    keyboard {
+        numlock
+    }
+}
+
+layout {
+    gaps 12
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 3
+    }
+}
+
+// Noctalia is intentionally started by Niri, not by a desktop autostart entry.
+spawn-at-startup "noctalia"
+
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+window-rule {
+    geometry-corner-radius 20
+    clip-to-geometry true
+}
+
+// Keep the Noctalia settings window useful in a tiling session.
+window-rule {
+    match app-id="dev.noctalia.Noctalia"
+    open-floating true
+    default-column-width { fixed 1080; }
+    default-window-height { fixed 920; }
+}
+
+// Lets Noctalia activate a window from a notification or its launcher.
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+
+binds {
+    // Recovery terminal: Ctrl+Alt+Super+Enter opens Ghostty at any time.
+    Ctrl+Alt+Mod+Return hotkey-overlay-title="Open Ghostty" { spawn "ghostty"; }
+    Ctrl+Alt+Mod+E hotkey-overlay-title="Open Dolphin" { spawn "dolphin"; }
+
+    // Show Niri's hotkey overlay.
+    Ctrl+Alt+Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // Noctalia controls.
+    Mod+Space { spawn-sh "noctalia msg panel-toggle launcher"; }
+    Ctrl+Alt+Mod+S { spawn-sh "noctalia msg panel-toggle control-center"; }
+    Ctrl+Alt+Mod+Comma { spawn-sh "noctalia msg settings-toggle"; }
+    Ctrl+Alt+Mod+Shift+Q { spawn-sh "noctalia msg session lock"; }
+    Alt+Tab { spawn-sh "noctalia msg window-switcher"; }
+
+    // Keep hardware controls working through PipeWire/WirePlumber and Noctalia.
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "noctalia msg volume-up"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "noctalia msg volume-down"; }
+    XF86AudioMute allow-when-locked=true { spawn-sh "noctalia msg volume-mute"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn-sh "noctalia msg brightness-up"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "noctalia msg brightness-down"; }
+
+    Ctrl+Alt+Mod+Q repeat=false { close-window; }
+    Ctrl+Alt+Mod+Left { focus-column-left; }
+    Ctrl+Alt+Mod+Down { focus-window-down; }
+    Ctrl+Alt+Mod+Up { focus-window-up; }
+    Ctrl+Alt+Mod+Right { focus-column-right; }
+    Ctrl+Alt+Mod+H { focus-column-left; }
+    Ctrl+Alt+Mod+J { focus-window-down; }
+    Ctrl+Alt+Mod+K { focus-window-up; }
+    Ctrl+Alt+Mod+L { focus-column-right; }
+
+    // Move columns sideways and reorder windows within a column.
+    Ctrl+Alt+Mod+Shift+H { move-column-left; }
+    Ctrl+Alt+Mod+Shift+J { move-window-down; }
+    Ctrl+Alt+Mod+Shift+K { move-window-up; }
+    Ctrl+Alt+Mod+Shift+L { move-column-right; }
+
+    // Ctrl+Alt+Mod+Shift+H { focus-monitor-left; }
+    // Ctrl+Alt+Mod+Shift+J { focus-monitor-down; }
+    // Ctrl+Alt+Mod+Shift+K { focus-monitor-up; }
+    Ctrl+Alt+Mod+Shift+Semicolon { focus-monitor-right; }
+
+    Ctrl+Alt+Mod+V { toggle-window-floating; }
+    // Resize the focused column or window in 10% steps.
+    Ctrl+Alt+Mod+Minus { set-column-width "-10%"; }
+    Ctrl+Alt+Mod+Equal { set-column-width "+10%"; }
+    Ctrl+Alt+Mod+Shift+Minus { set-window-height "-10%"; }
+    Ctrl+Alt+Mod+Shift+Equal { set-window-height "+10%"; }
+
+    Ctrl+Alt+Mod+F { maximize-column; }
+    Ctrl+Alt+Mod+Shift+F { fullscreen-window; }
+    Ctrl+Alt+Mod+O { toggle-overview; }
+
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+    // Niri asks for confirmation before ending the session.
+    Ctrl+Alt+Mod+Shift+E { quit; }
+}
+
+include "noctalia.kdl"

@@ -1,0 +1,33 @@
+{{- $t := index .themes .theme -}}
+# Noctalia v5 uses this native Wayland shell configuration.
+# Most settings remain at their upstream defaults; changes hot-reload.
+
+[shell]
+# KDE's agent is only autostarted in KDE, so Noctalia owns authentication prompts
+# in the Niri session.
+polkit_agent = true
+
+[brightness]
+# Disable DDC/CI while testing KVM monitor handoff reliability.
+enable_ddcutil = false
+
+# Noctalia's built-in Wayland gamma-control night light (no external redshift daemon).
+[nightlight]
+enabled = true
+
+[location]
+# Resolve location from the public IP to schedule sunset/sunrise automatically.
+auto_locate = true
+
+# Turn off displays after 10 minutes without input; activity turns them back on.
+[idle.behavior.screen-off]
+timeout = 600
+action = "screen_off"
+enabled = true
+
+# `theme-switch` owns the shell palette while Noctalia keeps all other runtime
+# settings in its state file.
+[theme]
+source = "custom"
+custom_palette = "Base16"
+mode = "{{ $t.variant }}"
