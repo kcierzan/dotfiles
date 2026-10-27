@@ -67,6 +67,9 @@ function M.get_overrides(colors)
 
 		-- Windows
 		WinSeparator = { bg = "NONE", fg = colors.base02 },
+		-- Atlas mixes Normal text with foreground-only icon groups in diff breadcrumbs.
+		WinBar = { bg = colors.base00, fg = colors.base05, bold = true },
+		WinBarNC = { bg = colors.base00, fg = colors.base04, bold = true },
 		StatusLine = { bg = colors.base01 },
 
 		-- used for snacks picker paths...

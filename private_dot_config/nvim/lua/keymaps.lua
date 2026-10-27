@@ -856,7 +856,6 @@ M.snacks = {
 --
 -- <C-k> conflict note: fires only when ls.choice_active(); blink.cmp owns
 -- <C-k> in the completion menu context. They coexist safely.
-
 M.luasnip = {
 	{
 		"<Tab>",
