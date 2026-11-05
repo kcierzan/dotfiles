@@ -66,14 +66,6 @@ function M.new(palette)
 		},
 	}
 
-	local FileNameModifier = {
-		hl = function()
-			if vim.bo.modified then
-				return { fg = utils.get_highlight("b16_base09").fg, bold = true, force = true }
-			end
-		end,
-	}
-
 	local FileEncoding = {
 		provider = function()
 			local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc
@@ -90,14 +82,13 @@ function M.new(palette)
 
 	return utils.insert(
 		FileNameBlock,
-        FilePath,
-		utils.insert(FileNameModifier, { FileName }),
+		FilePath,
+		FileName,
 		FileFlags,
 		FileEncoding,
 		FileFormat,
 		{ provider = "%<" }
 	)
-
 end
 
 return M
