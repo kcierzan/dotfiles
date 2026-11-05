@@ -1,6 +1,6 @@
 return {
 	"pwntester/octo.nvim",
-	enabled = true,
+	enabled = false,
 	cmd = { "Octo" },
 	dependencies = {
 		"nvim-lua/plenary.nvim",
