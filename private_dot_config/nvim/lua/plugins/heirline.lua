@@ -5,6 +5,7 @@ return {
 		"nvim-mini/mini.base16",
 		"echanovski/mini.icons",
 		"lewis6991/gitsigns.nvim",
+		"folke/trouble.nvim",
 	},
 	config = function()
 		local heirline_utils = require("heirline-config.utils")
@@ -253,6 +254,20 @@ return {
 
 		FileIcon = segment("right", file_icon_background, palette.statusline_bg, FileIcon)
 
+		local symbols = require("trouble").statusline({
+			mode = "lsp_document_symbols",
+			groups = {},
+			title = false,
+			filter = { range = true, kind = { "Class", "Constructor", "Function", "Method" } },
+			format = "{symbol.name}",
+		})
+		local CurrentSymbol = {
+			condition = symbols.has,
+			provider = function()
+				return " " .. symbols.get()
+			end,
+		}
+
 		-- Define statuslines
 		local ActiveStatusLine = {
 			Mode,
@@ -261,6 +276,7 @@ return {
 				GitChanges,
 				VisualWords,
 				MacroRec,
+				CurrentSymbol,
 				condition = is_regular_buffer,
 			},
 			heirline_utils.Align,
