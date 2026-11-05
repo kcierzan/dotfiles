@@ -42,12 +42,18 @@ function M.get_overrides(colors)
 	--
 	-- Add/remove entries here to customize neovim highlights
 	return {
+		-- Let the terminal emulator's pane background show through.
+		Normal = { bg = "NONE" },
+		NormalNC = { bg = "NONE" },
+		NormalFloat = { bg = "NONE" },
+		EndOfBuffer = { bg = "NONE" },
+
 		-- Make gutter areas transparent (match main editor background)
 		SignColumn = { bg = "NONE" },
 		FoldColumn = { bg = "NONE" },
-		LineNr = { bg = "NONE", fg = colors.base02 },
-		LineNrAbove = { bg = "NONE", fg = colors.base02 },
-		LineNrBelow = { bg = "NONE", fg = colors.base02 },
+		LineNr = { bg = "NONE", fg = colors.base03 },
+		LineNrAbove = { bg = "NONE", fg = colors.base03 },
+		LineNrBelow = { bg = "NONE", fg = colors.base03 },
 		CursorLineSign = { bg = "NONE" },
 		CursorLineFold = { bg = "NONE" },
 
