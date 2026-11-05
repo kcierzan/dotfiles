@@ -1,6 +1,6 @@
 -- lua/plugins/which-key.lua
 -- Group labels only. All actual bindings live in lua/keymaps.lua and are
--- registered either by keys.lua (startup) or by individual plugin specs.
+-- registered either by keymaps.lua (startup) or by individual plugin specs.
 -- which-key reads registered keymaps automatically via its lazy autocmd.
 
 return {

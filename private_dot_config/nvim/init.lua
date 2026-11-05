@@ -10,7 +10,7 @@ _  / _  / / /  / / /____  / / /_/ // /_/ /
 local lazy = require("lazy-config")
 require("globals").setup()
 require("options").setup()
-require("keys").setup()
+require("keymaps").setup()
 require("autocommands").setup()
 require("theme").setup()
 require("neovide").setup()

@@ -2,7 +2,7 @@
 -- Single source of truth for all keybindings.
 --
 -- Groups are in lazy.nvim `keys` spec format (works in both plugin specs and
--- vim.keymap.set loops). No vim.keymap.set calls here — pure data.
+-- vim.keymap.set loops). This module also registers startup mappings.
 --
 -- Conflict resolutions applied here:
 --   <C-l>      → native multicursor clearing; nohlsearch moved to <leader>h
@@ -19,11 +19,11 @@ local pickers = require("pickers")
 local M = {}
 
 -- Sublime-style editing lives in its own module; this file remains the
--- registry that exposes every keymap group to keys.lua.
+-- registry that exposes every keymap group to plugin specs.
 M.sublime = require("sublime")
 
 -- ── Core ──────────────────────────────────────────────────────────────────────
--- Registered at startup by keys.lua (no plugin dependency).
+-- Registered at startup by this module (no plugin dependency).
 
 M.core = {
 	-- H / L: line-start / line-end motion overrides
@@ -55,7 +55,7 @@ M.core = {
 }
 
 -- ── LSP ───────────────────────────────────────────────────────────────────────
--- Registered at startup by keys.lua. Functions are safe to capture at load
+-- Registered at startup by this module. Functions are safe to capture at load
 -- time (vim.lsp / vim.diagnostic are always present; LSP just won't respond
 -- until a server attaches).
 
@@ -71,8 +71,22 @@ M.lsp = {
 	{ "ga", vim.lsp.buf.code_action, mode = { "n" }, desc = "code action" },
 
 	-- Diagnostics
-	{ "]e", vim.diagnostic.goto_next, mode = { "n" }, desc = "next diagnostic" },
-	{ "[e", vim.diagnostic.goto_prev, mode = { "n" }, desc = "prev diagnostic" },
+	{
+		"]e",
+		function()
+			vim.diagnostic.jump({ count = 1 })
+		end,
+		mode = { "n" },
+		desc = "next diagnostic",
+	},
+	{
+		"[e",
+		function()
+			vim.diagnostic.jump({ count = -1 })
+		end,
+		mode = { "n" },
+		desc = "prev diagnostic",
+	},
 
 	-- <leader>c* LSP commands
 	{ "<leader>ca", vim.lsp.buf.code_action, mode = { "n" }, desc = "code action" }, -- alias of ga
@@ -85,8 +99,15 @@ M.lsp = {
 		mode = { "n" },
 		desc = "format buffer",
 	},
-	{ "<leader>cI", lib.ex_cmd("LspInfo"), mode = { "n" }, desc = "info" },
-	{ "<leader>cL", lib.ex_cmd("LspLog"), mode = { "n" }, desc = "log" },
+	{ "<leader>cI", lib.ex_cmd("checkhealth vim.lsp"), mode = { "n" }, desc = "info" },
+	{
+		"<leader>cL",
+		function()
+			vim.cmd.tabnew(vim.lsp.log.get_filename())
+		end,
+		mode = { "n" },
+		desc = "log",
+	},
 	{ "<leader>cq", lib.ex_cmd("lsp restart"), mode = { "n" }, desc = "restart" },
 	{ "<leader>cs", lib.ex_cmd("lsp enable"), mode = { "n" }, desc = "start" },
 	{ "<leader>cw", lib.ex_cmd("%s/\\s\\+$//e"), mode = { "n" }, desc = "trim trailing whitespace" },
@@ -106,7 +127,7 @@ M.emmet = {
 }
 
 -- ── Windows ───────────────────────────────────────────────────────────────────
--- Registered at startup by keys.lua.
+-- Registered at startup by this module.
 -- Includes quit/save shortcuts, window layout, and Neovim meta bindings.
 
 M.windows = {
@@ -161,6 +182,16 @@ M.gitsigns = {
 	-- Bracket-style hunk navigation (intentional aliases of <leader>gp / <leader>gn)
 	{ "]g", lib.ex_cmd("Gitsigns nav_hunk next"), mode = { "n" }, desc = "next git hunk" },
 	{ "[g", lib.ex_cmd("Gitsigns nav_hunk prev"), mode = { "n" }, desc = "prev git hunk" },
+}
+
+-- ── Git — Atlas ──────────────────────────────────────────────────────────────
+-- Atlas loads on VeryLazy; these mappings are available at startup.
+
+M.atlas = {
+	{ "<leader>ga", lib.ex_cmd("Atlas pulls ."), mode = { "n" }, desc = "open pull requests" },
+	{ "<leader>gA", lib.ex_cmd("Atlas"), mode = { "n" }, desc = "open Atlas" },
+	{ "<leader>gi", lib.ex_cmd("Atlas issues ."), mode = { "n" }, desc = "open issues" },
+	{ "<leader>gC", lib.ex_cmd("Atlas create pr"), mode = { "n" }, desc = "create pull request" },
 }
 
 -- ── Git — CodeDiff ────────────────────────────────────────────────────────────
@@ -935,6 +966,18 @@ function M.register(group)
 		end
 		vim.keymap.set(modes, key, action, opts)
 	end
+end
+
+--- Registers mappings that must be available before lazy.nvim loads plugins.
+function M.setup()
+	vim.g.mapleader = " "
+	vim.g.maplocalleader = "+"
+
+	for _, group in ipairs({ "core", "lsp", "windows", "sublime", "atlas" }) do
+		M.register(group)
+	end
+
+	M.validate()
 end
 
 --- Detects duplicate {key, mode} pairs across all groups and emits a warning.
