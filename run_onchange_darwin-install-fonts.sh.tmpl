@@ -2,7 +2,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Install licensed fonts to ~/Library/Fonts (macOS font directory)
+# Install managed fonts to ~/Library/Fonts (macOS font directory)
 # Fonts are decrypted by chezmoi to ~/.local/share/fonts/, this script
 # copies them to where macOS can discover them.
 
@@ -21,5 +21,10 @@ if [ -d "$FONT_SRC/PragmataPro" ]; then
   cp -f "$FONT_SRC/PragmataPro"/*.ttf "$FONT_DST/"
 fi
 
-echo "Licensed fonts installed to $FONT_DST"
+if [ -d "$FONT_SRC/Inputka" ]; then
+  echo "Installing Inputka fonts..."
+  cp -f "$FONT_SRC/Inputka"/*.ttf "$FONT_DST/"
+fi
+
+echo "Managed fonts installed to $FONT_DST"
 {{ end -}}
