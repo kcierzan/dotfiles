@@ -74,6 +74,8 @@ function M.base(p)
 		["@tag.builtin"] = "@tag",
 		["@tag.attribute"] = "@attribute",
 		["@tag.delimiter"] = "Delimiter",
+        SnacksIndentScope = "NonText",
+        SnacksIndentChunk = "NonText",
 	}
 	for group, target in pairs(links) do
 		groups[group] = { link = target }

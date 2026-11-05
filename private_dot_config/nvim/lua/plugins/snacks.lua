@@ -55,18 +55,28 @@ return {
 		debug = { enabled = not vim.g.vscode },
 		indent = {
 			indent = {
+				enabled = false,
 				only_scope = true,
 				only_current = true,
-				enabled = false,
-				char = "▎",
 			},
+			char = "▎",
 			scope = {
-				char = "▎",
+				enabled = true,
+				only_current = true,
+				char = "│",
 			},
-			blank = {
-				char = "▎",
+			chunk = {
+				enabled = true,
+				char = {
+					corner_top = "╭",
+					corner_bottom = "╰",
+					horizontal = "─",
+					vertical = "│",
+					arrow = "➤",
+				},
 			},
-			enabled = false,
+			enabled = not vim.g.vscode,
+			-- enabled = false,
 		},
 		input = { enabled = not vim.g.vscode },
 		lazygit = { enabled = not vim.g.vscode },
@@ -161,18 +171,18 @@ return {
 		terminal = {
 			enabled = true,
 			win = {
-        on_buf = function(win)
-          local terminal = vim.b[win.buf].snacks_terminal
-          local cwd = type(terminal.cwd) == "string" and terminal.cwd or vim.fn.getcwd(0)
-          local project = vim.fn.fnamemodify(cwd, ":t")
-          local name = string.format("%s · Terminal %d", project, terminal.id)
+				on_buf = function(win)
+					local terminal = vim.b[win.buf].snacks_terminal
+					local cwd = type(terminal.cwd) == "string" and terminal.cwd or vim.fn.getcwd(0)
+					local project = vim.fn.fnamemodify(cwd, ":t")
+					local name = string.format("%s · Terminal %d", project, terminal.id)
 
-          vim.b[win.buf].snacks_terminal_name = name
-          if win.opts.position ~= "float" then
-            win.opts.wo.winbar = "%{get(b:, 'snacks_terminal_name', 'Terminal')}"
-          end
-        end,
-        keys = {
+					vim.b[win.buf].snacks_terminal_name = name
+					if win.opts.position ~= "float" then
+						win.opts.wo.winbar = "%{get(b:, 'snacks_terminal_name', 'Terminal')}"
+					end
+				end,
+				keys = {
 					insert_hide = {
 						"<C-;>",
 						"hide",
