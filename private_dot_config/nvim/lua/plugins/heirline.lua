@@ -264,7 +264,14 @@ return {
 		local CurrentSymbol = {
 			condition = symbols.has,
 			provider = function()
-				return " " .. symbols.get()
+				local current_symbols = {}
+				for symbol in symbols.get():gmatch("%S+") do
+					current_symbols[#current_symbols + 1] = symbol
+					if #current_symbols == 2 then
+						break
+					end
+				end
+				return #current_symbols > 0 and " " .. table.concat(current_symbols, " ") or ""
 			end,
 		}
 

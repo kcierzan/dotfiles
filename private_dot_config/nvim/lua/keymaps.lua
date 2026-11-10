@@ -199,7 +199,7 @@ M.atlas = {
 
 M.codediff = {
 	{ "<leader>gD", lib.ex_cmd("CodeDiff"), mode = { "n" }, desc = "open index diff" },
-	{ "<leader>gH", lib.ex_cmd("CodeDiff history"), mode = { "n" }, desc = "open file history" },
+	{ "<leader>gH", lib.ex_cmd("CodeDiff history %"), mode = { "n" }, desc = "open file history" },
 }
 
 -- ── Files — oil ───────────────────────────────────────────────────────────────

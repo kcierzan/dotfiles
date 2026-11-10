@@ -1,0 +1,11 @@
+WRN 2026-11-05T21:32:04.507 ?.41690    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/3i0RU8/nvim.41690.0
+WRN 2026-11-05T21:32:11.298 ?.42516    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/enOluW/nvim.42516.0
+WRN 2026-11-05T21:38:39.146 ?.97898    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/UPigKW/nvim.97898.0
+WRN 2026-11-05T22:00:44.449 ?.37457    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/7YnePl/nvim.37457.0
+WRN 2026-11-05T22:00:52.397 ?.40293    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/QekXUD/nvim.40293.0
+WRN 2026-11-05T22:01:31.722 ?.54650    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/HtaRTs/nvim.54650.0
+WRN 2026-11-07T20:00:12.192 ?.68368    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/DBV3Ps/nvim.68368.0
+WRN 2026-11-07T20:00:12.216 ?.68370    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/42oHsm/nvim.68370.0
+WRN 2026-11-07T20:01:22.328 ?.68706    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/k3tCNf/nvim.68706.0
+WRN 2026-11-07T20:01:33.614 ?.68757    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/galerC/nvim.68757.0
+WRN 2026-11-07T20:01:46.899 ?.68808    server_start:197: Failed to start server: operation not permitted: /var/folders/d6/03w9bd1978z38_hr97mplggr0000gp/T/nvim.kylecierzan/pLc175/nvim.68808.0

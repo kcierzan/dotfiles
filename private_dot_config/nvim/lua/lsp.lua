@@ -1,5 +1,57 @@
 local M = {}
 
+local enabled_lsp_servers = {
+	"bashls",
+	"clangd",
+	"copilot",
+	"cssls",
+	"elixirls",
+	"emmet_language_server",
+	"golangci_lint_ls",
+	"gopls",
+	"harper-ls",
+	"html",
+	-- "jsonls",
+	"lua_ls",
+	"marksman",
+	"nushell",
+	"ols",
+	"postgres_lsp",
+	-- "basedpyright",
+	"rust_analyzer",
+	"svelte",
+	"templ",
+	"ty",
+	-- "typos_lsp",
+	"vtsls",
+	"vscode-json-language-server",
+}
+
+local enabled = true
+
+function M.is_enabled()
+	return enabled
+end
+
+function M.set_enabled(state)
+	enabled = state
+	vim.lsp.enable(enabled_lsp_servers, state)
+
+	if state then
+		for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+			if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].filetype == "ruby" then
+				vim.api.nvim_exec_autocmds("FileType", { buffer = bufnr })
+			end
+		end
+	else
+		for _, client in ipairs(vim.lsp.get_clients({})) do
+			if client.name == "ruby_lsp" or client.name == "sorbet" then
+				client:stop(client.exit_timeout)
+			end
+		end
+	end
+end
+
 function M.setup()
 	-- Advertise snippet and completion support before any language server starts.
 	-- The HTML/CSS language servers require snippetSupport for their richer
@@ -7,33 +59,6 @@ function M.setup()
 	vim.lsp.config("*", {
 		capabilities = require("blink.cmp").get_lsp_capabilities(),
 	})
-
-	local enabled_lsp_servers = {
-		"bashls",
-		"clangd",
-		"copilot",
-		"cssls",
-		"elixirls",
-		"emmet_language_server",
-		"golangci_lint_ls",
-		"gopls",
-		"harper-ls",
-		"html",
-		-- "jsonls",
-		"lua_ls",
-		"marksman",
-		"nushell",
-		"ols",
-		"postgres_lsp",
-		-- "basedpyright",
-		"rust_analyzer",
-		"svelte",
-		"templ",
-		"ty",
-		-- "typos_lsp",
-		"vtsls",
-		"vscode-json-language-server",
-	}
 
 	vim.lsp.config("vscode-json-language-server", {
 		cmd = { "vscode-json-language-server", "--stdio" },
@@ -122,6 +147,9 @@ function M.setup()
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = { "ruby", "eruby" },
 		callback = function(args)
+			if not enabled then
+				return
+			end
 			local bufnr = args.buf
 			local fname = vim.api.nvim_buf_get_name(bufnr)
 
@@ -142,6 +170,9 @@ function M.setup()
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = { "ruby" },
 		callback = function(args)
+			if not enabled then
+				return
+			end
 			local bufnr = args.buf
 			local fname = vim.api.nvim_buf_get_name(bufnr)
 			local sorbet_root = vim.fs.root(fname, { "sorbet" })
@@ -202,9 +233,6 @@ function M.setup()
 
 	-- enable the LSP servers
 	vim.lsp.enable(enabled_lsp_servers)
-
-	-- so nice, we enable it twice(???)
-	vim.lsp.enable("copilot")
 
 	vim.api.nvim_create_autocmd("LspAttach", {
 		callback = function(event)

@@ -28,6 +28,11 @@ local function setup_toggles()
 		:map("<leader>ub")
 
 	-- Common snacks toggles
+	toggle({
+		name = "LSP",
+		get = require("lsp").is_enabled,
+		set = require("lsp").set_enabled,
+	}):map("<leader>uP")
 	toggle.diagnostics({ name = "Diagnostics" }):map("<leader>ud")
 	toggle.inlay_hints({ name = "Inlay Hints" }):map("<leader>uh")
 	toggle.treesitter({ name = "Treesitter Highlight" }):map("<leader>uT")

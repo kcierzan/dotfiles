@@ -1,3 +1,4 @@
+{{- $p := (index .themes .theme).palette -}}
 if (( $+commands[fzf] )); then
 
   for f in \
@@ -15,17 +16,17 @@ if (( $+commands[fzf] )); then
     --pointer='❯ '
     --marker='✔ '
     --color='fg:white'
-    --color='bg:black'
-    --color='gutter:black'
+    --color='bg:-1'
+    --color='gutter:{{ $p.base00 }}'
     --color='current-fg:white'
-    --color='current-bg:black'
+    --color='current-bg:-1'
     --color='selected-fg:green'
     --color='marker:green'
     --color='pointer:blue'
     --color='hl:yellow'
     --color='current-hl:magenta'
     --color='info:bright-black'
-    --color='selected-bg:black'
+    --color='selected-bg:-1'
     --color='footer:green'
     --bind=ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down
     --preview-window='right,border-left,<70(up,66%,border-bottom)'

@@ -16,8 +16,8 @@ function M.setup()
 	vim.opt.expandtab = true
 	vim.opt.fileencoding = "utf-8"
 	vim.opt.foldcolumn = "1"
-	vim.opt.foldenable = false
-	vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+	vim.opt.foldenable = true
+	vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 	vim.opt.foldlevel = 99
 	vim.opt.foldmethod = "expr"
 	vim.opt.foldminlines = 1
