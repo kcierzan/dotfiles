@@ -31,6 +31,8 @@ LSD_THEME_PATH        :: ".config/lsd/colors.yaml"
 NEOVIM_THEME_PATH     :: ".local/share/nvim/base16-colors.lua"
 BTOP_THEME_PATH       :: ".config/btop/themes/base16.theme"
 LAZYGIT_THEME_PATH    :: ".config/lazygit/config.yml"
+OPENCODE_THEME_PATH   :: ".config/opencode/themes/base16.json"
+OPENCODE_THEME_ID     :: "base16"
 NOCTALIA_CONFIG_PATH  :: ".config/noctalia/config.toml"
 NOCTALIA_PALETTE_PATH :: ".config/noctalia/palettes/Base16.json"
 NIRI_THEME_PATH       :: ".config/niri/noctalia.kdl"
@@ -374,7 +376,7 @@ save_theme :: proc(app: ^App, theme_id: string) {
 }
 
 apply_theme_files :: proc(app: ^App) {
-	targets := make([dynamic]string, 0, 9)
+	targets := make([dynamic]string, 0, 10)
 	append(&targets,
 		join([]string{app.target_dir, GHOSTTY_THEME_PATH}),
 		join([]string{app.target_dir, VIVID_THEME_PATH}),
@@ -382,6 +384,7 @@ apply_theme_files :: proc(app: ^App) {
 		join([]string{app.target_dir, NEOVIM_THEME_PATH}),
 		join([]string{app.target_dir, BTOP_THEME_PATH}),
 		join([]string{app.target_dir, LAZYGIT_THEME_PATH}),
+		join([]string{app.target_dir, OPENCODE_THEME_PATH}),
 	)
 	if app.platform == LINUX_PLATFORM {
 		append(&targets,
@@ -395,6 +398,41 @@ apply_theme_files :: proc(app: ^App) {
 	append(&command, ..targets[:])
 	if !run_quiet(command[:]) {
 		fail("chezmoi apply failed; the selection was saved but theme files were not updated")
+	}
+}
+
+select_opencode_theme :: proc(app: ^App) {
+	config_home := os.get_env("XDG_CONFIG_HOME", context.temp_allocator)
+	if config_home == "" {
+		home := os.get_env("HOME", context.temp_allocator)
+		if home == "" do fail("could not find the OpenCode config directory")
+		config_home = join([]string{home, ".config"})
+	}
+	config := join([]string{config_home, "opencode", "cli.json"})
+	managed_theme := join([]string{app.target_dir, OPENCODE_THEME_PATH})
+	config_theme := join([]string{config_home, "opencode", "themes", OPENCODE_THEME_ID + ".json"})
+	if !command_succeeds([]string{"jq", "--version"}) {
+		fail("jq is required to select the OpenCode theme")
+	}
+	script := `set -eu
+mkdir -p "$(dirname "$1")" "$(dirname "$3")"
+if [ "$2" != "$3" ]; then
+  cp "$2" "$3"
+fi
+temporary=$(mktemp "$1.XXXXXX")
+trap 'rm -f "$temporary"' EXIT
+if [ -f "$1" ]; then
+  jq --arg name "$4" '.theme = ((.theme // {}) + {name: $name, mode: "system"})' "$1" > "$temporary"
+else
+  jq -n --arg name "$4" '{theme: {name: $name, mode: "system"}}' > "$temporary"
+fi
+mv "$temporary" "$1"
+trap - EXIT`
+	if !run_quiet([]string{
+		"/bin/sh", "-c", script, "theme-switch",
+		config, managed_theme, config_theme, OPENCODE_THEME_ID,
+	}) {
+		fail("could not select the OpenCode theme")
 	}
 }
 
@@ -511,6 +549,27 @@ reload_ghostty_on_macos :: proc() {
 	}
 }
 
+set_macos_appearance :: proc(variant: string) {
+	script := `tell application "System Events" to tell appearance preferences to set dark mode to true` if variant == "dark" else
+		`tell application "System Events" to tell appearance preferences to set dark mode to false`
+	command := []string{
+		"osascript",
+		"-e", script,
+	}
+	if !run_quiet(command) {
+		fail("macOS appearance update failed; check macOS Automation permission for System Events")
+	}
+}
+
+set_linux_appearance :: proc(variant: string) {
+	color_scheme := "prefer-dark" if variant == "dark" else "default"
+	if !run_quiet([]string{
+		"gsettings", "set", "org.gnome.desktop.interface", "color-scheme", color_scheme,
+	}) {
+		fail("Linux appearance update failed")
+	}
+}
+
 reload_noctalia :: proc(variant: string) {
 	if command_succeeds([]string{NOCTALIA_COMMAND, "msg", "status"}) {
 		if !run_quiet([]string{NOCTALIA_COMMAND, "msg", "color-scheme-set", NOCTALIA_SOURCE, NOCTALIA_PALETTE}) {
@@ -555,8 +614,10 @@ reload_ghostty_on_linux :: proc() {
 reload_apps :: proc(app: ^App, theme: Theme) {
 	switch app.platform {
 	case DARWIN_PLATFORM:
+		set_macos_appearance(theme.variant)
 		reload_ghostty_on_macos()
 	case LINUX_PLATFORM:
+		set_linux_appearance(theme.variant)
 		reload_noctalia(theme.variant)
 		reload_niri(app)
 		reload_ghostty_on_linux()
@@ -570,6 +631,7 @@ switch_theme :: proc(app: ^App, theme_id: string) {
 	}
 	save_theme(app, theme_id)
 	apply_theme_files(app)
+	select_opencode_theme(app)
 	reload_apps(app, theme)
 }
 

@@ -4,6 +4,7 @@ set -euo pipefail
 # Rebuild when the implementation, tests, build recipe, or pinned Odin version changes.
 # main.odin: {{ include ".chezmoitemplates/theme-switch/main.odin" | sha256sum }}
 # main_test.odin: {{ include ".chezmoitemplates/theme-switch/main_test.odin" | sha256sum }}
+# OpenCode theme: {{ include "private_dot_config/opencode/themes/base16.json.tmpl" | sha256sum }}
 # mise config: {{ include "private_dot_config/mise/config.toml.tmpl" | sha256sum }}
 
 if ! command -v mise >/dev/null 2>&1; then
