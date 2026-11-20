@@ -67,6 +67,9 @@ function M.get_overrides(colors)
 		Pmenu = { bg = colors.base02 },
 		PmenuThumb = { bg = colors.base05 },
 
+		-- Match the transparent floating window background.
+		WhichKeySeparator = { bg = "NONE", fg = colors.base0B },
+
 		-- Flash
 		FlashLabel = { bg = colors.base0E, fg = colors.base00 },
 		FlashMatch = { bg = colors.base02, fg = colors.base00 },

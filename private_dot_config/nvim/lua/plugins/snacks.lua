@@ -33,6 +33,15 @@ local function setup_toggles()
 		get = require("lsp").is_enabled,
 		set = require("lsp").set_enabled,
 	}):map("<leader>uP")
+	toggle({
+		name = "Autocomplete",
+		get = function()
+			return not vim.g.disable_blink_completion
+		end,
+		set = function(enabled)
+			vim.g.disable_blink_completion = not enabled
+		end,
+	}):map("<leader>ue")
 	toggle.diagnostics({ name = "Diagnostics" }):map("<leader>ud")
 	toggle.inlay_hints({ name = "Inlay Hints" }):map("<leader>uh")
 	toggle.treesitter({ name = "Treesitter Highlight" }):map("<leader>uT")

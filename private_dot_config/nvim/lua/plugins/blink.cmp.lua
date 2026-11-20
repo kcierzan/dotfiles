@@ -95,6 +95,9 @@ return {
 		})
 	end,
 	opts = {
+		enabled = function()
+			return not vim.g.disable_blink_completion
+		end,
 		fuzzy = {
 			implementation = "prefer_rust",
 		},
